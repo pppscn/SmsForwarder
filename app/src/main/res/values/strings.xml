@@ -8,7 +8,7 @@
     <string name="feedback_input_text">反馈建议</string>
     <string name="setrule">设置转发规则</string>
     <string name="setemailtitle">设置邮箱</string>
-    <string name="setwebnotifytitle">设置网页通知</string>
+    <string name="setwebnotifytitle">设置Webhook</string>
     <string name="setqywxgrouprobottitle">设置企业微信群机器人</string>
     <string name="setbarktitle">设置Bark</string>
     <string name="check_new_version">检查更新</string>
