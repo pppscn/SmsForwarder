@@ -6,14 +6,14 @@
     "apkInfo": {
       "type": "MAIN",
       "splits": [],
-      "versionCode": 35,
-      "versionName": "3.5.0",
+      "versionCode": 1,
+      "versionName": "1.0.0",
       "enabled": true,
-      "outputFile": "TSMS_release_20210126_3.5.0.apk",
+      "outputFile": "SmsForwarder_release_20210210_1.0.0.apk",
       "fullName": "release",
       "baseName": "release"
     },
-    "path": "TSMS_release_20210126_3.5.0.apk",
+    "path": "SmsForwarder_release_20210210_1.0.0.apk",
     "properties": {}
   }
 ]

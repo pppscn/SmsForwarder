@@ -44,7 +44,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.idormy.sms.forwarder.BroadCastReceiver.TSMSBroadcastReceiver"
+            android:name="com.idormy.sms.forwarder.BroadCastReceiver.SmsForwarderBroadcastReceiver"
             android:permission="android.permission.BROADCAST_SMS">
             <intent-filter android:priority="999">
                 <!--短信广播-->

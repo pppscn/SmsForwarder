@@ -27,10 +27,10 @@ android {
             //def date = new Date().format("yyyyMMdd" , TimeZone.getTimeZone("Asia/Shanghai"))
             def date = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08"))
             if (variant.buildType.name.equals('debug')) {
-                outputFileName = "TSMS_debug_${date}_${versionName}.apk"
+                outputFileName = "SmsForwarder_debug_${date}_${versionName}.apk"
             }
             if (variant.buildType.name.equals('release')) {
-                outputFileName = "TSMS_release_${date}_${versionName}.apk"
+                outputFileName = "SmsForwarder_release_${date}_${versionName}.apk"
             }
         }
     }
