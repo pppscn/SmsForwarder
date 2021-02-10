@@ -45,7 +45,7 @@ public class RuleModel {
             case FILED_TRANSPOND_ALL:
                 return "全部转发到 ";
             default:
-                return "当 " + FILED_MAP.get(filed) + " " + CHECK_MAP.get(check) + " " + value;
+                return "当 " + FILED_MAP.get(filed) + " " + CHECK_MAP.get(check) + " " + value + " 转发到 ";
 
         }
 

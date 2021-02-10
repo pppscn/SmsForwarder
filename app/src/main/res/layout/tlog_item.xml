@@ -11,11 +11,21 @@
         android:paddingBottom="10dip">
 
         <TextView
-            android:id="@+id/tlog_rule"
+            android:id="@+id/tlog_from"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="10dp" />
+            android:layout_marginStart="10dp"
+            android:textColor="@android:color/black"
+            android:textColorHighlight="@android:color/holo_red_dark" />
+
+        <TextView
+            android:id="@+id/tlog_rule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="10dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/tlog_sender_image"
@@ -26,17 +36,10 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/tlog_from"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:textColor="@android:color/black"
-        android:textColorHighlight="@android:color/holo_red_dark" />
-
-    <TextView
         android:id="@+id/tlog_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp" />
 </LinearLayout>

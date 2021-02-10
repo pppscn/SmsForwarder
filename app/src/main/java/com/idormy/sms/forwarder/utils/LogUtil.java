@@ -157,7 +157,7 @@ public class LogUtil {
                         cursor.getColumnIndexOrThrow(SenderTable.SenderEntry.TABLE_NAME + "." + SenderTable.SenderEntry.COLUMN_NAME_TYPE));
 
                 Log.d(TAG, "getLog: time" + time);
-                String rule = RuleModel.getRuleMatch(ruleFiled, ruleCheck, ruleValue) + " 转发到 " + senderName;
+                String rule = RuleModel.getRuleMatch(ruleFiled, ruleCheck, ruleValue) + senderName;
 //                String rule = time+" 转发到 "+senderName;
                 int senderImageId = SenderModel.getImageId(senderType);
                 LogVo logVo = new LogVo(itemfrom, content, time, rule, senderImageId);
