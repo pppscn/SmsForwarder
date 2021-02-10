@@ -17,7 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.idormy.sms.forwarder.BroadCastReceiver.TSMSBroadcastReceiver;
+import com.idormy.sms.forwarder.BroadCastReceiver.SmsForwarderBroadcastReceiver;
 import com.idormy.sms.forwarder.adapter.LogAdapter;
 import com.idormy.sms.forwarder.model.LogModel;
 import com.idormy.sms.forwarder.model.vo.LogVo;
@@ -32,7 +32,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements ReFlashListView.IReflashListener {
 
     private IntentFilter intentFilter;
-    private TSMSBroadcastReceiver smsBroadcastReceiver;
+    private SmsForwarderBroadcastReceiver smsBroadcastReceiver;
     private String TAG = "MainActivity";
     // logVoList用于存储数据
     private List<LogVo> logVos = new ArrayList<>();

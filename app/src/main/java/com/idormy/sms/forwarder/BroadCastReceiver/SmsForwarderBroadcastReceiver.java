@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class TSMSBroadcastReceiver extends BroadcastReceiver {
-    private String TAG = "TSMSBroadcastReceiver";
+public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
+    private String TAG = "SmsForwarderBroadcastReceiver";
 
     @Override
     public void onReceive(Context context, Intent intent) {

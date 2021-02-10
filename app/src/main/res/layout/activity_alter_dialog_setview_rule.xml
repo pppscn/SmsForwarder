@@ -134,7 +134,7 @@
             android:id="@+id/btSetRuleSender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="设置发送方">
+            android:text="选择发送方">
 
         </Button>
     </LinearLayout>
