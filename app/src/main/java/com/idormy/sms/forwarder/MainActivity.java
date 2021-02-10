@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
     public void logDetail(LogVo logVo) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("详情");
-        builder.setMessage(logVo.getFrom() + "\n" + logVo.getContent() + "\n" + logVo.getRule() + "\n" + logVo.getTime());
+        builder.setMessage(logVo.getFrom() + "\n\n" + logVo.getContent() + "\n\n" + logVo.getRule() + "\n\n" + logVo.getTime());
         builder.show();
     }
 
