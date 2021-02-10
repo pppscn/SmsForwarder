@@ -408,7 +408,7 @@ public class SenderActivity extends AppCompatActivity {
         Button buttonbebnotifytest = view1.findViewById(R.id.buttonbebnotifytest);
         alertDialog71
                 .setTitle(R.string.setwebnotifytitle)
-                .setIcon(R.mipmap.ic_launcher)
+                .setIcon(R.mipmap.webhook)
                 .setView(view1)
                 .create();
         final AlertDialog show = alertDialog71.show();
@@ -502,7 +502,7 @@ public class SenderActivity extends AppCompatActivity {
         Button buttonQyWxGroupRobotTest = view1.findViewById(R.id.buttonQyWxGroupRobotTest);
         alertDialog71
                 .setTitle(R.string.setqywxgrouprobottitle)
-                .setIcon(R.mipmap.ic_launcher)
+                .setIcon(R.mipmap.qywx)
                 .setView(view1)
                 .create();
         final AlertDialog show = alertDialog71.show();
@@ -592,7 +592,7 @@ public class SenderActivity extends AppCompatActivity {
         Button buttonBarkTest = view1.findViewById(R.id.buttonBarkTest);
         alertDialog71
                 .setTitle(R.string.setbarktitle)
-                .setIcon(R.mipmap.ic_launcher)
+                .setIcon(R.mipmap.bark)
                 .setView(view1)
                 .create();
         final AlertDialog show = alertDialog71.show();
