@@ -297,7 +297,7 @@ public class SenderActivity extends AppCompatActivity {
         Button buttonemailtest = view1.findViewById(R.id.buttonemailtest);
         alertDialog71
                 .setTitle(R.string.setemailtitle)
-                .setIcon(R.drawable.ic_baseline_email_24)
+                .setIcon(R.mipmap.email)
                 .setView(view1)
                 .create();
         final AlertDialog show = alertDialog71.show();

@@ -36,13 +36,17 @@ public class SenderModel {
             case (TYPE_DINGDING):
                 return R.mipmap.dingding;
             case (TYPE_EMAIL):
-                return R.drawable.ic_baseline_email_24;
+                return R.mipmap.email;
+            case (TYPE_MESSAGE):
+                return R.mipmap.sms;
+            case (TYPE_WEB_NOTIFY):
+                return R.mipmap.webhook;
             case (TYPE_QYWX_GROUP_ROBOT):
                 return R.mipmap.qywx;
             case (TYPE_BARK):
-                return R.mipmap.qywx;
+                return R.mipmap.bark;
             default:
-                return R.mipmap.ic_launcher_round;
+                return R.mipmap.ic_launcher;
 
         }
     }
@@ -92,13 +96,17 @@ public class SenderModel {
             case (TYPE_DINGDING):
                 return R.mipmap.dingding;
             case (TYPE_EMAIL):
-                return R.drawable.ic_baseline_email_24;
+                return R.mipmap.email;
+            case (TYPE_MESSAGE):
+                return R.mipmap.sms;
+            case (TYPE_WEB_NOTIFY):
+                return R.mipmap.webhook;
             case (TYPE_QYWX_GROUP_ROBOT):
                 return R.mipmap.qywx;
             case (TYPE_BARK):
-                return R.mipmap.qywx;
+                return R.mipmap.bark;
             default:
-                return R.mipmap.ic_launcher_round;
+                return R.mipmap.ic_launcher;
 
         }
     }
