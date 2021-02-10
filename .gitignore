@@ -1,0 +1,12 @@
+.idea/
+.gradle
+.git
+build
+local.properties
+*.iml
+*.project
+*/*.project
+*.classpath
+*/*.classpath
+.settings/*
+*/.settings/*

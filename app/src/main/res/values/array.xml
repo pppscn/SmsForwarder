@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="add_sender_menu">
+        <item>转发到钉钉机器人</item>
+        <item>转发到邮箱</item>
+        <item>转发到其他手机</item>
+        <item>转发到网页</item>
+        <item>转发到企业微信群机器人</item>
+        <item>转发到Bark</item>
+    </string-array>
+</resources>

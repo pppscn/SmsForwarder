@@ -1,0 +1,19 @@
+[
+  {
+    "outputType": {
+      "type": "APK"
+    },
+    "apkInfo": {
+      "type": "MAIN",
+      "splits": [],
+      "versionCode": 35,
+      "versionName": "3.5.0",
+      "enabled": true,
+      "outputFile": "TSMS_release_20210126_3.5.0.apk",
+      "fullName": "release",
+      "baseName": "release"
+    },
+    "path": "TSMS_release_20210126_3.5.0.apk",
+    "properties": {}
+  }
+]
