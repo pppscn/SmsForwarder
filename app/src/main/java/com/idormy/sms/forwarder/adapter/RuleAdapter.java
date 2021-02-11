@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.idormy.sms.forwarder.R;
@@ -61,6 +62,7 @@ public class RuleAdapter extends ArrayAdapter<RuleModel> {
             viewHolder = new ViewHolder();
             viewHolder.ruleMatch = view.findViewById(R.id.rule_match);
             viewHolder.ruleSender = view.findViewById(R.id.rule_sender);
+            viewHolder.ruleSenderImage = view.findViewById(R.id.rule_sender_image);
 
             // 将ViewHolder存储在View中（即将控件的实例存储在其中）
             view.setTag(viewHolder);
@@ -75,10 +77,9 @@ public class RuleAdapter extends ArrayAdapter<RuleModel> {
             viewHolder.ruleMatch.setText(ruleModel.getRuleMatch());
             if (!senderModel.isEmpty()) {
                 viewHolder.ruleSender.setText(senderModel.get(0).getName());
-
+                viewHolder.ruleSenderImage.setImageResource(senderModel.get(0).getImageId());
             } else {
                 viewHolder.ruleSender.setText("");
-
             }
         }
 
@@ -110,6 +111,7 @@ public class RuleAdapter extends ArrayAdapter<RuleModel> {
     class ViewHolder {
         TextView ruleMatch;
         TextView ruleSender;
+        ImageView ruleSenderImage;
     }
 
 }
