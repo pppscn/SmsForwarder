@@ -7,20 +7,21 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             android:text="设置名称" />
 
         <EditText
             android:id="@+id/editTextEmailName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:ems="10"
+            android:layout_marginLeft="3dp"
+            android:ems="11"
             android:inputType=""
             android:text="" />
     </LinearLayout>
@@ -28,20 +29,21 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:text="stmp服务器" />
+            android:text="发件服务器" />
 
         <EditText
             android:id="@+id/editTextEmailHost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:ems="10"
+            android:layout_marginLeft="3dp"
+            android:ems="14"
             android:inputType=""
             android:text="" />
     </LinearLayout>
@@ -49,61 +51,54 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:text="端口" />
+            android:text="SMTP端口" />
 
         <EditText
             android:id="@+id/editTextEmailPort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:ems="10"
+            android:layout_marginLeft="3dp"
+            android:ems="5"
             android:inputType=""
             android:text="" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:text="是否开启ssl" />
+            android:text="开启SSL" />
 
         <Switch
             android:id="@+id/switchEmailSSl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:checked="true"
-            android:ems="10" />
+            android:checked="true" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:text="用哪个邮箱发送" />
+            android:text="发件帐号" />
 
         <EditText
             android:id="@+id/editTextEmailFromAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:ems="10"
+            android:layout_marginLeft="3dp"
+            android:ems="14"
             android:inputType="textEmailAddress"
             android:text="" />
     </LinearLayout>
@@ -111,20 +106,21 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:text="密码" />
+            android:text="登录密码" />
 
         <EditText
             android:id="@+id/editTextEmailPsw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:ems="10"
+            android:layout_marginLeft="3dp"
+            android:ems="14"
             android:inputType=""
             android:text="" />
     </LinearLayout>
@@ -132,20 +128,21 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:text="发到哪个邮件去" />
+            android:text="收件地址" />
 
         <EditText
             android:id="@+id/editTextEmailToAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:ems="10"
+            android:layout_marginLeft="3dp"
+            android:ems="14"
             android:inputType="textEmailAddress"
             android:text="" />
     </LinearLayout>
@@ -153,20 +150,21 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_margin="10dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/buttonemailok"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_weight="1"
             android:text="@string/ok" />
 
         <Button
             android:id="@+id/buttonemaildel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:text="@string/del" />
 
@@ -174,7 +172,7 @@
             android:id="@+id/buttonemailtest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:text="@string/test" />
 

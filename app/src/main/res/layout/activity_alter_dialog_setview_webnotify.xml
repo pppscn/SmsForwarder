@@ -7,20 +7,21 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
             android:text="设置名称" />
 
         <EditText
             android:id="@+id/editTextWebNotifyName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:ems="10"
+            android:layout_marginLeft="3dp"
+            android:ems="11"
             android:inputType=""
             android:text="" />
     </LinearLayout>
@@ -28,21 +29,20 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:text="设置Token:示例：https://a.b.com/msg?token=xyz" />
-
+            android:text="设置Token：示例:https://a.b.com/msg?token=xyz" />
 
         <EditText
             android:id="@+id/editTextWebNotifyToken"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:ems="10"
+            android:ems="14"
             android:inputType=""
             android:text="" />
     </LinearLayout>
@@ -50,36 +50,34 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
             android:text="设置Secret:置空则不计算sign" />
-
 
         <EditText
             android:id="@+id/editTextWebNotifySecret"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:ems="10"
+            android:ems="14"
             android:inputType=""
             android:text="" />
     </LinearLayout>
 
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_margin="10dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/buttonbebnotifyok"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
             android:layout_weight="1"
             android:text="@string/ok" />
 
@@ -87,7 +85,7 @@
             android:id="@+id/buttonbebnotifydel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:text="@string/del" />
 
@@ -95,7 +93,7 @@
             android:id="@+id/buttonbebnotifytest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:text="@string/test" />
 

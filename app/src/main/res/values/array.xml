@@ -3,9 +3,9 @@
     <string-array name="add_sender_menu">
         <item>转发到钉钉机器人</item>
         <item>转发到邮箱</item>
-        <item>转发到其他手机SMS</item>
+        <item>转发到Bark</item>
         <item>转发到Webhook</item>
         <item>转发到企业微信群机器人</item>
-        <item>转发到Bark</item>
+        <!--<item>转发到其他手机(SMS)</item>-->
     </string-array>
 </resources>
