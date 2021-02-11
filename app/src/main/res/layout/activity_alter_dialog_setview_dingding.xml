@@ -106,8 +106,8 @@
             android:id="@+id/switchDingdingAtAll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="14"
-            android:checked="false" />
+            android:checked="false"
+            android:ems="14" />
     </LinearLayout>
 
     <LinearLayout
