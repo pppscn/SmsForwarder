@@ -8,10 +8,10 @@ public class SenderModel {
     public static final int STATUS_OFF = 0;
     public static final int TYPE_DINGDING = 0;
     public static final int TYPE_EMAIL = 1;
-    public static final int TYPE_MESSAGE = 2;
+    public static final int TYPE_BARK = 2;
     public static final int TYPE_WEB_NOTIFY = 3;
     public static final int TYPE_QYWX_GROUP_ROBOT = 4;
-    public static final int TYPE_BARK = 5;
+    public static final int TYPE_MESSAGE = 5;
     private Long id;
     private String name;
     private int status;
