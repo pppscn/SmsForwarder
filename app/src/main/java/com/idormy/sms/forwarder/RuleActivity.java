@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -60,7 +61,6 @@ public class RuleActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     // 初始化数据
@@ -78,7 +78,35 @@ public class RuleActivity extends AppCompatActivity {
         final View view1 = View.inflate(RuleActivity.this, R.layout.activity_alter_dialog_setview_rule, null);
 
         final RadioGroup radioGroupRuleFiled = (RadioGroup) view1.findViewById(R.id.radioGroupRuleFiled);
-        if (ruleModel != null) radioGroupRuleFiled.check(ruleModel.getRuleFiledCheckId());
+        final LinearLayout matchTypeLayout = (LinearLayout) view1.findViewById(R.id.matchTypeLayout);
+        final LinearLayout matchValueLayout = (LinearLayout) view1.findViewById(R.id.matchValueLayout);
+        if (ruleModel != null) {
+            int id = ruleModel.getRuleFiledCheckId();
+            radioGroupRuleFiled.check(id);
+            if (id != 0) {
+                matchTypeLayout.setVisibility(View.GONE);
+                matchValueLayout.setVisibility(View.GONE);
+            } else {
+                matchTypeLayout.setVisibility(View.VISIBLE);
+                matchValueLayout.setVisibility(View.VISIBLE);
+            }
+        }
+        radioGroupRuleFiled.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                //Toast.makeText(RuleActivity.this, "Checked：" + checkedId, Toast.LENGTH_LONG).show();
+                switch (checkedId) {
+                    case R.id.btnTranspondAll:
+                        matchTypeLayout.setVisibility(View.GONE);
+                        matchValueLayout.setVisibility(View.GONE);
+                        break;
+                    default:
+                        matchTypeLayout.setVisibility(View.VISIBLE);
+                        matchValueLayout.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        });
 
         final RadioGroup radioGroupRuleCheck = (RadioGroup) view1.findViewById(R.id.radioGroupRuleCheck);
         if (ruleModel != null) radioGroupRuleCheck.check(ruleModel.getRuleCheckCheckId());
@@ -95,7 +123,7 @@ public class RuleActivity extends AppCompatActivity {
         btSetRuleSender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(RuleActivity.this, "selectSender", Toast.LENGTH_LONG).show();
+                //Toast.makeText(RuleActivity.this, "selectSender", Toast.LENGTH_LONG).show();
                 selectSender(ruleSenderTv);
             }
         });

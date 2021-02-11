@@ -7,14 +7,14 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_marginLeft="10dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
-            android:text="设置匹配的字段:选择全部转发后不再匹配下方的模式值直接使用发送方发送" />
-
+            android:text="设置匹配的字段" />
 
         <RadioGroup
             android:id="@+id/radioGroupRuleFiled"
@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="转发全部" />
+                android:text="全部" />
 
             <RadioButton
                 android:id="@+id/btnPhone"
@@ -44,16 +44,18 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/matchTypeLayout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical">
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:text="设置匹配的模式" />
-
 
         <RadioGroup
             android:id="@+id/radioGroupRuleCheck"
@@ -96,16 +98,18 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/matchValueLayout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical">
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:text="设置匹配的值" />
-
 
         <EditText
             android:id="@+id/editTextRuleValue"
@@ -120,23 +124,37 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_marginLeft="10dp"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/ruleSenderTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
-            android:text="" />
+            android:text="设置发送方" />
 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btSetRuleSender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="选择发送方">
+            <Button
+                android:id="@+id/btSetRuleSender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:text="选择" />
 
-        </Button>
+            <TextView
+                android:id="@+id/ruleSenderTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:layout_marginLeft="10dp"
+                android:text="" />
+        </LinearLayout>
+
     </LinearLayout>
 
 
@@ -161,8 +179,6 @@
             android:layout_weight="1"
             android:text="@string/del" />
 
-
     </LinearLayout>
-
 
 </LinearLayout>
