@@ -102,7 +102,12 @@ public class SenderActivity extends AppCompatActivity {
                         setBark(senderModel);
                         break;
                     default:
-                        Toast.makeText(SenderActivity.this, "异常的发送方类型！删除", Toast.LENGTH_LONG).show();
+                        Toast.makeText(SenderActivity.this, "异常的发送方类型，自动删除！", Toast.LENGTH_LONG).show();
+                        if (senderModel != null) {
+                            SenderUtil.delSender(senderModel.getId());
+                            initSenders();
+                            adapter.del(senderModels);
+                        }
                         break;
                 }
 
@@ -115,7 +120,6 @@ public class SenderActivity extends AppCompatActivity {
     // 初始化数据
     private void initSenders() {
         senderModels = SenderUtil.getSender(null, null);
-        ;
     }
 
     public void addSender(View view) {
@@ -149,7 +153,6 @@ public class SenderActivity extends AppCompatActivity {
         builder.show();
         Log.d(TAG, "setDingDing show" + senderModels.size());
     }
-
 
     private void setDingDing(final SenderModel senderModel) {
         DingDingSettingVo dingDingSettingVo = null;
