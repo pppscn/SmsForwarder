@@ -18,7 +18,7 @@ public class RuleModel {
     public static final Map<String, String> CHECK_MAP = new HashMap<String, String>();
 
     static {
-        FILED_MAP.put("transpond_all", "转发全部");
+        FILED_MAP.put("transpond_all", "全部");
         FILED_MAP.put("phone_num", "手机号");
         FILED_MAP.put("msg_content", "内容");
     }
