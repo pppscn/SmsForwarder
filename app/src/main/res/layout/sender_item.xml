@@ -5,8 +5,9 @@
 
     <ImageView
         android:id="@+id/sender_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_margin="5dp" />
 
     <TextView
         android:id="@+id/sender_name"
