@@ -5,8 +5,9 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.2'
@@ -21,8 +22,9 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url "https://jitpack.io" }
     }
 }
 

@@ -46,8 +46,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     //okhttp
-    implementation 'com.squareup.okhttp3:okhttp:3.6.0'
-    implementation 'com.squareup.okio:okio:1.11.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation 'com.squareup.okio:okio:2.10.0'
 
     //fastjson
     implementation "com.alibaba:fastjson:1.2.75"
@@ -60,11 +60,6 @@ dependencies {
     //android8.0以上需要使用到反射获取隐藏的系统api和动态代理隐藏的抽象类回调
     //其中动态代理抽象类回调需要使用ProxyBuilder类，故依赖一个库
     //implementation 'com.linkedin.dexmaker:dexmaker-mockito:2.12.1'
-
-    //appupdate
-    implementation 'com.qianwen:update-app:3.5.2'
-    implementation 'com.qianwen:okhttp-utils:3.8.0'
-    implementation 'com.lzy.net:okgo:3.0.4'
 
     //友盟基础组件库（所有友盟业务SDK都依赖基础组件库）
     implementation "com.umeng.umsdk:common:9.3.6"
