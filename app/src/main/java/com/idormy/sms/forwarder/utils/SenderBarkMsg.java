@@ -35,7 +35,8 @@ public class SenderBarkMsg {
         barkServer += "/" + URLEncoder.encode(content, "UTF-8");
         barkServer += "?isArchive=1"; //自动保存
         int isCode = content.indexOf("验证码");
-        if (isCode != -1) {
+        int isPassword = content.indexOf("动态密码");
+        if (isCode != -1 || isPassword != -1) {
             Pattern p = Pattern.compile("(\\d{4,6})");
             Matcher m = p.matcher(content);
             if (m.find()) {
