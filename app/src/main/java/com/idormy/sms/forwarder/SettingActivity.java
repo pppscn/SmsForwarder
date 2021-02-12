@@ -15,17 +15,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.idormy.sms.forwarder.BroadCastReceiver.RebootBroadcastReceiver;
-import com.idormy.sms.forwarder.model.vo.FeedBackResult;
-import com.idormy.sms.forwarder.utils.HttpI;
-import com.idormy.sms.forwarder.utils.HttpUtil;
-import com.idormy.sms.forwarder.utils.UpdateAppHttpUtil;
 import com.idormy.sms.forwarder.utils.aUtil;
-import com.vector.update_app.UpdateAppManager;
-import com.vector.update_app.UpdateCallback;
-import com.vector.update_app.listener.ExceptionHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -86,38 +77,8 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void checkNewVersion() {
-        String geturl = "http://api.allmything.com/api/version/hasnew?versioncode=";
-
         try {
-            geturl += aUtil.getVersionCode(SettingActivity.this);
 
-            Log.i("SettingActivity", geturl);
-            new UpdateAppManager
-                    .Builder()
-                    //当前Activity
-                    .setActivity(SettingActivity.this)
-                    //更新地址
-                    .setUpdateUrl(geturl)
-                    //全局异常捕获
-                    .handleException(new ExceptionHandler() {
-                        @Override
-                        public void onException(Exception e) {
-                            Log.e(TAG, "onException: ", e);
-                            Toast.makeText(SettingActivity.this, "更新失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    //实现httpManager接口的对象
-                    .setHttpManager(new UpdateAppHttpUtil())
-                    .build()
-                    .checkNewApp(new UpdateCallback() {
-                        /**
-                         * 没有新版本
-                         */
-                        protected void noNewApp(String error) {
-                            Toast.makeText(SettingActivity.this, "没有新版本", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-//                    .update();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -142,7 +103,7 @@ public class SettingActivity extends AppCompatActivity {
                     Map<String, String> feedBackData = new HashMap<>();
                     feedBackData.put("email", feedback_et_email.getText().toString());
                     feedBackData.put("text", feedback_et_text.getText().toString());
-                    new HttpUtil().asyncPost("https://api.sl.willanddo.com/api/tsms/feedBack", feedBackData, new HttpI.Callback() {
+                    /*new HttpUtil().asyncPost("https://api.sl.willanddo.com/api/tsms/feedBack", feedBackData, new HttpI.Callback() {
                         @Override
                         public void onResponse(String result) {
                             Log.i(TAG, "onResponse: " + result);
@@ -170,7 +131,7 @@ public class SettingActivity extends AppCompatActivity {
                             Toast.makeText(SettingActivity.this, error, Toast.LENGTH_LONG).show();
 
                         }
-                    });
+                    });*/
 
                 } catch (Exception e) {
                     Toast.makeText(SettingActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
