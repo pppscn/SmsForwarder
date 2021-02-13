@@ -85,15 +85,15 @@ public class LogUtil {
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
         String[] projection = {
-                LogTable.LogEntry.TABLE_NAME + "." + BaseColumns._ID,
-                LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_FROM,
-                LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_TIME,
-                LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_CONTENT,
-                RuleTable.RuleEntry.TABLE_NAME + "." + RuleTable.RuleEntry.COLUMN_NAME_FILED,
-                RuleTable.RuleEntry.TABLE_NAME + "." + RuleTable.RuleEntry.COLUMN_NAME_CHECK,
-                RuleTable.RuleEntry.TABLE_NAME + "." + RuleTable.RuleEntry.COLUMN_NAME_VALUE,
-                SenderTable.SenderEntry.TABLE_NAME + "." + SenderTable.SenderEntry.COLUMN_NAME_NAME,
-                SenderTable.SenderEntry.TABLE_NAME + "." + SenderTable.SenderEntry.COLUMN_NAME_TYPE
+                LogTable.LogEntry.TABLE_NAME + "." + BaseColumns._ID + " AS " + BaseColumns._ID,
+                LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_FROM + " AS " + LogTable.LogEntry.COLUMN_NAME_FROM,
+                LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_TIME + " AS " + LogTable.LogEntry.COLUMN_NAME_TIME,
+                LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_CONTENT + " AS " + LogTable.LogEntry.COLUMN_NAME_CONTENT,
+                RuleTable.RuleEntry.TABLE_NAME + "." + RuleTable.RuleEntry.COLUMN_NAME_FILED + " AS " + RuleTable.RuleEntry.COLUMN_NAME_FILED,
+                RuleTable.RuleEntry.TABLE_NAME + "." + RuleTable.RuleEntry.COLUMN_NAME_CHECK + " AS " + RuleTable.RuleEntry.COLUMN_NAME_CHECK,
+                RuleTable.RuleEntry.TABLE_NAME + "." + RuleTable.RuleEntry.COLUMN_NAME_VALUE + " AS " + RuleTable.RuleEntry.COLUMN_NAME_VALUE,
+                SenderTable.SenderEntry.TABLE_NAME + "." + SenderTable.SenderEntry.COLUMN_NAME_NAME + " AS " + SenderTable.SenderEntry.COLUMN_NAME_NAME,
+                SenderTable.SenderEntry.TABLE_NAME + "." + SenderTable.SenderEntry.COLUMN_NAME_TYPE + " AS " + SenderTable.SenderEntry.COLUMN_NAME_TYPE
         };
         // Define 'where' part of query.
         String selection = " 1 ";
@@ -140,21 +140,21 @@ public class LogUtil {
         while (cursor.moveToNext()) {
             try {
                 String itemfrom = cursor.getString(
-                        cursor.getColumnIndexOrThrow(LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_FROM));
+                        cursor.getColumnIndexOrThrow(LogTable.LogEntry.COLUMN_NAME_FROM));
                 String content = cursor.getString(
-                        cursor.getColumnIndexOrThrow(LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_CONTENT));
+                        cursor.getColumnIndexOrThrow(LogTable.LogEntry.COLUMN_NAME_CONTENT));
                 String time = cursor.getString(
-                        cursor.getColumnIndexOrThrow(LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_TIME));
+                        cursor.getColumnIndexOrThrow(LogTable.LogEntry.COLUMN_NAME_TIME));
                 String ruleFiled = cursor.getString(
-                        cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.TABLE_NAME + "." + RuleTable.RuleEntry.COLUMN_NAME_FILED));
+                        cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_NAME_FILED));
                 String ruleCheck = cursor.getString(
-                        cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.TABLE_NAME + "." + RuleTable.RuleEntry.COLUMN_NAME_CHECK));
+                        cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_NAME_CHECK));
                 String ruleValue = cursor.getString(
-                        cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.TABLE_NAME + "." + RuleTable.RuleEntry.COLUMN_NAME_VALUE));
+                        cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_NAME_VALUE));
                 String senderName = cursor.getString(
-                        cursor.getColumnIndexOrThrow(SenderTable.SenderEntry.TABLE_NAME + "." + SenderTable.SenderEntry.COLUMN_NAME_NAME));
+                        cursor.getColumnIndexOrThrow(SenderTable.SenderEntry.COLUMN_NAME_NAME));
                 Integer senderType = cursor.getInt(
-                        cursor.getColumnIndexOrThrow(SenderTable.SenderEntry.TABLE_NAME + "." + SenderTable.SenderEntry.COLUMN_NAME_TYPE));
+                        cursor.getColumnIndexOrThrow(SenderTable.SenderEntry.COLUMN_NAME_TYPE));
 
                 Log.d(TAG, "getLog: time" + time);
                 String rule = RuleModel.getRuleMatch(ruleFiled, ruleCheck, ruleValue) + senderName;
