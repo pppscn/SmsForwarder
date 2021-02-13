@@ -1,7 +1,7 @@
 package com.idormy.sms.forwarder.utils;
 
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.io.File;
 import java.io.Serializable;
