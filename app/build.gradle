@@ -65,9 +65,4 @@ dependencies {
     implementation "com.umeng.umsdk:common:9.3.6"
     implementation "com.umeng.umsdk:asms:1.2.0"
 
-    //XUpdate
-    implementation 'com.github.xuexiangjys:XUpdate:2.0.7'
-    implementation 'com.github.xuexiangjys.XUpdateAPI:xupdate-easy:1.0.0'
-    implementation 'com.github.xuexiangjys.XUpdateAPI:xupdate-downloader-aria:1.0.0'
-
 }

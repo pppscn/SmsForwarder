@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.idormy.sms.forwarder.BroadCastReceiver.RebootBroadcastReceiver;
 import com.idormy.sms.forwarder.utils.aUtil;
-import com.xuexiang.xupdate.easy.EasyUpdate;
 
 import java.util.HashMap;
 import java.util.Map;
