@@ -6,31 +6,6 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:background="@android:color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="20dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="官网" />
-
-        <TextView
-            android:id="@+id/version_now"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:gravity="right"
-            android:text="v1.0.0"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
@@ -41,8 +16,7 @@
             android:background="@android:color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="20dp"
-            android:visibility="gone">
+            android:padding="20dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -56,6 +30,7 @@
                     android:text="当前版本" />
 
                 <TextView
+                    android:id="@+id/version_now"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end"
@@ -67,8 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="检查新版本"
-                android:visibility="gone" />
+                android:text="检查新版本" />
 
         </LinearLayout>
 
@@ -112,7 +86,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="官网" />
+                android:text="作者网站" />
 
             <TextView
                 android:id="@+id/linkweb"
@@ -135,22 +109,30 @@
             android:orientation="horizontal"
             android:padding="20dp">
 
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="用户交流群" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_wait_open_time"
-                android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="用户交流群" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="562854376" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/join_qq_group"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="562854376"
-                android:textColor="@color/colorPrimary"
-                android:textIsSelectable="true"
-                android:textSize="18sp" />
+                android:gravity="center"
+                android:text="加入QQ群" />
 
         </LinearLayout>
 
@@ -181,6 +163,44 @@
                 android:text="提交反馈"
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="缓存大小" />
+
+                <TextView
+                    android:id="@+id/cache_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="0KB" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/clear_all_cache"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="清除缓存" />
 
         </LinearLayout>
 
