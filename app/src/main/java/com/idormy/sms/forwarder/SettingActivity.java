@@ -2,7 +2,9 @@ package com.idormy.sms.forwarder;
 
 import android.content.ComponentName;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +19,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.idormy.sms.forwarder.BroadCastReceiver.RebootBroadcastReceiver;
+import com.idormy.sms.forwarder.utils.CacheUtil;
 import com.idormy.sms.forwarder.utils.aUtil;
+import com.xuexiang.xupdate.easy.EasyUpdate;
+import com.xuexiang.xupdate.proxy.impl.DefaultUpdateChecker;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,17 +41,75 @@ public class SettingActivity extends AppCompatActivity {
         Switch check_with_reboot = (Switch) findViewById(R.id.switch_with_reboot);
         checkWithReboot(check_with_reboot);
 
-        TextView version_now = (TextView) findViewById(R.id.version_now);
+        final TextView version_now = (TextView) findViewById(R.id.version_now);
         Button check_version_now = (Button) findViewById(R.id.check_version_now);
         try {
             version_now.setText(aUtil.getVersionName(SettingActivity.this));
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         check_version_now.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkNewVersion();
+                //checkNewVersion();
+                try {
+                    String updateUrl = "https://xupdate.bms.ink/update/checkVersion?appKey=com.idormy.sms.forwarder&versionCode=";
+                    updateUrl += aUtil.getVersionCode(SettingActivity.this);
+
+                    EasyUpdate.create(SettingActivity.this, updateUrl)
+                            .updateChecker(new DefaultUpdateChecker() {
+                                @Override
+                                public void onBeforeCheck() {
+                                    super.onBeforeCheck();
+                                    Toast.makeText(SettingActivity.this, "查询中...", Toast.LENGTH_LONG).show();
+                                }
+
+                                @Override
+                                public void onAfterCheck() {
+                                    super.onAfterCheck();
+                                }
+
+                                @Override
+                                public void noNewVersion(Throwable throwable) {
+                                    super.noNewVersion(throwable);
+                                    // 没有最新版本的处理
+                                    Toast.makeText(SettingActivity.this, "已是最新版本！", Toast.LENGTH_LONG).show();
+                                }
+                            })
+                            .update();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        final TextView cache_size = (TextView) findViewById(R.id.cache_size);
+        try {
+            cache_size.setText(CacheUtil.getTotalCacheSize(SettingActivity.this));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Button clear_all_cache = (Button) findViewById(R.id.clear_all_cache);
+        clear_all_cache.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CacheUtil.clearAllCache(SettingActivity.this);
+                try {
+                    cache_size.setText(CacheUtil.getTotalCacheSize(SettingActivity.this));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(SettingActivity.this, "缓存清理完成", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        Button join_qq_group = (Button) findViewById(R.id.join_qq_group);
+        join_qq_group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String key = "HvroJRfvK7GGfnQgaIQ4Rh1un9O83N7M";
+                joinQQGroup(key);
             }
         });
 
@@ -79,7 +142,9 @@ public class SettingActivity extends AppCompatActivity {
 
     private void checkNewVersion() {
         try {
-
+            String updateUrl = "https://xupdate.bms.ink/update/checkVersion?appKey=com.idormy.sms.forwarder&versionCode=";
+            updateUrl += aUtil.getVersionCode(SettingActivity.this);
+            EasyUpdate.checkUpdate(SettingActivity.this, updateUrl);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -143,5 +208,29 @@ public class SettingActivity extends AppCompatActivity {
             }
         }).show();
     }
+
+    /****************
+     *
+     * 发起添加群流程。群号：idormy 多米互联(562854376) 的 key 为： HvroJRfvK7GGfnQgaIQ4Rh1un9O83N7M
+     * 调用 joinQQGroup(HvroJRfvK7GGfnQgaIQ4Rh1un9O83N7M) 即可发起手Q客户端申请加群 idormy 多米互联(562854376)
+     *
+     * @param key 由官网生成的key
+     * @return 返回true表示呼起手Q成功，返回false表示呼起失败
+     ******************/
+    public boolean joinQQGroup(String key) {
+        Intent intent = new Intent();
+        intent.setData(Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26jump_from%3Dwebapi%26k%3D" + key));
+        // 此Flag可根据具体产品需要自定义，如设置，则在加群界面按返回，返回手Q主界面，不设置，按返回会返回到呼起产品界面
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        try {
+            startActivity(intent);
+            return true;
+        } catch (Exception e) {
+            // 未安装手Q或安装的版本不支持
+            Toast.makeText(SettingActivity.this, "未安装手Q或安装的版本不支持！", Toast.LENGTH_LONG).show();
+            return false;
+        }
+    }
+
 
 }
