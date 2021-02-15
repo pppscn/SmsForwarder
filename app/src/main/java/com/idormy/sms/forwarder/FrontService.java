@@ -22,8 +22,8 @@ public class FrontService extends Service {
         super.onCreate();
         Log.i(TAG, "onCreate");
         Notification.Builder builder = new Notification.Builder(this);
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setContentTitle("短信转发器");
+        builder.setSmallIcon(R.drawable.ic_sms_forwarder);
+        //builder.setContentTitle("短信转发器");
         builder.setContentText("根据规则转发到钉钉/微信/邮箱/bark/webhook等");
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity
