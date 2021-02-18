@@ -11,6 +11,8 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.idormy.sms.forwarder.utils.OSUtils;
+
 
 public class FrontService extends Service {
     private static final String TAG = "FrontService";
@@ -23,7 +25,11 @@ public class FrontService extends Service {
         Log.i(TAG, "onCreate");
         Notification.Builder builder = new Notification.Builder(this);
         builder.setSmallIcon(R.drawable.ic_sms_forwarder);
-        //builder.setContentTitle("短信转发器");
+        OSUtils.ROM_TYPE romType = OSUtils.getRomType();
+        //Log.d(TAG, "onCreate: " + romType);
+        if (romType == OSUtils.ROM_TYPE.MIUI_ROM) {
+            builder.setContentTitle("短信转发器");
+        }
         builder.setContentText("根据规则转发到钉钉/微信/邮箱/bark/webhook等");
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity
