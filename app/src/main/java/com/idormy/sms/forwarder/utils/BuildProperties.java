@@ -13,17 +13,16 @@ import java.util.Set;
 
 public class BuildProperties {
     private static BuildProperties ourInstance;
-
-    public static BuildProperties getInstance() throws IOException {
-        if (ourInstance == null) ourInstance = new BuildProperties();
-        return ourInstance;
-    }
-
     private final Properties properties;
 
     private BuildProperties() throws IOException {
         properties = new Properties();
         properties.load(new FileInputStream(new File(Environment.getRootDirectory(), "build.prop")));
+    }
+
+    public static BuildProperties getInstance() throws IOException {
+        if (ourInstance == null) ourInstance = new BuildProperties();
+        return ourInstance;
     }
 
     public boolean containsKey(final Object key) {

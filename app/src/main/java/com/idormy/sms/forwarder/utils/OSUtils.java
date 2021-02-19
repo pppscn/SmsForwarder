@@ -15,13 +15,6 @@ import java.io.IOException;
  * 链接：https://www.jianshu.com/p/bb1f765a425f
  */
 public class OSUtils {
-    public enum ROM_TYPE {
-        MIUI_ROM,
-        FLYME_ROM,
-        EMUI_ROM,
-        OTHER_ROM
-    }
-
     /**
      * MIUI ROM标识
      * <p>
@@ -57,10 +50,8 @@ public class OSUtils {
     //MIUI标识
     private static final String KEY_MIUI_VERSION_CODE = "ro.miui.ui.version.code";
     private static final String KEY_MIUI_VERSION_NAME = "ro.miui.ui.version.name";
-
     //EMUI标识
     private static final String KEY_EMUI_VERSION_CODE = "ro.build.version.emui";
-
     //Flyme标识
     private static final String KEY_FLYME_ID_FALG_KEY = "ro.build.display.id";
     private static final String KEY_FLYME_ID_FALG_VALUE_KEYWORD = "Flyme";
@@ -98,5 +89,12 @@ public class OSUtils {
             e.printStackTrace();
         }
         return rom_type;
+    }
+
+    public enum ROM_TYPE {
+        MIUI_ROM,
+        FLYME_ROM,
+        EMUI_ROM,
+        OTHER_ROM
     }
 }

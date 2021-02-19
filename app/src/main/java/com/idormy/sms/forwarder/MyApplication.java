@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.idormy.sms.forwarder.utils.SendHistory;
 import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.smailnet.emailkit.EmailKit;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 
@@ -78,5 +79,7 @@ public class MyApplication extends Application {
         }
         SendHistory.init(this);
         SettingUtil.init(this);
+
+        EmailKit.initialize(this);
     }
 }
