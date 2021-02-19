@@ -117,7 +117,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="登录密码" />
+                android:text="登录密码/授权码" />
 
             <EditText
                 android:id="@+id/editTextEmailPsw"

@@ -59,6 +59,8 @@ public class SendUtil {
         Log.i(TAG, "send_msg smsVo:" + smsVo);
         RuleUtil.init(context);
         LogUtil.init(context);
+        //初始化 EmailKit
+        //EmailKit.initialize(context);
 
         List<RuleModel> rulelist = RuleUtil.getRule(null, null);
         if (!rulelist.isEmpty()) {
@@ -144,6 +146,8 @@ public class SendUtil {
             }
 
         }
+
+        //EmailKit.destroy();
     }
 
     public static void senderSendMsg(SmsVo smsVo, SenderModel senderModel) {

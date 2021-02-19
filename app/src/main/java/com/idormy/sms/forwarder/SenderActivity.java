@@ -345,7 +345,6 @@ public class SenderActivity extends AppCompatActivity {
                     adapter.update(senderModels);
                 }
 
-
                 show.dismiss();
 
 
