@@ -6,8 +6,6 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +29,6 @@ public class SenderBarkMsg {
         }
 
         barkServer += URLEncoder.encode(from, "UTF-8");
-        String body = "短信内容：" + content + "\n转发时间：" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         barkServer += "/" + URLEncoder.encode(content, "UTF-8");
         barkServer += "?isArchive=1"; //自动保存
         int isCode = content.indexOf("验证码");
@@ -46,11 +43,7 @@ public class SenderBarkMsg {
         }
 
         OkHttpClient client = new OkHttpClient();
-        final Request request = new Request.Builder()
-                .url(barkServer)
-                .addHeader("Content-Type", "application/json; charset=utf-8")
-                .get()
-                .build();
+        final Request request = new Request.Builder().url(barkServer).get().build();
         Call call = client.newCall(request);
         call.enqueue(new Callback() {
             @Override
