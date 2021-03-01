@@ -78,6 +78,8 @@ Android手机监听短信并根据指定规则转发到其他手机、钉钉机�
 
 ## 更新记录：
 
+> [v1.2.2](app/release/SmsForwarder_release_20210302_1.2.2.apk) 【预发布】短信模板增加卡槽标识（SIM1：188xxxxxxxx 或 SIMx：unknown）
+
 > [v1.2.1](app/release/SmsForwarder_release_20210226_1.2.1.apk) 修复bark-server升级到2.0后的兼容性问题
 
 > [v1.2.0](app/release/SmsForwarder_release_20210219_1.2.0.apk) 重写SMTP邮件发送（推荐升级）

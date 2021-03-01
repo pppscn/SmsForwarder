@@ -2,6 +2,7 @@ package com.idormy.sms.forwarder.utils;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import java.io.IOException;
@@ -21,13 +22,14 @@ public class SenderBarkMsg {
 
     static String TAG = "SenderBarkMsg";
 
-    public static void sendMsg(final Handler handError, String barkServer, String from, String content) throws Exception {
-        Log.i(TAG, "sendMsg barkServer:" + barkServer + " from:" + from + " content:" + content);
+    public static void sendMsg(final Handler handError, String barkServer, String from, String content, String phoneNumber) throws Exception {
+        Log.i(TAG, "sendMsg barkServer:" + barkServer + " from:" + from + " content:" + content + " phoneNumber:" + phoneNumber);
 
         if (barkServer == null || barkServer.isEmpty()) {
             return;
         }
 
+        content += "\n[" + phoneNumber + "]";
         barkServer += URLEncoder.encode(from, "UTF-8");
         barkServer += "/" + URLEncoder.encode(content, "UTF-8");
         barkServer += "?isArchive=1"; //自动保存
@@ -51,7 +53,7 @@ public class SenderBarkMsg {
                 Log.d(TAG, "onFailure：" + e.getMessage());
 
                 if (handError != null) {
-                    android.os.Message msg = new android.os.Message();
+                    Message msg = new Message();
                     msg.what = NOTIFY;
                     Bundle bundle = new Bundle();
                     bundle.putString("DATA", "发送失败：" + e.getMessage());
@@ -67,7 +69,7 @@ public class SenderBarkMsg {
                 Log.d(TAG, "Code：" + response.code() + responseStr);
 
                 if (handError != null) {
-                    android.os.Message msg = new android.os.Message();
+                    Message msg = new Message();
                     msg.what = NOTIFY;
                     Bundle bundle = new Bundle();
                     bundle.putString("DATA", "发送状态：" + responseStr);

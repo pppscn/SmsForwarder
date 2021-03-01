@@ -8,14 +8,16 @@ public class SmsVo implements Serializable {
     String mobile;
     String content;
     Date date;
+    String phoneNumber = "本机号码：未知";
 
     public SmsVo() {
     }
 
-    public SmsVo(String mobile, String content, Date date) {
+    public SmsVo(String mobile, String content, Date date, String phoneNumber) {
         this.mobile = mobile;
         this.content = content;
         this.date = date;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getMobile() {
@@ -42,10 +44,19 @@ public class SmsVo implements Serializable {
         this.date = date;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public String getSmsVoForSend() {
         return mobile + "\n" +
                 content + "\n" +
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date) + "\n" +
+                phoneNumber;
     }
 
     @Override
@@ -54,6 +65,7 @@ public class SmsVo implements Serializable {
                 "mobile='" + mobile + '\'' +
                 ", content='" + content + '\'' +
                 ", date=" + date +
+                ", phoneNumber=" + phoneNumber +
                 '}';
     }
 }

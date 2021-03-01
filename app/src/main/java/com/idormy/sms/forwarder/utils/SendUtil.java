@@ -221,7 +221,7 @@ public class SendUtil {
                     BarkSettingVo barkSettingVo = JSON.parseObject(senderModel.getJsonSetting(), BarkSettingVo.class);
                     if (barkSettingVo != null) {
                         try {
-                            SenderBarkMsg.sendMsg(null, barkSettingVo.getServer(), smsVo.getMobile(), smsVo.getContent());
+                            SenderBarkMsg.sendMsg(null, barkSettingVo.getServer(), smsVo.getMobile(), smsVo.getContent(), smsVo.getPhoneNumber());
                         } catch (Exception e) {
                             Log.e(TAG, "senderSendMsg: SenderBarkMsg error " + e.getMessage());
                         }
