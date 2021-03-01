@@ -1,12 +1,14 @@
 package com.idormy.sms.forwarder;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -57,21 +59,18 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 LogVo logVo = logVos.get(position - 1);
                 logDetail(logVo);
-//                Toast.makeText(MainActivity.this,String.valueOf(position),Toast.LENGTH_SHORT).show();
             }
         });
 
-//        textv_msg.setMovementMethod(ScrollingMovementMethod.getInstance());
-//        textv_msg.setText(SendHistory.getHistory());
-
+        //检查权限是否获取
         checkPermission();
 
-//        intentFilter=new IntentFilter();
-//        intentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
-//        intentFilter.addAction(MessageBroadcastReceiver.ACTION_DINGDING);
-//        smsBroadcastReceiver=new SMSBroadcastReceiver();
-//        //动态注册广播
-//        registerReceiver(smsBroadcastReceiver, intentFilter);
+        //获取本机号码
+        TelephonyManager mTelephonyMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        String Line1Number = mTelephonyMgr.getLine1Number();
+        Log.d(TAG, "Line1Number: " + Line1Number);
+        MyApplication appContext = ((MyApplication) getApplicationContext());
+        appContext.setLine1Number(Line1Number);
     }
 
     // 初始化数据
@@ -176,19 +175,20 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
         startActivity(intent);
     }
 
+    // 检查权限是否获取（android6.0及以上系统可能默认关闭权限，且没提示）
     private void checkPermission() {
-        // 检查权限是否获取（android6.0及以上系统可能默认关闭权限，且没提示）
         PackageManager pm = getPackageManager();
         boolean permission_receive_boot = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.RECEIVE_BOOT_COMPLETED", this.getPackageName()));
         boolean permission_readsms = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_SMS", this.getPackageName()));
+        boolean permission_read_phone_state = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_PHONE_STATE", this.getPackageName()));
+        boolean permission_read_phone_numbers = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_PHONE_NUMBERS", this.getPackageName()));
 
-        if (!(
-                permission_receive_boot
-                        && permission_readsms
-        )) {
+        if (!(permission_receive_boot && permission_readsms && permission_read_phone_state && permission_read_phone_numbers)) {
             ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.RECEIVE_BOOT_COMPLETED,
                     Manifest.permission.READ_SMS,
+                    Manifest.permission.READ_PHONE_STATE,
+                    Manifest.permission.READ_PHONE_NUMBERS,
             }, 0x01);
         }
     }

@@ -17,6 +17,7 @@ import com.umeng.commonsdk.UMConfigure;
 
 public class MyApplication extends Application {
     private static final String TAG = "MyApplication";
+    private String Line1Number;
 
     /**
      * <meta-data
@@ -52,6 +53,14 @@ public class MyApplication extends Application {
         }
         Log.d(TAG, "getChannelName: " + channelName);
         return channelName;
+    }
+
+    public String getLine1Number() {
+        return Line1Number;
+    }
+
+    public void setLine1Number(String s) {
+        Line1Number = s;
     }
 
     @Override

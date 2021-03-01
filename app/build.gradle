@@ -14,8 +14,8 @@ android {
         applicationId "com.idormy.sms.forwarder"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 7
-        versionName "1.2.1"
+        versionCode 8
+        versionName "1.2.2"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
@@ -24,7 +24,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion '28.0.3'
+    buildToolsVersion '29.0.2'
     //apk file name
     android.applicationVariants.all { variant ->
         variant.outputs.all {

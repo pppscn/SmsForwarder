@@ -3,9 +3,11 @@ package com.idormy.sms.forwarder.BroadCastReceiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
+import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.utils.SendUtil;
 
@@ -26,8 +28,21 @@ public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
         if (receiveAction.equals("android.provider.Telephony.SMS_RECEIVED")) {
             try {
 
-                Object[] object = (Object[]) Objects.requireNonNull(intent.getExtras()).get("pdus");
+                Bundle extras = intent.getExtras();
+                Object[] object = (Object[]) Objects.requireNonNull(extras).get("pdus");
                 if (object != null) {
+
+                    //获取接收手机号
+                    String phoneNumber;
+                    int solt = capturedSimSlot(extras);
+                    Log.d("SIM_SLOT", " Slot Number " + solt);
+                    if (solt == 1) {
+                        MyApplication appContext = (MyApplication) context.getApplicationContext();
+                        phoneNumber = "SIM1：" + appContext.getLine1Number();
+                    } else {
+                        phoneNumber = "SIM" + solt + "：unknown";
+                    }
+
                     List<SmsVo> smsVoList = new ArrayList<>();
                     String format = intent.getStringExtra("format");
                     Map<String, String> mobileToContent = new HashMap<>();
@@ -50,7 +65,7 @@ public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
 
                     }
                     for (String mobile : mobileToContent.keySet()) {
-                        smsVoList.add(new SmsVo(mobile, mobileToContent.get(mobile), date));
+                        smsVoList.add(new SmsVo(mobile, mobileToContent.get(mobile), date, phoneNumber));
                     }
                     Log.d(TAG, "短信：" + smsVoList);
                     SendUtil.send_msg_list(context, smsVoList);
@@ -65,4 +80,30 @@ public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
 
     }
 
+    public int capturedSimSlot(Bundle bundle) {
+        int whichSIM = -1;
+        if (bundle.containsKey("subscription")) {
+            whichSIM = bundle.getInt("subscription");
+        }
+        if (whichSIM >= 0 && whichSIM < 5) {
+            /*In some device Subscription id is return as subscriber id*/
+            return 1;
+        }
+
+        if (bundle.containsKey("simId")) {
+            whichSIM = bundle.getInt("simId");
+        } else if (bundle.containsKey("com.android.phone.extra.slot")) {
+            whichSIM = bundle.getInt("com.android.phone.extra.slot");
+        } else {
+            String keyName = "";
+            for (String key : bundle.keySet()) {
+                if (key.contains("sim"))
+                    keyName = key;
+            }
+            if (bundle.containsKey(keyName)) {
+                whichSIM = bundle.getInt(keyName);
+            }
+        }
+        return whichSIM;
+    }
 }
