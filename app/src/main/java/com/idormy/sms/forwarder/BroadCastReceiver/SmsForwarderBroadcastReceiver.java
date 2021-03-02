@@ -23,6 +23,7 @@ public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         String receiveAction = intent.getAction();
         Log.d(TAG, "onReceive intent " + receiveAction);
         if (receiveAction.equals("android.provider.Telephony.SMS_RECEIVED")) {
@@ -33,15 +34,10 @@ public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
                 if (object != null) {
 
                     //获取接收手机号
-                    String phoneNumber;
-                    int solt = capturedSimSlot(extras);
-                    Log.d("SIM_SLOT", " Slot Number " + solt);
-                    if (solt == 1) {
-                        MyApplication appContext = (MyApplication) context.getApplicationContext();
-                        phoneNumber = "SIM1：" + appContext.getLine1Number();
-                    } else {
-                        phoneNumber = "SIM" + solt + "：unknown";
-                    }
+                    String simInfoId = String.valueOf(capturedSimSlot(extras));
+                    Log.d("SIM_SLOT", " Slot Number " + simInfoId);
+                    Map<String, String> sim = MyApplication.SimInfo.get(simInfoId);
+                    String phoneNumber = "SIM-" + sim.get("sim_id") + "_" + sim.get("carrier_name") + "_" + sim.get("phone_number");
 
                     List<SmsVo> smsVoList = new ArrayList<>();
                     String format = intent.getStringExtra("format");
@@ -80,14 +76,16 @@ public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
 
     }
 
-    public int capturedSimSlot(Bundle bundle) {
+    //获取卡槽ID
+    private int capturedSimSlot(Bundle bundle) {
         int whichSIM = -1;
         if (bundle.containsKey("subscription")) {
             whichSIM = bundle.getInt("subscription");
         }
         if (whichSIM >= 0 && whichSIM < 5) {
             /*In some device Subscription id is return as subscriber id*/
-            return 1;
+            //TODO：不确定能不能直接返回
+            return whichSIM;
         }
 
         if (bundle.containsKey("simId")) {
@@ -106,4 +104,5 @@ public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
         }
         return whichSIM;
     }
+
 }

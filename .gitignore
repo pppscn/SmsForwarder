@@ -10,3 +10,4 @@ local.properties
 */*.classpath
 .settings/*
 */.settings/*
+/app/pppscn.jks

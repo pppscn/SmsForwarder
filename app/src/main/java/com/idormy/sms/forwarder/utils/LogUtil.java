@@ -48,6 +48,7 @@ public class LogUtil {
         ContentValues values = new ContentValues();
         values.put(LogTable.LogEntry.COLUMN_NAME_FROM, logModel.getFrom());
         values.put(LogTable.LogEntry.COLUMN_NAME_CONTENT, logModel.getContent());
+        values.put(LogTable.LogEntry.COLUMN_NAME_SIM_INFO, logModel.getSimInfo());
         values.put(LogTable.LogEntry.COLUMN_NAME_RULE_ID, logModel.getRuleId());
 
         // Insert the new row, returning the primary key value of the new row
@@ -89,6 +90,7 @@ public class LogUtil {
                 LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_FROM + " AS " + LogTable.LogEntry.COLUMN_NAME_FROM,
                 LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_TIME + " AS " + LogTable.LogEntry.COLUMN_NAME_TIME,
                 LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_CONTENT + " AS " + LogTable.LogEntry.COLUMN_NAME_CONTENT,
+                LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_SIM_INFO + " AS " + LogTable.LogEntry.COLUMN_NAME_SIM_INFO,
                 RuleTable.RuleEntry.TABLE_NAME + "." + RuleTable.RuleEntry.COLUMN_NAME_FILED + " AS " + RuleTable.RuleEntry.COLUMN_NAME_FILED,
                 RuleTable.RuleEntry.TABLE_NAME + "." + RuleTable.RuleEntry.COLUMN_NAME_CHECK + " AS " + RuleTable.RuleEntry.COLUMN_NAME_CHECK,
                 RuleTable.RuleEntry.TABLE_NAME + "." + RuleTable.RuleEntry.COLUMN_NAME_VALUE + " AS " + RuleTable.RuleEntry.COLUMN_NAME_VALUE,
@@ -143,6 +145,8 @@ public class LogUtil {
                         cursor.getColumnIndexOrThrow(LogTable.LogEntry.COLUMN_NAME_FROM));
                 String content = cursor.getString(
                         cursor.getColumnIndexOrThrow(LogTable.LogEntry.COLUMN_NAME_CONTENT));
+                String simInfo = cursor.getString(
+                        cursor.getColumnIndexOrThrow(LogTable.LogEntry.COLUMN_NAME_SIM_INFO));
                 String time = cursor.getString(
                         cursor.getColumnIndexOrThrow(LogTable.LogEntry.COLUMN_NAME_TIME));
                 String ruleFiled = cursor.getString(
@@ -158,17 +162,15 @@ public class LogUtil {
 
                 Log.d(TAG, "getLog: time" + time);
                 String rule = RuleModel.getRuleMatch(ruleFiled, ruleCheck, ruleValue) + senderName;
-//                String rule = time+" 转发到 "+senderName;
-                int senderImageId = SenderModel.getImageId(senderType);
-                LogVo logVo = new LogVo(itemfrom, content, time, rule, senderImageId);
 
+                int senderImageId = SenderModel.getImageId(senderType);
+                LogVo logVo = new LogVo(itemfrom, content, simInfo, time, rule, senderImageId);
                 LogVos.add(logVo);
             } catch (Exception e) {
                 Log.i(TAG, "getLog e:" + e.getMessage());
             }
 
         }
-
 
         cursor.close();
 

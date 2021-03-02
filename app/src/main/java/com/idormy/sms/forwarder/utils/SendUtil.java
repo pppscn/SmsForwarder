@@ -138,7 +138,7 @@ public class SendUtil {
                     List<SenderModel> senderModels = SenderUtil.getSender(ruleModel.getSenderId(), null);
                     for (SenderModel senderModel : senderModels
                     ) {
-                        LogUtil.addLog(new LogModel(smsVo.getMobile(), smsVo.getContent(), senderModel.getId()));
+                        LogUtil.addLog(new LogModel(smsVo.getMobile(), smsVo.getContent(), smsVo.getPhoneNumber(), senderModel.getId()));
                         SendUtil.senderSendMsg(smsVo, senderModel);
                     }
                 }
