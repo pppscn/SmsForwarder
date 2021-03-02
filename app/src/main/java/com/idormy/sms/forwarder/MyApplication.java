@@ -15,9 +15,13 @@ import com.smailnet.emailkit.EmailKit;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MyApplication extends Application {
     private static final String TAG = "MyApplication";
-    private String Line1Number;
+    //SIM卡信息
+    public static Map<String, Map> SimInfo = new HashMap();
 
     /**
      * <meta-data
@@ -55,12 +59,12 @@ public class MyApplication extends Application {
         return channelName;
     }
 
-    public String getLine1Number() {
-        return Line1Number;
+    public Map<String, Map> getSimInfo() {
+        return SimInfo;
     }
 
-    public void setLine1Number(String s) {
-        Line1Number = s;
+    public void setSimInfo(Map<String, Map> info) {
+        SimInfo = info;
     }
 
     @Override

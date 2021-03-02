@@ -14,14 +14,28 @@ android {
         applicationId "com.idormy.sms.forwarder"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 8
-        versionName "1.2.2"
+        versionCode 9
+        versionName "1.2.3"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+    signingConfigs {
+        //签名信息保存在 C:\Users\<Username>\.gradle\gradle.properties
+        release {
+            storeFile file(RELEASE_STORE_FILE)
+            keyAlias RELEASE_KEY_ALIAS
+            storePassword RELEASE_KEY_PASSWORD
+            keyPassword RELEASE_STORE_PASSWORD
+        }
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            signingConfig signingConfigs.release
         }
     }
     buildToolsVersion '29.0.2'

@@ -15,7 +15,7 @@ import java.util.List;
 public class DbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
     public static final String TAG = "DbHelper";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "sms_forwarder.db";
 
     private static final List<String> SQL_CREATE_ENTRIES =
@@ -24,6 +24,7 @@ public class DbHelper extends SQLiteOpenHelper {
                             LogTable.LogEntry._ID + " INTEGER PRIMARY KEY," +
                             LogTable.LogEntry.COLUMN_NAME_FROM + " TEXT," +
                             LogTable.LogEntry.COLUMN_NAME_CONTENT + " TEXT," +
+                            LogTable.LogEntry.COLUMN_NAME_SIM_INFO + " TEXT," +
                             LogTable.LogEntry.COLUMN_NAME_RULE_ID + " INTEGER," +
                             LogTable.LogEntry.COLUMN_NAME_TIME + "  TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP)"
                     , "CREATE TABLE " + RuleTable.RuleEntry.TABLE_NAME + " (" +
@@ -74,8 +75,12 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
-        delCreateTable(db);
-        onCreate(db);
+        //delCreateTable(db);
+        //onCreate(db);
+        if (oldVersion < 2) { //当数据库版本小于版本2时
+            String sql = "Alter table " + LogTable.LogEntry.TABLE_NAME + " add column " + LogTable.LogEntry.COLUMN_NAME_SIM_INFO + " TEXT ";
+            db.execSQL(sql);
+        }
     }
 
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {

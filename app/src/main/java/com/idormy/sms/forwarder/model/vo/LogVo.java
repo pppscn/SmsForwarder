@@ -3,13 +3,15 @@ package com.idormy.sms.forwarder.model.vo;
 public class LogVo {
     private String from;
     private String content;
+    private String simInfo;
     private String rule;
     private int senderImageId;
     private String time;
 
-    public LogVo(String from, String content, String time, String rule, int senderImageId) {
+    public LogVo(String from, String content, String simInfo, String time, String rule, int senderImageId) {
         this.from = from;
         this.content = content;
+        this.simInfo = simInfo;
         this.time = time;
         this.rule = rule;
         this.senderImageId = senderImageId;
@@ -33,6 +35,14 @@ public class LogVo {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getSimInfo() {
+        return simInfo;
+    }
+
+    public void setSimInfo(String simInfo) {
+        this.simInfo = simInfo;
     }
 
     public String getRule() {

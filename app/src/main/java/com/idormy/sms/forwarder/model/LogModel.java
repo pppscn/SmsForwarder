@@ -5,10 +5,12 @@ public class LogModel {
     private String content;
     private Long ruleId;
     private Long time;
+    private String simInfo;
 
-    public LogModel(String from, String content, Long ruleId) {
+    public LogModel(String from, String content, String simInfo, Long ruleId) {
         this.from = from;
         this.content = content;
+        this.simInfo = simInfo;
         this.ruleId = ruleId;
     }
 
@@ -28,6 +30,14 @@ public class LogModel {
         this.content = content;
     }
 
+    public String getSimInfo() {
+        return simInfo;
+    }
+
+    public void setSimInfo(String simInfo) {
+        this.simInfo = simInfo;
+    }
+
     public Long getRuleId() {
         return ruleId;
     }
@@ -40,11 +50,16 @@ public class LogModel {
         return time;
     }
 
+    public void setTime(Long time) {
+        this.time = time;
+    }
+
     @Override
     public String toString() {
         return "LogModel{" +
                 "from='" + from + '\'' +
                 ", content='" + content + '\'' +
+                ", simInfo=" + simInfo +
                 ", ruleId=" + ruleId +
                 ", time=" + time +
                 '}';
