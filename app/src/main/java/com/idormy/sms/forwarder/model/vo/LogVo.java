@@ -1,5 +1,7 @@
 package com.idormy.sms.forwarder.model.vo;
 
+import com.idormy.sms.forwarder.R;
+
 public class LogVo {
     private String from;
     private String content;
@@ -63,5 +65,18 @@ public class LogVo {
 
     public void setSenderImageId(int senderImageId) {
         this.senderImageId = senderImageId;
+    }
+
+    public int getSimImageId() {
+        if (this.simInfo == null) {
+            return R.mipmap.sim1;
+        }
+
+        String sim = this.simInfo.replace("-", "").substring(0, 4).toLowerCase();
+        if (sim == "sim2") {
+            return R.mipmap.sim2;
+        } else {
+            return R.mipmap.sim1;
+        }
     }
 }

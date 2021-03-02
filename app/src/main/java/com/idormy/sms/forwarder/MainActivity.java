@@ -254,7 +254,6 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
                 MyApplication.SimInfo.put(id, sim);
             }
             cursor.close();
-            Log.d(TAG, String.valueOf(MyApplication.SimInfo.get("2").get("sim_id")));
         }
     }
 

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.idormy.sms.forwarder.R;
 import com.idormy.sms.forwarder.model.vo.LogVo;
+import com.idormy.sms.forwarder.utils.aUtil;
 
 import java.util.List;
 
@@ -57,7 +58,9 @@ public class LogAdapter extends ArrayAdapter<LogVo> {
             viewHolder.tLogFrom = view.findViewById(R.id.tlog_from);
             viewHolder.tLogContent = view.findViewById(R.id.tlog_content);
             viewHolder.tLogRule = view.findViewById(R.id.tlog_rule);
+            viewHolder.tLogTime = view.findViewById(R.id.tlog_time);
             viewHolder.senderImage = view.findViewById(R.id.tlog_sender_image);
+            viewHolder.simImage = view.findViewById(R.id.tlog_sim_image);
 
             // 将ViewHolder存储在View中（即将控件的实例存储在其中）
             view.setTag(viewHolder);
@@ -71,7 +74,9 @@ public class LogAdapter extends ArrayAdapter<LogVo> {
             viewHolder.tLogFrom.setText(logVo.getFrom());
             viewHolder.tLogContent.setText(logVo.getContent());
             viewHolder.tLogRule.setText(logVo.getRule());
+            viewHolder.tLogTime.setText(aUtil.friendlyTime(logVo.getTime()));
             viewHolder.senderImage.setImageResource(logVo.getSenderImageId());
+            viewHolder.simImage.setImageResource(logVo.getSimImageId());
         }
 
         return view;
@@ -108,6 +113,8 @@ public class LogAdapter extends ArrayAdapter<LogVo> {
         TextView tLogFrom;
         TextView tLogContent;
         TextView tLogRule;
+        TextView tLogTime;
         ImageView senderImage;
+        ImageView simImage;
     }
 }
