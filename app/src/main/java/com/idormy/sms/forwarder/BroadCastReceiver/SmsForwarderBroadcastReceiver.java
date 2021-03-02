@@ -37,7 +37,8 @@ public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
                     String simInfoId = String.valueOf(capturedSimSlot(extras));
                     Log.d("SIM_SLOT", " Slot Number " + simInfoId);
                     Map<String, String> sim = MyApplication.SimInfo.get(simInfoId);
-                    String phoneNumber = "SIM-" + sim.get("sim_id") + "_" + sim.get("carrier_name") + "_" + sim.get("phone_number");
+                    int sim_id = Integer.parseInt(sim.get("sim_id")) + 1;
+                    String phoneNumber = "SIM" + sim_id + "_" + sim.get("carrier_name") + "_" + sim.get("phone_number");
 
                     List<SmsVo> smsVoList = new ArrayList<>();
                     String format = intent.getStringExtra("format");

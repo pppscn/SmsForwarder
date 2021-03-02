@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 public class aUtil {
@@ -52,5 +56,45 @@ public class aUtil {
         PackageInfo packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
         Integer versionCode = packInfo.versionCode;
         return versionCode;
+    }
+
+    //友好时间显示
+    public static String friendlyTime(String sdate) {
+
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date time = null;
+        try {
+            time = sf.parse(sdate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, time.getTime() + "");
+
+        //获取time距离当前的秒数
+        int ct = (int) ((System.currentTimeMillis() - time.getTime()) / 1000);
+
+        if (ct == 0) {
+            return "刚刚";
+        }
+
+        if (ct > 0 && ct < 60) {
+            return ct + "秒前";
+        }
+
+        if (ct >= 60 && ct < 3600) {
+            return Math.max(ct / 60, 1) + "分钟前";
+        }
+        if (ct >= 3600 && ct < 86400) {
+            return ct / 3600 + "小时前";
+        }
+        if (ct >= 86400 && ct < 2592000) { //86400 * 30
+            int day = ct / 86400;
+            return day + "天前";
+        }
+        if (ct >= 2592000 && ct < 31104000) { //86400 * 30
+            return ct / 2592000 + "月前";
+        }
+
+        return ct / 31104000 + "年前";
     }
 }
