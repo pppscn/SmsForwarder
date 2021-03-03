@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+import java.util.TimeZone;
 
 public class aUtil {
     private static String TAG = "aUtil";
@@ -59,19 +59,19 @@ public class aUtil {
     }
 
     //友好时间显示
-    public static String friendlyTime(String sdate) {
-
-        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date time = null;
+    public static String friendlyTime(String utcTime) {
+        SimpleDateFormat utcFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        utcFormater.setTimeZone(TimeZone.getTimeZone("UTC"));//时区定义并进行时间获取
+        Date utcDate = null;
         try {
-            time = sf.parse(sdate);
+            utcDate = utcFormater.parse(utcTime);
         } catch (ParseException e) {
             e.printStackTrace();
+            return utcTime;
         }
-        Log.d(TAG, time.getTime() + "");
 
-        //获取time距离当前的秒数
-        int ct = (int) ((System.currentTimeMillis() - time.getTime()) / 1000);
+        //获取utcDate距离当前的秒数
+        int ct = (int) ((System.currentTimeMillis() - utcDate.getTime()) / 1000);
 
         if (ct == 0) {
             return "刚刚";
@@ -97,4 +97,31 @@ public class aUtil {
 
         return ct / 31104000 + "年前";
     }
+
+    /**
+     * 函数功能描述:UTC时间转本地时间格式
+     *
+     * @param utcTime UTC时间
+     * @return 本地时间格式的时间
+     */
+    public static String utc2Local(String utcTime) {
+        String utcTimePatten = "yyyy-MM-dd HH:mm:ss";
+        String localTimePatten = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat utcFormater = new SimpleDateFormat(utcTimePatten);
+        utcFormater.setTimeZone(TimeZone.getTimeZone("UTC"));//时区定义并进行时间获取
+
+        Date utcDate = null;
+        try {
+            utcDate = utcFormater.parse(utcTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return utcTime;
+        }
+
+        SimpleDateFormat localFormater = new SimpleDateFormat(localTimePatten);
+        localFormater.setTimeZone(TimeZone.getDefault());
+        String localTime = localFormater.format(utcDate.getTime());
+        return localTime;
+    }
+
 }
