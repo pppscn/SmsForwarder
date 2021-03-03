@@ -68,15 +68,11 @@ public class LogVo {
     }
 
     public int getSimImageId() {
-        if (this.simInfo == null) {
-            return R.mipmap.sim1;
+        if (this.simInfo != null && !this.simInfo.isEmpty()
+                && this.simInfo.replace("-", "").substring(0, 4).equals("SIM2")) {
+            return R.mipmap.sim2;
         }
 
-        String sim = this.simInfo.replace("-", "").substring(0, 4).toLowerCase();
-        if (sim == "sim2") {
-            return R.mipmap.sim2;
-        } else {
-            return R.mipmap.sim1;
-        }
+        return R.mipmap.sim1;
     }
 }
