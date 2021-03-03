@@ -160,7 +160,6 @@ public class LogUtil {
                 Integer senderType = cursor.getInt(
                         cursor.getColumnIndexOrThrow(SenderTable.SenderEntry.COLUMN_NAME_TYPE));
 
-                Log.d(TAG, "getLog: time" + time);
                 String rule = RuleModel.getRuleMatch(ruleFiled, ruleCheck, ruleValue) + senderName;
 
                 int senderImageId = SenderModel.getImageId(senderType);
