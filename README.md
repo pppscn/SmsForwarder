@@ -79,7 +79,7 @@ Android手机监听短信并根据指定规则转发到其他手机、钉钉机�
 
 ## 更新记录：
 
-> [v1.3.0](app/release/SmsForwarder_release_20210302_1.3.0.apk) 支持双卡手机，增加卡槽标识/运营商/手机号(如果能获取的话)
+> [v1.3.0](app/release/SmsForwarder_release_20210303_1.3.0.apk) 支持双卡手机，增加卡槽标识/运营商/手机号(如果能获取的话)
 
 > [v1.2.3](app/release/SmsForwarder_release_20210302_1.2.3.apk) 【预发布】转发日志列表/详情增加卡槽标识（SIM1 或 SIM2）
 
