@@ -81,27 +81,17 @@ Android手机监听短信并根据指定规则转发到其他手机、钉钉机�
 
 ## 更新记录：
 
-> [v1.4.0](app/release/SmsForwarder_release_20210304_1.4.0.apk) 支持多重匹配规则
-
-> [v1.3.0](app/release/SmsForwarder_release_20210303_1.3.0.apk) 支持双卡手机，增加卡槽标识/运营商/手机号(如果能获取的话)
-
-> [v1.2.3](app/release/SmsForwarder_release_20210302_1.2.3.apk) 【预发布】转发日志列表/详情增加卡槽标识（SIM1 或 SIM2）
-
-> [v1.2.2](app/release/SmsForwarder_release_20210302_1.2.2.apk) 【预发布】短信模板增加卡槽标识（SIM1_中国联通_Unknown 或 SIM2_中国移动_+8615866666666）
-
-> [v1.2.1](app/release/SmsForwarder_release_20210226_1.2.1.apk) 修复bark-server升级到2.0后的兼容性问题
-
-> [v1.2.0](app/release/SmsForwarder_release_20210219_1.2.0.apk) 重写SMTP邮件发送（推荐升级）
-
-> [v1.1.3](app/release/SmsForwarder_release_20210218_1.1.3.apk) AlertDialog增加滚动条，避免参数过长时无法点击按钮
-
-> [v1.1.2](app/release/SmsForwarder_release_20210218_1.1.2.apk) 获取系统(ROM)类别及版本号，MIUI通知栏显示标题
-
-> [v1.1.1](app/release/SmsForwarder_release_20210215_1.1.1.apk) 更新应用/通知栏图标
-
-> [v1.1.0](app/release/SmsForwarder_release_20210214_1.1.0.apk) 新增在线升级、缓存清理、加入QQ群功能
-
-> [v1.0.0](app/release/SmsForwarder_release_20210213_1.0.0.apk) 优化后第一版
++ [v1.0.0](app/release/SmsForwarder_release_20210213_1.0.0.apk) 优化后第一版
++ [v1.1.0](app/release/SmsForwarder_release_20210214_1.1.0.apk) 新增在线升级、缓存清理、加入QQ群功能
+    + [v1.1.1](app/release/SmsForwarder_release_20210215_1.1.1.apk) 更新应用/通知栏图标
+    + [v1.1.2](app/release/SmsForwarder_release_20210218_1.1.2.apk) 获取系统(ROM)类别及版本号，MIUI通知栏显示标题
+    + [v1.1.3](app/release/SmsForwarder_release_20210218_1.1.3.apk) AlertDialog增加滚动条，避免参数过长时无法点击按钮
++ [v1.2.0](app/release/SmsForwarder_release_20210219_1.2.0.apk) 重写SMTP邮件发送（推荐升级）
+    + [v1.2.1](app/release/SmsForwarder_release_20210226_1.2.1.apk) 修复bark-server升级到2.0后的兼容性问题
+    + [v1.2.2](app/release/SmsForwarder_release_20210302_1.2.2.apk) 【预发布】短信模板增加卡槽标识（SIM1_中国联通_Unknown 或 SIM2_中国移动_+8615866666666）
+    + [v1.2.3](app/release/SmsForwarder_release_20210302_1.2.3.apk) 【预发布】转发日志列表/详情增加卡槽标识（SIM1 或 SIM2）
++ [v1.3.0](app/release/SmsForwarder_release_20210303_1.3.0.apk) 支持双卡手机，增加卡槽标识/运营商/手机号(如果能获取的话)
++ [v1.4.0](app/release/SmsForwarder_release_20210304_1.4.0.apk) 支持多重匹配规则
 
 
 ## LICENSE    
