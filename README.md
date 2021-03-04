@@ -46,6 +46,7 @@ Android手机监听短信并根据指定规则转发到其他手机、钉钉机�
 - [x] 清理缓存
 - [x] 兼容6.xx、7.xx、8.xx、9.xx、10.xx
 - [x] 支持双卡手机，增加卡槽标识/运营商/手机号(如果能获取的话)
+- [x] 支持多重匹配规则
 
 ### 使用流程：
 1. 在Android手机上安装SmsForwarder 本APP后点击应用图标打开
@@ -74,10 +75,13 @@ Android手机监听短信并根据指定规则转发到其他手机、钉钉机�
 | ![添加编辑发送方网页通知](pic/sendersetwebnotify.png "添加编辑发送方网页通知") | ![添加编辑发送方企业微信群机器人](pic/sendersetqywechat.png "添加编辑发送方企业微信群机器人") |
 | ![状态栏运行状态](pic/taskbar.png "状态栏运行状态") | ![应用设置](pic/setting.png "应用设置") |
 | ![在线升级](pic/update.png "在线升级") | ![增加卡槽标识](pic/siminfo.png "增加卡槽标识")  |
+| ![多重匹配规则](pic/multimatch.png "多重匹配规则") | |
 
 --------
 
 ## 更新记录：
+
+> [v1.4.0](app/release/SmsForwarder_release_20210304_1.4.0.apk) 支持多重匹配规则
 
 > [v1.3.0](app/release/SmsForwarder_release_20210303_1.3.0.apk) 支持双卡手机，增加卡槽标识/运营商/手机号(如果能获取的话)
 
