@@ -15,47 +15,59 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/bt_refresh_log"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@android:color/holo_blue_dark"
-            android:onClick="cleanLog"
-            android:text="清空记录"
-            tools:ignore="NestedWeights" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/log_tips"
+            android:textColor="@android:color/holo_blue_dark" />
 
-        <Button
-            android:id="@+id/bt_rule_set"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@android:color/holo_blue_dark"
-            android:onClick="toRuleSetting"
-            android:text="设置转发规则"
-            tools:ignore="NestedWeights" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/bt_send_set"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@android:color/holo_blue_dark"
-            android:onClick="toSendSetting"
-            android:text="设置发送方" />
+            <Button
+                android:id="@+id/bt_refresh_log"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@android:color/holo_blue_dark"
+                android:onClick="cleanLog"
+                android:text="清空记录"
+                tools:ignore="NestedWeights" />
+
+            <Button
+                android:id="@+id/bt_rule_set"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@android:color/holo_blue_dark"
+                android:onClick="toRuleSetting"
+                android:text="设置转发规则"
+                tools:ignore="NestedWeights" />
+
+            <Button
+                android:id="@+id/bt_send_set"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@android:color/holo_blue_dark"
+                android:onClick="toSendSetting"
+                android:text="设置发送方" />
+        </LinearLayout>
     </LinearLayout>
-
 
 </LinearLayout>

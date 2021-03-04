@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,13 +45,25 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
     private List<LogVo> logVos = new ArrayList<>();
     private LogAdapter adapter;
     private ReFlashListView listView;
-    //SIM卡信息
-    //private Map<String, Map> SimInfo = new HashMap();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "oncreate");
         super.onCreate(savedInstanceState);
+
+        //检查权限是否获取
+        checkPermission();
+
+        //获取本机号码(注意：这里获取的不一定是卡槽1的)
+        TelephonyManager mTelephonyMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        String Line1Number = mTelephonyMgr.getLine1Number();
+        Log.d(TAG, "Line1Number: " + Line1Number);
+
+        //获取SIM卡信息
+        getSimInfo(Line1Number);
+        //MyApplication appContext = ((MyApplication) getApplicationContext());
+        //appContext.setSimInfo(SimInfo);
+
         setContentView(R.layout.activity_main);
         LogUtil.init(this);
         // 先拿到数据并放在适配器上
@@ -67,18 +80,40 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
             }
         });
 
-        //检查权限是否获取
-        checkPermission();
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                //定义AlertDialog.Builder对象，当长按列表项的时候弹出确认删除对话框
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage("确定删除?");
+                builder.setTitle("提示");
 
-        //获取本机号码(注意：这里获取的不一定是卡槽1的)
-        TelephonyManager mTelephonyMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        String Line1Number = mTelephonyMgr.getLine1Number();
-        Log.d(TAG, "Line1Number: " + Line1Number);
+                //添加AlertDialog.Builder对象的setPositiveButton()方法
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Long id = logVos.get(position - 1).getId();
+                        Log.d(TAG, "id = " + id);
+                        LogUtil.delLog(id, null);
+                        initTLogs(); //初始化数据
+                        showList(logVos);
+                        Toast.makeText(getBaseContext(), "删除列表项", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-        //获取SIM卡信息
-        getSimInfo(Line1Number);
-        //MyApplication appContext = ((MyApplication) getApplicationContext());
-        //appContext.setSimInfo(SimInfo);
+                //添加AlertDialog.Builder对象的setNegativeButton()方法
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                builder.create().show();
+                return true;
+            }
+        });
     }
 
     // 初始化数据
