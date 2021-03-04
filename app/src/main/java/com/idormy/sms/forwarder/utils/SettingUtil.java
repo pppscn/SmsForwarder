@@ -6,9 +6,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class SettingUtil {
-    private static String TAG = "SettingUtil";
-
     static Boolean hasInit = false;
+    private static String TAG = "SettingUtil";
     private static SharedPreferences sp_setting = null;
     private static Context context = null;
 

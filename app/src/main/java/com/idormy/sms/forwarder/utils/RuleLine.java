@@ -9,8 +9,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 class RuleLine {
+    public static final String CONJUNCTION_AND = "并且";
+    public static final String CONJUNCTION_OR = "或者";
+    public static final String FILED_PHONE_NUM = "手机号";
+    public static final String FILED_MSG_CONTENT = "短信内容";
+    public static final String SURE_YES = "是";
+    public static final String SURE_NOT = "不是";
+    public static final String CHECK_EQUALS = "相等";
+    public static final String CHECK_CONTAIN = "包含";
+    public static final String CHECK_START_WITH = "开头";
+    public static final String CHECK_END_WITH = "结尾";
+    public static List<String> CONJUNCTION_LIST = new ArrayList<String>();
+    public static List<String> FILED_LIST = new ArrayList<String>();
+    public static List<String> SURE_LIST = new ArrayList<String>();
+    public static List<String> CHECK_LIST = new ArrayList<String>();
     static String TAG = "RuleLine";
     static Boolean STARTLOG = true;
+
+    static {
+        CONJUNCTION_LIST.add("and");
+        CONJUNCTION_LIST.add("or");
+        CONJUNCTION_LIST.add("并且");
+        CONJUNCTION_LIST.add("或者");
+    }
+
+    static {
+        FILED_LIST.add("手机号");
+        FILED_LIST.add("短信内容");
+    }
+
+    static {
+        SURE_LIST.add("是");
+        SURE_LIST.add("不是");
+    }
+
+    static {
+        CHECK_LIST.add("相等");
+        CHECK_LIST.add("包含");
+        CHECK_LIST.add("开头");
+        CHECK_LIST.add("结尾");
+    }
 
     //开头有几个空格
     int headSpaceNum = 0;
@@ -20,124 +58,12 @@ class RuleLine {
     RuleLine childRuleLine;
     //and or
     String conjunction;
-    public static List<String> CONJUNCTION_LIST = new ArrayList<String>();
-    public static final String CONJUNCTION_AND = "并且";
-    public static final String CONJUNCTION_OR = "或者";
-
-    static {
-        CONJUNCTION_LIST.add("and");
-        CONJUNCTION_LIST.add("or");
-        CONJUNCTION_LIST.add("并且");
-        CONJUNCTION_LIST.add("或者");
-    }
-
     //手机号 短信内容
     String field;
-    public static List<String> FILED_LIST = new ArrayList<String>();
-    public static final String FILED_PHONE_NUM = "手机号";
-    public static final String FILED_MSG_CONTENT = "短信内容";
-
-    static {
-        FILED_LIST.add("手机号");
-        FILED_LIST.add("短信内容");
-    }
-
     // 是否
     String sure;
-    public static List<String> SURE_LIST = new ArrayList<String>();
-    public static final String SURE_YES = "是";
-    public static final String SURE_NOT = "不是";
-
-    static {
-        SURE_LIST.add("是");
-        SURE_LIST.add("不是");
-    }
-
     String check;
-    public static List<String> CHECK_LIST = new ArrayList<String>();
-    public static final String CHECK_EQUALS = "相等";
-    public static final String CHECK_CONTAIN = "包含";
-    public static final String CHECK_START_WITH = "开头";
-    public static final String CHECK_END_WITH = "结尾";
-
-    static {
-        CHECK_LIST.add("相等");
-        CHECK_LIST.add("包含");
-        CHECK_LIST.add("开头");
-        CHECK_LIST.add("结尾");
-    }
-
     String value;
-
-    //字段分支
-    public boolean checkMsg(SmsVo msg) {
-
-        //检查这一行和上一行合并的结果是否命中
-        boolean mixChecked = false;
-
-        //先检查规则是否命中
-        switch (this.field) {
-            case FILED_PHONE_NUM:
-                mixChecked = checkValue(msg.getMobile());
-                break;
-            case FILED_MSG_CONTENT:
-                mixChecked = checkValue(msg.getContent());
-                break;
-            default:
-                break;
-
-        }
-
-        //整合肯定词
-        switch (this.sure) {
-            case SURE_YES:
-                mixChecked = mixChecked;
-                break;
-            case SURE_NOT:
-                mixChecked = !mixChecked;
-                break;
-            default:
-                mixChecked = false;
-                break;
-
-        }
-
-        logg("rule:" + this + " checkMsg:" + msg + " checked:" + mixChecked);
-        return mixChecked;
-
-    }
-
-    //内容分支
-    public boolean checkValue(String msgValue) {
-        boolean checked = false;
-
-        switch (this.check) {
-            case CHECK_EQUALS:
-                checked = this.value.equals(msgValue);
-                break;
-            case CHECK_CONTAIN:
-                if (msgValue != null) {
-                    checked = msgValue.contains(this.value);
-                }
-                break;
-            case CHECK_START_WITH:
-                if (msgValue != null) {
-                    checked = msgValue.startsWith(this.value);
-                }
-                break;
-            case CHECK_END_WITH:
-                if (msgValue != null) {
-                    checked = msgValue.endsWith(this.value);
-                }
-                break;
-            default:
-                break;
-        }
-        logg("checkValue " + msgValue + " " + this.check + " " + this.value + " checked:" + checked);
-
-        return checked;
-
-    }
 
     public RuleLine(String line, int linenum, RuleLine beforeRuleLine) throws Exception {
         logg("----------" + linenum + "-----------------");
@@ -325,6 +251,76 @@ class RuleLine {
         if (STARTLOG) {
             Log.i(TAG, msg);
         }
+
+    }
+
+    //字段分支
+    public boolean checkMsg(SmsVo msg) {
+
+        //检查这一行和上一行合并的结果是否命中
+        boolean mixChecked = false;
+
+        //先检查规则是否命中
+        switch (this.field) {
+            case FILED_PHONE_NUM:
+                mixChecked = checkValue(msg.getMobile());
+                break;
+            case FILED_MSG_CONTENT:
+                mixChecked = checkValue(msg.getContent());
+                break;
+            default:
+                break;
+
+        }
+
+        //整合肯定词
+        switch (this.sure) {
+            case SURE_YES:
+                mixChecked = mixChecked;
+                break;
+            case SURE_NOT:
+                mixChecked = !mixChecked;
+                break;
+            default:
+                mixChecked = false;
+                break;
+
+        }
+
+        logg("rule:" + this + " checkMsg:" + msg + " checked:" + mixChecked);
+        return mixChecked;
+
+    }
+
+    //内容分支
+    public boolean checkValue(String msgValue) {
+        boolean checked = false;
+
+        switch (this.check) {
+            case CHECK_EQUALS:
+                checked = this.value.equals(msgValue);
+                break;
+            case CHECK_CONTAIN:
+                if (msgValue != null) {
+                    checked = msgValue.contains(this.value);
+                }
+                break;
+            case CHECK_START_WITH:
+                if (msgValue != null) {
+                    checked = msgValue.startsWith(this.value);
+                }
+                break;
+            case CHECK_END_WITH:
+                if (msgValue != null) {
+                    checked = msgValue.endsWith(this.value);
+                }
+                break;
+            default:
+                break;
+        }
+        logg("checkValue " + msgValue + " " + this.check + " " + this.value + " checked:" + checked);
+
+        return checked;
 
     }
 

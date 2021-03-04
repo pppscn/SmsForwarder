@@ -3,6 +3,7 @@ package com.idormy.sms.forwarder.model.vo;
 import com.idormy.sms.forwarder.R;
 
 public class LogVo {
+    private Long id;
     private String from;
     private String content;
     private String simInfo;
@@ -10,7 +11,8 @@ public class LogVo {
     private int senderImageId;
     private String time;
 
-    public LogVo(String from, String content, String simInfo, String time, String rule, int senderImageId) {
+    public LogVo(Long id, String from, String content, String simInfo, String time, String rule, int senderImageId) {
+        this.id = id;
         this.from = from;
         this.content = content;
         this.simInfo = simInfo;
@@ -21,6 +23,10 @@ public class LogVo {
 
     public LogVo() {
 
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getFrom() {

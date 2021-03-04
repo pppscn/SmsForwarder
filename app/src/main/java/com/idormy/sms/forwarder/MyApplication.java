@@ -59,14 +59,6 @@ public class MyApplication extends Application {
         return channelName;
     }
 
-    public Map<String, Map> getSimInfo() {
-        return SimInfo;
-    }
-
-    public void setSimInfo(Map<String, Map> info) {
-        SimInfo = info;
-    }
-
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);

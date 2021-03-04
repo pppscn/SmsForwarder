@@ -141,6 +141,8 @@ public class LogUtil {
         Log.d(TAG, "getLog: itemId cursor" + Arrays.toString(cursor.getColumnNames()));
         while (cursor.moveToNext()) {
             try {
+                Long itemid = cursor.getLong(
+                        cursor.getColumnIndexOrThrow(BaseColumns._ID));
                 String itemfrom = cursor.getString(
                         cursor.getColumnIndexOrThrow(LogTable.LogEntry.COLUMN_NAME_FROM));
                 String content = cursor.getString(
@@ -163,7 +165,7 @@ public class LogUtil {
                 String rule = RuleModel.getRuleMatch(ruleFiled, ruleCheck, ruleValue) + senderName;
 
                 int senderImageId = SenderModel.getImageId(senderType);
-                LogVo logVo = new LogVo(itemfrom, content, simInfo, time, rule, senderImageId);
+                LogVo logVo = new LogVo(itemid, itemfrom, content, simInfo, time, rule, senderImageId);
                 LogVos.add(logVo);
             } catch (Exception e) {
                 Log.i(TAG, "getLog e:" + e.getMessage());
