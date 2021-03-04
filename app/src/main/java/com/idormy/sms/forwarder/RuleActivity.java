@@ -62,6 +62,16 @@ public class RuleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rule);
         RuleUtil.init(RuleActivity.this);
         SenderUtil.init(RuleActivity.this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart");
+
+        //是否关闭页面提示
+        TextView help_tip = findViewById(R.id.help_tip);
+        help_tip.setVisibility(MyApplication.showHelpTip ? View.VISIBLE : View.GONE);
 
         // 先拿到数据并放在适配器上
         initRules(); //初始化数据
@@ -281,7 +291,7 @@ public class RuleActivity extends AppCompatActivity {
                 }
                 editTextRuleValue.setEnabled(true);
                 matchTypeLayout.setVisibility(View.GONE);
-                tv_mu_rule_tips.setVisibility(View.VISIBLE);
+                tv_mu_rule_tips.setVisibility(MyApplication.showHelpTip ? View.VISIBLE : View.GONE);
                 break;
             default:
                 for (int i = 0; i < radioGroupRuleCheck.getChildCount(); i++) {

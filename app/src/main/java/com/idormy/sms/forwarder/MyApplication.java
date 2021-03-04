@@ -3,12 +3,14 @@ package com.idormy.sms.forwarder;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.idormy.sms.forwarder.utils.Define;
 import com.idormy.sms.forwarder.utils.SendHistory;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.smailnet.emailkit.EmailKit;
@@ -22,6 +24,8 @@ public class MyApplication extends Application {
     private static final String TAG = "MyApplication";
     //SIM卡信息
     public static Map<String, Map> SimInfo = new HashMap();
+    //是否关闭页面提示
+    public static boolean showHelpTip = true;
 
     /**
      * <meta-data
@@ -86,5 +90,8 @@ public class MyApplication extends Application {
         SettingUtil.init(this);
 
         EmailKit.initialize(this);
+
+        SharedPreferences sp = MyApplication.this.getSharedPreferences(Define.SP_CONFIG, Context.MODE_PRIVATE);
+        showHelpTip = sp.getBoolean(Define.SP_CONFIG_SWITCH_HELP_TIP, true);
     }
 }

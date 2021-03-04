@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -66,6 +67,17 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
 
         setContentView(R.layout.activity_main);
         LogUtil.init(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart");
+
+        //是否关闭页面提示
+        TextView help_tip = findViewById(R.id.help_tip);
+        help_tip.setVisibility(MyApplication.showHelpTip ? View.VISIBLE : View.GONE);
+
         // 先拿到数据并放在适配器上
         initTLogs(); //初始化数据
         showList(logVos);
@@ -103,10 +115,8 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
 
                 //添加AlertDialog.Builder对象的setNegativeButton()方法
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                     }
                 });
 
