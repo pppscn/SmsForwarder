@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -157,13 +158,16 @@ public class RuleActivity extends AppCompatActivity {
             editTextRuleValue.setText(ruleModel.getValue());
 
         //当更新选择的字段的时候，更新之下各个选项的状态
-        refreshSelectRadioGroupRuleFiled(radioGroupRuleFiled, radioGroupRuleCheck, editTextRuleValue, tv_mu_rule_tips);
+        final LinearLayout matchTypeLayout = (LinearLayout) view1.findViewById(R.id.matchTypeLayout);
+        final LinearLayout matchValueLayout = (LinearLayout) view1.findViewById(R.id.matchValueLayout);
+        refreshSelectRadioGroupRuleFiled(radioGroupRuleFiled, radioGroupRuleCheck, editTextRuleValue, tv_mu_rule_tips, matchTypeLayout, matchValueLayout);
 
         Button buttonruleok = view1.findViewById(R.id.buttonruleok);
         Button buttonruledel = view1.findViewById(R.id.buttonruledel);
         Button buttonruletest = view1.findViewById(R.id.buttonruletest);
         alertDialog71
                 .setTitle(R.string.setrule)
+                //.setIcon(R.drawable.ic_sms_forwarder)
                 .setView(view1)
                 .create();
         final AlertDialog show = alertDialog71.show();
@@ -236,7 +240,6 @@ public class RuleActivity extends AppCompatActivity {
 
                     }
 
-
                 }
 
             }
@@ -247,19 +250,21 @@ public class RuleActivity extends AppCompatActivity {
     //当更新选择的字段的时候，更新之下各个选项的状态
     // 如果设置了转发全部，禁用选择模式和匹配值输入
     // 如果设置了多重规则，选择模式置为是
-    private void refreshSelectRadioGroupRuleFiled(RadioGroup radioGroupRuleFiled, final RadioGroup radioGroupRuleCheck, final EditText editTextRuleValue, final TextView tv_mu_rule_tips) {
-        refreshSelectRadioGroupRuleFiledAction(radioGroupRuleFiled.getCheckedRadioButtonId(), radioGroupRuleCheck, editTextRuleValue, tv_mu_rule_tips);
+    private void refreshSelectRadioGroupRuleFiled(RadioGroup radioGroupRuleFiled, final RadioGroup radioGroupRuleCheck, final EditText editTextRuleValue, final TextView tv_mu_rule_tips, final LinearLayout matchTypeLayout, final LinearLayout matchValueLayout) {
+        refreshSelectRadioGroupRuleFiledAction(radioGroupRuleFiled.getCheckedRadioButtonId(), radioGroupRuleCheck, editTextRuleValue, tv_mu_rule_tips, matchTypeLayout, matchValueLayout);
 
         radioGroupRuleFiled.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                refreshSelectRadioGroupRuleFiledAction(checkedId, radioGroupRuleCheck, editTextRuleValue, tv_mu_rule_tips);
+                refreshSelectRadioGroupRuleFiledAction(checkedId, radioGroupRuleCheck, editTextRuleValue, tv_mu_rule_tips, matchTypeLayout, matchValueLayout);
             }
         });
     }
 
-    private void refreshSelectRadioGroupRuleFiledAction(int checkedRuleFiledId, final RadioGroup radioGroupRuleCheck, final EditText editTextRuleValue, final TextView tv_mu_rule_tips) {
+    private void refreshSelectRadioGroupRuleFiledAction(int checkedRuleFiledId, final RadioGroup radioGroupRuleCheck, final EditText editTextRuleValue, final TextView tv_mu_rule_tips, final LinearLayout matchTypeLayout, final LinearLayout matchValueLayout) {
         tv_mu_rule_tips.setVisibility(View.GONE);
+        matchTypeLayout.setVisibility(View.VISIBLE);
+        matchValueLayout.setVisibility(View.VISIBLE);
 
         switch (checkedRuleFiledId) {
             case R.id.btnTranspondAll:
@@ -267,12 +272,15 @@ public class RuleActivity extends AppCompatActivity {
                     ((RadioButton) radioGroupRuleCheck.getChildAt(i)).setEnabled(false);
                 }
                 editTextRuleValue.setEnabled(false);
+                matchTypeLayout.setVisibility(View.GONE);
+                matchValueLayout.setVisibility(View.GONE);
                 break;
             case R.id.btnMultiMatch:
                 for (int i = 0; i < radioGroupRuleCheck.getChildCount(); i++) {
                     ((RadioButton) radioGroupRuleCheck.getChildAt(i)).setEnabled(false);
                 }
                 editTextRuleValue.setEnabled(true);
+                matchTypeLayout.setVisibility(View.GONE);
                 tv_mu_rule_tips.setVisibility(View.VISIBLE);
                 break;
             default:
