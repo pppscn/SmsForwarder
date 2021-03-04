@@ -115,7 +115,39 @@ public class SenderActivity extends AppCompatActivity {
             }
         });
 
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                //定义AlertDialog.Builder对象，当长按列表项的时候弹出确认删除对话框
+                AlertDialog.Builder builder = new AlertDialog.Builder(SenderActivity.this);
 
+                builder.setMessage("确定删除?");
+                builder.setTitle("提示");
+
+                //添加AlertDialog.Builder对象的setPositiveButton()方法
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SenderUtil.delSender(senderModels.get(position).getId());
+                        initSenders();
+                        adapter.del(senderModels);
+                        Toast.makeText(getBaseContext(), "删除列表项", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                //添加AlertDialog.Builder对象的setNegativeButton()方法
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                builder.create().show();
+                return true;
+            }
+        });
     }
 
     // 初始化数据
