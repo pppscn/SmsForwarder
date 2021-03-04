@@ -44,7 +44,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="内容" />
+
+                <RadioButton
+                    android:id="@+id/btnMultiMatch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="多重匹配" />
             </RadioGroup>
+
+            <TextView
+                android:id="@+id/tv_mu_rule_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:text="
+多重匹配规则如下：\n
+\n
+并且 是 手机号 相等 10086\n
+ 或者 是 手机号 相等 10011\n
+并且 是 短信内容 包含 欠费\n
+\n
+已上规则表示:收到短信,并且（手机号是10086 或者 手机号是10010） 并且短信内容包含欠费 时转发短信\n
+注意每行开始的空格代表层级，太过复杂的多重规则可能导致内存占用很大
+" />
         </LinearLayout>
 
         <LinearLayout
@@ -53,8 +75,7 @@
             android:layout_height="fill_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -107,8 +128,7 @@
             android:layout_height="fill_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -181,6 +201,14 @@
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:text="@string/del" />
+
+            <Button
+                android:id="@+id/buttonruletest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:text="@string/test" />
 
         </LinearLayout>
 

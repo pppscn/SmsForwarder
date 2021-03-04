@@ -5,30 +5,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:gravity="center"
+        android:text="@string/sender_tips"
+        android:textColor="@android:color/holo_blue_dark" />
+
     <ListView
         android:id="@+id/list_view_sender"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
+        android:layout_margin="4dp"
         android:layout_weight="1" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+    <Button
+        android:id="@+id/button22"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10px"
         android:layout_weight="9"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/button22"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:background="@android:color/holo_blue_dark"
-            android:onClick="addSender"
-            android:text="添加"
-            tools:ignore="NestedWeights" />
-    </LinearLayout>
-
-
+        android:background="@android:color/holo_blue_dark"
+        android:onClick="addSender"
+        android:text="添加发送方"
+        tools:ignore="NestedWeights" />
 </LinearLayout>

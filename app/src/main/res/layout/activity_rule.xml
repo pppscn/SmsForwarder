@@ -5,6 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:gravity="center"
+        android:text="@string/rule_tips"
+        android:textColor="@android:color/holo_blue_dark" />
+
     <ListView
         android:id="@+id/list_view_rule"
         android:layout_width="match_parent"
@@ -19,6 +27,7 @@
         android:layout_margin="10px"
         android:layout_weight="9"
         android:background="@android:color/holo_blue_dark"
+        android:onClick="addRule"
         android:text="添加转发规则"
         tools:ignore="NestedWeights" />
 

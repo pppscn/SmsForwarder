@@ -6,8 +6,9 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class SettingUtil {
-    static Boolean hasInit = false;
     private static String TAG = "SettingUtil";
+
+    static Boolean hasInit = false;
     private static SharedPreferences sp_setting = null;
     private static Context context = null;
 
@@ -60,7 +61,7 @@ public class SettingUtil {
     public static String get_send_util_email(String key) {
         Log.d(TAG, "get_send_util_email  key" + key);
         String defaultstt = "";
-        if (key.equals(Define.SP_MSG_SEND_UTIL_EMAIL_HOST_KEY)) defaultstt = "stmp服务器";
+        if (key.equals(Define.SP_MSG_SEND_UTIL_EMAIL_HOST_KEY)) defaultstt = "smtp服务器";
         if (key.equals(Define.SP_MSG_SEND_UTIL_EMAIL_PORT_KEY)) defaultstt = "端口";
         if (key.equals(Define.SP_MSG_SEND_UTIL_EMAIL_FROMADD_KEY)) defaultstt = "发送邮箱";
         if (key.equals(Define.SP_MSG_SEND_UTIL_EMAIL_PSW_KEY)) defaultstt = "密码";
