@@ -13,6 +13,6 @@
     <string name="setbarktitle">设置Bark</string>
     <string name="check_new_version">检查更新</string>
     <string name="to_setting">设置</string>
-    <string name="rule_tips">Tip:“添加转发规则”新建，长按删除，点击进行更新</string>
-    <string name="sender_tips">Tip:“添加发送方”新建，长按删除，点击进行更新</string>
+    <string name="rule_tips">提示：新建规则点击“添加”，长按删除/点击编辑已有</string>
+    <string name="sender_tips">提示：新建发送方点击“添加”，长按删除/点击编辑已有</string>
 </resources>
