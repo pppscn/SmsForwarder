@@ -1,8 +1,10 @@
 package com.idormy.sms.forwarder;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.idormy.sms.forwarder.BroadCastReceiver.RebootBroadcastReceiver;
 import com.idormy.sms.forwarder.utils.CacheUtil;
+import com.idormy.sms.forwarder.utils.Define;
 import com.idormy.sms.forwarder.utils.aUtil;
 import com.xuexiang.xupdate.easy.EasyUpdate;
 import com.xuexiang.xupdate.proxy.impl.DefaultUpdateChecker;
@@ -30,16 +33,23 @@ import java.util.Map;
 
 public class SettingActivity extends AppCompatActivity {
     private String TAG = "SettingActivity";
+    private Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "oncreate");
         super.onCreate(savedInstanceState);
+
+        context = SettingActivity.this;
+
         setContentView(R.layout.activity_setting);
         Log.d(TAG, "onCreate: " + RebootBroadcastReceiver.class.getName());
 
         Switch check_with_reboot = (Switch) findViewById(R.id.switch_with_reboot);
         checkWithReboot(check_with_reboot);
+
+        Switch switch_help_tip = (Switch) findViewById(R.id.switch_help_tip);
+        SwitchHelpTip(switch_help_tip);
 
         final TextView version_now = (TextView) findViewById(R.id.version_now);
         Button check_version_now = (Button) findViewById(R.id.check_version_now);
@@ -124,7 +134,6 @@ public class SettingActivity extends AppCompatActivity {
         int state = pm.getComponentEnabledSetting(cm);
         if (state != PackageManager.COMPONENT_ENABLED_STATE_DISABLED
                 && state != PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER) {
-
             withrebootSwitch.setChecked(true);
         } else {
             withrebootSwitch.setChecked(false);
@@ -135,6 +144,21 @@ public class SettingActivity extends AppCompatActivity {
                 int newState = (Boolean) isChecked ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
                         : PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
                 pm.setComponentEnabledSetting(cm, newState, PackageManager.DONT_KILL_APP);
+                Log.d(TAG, "onCheckedChanged:" + isChecked);
+            }
+        });
+    }
+
+    //页面帮助提示
+    private void SwitchHelpTip(Switch switchHelpTip) {
+        switchHelpTip.setChecked(MyApplication.showHelpTip);
+
+        switchHelpTip.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                MyApplication.showHelpTip = isChecked;
+                SharedPreferences sp = context.getSharedPreferences(Define.SP_CONFIG, Context.MODE_PRIVATE);
+                sp.edit().putBoolean(Define.SP_CONFIG_SWITCH_HELP_TIP, isChecked).apply();
                 Log.d(TAG, "onCheckedChanged:" + isChecked);
             }
         });

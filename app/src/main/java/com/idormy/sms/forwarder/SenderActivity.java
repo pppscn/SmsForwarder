@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -69,6 +70,16 @@ public class SenderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sender);
         SenderUtil.init(SenderActivity.this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart");
+
+        //是否关闭页面提示
+        TextView help_tip = findViewById(R.id.help_tip);
+        help_tip.setVisibility(MyApplication.showHelpTip ? View.VISIBLE : View.GONE);
 
         // 先拿到数据并放在适配器上
         initSenders(); //初始化数据
