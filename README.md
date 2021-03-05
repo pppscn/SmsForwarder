@@ -1,6 +1,6 @@
 # SmsForwarder (短信转发器) 
 
-Android手机监听短信并根据指定规则转发到其他手机、钉钉机器人、企业微信群机器人、邮箱、bark、webhook等
+Android手机监听短信并根据指定规则转发到其他手机：钉钉机器人、企业微信群机器人、企业微信应用消息、邮箱、bark、webhook等
 
 > ⚠ 此项目在 [xiaoyuanhost/TranspondSms](https://github.com/xiaoyuanhost/TranspondSms) 的基础上优化改造而来，感谢原作者!
 
@@ -41,7 +41,8 @@ Android手机监听短信并根据指定规则转发到其他手机、钉钉机�
 - [x] 转发到邮箱（支持：SMTP）
 - [x] 转发到Bark（支持：验证码/动态密码自动复制）
 - [x] 转发到webhook（支持：单个web页面（[向设置的url发送POST请求](doc/POST_WEB.md)））
-- [x] 转发到企业微信群机器人（待验证）
+- [x] 转发到企业微信群机器人
+- [x] 转发到企业微信应用消息
 - [x] 在线检测新版本、升级
 - [x] 清理缓存
 - [x] 兼容6.xx、7.xx、8.xx、9.xx、10.xx
@@ -50,7 +51,7 @@ Android手机监听短信并根据指定规则转发到其他手机、钉钉机�
 
 ### 使用流程：
 1. 在Android手机上安装SmsForwarder 本APP后点击应用图标打开
-2. 在设置发送方页面，添加或点击已添加的发送方来设置转发短信使用的方式，现在支持钉钉机器人、企业微信群机器人、邮箱、网页、Bark：
+2. 在设置发送方页面，添加或点击已添加的发送方来设置转发短信使用的方式，现在支持钉钉机器人、企业微信群机器人、企业微信应用消息、邮箱、网页、Bark：
    + 设置钉钉机器人请先在钉钉群中添加自定义机器人，复制机器人的token和secret,填入弹出框。点击测试会使用该机器人向群内发送一条消息；点击确认即可添加配置。
    + 配置邮箱请先在你邮箱的后台管理页面配置smtp选项，并设置密码（授权码），并参照说明配置SmsForwarder弹出框的smtp信息。点击测试会使用该邮箱向配置的邮箱发送一条测试邮件；点击确认即可添加配置。
    + 配置网页通知请先在 msg.allmything.com 注册登陆并添加一个消息通道，复制消息通道token填入配置弹框。点击测试会向该消息通道推送一条测试消息，可在 msg.allmything.com 的消息页面查看（页面会自动刷新）；点击确认即可添加配置。
@@ -75,7 +76,7 @@ Android手机监听短信并根据指定规则转发到其他手机、钉钉机�
 | ![添加编辑发送方网页通知](pic/sendersetwebnotify.png "添加编辑发送方网页通知") | ![添加编辑发送方企业微信群机器人](pic/sendersetqywechat.png "添加编辑发送方企业微信群机器人") |
 | ![状态栏运行状态](pic/taskbar.png "状态栏运行状态") | ![应用设置](pic/setting.png "应用设置") |
 | ![在线升级](pic/update.png "在线升级") | ![增加卡槽标识](pic/siminfo.png "增加卡槽标识")  |
-| ![多重匹配规则](pic/multimatch.png "多重匹配规则") | |
+| ![多重匹配规则](pic/multimatch.png "多重匹配规则")| ![转发到企业微信应用消息](pic/sendersetqywxapp.png "转发到企业微信应用消息") |
 
 --------
 
@@ -93,6 +94,7 @@ Android手机监听短信并根据指定规则转发到其他手机、钉钉机�
 + [v1.3.0](app/release/SmsForwarder_release_20210303_1.3.0.apk) 支持双卡手机，增加卡槽标识/运营商/手机号(如果能获取的话)
 + [v1.4.0](app/release/SmsForwarder_release_20210304_1.4.0.apk) 支持多重匹配规则
     + [v1.4.1](app/release/SmsForwarder_release_20210304_1.4.1.apk) 设置中允许关闭页面帮助/表单填写提示
++ [v1.5.0](app/release/SmsForwarder_release_20210305_1.5.0.apk) 新增转发到企业微信应用消息
 
 
 ## LICENSE    

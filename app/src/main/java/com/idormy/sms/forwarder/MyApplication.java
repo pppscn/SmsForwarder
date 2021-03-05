@@ -26,6 +26,9 @@ public class MyApplication extends Application {
     public static Map<String, Map> SimInfo = new HashMap();
     //是否关闭页面提示
     public static boolean showHelpTip = true;
+    //企业微信
+    public static String QyWxAccessToken;
+    public static long QyWxAccessTokenExpiresIn = 0;
 
     /**
      * <meta-data

@@ -11,6 +11,7 @@ import com.idormy.sms.forwarder.model.SenderModel;
 import com.idormy.sms.forwarder.model.vo.BarkSettingVo;
 import com.idormy.sms.forwarder.model.vo.DingDingSettingVo;
 import com.idormy.sms.forwarder.model.vo.EmailSettingVo;
+import com.idormy.sms.forwarder.model.vo.QYWXAppSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXGroupRobotSettingVo;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.model.vo.WebNotifySettingVo;
@@ -20,6 +21,7 @@ import java.util.List;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_BARK;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_DINGDING;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_WEB_NOTIFY;
 
@@ -115,8 +117,8 @@ public class SendUtil {
 
                     }
                 }
-
                 break;
+
             case TYPE_EMAIL:
                 //try phrase json setting
                 if (senderModel.getJsonSetting() != null) {
@@ -131,37 +133,6 @@ public class SendUtil {
 
                     }
                 }
-
-                break;
-            case TYPE_WEB_NOTIFY:
-                //try phrase json setting
-                if (senderModel.getJsonSetting() != null) {
-                    WebNotifySettingVo webNotifySettingVo = JSON.parseObject(senderModel.getJsonSetting(), WebNotifySettingVo.class);
-                    if (webNotifySettingVo != null) {
-                        try {
-                            SenderWebNotifyMsg.sendMsg(handError, webNotifySettingVo.getToken(), webNotifySettingVo.getSecret(), smsVo.getMobile(), smsVo.getSmsVoForSend());
-                        } catch (Exception e) {
-                            Log.e(TAG, "senderSendMsg: SenderWebNotifyMsg error " + e.getMessage());
-                        }
-
-                    }
-                }
-
-                break;
-            case TYPE_QYWX_GROUP_ROBOT:
-                //try phrase json setting
-                if (senderModel.getJsonSetting() != null) {
-                    QYWXGroupRobotSettingVo qywxGroupRobotSettingVo = JSON.parseObject(senderModel.getJsonSetting(), QYWXGroupRobotSettingVo.class);
-                    if (qywxGroupRobotSettingVo != null) {
-                        try {
-                            SenderQyWxGroupRobotMsg.sendMsg(handError, qywxGroupRobotSettingVo.getWebHook(), smsVo.getMobile(), smsVo.getSmsVoForSend());
-                        } catch (Exception e) {
-                            Log.e(TAG, "senderSendMsg: SenderQyWxGroupRobotMsg error " + e.getMessage());
-                        }
-
-                    }
-                }
-
                 break;
 
             case TYPE_BARK:
@@ -177,8 +148,53 @@ public class SendUtil {
 
                     }
                 }
-
                 break;
+
+            case TYPE_WEB_NOTIFY:
+                //try phrase json setting
+                if (senderModel.getJsonSetting() != null) {
+                    WebNotifySettingVo webNotifySettingVo = JSON.parseObject(senderModel.getJsonSetting(), WebNotifySettingVo.class);
+                    if (webNotifySettingVo != null) {
+                        try {
+                            SenderWebNotifyMsg.sendMsg(handError, webNotifySettingVo.getToken(), webNotifySettingVo.getSecret(), smsVo.getMobile(), smsVo.getSmsVoForSend());
+                        } catch (Exception e) {
+                            Log.e(TAG, "senderSendMsg: SenderWebNotifyMsg error " + e.getMessage());
+                        }
+
+                    }
+                }
+                break;
+
+            case TYPE_QYWX_GROUP_ROBOT:
+                //try phrase json setting
+                if (senderModel.getJsonSetting() != null) {
+                    QYWXGroupRobotSettingVo qywxGroupRobotSettingVo = JSON.parseObject(senderModel.getJsonSetting(), QYWXGroupRobotSettingVo.class);
+                    if (qywxGroupRobotSettingVo != null) {
+                        try {
+                            SenderQyWxGroupRobotMsg.sendMsg(handError, qywxGroupRobotSettingVo.getWebHook(), smsVo.getMobile(), smsVo.getSmsVoForSend());
+                        } catch (Exception e) {
+                            Log.e(TAG, "senderSendMsg: SenderQyWxGroupRobotMsg error " + e.getMessage());
+                        }
+
+                    }
+                }
+                break;
+
+            case TYPE_QYWX_APP:
+                //try phrase json setting
+                if (senderModel.getJsonSetting() != null) {
+                    QYWXAppSettingVo qYWXAppSettingVo = JSON.parseObject(senderModel.getJsonSetting(), QYWXAppSettingVo.class);
+                    if (qYWXAppSettingVo != null) {
+                        try {
+                            SenderQyWxAppMsg.sendMsg(handError, qYWXAppSettingVo.getCorpID(), qYWXAppSettingVo.getAgentID(), qYWXAppSettingVo.getSecret(), qYWXAppSettingVo.getToUser(), smsVo.getSmsVoForSend(), false);
+                        } catch (Exception e) {
+                            Log.e(TAG, "senderSendMsg: qywx_app error " + e.getMessage());
+                        }
+
+                    }
+                }
+                break;
+
             default:
                 break;
         }

@@ -11,7 +11,8 @@ public class SenderModel {
     public static final int TYPE_BARK = 2;
     public static final int TYPE_WEB_NOTIFY = 3;
     public static final int TYPE_QYWX_GROUP_ROBOT = 4;
-    public static final int TYPE_MESSAGE = 5;
+    public static final int TYPE_QYWX_APP = 5;
+    public static final int TYPE_MESSAGE = 6;
     private Long id;
     private String name;
     private int status;
@@ -37,17 +38,18 @@ public class SenderModel {
                 return R.mipmap.dingding;
             case (TYPE_EMAIL):
                 return R.mipmap.email;
-            case (TYPE_MESSAGE):
-                return R.mipmap.sms;
+            case (TYPE_BARK):
+                return R.mipmap.bark;
             case (TYPE_WEB_NOTIFY):
                 return R.mipmap.webhook;
             case (TYPE_QYWX_GROUP_ROBOT):
                 return R.mipmap.qywx;
-            case (TYPE_BARK):
-                return R.mipmap.bark;
+            case (TYPE_QYWX_APP):
+                return R.mipmap.qywxapp;
+            case (TYPE_MESSAGE):
+                return R.mipmap.sms;
             default:
                 return R.mipmap.ic_launcher;
-
         }
     }
 
@@ -97,14 +99,16 @@ public class SenderModel {
                 return R.mipmap.dingding;
             case (TYPE_EMAIL):
                 return R.mipmap.email;
-            case (TYPE_MESSAGE):
-                return R.mipmap.sms;
+            case (TYPE_BARK):
+                return R.mipmap.bark;
             case (TYPE_WEB_NOTIFY):
                 return R.mipmap.webhook;
             case (TYPE_QYWX_GROUP_ROBOT):
                 return R.mipmap.qywx;
-            case (TYPE_BARK):
-                return R.mipmap.bark;
+            case (TYPE_QYWX_APP):
+                return R.mipmap.qywxapp;
+            case (TYPE_MESSAGE):
+                return R.mipmap.sms;
             default:
                 return R.mipmap.ic_launcher;
 

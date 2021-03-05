@@ -8,7 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -23,11 +25,13 @@ import com.idormy.sms.forwarder.model.SenderModel;
 import com.idormy.sms.forwarder.model.vo.BarkSettingVo;
 import com.idormy.sms.forwarder.model.vo.DingDingSettingVo;
 import com.idormy.sms.forwarder.model.vo.EmailSettingVo;
+import com.idormy.sms.forwarder.model.vo.QYWXAppSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXGroupRobotSettingVo;
 import com.idormy.sms.forwarder.model.vo.WebNotifySettingVo;
 import com.idormy.sms.forwarder.utils.SenderBarkMsg;
 import com.idormy.sms.forwarder.utils.SenderDingdingMsg;
 import com.idormy.sms.forwarder.utils.SenderMailMsg;
+import com.idormy.sms.forwarder.utils.SenderQyWxAppMsg;
 import com.idormy.sms.forwarder.utils.SenderQyWxGroupRobotMsg;
 import com.idormy.sms.forwarder.utils.SenderUtil;
 import com.idormy.sms.forwarder.utils.SenderWebNotifyMsg;
@@ -42,6 +46,7 @@ import static com.idormy.sms.forwarder.model.SenderModel.STATUS_ON;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_BARK;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_DINGDING;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_WEB_NOTIFY;
 
@@ -104,14 +109,17 @@ public class SenderActivity extends AppCompatActivity {
                     case TYPE_EMAIL:
                         setEmail(senderModel);
                         break;
+                    case TYPE_BARK:
+                        setBark(senderModel);
+                        break;
                     case TYPE_WEB_NOTIFY:
                         setWebNotify(senderModel);
                         break;
                     case TYPE_QYWX_GROUP_ROBOT:
                         setQYWXGroupRobot(senderModel);
                         break;
-                    case TYPE_BARK:
-                        setBark(senderModel);
+                    case TYPE_QYWX_APP:
+                        setQYWXApp(senderModel);
                         break;
                     default:
                         Toast.makeText(SenderActivity.this, "异常的发送方类型，自动删除！", Toast.LENGTH_LONG).show();
@@ -179,14 +187,17 @@ public class SenderActivity extends AppCompatActivity {
                     case TYPE_EMAIL:
                         setEmail(null);
                         break;
+                    case TYPE_BARK:
+                        setBark(null);
+                        break;
                     case TYPE_WEB_NOTIFY:
                         setWebNotify(null);
                         break;
                     case TYPE_QYWX_GROUP_ROBOT:
                         setQYWXGroupRobot(null);
                         break;
-                    case TYPE_BARK:
-                        setBark(null);
+                    case TYPE_QYWX_APP:
+                        setQYWXApp(null);
                         break;
                     default:
                         Toast.makeText(SenderActivity.this, "暂不支持这种转发！", Toast.LENGTH_LONG).show();
@@ -427,6 +438,96 @@ public class SenderActivity extends AppCompatActivity {
         });
     }
 
+    private void setBark(final SenderModel senderModel) {
+        BarkSettingVo barkSettingVo = null;
+        //try phrase json setting
+        if (senderModel != null) {
+            String jsonSettingStr = senderModel.getJsonSetting();
+            if (jsonSettingStr != null) {
+                barkSettingVo = JSON.parseObject(jsonSettingStr, BarkSettingVo.class);
+            }
+        }
+
+        final AlertDialog.Builder alertDialog71 = new AlertDialog.Builder(SenderActivity.this);
+        View view1 = View.inflate(SenderActivity.this, R.layout.activity_alter_dialog_setview_bark, null);
+
+        final EditText editTextBarkName = view1.findViewById(R.id.editTextBarkName);
+        if (senderModel != null) editTextBarkName.setText(senderModel.getName());
+        final EditText editTextBarkServer = view1.findViewById(R.id.editTextBarkServer);
+        if (barkSettingVo != null) editTextBarkServer.setText(barkSettingVo.getServer());
+
+        Button buttonBarkOk = view1.findViewById(R.id.buttonBarkOk);
+        Button buttonBarkDel = view1.findViewById(R.id.buttonBarkDel);
+        Button buttonBarkTest = view1.findViewById(R.id.buttonBarkTest);
+        alertDialog71
+                .setTitle(R.string.setbarktitle)
+                .setIcon(R.mipmap.bark)
+                .setView(view1)
+                .create();
+        final AlertDialog show = alertDialog71.show();
+
+        buttonBarkOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (senderModel == null) {
+                    SenderModel newSenderModel = new SenderModel();
+                    newSenderModel.setName(editTextBarkName.getText().toString());
+                    newSenderModel.setType(TYPE_BARK);
+                    newSenderModel.setStatus(STATUS_ON);
+                    BarkSettingVo barkSettingVoNew = new BarkSettingVo(
+                            editTextBarkServer.getText().toString()
+                    );
+                    newSenderModel.setJsonSetting(JSON.toJSONString(barkSettingVoNew));
+                    SenderUtil.addSender(newSenderModel);
+                    initSenders();
+                    adapter.add(senderModels);
+                } else {
+                    senderModel.setName(editTextBarkName.getText().toString());
+                    senderModel.setType(TYPE_BARK);
+                    senderModel.setStatus(STATUS_ON);
+                    BarkSettingVo barkSettingVoNew = new BarkSettingVo(
+                            editTextBarkServer.getText().toString()
+                    );
+                    senderModel.setJsonSetting(JSON.toJSONString(barkSettingVoNew));
+                    SenderUtil.updateSender(senderModel);
+                    initSenders();
+                    adapter.update(senderModels);
+                }
+
+                show.dismiss();
+
+            }
+        });
+        buttonBarkDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (senderModel != null) {
+                    SenderUtil.delSender(senderModel.getId());
+                    initSenders();
+                    adapter.del(senderModels);
+                }
+                show.dismiss();
+            }
+        });
+        buttonBarkTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String barkServer = editTextBarkServer.getText().toString();
+                if (!barkServer.isEmpty()) {
+                    try {
+                        SenderBarkMsg.sendMsg(handler, barkServer, "19999999999", "【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服", "18888888888");
+                    } catch (Exception e) {
+                        Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(SenderActivity.this, "bark-server 不能为空", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
     private void setWebNotify(final SenderModel senderModel) {
         WebNotifySettingVo webNotifySettingVo = null;
         //try phrase json setting
@@ -615,68 +716,105 @@ public class SenderActivity extends AppCompatActivity {
         });
     }
 
-    private void setBark(final SenderModel senderModel) {
-        BarkSettingVo barkSettingVo = null;
+    //企业微信应用
+    private void setQYWXApp(final SenderModel senderModel) {
+        QYWXAppSettingVo QYWXAppSettingVo = null;
         //try phrase json setting
         if (senderModel != null) {
             String jsonSettingStr = senderModel.getJsonSetting();
             if (jsonSettingStr != null) {
-                barkSettingVo = JSON.parseObject(jsonSettingStr, BarkSettingVo.class);
+                QYWXAppSettingVo = JSON.parseObject(jsonSettingStr, QYWXAppSettingVo.class);
             }
         }
-
         final AlertDialog.Builder alertDialog71 = new AlertDialog.Builder(SenderActivity.this);
-        View view1 = View.inflate(SenderActivity.this, R.layout.activity_alter_dialog_setview_bark, null);
+        View view1 = View.inflate(SenderActivity.this, R.layout.activity_alter_dialog_setview_qywxapp, null);
 
-        final EditText editTextBarkName = view1.findViewById(R.id.editTextBarkName);
-        if (senderModel != null) editTextBarkName.setText(senderModel.getName());
-        final EditText editTextBarkServer = view1.findViewById(R.id.editTextBarkServer);
-        if (barkSettingVo != null) editTextBarkServer.setText(barkSettingVo.getServer());
+        final EditText editTextQYWXAppName = view1.findViewById(R.id.editTextQYWXAppName);
+        if (senderModel != null)
+            editTextQYWXAppName.setText(senderModel.getName());
+        final EditText editTextQYWXAppCorpID = view1.findViewById(R.id.editTextQYWXAppCorpID);
+        final EditText editTextQYWXAppAgentID = view1.findViewById(R.id.editTextQYWXAppAgentID);
+        final EditText editTextQYWXAppSecret = view1.findViewById(R.id.editTextQYWXAppSecret);
+        final LinearLayout linearLayoutQYWXAppToUser = view1.findViewById(R.id.linearLayoutQYWXAppToUser);
+        final EditText editTextQYWXAppToUser = view1.findViewById(R.id.editTextQYWXAppToUser);
+        final Switch switchQYWXAppAtAll = view1.findViewById(R.id.switchQYWXAppAtAll);
+        if (QYWXAppSettingVo != null) {
+            editTextQYWXAppCorpID.setText(QYWXAppSettingVo.getCorpID());
+            editTextQYWXAppAgentID.setText(QYWXAppSettingVo.getAgentID());
+            editTextQYWXAppSecret.setText(QYWXAppSettingVo.getSecret());
+            editTextQYWXAppToUser.setText(QYWXAppSettingVo.getToUser());
+            switchQYWXAppAtAll.setChecked(QYWXAppSettingVo.getAtAll());
+            linearLayoutQYWXAppToUser.setVisibility((Boolean) QYWXAppSettingVo.getAtAll() ? View.GONE : View.VISIBLE);
+        }
+        switchQYWXAppAtAll.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    linearLayoutQYWXAppToUser.setVisibility(View.GONE);
+                    editTextQYWXAppToUser.setText("@all");
+                } else {
+                    linearLayoutQYWXAppToUser.setVisibility(View.VISIBLE);
+                    editTextQYWXAppToUser.setText("");
+                }
+                Log.d(TAG, "onCheckedChanged:" + isChecked);
+            }
+        });
 
-        Button buttonBarkOk = view1.findViewById(R.id.buttonBarkOk);
-        Button buttonBarkDel = view1.findViewById(R.id.buttonBarkDel);
-        Button buttonBarkTest = view1.findViewById(R.id.buttonBarkTest);
+        Button buttonQYWXAppok = view1.findViewById(R.id.buttonQYWXAppOk);
+        Button buttonQYWXAppdel = view1.findViewById(R.id.buttonQYWXAppDel);
+        Button buttonQYWXApptest = view1.findViewById(R.id.buttonQYWXAppTest);
         alertDialog71
-                .setTitle(R.string.setbarktitle)
-                .setIcon(R.mipmap.bark)
+                .setTitle(R.string.setqywxapptitle)
+                .setIcon(R.mipmap.qywxapp)
                 .setView(view1)
                 .create();
         final AlertDialog show = alertDialog71.show();
-
-        buttonBarkOk.setOnClickListener(new View.OnClickListener() {
+        buttonQYWXAppok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String toUser = editTextQYWXAppToUser.getText().toString();
+                if (toUser == null || toUser.isEmpty()) {
+                    Toast.makeText(SenderActivity.this, "指定成员 不能为空 或者 选择@all", Toast.LENGTH_LONG).show();
+                    editTextQYWXAppToUser.setFocusable(true);
+                    editTextQYWXAppToUser.requestFocus();
+                    return;
+                }
 
                 if (senderModel == null) {
                     SenderModel newSenderModel = new SenderModel();
-                    newSenderModel.setName(editTextBarkName.getText().toString());
-                    newSenderModel.setType(TYPE_BARK);
+                    newSenderModel.setName(editTextQYWXAppName.getText().toString());
+                    newSenderModel.setType(TYPE_QYWX_APP);
                     newSenderModel.setStatus(STATUS_ON);
-                    BarkSettingVo barkSettingVoNew = new BarkSettingVo(
-                            editTextBarkServer.getText().toString()
-                    );
-                    newSenderModel.setJsonSetting(JSON.toJSONString(barkSettingVoNew));
+                    QYWXAppSettingVo QYWXAppSettingVonew = new QYWXAppSettingVo(
+                            editTextQYWXAppCorpID.getText().toString(),
+                            editTextQYWXAppAgentID.getText().toString(),
+                            editTextQYWXAppSecret.getText().toString(),
+                            editTextQYWXAppToUser.getText().toString(),
+                            switchQYWXAppAtAll.isChecked());
+                    newSenderModel.setJsonSetting(JSON.toJSONString(QYWXAppSettingVonew));
                     SenderUtil.addSender(newSenderModel);
                     initSenders();
                     adapter.add(senderModels);
                 } else {
-                    senderModel.setName(editTextBarkName.getText().toString());
-                    senderModel.setType(TYPE_BARK);
+                    senderModel.setName(editTextQYWXAppName.getText().toString());
+                    senderModel.setType(TYPE_QYWX_APP);
                     senderModel.setStatus(STATUS_ON);
-                    BarkSettingVo barkSettingVoNew = new BarkSettingVo(
-                            editTextBarkServer.getText().toString()
-                    );
-                    senderModel.setJsonSetting(JSON.toJSONString(barkSettingVoNew));
+                    QYWXAppSettingVo QYWXAppSettingVonew = new QYWXAppSettingVo(
+                            editTextQYWXAppCorpID.getText().toString(),
+                            editTextQYWXAppAgentID.getText().toString(),
+                            editTextQYWXAppSecret.getText().toString(),
+                            editTextQYWXAppToUser.getText().toString(),
+                            switchQYWXAppAtAll.isChecked());
+                    senderModel.setJsonSetting(JSON.toJSONString(QYWXAppSettingVonew));
                     SenderUtil.updateSender(senderModel);
                     initSenders();
                     adapter.update(senderModels);
                 }
 
                 show.dismiss();
-
             }
         });
-        buttonBarkDel.setOnClickListener(new View.OnClickListener() {
+        buttonQYWXAppdel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (senderModel != null) {
@@ -687,19 +825,23 @@ public class SenderActivity extends AppCompatActivity {
                 show.dismiss();
             }
         });
-        buttonBarkTest.setOnClickListener(new View.OnClickListener() {
+        buttonQYWXApptest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String barkServer = editTextBarkServer.getText().toString();
-                if (!barkServer.isEmpty()) {
+                String cropID = editTextQYWXAppCorpID.getText().toString();
+                String agentID = editTextQYWXAppAgentID.getText().toString();
+                String secret = editTextQYWXAppSecret.getText().toString();
+                String toUser = editTextQYWXAppToUser.getText().toString();
+                //Boolean atAll = switchQYWXAppAtAll.isChecked();
+                if (toUser != null && !toUser.isEmpty()) {
                     try {
-                        SenderBarkMsg.sendMsg(handler, barkServer, "19999999999", "【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服", "18888888888");
+                        SenderQyWxAppMsg.sendMsg(handler, cropID, agentID, secret, toUser, "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())), true);
                     } catch (Exception e) {
                         Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
                         e.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(SenderActivity.this, "bark-server 不能为空", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SenderActivity.this, "指定成员 不能为空 或者 选择@all", Toast.LENGTH_LONG).show();
                 }
             }
         });
