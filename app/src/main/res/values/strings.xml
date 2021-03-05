@@ -10,6 +10,7 @@
     <string name="setemailtitle">设置邮箱</string>
     <string name="setwebnotifytitle">设置Webhook</string>
     <string name="setqywxgrouprobottitle">设置企业微信群机器人</string>
+    <string name="setqywxapptitle">设置企业微信应用</string>
     <string name="setbarktitle">设置Bark</string>
     <string name="check_new_version">检查更新</string>
     <string name="to_setting">设置</string>
