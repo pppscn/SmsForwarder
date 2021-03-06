@@ -4,6 +4,10 @@ Android手机监听短信并根据指定规则转发到其他手机：钉钉机�
 
 > ⚠ 此项目在 [xiaoyuanhost/TranspondSms](https://github.com/xiaoyuanhost/TranspondSms) 的基础上优化改造而来，感谢原作者!
 
+首发地址：https://github.com/pppscn/SmsForwarder
+
+同步镜像：https://gitee.com/pp/SmsForwarder
+
 --------
 
 ## 特别声明:
@@ -24,14 +28,14 @@ Android手机监听短信并根据指定规则转发到其他手机：钉钉机�
 
 由此带来的好处：
 * 简洁:（当时用Pad的时候，看手机验证码各种不方便，网上搜了好久也有解决方案）
-> + AirDroid:手机管理工具功能太多，看着都耗电，权限太多，数据经过三方，账号分级
-> + IFTTT:功能太多，看着耗电，权限太多，数据经过三方，收费
-> + 还有一些其他的APP(例如：Tasker)也是这些毛病
+    > + AirDroid:手机管理工具功能太多，看着都耗电，权限太多，数据经过三方，账号分级
+    > + IFTTT:功能太多，看着耗电，权限太多，数据经过三方，收费
+    > + 还有一些其他的APP(例如：Tasker)也是这些毛病
 * 省电：运行时只监听广播，有短信才执行转发，并记录最近n条的转发内容和转发状态
 * 健壮：越简单越不会出错（UNIX设计哲学），就越少崩溃，运行越稳定持久
 
 ### 工作流程：
-![工作流程](pic/showpic.png "工作流程")  
+![工作流程](pic/working_principle.png "工作流程")  
 
 
 ### 功能列表：
@@ -48,6 +52,8 @@ Android手机监听短信并根据指定规则转发到其他手机：钉钉机�
 - [x] 兼容6.xx、7.xx、8.xx、9.xx、10.xx
 - [x] 支持双卡手机，增加卡槽标识/运营商/手机号(如果能获取的话)
 - [x] 支持多重匹配规则
+- [] 增加正则匹配规则
+- [] 转发规则、发送方配置导出与导入
 
 ### 使用流程：
 1. 在Android手机上安装SmsForwarder 本APP后点击应用图标打开
@@ -69,14 +75,23 @@ Android手机监听短信并根据指定规则转发到其他手机：钉钉机�
 
 | | |
 |  ----  | ----  |
-| ![主界面](pic/main.png "应用主界面") | ![转发详情](pic/maindetail.png "转发详情") |
-| ![转发规则](pic/rule.png "转发规则") | ![添加编辑转发规则](pic/ruleset.png "添加编辑转发规则") |
-| ![发送方](pic/sender.png "发送方") | ![添加编辑发送方钉钉](pic/sendersetdingding.png "添加编辑发送方钉钉") |
-| ![添加编辑发送方邮箱](pic/sendersetemail.png "添加编辑发送方邮箱") | ![添加编辑发送方Bark](pic/sendersetbark.png "添加编辑发送方Bark") |
-| ![添加编辑发送方网页通知](pic/sendersetwebnotify.png "添加编辑发送方网页通知") | ![添加编辑发送方企业微信群机器人](pic/sendersetqywechat.png "添加编辑发送方企业微信群机器人") |
-| ![状态栏运行状态](pic/taskbar.png "状态栏运行状态") | ![应用设置](pic/setting.png "应用设置") |
-| ![在线升级](pic/update.png "在线升级") | ![增加卡槽标识](pic/siminfo.png "增加卡槽标识")  |
-| ![多重匹配规则](pic/multimatch.png "多重匹配规则")| ![转发到企业微信应用消息](pic/sendersetqywxapp.png "转发到企业微信应用消息") |
+| 前台服务常驻状态栏 | 应用主界面 |
+| ![前台服务常驻状态栏](pic/taskbar.jpg "前台服务常驻状态栏") | ![应用主界面](pic/main.jpg "应用主界面") |
+| 转发规则 | 转发详情 |
+| ![转发规则](pic/rule.jpg "转发规则") | ![转发详情](pic/maindetail.jpg "转发详情") |
+| 添加/编辑转发规则 | 多重匹配规则 |
+| ![添加/编辑转发规则](pic/ruleset.jpg "添加/编辑转发规则") | ![多重匹配规则](pic/multimatch.jpg "多重匹配规则")|
+| 支持以下转发方式（发送方） | 添加/编辑发送方钉钉 |
+| ![发送方](pic/sender.jpg "发送方") | ![添加/编辑发送方钉钉](pic/sendersetdingding.jpg "添加/编辑发送方钉钉") |
+| 添加/编辑发送方邮箱 | 添加/编辑发送方Bark |
+| ![添加/编辑发送方邮箱](pic/sendersetemail.jpg "添加/编辑发送方邮箱") | ![添加/编辑发送方Bark](pic/sendersetbark.jpg "添加/编辑发送方Bark") |
+| 添加/编辑发送方网页通知 | 添加/编辑发送方企业微信群机器人 |
+| ![添加/编辑发送方网页通知](pic/sendersetwebnotify.jpg "添加/编辑发送方网页通知") | ![添加/编辑发送方企业微信群机器人](pic/sendersetqywechat.jpg "添加/编辑发送方企业微信群机器人") |
+| 添加/编辑发送方企业微信应用 | 应用设置 |
+| ![添加/编辑发送方企业微信应用](pic/sendersetqywxapp.jpg "添加/编辑发送方企业微信应用") | ![应用设置](pic/setting.jpg "应用设置") |
+| 在线升级 | 转发短信模板增加卡槽标识 |
+| ![在线升级](pic/update.jpg "在线升级") | ![转发短信模板增加卡槽标识](pic/siminfo.jpg "转发短信模板增加卡槽标识") |
+
 
 --------
 
@@ -96,6 +111,13 @@ Android手机监听短信并根据指定规则转发到其他手机：钉钉机�
     + [v1.4.1](app/release/SmsForwarder_release_20210304_1.4.1.apk) 设置中允许关闭页面帮助/表单填写提示
 + [v1.5.0](app/release/SmsForwarder_release_20210305_1.5.0.apk) 新增转发到企业微信应用消息
 
+--------
+
+## 反馈与建议：
+
++ QQ交流群：562854376
+    ![QQ交流群：562854376](pic/qqgroup.jpg "QQ交流群：562854376")
++ 提交issues 或 pr
 
 ## LICENSE    
 BSD
