@@ -56,9 +56,15 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
         checkPermission();
 
         //获取本机号码(注意：这里获取的不一定是卡槽1的)
-        TelephonyManager mTelephonyMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        String Line1Number = mTelephonyMgr.getLine1Number();
-        Log.d(TAG, "Line1Number: " + Line1Number);
+        String Line1Number = "";
+        try {
+            TelephonyManager mTelephonyMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            Line1Number = mTelephonyMgr.getLine1Number();
+            Log.d(TAG, "Line1Number: " + Line1Number);
+        } catch (Exception e) {
+            Log.e(TAG, "getLine1Number fail：" + e.getMessage());
+            Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
 
         //获取SIM卡信息
         getSimInfo(Line1Number);
@@ -277,29 +283,34 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
 
     //获取SIM卡信息
     private void getSimInfo(String Line1Number) {
-        Uri uri = Uri.parse("content://telephony/siminfo"); //访问raw_contacts表
-        MyApplication appContext = ((MyApplication) getApplicationContext());
-        ContentResolver resolver = appContext.getContentResolver();
-        Cursor cursor = resolver.query(uri, new String[]{"_id", "icc_id", "sim_id", "display_name", "carrier_name", "name_source", "color", "number", "display_number_format", "data_roaming", "mcc", "mnc"}, "sim_id >= 0", null, "_id");
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                Log.d(TAG, "_id: " + cursor.getString(cursor.getColumnIndex("_id")));
-                Log.d(TAG, "sim_id: " + cursor.getString(cursor.getColumnIndex("sim_id")));
-                Log.d(TAG, "carrier_name: " + cursor.getString(cursor.getColumnIndex("carrier_name")));
-                Log.d(TAG, "display_name: " + cursor.getString(cursor.getColumnIndex("display_name")));
-                Map<String, String> sim = new HashMap();
-                String id = cursor.getString(cursor.getColumnIndex("_id"));
-                sim.put("_id", id);
-                sim.put("sim_id", cursor.getString(cursor.getColumnIndex("sim_id")));
-                sim.put("carrier_name", cursor.getString(cursor.getColumnIndex("carrier_name")));
-                sim.put("display_name", cursor.getString(cursor.getColumnIndex("display_name")));
-                sim.put("phone_number", Line1Number);
-                if (Line1Number != "Unknown") {
-                    Line1Number = "Unknown";
+        try {
+            Uri uri = Uri.parse("content://telephony/siminfo"); //访问raw_contacts表
+            MyApplication appContext = ((MyApplication) getApplicationContext());
+            ContentResolver resolver = appContext.getContentResolver();
+            Cursor cursor = resolver.query(uri, new String[]{"_id", "icc_id", "sim_id", "display_name", "carrier_name", "name_source", "color", "number", "display_number_format", "data_roaming", "mcc", "mnc"}, "sim_id >= 0", null, "_id");
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    Log.d(TAG, "_id: " + cursor.getString(cursor.getColumnIndex("_id")));
+                    Log.d(TAG, "sim_id: " + cursor.getString(cursor.getColumnIndex("sim_id")));
+                    Log.d(TAG, "carrier_name: " + cursor.getString(cursor.getColumnIndex("carrier_name")));
+                    Log.d(TAG, "display_name: " + cursor.getString(cursor.getColumnIndex("display_name")));
+                    Map<String, String> sim = new HashMap();
+                    String id = cursor.getString(cursor.getColumnIndex("_id"));
+                    sim.put("_id", id);
+                    sim.put("sim_id", cursor.getString(cursor.getColumnIndex("sim_id")));
+                    sim.put("carrier_name", cursor.getString(cursor.getColumnIndex("carrier_name")));
+                    sim.put("display_name", cursor.getString(cursor.getColumnIndex("display_name")));
+                    sim.put("phone_number", Line1Number);
+                    if (Line1Number != "Unknown") {
+                        Line1Number = "Unknown";
+                    }
+                    MyApplication.SimInfo.put(id, sim);
                 }
-                MyApplication.SimInfo.put(id, sim);
+                cursor.close();
             }
-            cursor.close();
+        } catch (Exception e) {
+            Log.e(TAG, "getSimInfo fail：" + e.getMessage());
+            Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
