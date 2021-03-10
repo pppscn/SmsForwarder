@@ -9,7 +9,8 @@ import android.util.Log;
 
 import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
-import com.idormy.sms.forwarder.utils.SendUtil;
+import com.idormy.sms.forwarder.sender.SendUtil;
+import com.idormy.sms.forwarder.utils.SimUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,7 +27,7 @@ public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
 
         String receiveAction = intent.getAction();
         Log.d(TAG, "onReceive intent " + receiveAction);
-        if (receiveAction.equals("android.provider.Telephony.SMS_RECEIVED")) {
+        if ("android.provider.Telephony.SMS_RECEIVED".equals(receiveAction)) {
             try {
 
                 Bundle extras = intent.getExtras();
@@ -34,11 +35,15 @@ public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
                 if (object != null) {
 
                     //获取接收手机号
-                    String simInfoId = String.valueOf(capturedSimSlot(extras));
-                    Log.d("SIM_SLOT", " Slot Number " + simInfoId);
-                    Map<String, String> sim = MyApplication.SimInfo.get(simInfoId);
-                    int sim_id = Integer.parseInt(sim.get("sim_id")) + 1;
-                    String phoneNumber = "SIM" + sim_id + "_" + sim.get("carrier_name") + "_" + sim.get("phone_number");
+                    String phoneNumber = "";
+                    try {
+                        String simInfoId = String.valueOf(SimUtil.getSimId(extras));
+                        Map<String, String> sim = MyApplication.SimInfo.get(simInfoId);
+                        int sim_id = Integer.parseInt(sim.get("sim_id")) + 1;
+                        phoneNumber = "SIM" + sim_id + "_" + sim.get("carrier_name") + "_" + sim.get("phone_number");
+                    } catch (Exception e) {
+                        Log.e(TAG, "获取接收手机号失败：" + e.getMessage());
+                    }
 
                     List<SmsVo> smsVoList = new ArrayList<>();
                     String format = intent.getStringExtra("format");
@@ -75,35 +80,6 @@ public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
 
         }
 
-    }
-
-    //获取卡槽ID
-    private int capturedSimSlot(Bundle bundle) {
-        int whichSIM = -1;
-        if (bundle.containsKey("subscription")) {
-            whichSIM = bundle.getInt("subscription");
-        }
-        if (whichSIM >= 0 && whichSIM < 5) {
-            /*In some device Subscription id is return as subscriber id*/
-            //TODO：不确定能不能直接返回
-            return whichSIM;
-        }
-
-        if (bundle.containsKey("simId")) {
-            whichSIM = bundle.getInt("simId");
-        } else if (bundle.containsKey("com.android.phone.extra.slot")) {
-            whichSIM = bundle.getInt("com.android.phone.extra.slot");
-        } else {
-            String keyName = "";
-            for (String key : bundle.keySet()) {
-                if (key.contains("sim"))
-                    keyName = key;
-            }
-            if (bundle.containsKey(keyName)) {
-                whichSIM = bundle.getInt(keyName);
-            }
-        }
-        return whichSIM;
     }
 
 }

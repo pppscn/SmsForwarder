@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.idormy.sms.forwarder.R;
 import com.idormy.sms.forwarder.model.RuleModel;
 import com.idormy.sms.forwarder.model.SenderModel;
-import com.idormy.sms.forwarder.utils.SenderUtil;
+import com.idormy.sms.forwarder.sender.SenderUtil;
 
 import java.util.List;
 
