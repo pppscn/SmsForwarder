@@ -1,5 +1,7 @@
 package com.idormy.sms.forwarder.model.vo;
 
+import com.idormy.sms.forwarder.utils.SettingUtil;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,16 +10,16 @@ public class SmsVo implements Serializable {
     String mobile;
     String content;
     Date date;
-    String phoneNumber = "本机号码：未知";
+    String simInfo = "本机号码：未知";
 
     public SmsVo() {
     }
 
-    public SmsVo(String mobile, String content, Date date, String phoneNumber) {
+    public SmsVo(String mobile, String content, Date date, String simInfo) {
         this.mobile = mobile;
         this.content = content;
         this.date = date;
-        this.phoneNumber = phoneNumber;
+        this.simInfo = simInfo;
     }
 
     public String getMobile() {
@@ -44,19 +46,32 @@ public class SmsVo implements Serializable {
         this.date = date;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getSimInfo() {
+        return simInfo;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setSimInfo(String simInfo) {
+        this.simInfo = simInfo;
     }
 
     public String getSmsVoForSend() {
-        return mobile + "\n" +
-                content + "\n" +
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date) + "\n" +
-                phoneNumber;
+        boolean switchAddExtra = SettingUtil.getSwitchAddExtra();
+        boolean switchSmsTemplate = SettingUtil.getSwitchSmsTemplate();
+        String smsTemplate = SettingUtil.getSmsTemplate().trim();
+        String deviceMark = SettingUtil.getAddExtraDeviceMark().trim();
+        if (!switchAddExtra) {
+            smsTemplate = smsTemplate.replace("{{卡槽信息}}\n", "").replace("{{卡槽信息}}", "");
+        }
+        if (!switchSmsTemplate) {
+            smsTemplate = "{{来源号码}}\n{{短信内容}}\n{{卡槽信息}}\n{{接收时间}}\n{{设备名称}}";
+        }
+
+        return smsTemplate.replace("{{来源号码}}", mobile)
+                .replace("{{短信内容}}", content)
+                .replace("{{卡槽信息}}", simInfo)
+                .replace("{{接收时间}}", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date))
+                .replace("{{设备名称}}", deviceMark)
+                .trim();
     }
 
     @Override
@@ -65,7 +80,7 @@ public class SmsVo implements Serializable {
                 "mobile='" + mobile + '\'' +
                 ", content='" + content + '\'' +
                 ", date=" + date +
-                ", phoneNumber=" + phoneNumber +
+                ", simInfo=" + simInfo +
                 '}';
     }
 }

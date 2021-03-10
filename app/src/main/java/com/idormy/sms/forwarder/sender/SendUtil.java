@@ -68,7 +68,7 @@ public class SendUtil {
                         List<SenderModel> senderModels = SenderUtil.getSender(ruleModel.getSenderId(), null);
                         for (SenderModel senderModel : senderModels
                         ) {
-                            LogUtil.addLog(new LogModel(smsVo.getMobile(), smsVo.getContent(), smsVo.getPhoneNumber(), senderModel.getId()));
+                            LogUtil.addLog(new LogModel(smsVo.getMobile(), smsVo.getContent(), smsVo.getSimInfo(), senderModel.getId()));
                             SendUtil.senderSendMsgNoHandError(smsVo, senderModel);
                         }
                     }
@@ -117,7 +117,6 @@ public class SendUtil {
                         } catch (Exception e) {
                             Log.e(TAG, "senderSendMsg: dingding error " + e.getMessage());
                         }
-
                     }
                 }
                 break;
@@ -133,7 +132,6 @@ public class SendUtil {
                         } catch (Exception e) {
                             Log.e(TAG, "senderSendMsg: SenderMailMsg error " + e.getMessage());
                         }
-
                     }
                 }
                 break;
@@ -144,11 +142,10 @@ public class SendUtil {
                     BarkSettingVo barkSettingVo = JSON.parseObject(senderModel.getJsonSetting(), BarkSettingVo.class);
                     if (barkSettingVo != null) {
                         try {
-                            SenderBarkMsg.sendMsg(handError, barkSettingVo.getServer(), smsVo.getMobile(), smsVo.getContent(), smsVo.getPhoneNumber());
+                            SenderBarkMsg.sendMsg(handError, barkSettingVo.getServer(), smsVo.getMobile(), smsVo.getSmsVoForSend());
                         } catch (Exception e) {
                             Log.e(TAG, "senderSendMsg: SenderBarkMsg error " + e.getMessage());
                         }
-
                     }
                 }
                 break;
@@ -163,7 +160,6 @@ public class SendUtil {
                         } catch (Exception e) {
                             Log.e(TAG, "senderSendMsg: SenderWebNotifyMsg error " + e.getMessage());
                         }
-
                     }
                 }
                 break;
@@ -178,7 +174,6 @@ public class SendUtil {
                         } catch (Exception e) {
                             Log.e(TAG, "senderSendMsg: SenderQyWxGroupRobotMsg error " + e.getMessage());
                         }
-
                     }
                 }
                 break;
@@ -193,7 +188,6 @@ public class SendUtil {
                         } catch (Exception e) {
                             Log.e(TAG, "senderSendMsg: qywx_app error " + e.getMessage());
                         }
-
                     }
                 }
                 break;

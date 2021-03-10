@@ -1,14 +1,11 @@
 package com.idormy.sms.forwarder;
 
 import android.Manifest;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
@@ -29,13 +26,12 @@ import com.idormy.sms.forwarder.BroadCastReceiver.SmsForwarderBroadcastReceiver;
 import com.idormy.sms.forwarder.adapter.LogAdapter;
 import com.idormy.sms.forwarder.model.vo.LogVo;
 import com.idormy.sms.forwarder.utils.LogUtil;
+import com.idormy.sms.forwarder.utils.SimUtil;
 import com.idormy.sms.forwarder.utils.aUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements ReFlashListView.IReflashListener {
 
@@ -67,9 +63,8 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
         }
 
         //获取SIM卡信息
-        getSimInfo(Line1Number);
-        //MyApplication appContext = ((MyApplication) getApplicationContext());
-        //appContext.setSimInfo(SimInfo);
+        MyApplication appContext = ((MyApplication) getApplicationContext());
+        SimUtil.getSimInfo(appContext, Line1Number);
 
         setContentView(R.layout.activity_main);
         LogUtil.init(this);
@@ -301,39 +296,6 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
-    }
-
-    //获取SIM卡信息
-    private void getSimInfo(String Line1Number) {
-        try {
-            Uri uri = Uri.parse("content://telephony/siminfo"); //访问raw_contacts表
-            MyApplication appContext = ((MyApplication) getApplicationContext());
-            ContentResolver resolver = appContext.getContentResolver();
-            Cursor cursor = resolver.query(uri, new String[]{"_id", "icc_id", "sim_id", "display_name", "carrier_name", "name_source", "color", "number", "display_number_format", "data_roaming", "mcc", "mnc"}, "sim_id >= 0", null, "_id");
-            if (cursor != null) {
-                while (cursor.moveToNext()) {
-                    Log.d(TAG, "_id: " + cursor.getString(cursor.getColumnIndex("_id")));
-                    Log.d(TAG, "sim_id: " + cursor.getString(cursor.getColumnIndex("sim_id")));
-                    Log.d(TAG, "carrier_name: " + cursor.getString(cursor.getColumnIndex("carrier_name")));
-                    Log.d(TAG, "display_name: " + cursor.getString(cursor.getColumnIndex("display_name")));
-                    Map<String, String> sim = new HashMap();
-                    String id = cursor.getString(cursor.getColumnIndex("_id"));
-                    sim.put("_id", id);
-                    sim.put("sim_id", cursor.getString(cursor.getColumnIndex("sim_id")));
-                    sim.put("carrier_name", cursor.getString(cursor.getColumnIndex("carrier_name")));
-                    sim.put("display_name", cursor.getString(cursor.getColumnIndex("display_name")));
-                    sim.put("phone_number", Line1Number);
-                    if (Line1Number != "Unknown") {
-                        Line1Number = "Unknown";
-                    }
-                    MyApplication.SimInfo.put(id, sim);
-                }
-                cursor.close();
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "getSimInfo fail：" + e.getMessage());
-            Toast.makeText(MainActivity.this, "获取SIM卡信息失败：请先手动设置", Toast.LENGTH_LONG).show();
-        }
     }
 
 }

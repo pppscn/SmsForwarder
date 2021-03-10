@@ -32,6 +32,17 @@ public class SettingUtil {
         return sp_setting.getBoolean(Define.SP_MSG_KEY_SWITCH_ADD_EXTRA, false);
     }
 
+    public static void switchSmsTemplate(Boolean switchSmsTemplate) {
+        Log.d(TAG, "switchSmsTemplate :" + switchSmsTemplate);
+        sp_setting.edit()
+                .putBoolean(Define.SP_MSG_KEY_SWITCH_SMS_TEMPLATE, switchSmsTemplate)
+                .apply();
+    }
+
+    public static boolean getSwitchSmsTemplate() {
+        return sp_setting.getBoolean(Define.SP_MSG_KEY_SWITCH_SMS_TEMPLATE, false);
+    }
+
     public static String getAddExtraDeviceMark() {
         return sp_setting.getString(Define.SP_MSG_KEY_STRING_ADD_EXTRA_DEVICE_MARK, "");
     }
@@ -40,6 +51,17 @@ public class SettingUtil {
         Log.d(TAG, "addExtraDeviceMark :" + addExtraDeviceMark);
         sp_setting.edit()
                 .putString(Define.SP_MSG_KEY_STRING_ADD_EXTRA_DEVICE_MARK, addExtraDeviceMark)
+                .apply();
+    }
+
+    public static String getSmsTemplate() {
+        return sp_setting.getString(Define.SP_MSG_KEY_STRING_SMS_TEMPLATE, "{{来源号码}}\n{{短信内容}}\n{{卡槽信息}}\n{{接收时间}}\n{{设备名称}}");
+    }
+
+    public static void setSmsTemplate(String textSmsTemplate) {
+        Log.d(TAG, "textSmsTemplate :" + textSmsTemplate);
+        sp_setting.edit()
+                .putString(Define.SP_MSG_KEY_STRING_SMS_TEMPLATE, textSmsTemplate)
                 .apply();
     }
 
