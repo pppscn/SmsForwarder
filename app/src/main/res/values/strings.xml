@@ -14,6 +14,7 @@
     <string name="setbarktitle">设置Bark</string>
     <string name="check_new_version">检查更新</string>
     <string name="to_setting">设置</string>
+    <string name="to_about">关于</string>
     <string name="log_tips">提示：置顶下拉刷新，长按删除单条记录</string>
     <string name="rule_tips">提示：新建规则点击“添加”，长按删除/点击编辑已有</string>
     <string name="sender_tips">提示：新建发送方点击“添加”，长按删除/点击编辑已有</string>

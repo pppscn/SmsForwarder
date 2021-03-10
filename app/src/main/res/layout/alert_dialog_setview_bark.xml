@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -21,7 +21,7 @@
                 android:text="设置名称" />
 
             <EditText
-                android:id="@+id/editTextWebNotifyName"
+                android:id="@+id/editTextBarkName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
@@ -40,31 +40,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置Token：示例:https://a.b.com/msg?token=xyz" />
+                android:text="设置Bark-Server地址，示例：https://bark.bms.ink/XXXXXXXX/" />
 
             <EditText
-                android:id="@+id/editTextWebNotifyToken"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="14"
-                android:inputType=""
-                android:text="" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="设置Secret:置空则不计算sign" />
-
-            <EditText
-                android:id="@+id/editTextWebNotifySecret"
+                android:id="@+id/editTextBarkServer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="14"
@@ -79,14 +58,14 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonbebnotifyok"
+                android:id="@+id/buttonBarkOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/ok" />
 
             <Button
-                android:id="@+id/buttonbebnotifydel"
+                android:id="@+id/buttonBarkDel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -94,7 +73,7 @@
                 android:text="@string/del" />
 
             <Button
-                android:id="@+id/buttonbebnotifytest"
+                android:id="@+id/buttonBarkTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"

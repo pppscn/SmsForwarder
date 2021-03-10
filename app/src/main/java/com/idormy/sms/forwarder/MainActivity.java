@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
             // 将适配器上的数据传递给listView
             listView = findViewById(R.id.list_view_log);
             listView.setInterface(this);
-            adapter = new LogAdapter(MainActivity.this, R.layout.tlog_item, logVosN);
+            adapter = new LogAdapter(MainActivity.this, R.layout.item_log, logVosN);
 
             listView.setAdapter(adapter);
         } else {
@@ -194,6 +194,11 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
         startActivity(intent);
     }
 
+    public void toAbout() {
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
+    }
+
     public void toRuleSetting(View view) {
         Intent intent = new Intent(this, RuleActivity.class);
         startActivity(intent);
@@ -219,7 +224,6 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
                     }
                 });
         builder.show();
-
     }
 
     //按返回键不退出回到桌面
@@ -270,6 +274,9 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
         switch (item.getItemId()) {
             case R.id.to_setting:
                 toSetting();
+                return true;
+            case R.id.to_about:
+                toAbout();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

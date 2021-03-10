@@ -60,7 +60,7 @@ public class ReFlashListView extends ListView implements AbsListView.OnScrollLis
      */
     private void initView(Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        header = inflater.inflate(R.layout.header_layout, null);
+        header = inflater.inflate(R.layout.header, null);
         measureView(header);
         headerHeight = header.getMeasuredHeight();
         Log.i("tag", "headerHeight = " + headerHeight);
