@@ -22,14 +22,16 @@ public class SenderBarkMsg {
 
     static String TAG = "SenderBarkMsg";
 
-    public static void sendMsg(final Handler handError, String barkServer, String from, String content, String phoneNumber) throws Exception {
-        Log.i(TAG, "sendMsg barkServer:" + barkServer + " from:" + from + " content:" + content + " phoneNumber:" + phoneNumber);
+    public static void sendMsg(final Handler handError, String barkServer, String from, String content) throws Exception {
+        Log.i(TAG, "sendMsg barkServer:" + barkServer + " from:" + from + " content:" + content);
 
         if (barkServer == null || barkServer.isEmpty()) {
             return;
         }
 
-        content += "\n[" + phoneNumber + "]";
+        //特殊处理避免标题重复
+        content = content.replaceFirst("^" + from + "(.*)", "").trim();
+
         barkServer += URLEncoder.encode(from, "UTF-8");
         barkServer += "/" + URLEncoder.encode(content, "UTF-8");
         barkServer += "?isArchive=1"; //自动保存

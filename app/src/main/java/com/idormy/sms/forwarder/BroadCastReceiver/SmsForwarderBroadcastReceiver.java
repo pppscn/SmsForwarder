@@ -10,6 +10,7 @@ import android.util.Log;
 import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
+import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.idormy.sms.forwarder.utils.SimUtil;
 
 import java.util.ArrayList;
@@ -35,12 +36,19 @@ public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
                 if (object != null) {
 
                     //获取接收手机号
-                    String phoneNumber = "";
+                    String simInfo = "";
                     try {
+                        //获取卡槽ID
                         String simInfoId = String.valueOf(SimUtil.getSimId(extras));
                         Map<String, String> sim = MyApplication.SimInfo.get(simInfoId);
                         int sim_id = Integer.parseInt(sim.get("sim_id")) + 1;
-                        phoneNumber = "SIM" + sim_id + "_" + sim.get("carrier_name") + "_" + sim.get("phone_number");
+
+                        simInfo = sim_id == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1();
+                        if (!simInfo.isEmpty()) {
+                            simInfo = "SIM" + sim_id + "_" + simInfo;
+                        } else {
+                            simInfo = "SIM" + sim_id + "_" + sim.get("carrier_name") + "_" + sim.get("phone_number");
+                        }
                     } catch (Exception e) {
                         Log.e(TAG, "获取接收手机号失败：" + e.getMessage());
                     }
@@ -67,7 +75,7 @@ public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
 
                     }
                     for (String mobile : mobileToContent.keySet()) {
-                        smsVoList.add(new SmsVo(mobile, mobileToContent.get(mobile), date, phoneNumber));
+                        smsVoList.add(new SmsVo(mobile, mobileToContent.get(mobile), date, simInfo));
                     }
                     Log.d(TAG, "短信：" + smsVoList);
                     SendUtil.send_msg_list(context, smsVoList);

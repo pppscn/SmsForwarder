@@ -26,6 +26,7 @@ import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.utils.RuleUtil;
+import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -332,7 +333,7 @@ public class RuleActivity extends AppCompatActivity {
         Button buttonruletest = view.findViewById(R.id.buttonruletest);
         AlertDialog.Builder ad1 = new AlertDialog.Builder(RuleActivity.this);
         ad1.setTitle("测试规则");
-        ad1.setIcon(android.R.drawable.ic_dialog_info);
+        ad1.setIcon(android.R.drawable.ic_dialog_email);
         ad1.setView(view);
         buttonruletest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -342,7 +343,8 @@ public class RuleActivity extends AppCompatActivity {
                 Log.i("editTextTestMsgContent", editTextTestMsgContent.getText().toString());
 
                 try {
-                    SmsVo testSmsVo = new SmsVo(editTextTestPhone.getText().toString(), editTextTestMsgContent.getText().toString(), new Date(), editTextTestPhone.getText().toString());
+                    String simInfo = "SIM1_" + SettingUtil.getAddExtraSim1();
+                    SmsVo testSmsVo = new SmsVo(editTextTestPhone.getText().toString(), editTextTestMsgContent.getText().toString(), new Date(), simInfo);
                     SendUtil.sendMsgByRuleModelSenderId(handler, ruleModel, testSmsVo, senderId);
                 } catch (Exception e) {
                     Toast.makeText(RuleActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();

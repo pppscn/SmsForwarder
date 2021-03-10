@@ -111,7 +111,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="作者网站" />
+                android:text="开源地址" />
 
             <TextView
                 android:id="@+id/linkweb"
@@ -120,8 +120,8 @@
                 android:layout_weight="3"
                 android:autoLink="web"
                 android:gravity="right"
-                android:text="idormy.com"
-                android:textSize="18sp" />
+                android:text="https://github.com/pppscn/SmsForwarder"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
