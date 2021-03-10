@@ -3,7 +3,7 @@
     package="com.idormy.sms.forwarder">
 
     <application
-        android:name="com.idormy.sms.forwarder.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -23,7 +23,7 @@
             android:name="UMENG_CHANNEL"
             android:value="Umeng" />
 
-        <activity android:name="com.idormy.sms.forwarder.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,22 +31,27 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.idormy.sms.forwarder.SettingActivity" />
         <activity
-            android:name="com.idormy.sms.forwarder.RuleActivity"
+            android:name=".AboutActivity"
+            android:label="关于" />
+        <activity
+            android:name=".SettingActivity"
+            android:label="设置" />
+        <activity
+            android:name=".RuleActivity"
             android:label="转发规则" />
         <activity
-            android:name="com.idormy.sms.forwarder.SenderActivity"
+            android:name=".SenderActivity"
             android:label="发送方" />
 
-        <receiver android:name="com.idormy.sms.forwarder.BroadCastReceiver.RebootBroadcastReceiver">
+        <receiver android:name=".BroadCastReceiver.RebootBroadcastReceiver">
             <intent-filter android:priority="2147483647">
                 <!--重启广播-->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.idormy.sms.forwarder.BroadCastReceiver.SmsForwarderBroadcastReceiver"
+            android:name=".BroadCastReceiver.SmsForwarderBroadcastReceiver"
             android:permission="android.permission.BROADCAST_SMS">
             <intent-filter android:priority="2147483647">
                 <!--短信广播-->
@@ -54,7 +59,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name="com.idormy.sms.forwarder.FrontService" />
+        <service android:name=".FrontService" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

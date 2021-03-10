@@ -88,7 +88,7 @@ public class SenderActivity extends AppCompatActivity {
 
         // 先拿到数据并放在适配器上
         initSenders(); //初始化数据
-        adapter = new SenderAdapter(SenderActivity.this, R.layout.sender_item, senderModels);
+        adapter = new SenderAdapter(SenderActivity.this, R.layout.item_sender, senderModels);
 
         // 将适配器上的数据传递给listView
         ListView listView = findViewById(R.id.list_view_sender);
@@ -219,7 +219,7 @@ public class SenderActivity extends AppCompatActivity {
             }
         }
         final AlertDialog.Builder alertDialog71 = new AlertDialog.Builder(SenderActivity.this);
-        View view1 = View.inflate(SenderActivity.this, R.layout.activity_alter_dialog_setview_dingding, null);
+        View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_dingding, null);
 
         final EditText editTextDingdingName = view1.findViewById(R.id.editTextDingdingName);
         if (senderModel != null)
@@ -332,7 +332,7 @@ public class SenderActivity extends AppCompatActivity {
         }
 
         final AlertDialog.Builder alertDialog71 = new AlertDialog.Builder(SenderActivity.this);
-        View view1 = View.inflate(SenderActivity.this, R.layout.activity_alter_dialog_setview_email, null);
+        View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_email, null);
 
         final EditText editTextEmailName = view1.findViewById(R.id.editTextEmailName);
         if (senderModel != null) editTextEmailName.setText(senderModel.getName());
@@ -449,7 +449,7 @@ public class SenderActivity extends AppCompatActivity {
         }
 
         final AlertDialog.Builder alertDialog71 = new AlertDialog.Builder(SenderActivity.this);
-        View view1 = View.inflate(SenderActivity.this, R.layout.activity_alter_dialog_setview_bark, null);
+        View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_bark, null);
 
         final EditText editTextBarkName = view1.findViewById(R.id.editTextBarkName);
         if (senderModel != null) editTextBarkName.setText(senderModel.getName());
@@ -539,7 +539,7 @@ public class SenderActivity extends AppCompatActivity {
         }
 
         final AlertDialog.Builder alertDialog71 = new AlertDialog.Builder(SenderActivity.this);
-        View view1 = View.inflate(SenderActivity.this, R.layout.activity_alter_dialog_setview_webnotify, null);
+        View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_webnotify, null);
 
         final EditText editTextWebNotifyName = view1.findViewById(R.id.editTextWebNotifyName);
         if (senderModel != null) editTextWebNotifyName.setText(senderModel.getName());
@@ -636,7 +636,7 @@ public class SenderActivity extends AppCompatActivity {
         }
 
         final AlertDialog.Builder alertDialog71 = new AlertDialog.Builder(SenderActivity.this);
-        View view1 = View.inflate(SenderActivity.this, R.layout.activity_alter_dialog_setview_qywxgrouprobot, null);
+        View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_qywxgrouprobot, null);
 
         final EditText editTextQYWXGroupRobotName = view1.findViewById(R.id.editTextQYWXGroupRobotName);
         if (senderModel != null) editTextQYWXGroupRobotName.setText(senderModel.getName());
@@ -727,7 +727,7 @@ public class SenderActivity extends AppCompatActivity {
             }
         }
         final AlertDialog.Builder alertDialog71 = new AlertDialog.Builder(SenderActivity.this);
-        View view1 = View.inflate(SenderActivity.this, R.layout.activity_alter_dialog_setview_qywxapp, null);
+        View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_qywxapp, null);
 
         final EditText editTextQYWXAppName = view1.findViewById(R.id.editTextQYWXAppName);
         if (senderModel != null)

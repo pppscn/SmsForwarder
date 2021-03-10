@@ -75,7 +75,7 @@ public class RuleActivity extends AppCompatActivity {
 
         // 先拿到数据并放在适配器上
         initRules(); //初始化数据
-        adapter = new RuleAdapter(RuleActivity.this, R.layout.rule_item, ruleModels);
+        adapter = new RuleAdapter(RuleActivity.this, R.layout.item_rule, ruleModels);
 
         // 将适配器上的数据传递给listView
         ListView listView = findViewById(R.id.list_view_rule);
@@ -137,7 +137,7 @@ public class RuleActivity extends AppCompatActivity {
 
     private void setRule(final RuleModel ruleModel) {
         final AlertDialog.Builder alertDialog71 = new AlertDialog.Builder(RuleActivity.this);
-        final View view1 = View.inflate(RuleActivity.this, R.layout.activity_alter_dialog_setview_rule, null);
+        final View view1 = View.inflate(RuleActivity.this, R.layout.alert_dialog_setview_rule, null);
 
         final RadioGroup radioGroupRuleFiled = (RadioGroup) view1.findViewById(R.id.radioGroupRuleFiled);
         if (ruleModel != null) radioGroupRuleFiled.check(ruleModel.getRuleFiledCheckId());
@@ -326,7 +326,7 @@ public class RuleActivity extends AppCompatActivity {
     }
 
     public void testRule(final RuleModel ruleModel, final Long senderId) {
-        final View view = View.inflate(RuleActivity.this, R.layout.activity_alter_dialog_setview_rule_test, null);
+        final View view = View.inflate(RuleActivity.this, R.layout.alert_dialog_setview_rule_test, null);
         final EditText editTextTestPhone = (EditText) view.findViewById(R.id.editTextTestPhone);
         final EditText editTextTestMsgContent = (EditText) view.findViewById(R.id.editTextTestMsgContent);
         Button buttonruletest = view.findViewById(R.id.buttonruletest);
