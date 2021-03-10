@@ -22,14 +22,14 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/rule_tips"
-            android:textColor="@android:color/holo_blue_dark" />
+            android:textColor="@color/colorPrimary" />
 
         <Button
             android:id="@+id/btaddrule"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_margin="10dp"
-            android:background="@android:color/holo_blue_dark"
+            android:background="@color/colorPrimary"
             android:onClick="addRule"
             android:padding="0dp"
             android:text="添加转发规则" />
