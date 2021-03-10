@@ -10,8 +10,8 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.idormy.sms.forwarder.sender.SendHistory;
 import com.idormy.sms.forwarder.utils.Define;
-import com.idormy.sms.forwarder.utils.SendHistory;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.smailnet.emailkit.EmailKit;
 import com.umeng.analytics.MobclickAgent;
@@ -96,5 +96,8 @@ public class MyApplication extends Application {
 
         SharedPreferences sp = MyApplication.this.getSharedPreferences(Define.SP_CONFIG, Context.MODE_PRIVATE);
         showHelpTip = sp.getBoolean(Define.SP_CONFIG_SWITCH_HELP_TIP, true);
+
+        String jsonSimInfo = sp.getString(Define.SP_CONFIG_SIM_INFO, "");
+
     }
 }

@@ -23,9 +23,9 @@ import com.idormy.sms.forwarder.adapter.RuleAdapter;
 import com.idormy.sms.forwarder.model.RuleModel;
 import com.idormy.sms.forwarder.model.SenderModel;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
+import com.idormy.sms.forwarder.sender.SendUtil;
+import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.utils.RuleUtil;
-import com.idormy.sms.forwarder.utils.SendUtil;
-import com.idormy.sms.forwarder.utils.SenderUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -158,7 +158,7 @@ public class RuleActivity extends AppCompatActivity {
         btSetRuleSender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(RuleActivity.this, "selectSender", Toast.LENGTH_LONG).show();
+                //Toast.makeText(RuleActivity.this, "selectSender", Toast.LENGTH_LONG).show();
                 selectSender(ruleSenderTv);
             }
         });

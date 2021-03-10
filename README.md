@@ -49,7 +49,7 @@ Android手机监听短信并根据指定规则转发到其他手机：钉钉机�
 - [x] 转发到企业微信应用消息
 - [x] 在线检测新版本、升级
 - [x] 清理缓存
-- [x] 兼容6.xx、7.xx、8.xx、~~9.xx、10.xx~~(PS.暂未解决收不到广播问题)
+- [x] 兼容6.xx、7.xx、8.xx、9.xx、10.xx
 - [x] 支持双卡手机，增加卡槽标识/运营商/手机号(如果能获取的话)
 - [x] 支持多重匹配规则
 - [ ] 支持正则匹配规则
@@ -111,6 +111,7 @@ Android手机监听短信并根据指定规则转发到其他手机：钉钉机�
 + [v1.4.0](app/release/SmsForwarder_release_20210304_1.4.0.apk) 支持多重匹配规则
     + [v1.4.1](app/release/SmsForwarder_release_20210304_1.4.1.apk) 设置中允许关闭页面帮助/表单填写提示
 + [v1.5.0](app/release/SmsForwarder_release_20210305_1.5.0.apk) 新增转发到企业微信应用消息
+    + [v1.5.1](app/release/SmsForwarder_release_20210310_1.5.1.apk) 解决Android 9.xx、10.xx收不到广播问题
 
 --------
 

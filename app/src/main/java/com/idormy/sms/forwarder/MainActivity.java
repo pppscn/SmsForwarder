@@ -234,17 +234,32 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
     // 检查权限是否获取（android6.0及以上系统可能默认关闭权限，且没提示）
     private void checkPermission() {
         PackageManager pm = getPackageManager();
+        boolean permission_internet = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.INTERNET", this.getPackageName()));
         boolean permission_receive_boot = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.RECEIVE_BOOT_COMPLETED", this.getPackageName()));
-        boolean permission_readsms = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_SMS", this.getPackageName()));
+        boolean permission_foreground_service = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.FOREGROUND_SERVICE", this.getPackageName()));
+        boolean permission_read_external_storage = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_EXTERNAL_STORAGE", this.getPackageName()));
+        boolean permission_write_external_storage = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.WRITE_EXTERNAL_STORAGE", this.getPackageName()));
+        boolean permission_receive_sms = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.RECEIVE_SMS", this.getPackageName()));
+        boolean permission_read_sms = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_SMS", this.getPackageName()));
+        boolean permission_send_sms = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.SEND_SMS", this.getPackageName()));
         boolean permission_read_phone_state = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_PHONE_STATE", this.getPackageName()));
         boolean permission_read_phone_numbers = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_PHONE_NUMBERS", this.getPackageName()));
 
-        if (!(permission_receive_boot && permission_readsms && permission_read_phone_state && permission_read_phone_numbers)) {
+        if (!(permission_internet && permission_receive_boot && permission_foreground_service &&
+                permission_read_external_storage && permission_write_external_storage &&
+                permission_receive_sms && permission_read_sms && permission_send_sms &&
+                permission_read_phone_state && permission_read_phone_numbers)) {
             ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.INTERNET,
                     Manifest.permission.RECEIVE_BOOT_COMPLETED,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.RECEIVE_SMS,
                     Manifest.permission.READ_SMS,
+                    Manifest.permission.SEND_SMS,
                     Manifest.permission.READ_PHONE_STATE,
                     Manifest.permission.READ_PHONE_NUMBERS,
+                    Manifest.permission.FOREGROUND_SERVICE,
             }, 0x01);
         }
     }
@@ -310,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
             }
         } catch (Exception e) {
             Log.e(TAG, "getSimInfo fail：" + e.getMessage());
-            Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "获取SIM卡信息失败：请先手动设置", Toast.LENGTH_LONG).show();
         }
     }
 
