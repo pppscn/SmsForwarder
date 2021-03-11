@@ -31,18 +31,23 @@ public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
             try {
 
                 Bundle extras = intent.getExtras();
-                Log.d(TAG, "subscription = " + extras.getInt("subscription"));
-                Log.d(TAG, "simId = " + extras.getInt("simId"));
                 Object[] object = (Object[]) Objects.requireNonNull(extras).get("pdus");
                 if (object != null) {
 
-                    //获取接收手机号
+                    //接收手机卡信息
                     String simInfo = "";
+                    //卡槽ID，默认卡槽为1
+                    int simId = 1;
                     try {
-                        //获取卡槽ID
-                        int simId = SimUtil.getSimId(extras);
+                        if (extras.containsKey("simId")) {
+                            simId = extras.getInt("simId");
+                        } else if (extras.containsKey("subscription")) {
+                            simId = SimUtil.getSimIdBySubscriptionId(extras.getInt("subscription"));
+                        }
+
+                        //自定义备注优先
                         simInfo = simId == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1();
-                        if (!simInfo.isEmpty()) { //自定义备注优先
+                        if (!simInfo.isEmpty()) {
                             simInfo = "SIM" + simId + "_" + simInfo;
                         } else {
                             simInfo = SimUtil.getSimInfo(simId);
