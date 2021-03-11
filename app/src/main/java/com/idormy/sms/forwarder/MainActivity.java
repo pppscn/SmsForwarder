@@ -1,14 +1,12 @@
 package com.idormy.sms.forwarder;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,7 +24,7 @@ import com.idormy.sms.forwarder.BroadCastReceiver.SmsForwarderBroadcastReceiver;
 import com.idormy.sms.forwarder.adapter.LogAdapter;
 import com.idormy.sms.forwarder.model.vo.LogVo;
 import com.idormy.sms.forwarder.utils.LogUtil;
-import com.idormy.sms.forwarder.utils.SimUtil;
+import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.aUtil;
 import com.umeng.analytics.MobclickAgent;
 
@@ -45,29 +43,20 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        LogUtil.init(this);
         Log.d(TAG, "oncreate");
+
         super.onCreate(savedInstanceState);
 
         //检查权限是否获取
         checkPermission();
 
-        //获取本机号码(注意：这里获取的不一定是卡槽1的)
-        String Line1Number = "";
-        try {
-            TelephonyManager mTelephonyMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            Line1Number = mTelephonyMgr.getLine1Number();
-            Log.d(TAG, "Line1Number: " + Line1Number);
-        } catch (Exception e) {
-            Log.e(TAG, "getLine1Number fail：" + e.getMessage());
-            Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-
-        //获取SIM卡信息
-        MyApplication appContext = ((MyApplication) getApplicationContext());
-        SimUtil.getSimInfo(appContext, Line1Number);
+        //获取SIM信息
+        PhoneUtils.init(this);
+        MyApplication.SimInfoList = PhoneUtils.getSimMultiInfo();
+        Log.d(TAG, "SimInfoList = " + MyApplication.SimInfoList);
 
         setContentView(R.layout.activity_main);
-        LogUtil.init(this);
     }
 
     @Override

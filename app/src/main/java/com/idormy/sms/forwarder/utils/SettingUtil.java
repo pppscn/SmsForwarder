@@ -44,7 +44,11 @@ public class SettingUtil {
     }
 
     public static String getAddExtraDeviceMark() {
-        return sp_setting.getString(Define.SP_MSG_KEY_STRING_ADD_EXTRA_DEVICE_MARK, "");
+        String res = sp_setting.getString(Define.SP_MSG_KEY_STRING_ADD_EXTRA_DEVICE_MARK, "");
+        if (res == null || res.equals("")) {
+            res = android.os.Build.MODEL;
+        }
+        return res;
     }
 
     public static void setAddExtraDeviceMark(String addExtraDeviceMark) {
@@ -67,9 +71,8 @@ public class SettingUtil {
 
     public static String getAddExtraSim1() {
         String res = sp_setting.getString(Define.SP_MSG_KEY_STRING_ADD_EXTRA_SIM1, "");
-        Log.d(TAG, "res=" + res);
         if (res == null || res.equals("")) {
-            res = SimUtil.getSimExtra(1);
+            res = SimUtil.getSimInfo(1);
         }
         return res;
     }
@@ -84,7 +87,7 @@ public class SettingUtil {
     public static String getAddExtraSim2() {
         String res = sp_setting.getString(Define.SP_MSG_KEY_STRING_ADD_EXTRA_SIM2, "");
         if (res == null || res.equals("")) {
-            res = SimUtil.getSimExtra(2);
+            res = SimUtil.getSimInfo(2);
         }
         return res;
     }
