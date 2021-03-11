@@ -11,19 +11,66 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="设置匹配的卡槽"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupSimSlot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/btnSimSlotAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="全部"
+                    android:textSize="13sp" />
+
+                <RadioButton
+                    android:id="@+id/btnSimSlot1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SIM1"
+                    android:textSize="13sp" />
+
+                <RadioButton
+                    android:id="@+id/btnSimSlot2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SIM2"
+                    android:textSize="13sp" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:text="设置匹配的字段"
                 android:textStyle="bold" />
 
             <RadioGroup
                 android:id="@+id/radioGroupRuleFiled"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -32,25 +79,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="全部" />
+                    android:text="全部"
+                    android:textSize="13sp" />
 
                 <RadioButton
                     android:id="@+id/btnPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="手机号" />
+                    android:text="手机号"
+                    android:textSize="13sp" />
 
                 <RadioButton
                     android:id="@+id/btnContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="内容" />
+                    android:text="内容"
+                    android:textSize="13sp" />
 
                 <RadioButton
                     android:id="@+id/btnMultiMatch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="多重匹配" />
+                    android:text="多重匹配"
+                    android:textSize="13sp" />
             </RadioGroup>
 
         </LinearLayout>
@@ -59,20 +110,22 @@
             android:id="@+id/matchTypeLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:text="设置匹配的模式"
                 android:textStyle="bold" />
 
             <RadioGroup
                 android:id="@+id/radioGroupRuleCheck"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -80,31 +133,36 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="是" />
+                    android:text="是"
+                    android:textSize="13sp" />
 
                 <RadioButton
                     android:id="@+id/btnNotIs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="不是" />
+                    android:text="不是"
+                    android:textSize="13sp" />
 
                 <RadioButton
                     android:id="@+id/btnContain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="包含" />
+                    android:text="包含"
+                    android:textSize="13sp" />
 
                 <RadioButton
                     android:id="@+id/btnStartWith"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="开头" />
+                    android:text="开头"
+                    android:textSize="13sp" />
 
                 <RadioButton
                     android:id="@+id/btnEndWith"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="结尾" />
+                    android:text="结尾"
+                    android:textSize="13sp" />
 
             </RadioGroup>
         </LinearLayout>
@@ -113,19 +171,20 @@
             android:id="@+id/matchValueLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="设置匹配的值"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextRuleValue"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="14"
                 android:inputType=""
@@ -133,7 +192,7 @@
 
             <TextView
                 android:id="@+id/tv_mu_rule_tips"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
                 android:text="
@@ -152,11 +211,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="设置发送方"
                 android:textStyle="bold" />
@@ -178,7 +238,7 @@
                     android:id="@+id/ruleSenderTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:text="" />
             </LinearLayout>
 
@@ -188,7 +248,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:orientation="horizontal">
 
             <Button
@@ -217,4 +277,5 @@
         </LinearLayout>
 
     </LinearLayout>
+
 </ScrollView>

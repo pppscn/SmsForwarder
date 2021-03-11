@@ -146,6 +146,9 @@ public class RuleActivity extends AppCompatActivity {
         final RadioGroup radioGroupRuleCheck = (RadioGroup) view1.findViewById(R.id.radioGroupRuleCheck);
         if (ruleModel != null) radioGroupRuleCheck.check(ruleModel.getRuleCheckCheckId());
 
+        final RadioGroup radioGroupSimSlot = (RadioGroup) view1.findViewById(R.id.radioGroupSimSlot);
+        if (ruleModel != null) radioGroupSimSlot.check(ruleModel.getRuleSimSlotCheckId());
+
         final TextView tv_mu_rule_tips = (TextView) view1.findViewById(R.id.tv_mu_rule_tips);
         final TextView ruleSenderTv = (TextView) view1.findViewById(R.id.ruleSenderTv);
         if (ruleModel != null && ruleModel.getSenderId() != null) {
@@ -190,6 +193,7 @@ public class RuleActivity extends AppCompatActivity {
                     RuleModel newRuleModel = new RuleModel();
                     newRuleModel.setFiled(RuleModel.getRuleFiledFromCheckId(radioGroupRuleFiled.getCheckedRadioButtonId()));
                     newRuleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheck.getCheckedRadioButtonId()));
+                    newRuleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
                     newRuleModel.setValue(editTextRuleValue.getText().toString());
                     if (senderId != null) {
                         newRuleModel.setSenderId(Long.valueOf(senderId.toString()));
@@ -200,6 +204,7 @@ public class RuleActivity extends AppCompatActivity {
                 } else {
                     ruleModel.setFiled(RuleModel.getRuleFiledFromCheckId(radioGroupRuleFiled.getCheckedRadioButtonId()));
                     ruleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheck.getCheckedRadioButtonId()));
+                    ruleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
                     ruleModel.setValue(editTextRuleValue.getText().toString());
                     if (senderId != null) {
                         ruleModel.setSenderId(Long.valueOf(senderId.toString()));
@@ -210,10 +215,9 @@ public class RuleActivity extends AppCompatActivity {
                 }
 
                 show.dismiss();
-
-
             }
         });
+
         buttonruledel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -225,6 +229,7 @@ public class RuleActivity extends AppCompatActivity {
                 show.dismiss();
             }
         });
+
         buttonruletest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -236,23 +241,21 @@ public class RuleActivity extends AppCompatActivity {
                         RuleModel newRuleModel = new RuleModel();
                         newRuleModel.setFiled(RuleModel.getRuleFiledFromCheckId(radioGroupRuleFiled.getCheckedRadioButtonId()));
                         newRuleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheck.getCheckedRadioButtonId()));
+                        newRuleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
                         newRuleModel.setValue(editTextRuleValue.getText().toString());
                         newRuleModel.setSenderId(Long.valueOf(senderId.toString()));
 
                         testRule(newRuleModel, Long.valueOf(senderId.toString()));
-
                     } else {
                         ruleModel.setFiled(RuleModel.getRuleFiledFromCheckId(radioGroupRuleFiled.getCheckedRadioButtonId()));
                         ruleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheck.getCheckedRadioButtonId()));
+                        ruleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
                         ruleModel.setValue(editTextRuleValue.getText().toString());
                         ruleModel.setSenderId(Long.valueOf(senderId.toString()));
 
                         testRule(ruleModel, Long.valueOf(senderId.toString()));
-
                     }
-
                 }
-
             }
         });
 
@@ -328,6 +331,7 @@ public class RuleActivity extends AppCompatActivity {
 
     public void testRule(final RuleModel ruleModel, final Long senderId) {
         final View view = View.inflate(RuleActivity.this, R.layout.alert_dialog_setview_rule_test, null);
+        final RadioGroup radioGroupTestSimSlot = (RadioGroup) view.findViewById(R.id.radioGroupTestSimSlot);
         final EditText editTextTestPhone = (EditText) view.findViewById(R.id.editTextTestPhone);
         final EditText editTextTestMsgContent = (EditText) view.findViewById(R.id.editTextTestMsgContent);
         Button buttonruletest = view.findViewById(R.id.buttonruletest);
@@ -343,7 +347,13 @@ public class RuleActivity extends AppCompatActivity {
                 Log.i("editTextTestMsgContent", editTextTestMsgContent.getText().toString());
 
                 try {
-                    String simInfo = "SIM1_" + SettingUtil.getAddExtraSim1();
+                    String simSlot = RuleModel.getRuleSimSlotFromCheckId(radioGroupTestSimSlot.getCheckedRadioButtonId());
+                    String simInfo = "";
+                    if (simSlot.equals("SIM2")) {
+                        simInfo = simSlot + "_" + SettingUtil.getAddExtraSim2();
+                    } else {
+                        simInfo = simSlot + "_" + SettingUtil.getAddExtraSim1();
+                    }
                     SmsVo testSmsVo = new SmsVo(editTextTestPhone.getText().toString(), editTextTestMsgContent.getText().toString(), new Date(), simInfo);
                     SendUtil.sendMsgByRuleModelSenderId(handler, ruleModel, testSmsVo, senderId);
                 } catch (Exception e) {

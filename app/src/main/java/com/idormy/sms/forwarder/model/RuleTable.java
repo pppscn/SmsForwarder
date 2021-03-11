@@ -16,5 +16,6 @@ public final class RuleTable {
         public static final String COLUMN_NAME_VALUE = "value";
         public static final String COLUMN_NAME_SENDER_ID = "sender_id";
         public static final String COLUMN_NAME_TIME = "time";
+        public static final String COLUMN_NAME_SIM_SLOT = "sim_slot";
     }
 }

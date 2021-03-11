@@ -15,7 +15,7 @@ import java.util.List;
 public class DbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
     public static final String TAG = "DbHelper";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "sms_forwarder.db";
 
     private static final List<String> SQL_CREATE_ENTRIES =
@@ -26,21 +26,22 @@ public class DbHelper extends SQLiteOpenHelper {
                             LogTable.LogEntry.COLUMN_NAME_CONTENT + " TEXT," +
                             LogTable.LogEntry.COLUMN_NAME_SIM_INFO + " TEXT," +
                             LogTable.LogEntry.COLUMN_NAME_RULE_ID + " INTEGER," +
-                            LogTable.LogEntry.COLUMN_NAME_TIME + "  TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP)"
+                            LogTable.LogEntry.COLUMN_NAME_TIME + " TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)"
                     , "CREATE TABLE " + RuleTable.RuleEntry.TABLE_NAME + " (" +
                             RuleTable.RuleEntry._ID + " INTEGER PRIMARY KEY," +
                             RuleTable.RuleEntry.COLUMN_NAME_FILED + " TEXT," +
                             RuleTable.RuleEntry.COLUMN_NAME_CHECK + " TEXT," +
                             RuleTable.RuleEntry.COLUMN_NAME_VALUE + " TEXT," +
                             RuleTable.RuleEntry.COLUMN_NAME_SENDER_ID + " INTEGER," +
-                            RuleTable.RuleEntry.COLUMN_NAME_TIME + "  TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP)"
+                            RuleTable.RuleEntry.COLUMN_NAME_TIME + " TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                            RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT + " TEXT NOT NULL DEFAULT 'ALL')"
                     , "CREATE TABLE " + SenderTable.SenderEntry.TABLE_NAME + " (" +
                             SenderTable.SenderEntry._ID + " INTEGER PRIMARY KEY," +
                             SenderTable.SenderEntry.COLUMN_NAME_NAME + " TEXT," +
                             SenderTable.SenderEntry.COLUMN_NAME_STATUS + " INTEGER," +
                             SenderTable.SenderEntry.COLUMN_NAME_TYPE + " INTEGER," +
                             SenderTable.SenderEntry.COLUMN_NAME_JSON_SETTING + " TEXT," +
-                            SenderTable.SenderEntry.COLUMN_NAME_TIME + "  TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP)"
+                            SenderTable.SenderEntry.COLUMN_NAME_TIME + " TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)"
             );
 
     private static final List<String> SQL_DELETE_ENTRIES =
@@ -73,12 +74,12 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // This database is only a cache for online data, so its upgrade policy is
-        // to simply to discard the data and start over
-        //delCreateTable(db);
-        //onCreate(db);
         if (oldVersion < 2) { //当数据库版本小于版本2时
             String sql = "Alter table " + LogTable.LogEntry.TABLE_NAME + " add column " + LogTable.LogEntry.COLUMN_NAME_SIM_INFO + " TEXT ";
+            db.execSQL(sql);
+        }
+        if (oldVersion < 3) { //当数据库版本小于版本3时
+            String sql = "Alter table " + RuleTable.RuleEntry.TABLE_NAME + " add column " + RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT + " TEXT NOT NULL DEFAULT 'ALL' ";
             db.execSQL(sql);
         }
     }

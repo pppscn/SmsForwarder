@@ -21,6 +21,10 @@ public class RuleModel {
     public static final String CHECK_END_WITH = "endwith";
     public static final String CHECK_NOT_IS = "notis";
     public static final Map<String, String> CHECK_MAP = new HashMap<String, String>();
+    public static final String CHECK_SIM_SLOT_ALL = "ALL";
+    public static final String CHECK_SIM_SLOT_1 = "SIM1";
+    public static final String CHECK_SIM_SLOT_2 = "SIM2";
+    public static final Map<String, String> SIM_SLOT_MAP = new HashMap<String, String>();
 
     static {
         FILED_MAP.put("transpond_all", "转发全部");
@@ -37,25 +41,29 @@ public class RuleModel {
         CHECK_MAP.put("notis", "不是");
     }
 
+    static {
+        SIM_SLOT_MAP.put("ALL", "全部");
+        SIM_SLOT_MAP.put("SIM1", "SIM1");
+        SIM_SLOT_MAP.put("SIM2", "SIM2");
+    }
+
     private String TAG = "RuleModel";
     private Long id;
     private String filed;
     private String check;
-
     private String value;
-
     private Long senderId;
     private Long time;
+    private String simSlot;
 
-    public static String getRuleMatch(String filed, String check, String value) {
+    public static String getRuleMatch(String filed, String check, String value, String simSlot) {
+        String SimStr = SIM_SLOT_MAP.get(simSlot) + "卡 ";
         switch (filed) {
             case FILED_TRANSPOND_ALL:
-                return "全部转发到 ";
+                return SimStr + "全部转发到 ";
             default:
-                return "当 " + FILED_MAP.get(filed) + " " + CHECK_MAP.get(check) + " " + value + " 转发到 ";
-
+                return SimStr + "当 " + FILED_MAP.get(filed) + " " + CHECK_MAP.get(check) + " " + value + " 转发到 ";
         }
-
     }
 
     public static String getRuleFiledFromCheckId(int id) {
@@ -83,6 +91,17 @@ public class RuleModel {
                 return CHECK_NOT_IS;
             default:
                 return CHECK_IS;
+        }
+    }
+
+    public static String getRuleSimSlotFromCheckId(int id) {
+        switch (id) {
+            case R.id.btnSimSlot1:
+                return CHECK_SIM_SLOT_1;
+            case R.id.btnSimSlot2:
+                return CHECK_SIM_SLOT_2;
+            default:
+                return CHECK_SIM_SLOT_ALL;
         }
     }
 
@@ -154,13 +173,13 @@ public class RuleModel {
     }
 
     public String getRuleMatch() {
+        String SimStr = SIM_SLOT_MAP.get(simSlot) + "卡 ";
         switch (filed) {
             case FILED_TRANSPOND_ALL:
-                return "全部转发到 ";
+                return SimStr + "全部转发到 ";
             default:
-                return "当 " + FILED_MAP.get(filed) + " " + CHECK_MAP.get(check) + " " + value + " 转发到 ";
+                return SimStr + "当 " + FILED_MAP.get(filed) + " " + CHECK_MAP.get(check) + " " + value + " 转发到 ";
         }
-
     }
 
     public Long getRuleSenderId() {
@@ -195,6 +214,17 @@ public class RuleModel {
         }
     }
 
+    public int getRuleSimSlotCheckId() {
+        switch (simSlot) {
+            case CHECK_SIM_SLOT_1:
+                return R.id.btnSimSlot1;
+            case CHECK_SIM_SLOT_2:
+                return R.id.btnSimSlot2;
+            default:
+                return R.id.btnSimSlotAll;
+        }
+    }
+
     public Long getId() {
         return id;
     }
@@ -225,6 +255,14 @@ public class RuleModel {
 
     public void setFiled(String filed) {
         this.filed = filed;
+    }
+
+    public String getSimSlot() {
+        return simSlot;
+    }
+
+    public void setSimSlot(String simSlot) {
+        this.simSlot = simSlot;
     }
 
     public String getCheck() {

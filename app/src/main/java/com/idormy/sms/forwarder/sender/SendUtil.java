@@ -30,19 +30,20 @@ import static com.idormy.sms.forwarder.model.SenderModel.TYPE_WEB_NOTIFY;
 public class SendUtil {
     private static String TAG = "SendUtil";
 
-    public static void send_msg_list(Context context, List<SmsVo> smsVoList) {
+    public static void send_msg_list(Context context, List<SmsVo> smsVoList, int simId) {
         Log.i(TAG, "send_msg_list size: " + smsVoList.size());
         for (SmsVo smsVo : smsVoList) {
-            SendUtil.send_msg(context, smsVo);
+            SendUtil.send_msg(context, smsVo, simId);
         }
     }
 
-    public static void send_msg(Context context, SmsVo smsVo) {
+    public static void send_msg(Context context, SmsVo smsVo, int simId) {
         Log.i(TAG, "send_msg smsVo:" + smsVo);
         RuleUtil.init(context);
         LogUtil.init(context);
 
-        List<RuleModel> rulelist = RuleUtil.getRule(null, null);
+        String key = "SIM" + simId;
+        List<RuleModel> rulelist = RuleUtil.getRule(null, key);
         if (!rulelist.isEmpty()) {
             SenderUtil.init(context);
             for (RuleModel ruleModel : rulelist) {
@@ -66,6 +67,13 @@ public class SendUtil {
     public static void sendMsgByRuleModelSenderId(final Handler handError, RuleModel ruleModel, SmsVo smsVo, Long senderId) throws Exception {
         if (senderId == null) {
             throw new Exception("先新建并选择发送方");
+        }
+
+        String testSim = smsVo.getSimInfo().substring(0, 4);
+        String ruleSim = ruleModel.getSimSlot();
+
+        if (!ruleSim.equals("ALL") && !ruleSim.equals(testSim)) {
+            throw new Exception("接收卡槽未匹配中规则");
         }
 
         if (!ruleModel.checkMsg(smsVo)) {
