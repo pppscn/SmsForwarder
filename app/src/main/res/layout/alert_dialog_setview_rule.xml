@@ -164,6 +164,13 @@
                     android:text="结尾"
                     android:textSize="13sp" />
 
+                <RadioButton
+                    android:id="@+id/btnRegex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="正则"
+                    android:textSize="13sp" />
+
             </RadioGroup>
         </LinearLayout>
 

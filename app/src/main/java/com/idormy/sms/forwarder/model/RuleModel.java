@@ -8,6 +8,8 @@ import com.idormy.sms.forwarder.utils.RuleLineUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class RuleModel {
     public static final String FILED_TRANSPOND_ALL = "transpond_all";
@@ -20,6 +22,7 @@ public class RuleModel {
     public static final String CHECK_START_WITH = "startwith";
     public static final String CHECK_END_WITH = "endwith";
     public static final String CHECK_NOT_IS = "notis";
+    public static final String CHECK_REGEX = "regex";
     public static final Map<String, String> CHECK_MAP = new HashMap<String, String>();
     public static final String CHECK_SIM_SLOT_ALL = "ALL";
     public static final String CHECK_SIM_SLOT_1 = "SIM1";
@@ -87,6 +90,8 @@ public class RuleModel {
                 return CHECK_START_WITH;
             case R.id.btnEndWith:
                 return CHECK_END_WITH;
+            case R.id.btnRegex:
+                return CHECK_REGEX;
             case R.id.btnNotIs:
                 return CHECK_NOT_IS;
             default:
@@ -161,6 +166,20 @@ public class RuleModel {
                         checked = msgValue.endsWith(this.value);
                     }
                     break;
+                case CHECK_REGEX:
+                    if (msgValue != null) {
+                        try {
+                            checked = Pattern.matches(this.value, msgValue);
+                        } catch (PatternSyntaxException e) {
+                            checked = false;
+                            Log.d(TAG, "PatternSyntaxException: ");
+                            Log.d(TAG, "Description: " + e.getDescription());
+                            Log.d(TAG, "Index: " + e.getIndex());
+                            Log.d(TAG, "Message: " + e.getMessage());
+                            Log.d(TAG, "Pattern: " + e.getPattern());
+                        }
+                    }
+                    break;
                 default:
                     break;
             }
@@ -207,6 +226,8 @@ public class RuleModel {
                 return R.id.btnStartWith;
             case CHECK_END_WITH:
                 return R.id.btnEndWith;
+            case CHECK_REGEX:
+                return R.id.btnRegex;
             case CHECK_NOT_IS:
                 return R.id.btnNotIs;
             default:

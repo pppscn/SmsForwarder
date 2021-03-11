@@ -7,6 +7,8 @@ import com.idormy.sms.forwarder.model.vo.SmsVo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 class RuleLine {
     public static final String CONJUNCTION_AND = "并且";
@@ -19,6 +21,7 @@ class RuleLine {
     public static final String CHECK_CONTAIN = "包含";
     public static final String CHECK_START_WITH = "开头";
     public static final String CHECK_END_WITH = "结尾";
+    public static final String CHECK_REGEX = "正则";
     public static List<String> CONJUNCTION_LIST = new ArrayList<String>();
     public static List<String> FILED_LIST = new ArrayList<String>();
     public static List<String> SURE_LIST = new ArrayList<String>();
@@ -313,6 +316,20 @@ class RuleLine {
             case CHECK_END_WITH:
                 if (msgValue != null) {
                     checked = msgValue.endsWith(this.value);
+                }
+                break;
+            case CHECK_REGEX:
+                if (msgValue != null) {
+                    try {
+                        checked = Pattern.matches(this.value, msgValue);
+                    } catch (PatternSyntaxException e) {
+                        checked = false;
+                        logg("PatternSyntaxException: ");
+                        logg("Description: " + e.getDescription());
+                        logg("Index: " + e.getIndex());
+                        logg("Message: " + e.getMessage());
+                        logg("Pattern: " + e.getPattern());
+                    }
                 }
                 break;
             default:
