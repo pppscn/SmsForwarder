@@ -12,25 +12,44 @@ public class SimUtil {
     //获取卡槽信息ID
     public static int getSimId(Bundle bundle) {
         int whichSIM = -1;
-        if (bundle != null) {
-            if (bundle.containsKey("simId")) {
-                whichSIM = bundle.getInt("simId");
-            } else if (bundle.containsKey("com.android.phone.extra.slot")) {
-                whichSIM = bundle.getInt("com.android.phone.extra.slot");
-            } else {
-                String keyName = "";
-                for (String key : bundle.keySet()) {
-                    if (key.contains("sim"))
-                        keyName = key;
-                }
-                if (bundle.containsKey(keyName)) {
-                    whichSIM = bundle.getInt(keyName);
-                }
+        if (bundle == null) {
+            return whichSIM;
+        }
+
+        if (bundle.containsKey("simId")) {
+            whichSIM = bundle.getInt("simId");
+            Log.d(TAG, "simId = " + whichSIM);
+        } else if (bundle.containsKey("com.android.phone.extra.slot")) {
+            whichSIM = bundle.getInt("com.android.phone.extra.slot");
+            Log.d(TAG, "com.android.phone.extra.slot = " + whichSIM);
+        } else {
+            String keyName = "";
+            for (String key : bundle.keySet()) {
+                if (key.contains("sim"))
+                    keyName = key;
+            }
+            if (bundle.containsKey(keyName)) {
+                whichSIM = bundle.getInt(keyName);
             }
         }
 
-        Log.d(TAG, " Slot Number " + whichSIM);
+        Log.d(TAG, "Slot Number " + whichSIM);
         return whichSIM + 1;
+    }
+
+    //通过SubscriptionId获取卡槽信息ID
+    public static int getSimIdBySubscriptionId(int subscriptionId) {
+        try {
+            for (PhoneUtils.SimInfo simInfo : MyApplication.SimInfoList) {
+                if (simInfo.mSubscriptionId == subscriptionId) {
+                    return simInfo.mSimSlotIndex + 1;
+                }
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "getSimExtra Fail: " + e.getMessage());
+        }
+
+        return 0;
     }
 
     //获取卡槽备注
