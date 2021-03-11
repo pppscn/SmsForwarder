@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
         Log.d(TAG, "oncreate");
 
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         //检查权限是否获取
         checkPermission();
@@ -56,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
         MyApplication.SimInfoList = PhoneUtils.getSimMultiInfo();
         Log.d(TAG, "SimInfoList = " + MyApplication.SimInfoList);
 
-        setContentView(R.layout.activity_main);
     }
 
     @Override
