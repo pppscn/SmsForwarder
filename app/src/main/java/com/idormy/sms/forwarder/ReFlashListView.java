@@ -15,7 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Locale;
 
 /**
  * 自定义listview
@@ -251,9 +251,8 @@ public class ReFlashListView extends ListView implements AbsListView.OnScrollLis
         reflashViewByState();
         TextView lastupdatetime = (TextView) header
                 .findViewById(R.id.lastupdate_time);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
-        Date date = new Date(System.currentTimeMillis());
-        String time = format.format(date);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        String time = sdf.format(new java.util.Date());
         lastupdatetime.setText(time);
     }
 
