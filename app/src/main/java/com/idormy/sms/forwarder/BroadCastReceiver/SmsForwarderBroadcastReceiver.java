@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
-import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.utils.SettingUtil;
@@ -32,6 +31,8 @@ public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
             try {
 
                 Bundle extras = intent.getExtras();
+                Log.d(TAG, "subscription = " + extras.getInt("subscription"));
+                Log.d(TAG, "simId = " + extras.getInt("simId"));
                 Object[] object = (Object[]) Objects.requireNonNull(extras).get("pdus");
                 if (object != null) {
 
@@ -39,15 +40,12 @@ public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
                     String simInfo = "";
                     try {
                         //获取卡槽ID
-                        String simInfoId = String.valueOf(SimUtil.getSimId(extras));
-                        Map<String, String> sim = MyApplication.SimInfo.get(simInfoId);
-                        int sim_id = Integer.parseInt(sim.get("sim_id")) + 1;
-
-                        simInfo = sim_id == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1();
-                        if (!simInfo.isEmpty()) {
-                            simInfo = "SIM" + sim_id + "_" + simInfo;
+                        int simId = SimUtil.getSimId(extras);
+                        simInfo = simId == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1();
+                        if (!simInfo.isEmpty()) { //自定义备注优先
+                            simInfo = "SIM" + simId + "_" + simInfo;
                         } else {
-                            simInfo = "SIM" + sim_id + "_" + sim.get("carrier_name") + "_" + sim.get("phone_number");
+                            simInfo = SimUtil.getSimInfo(simId);
                         }
                     } catch (Exception e) {
                         Log.e(TAG, "获取接收手机号失败：" + e.getMessage());

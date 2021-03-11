@@ -12,18 +12,19 @@ import android.util.Log;
 
 import com.idormy.sms.forwarder.sender.SendHistory;
 import com.idormy.sms.forwarder.utils.Define;
+import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.smailnet.emailkit.EmailKit;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyApplication extends Application {
     private static final String TAG = "MyApplication";
     //SIM卡信息
-    public static Map<String, Map> SimInfo = new HashMap();
+    public static List<PhoneUtils.SimInfo> SimInfoList = new ArrayList<>();
     //是否关闭页面提示
     public static boolean showHelpTip = true;
     //企业微信
@@ -96,8 +97,6 @@ public class MyApplication extends Application {
 
         SharedPreferences sp = MyApplication.this.getSharedPreferences(Define.SP_CONFIG, Context.MODE_PRIVATE);
         showHelpTip = sp.getBoolean(Define.SP_CONFIG_SWITCH_HELP_TIP, true);
-
-        String jsonSimInfo = sp.getString(Define.SP_CONFIG_SIM_INFO, "");
 
     }
 }
