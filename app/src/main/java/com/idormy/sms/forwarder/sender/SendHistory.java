@@ -35,8 +35,6 @@ public class SendHistory {
             dbHelper = new DbHelper(context);
             db = dbHelper.getReadableDatabase();
         }
-
-
     }
 
     public static void addHistory(String msg) {
@@ -158,7 +156,6 @@ public class SendHistory {
             tLogs.add(itemId);
         }
         cursor.close();
-
 
         SharedPreferences sp = context.getSharedPreferences(Define.SP_MSG, Context.MODE_PRIVATE);
         Set<String> msg_set = new HashSet<>();

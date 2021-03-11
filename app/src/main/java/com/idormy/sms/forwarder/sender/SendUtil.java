@@ -17,7 +17,6 @@ import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.model.vo.WebNotifySettingVo;
 import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.RuleUtil;
-import com.idormy.sms.forwarder.utils.SettingUtil;
 
 import java.util.List;
 
@@ -30,21 +29,6 @@ import static com.idormy.sms.forwarder.model.SenderModel.TYPE_WEB_NOTIFY;
 
 public class SendUtil {
     private static String TAG = "SendUtil";
-
-    public static void send_msg(String msg) {
-        if (SettingUtil.using_dingding()) {
-            try {
-                SenderDingdingMsg.sendMsg(msg);
-            } catch (Exception e) {
-                Log.d(TAG, "发送出错：" + e.getMessage());
-            }
-
-        }
-        if (SettingUtil.using_email()) {
-//            SenderMailMsg.send(SettingUtil.get_send_util_email(Define.SP_MSG_SEND_UTIL_EMAIL_TOADD_KEY),"转发",msg);
-        }
-
-    }
 
     public static void send_msg_list(Context context, List<SmsVo> smsVoList) {
         Log.i(TAG, "send_msg_list size: " + smsVoList.size());
