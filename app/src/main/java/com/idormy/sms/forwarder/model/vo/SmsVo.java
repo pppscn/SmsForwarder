@@ -10,7 +10,7 @@ public class SmsVo implements Serializable {
     String mobile;
     String content;
     Date date;
-    String simInfo = "本机号码：未知";
+    String simInfo = "SIM1_unknown_unknown";
 
     public SmsVo() {
     }

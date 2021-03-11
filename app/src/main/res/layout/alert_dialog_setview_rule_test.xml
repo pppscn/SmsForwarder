@@ -18,7 +18,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="测试模拟的手机号" />
+                android:text="测试模拟的接收卡槽" />
+
+
+            <RadioGroup
+                android:id="@+id/radioGroupTestSimSlot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:gravity="left|center_vertical"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/btnSimSlot1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="SIM1" />
+
+                <RadioButton
+                    android:id="@+id/btnSimSlot2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SIM2" />
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:text="测试模拟的来源号码" />
 
 
             <EditText

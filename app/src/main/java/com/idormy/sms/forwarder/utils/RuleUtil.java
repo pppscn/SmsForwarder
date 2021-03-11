@@ -29,7 +29,6 @@ public class RuleUtil {
             // Gets the data repository in write mode
             db = dbHelper.getReadableDatabase();
         }
-
     }
 
     public static long addRule(RuleModel ruleModel) {
@@ -40,6 +39,7 @@ public class RuleUtil {
         values.put(RuleTable.RuleEntry.COLUMN_NAME_CHECK, ruleModel.getCheck());
         values.put(RuleTable.RuleEntry.COLUMN_NAME_VALUE, ruleModel.getValue());
         values.put(RuleTable.RuleEntry.COLUMN_NAME_SENDER_ID, ruleModel.getSenderId());
+        values.put(RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT, ruleModel.getSimSlot());
 
         // Insert the new row, returning the primary key value of the new row
 
@@ -55,6 +55,7 @@ public class RuleUtil {
         values.put(RuleTable.RuleEntry.COLUMN_NAME_CHECK, ruleModel.getCheck());
         values.put(RuleTable.RuleEntry.COLUMN_NAME_VALUE, ruleModel.getValue());
         values.put(RuleTable.RuleEntry.COLUMN_NAME_SENDER_ID, ruleModel.getSenderId());
+        values.put(RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT, ruleModel.getSimSlot());
 
         String selection = RuleTable.RuleEntry._ID + " = ? ";
         String[] whereArgs = {String.valueOf(ruleModel.getId())};
@@ -89,10 +90,11 @@ public class RuleUtil {
                 RuleTable.RuleEntry.COLUMN_NAME_CHECK,
                 RuleTable.RuleEntry.COLUMN_NAME_VALUE,
                 RuleTable.RuleEntry.COLUMN_NAME_SENDER_ID,
-                RuleTable.RuleEntry.COLUMN_NAME_TIME
+                RuleTable.RuleEntry.COLUMN_NAME_TIME,
+                RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT,
         };
         // Define 'where' part of query.
-        String selection = " 1 ";
+        String selection = " 1 = 1 ";
         // Specify arguments in placeholder order.
         List<String> selectionArgList = new ArrayList<>();
         if (id != null) {
@@ -104,7 +106,11 @@ public class RuleUtil {
 
         if (key != null) {
             // Define 'where' part of query.
-            selection = " and (" + RuleTable.RuleEntry.COLUMN_NAME_VALUE + " LIKE ? ";
+            if (key.equals("SIM1") || key.equals("SIM2")) {
+                selection += " and " + RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT + " IN ( 'ALL', ? ) ";
+            } else {
+                selection += " and " + RuleTable.RuleEntry.COLUMN_NAME_VALUE + " LIKE ? ";
+            }
             // Specify arguments in placeholder order.
             selectionArgList.add(key);
         }
@@ -138,6 +144,8 @@ public class RuleUtil {
                     cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_NAME_SENDER_ID));
             long itemTime = cursor.getLong(
                     cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_NAME_TIME));
+            String itemSimSlot = cursor.getString(
+                    cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT));
 
             Log.d(TAG, "getRule: itemId" + itemId);
             RuleModel ruleModel = new RuleModel();
@@ -147,6 +155,7 @@ public class RuleUtil {
             ruleModel.setValue(itemValue);
             ruleModel.setSenderId(itemSenderId);
             ruleModel.setTime(itemTime);
+            ruleModel.setSimSlot(itemSimSlot);
 
             tRules.add(ruleModel);
         }
