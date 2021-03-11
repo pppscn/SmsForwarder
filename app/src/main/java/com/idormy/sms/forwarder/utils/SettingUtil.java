@@ -66,7 +66,12 @@ public class SettingUtil {
     }
 
     public static String getAddExtraSim1() {
-        return sp_setting.getString(Define.SP_MSG_KEY_STRING_ADD_EXTRA_SIM1, "");
+        String res = sp_setting.getString(Define.SP_MSG_KEY_STRING_ADD_EXTRA_SIM1, "");
+        Log.d(TAG, "res=" + res);
+        if (res == null || res.equals("")) {
+            res = SimUtil.getSimExtra(1);
+        }
+        return res;
     }
 
     public static void setAddExtraSim1(String sim1) {
@@ -77,7 +82,11 @@ public class SettingUtil {
     }
 
     public static String getAddExtraSim2() {
-        return sp_setting.getString(Define.SP_MSG_KEY_STRING_ADD_EXTRA_SIM2, "");
+        String res = sp_setting.getString(Define.SP_MSG_KEY_STRING_ADD_EXTRA_SIM2, "");
+        if (res == null || res.equals("")) {
+            res = SimUtil.getSimExtra(2);
+        }
+        return res;
     }
 
     public static void setAddExtraSim2(String sim2) {

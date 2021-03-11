@@ -82,4 +82,23 @@ public class SimUtil {
             //Toast.makeText(MainActivity.this, "获取SIM卡信息失败：请先手动设置", Toast.LENGTH_LONG).show();
         }
     }
+
+    //获取卡槽备注
+    public static String getSimExtra(int simId) {
+        String res = "";
+        try {
+            for (Map.Entry<String, Map> entry : MyApplication.SimInfo.entrySet()) {
+                Map<String, String> sim = entry.getValue();
+                int sim_id = Integer.parseInt(sim.get("sim_id")) + 1;
+                if (sim_id == simId) {
+                    res = sim.get("carrier_name") + "_" + sim.get("phone_number");
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "getSimExtra Fail: " + e.getMessage());
+        }
+
+        return res;
+    }
 }
