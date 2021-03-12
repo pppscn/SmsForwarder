@@ -47,6 +47,8 @@ Android手机监听短信并根据指定规则转发到其他手机：钉钉机�
 - [x] 转发到webhook（支持：单个web页面（[向设置的url发送POST请求](doc/POST_WEB.md)））
 - [x] 转发到企业微信群机器人
 - [x] 转发到企业微信应用消息
+- [x] 转发到ServerChan(Server酱·Turbo版)
+- [x] 转发到Telegram机器人
 - [x] 在线检测新版本、升级
 - [x] 清理缓存
 - [x] 兼容6.xx、7.xx、8.xx、9.xx、10.xx
@@ -89,12 +91,14 @@ Android手机监听短信并根据指定规则转发到其他手机：钉钉机�
 | ![添加/编辑发送方邮箱](pic/sendersetemail.jpg "添加/编辑发送方邮箱") | ![添加/编辑发送方Bark](pic/sendersetbark.jpg "添加/编辑发送方Bark") |
 | 添加/编辑发送方网页通知 | 添加/编辑发送方企业微信群机器人 |
 | ![添加/编辑发送方网页通知](pic/sendersetwebnotify.jpg "添加/编辑发送方网页通知") | ![添加/编辑发送方企业微信群机器人](pic/sendersetqywechat.jpg "添加/编辑发送方企业微信群机器人") |
+| 添加/编辑发送方Telegram机器人 | 添加/编辑发送方Server酱·Turbo版 |
+| ![添加/编辑发送方Telegram机器人](pic/sendertelegram.jpg "添加/编辑发送方Telegram机器人") | ![添加/编辑发送方Server酱·Turbo版](pic/senderserverchan.jpg "添加/编辑发送方Server酱·Turbo版") |
 | 添加/编辑发送方企业微信应用 | 应用设置 |
 | ![添加/编辑发送方企业微信应用](pic/sendersetqywxapp.jpg "添加/编辑发送方企业微信应用") | ![应用设置](pic/setting.jpg "应用设置") |
 | 关于/在线升级 | 支持正则匹配规则 & 支持卡槽匹配规则 |
 | ![在线升级](pic/update.jpg "在线升级") | ![支持正则匹配规则 & 支持卡槽匹配规则](pic/regex.jpg "支持正则匹配规则 & 支持卡槽匹配规则") |
-| 转发短信模板增加卡槽标识 | 添加/编辑发送方Server酱·Turbo版 |
-| ![转发短信模板增加卡槽标识](pic/siminfo.jpg "转发短信模板增加卡槽标识") | ![添加/编辑发送方Server酱·Turbo版](pic/sendersetbark.jpg "添加/编辑发送方Server酱·Turbo版") |
+| 转发短信模板增加卡槽标识 |  |
+| ![转发短信模板增加卡槽标识](pic/siminfo.jpg "转发短信模板增加卡槽标识") | |
 
 --------
 
@@ -117,6 +121,7 @@ Android手机监听短信并根据指定规则转发到其他手机：钉钉机�
     + [v1.5.2](app/release/SmsForwarder_release_20210311_1.5.2.apk) 支持标注卡槽号码(优先使用)、设备信息；自定义转发信息模版
 + [v1.6.0](app/release/SmsForwarder_release_20210312_1.6.0.apk) 优化获取SIM信息（兼容高版本Android） & 自动填写设备备注 & 自动填充卡槽信息到SIM1备注/SIM2备注 & 支持卡槽匹配规则 & 支持正则匹配规则
     + [v1.6.1](app/release/SmsForwarder_release_20210312_1.6.1.apk) 新增转发到Server酱·Turbo版
+    + [v1.6.2](app/release/SmsForwarder_release_20210312_1.6.2.apk) 新增转发到Telegram机器人
 
 --------
 

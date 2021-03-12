@@ -15,6 +15,7 @@ import com.idormy.sms.forwarder.model.vo.QYWXAppSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXGroupRobotSettingVo;
 import com.idormy.sms.forwarder.model.vo.ServerChanSettingVo;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
+import com.idormy.sms.forwarder.model.vo.TelegramSettingVo;
 import com.idormy.sms.forwarder.model.vo.WebNotifySettingVo;
 import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.RuleUtil;
@@ -27,6 +28,7 @@ import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SERVER_CHAN;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_TELEGRAM;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_WEB_NOTIFY;
 
 public class SendUtil {
@@ -195,6 +197,20 @@ public class SendUtil {
                             SenderServerChanMsg.sendMsg(handError, serverChanSettingVo.getSendKey(), smsVo.getMobile(), smsVo.getSmsVoForSend());
                         } catch (Exception e) {
                             Log.e(TAG, "senderSendMsg: SenderServerChanMsg error " + e.getMessage());
+                        }
+                    }
+                }
+                break;
+
+            case TYPE_TELEGRAM:
+                //try phrase json setting
+                if (senderModel.getJsonSetting() != null) {
+                    TelegramSettingVo telegramSettingVo = JSON.parseObject(senderModel.getJsonSetting(), TelegramSettingVo.class);
+                    if (telegramSettingVo != null) {
+                        try {
+                            SenderTelegramMsg.sendMsg(handError, telegramSettingVo.getApiToken(), telegramSettingVo.getChatId(), smsVo.getMobile(), smsVo.getSmsVoForSend());
+                        } catch (Exception e) {
+                            Log.e(TAG, "senderSendMsg: SenderTelegramMsg error " + e.getMessage());
                         }
                     }
                 }

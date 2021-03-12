@@ -28,6 +28,7 @@ import com.idormy.sms.forwarder.model.vo.EmailSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXAppSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXGroupRobotSettingVo;
 import com.idormy.sms.forwarder.model.vo.ServerChanSettingVo;
+import com.idormy.sms.forwarder.model.vo.TelegramSettingVo;
 import com.idormy.sms.forwarder.model.vo.WebNotifySettingVo;
 import com.idormy.sms.forwarder.sender.SenderBarkMsg;
 import com.idormy.sms.forwarder.sender.SenderDingdingMsg;
@@ -35,6 +36,7 @@ import com.idormy.sms.forwarder.sender.SenderMailMsg;
 import com.idormy.sms.forwarder.sender.SenderQyWxAppMsg;
 import com.idormy.sms.forwarder.sender.SenderQyWxGroupRobotMsg;
 import com.idormy.sms.forwarder.sender.SenderServerChanMsg;
+import com.idormy.sms.forwarder.sender.SenderTelegramMsg;
 import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.sender.SenderWebNotifyMsg;
 import com.umeng.analytics.MobclickAgent;
@@ -51,6 +53,7 @@ import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SERVER_CHAN;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_TELEGRAM;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_WEB_NOTIFY;
 
 public class SenderActivity extends AppCompatActivity {
@@ -126,6 +129,9 @@ public class SenderActivity extends AppCompatActivity {
                         break;
                     case TYPE_SERVER_CHAN:
                         setServerChan(senderModel);
+                        break;
+                    case TYPE_TELEGRAM:
+                        setTelegram(senderModel);
                         break;
                     default:
                         Toast.makeText(SenderActivity.this, "异常的发送方类型，自动删除！", Toast.LENGTH_LONG).show();
@@ -207,6 +213,9 @@ public class SenderActivity extends AppCompatActivity {
                         break;
                     case TYPE_SERVER_CHAN:
                         setServerChan(null);
+                        break;
+                    case TYPE_TELEGRAM:
+                        setTelegram(null);
                         break;
                     default:
                         Toast.makeText(SenderActivity.this, "暂不支持这种转发！", Toast.LENGTH_LONG).show();
@@ -942,6 +951,104 @@ public class SenderActivity extends AppCompatActivity {
                     }
                 } else {
                     Toast.makeText(SenderActivity.this, "指定成员 不能为空 或者 选择@all", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    //Telegram机器人
+    private void setTelegram(final SenderModel senderModel) {
+        TelegramSettingVo telegramSettingVo = null;
+        //try phrase json setting
+        if (senderModel != null) {
+            String jsonSettingStr = senderModel.getJsonSetting();
+            if (jsonSettingStr != null) {
+                telegramSettingVo = JSON.parseObject(jsonSettingStr, TelegramSettingVo.class);
+            }
+        }
+
+        final AlertDialog.Builder alertDialog71 = new AlertDialog.Builder(SenderActivity.this);
+        View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_telegram, null);
+
+        final EditText editTextTelegramName = view1.findViewById(R.id.editTextTelegramName);
+        if (senderModel != null) editTextTelegramName.setText(senderModel.getName());
+        final EditText editTextTelegramApiToken = view1.findViewById(R.id.editTextTelegramApiToken);
+        if (telegramSettingVo != null)
+            editTextTelegramApiToken.setText(telegramSettingVo.getApiToken());
+        final EditText editTextTelegramChatId = view1.findViewById(R.id.editTextTelegramChatId);
+        if (telegramSettingVo != null)
+            editTextTelegramChatId.setText(telegramSettingVo.getChatId());
+
+        Button buttonTelegramOk = view1.findViewById(R.id.buttonTelegramOk);
+        Button buttonTelegramDel = view1.findViewById(R.id.buttonTelegramDel);
+        Button buttonTelegramTest = view1.findViewById(R.id.buttonTelegramTest);
+        alertDialog71
+                .setTitle(R.string.settelegramtitle)
+                .setIcon(R.mipmap.telegram)
+                .setView(view1)
+                .create();
+        final AlertDialog show = alertDialog71.show();
+
+        buttonTelegramOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (senderModel == null) {
+                    SenderModel newSenderModel = new SenderModel();
+                    newSenderModel.setName(editTextTelegramName.getText().toString());
+                    newSenderModel.setType(TYPE_TELEGRAM);
+                    newSenderModel.setStatus(STATUS_ON);
+                    TelegramSettingVo telegramSettingVoNew = new TelegramSettingVo(
+                            editTextTelegramApiToken.getText().toString(),
+                            editTextTelegramChatId.getText().toString()
+                    );
+                    newSenderModel.setJsonSetting(JSON.toJSONString(telegramSettingVoNew));
+                    SenderUtil.addSender(newSenderModel);
+                    initSenders();
+                    adapter.add(senderModels);
+                } else {
+                    senderModel.setName(editTextTelegramName.getText().toString());
+                    senderModel.setType(TYPE_TELEGRAM);
+                    senderModel.setStatus(STATUS_ON);
+                    TelegramSettingVo telegramSettingVoNew = new TelegramSettingVo(
+                            editTextTelegramApiToken.getText().toString(),
+                            editTextTelegramChatId.getText().toString()
+                    );
+                    senderModel.setJsonSetting(JSON.toJSONString(telegramSettingVoNew));
+                    SenderUtil.updateSender(senderModel);
+                    initSenders();
+                    adapter.update(senderModels);
+                }
+
+                show.dismiss();
+
+            }
+        });
+        buttonTelegramDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (senderModel != null) {
+                    SenderUtil.delSender(senderModel.getId());
+                    initSenders();
+                    adapter.del(senderModels);
+                }
+                show.dismiss();
+            }
+        });
+        buttonTelegramTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String apiToken = editTextTelegramApiToken.getText().toString();
+                String chatId = editTextTelegramChatId.getText().toString();
+                if (!apiToken.isEmpty() && !chatId.isEmpty()) {
+                    try {
+                        SenderTelegramMsg.sendMsg(handler, apiToken, chatId, "19999999999", "【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服");
+                    } catch (Exception e) {
+                        Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(SenderActivity.this, "机器人的ApiToken 和 被通知人的ChatId 都不能为空", Toast.LENGTH_LONG).show();
                 }
             }
         });

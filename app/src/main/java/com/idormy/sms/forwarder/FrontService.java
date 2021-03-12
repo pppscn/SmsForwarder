@@ -30,7 +30,7 @@ public class FrontService extends Service {
         if (romType == OSUtils.ROM_TYPE.MIUI_ROM) {
             builder.setContentTitle("短信转发器");
         }
-        builder.setContentText("根据规则转发到钉钉/微信/邮箱/bark/Server酱/webhook等");
+        builder.setContentText("根据规则转发到钉钉/微信/邮箱/bark/Server酱/Telegram/webhook等");
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity
                 (this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);

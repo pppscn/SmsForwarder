@@ -13,6 +13,7 @@ public class SenderModel {
     public static final int TYPE_QYWX_GROUP_ROBOT = 4;
     public static final int TYPE_QYWX_APP = 5;
     public static final int TYPE_SERVER_CHAN = 6;
+    public static final int TYPE_TELEGRAM = 7;
     private Long id;
     private String name;
     private int status;
@@ -48,6 +49,8 @@ public class SenderModel {
                 return R.mipmap.qywxapp;
             case (TYPE_SERVER_CHAN):
                 return R.mipmap.serverchan;
+            case (TYPE_TELEGRAM):
+                return R.mipmap.telegram;
             default:
                 return R.mipmap.sms;
         }
@@ -109,6 +112,8 @@ public class SenderModel {
                 return R.mipmap.qywxapp;
             case (TYPE_SERVER_CHAN):
                 return R.mipmap.serverchan;
+            case (TYPE_TELEGRAM):
+                return R.mipmap.telegram;
             default:
                 return R.mipmap.sms;
 
