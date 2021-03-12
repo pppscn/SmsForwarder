@@ -111,7 +111,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="开源地址" />
+                android:text="更新日志" />
 
             <TextView
                 android:id="@+id/linkweb"
@@ -120,7 +120,7 @@
                 android:layout_weight="3"
                 android:autoLink="web"
                 android:gravity="right"
-                android:text="https://github.com/pppscn/SmsForwarder"
+                android:text="https://github.com/pppscn/SmsForwarder/releases"
                 android:textSize="14sp" />
         </LinearLayout>
 

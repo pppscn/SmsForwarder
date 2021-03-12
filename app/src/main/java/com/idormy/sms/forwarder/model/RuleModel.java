@@ -42,6 +42,7 @@ public class RuleModel {
         CHECK_MAP.put("startwith", "开头是");
         CHECK_MAP.put("endwith", "结尾是");
         CHECK_MAP.put("notis", "不是");
+        CHECK_MAP.put("regex", "正则匹配");
     }
 
     static {

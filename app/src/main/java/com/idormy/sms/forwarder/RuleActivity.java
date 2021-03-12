@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -144,7 +145,15 @@ public class RuleActivity extends AppCompatActivity {
         if (ruleModel != null) radioGroupRuleFiled.check(ruleModel.getRuleFiledCheckId());
 
         final RadioGroup radioGroupRuleCheck = (RadioGroup) view1.findViewById(R.id.radioGroupRuleCheck);
-        if (ruleModel != null) radioGroupRuleCheck.check(ruleModel.getRuleCheckCheckId());
+        final RadioGroup radioGroupRuleCheck2 = (RadioGroup) view1.findViewById(R.id.radioGroupRuleCheck2);
+        if (ruleModel != null) {
+            int ruleCheckCheckId = ruleModel.getRuleCheckCheckId();
+            if (ruleCheckCheckId == R.id.btnIs || ruleCheckCheckId == R.id.btnNotIs || ruleCheckCheckId == R.id.btnContain) {
+                radioGroupRuleCheck.check(ruleCheckCheckId);
+            } else {
+                radioGroupRuleCheck2.check(ruleCheckCheckId);
+            }
+        }
 
         final RadioGroup radioGroupSimSlot = (RadioGroup) view1.findViewById(R.id.radioGroupSimSlot);
         if (ruleModel != null) radioGroupSimSlot.check(ruleModel.getRuleSimSlotCheckId());
@@ -174,7 +183,7 @@ public class RuleActivity extends AppCompatActivity {
         //当更新选择的字段的时候，更新之下各个选项的状态
         final LinearLayout matchTypeLayout = (LinearLayout) view1.findViewById(R.id.matchTypeLayout);
         final LinearLayout matchValueLayout = (LinearLayout) view1.findViewById(R.id.matchValueLayout);
-        refreshSelectRadioGroupRuleFiled(radioGroupRuleFiled, radioGroupRuleCheck, editTextRuleValue, tv_mu_rule_tips, matchTypeLayout, matchValueLayout);
+        refreshSelectRadioGroupRuleFiled(radioGroupRuleFiled, radioGroupRuleCheck, radioGroupRuleCheck2, editTextRuleValue, tv_mu_rule_tips, matchTypeLayout, matchValueLayout);
 
         Button buttonruleok = view1.findViewById(R.id.buttonruleok);
         Button buttonruledel = view1.findViewById(R.id.buttonruledel);
@@ -189,10 +198,12 @@ public class RuleActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Object senderId = ruleSenderTv.getTag();
+                int radioGroupRuleCheckId = Math.max(radioGroupRuleCheck.getCheckedRadioButtonId(), radioGroupRuleCheck2.getCheckedRadioButtonId());
+                Log.d(TAG, "XXXX " + radioGroupRuleCheck.getCheckedRadioButtonId() + "  " + radioGroupRuleCheck2.getCheckedRadioButtonId() + " " + radioGroupRuleCheckId);
                 if (ruleModel == null) {
                     RuleModel newRuleModel = new RuleModel();
                     newRuleModel.setFiled(RuleModel.getRuleFiledFromCheckId(radioGroupRuleFiled.getCheckedRadioButtonId()));
-                    newRuleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheck.getCheckedRadioButtonId()));
+                    newRuleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheckId));
                     newRuleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
                     newRuleModel.setValue(editTextRuleValue.getText().toString());
                     if (senderId != null) {
@@ -203,7 +214,7 @@ public class RuleActivity extends AppCompatActivity {
                     adapter.add(ruleModels);
                 } else {
                     ruleModel.setFiled(RuleModel.getRuleFiledFromCheckId(radioGroupRuleFiled.getCheckedRadioButtonId()));
-                    ruleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheck.getCheckedRadioButtonId()));
+                    ruleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheckId));
                     ruleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
                     ruleModel.setValue(editTextRuleValue.getText().toString());
                     if (senderId != null) {
@@ -237,10 +248,11 @@ public class RuleActivity extends AppCompatActivity {
                 if (senderId == null) {
                     Toast.makeText(RuleActivity.this, "请先创建选择发送方", Toast.LENGTH_LONG).show();
                 } else {
+                    int radioGroupRuleCheckId = Math.max(radioGroupRuleCheck.getCheckedRadioButtonId(), radioGroupRuleCheck2.getCheckedRadioButtonId());
                     if (ruleModel == null) {
                         RuleModel newRuleModel = new RuleModel();
                         newRuleModel.setFiled(RuleModel.getRuleFiledFromCheckId(radioGroupRuleFiled.getCheckedRadioButtonId()));
-                        newRuleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheck.getCheckedRadioButtonId()));
+                        newRuleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheckId));
                         newRuleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
                         newRuleModel.setValue(editTextRuleValue.getText().toString());
                         newRuleModel.setSenderId(Long.valueOf(senderId.toString()));
@@ -248,7 +260,7 @@ public class RuleActivity extends AppCompatActivity {
                         testRule(newRuleModel, Long.valueOf(senderId.toString()));
                     } else {
                         ruleModel.setFiled(RuleModel.getRuleFiledFromCheckId(radioGroupRuleFiled.getCheckedRadioButtonId()));
-                        ruleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheck.getCheckedRadioButtonId()));
+                        ruleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheckId));
                         ruleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
                         ruleModel.setValue(editTextRuleValue.getText().toString());
                         ruleModel.setSenderId(Long.valueOf(senderId.toString()));
@@ -264,18 +276,57 @@ public class RuleActivity extends AppCompatActivity {
     //当更新选择的字段的时候，更新之下各个选项的状态
     // 如果设置了转发全部，禁用选择模式和匹配值输入
     // 如果设置了多重规则，选择模式置为是
-    private void refreshSelectRadioGroupRuleFiled(RadioGroup radioGroupRuleFiled, final RadioGroup radioGroupRuleCheck, final EditText editTextRuleValue, final TextView tv_mu_rule_tips, final LinearLayout matchTypeLayout, final LinearLayout matchValueLayout) {
-        refreshSelectRadioGroupRuleFiledAction(radioGroupRuleFiled.getCheckedRadioButtonId(), radioGroupRuleCheck, editTextRuleValue, tv_mu_rule_tips, matchTypeLayout, matchValueLayout);
+    private void refreshSelectRadioGroupRuleFiled(RadioGroup radioGroupRuleFiled, final RadioGroup radioGroupRuleCheck, final RadioGroup radioGroupRuleCheck2, final EditText editTextRuleValue, final TextView tv_mu_rule_tips, final LinearLayout matchTypeLayout, final LinearLayout matchValueLayout) {
+        refreshSelectRadioGroupRuleFiledAction(radioGroupRuleFiled.getCheckedRadioButtonId(), radioGroupRuleCheck, radioGroupRuleCheck2, editTextRuleValue, tv_mu_rule_tips, matchTypeLayout, matchValueLayout);
 
+        radioGroupRuleCheck.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @SuppressLint("ResourceType")
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                Log.d(TAG, String.valueOf(group));
+                Log.d(TAG, String.valueOf(checkedId));
+                if (group != null && checkedId > 0) {
+                    if (group == radioGroupRuleCheck) {
+                        radioGroupRuleCheck2.clearCheck();
+                    } else if (group == radioGroupRuleCheck2) {
+                        radioGroupRuleCheck.clearCheck();
+                    }
+                    group.check(checkedId);
+                }
+            }
+        });
+        radioGroupRuleCheck2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @SuppressLint("ResourceType")
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                Log.d(TAG, String.valueOf(group));
+                Log.d(TAG, String.valueOf(checkedId));
+                if (group != null && checkedId > 0) {
+                    if (group == radioGroupRuleCheck) {
+                        radioGroupRuleCheck2.clearCheck();
+                    } else if (group == radioGroupRuleCheck2) {
+                        radioGroupRuleCheck.clearCheck();
+                    }
+                    group.check(checkedId);
+                }
+            }
+        });
         radioGroupRuleFiled.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                refreshSelectRadioGroupRuleFiledAction(checkedId, radioGroupRuleCheck, editTextRuleValue, tv_mu_rule_tips, matchTypeLayout, matchValueLayout);
+                Log.d(TAG, String.valueOf(group));
+                Log.d(TAG, String.valueOf(checkedId));
+                if (group == radioGroupRuleCheck) {
+                    radioGroupRuleCheck2.clearCheck();
+                } else if (group == radioGroupRuleCheck2) {
+                    radioGroupRuleCheck.clearCheck();
+                }
+                refreshSelectRadioGroupRuleFiledAction(checkedId, radioGroupRuleCheck, radioGroupRuleCheck2, editTextRuleValue, tv_mu_rule_tips, matchTypeLayout, matchValueLayout);
             }
         });
     }
 
-    private void refreshSelectRadioGroupRuleFiledAction(int checkedRuleFiledId, final RadioGroup radioGroupRuleCheck, final EditText editTextRuleValue, final TextView tv_mu_rule_tips, final LinearLayout matchTypeLayout, final LinearLayout matchValueLayout) {
+    private void refreshSelectRadioGroupRuleFiledAction(int checkedRuleFiledId, final RadioGroup radioGroupRuleCheck, final RadioGroup radioGroupRuleCheck2, final EditText editTextRuleValue, final TextView tv_mu_rule_tips, final LinearLayout matchTypeLayout, final LinearLayout matchValueLayout) {
         tv_mu_rule_tips.setVisibility(View.GONE);
         matchTypeLayout.setVisibility(View.VISIBLE);
         matchValueLayout.setVisibility(View.VISIBLE);
@@ -285,6 +336,9 @@ public class RuleActivity extends AppCompatActivity {
                 for (int i = 0; i < radioGroupRuleCheck.getChildCount(); i++) {
                     ((RadioButton) radioGroupRuleCheck.getChildAt(i)).setEnabled(false);
                 }
+                for (int i = 0; i < radioGroupRuleCheck2.getChildCount(); i++) {
+                    ((RadioButton) radioGroupRuleCheck2.getChildAt(i)).setEnabled(false);
+                }
                 editTextRuleValue.setEnabled(false);
                 matchTypeLayout.setVisibility(View.GONE);
                 matchValueLayout.setVisibility(View.GONE);
@@ -293,6 +347,9 @@ public class RuleActivity extends AppCompatActivity {
                 for (int i = 0; i < radioGroupRuleCheck.getChildCount(); i++) {
                     ((RadioButton) radioGroupRuleCheck.getChildAt(i)).setEnabled(false);
                 }
+                for (int i = 0; i < radioGroupRuleCheck2.getChildCount(); i++) {
+                    ((RadioButton) radioGroupRuleCheck2.getChildAt(i)).setEnabled(false);
+                }
                 editTextRuleValue.setEnabled(true);
                 matchTypeLayout.setVisibility(View.GONE);
                 tv_mu_rule_tips.setVisibility(MyApplication.showHelpTip ? View.VISIBLE : View.GONE);
@@ -300,6 +357,9 @@ public class RuleActivity extends AppCompatActivity {
             default:
                 for (int i = 0; i < radioGroupRuleCheck.getChildCount(); i++) {
                     ((RadioButton) radioGroupRuleCheck.getChildAt(i)).setEnabled(true);
+                }
+                for (int i = 0; i < radioGroupRuleCheck2.getChildCount(); i++) {
+                    ((RadioButton) radioGroupRuleCheck2.getChildAt(i)).setEnabled(true);
                 }
                 editTextRuleValue.setEnabled(true);
                 break;
