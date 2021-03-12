@@ -94,6 +94,7 @@ public class LogUtil {
                 RuleTable.RuleEntry.TABLE_NAME + "." + RuleTable.RuleEntry.COLUMN_NAME_FILED + " AS " + RuleTable.RuleEntry.COLUMN_NAME_FILED,
                 RuleTable.RuleEntry.TABLE_NAME + "." + RuleTable.RuleEntry.COLUMN_NAME_CHECK + " AS " + RuleTable.RuleEntry.COLUMN_NAME_CHECK,
                 RuleTable.RuleEntry.TABLE_NAME + "." + RuleTable.RuleEntry.COLUMN_NAME_VALUE + " AS " + RuleTable.RuleEntry.COLUMN_NAME_VALUE,
+                RuleTable.RuleEntry.TABLE_NAME + "." + RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT + " AS " + RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT,
                 SenderTable.SenderEntry.TABLE_NAME + "." + SenderTable.SenderEntry.COLUMN_NAME_NAME + " AS " + SenderTable.SenderEntry.COLUMN_NAME_NAME,
                 SenderTable.SenderEntry.TABLE_NAME + "." + SenderTable.SenderEntry.COLUMN_NAME_TYPE + " AS " + SenderTable.SenderEntry.COLUMN_NAME_TYPE
         };
