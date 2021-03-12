@@ -13,6 +13,7 @@ import com.idormy.sms.forwarder.model.vo.DingDingSettingVo;
 import com.idormy.sms.forwarder.model.vo.EmailSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXAppSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXGroupRobotSettingVo;
+import com.idormy.sms.forwarder.model.vo.ServerChanSettingVo;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.model.vo.WebNotifySettingVo;
 import com.idormy.sms.forwarder.utils.LogUtil;
@@ -25,6 +26,7 @@ import static com.idormy.sms.forwarder.model.SenderModel.TYPE_DINGDING;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SERVER_CHAN;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_WEB_NOTIFY;
 
 public class SendUtil {
@@ -179,6 +181,20 @@ public class SendUtil {
                             SenderQyWxAppMsg.sendMsg(handError, qYWXAppSettingVo.getCorpID(), qYWXAppSettingVo.getAgentID(), qYWXAppSettingVo.getSecret(), qYWXAppSettingVo.getToUser(), smsVo.getSmsVoForSend(), false);
                         } catch (Exception e) {
                             Log.e(TAG, "senderSendMsg: qywx_app error " + e.getMessage());
+                        }
+                    }
+                }
+                break;
+
+            case TYPE_SERVER_CHAN:
+                //try phrase json setting
+                if (senderModel.getJsonSetting() != null) {
+                    ServerChanSettingVo serverChanSettingVo = JSON.parseObject(senderModel.getJsonSetting(), ServerChanSettingVo.class);
+                    if (serverChanSettingVo != null) {
+                        try {
+                            SenderServerChanMsg.sendMsg(handError, serverChanSettingVo.getSendKey(), smsVo.getMobile(), smsVo.getSmsVoForSend());
+                        } catch (Exception e) {
+                            Log.e(TAG, "senderSendMsg: SenderServerChanMsg error " + e.getMessage());
                         }
                     }
                 }

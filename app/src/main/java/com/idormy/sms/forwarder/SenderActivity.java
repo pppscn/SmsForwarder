@@ -27,12 +27,14 @@ import com.idormy.sms.forwarder.model.vo.DingDingSettingVo;
 import com.idormy.sms.forwarder.model.vo.EmailSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXAppSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXGroupRobotSettingVo;
+import com.idormy.sms.forwarder.model.vo.ServerChanSettingVo;
 import com.idormy.sms.forwarder.model.vo.WebNotifySettingVo;
 import com.idormy.sms.forwarder.sender.SenderBarkMsg;
 import com.idormy.sms.forwarder.sender.SenderDingdingMsg;
 import com.idormy.sms.forwarder.sender.SenderMailMsg;
 import com.idormy.sms.forwarder.sender.SenderQyWxAppMsg;
 import com.idormy.sms.forwarder.sender.SenderQyWxGroupRobotMsg;
+import com.idormy.sms.forwarder.sender.SenderServerChanMsg;
 import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.sender.SenderWebNotifyMsg;
 import com.umeng.analytics.MobclickAgent;
@@ -48,6 +50,7 @@ import static com.idormy.sms.forwarder.model.SenderModel.TYPE_DINGDING;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SERVER_CHAN;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_WEB_NOTIFY;
 
 public class SenderActivity extends AppCompatActivity {
@@ -120,6 +123,9 @@ public class SenderActivity extends AppCompatActivity {
                         break;
                     case TYPE_QYWX_APP:
                         setQYWXApp(senderModel);
+                        break;
+                    case TYPE_SERVER_CHAN:
+                        setServerChan(senderModel);
                         break;
                     default:
                         Toast.makeText(SenderActivity.this, "异常的发送方类型，自动删除！", Toast.LENGTH_LONG).show();
@@ -198,6 +204,9 @@ public class SenderActivity extends AppCompatActivity {
                         break;
                     case TYPE_QYWX_APP:
                         setQYWXApp(null);
+                        break;
+                    case TYPE_SERVER_CHAN:
+                        setServerChan(null);
                         break;
                     default:
                         Toast.makeText(SenderActivity.this, "暂不支持这种转发！", Toast.LENGTH_LONG).show();
@@ -528,6 +537,97 @@ public class SenderActivity extends AppCompatActivity {
         });
     }
 
+    private void setServerChan(final SenderModel senderModel) {
+        ServerChanSettingVo serverchanSettingVo = null;
+        //try phrase json setting
+        if (senderModel != null) {
+            String jsonSettingStr = senderModel.getJsonSetting();
+            if (jsonSettingStr != null) {
+                serverchanSettingVo = JSON.parseObject(jsonSettingStr, ServerChanSettingVo.class);
+            }
+        }
+
+        final AlertDialog.Builder alertDialog71 = new AlertDialog.Builder(SenderActivity.this);
+        View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_serverchan, null);
+
+        final EditText editTextServerChanName = view1.findViewById(R.id.editTextServerChanName);
+        if (senderModel != null) editTextServerChanName.setText(senderModel.getName());
+        final EditText editTextServerChanSendKey = view1.findViewById(R.id.editTextServerChanSendKey);
+        if (serverchanSettingVo != null)
+            editTextServerChanSendKey.setText(serverchanSettingVo.getSendKey());
+
+        Button buttonServerChanOk = view1.findViewById(R.id.buttonServerChanOk);
+        Button buttonServerChanDel = view1.findViewById(R.id.buttonServerChanDel);
+        Button buttonServerChanTest = view1.findViewById(R.id.buttonServerChanTest);
+        alertDialog71
+                .setTitle(R.string.setserverchantitle)
+                .setIcon(R.mipmap.serverchan)
+                .setView(view1)
+                .create();
+        final AlertDialog show = alertDialog71.show();
+
+        buttonServerChanOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (senderModel == null) {
+                    SenderModel newSenderModel = new SenderModel();
+                    newSenderModel.setName(editTextServerChanName.getText().toString());
+                    newSenderModel.setType(TYPE_SERVER_CHAN);
+                    newSenderModel.setStatus(STATUS_ON);
+                    ServerChanSettingVo serverchanSettingVoNew = new ServerChanSettingVo(
+                            editTextServerChanSendKey.getText().toString()
+                    );
+                    newSenderModel.setJsonSetting(JSON.toJSONString(serverchanSettingVoNew));
+                    SenderUtil.addSender(newSenderModel);
+                    initSenders();
+                    adapter.add(senderModels);
+                } else {
+                    senderModel.setName(editTextServerChanName.getText().toString());
+                    senderModel.setType(TYPE_SERVER_CHAN);
+                    senderModel.setStatus(STATUS_ON);
+                    ServerChanSettingVo serverchanSettingVoNew = new ServerChanSettingVo(
+                            editTextServerChanSendKey.getText().toString()
+                    );
+                    senderModel.setJsonSetting(JSON.toJSONString(serverchanSettingVoNew));
+                    SenderUtil.updateSender(senderModel);
+                    initSenders();
+                    adapter.update(senderModels);
+                }
+
+                show.dismiss();
+
+            }
+        });
+        buttonServerChanDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (senderModel != null) {
+                    SenderUtil.delSender(senderModel.getId());
+                    initSenders();
+                    adapter.del(senderModels);
+                }
+                show.dismiss();
+            }
+        });
+        buttonServerChanTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String serverchanServer = editTextServerChanSendKey.getText().toString();
+                if (!serverchanServer.isEmpty()) {
+                    try {
+                        SenderServerChanMsg.sendMsg(handler, serverchanServer, "19999999999", "【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服");
+                    } catch (Exception e) {
+                        Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(SenderActivity.this, "Server酱·Turbo版的 SendKey 不能为空", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
     private void setWebNotify(final SenderModel senderModel) {
         WebNotifySettingVo webNotifySettingVo = null;
         //try phrase json setting
@@ -852,7 +952,6 @@ public class SenderActivity extends AppCompatActivity {
         Log.d(TAG, "onDestroy");
         super.onDestroy();
     }
-
 
     @Override
     protected void onResume() {
