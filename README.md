@@ -2,11 +2,11 @@
 
 Android手机监听短信并根据指定规则转发到其他手机：钉钉机器人、企业微信群机器人、企业微信应用消息、邮箱、bark、webhook等
 
-> ⚠ 此项目在 [xiaoyuanhost/TranspondSms](https://github.com/xiaoyuanhost/TranspondSms) 的基础上优化改造而来，感谢原作者!
+> ⚠ 首发地址：https://github.com/pppscn/SmsForwarder
 
-首发地址：https://github.com/pppscn/SmsForwarder
+> ⚠ 同步镜像：https://gitee.com/pp/SmsForwarder
 
-同步镜像：https://gitee.com/pp/SmsForwarder
+> ⚠ 网盘下载：https://wws.lanzous.com/b025yl86h 访问密码：ppppcn
 
 --------
 
@@ -98,7 +98,7 @@ Android手机监听短信并根据指定规则转发到其他手机：钉钉机�
 
 --------
 
-## 更新记录：
+## 更新记录：（PS.点击版本号下载对应的版本）
 
 + [v1.0.0](app/release/SmsForwarder_release_20210213_1.0.0.apk) 优化后第一版
 + [v1.1.0](app/release/SmsForwarder_release_20210214_1.1.0.apk) 新增在线升级、缓存清理、加入QQ群功能
@@ -129,6 +129,14 @@ Android手机监听短信并根据指定规则转发到其他手机：钉钉机�
 | QQ交流群：562854376 | 微信交流群 |
 | ![QQ交流群：562854376](pic/qqgroup.jpg "QQ交流群：562854376") | ![微信交流群](pic/wechat.jpg "微信交流群") |
 
+## 感谢
+
+> 本项目使用(或借鉴)了以下项目(或部分代码)，在此表示衷心的感谢！
+
++ https://github.com/xiaoyuanhost/TranspondSms (基于此项目优化改造而来)
++ https://github.com/square/okhttp （网络请求）
++ https://github.com/xuexiangjys/XUpdateAPI （在线升级）
++ https://github.com/mailhu/emailkit （邮件发送）
 
 ## LICENSE    
 BSD
