@@ -93,8 +93,8 @@ Android手机监听短信并根据指定规则转发到其他手机：钉钉机�
 | ![添加/编辑发送方企业微信应用](pic/sendersetqywxapp.jpg "添加/编辑发送方企业微信应用") | ![应用设置](pic/setting.jpg "应用设置") |
 | 关于/在线升级 | 支持正则匹配规则 & 支持卡槽匹配规则 |
 | ![在线升级](pic/update.jpg "在线升级") | ![支持正则匹配规则 & 支持卡槽匹配规则](pic/regex.jpg "支持正则匹配规则 & 支持卡槽匹配规则") |
-| 转发短信模板增加卡槽标识 | |
-| ![转发短信模板增加卡槽标识](pic/siminfo.jpg "转发短信模板增加卡槽标识") | |
+| 转发短信模板增加卡槽标识 | 添加/编辑发送方Server酱·Turbo版 |
+| ![转发短信模板增加卡槽标识](pic/siminfo.jpg "转发短信模板增加卡槽标识") | ![添加/编辑发送方Server酱·Turbo版](pic/sendersetbark.jpg "添加/编辑发送方Server酱·Turbo版") |
 
 --------
 
@@ -116,6 +116,7 @@ Android手机监听短信并根据指定规则转发到其他手机：钉钉机�
     + [v1.5.1](app/release/SmsForwarder_release_20210310_1.5.1.apk) 解决Android 9.xx、10.xx收不到广播问题
     + [v1.5.2](app/release/SmsForwarder_release_20210311_1.5.2.apk) 支持标注卡槽号码(优先使用)、设备信息；自定义转发信息模版
 + [v1.6.0](app/release/SmsForwarder_release_20210312_1.6.0.apk) 优化获取SIM信息（兼容高版本Android） & 自动填写设备备注 & 自动填充卡槽信息到SIM1备注/SIM2备注 & 支持卡槽匹配规则 & 支持正则匹配规则
+    + [v1.6.1](app/release/SmsForwarder_release_20210312_1.6.1.apk) 新增转发到Server酱·Turbo版
 
 --------
 
