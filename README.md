@@ -6,7 +6,7 @@ Android手机监听短信并根据指定规则转发到其他手机：钉钉机�
 
 > ⚠ 同步镜像：https://gitee.com/pp/SmsForwarder
 
-> ⚠ 网盘下载：https://wws.lanzous.com/b025yl86h 访问密码：ppppcn
+> ⚠ 网盘下载：https://wws.lanzous.com/b025yl86h 访问密码：`pppscn`
 
 --------
 
@@ -133,10 +133,11 @@ Android手机监听短信并根据指定规则转发到其他手机：钉钉机�
 
 > 本项目使用(或借鉴)了以下项目(或部分代码)，在此表示衷心的感谢！
 
-+ https://github.com/xiaoyuanhost/TranspondSms (基于此项目优化改造而来)
++ https://github.com/xiaoyuanhost/TranspondSms (基于此项目优化改造)
 + https://github.com/square/okhttp （网络请求）
 + https://github.com/xuexiangjys/XUpdateAPI （在线升级）
 + https://github.com/mailhu/emailkit （邮件发送）
++ https://github.com/alibaba/fastjson (Json解析)
 
 ## LICENSE    
 BSD
