@@ -3,20 +3,20 @@ package com.idormy.sms.forwarder.model.vo;
 import java.io.Serializable;
 
 public class ServerChanSettingVo implements Serializable {
-    private String send_key;
+    private String sendKey;
 
     public ServerChanSettingVo() {
     }
 
-    public ServerChanSettingVo(String send_key) {
-        this.send_key = send_key;
+    public ServerChanSettingVo(String sendKey) {
+        this.sendKey = sendKey;
     }
 
     public String getSendKey() {
-        return send_key;
+        return sendKey;
     }
 
-    public void setSendKey(String send_key) {
-        this.send_key = send_key;
+    public void setSendKey(String sendKey) {
+        this.sendKey = sendKey;
     }
 }
