@@ -12,7 +12,7 @@ public class SenderModel {
     public static final int TYPE_WEB_NOTIFY = 3;
     public static final int TYPE_QYWX_GROUP_ROBOT = 4;
     public static final int TYPE_QYWX_APP = 5;
-    public static final int TYPE_MESSAGE = 6;
+    public static final int TYPE_SERVER_CHAN = 6;
     private Long id;
     private String name;
     private int status;
@@ -46,10 +46,10 @@ public class SenderModel {
                 return R.mipmap.qywx;
             case (TYPE_QYWX_APP):
                 return R.mipmap.qywxapp;
-            case (TYPE_MESSAGE):
-                return R.mipmap.sms;
+            case (TYPE_SERVER_CHAN):
+                return R.mipmap.serverchan;
             default:
-                return R.mipmap.ic_launcher;
+                return R.mipmap.sms;
         }
     }
 
@@ -107,10 +107,10 @@ public class SenderModel {
                 return R.mipmap.qywx;
             case (TYPE_QYWX_APP):
                 return R.mipmap.qywxapp;
-            case (TYPE_MESSAGE):
-                return R.mipmap.sms;
+            case (TYPE_SERVER_CHAN):
+                return R.mipmap.serverchan;
             default:
-                return R.mipmap.ic_launcher;
+                return R.mipmap.sms;
 
         }
     }
