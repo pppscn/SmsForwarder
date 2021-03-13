@@ -2,6 +2,7 @@ package com.idormy.sms.forwarder.utils;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -524,6 +525,39 @@ public class PhoneUtils {
         return list;
     }
 
+    // 检查权限是否获取（android6.0及以上系统可能默认关闭权限，且没提示）
+    public static void CheckPermission(PackageManager pm, Context that) {
+        //PackageManager pm = getPackageManager();
+        boolean permission_internet = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.INTERNET", that.getPackageName()));
+        boolean permission_receive_boot = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.RECEIVE_BOOT_COMPLETED", that.getPackageName()));
+        boolean permission_foreground_service = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.FOREGROUND_SERVICE", that.getPackageName()));
+        boolean permission_read_external_storage = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_EXTERNAL_STORAGE", that.getPackageName()));
+        boolean permission_write_external_storage = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.WRITE_EXTERNAL_STORAGE", that.getPackageName()));
+        boolean permission_receive_sms = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.RECEIVE_SMS", that.getPackageName()));
+        boolean permission_read_sms = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_SMS", that.getPackageName()));
+        boolean permission_send_sms = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.SEND_SMS", that.getPackageName()));
+        boolean permission_read_phone_state = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_PHONE_STATE", that.getPackageName()));
+        boolean permission_read_phone_numbers = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_PHONE_NUMBERS", that.getPackageName()));
+
+        if (!(permission_internet && permission_receive_boot && permission_foreground_service &&
+                permission_read_external_storage && permission_write_external_storage &&
+                permission_receive_sms && permission_read_sms && permission_send_sms &&
+                permission_read_phone_state && permission_read_phone_numbers)) {
+            ActivityCompat.requestPermissions((Activity) that, new String[]{
+                    Manifest.permission.INTERNET,
+                    Manifest.permission.RECEIVE_BOOT_COMPLETED,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.RECEIVE_SMS,
+                    Manifest.permission.READ_SMS,
+                    Manifest.permission.SEND_SMS,
+                    Manifest.permission.READ_PHONE_STATE,
+                    Manifest.permission.READ_PHONE_NUMBERS,
+                    Manifest.permission.FOREGROUND_SERVICE,
+            }, 0x01);
+        }
+    }
+
     /**
      * SIM 卡信息
      */
@@ -598,5 +632,4 @@ public class PhoneUtils {
             super(info);
         }
     }
-
 }

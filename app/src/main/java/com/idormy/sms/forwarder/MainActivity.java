@@ -1,12 +1,14 @@
 package com.idormy.sms.forwarder;
 
-import android.Manifest;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,7 +20,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import com.idormy.sms.forwarder.BroadCastReceiver.SmsForwarderBroadcastReceiver;
 import com.idormy.sms.forwarder.adapter.LogAdapter;
@@ -33,6 +34,20 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ReFlashListView.IReflashListener {
 
+    ServiceConnection conn = new ServiceConnection() {
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            // TODO Auto-generated method stub
+        }
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            // 当service绑定成功时，会调用次方法，可以在此申请权限
+            PackageManager pm = getPackageManager();
+            PhoneUtils.CheckPermission(pm, MainActivity.this);
+        }
+    };
     private IntentFilter intentFilter;
     private SmsForwarderBroadcastReceiver smsBroadcastReceiver;
     private String TAG = "MainActivity";
@@ -43,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         LogUtil.init(this);
         Log.d(TAG, "oncreate");
 
@@ -50,7 +66,8 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
         setContentView(R.layout.activity_main);
 
         //检查权限是否获取
-        checkPermission();
+        PackageManager pm = getPackageManager();
+        PhoneUtils.CheckPermission(pm, this);
 
         //获取SIM信息
         PhoneUtils.init(this);
@@ -217,39 +234,6 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addCategory(Intent.CATEGORY_HOME);
         startActivity(intent);
-    }
-
-    // 检查权限是否获取（android6.0及以上系统可能默认关闭权限，且没提示）
-    private void checkPermission() {
-        PackageManager pm = getPackageManager();
-        boolean permission_internet = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.INTERNET", this.getPackageName()));
-        boolean permission_receive_boot = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.RECEIVE_BOOT_COMPLETED", this.getPackageName()));
-        boolean permission_foreground_service = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.FOREGROUND_SERVICE", this.getPackageName()));
-        boolean permission_read_external_storage = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_EXTERNAL_STORAGE", this.getPackageName()));
-        boolean permission_write_external_storage = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.WRITE_EXTERNAL_STORAGE", this.getPackageName()));
-        boolean permission_receive_sms = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.RECEIVE_SMS", this.getPackageName()));
-        boolean permission_read_sms = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_SMS", this.getPackageName()));
-        boolean permission_send_sms = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.SEND_SMS", this.getPackageName()));
-        boolean permission_read_phone_state = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_PHONE_STATE", this.getPackageName()));
-        boolean permission_read_phone_numbers = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_PHONE_NUMBERS", this.getPackageName()));
-
-        if (!(permission_internet && permission_receive_boot && permission_foreground_service &&
-                permission_read_external_storage && permission_write_external_storage &&
-                permission_receive_sms && permission_read_sms && permission_send_sms &&
-                permission_read_phone_state && permission_read_phone_numbers)) {
-            ActivityCompat.requestPermissions(this, new String[]{
-                    Manifest.permission.INTERNET,
-                    Manifest.permission.RECEIVE_BOOT_COMPLETED,
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.RECEIVE_SMS,
-                    Manifest.permission.READ_SMS,
-                    Manifest.permission.SEND_SMS,
-                    Manifest.permission.READ_PHONE_STATE,
-                    Manifest.permission.READ_PHONE_NUMBERS,
-                    Manifest.permission.FOREGROUND_SERVICE,
-            }, 0x01);
-        }
     }
 
     @Override

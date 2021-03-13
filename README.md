@@ -76,6 +76,8 @@
 
 > 近期接收到部分用户反馈，`SmsForwarder`无法正确转发通知类短信，涉及 ROM 有华为 EMUI 和 小米 MIUI。这两个系统提供了验证类短信安全保护功能，导致验证码不能正常通过广播获得。以下是解决方案。
 
+> ⚠ 风险警示：转发验证码可能导致您的个人隐私、账户安全受到损害，如果您已经知晓该风险，请继续进行以下操作。
+
 > 华为 EMUI：
 
 > 信息 > 更多 > 设置 > 高级 关闭验证码安全保护开关。
@@ -143,7 +145,7 @@
 
 * 与 @BotFather 私聊，申请 Bot
     * /newbot 后输入机器人昵称
-    * 然后输入机器人的用户名（建议：使用密码生成器生成随机字符串，避免一直重复尝试）
+    * 然后输入机器人的用户名（建议：使用密码生成器生成随机字符串，避免一直重复尝试；用户名必须用 bot 作为结尾）
     * /token 获取apiToken，然后输入上面机器人的用户名
     * 获得apiToken，格式参考：1234567890:ABCDEFGHIJKLMNOPQRSTUVWXYZ
 * 复制 apiToken 到「设置Telegram机器人的ApiToken」一栏
@@ -201,6 +203,7 @@
     + [v1.6.1](app/release/SmsForwarder_release_20210312_1.6.1.apk) 新增转发到Server酱·Turbo版
     + [v1.6.2](app/release/SmsForwarder_release_20210312_1.6.2.apk) 新增转发到Telegram机器人
     + [v1.6.3](app/release/SmsForwarder_release_20210313_1.6.3.apk) 转发到webhook支持GET方式（节点改变，原配置要重新编辑）；兼容Android5.0（待验证，仅minSdkVersion改为21）；修复钉钉机器人没启用加签时url拼接错误问题
+    + [v1.6.3](app/release/SmsForwarder_release_20210313_1.6.4.apk) 修复开机自启后无法转发短信，要打开软件后才会转发短信的问题
 
 --------
 
