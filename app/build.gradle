@@ -12,7 +12,7 @@ android {
     }
     defaultConfig {
         applicationId "com.idormy.sms.forwarder"
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode appVersionCode
         versionName appVersionName
