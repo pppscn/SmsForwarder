@@ -62,12 +62,10 @@
 ### 使用流程：
 1. 在Android手机上安装SmsForwarder 本APP后点击应用图标打开
 2. 在设置发送方页面，添加或点击已添加的发送方来设置转发短信使用的方式，现在支持钉钉机器人、企业微信群机器人、企业微信应用消息、邮箱、bark、webhook、Telegram机器人、Server酱：
-   + 设置钉钉机器人请先在钉钉群中添加自定义机器人，复制机器人的token和secret,填入弹出框。点击测试会使用该机器人向群内发送一条消息；点击确认即可添加配置。
-   + 配置邮箱请先在你邮箱的后台管理页面配置smtp选项，并设置密码（授权码），并参照说明配置SmsForwarder弹出框的smtp信息。点击测试会使用该邮箱向配置的邮箱发送一条测试邮件；点击确认即可添加配置。
-   + 配置网页通知请先在 msg.allmything.com 注册登陆并添加一个消息通道，复制消息通道token填入配置弹框。点击测试会向该消息通道推送一条测试消息，可在 msg.allmything.com 的消息页面查看（页面会自动刷新）；点击确认即可添加配置。
+    > 发送方配置见《发送方设置参考》章节
 3. 在设置转发规则页面，添加或点击已添加的转发规则来设置转发什么样的短信，现在支持转发全部、根据手机号、根据短信内容：
-   + 当设置转发全部时，所以接收到的短信都会用转发出去。
-   + 当设置根据手机号或短信内容时，请设置匹配的模式和值，例如：”手机号 是 10086 发送方选钉钉“。
+    + 当设置转发全部时，所以接收到的短信都会用转发出去。
+    + 当设置根据手机号或短信内容时，请设置匹配的模式和值，例如：”手机号 是 10086 发送方选钉钉“。
 4. 点击主页面右上角的菜单可进入设置页面，在设置页面可以更新应用查看应用信息提交意见反馈等
 5. 在主页面下拉可刷新转发的短信，点击清空记录可删除转发的记录
 
@@ -76,6 +74,72 @@
 
 > ⚠ 部分手机系统会限制第三方APP读取验证码类短信（例如：华为手机的短信保护），关闭后才能转发验证码类短信！
 
+### 发送方设置参考
+
+#### 钉钉机器人
+
+* 任意拉两个人成立一个群组，然后将其他人踢出群
+* 在群设置->智能群助手->添加机器人，添加一个新的「自定义机器人」
+* 自定义机器人，安全设置->加签，复制到「加签Secret」一栏
+* 复制自定义机器人的链接中的"access_token="后面的内容到「设置Token」一栏
+* 点击【测试】按钮验证一下
+
+#### 邮件
+
+* 发件服务器：邮箱的SMTP服务器地址，如 smtp.qq.com
+* SMTP端口：SMTP服务器的端口号：通常是25；开启SSL之后，通常是465
+* 发件账号：用于发送提醒邮件的邮箱，例如 xxxx@qq.com
+* 登录密码/授权码：用于发送提醒邮件的密码，QQ邮箱可在邮箱设置中生成一组三方邮件服务专用的授权码，其他邮箱可能需要输入登录密码
+* 收件地址：用于接收提醒的邮箱，例如 yyyy@qq.com
+* 点击【测试】按钮验证一下
+
+#### Bark（转发IOS最佳体验，强烈推荐）
+
+* 从[App Store](https://apps.apple.com/cn/app/bark-%E7%BB%99%E4%BD%A0%E7%9A%84%E6%89%8B%E6%9C%BA%E5%8F%91%E6%8E%A8%E9%80%81/id1403753865)下载iOS的[Bark App](https://github.com/Finb/Bark)安装
+* 打开APP，复制测试URL,粘贴到设置「Bark-Server地址」一栏
+* PS.自建服务端参考 [《Bark服务端部署文档》](https://day.app/2018/06/bark-server-document/)
+* 点击【测试】按钮验证一下
+
+#### Webhook
+
+* 参考 [向设置的url发送POST/GET请求](doc/POST_WEB.md)
+
+#### 企业微信群机器人
+
+* 任意拉两个人成立一个群组，然后将其他人踢出群
+* 在会话列表右键点击刚创建的群->添加群机器人->新创建一个机器人->自定义机器人名称
+* 复制WebHook地址到「设置WebHook地址」一栏
+* 点击【测试】按钮验证一下
+
+#### 企业微信应用消息
+
+* 登录 [企业微信管理后台](https://work.weixin.qq.com/wework_admin/loginpage_wx?from=myhome_qyh_redirect)
+* 在 [我的企业](https://work.weixin.qq.com/wework_admin/frame#profile) 复制「企业ID」
+* 在 [应用管理](https://work.weixin.qq.com/wework_admin/frame#apps) 中 [创建应用](https://work.weixin.qq.com/wework_admin/frame#apps/createApiApp)
+* 进入自建应用，复制「AgentId」和「Secret」
+* 默认是 @all (应用的可见范围内所有人)，如果只想通知一个人，在「指定成员」一栏填写员工账号
+* 点击【测试】按钮验证一下
+
+#### Server酱·Turbo版
+
+* 微信扫码登录 [Server酱·Turbo版](https://sct.ftqq.com/login)
+* 在 [消息通道](https://sct.ftqq.com/forward) 配置消息通道设置
+* 在 [SendKey](https://sct.ftqq.com/sendkey) 栏目复制SendKey，粘贴到设置「设置Server酱·Turbo版的SendKey」一栏
+* 点击【测试】按钮验证一下
+
+#### Telegram机器人（需自备梯子）
+
+* 与 @BotFather 私聊，申请 Bot
+    * /newbot 后输入机器人昵称
+    * 然后输入机器人的用户名（建议：使用密码生成器生成随机字符串，避免一直重复尝试）
+    * /token 获取apiToken，然后输入上面机器人的用户名
+    * 获得apiToken，格式参考：1234567890:ABCDEFGHIJKLMNOPQRSTUVWXYZ
+* 复制 apiToken 到「设置Telegram机器人的ApiToken」一栏
+* 获取自己的CahtID，粘贴到「设置被通知人的ChatId」一栏
+    * 跟自己的机器聊天，随便说点什么
+    * 然后打开这个链接 `https://api.telegram.org/bot<apiToken>/getUpdates` 获取（PS.注意<apiToken>换成你自己的）
+    * ChatID 取值 result->message->chat->id
+* 点击【测试】按钮验证一下
 
 ### 应用截图：
 
