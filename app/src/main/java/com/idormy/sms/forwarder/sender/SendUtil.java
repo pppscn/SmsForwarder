@@ -152,7 +152,7 @@ public class SendUtil {
                     WebNotifySettingVo webNotifySettingVo = JSON.parseObject(senderModel.getJsonSetting(), WebNotifySettingVo.class);
                     if (webNotifySettingVo != null) {
                         try {
-                            SenderWebNotifyMsg.sendMsg(handError, webNotifySettingVo.getToken(), webNotifySettingVo.getSecret(), smsVo.getMobile(), smsVo.getSmsVoForSend());
+                            SenderWebNotifyMsg.sendMsg(handError, webNotifySettingVo.getWebServer(), webNotifySettingVo.getSecret(), webNotifySettingVo.getMethod(), smsVo.getMobile(), smsVo.getSmsVoForSend());
                         } catch (Exception e) {
                             Log.e(TAG, "senderSendMsg: SenderWebNotifyMsg error " + e.getMessage());
                         }

@@ -44,7 +44,7 @@
 - [x] 转发到钉钉机器人（支持：单个钉钉群，@某人）
 - [x] 转发到邮箱（支持：SMTP）
 - [x] 转发到Bark（支持：验证码/动态密码自动复制）
-- [x] 转发到webhook（支持：单个web页面（[向设置的url发送POST请求](doc/POST_WEB.md)））
+- [x] 转发到webhook（支持：单个web页面（[向设置的url发送POST/GET请求](doc/POST_WEB.md)））
 - [x] 转发到企业微信群机器人
 - [x] 转发到企业微信应用消息
 - [x] 转发到ServerChan(Server酱·Turbo版)
@@ -124,6 +124,7 @@
 + [v1.6.0](app/release/SmsForwarder_release_20210312_1.6.0.apk) 优化获取SIM信息（兼容高版本Android） & 自动填写设备备注 & 自动填充卡槽信息到SIM1备注/SIM2备注 & 支持卡槽匹配规则 & 支持正则匹配规则
     + [v1.6.1](app/release/SmsForwarder_release_20210312_1.6.1.apk) 新增转发到Server酱·Turbo版
     + [v1.6.2](app/release/SmsForwarder_release_20210312_1.6.2.apk) 新增转发到Telegram机器人
+    + [v1.6.3](app/release/SmsForwarder_release_20210313_1.6.3.apk) 转发到webhook支持GET方式（节点改变，原配置要重新编辑）；兼容Android5.0（待验证，仅minSdkVersion改为21）；修复钉钉机器人没启用加签时url拼接错误问题
 
 --------
 
