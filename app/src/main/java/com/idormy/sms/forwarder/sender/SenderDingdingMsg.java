@@ -38,18 +38,17 @@ public class SenderDingdingMsg {
         if (token == null || token.isEmpty()) {
             return;
         }
+
+        token = "https://oapi.dingtalk.com/robot/send?access_token=" + token;
         if (secret != null && !secret.isEmpty()) {
             Long timestamp = System.currentTimeMillis();
-
             String stringToSign = timestamp + "\n" + secret;
             Mac mac = Mac.getInstance("HmacSHA256");
             mac.init(new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256"));
             byte[] signData = mac.doFinal(stringToSign.getBytes("UTF-8"));
             String sign = URLEncoder.encode(new String(Base64.encode(signData, Base64.NO_WRAP)), "UTF-8");
-            token = "https://oapi.dingtalk.com/robot/send?access_token=" + token;
             token += "&timestamp=" + timestamp + "&sign=" + sign;
             Log.i(TAG, "webhook_token:" + token);
-
         }
 
         Map textMsgMap = new HashMap();
