@@ -12,6 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -652,12 +653,12 @@ public class SenderActivity extends AppCompatActivity {
 
         final EditText editTextWebNotifyName = view1.findViewById(R.id.editTextWebNotifyName);
         if (senderModel != null) editTextWebNotifyName.setText(senderModel.getName());
-        final EditText editTextWebNotifyToken = view1.findViewById(R.id.editTextWebNotifyToken);
-        if (webNotifySettingVo != null)
-            editTextWebNotifyToken.setText(webNotifySettingVo.getToken());
+        final EditText editTextWebNotifyWebServer = view1.findViewById(R.id.editTextWebNotifyWebServer);
+        if (webNotifySettingVo != null) editTextWebNotifyWebServer.setText(webNotifySettingVo.getWebServer());
         final EditText editTextWebNotifySecret = view1.findViewById(R.id.editTextWebNotifySecret);
-        if (webNotifySettingVo != null)
-            editTextWebNotifySecret.setText(webNotifySettingVo.getSecret());
+        if (webNotifySettingVo != null) editTextWebNotifySecret.setText(webNotifySettingVo.getSecret());
+        final RadioGroup radioGroupWebNotifyMethod = (RadioGroup) view1.findViewById(R.id.radioGroupWebNotifyMethod);
+        if (webNotifySettingVo != null) radioGroupWebNotifyMethod.check(webNotifySettingVo.getWebNotifyMethodCheckId());
 
         Button buttonbebnotifyok = view1.findViewById(R.id.buttonbebnotifyok);
         Button buttonbebnotifydel = view1.findViewById(R.id.buttonbebnotifydel);
@@ -679,8 +680,9 @@ public class SenderActivity extends AppCompatActivity {
                     newSenderModel.setType(TYPE_WEB_NOTIFY);
                     newSenderModel.setStatus(STATUS_ON);
                     WebNotifySettingVo webNotifySettingVoNew = new WebNotifySettingVo(
-                            editTextWebNotifyToken.getText().toString(),
-                            editTextWebNotifySecret.getText().toString()
+                            editTextWebNotifyWebServer.getText().toString(),
+                            editTextWebNotifySecret.getText().toString(),
+                            (radioGroupWebNotifyMethod.getCheckedRadioButtonId() == R.id.radioWebNotifyMethodGet ? "GET" : "POST")
                     );
                     newSenderModel.setJsonSetting(JSON.toJSONString(webNotifySettingVoNew));
                     SenderUtil.addSender(newSenderModel);
@@ -691,8 +693,9 @@ public class SenderActivity extends AppCompatActivity {
                     senderModel.setType(TYPE_WEB_NOTIFY);
                     senderModel.setStatus(STATUS_ON);
                     WebNotifySettingVo webNotifySettingVoNew = new WebNotifySettingVo(
-                            editTextWebNotifyToken.getText().toString(),
-                            editTextWebNotifySecret.getText().toString()
+                            editTextWebNotifyWebServer.getText().toString(),
+                            editTextWebNotifySecret.getText().toString(),
+                            (radioGroupWebNotifyMethod.getCheckedRadioButtonId() == R.id.radioWebNotifyMethodGet ? "GET" : "POST")
                     );
                     senderModel.setJsonSetting(JSON.toJSONString(webNotifySettingVoNew));
                     SenderUtil.updateSender(senderModel);
@@ -718,17 +721,18 @@ public class SenderActivity extends AppCompatActivity {
         buttonbebnotifytest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String token = editTextWebNotifyToken.getText().toString();
+                String webServer = editTextWebNotifyWebServer.getText().toString();
                 String secret = editTextWebNotifySecret.getText().toString();
-                if (!token.isEmpty()) {
+                String method = radioGroupWebNotifyMethod.getCheckedRadioButtonId() == R.id.radioWebNotifyMethodGet ? "GET" : "POST";
+                if (!webServer.isEmpty()) {
                     try {
-                        SenderWebNotifyMsg.sendMsg(handler, token, secret, "SmsForwarder Title", "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                        SenderWebNotifyMsg.sendMsg(handler, webServer, secret, method, "SmsForwarder Title", "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                     } catch (Exception e) {
                         Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
                         e.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(SenderActivity.this, "token 不能为空", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SenderActivity.this, "WebServer 不能为空", Toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -109,7 +109,6 @@ public class SenderDingdingMsg {
                     handError.sendMessage(msg);
                 }
 
-
             }
 
             @Override

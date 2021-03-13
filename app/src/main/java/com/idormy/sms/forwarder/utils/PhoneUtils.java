@@ -327,6 +327,7 @@ public class PhoneUtils {
         Log.d(TAG, "Build.VERSION.SDK_INT = " + Build.VERSION.SDK_INT);
         Log.d(TAG, "Build.VERSION_CODES.LOLLIPOP_MR1 = " + Build.VERSION_CODES.LOLLIPOP_MR1);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            Log.d(TAG, "1.版本超过5.1，调用系统方法");
             //1.版本超过5.1，调用系统方法
             SubscriptionManager mSubscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
             List<SubscriptionInfo> activeSubscriptionInfoList = null;
@@ -354,16 +355,18 @@ public class PhoneUtils {
                         simInfo.mImsi = getReflexMethodWithId(context, "getSubscriberId", String.valueOf(subscriptionInfo.getSubscriptionId()));
                     } catch (MethodNotFoundException ignored) {
                     }
+                    Log.d(TAG, String.valueOf(simInfo));
                     infos.add(simInfo);
                 }
             }
         } else {
+            Log.d(TAG, "2.版本低于5.1的系统，首先调用数据库，看能不能访问到");
             //2.版本低于5.1的系统，首先调用数据库，看能不能访问到
             Uri uri = Uri.parse("content://telephony/siminfo"); //访问raw_contacts表
             ContentResolver resolver = context.getContentResolver();
             Cursor cursor = resolver.query(uri, new String[]{"_id", "icc_id", "sim_id", "display_name", "carrier_name", "name_source", "color", "number", "display_number_format", "data_roaming", "mcc", "mnc"}, null, null, null);
-            if (cursor != null) {
-                while (cursor.moveToNext()) {
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
                     SimInfo simInfo = new SimInfo();
                     simInfo.mCarrierName = cursor.getString(cursor.getColumnIndex("carrier_name"));
                     simInfo.mIccId = cursor.getString(cursor.getColumnIndex("icc_id"));
@@ -377,12 +380,14 @@ public class PhoneUtils {
                         simInfo.mImsi = getReflexMethodWithId(context, "getSubscriberId", String.valueOf(id));
                     } catch (MethodNotFoundException ignored) {
                     }
+                    Log.d(TAG, String.valueOf(simInfo));
                     infos.add(simInfo);
-                }
+                } while (cursor.moveToNext());
                 cursor.close();
             }
         }
 
+        Log.d(TAG, "3.通过反射读取卡槽信息，最后通过IMEI去重");
         //3.通过反射读取卡槽信息，最后通过IMEI去重
         for (int i = 0; i < getSimCount(); i++) {
             infos.add(getReflexSimInfo(context, i));
