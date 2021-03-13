@@ -203,7 +203,7 @@
     + [v1.6.1](app/release/SmsForwarder_release_20210312_1.6.1.apk) 新增转发到Server酱·Turbo版
     + [v1.6.2](app/release/SmsForwarder_release_20210312_1.6.2.apk) 新增转发到Telegram机器人
     + [v1.6.3](app/release/SmsForwarder_release_20210313_1.6.3.apk) 转发到webhook支持GET方式（节点改变，原配置要重新编辑）；兼容Android5.0（待验证，仅minSdkVersion改为21）；修复钉钉机器人没启用加签时url拼接错误问题
-    + [v1.6.3](app/release/SmsForwarder_release_20210313_1.6.4.apk) 修复开机自启后无法转发短信，要打开软件后才会转发短信的问题
+    + [v1.6.4](app/release/SmsForwarder_release_20210313_1.6.4.apk) Android8.1以下手机重启后尝试启动主界面，以便动态获取权限（修复开机自启后无法转发短信，要打开软件后才会转发短信的问题）
 
 --------
 
