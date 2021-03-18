@@ -52,12 +52,30 @@ public class SimUtil {
         return 0;
     }
 
+
+    //通过卡槽ID获取SubscriptionId
+    public static int getSubscriptionIdBySimId(int simId) {
+        try {
+            for (PhoneUtils.SimInfo simInfo : MyApplication.SimInfoList) {
+                Log.d(TAG, "mSimSlotIndex = " + simInfo.mSimSlotIndex);
+                if (simInfo.mSimSlotIndex != -1 && simInfo.mSimSlotIndex == simId) {
+                    return simInfo.mSubscriptionId;
+                }
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "getSimExtra Fail: " + e.getMessage());
+        }
+
+        return 0;
+    }
+
     //获取卡槽备注
     public static String getSimInfo(int simId) {
         String res = "";
         try {
             for (PhoneUtils.SimInfo simInfo : MyApplication.SimInfoList) {
-                if (simInfo.mSimSlotIndex + 1 == simId) {
+                Log.d(TAG, String.valueOf(simInfo));
+                if (simInfo.mSimSlotIndex != -1 && simInfo.mSimSlotIndex + 1 == simId) {
                     res = simInfo.mCarrierName + "_" + simInfo.mNumber;
                     break;
                 }

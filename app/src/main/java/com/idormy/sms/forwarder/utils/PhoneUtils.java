@@ -388,7 +388,7 @@ public class PhoneUtils {
             }
         }
 
-        Log.d(TAG, "3.通过反射读取卡槽信息，最后通过IMEI去重");
+        /*Log.d(TAG, "3.通过反射读取卡槽信息，最后通过IMEI去重");
         //3.通过反射读取卡槽信息，最后通过IMEI去重
         for (int i = 0; i < getSimCount(); i++) {
             infos.add(getReflexSimInfo(context, i));
@@ -399,7 +399,9 @@ public class PhoneUtils {
                 simInfos.add(new SimInfo());
             }
         }
-        return simInfos;
+        return simInfos;*/
+
+        return infos;
     }
 
     @Nullable
