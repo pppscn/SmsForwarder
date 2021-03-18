@@ -194,4 +194,32 @@ public class SettingActivity extends AppCompatActivity {
         }
     }
 
+    //恢复初始化配置
+    public void initSetting(View v) {
+        Switch switch_add_extra = (Switch) findViewById(R.id.switch_add_extra);
+        switch_add_extra.setChecked(false);
+        switchAddExtra(switch_add_extra);
+
+        EditText et_add_extra_device_mark = (EditText) findViewById(R.id.et_add_extra_device_mark);
+        et_add_extra_device_mark.setText("");
+        editAddExtraDeviceMark(et_add_extra_device_mark);
+
+        EditText et_add_extra_sim1 = (EditText) findViewById(R.id.et_add_extra_sim1);
+        et_add_extra_sim1.setText("");
+        editAddExtraSim1(et_add_extra_sim1);
+
+        EditText et_add_extra_sim2 = (EditText) findViewById(R.id.et_add_extra_sim2);
+        et_add_extra_sim2.setText("");
+        editAddExtraSim2(et_add_extra_sim2);
+
+        Switch switch_sms_template = (Switch) findViewById(R.id.switch_sms_template);
+        switch_sms_template.setChecked(false);
+        switchSmsTemplate(switch_sms_template);
+
+        EditText textSmsTemplate = (EditText) findViewById(R.id.text_sms_template);
+        textSmsTemplate.setText("{{来源号码}}\n{{短信内容}}\n{{卡槽信息}}\n{{接收时间}}\n{{设备名称}}");
+        editSmsTemplate(textSmsTemplate);
+
+    }
+
 }
