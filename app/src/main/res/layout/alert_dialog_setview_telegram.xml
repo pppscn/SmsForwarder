@@ -61,7 +61,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置被通知人的ChatId" />
+                android:text="设置被通知人(或群组)的ChatId" />
 
             <EditText
                 android:id="@+id/editTextTelegramChatId"
