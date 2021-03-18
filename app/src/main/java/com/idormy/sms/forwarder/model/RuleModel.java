@@ -30,7 +30,7 @@ public class RuleModel {
     public static final Map<String, String> SIM_SLOT_MAP = new HashMap<String, String>();
 
     static {
-        FILED_MAP.put("transpond_all", "转发全部");
+        FILED_MAP.put("transpond_all", "全部转发");
         FILED_MAP.put("phone_num", "手机号");
         FILED_MAP.put("msg_content", "内容");
         FILED_MAP.put("multi_match", "多重匹配");
@@ -62,11 +62,10 @@ public class RuleModel {
 
     public static String getRuleMatch(String filed, String check, String value, String simSlot) {
         String SimStr = SIM_SLOT_MAP.get(simSlot) + "卡 ";
-        switch (filed) {
-            case FILED_TRANSPOND_ALL:
-                return SimStr + "全部转发到 ";
-            default:
-                return SimStr + "当 " + FILED_MAP.get(filed) + " " + CHECK_MAP.get(check) + " " + value + " 转发到 ";
+        if (filed == null || filed.equals(FILED_TRANSPOND_ALL)) {
+            return SimStr + "全部 转发到 ";
+        } else {
+            return SimStr + "当 " + FILED_MAP.get(filed) + " " + CHECK_MAP.get(check) + " " + value + " 转发到 ";
         }
     }
 
@@ -194,11 +193,10 @@ public class RuleModel {
 
     public String getRuleMatch() {
         String SimStr = SIM_SLOT_MAP.get(simSlot) + "卡 ";
-        switch (filed) {
-            case FILED_TRANSPOND_ALL:
-                return SimStr + "全部转发到 ";
-            default:
-                return SimStr + "当 " + FILED_MAP.get(filed) + " " + CHECK_MAP.get(check) + " " + value + " 转发到 ";
+        if (filed == null || filed.equals(FILED_TRANSPOND_ALL)) {
+            return SimStr + "全部 转发到 ";
+        } else {
+            return SimStr + "当 " + FILED_MAP.get(filed) + " " + CHECK_MAP.get(check) + " " + value + " 转发到 ";
         }
     }
 

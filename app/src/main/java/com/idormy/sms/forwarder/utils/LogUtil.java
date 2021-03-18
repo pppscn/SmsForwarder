@@ -165,13 +165,14 @@ public class LogUtil {
                 Integer senderType = cursor.getInt(
                         cursor.getColumnIndexOrThrow(SenderTable.SenderEntry.COLUMN_NAME_TYPE));
 
-                String rule = RuleModel.getRuleMatch(ruleFiled, ruleCheck, ruleValue, ruleSimSlot) + senderName.trim();
+                String rule = RuleModel.getRuleMatch(ruleFiled, ruleCheck, ruleValue, ruleSimSlot);
+                if (senderName != null) rule += senderName.trim();
 
                 int senderImageId = SenderModel.getImageId(senderType);
                 LogVo logVo = new LogVo(itemid, itemfrom, content, simInfo, time, rule, senderImageId);
                 LogVos.add(logVo);
             } catch (Exception e) {
-                Log.i(TAG, "getLog e:" + e.getMessage());
+                Log.e(TAG, "getLog e:" + e.getMessage());
             }
 
         }
