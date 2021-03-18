@@ -145,10 +145,10 @@
     * /token 获取apiToken，然后输入上面机器人的用户名
     * 获得apiToken，格式参考：1234567890:ABCDEFGHIJKLMNOPQRSTUVWXYZ
 * 复制 apiToken 到「设置Telegram机器人的ApiToken」一栏
-* 获取自己的CahtID，粘贴到「设置被通知人的ChatId」一栏
-    * 跟自己的机器聊天，随便说点什么
+* 获取自己（或群组）的CahtID，粘贴到「设置被通知人的ChatId」一栏
+    * 跟自己的机器人聊天，随便说点什么；或者创建一个群组，把机器人拉入群组，在群组里随便说点什么。
     * 然后打开这个链接 `https://api.telegram.org/bot<apiToken>/getUpdates` 获取（PS.注意<apiToken>换成你自己的）
-    * ChatID 取值 result->message->chat->id (纯数字)
+    * ChatID 取值 result->message->chat->id (个人是纯数字；群组是负数，type：group；)
 * 点击【测试】按钮验证一下
 
 ### 应用截图：
