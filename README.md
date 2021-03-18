@@ -47,6 +47,7 @@
 - [x] 转发到企业微信应用消息
 - [x] 转发到ServerChan(Server酱·Turbo版)
 - [x] 转发到Telegram机器人
+- [x] 转发到其他手机短信
 - [x] 在线检测新版本、升级
 - [x] 清理缓存
 - [x] 兼容6.xx、7.xx、8.xx、9.xx、10.xx
