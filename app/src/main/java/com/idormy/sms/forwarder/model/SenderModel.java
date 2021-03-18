@@ -14,6 +14,7 @@ public class SenderModel {
     public static final int TYPE_QYWX_APP = 5;
     public static final int TYPE_SERVER_CHAN = 6;
     public static final int TYPE_TELEGRAM = 7;
+    public static final int TYPE_SMS = 8;
     private Long id;
     private String name;
     private int status;
@@ -51,6 +52,8 @@ public class SenderModel {
                 return R.mipmap.serverchan;
             case (TYPE_TELEGRAM):
                 return R.mipmap.telegram;
+            case (TYPE_SMS):
+                return R.mipmap.sms;
             default:
                 return R.mipmap.sms;
         }
@@ -126,6 +129,16 @@ public class SenderModel {
 
     public void setTime(long time) {
         this.time = time;
+    }
+
+    public int getSmsSimSlotId(int id) {
+        if (id == R.id.btnSmsSimSlot1) {
+            return 1;
+        } else if (id == R.id.btnSmsSimSlot2) {
+            return 2;
+        } else {
+            return 0;
+        }
     }
 
     @Override

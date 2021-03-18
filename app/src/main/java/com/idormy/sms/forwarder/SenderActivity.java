@@ -29,6 +29,7 @@ import com.idormy.sms.forwarder.model.vo.EmailSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXAppSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXGroupRobotSettingVo;
 import com.idormy.sms.forwarder.model.vo.ServerChanSettingVo;
+import com.idormy.sms.forwarder.model.vo.SmsSettingVo;
 import com.idormy.sms.forwarder.model.vo.TelegramSettingVo;
 import com.idormy.sms.forwarder.model.vo.WebNotifySettingVo;
 import com.idormy.sms.forwarder.sender.SenderBarkMsg;
@@ -37,6 +38,7 @@ import com.idormy.sms.forwarder.sender.SenderMailMsg;
 import com.idormy.sms.forwarder.sender.SenderQyWxAppMsg;
 import com.idormy.sms.forwarder.sender.SenderQyWxGroupRobotMsg;
 import com.idormy.sms.forwarder.sender.SenderServerChanMsg;
+import com.idormy.sms.forwarder.sender.SenderSmsMsg;
 import com.idormy.sms.forwarder.sender.SenderTelegramMsg;
 import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.sender.SenderWebNotifyMsg;
@@ -54,6 +56,7 @@ import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SERVER_CHAN;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SMS;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_TELEGRAM;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_WEB_NOTIFY;
 
@@ -133,6 +136,9 @@ public class SenderActivity extends AppCompatActivity {
                         break;
                     case TYPE_TELEGRAM:
                         setTelegram(senderModel);
+                        break;
+                    case TYPE_SMS:
+                        setSms(senderModel);
                         break;
                     default:
                         Toast.makeText(SenderActivity.this, "异常的发送方类型，自动删除！", Toast.LENGTH_LONG).show();
@@ -217,6 +223,9 @@ public class SenderActivity extends AppCompatActivity {
                         break;
                     case TYPE_TELEGRAM:
                         setTelegram(null);
+                        break;
+                    case TYPE_SMS:
+                        setSms(null);
                         break;
                     default:
                         Toast.makeText(SenderActivity.this, "暂不支持这种转发！", Toast.LENGTH_LONG).show();
@@ -1053,6 +1062,111 @@ public class SenderActivity extends AppCompatActivity {
                     }
                 } else {
                     Toast.makeText(SenderActivity.this, "机器人的ApiToken 和 被通知人的ChatId 都不能为空", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    //Sms
+    private void setSms(final SenderModel senderModel) {
+        SmsSettingVo smsSettingVo = null;
+        //try phrase json setting
+        if (senderModel != null) {
+            String jsonSettingStr = senderModel.getJsonSetting();
+            Log.d(TAG, "jsonSettingStr = " + jsonSettingStr);
+            if (jsonSettingStr != null) {
+                smsSettingVo = JSON.parseObject(jsonSettingStr, SmsSettingVo.class);
+            }
+        }
+
+        final AlertDialog.Builder alertDialog71 = new AlertDialog.Builder(SenderActivity.this);
+        View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_sms, null);
+
+        final EditText editTextSmsName = view1.findViewById(R.id.editTextSmsName);
+        if (senderModel != null) editTextSmsName.setText(senderModel.getName());
+        final RadioGroup radioGroupSmsSimSlot = (RadioGroup) view1.findViewById(R.id.radioGroupSmsSimSlot);
+        if (smsSettingVo != null) radioGroupSmsSimSlot.check(smsSettingVo.getSmsSimSlotCheckId());
+        final EditText editTextSmsMobiles = view1.findViewById(R.id.editTextSmsMobiles);
+        if (smsSettingVo != null) editTextSmsMobiles.setText(smsSettingVo.getMobiles());
+        final Switch switchSmsOnlyNoNetwork = view1.findViewById(R.id.switchSmsOnlyNoNetwork);
+        if (smsSettingVo != null) switchSmsOnlyNoNetwork.setChecked(smsSettingVo.getOnlyNoNetwork());
+
+        Button buttonSmsOk = view1.findViewById(R.id.buttonSmsOk);
+        Button buttonSmsDel = view1.findViewById(R.id.buttonSmsDel);
+        Button buttonSmsTest = view1.findViewById(R.id.buttonSmsTest);
+        alertDialog71
+                .setTitle(R.string.setsmstitle)
+                .setIcon(R.mipmap.sms)
+                .setView(view1)
+                .create();
+        final AlertDialog show = alertDialog71.show();
+
+        buttonSmsOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (senderModel == null) {
+                    SenderModel newSenderModel = new SenderModel();
+                    newSenderModel.setName(editTextSmsName.getText().toString());
+                    newSenderModel.setType(TYPE_SMS);
+                    newSenderModel.setStatus(STATUS_ON);
+                    SmsSettingVo smsSettingVoNew = new SmsSettingVo(
+                            newSenderModel.getSmsSimSlotId(radioGroupSmsSimSlot.getCheckedRadioButtonId()),
+                            editTextSmsMobiles.getText().toString(),
+                            switchSmsOnlyNoNetwork.isChecked()
+                    );
+                    newSenderModel.setJsonSetting(JSON.toJSONString(smsSettingVoNew));
+                    SenderUtil.addSender(newSenderModel);
+                    initSenders();
+                    adapter.add(senderModels);
+                } else {
+                    senderModel.setName(editTextSmsName.getText().toString());
+                    senderModel.setType(TYPE_SMS);
+                    senderModel.setStatus(STATUS_ON);
+                    SmsSettingVo smsSettingVoNew = new SmsSettingVo(
+                            senderModel.getSmsSimSlotId(radioGroupSmsSimSlot.getCheckedRadioButtonId()),
+                            editTextSmsMobiles.getText().toString(),
+                            switchSmsOnlyNoNetwork.isChecked()
+                    );
+                    senderModel.setJsonSetting(JSON.toJSONString(smsSettingVoNew));
+                    SenderUtil.updateSender(senderModel);
+                    initSenders();
+                    adapter.update(senderModels);
+                }
+
+                show.dismiss();
+
+            }
+        });
+        buttonSmsDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (senderModel != null) {
+                    SenderUtil.delSender(senderModel.getId());
+                    initSenders();
+                    adapter.del(senderModels);
+                }
+                show.dismiss();
+            }
+        });
+        buttonSmsTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int simSlot = 0;
+                if (R.id.btnSmsSimSlot2 == radioGroupSmsSimSlot.getCheckedRadioButtonId()) {
+                    simSlot = 1;
+                }
+                String mobiles = editTextSmsMobiles.getText().toString();
+                Boolean onlyNoNetwork = switchSmsOnlyNoNetwork.isChecked();
+                if (!mobiles.isEmpty() && !mobiles.isEmpty()) {
+                    try {
+                        SenderSmsMsg.sendMsg(handler, simSlot, mobiles, onlyNoNetwork, "19999999999", "【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服");
+                    } catch (Exception e) {
+                        Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(SenderActivity.this, "接收手机号不能为空", Toast.LENGTH_LONG).show();
                 }
             }
         });
