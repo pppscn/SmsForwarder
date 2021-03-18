@@ -9,5 +9,6 @@
         <item>转发到企业微信应用消息</item>
         <item>转发到Server酱·Turbo版</item>
         <item>转发到Telegram机器人</item>
+        <item>转发到其他手机短信</item>
     </string-array>
 </resources>

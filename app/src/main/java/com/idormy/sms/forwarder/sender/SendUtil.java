@@ -14,10 +14,12 @@ import com.idormy.sms.forwarder.model.vo.EmailSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXAppSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXGroupRobotSettingVo;
 import com.idormy.sms.forwarder.model.vo.ServerChanSettingVo;
+import com.idormy.sms.forwarder.model.vo.SmsSettingVo;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.model.vo.TelegramSettingVo;
 import com.idormy.sms.forwarder.model.vo.WebNotifySettingVo;
 import com.idormy.sms.forwarder.utils.LogUtil;
+import com.idormy.sms.forwarder.utils.NetUtil;
 import com.idormy.sms.forwarder.utils.RuleUtil;
 
 import java.util.List;
@@ -28,6 +30,7 @@ import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SERVER_CHAN;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SMS;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_TELEGRAM;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_WEB_NOTIFY;
 
@@ -57,7 +60,7 @@ public class SendUtil {
                         List<SenderModel> senderModels = SenderUtil.getSender(ruleModel.getSenderId(), null);
                         for (SenderModel senderModel : senderModels
                         ) {
-                            LogUtil.addLog(new LogModel(smsVo.getMobile(), smsVo.getContent(), smsVo.getSimInfo(), senderModel.getId()));
+                            LogUtil.addLog(new LogModel(smsVo.getMobile(), smsVo.getContent(), smsVo.getSimInfo(), ruleModel.getId()));
                             SendUtil.senderSendMsgNoHandError(smsVo, senderModel);
                         }
                     }
@@ -211,6 +214,30 @@ public class SendUtil {
                             SenderTelegramMsg.sendMsg(handError, telegramSettingVo.getApiToken(), telegramSettingVo.getChatId(), smsVo.getMobile(), smsVo.getSmsVoForSend());
                         } catch (Exception e) {
                             Log.e(TAG, "senderSendMsg: SenderTelegramMsg error " + e.getMessage());
+                        }
+                    }
+                }
+                break;
+
+            case TYPE_SMS:
+                //try phrase json setting
+                if (senderModel.getJsonSetting() != null) {
+                    SmsSettingVo smsSettingVo = JSON.parseObject(senderModel.getJsonSetting(), SmsSettingVo.class);
+                    if (smsSettingVo != null) {
+                        //仅当无网络时启用
+                        if (true == smsSettingVo.getOnlyNoNetwork() && 0 != NetUtil.getNetWorkStatus()) {
+                            Log.d(TAG, "仅当无网络时启用，当前网络状态：" + NetUtil.getNetWorkStatus());
+                            return;
+                        }
+                        try {
+                            int simSlot = smsSettingVo.getSimSlot() - 1;
+                            if (simSlot < 0) { //原进原出
+                                simSlot = Integer.parseInt(smsVo.getSimInfo().substring(3, 4)) - 1;
+                                Log.d(TAG, "simSlot = " + simSlot);
+                            }
+                            SenderSmsMsg.sendMsg(handError, simSlot, smsSettingVo.getMobiles(), smsSettingVo.getOnlyNoNetwork(), smsVo.getMobile(), smsVo.getSmsVoForSend());
+                        } catch (Exception e) {
+                            Log.e(TAG, "senderSendMsg: SenderSmsMsg error " + e.getMessage());
                         }
                     }
                 }

@@ -25,7 +25,9 @@ import com.idormy.sms.forwarder.BroadCastReceiver.SmsForwarderBroadcastReceiver;
 import com.idormy.sms.forwarder.adapter.LogAdapter;
 import com.idormy.sms.forwarder.model.vo.LogVo;
 import com.idormy.sms.forwarder.utils.LogUtil;
+import com.idormy.sms.forwarder.utils.NetUtil;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
+import com.idormy.sms.forwarder.utils.SmsUtil;
 import com.idormy.sms.forwarder.utils.aUtil;
 import com.umeng.analytics.MobclickAgent;
 
@@ -74,6 +76,9 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
         MyApplication.SimInfoList = PhoneUtils.getSimMultiInfo();
         Log.d(TAG, "SimInfoList = " + MyApplication.SimInfoList);
 
+        //短信&网络组件初始化
+        SmsUtil.init(this);
+        NetUtil.init(this);
     }
 
     @Override
