@@ -180,7 +180,12 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
         Log.d(TAG, "onDestroy");
         super.onDestroy();
         //取消注册广播
-        unregisterReceiver(smsBroadcastReceiver);
+        try {
+            if (smsBroadcastReceiver != null)
+                unregisterReceiver(smsBroadcastReceiver);
+        } catch (Exception e) {
+            Log.e(TAG, "unregisterReceiver fail:" + e.getMessage());
+        }
     }
 
     public void logDetail(LogVo logVo) {
