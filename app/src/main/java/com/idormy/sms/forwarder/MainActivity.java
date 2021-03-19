@@ -99,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position <= 0) return;
+
                 LogVo logVo = logVos.get(position - 1);
                 logDetail(logVo);
             }
@@ -107,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                if (position <= 0) return false;
+
                 //定义AlertDialog.Builder对象，当长按列表项的时候弹出确认删除对话框
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setMessage("确定删除?");
