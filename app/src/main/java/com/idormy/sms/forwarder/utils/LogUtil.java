@@ -82,6 +82,22 @@ public class LogUtil {
 
     }
 
+    public static int updateLog(Long id, int forward_status, String forward_response) {
+        if (id == null || id <= 0) return 0;
+
+        String selection = LogTable.LogEntry._ID + " = ? ";
+        List<String> selectionArgList = new ArrayList<>();
+        selectionArgList.add(String.valueOf(id));
+
+        ContentValues values = new ContentValues();
+        values.put(LogTable.LogEntry.COLUMN_NAME_FORWARD_STATUS, forward_status);
+        values.put(LogTable.LogEntry.COLUMN_NAME_FORWARD_RESPONSE, forward_response);
+
+        String[] selectionArgs = selectionArgList.toArray(new String[selectionArgList.size()]);
+        return db.update(LogTable.LogEntry.TABLE_NAME, values, selection, selectionArgs);
+
+    }
+
     public static List<LogVo> getLog(Long id, String key) {
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
@@ -91,6 +107,8 @@ public class LogUtil {
                 LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_TIME + " AS " + LogTable.LogEntry.COLUMN_NAME_TIME,
                 LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_CONTENT + " AS " + LogTable.LogEntry.COLUMN_NAME_CONTENT,
                 LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_SIM_INFO + " AS " + LogTable.LogEntry.COLUMN_NAME_SIM_INFO,
+                LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_FORWARD_STATUS + " AS " + LogTable.LogEntry.COLUMN_NAME_FORWARD_STATUS,
+                LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_FORWARD_RESPONSE + " AS " + LogTable.LogEntry.COLUMN_NAME_FORWARD_RESPONSE,
                 RuleTable.RuleEntry.TABLE_NAME + "." + RuleTable.RuleEntry.COLUMN_NAME_FILED + " AS " + RuleTable.RuleEntry.COLUMN_NAME_FILED,
                 RuleTable.RuleEntry.TABLE_NAME + "." + RuleTable.RuleEntry.COLUMN_NAME_CHECK + " AS " + RuleTable.RuleEntry.COLUMN_NAME_CHECK,
                 RuleTable.RuleEntry.TABLE_NAME + "." + RuleTable.RuleEntry.COLUMN_NAME_VALUE + " AS " + RuleTable.RuleEntry.COLUMN_NAME_VALUE,
@@ -152,6 +170,10 @@ public class LogUtil {
                         cursor.getColumnIndexOrThrow(LogTable.LogEntry.COLUMN_NAME_SIM_INFO));
                 String time = cursor.getString(
                         cursor.getColumnIndexOrThrow(LogTable.LogEntry.COLUMN_NAME_TIME));
+                int forwardStatus = cursor.getInt(
+                        cursor.getColumnIndexOrThrow(LogTable.LogEntry.COLUMN_NAME_FORWARD_STATUS));
+                String forwardResponse = cursor.getString(
+                        cursor.getColumnIndexOrThrow(LogTable.LogEntry.COLUMN_NAME_FORWARD_RESPONSE));
                 String ruleFiled = cursor.getString(
                         cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_NAME_FILED));
                 String ruleCheck = cursor.getString(
@@ -169,7 +191,7 @@ public class LogUtil {
                 if (senderName != null) rule += senderName.trim();
 
                 int senderImageId = SenderModel.getImageId(senderType);
-                LogVo logVo = new LogVo(itemid, itemfrom, content, simInfo, time, rule, senderImageId);
+                LogVo logVo = new LogVo(itemid, itemfrom, content, simInfo, time, rule, senderImageId, forwardStatus, forwardResponse);
                 LogVos.add(logVo);
             } catch (Exception e) {
                 Log.e(TAG, "getLog e:" + e.getMessage());

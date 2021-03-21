@@ -15,7 +15,7 @@ import java.util.List;
 public class DbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
     public static final String TAG = "DbHelper";
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "sms_forwarder.db";
 
     private static final List<String> SQL_CREATE_ENTRIES =
@@ -26,6 +26,8 @@ public class DbHelper extends SQLiteOpenHelper {
                             LogTable.LogEntry.COLUMN_NAME_CONTENT + " TEXT," +
                             LogTable.LogEntry.COLUMN_NAME_SIM_INFO + " TEXT," +
                             LogTable.LogEntry.COLUMN_NAME_RULE_ID + " INTEGER," +
+                            LogTable.LogEntry.COLUMN_NAME_FORWARD_STATUS + " INTEGER NOT NULL DEFAULT 1," +
+                            LogTable.LogEntry.COLUMN_NAME_FORWARD_RESPONSE + " TEXT NOT NULL DEFAULT 'ok'," +
                             LogTable.LogEntry.COLUMN_NAME_TIME + " TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)"
                     , "CREATE TABLE " + RuleTable.RuleEntry.TABLE_NAME + " (" +
                             RuleTable.RuleEntry._ID + " INTEGER PRIMARY KEY," +
@@ -80,6 +82,12 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         if (oldVersion < 3) { //当数据库版本小于版本3时
             String sql = "Alter table " + RuleTable.RuleEntry.TABLE_NAME + " add column " + RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT + " TEXT NOT NULL DEFAULT 'ALL' ";
+            db.execSQL(sql);
+        }
+        if (oldVersion < 4) { //添加转发状态与返回信息
+            String sql = "Alter table " + LogTable.LogEntry.TABLE_NAME + " add column " + LogTable.LogEntry.COLUMN_NAME_FORWARD_STATUS + " INTEGER NOT NULL DEFAULT 1 ";
+            db.execSQL(sql);
+            sql = "Alter table " + LogTable.LogEntry.TABLE_NAME + " add column " + LogTable.LogEntry.COLUMN_NAME_FORWARD_RESPONSE + " TEXT NOT NULL DEFAULT 'ok' ";
             db.execSQL(sql);
         }
     }

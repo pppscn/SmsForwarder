@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import com.idormy.sms.forwarder.utils.LogUtil;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -20,7 +22,7 @@ public class SenderQyWxGroupRobotMsg {
 
     static String TAG = "SenderQyWxGroupRobotMsg";
 
-    public static void sendMsg(final Handler handError, String webHook, String from, String content) throws Exception {
+    public static void sendMsg(final long logId, final Handler handError, String webHook, String from, String content) throws Exception {
         Log.i(TAG, "sendMsg webHook:" + webHook + " from:" + from + " content:" + content);
 
         if (webHook == null || webHook.isEmpty()) {
@@ -41,9 +43,8 @@ public class SenderQyWxGroupRobotMsg {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
+                LogUtil.updateLog(logId, 0, e.getMessage());
                 Log.d(TAG, "onFailure：" + e.getMessage());
-
-//                SendHistory.addHistory("钉钉转发:"+msgf+"onFailure：" + e.getMessage());
 
                 if (handError != null) {
                     android.os.Message msg = new android.os.Message();
@@ -53,14 +54,19 @@ public class SenderQyWxGroupRobotMsg {
                     msg.setData(bundle);
                     handError.sendMessage(msg);
                 }
-
-
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String responseStr = response.body().string();
                 Log.d(TAG, "Code：" + String.valueOf(response.code()) + responseStr);
+
+                //TODO:粗略解析是否发送成功
+                if (responseStr.contains("\"errcode\":0")) {
+                    LogUtil.updateLog(logId, 1, responseStr);
+                } else {
+                    LogUtil.updateLog(logId, 0, responseStr);
+                }
 
                 if (handError != null) {
                     android.os.Message msg = new android.os.Message();
@@ -71,7 +77,6 @@ public class SenderQyWxGroupRobotMsg {
                     handError.sendMessage(msg);
                     Log.d(TAG, "Coxxyyde：" + String.valueOf(response.code()) + responseStr);
                 }
-
             }
         });
     }

@@ -337,7 +337,7 @@ public class SenderActivity extends AppCompatActivity {
                 Boolean atAll = switchDingdingAtAll.isChecked();
                 if (token != null && !token.isEmpty()) {
                     try {
-                        SenderDingdingMsg.sendMsg(handler, token, secret, atMobiles, atAll, "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                        SenderDingdingMsg.sendMsg(0, handler, token, secret, atMobiles, atAll, "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                     } catch (Exception e) {
                         Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
                         e.printStackTrace();
@@ -454,7 +454,7 @@ public class SenderActivity extends AppCompatActivity {
                 String toemail = editTextEmailToAdd.getText().toString();
                 if (!host.isEmpty() && !port.isEmpty() && !fromemail.isEmpty() && !pwd.isEmpty() && !toemail.isEmpty()) {
                     try {
-                        SenderMailMsg.sendEmail(handler, host, port, ssl, fromemail, pwd, toemail, "SmsForwarder Title", "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                        SenderMailMsg.sendEmail(0, handler, host, port, ssl, fromemail, pwd, toemail, "SmsForwarder Title", "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                     } catch (Exception e) {
                         Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
                         e.printStackTrace();
@@ -544,7 +544,7 @@ public class SenderActivity extends AppCompatActivity {
                 String barkServer = editTextBarkServer.getText().toString();
                 if (!barkServer.isEmpty()) {
                     try {
-                        SenderBarkMsg.sendMsg(handler, barkServer, "19999999999", "【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服");
+                        SenderBarkMsg.sendMsg(0, handler, barkServer, "19999999999", "【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服");
                     } catch (Exception e) {
                         Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
                         e.printStackTrace();
@@ -635,7 +635,7 @@ public class SenderActivity extends AppCompatActivity {
                 String serverchanServer = editTextServerChanSendKey.getText().toString();
                 if (!serverchanServer.isEmpty()) {
                     try {
-                        SenderServerChanMsg.sendMsg(handler, serverchanServer, "19999999999", "【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服");
+                        SenderServerChanMsg.sendMsg(0, handler, serverchanServer, "19999999999", "【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服");
                     } catch (Exception e) {
                         Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
                         e.printStackTrace();
@@ -735,7 +735,7 @@ public class SenderActivity extends AppCompatActivity {
                 String method = radioGroupWebNotifyMethod.getCheckedRadioButtonId() == R.id.radioWebNotifyMethodGet ? "GET" : "POST";
                 if (!webServer.isEmpty()) {
                     try {
-                        SenderWebNotifyMsg.sendMsg(handler, webServer, secret, method, "SmsForwarder Title", "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                        SenderWebNotifyMsg.sendMsg(0, handler, webServer, secret, method, "SmsForwarder Title", "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                     } catch (Exception e) {
                         Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
                         e.printStackTrace();
@@ -826,7 +826,7 @@ public class SenderActivity extends AppCompatActivity {
                 String webHook = editTextQYWXGroupRobotWebHook.getText().toString();
                 if (!webHook.isEmpty()) {
                     try {
-                        SenderQyWxGroupRobotMsg.sendMsg(handler, webHook, "SmsForwarder Title", "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                        SenderQyWxGroupRobotMsg.sendMsg(0, handler, webHook, "SmsForwarder Title", "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                     } catch (Exception e) {
                         Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
                         e.printStackTrace();
@@ -957,7 +957,7 @@ public class SenderActivity extends AppCompatActivity {
                 //Boolean atAll = switchQYWXAppAtAll.isChecked();
                 if (toUser != null && !toUser.isEmpty()) {
                     try {
-                        SenderQyWxAppMsg.sendMsg(handler, cropID, agentID, secret, toUser, "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())), true);
+                        SenderQyWxAppMsg.sendMsg(0, handler, cropID, agentID, secret, toUser, "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())), true);
                     } catch (Exception e) {
                         Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
                         e.printStackTrace();
@@ -1055,7 +1055,7 @@ public class SenderActivity extends AppCompatActivity {
                 String chatId = editTextTelegramChatId.getText().toString();
                 if (!apiToken.isEmpty() && !chatId.isEmpty()) {
                     try {
-                        SenderTelegramMsg.sendMsg(handler, apiToken, chatId, "19999999999", "【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服");
+                        SenderTelegramMsg.sendMsg(0, handler, apiToken, chatId, "19999999999", "【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服");
                     } catch (Exception e) {
                         Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
                         e.printStackTrace();
@@ -1160,7 +1160,7 @@ public class SenderActivity extends AppCompatActivity {
                 Boolean onlyNoNetwork = switchSmsOnlyNoNetwork.isChecked();
                 if (!mobiles.isEmpty() && !mobiles.isEmpty()) {
                     try {
-                        SenderSmsMsg.sendMsg(handler, simSlot, mobiles, onlyNoNetwork, "19999999999", "【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服");
+                        SenderSmsMsg.sendMsg(0, handler, simSlot, mobiles, onlyNoNetwork, "19999999999", "【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服");
                     } catch (Exception e) {
                         Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
                         e.printStackTrace();
