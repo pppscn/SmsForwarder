@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 
+import com.idormy.sms.forwarder.utils.LogUtil;
+
 import java.io.IOException;
 import java.net.URLEncoder;
 
@@ -25,7 +27,7 @@ public class SenderWebNotifyMsg {
 
     static String TAG = "SenderWebNotifyMsg";
 
-    public static void sendMsg(final Handler handError, String webServer, String secret, String method, String from, String content) throws Exception {
+    public static void sendMsg(final long logId, final Handler handError, String webServer, String secret, String method, String from, String content) throws Exception {
         Log.i(TAG, "sendMsg webServer:" + webServer + " from:" + from + " content:" + content);
 
         if (webServer == null || webServer.isEmpty()) {
@@ -73,6 +75,7 @@ public class SenderWebNotifyMsg {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
+                LogUtil.updateLog(logId, 0, e.getMessage());
                 Log.d(TAG, "onFailure：" + e.getMessage());
 
                 if (handError != null) {
@@ -90,6 +93,13 @@ public class SenderWebNotifyMsg {
             public void onResponse(Call call, Response response) throws IOException {
                 final String responseStr = response.body().string();
                 Log.d(TAG, "Code：" + response.code() + " Response：" + responseStr);
+
+                //TODO:粗略解析是否发送成功
+                if (responseStr.contains("\"code\":1")) {
+                    LogUtil.updateLog(logId, 1, responseStr);
+                } else {
+                    LogUtil.updateLog(logId, 0, responseStr);
+                }
 
                 if (handError != null) {
                     android.os.Message msg = new android.os.Message();

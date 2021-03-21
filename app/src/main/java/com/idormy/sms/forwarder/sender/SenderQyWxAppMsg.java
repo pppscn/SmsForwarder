@@ -8,6 +8,7 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.idormy.sms.forwarder.MyApplication;
+import com.idormy.sms.forwarder.utils.LogUtil;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ public class SenderQyWxAppMsg {
 
     static String TAG = "SenderQyWxAppMsg";
 
-    public static void sendMsg(final Handler handError, String corpID, String agentID, String secret, String toUser, String content, boolean forceRefresh) throws Exception {
+    public static void sendMsg(final long logId, final Handler handError, String corpID, String agentID, String secret, String toUser, String content, boolean forceRefresh) throws Exception {
         Log.i(TAG, "sendMsg corpID:" + corpID + " agentID:" + agentID + " secret:" + secret + " toUser:" + toUser + " content:" + content + " forceRefresh:" + forceRefresh);
 
         if (corpID == null || corpID.isEmpty() || agentID == null || agentID.isEmpty() || secret == null || secret.isEmpty()) {
@@ -49,6 +50,7 @@ public class SenderQyWxAppMsg {
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, final IOException e) {
+                    LogUtil.updateLog(logId, 0, e.getMessage());
                     Log.d(TAG, "onFailure：" + e.getMessage());
                     if (handError != null) {
                         Message msg = new Message();
@@ -72,9 +74,10 @@ public class SenderQyWxAppMsg {
                         Log.d(TAG, "access_token：" + MyApplication.QyWxAccessToken);
                         Log.d(TAG, "expires_in：" + MyApplication.QyWxAccessTokenExpiresIn);
 
-                        sendTextMsg(handError, agentID, toUser, content);
+                        sendTextMsg(logId, handError, agentID, toUser, content);
                     } else {
                         String errmsg = jsonObject.getString("errmsg");
+                        LogUtil.updateLog(logId, 0, errmsg);
                         Log.d(TAG, "onFailure：" + errmsg);
                         if (handError != null) {
                             Message msg = new Message();
@@ -89,13 +92,13 @@ public class SenderQyWxAppMsg {
 
             });
         } else {
-            sendTextMsg(handError, agentID, toUser, content);
+            sendTextMsg(logId, handError, agentID, toUser, content);
         }
 
     }
 
     //发送文本消息
-    public static void sendTextMsg(final Handler handError, String agentID, String toUser, String content) {
+    public static void sendTextMsg(final long logId, final Handler handError, String agentID, String toUser, String content) {
         String sendUrl = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=" + MyApplication.QyWxAccessToken;
         Log.d(TAG, "sendUrl：" + sendUrl);
 
@@ -123,6 +126,7 @@ public class SenderQyWxAppMsg {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
+                LogUtil.updateLog(logId, 0, e.getMessage());
                 Log.d(TAG, "onFailure：" + e.getMessage());
                 if (handError != null) {
                     android.os.Message msg = new android.os.Message();
@@ -138,6 +142,13 @@ public class SenderQyWxAppMsg {
             public void onResponse(Call call, Response response) throws IOException {
                 final String responseStr = response.body().string();
                 Log.d(TAG, "Code：" + String.valueOf(response.code()) + " Response: " + responseStr);
+
+                //TODO:粗略解析是否发送成功
+                if (responseStr.contains("\"errcode\":0")) {
+                    LogUtil.updateLog(logId, 1, responseStr);
+                } else {
+                    LogUtil.updateLog(logId, 0, responseStr);
+                }
 
                 if (handError != null) {
                     android.os.Message msg = new android.os.Message();

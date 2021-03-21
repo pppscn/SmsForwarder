@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.idormy.sms.forwarder.utils.LogUtil;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -21,7 +23,7 @@ public class SenderServerChanMsg {
 
     static String TAG = "SenderServerChanMsg";
 
-    public static void sendMsg(final Handler handError, String sendKey, String title, String desp) throws Exception {
+    public static void sendMsg(final long logId, final Handler handError, String sendKey, String title, String desp) throws Exception {
         Log.i(TAG, "sendMsg sendKey:" + sendKey + " title:" + title + " desp:" + desp);
 
         if (sendKey == null || sendKey.isEmpty()) {
@@ -44,6 +46,7 @@ public class SenderServerChanMsg {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
+                LogUtil.updateLog(logId, 0, e.getMessage());
                 Log.d(TAG, "onFailure：" + e.getMessage());
 
                 if (handError != null) {
@@ -61,6 +64,13 @@ public class SenderServerChanMsg {
             public void onResponse(Call call, Response response) throws IOException {
                 final String responseStr = response.body().string();
                 Log.d(TAG, "Code：" + response.code() + responseStr);
+
+                //TODO:粗略解析是否发送成功
+                if (responseStr.contains("\"code\":0")) {
+                    LogUtil.updateLog(logId, 1, responseStr);
+                } else {
+                    LogUtil.updateLog(logId, 0, responseStr);
+                }
 
                 if (handError != null) {
                     Message msg = new Message();

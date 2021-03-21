@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.idormy.sms.forwarder.utils.LogUtil;
+
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
@@ -22,7 +24,7 @@ public class SenderBarkMsg {
 
     static String TAG = "SenderBarkMsg";
 
-    public static void sendMsg(final Handler handError, String barkServer, String from, String content) throws Exception {
+    public static void sendMsg(final long logId, final Handler handError, String barkServer, String from, String content) throws Exception {
         Log.i(TAG, "sendMsg barkServer:" + barkServer + " from:" + from + " content:" + content);
 
         if (barkServer == null || barkServer.isEmpty()) {
@@ -52,6 +54,7 @@ public class SenderBarkMsg {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
+                LogUtil.updateLog(logId, 0, e.getMessage());
                 Log.d(TAG, "onFailure：" + e.getMessage());
 
                 if (handError != null) {
@@ -69,6 +72,13 @@ public class SenderBarkMsg {
             public void onResponse(Call call, Response response) throws IOException {
                 final String responseStr = response.body().string();
                 Log.d(TAG, "Code：" + response.code() + responseStr);
+
+                //TODO:粗略解析是否发送成功
+                if (responseStr.contains("\"message\":\"success\"")) {
+                    LogUtil.updateLog(logId, 1, responseStr);
+                } else {
+                    LogUtil.updateLog(logId, 0, responseStr);
+                }
 
                 if (handError != null) {
                     Message msg = new Message();

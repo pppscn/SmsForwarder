@@ -10,9 +10,9 @@
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 21,
-      "versionName": "1.7.0",
-      "outputFile": "SmsForwarder_release_20210318_1.7.0.apk"
+      "versionCode": 22,
+      "versionName": "1.7.1",
+      "outputFile": "SmsForwarder_release_20210321_1.7.1.apk"
     }
   ]
 }

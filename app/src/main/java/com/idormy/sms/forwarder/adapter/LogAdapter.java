@@ -1,6 +1,7 @@
 package com.idormy.sms.forwarder.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,7 @@ public class LogAdapter extends ArrayAdapter<LogVo> {
             viewHolder.tLogRule = view.findViewById(R.id.tlog_rule);
             viewHolder.tLogTime = view.findViewById(R.id.tlog_time);
             viewHolder.senderImage = view.findViewById(R.id.tlog_sender_image);
+            viewHolder.statusImage = view.findViewById(R.id.tlog_status_image);
             viewHolder.simImage = view.findViewById(R.id.tlog_sim_image);
 
             // 将ViewHolder存储在View中（即将控件的实例存储在其中）
@@ -77,6 +79,7 @@ public class LogAdapter extends ArrayAdapter<LogVo> {
             viewHolder.tLogTime.setText(aUtil.friendlyTime(logVo.getTime()));
             viewHolder.senderImage.setImageResource(logVo.getSenderImageId());
             viewHolder.simImage.setImageResource(logVo.getSimImageId());
+            viewHolder.statusImage.setImageResource(logVo.getStatusImageId());
         }
 
         return view;
@@ -116,5 +119,6 @@ public class LogAdapter extends ArrayAdapter<LogVo> {
         TextView tLogTime;
         ImageView senderImage;
         ImageView simImage;
+        ImageView statusImage;
     }
 }

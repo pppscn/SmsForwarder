@@ -22,7 +22,7 @@ public class SmsUtil {
         }
     }
 
-    public static void sendSms(int subId, String mobiles, String message) {
+    public static String sendSms(int subId, String mobiles, String message) {
         mobiles = mobiles.replace("；", ";");
         Log.d(TAG, "subId = " + subId + ", mobiles = " + mobiles + ", message = " + message);
 
@@ -35,8 +35,11 @@ public class SmsUtil {
             for (String text : divideContents) {
                 smsManager.sendTextMessage(mobiles, null, text, sendPI, deliverPI);
             }
+
+            return null;
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
+            return e.getMessage();
         }
     }
 

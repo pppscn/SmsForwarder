@@ -6,6 +6,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.idormy.sms.forwarder.utils.LogUtil;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,7 +26,7 @@ public class SenderTelegramMsg {
 
     static String TAG = "SenderTelegramMsg";
 
-    public static void sendMsg(final Handler handError, String apiToken, String chatId, String from, String text) throws Exception {
+    public static void sendMsg(final long logId, final Handler handError, String apiToken, String chatId, String from, String text) throws Exception {
         Log.i(TAG, "sendMsg apiToken:" + apiToken + " chatId:" + chatId + " text:" + text);
 
         if (apiToken == null || apiToken.isEmpty()) {
@@ -57,6 +58,7 @@ public class SenderTelegramMsg {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
+                LogUtil.updateLog(logId, 0, e.getMessage());
                 Log.d(TAG, "onFailure：" + e.getMessage());
 
                 if (handError != null) {
@@ -74,6 +76,13 @@ public class SenderTelegramMsg {
             public void onResponse(Call call, Response response) throws IOException {
                 final String responseStr = response.body().string();
                 Log.d(TAG, "Code：" + response.code() + responseStr);
+
+                //TODO:粗略解析是否发送成功
+                if (responseStr.contains("\"ok\":true")) {
+                    LogUtil.updateLog(logId, 1, responseStr);
+                } else {
+                    LogUtil.updateLog(logId, 0, responseStr);
+                }
 
                 if (handError != null) {
                     Message msg = new Message();

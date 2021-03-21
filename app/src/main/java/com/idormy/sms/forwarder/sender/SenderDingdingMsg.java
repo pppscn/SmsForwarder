@@ -7,6 +7,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.idormy.sms.forwarder.utils.LogUtil;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -32,7 +33,7 @@ public class SenderDingdingMsg {
 
     static String TAG = "SenderDingdingMsg";
 
-    public static void sendMsg(final Handler handError, String token, String secret, String atMobiles, Boolean atAll, String msg) throws Exception {
+    public static void sendMsg(final long logId, final Handler handError, String token, String secret, String atMobiles, Boolean atAll, String msg) throws Exception {
         Log.i(TAG, "sendMsg token:" + token + " secret:" + secret + " atMobiles:" + atMobiles + " atAll:" + atAll + " msg:" + msg);
 
         if (token == null || token.isEmpty()) {
@@ -98,6 +99,7 @@ public class SenderDingdingMsg {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
+                LogUtil.updateLog(logId, 0, e.getMessage());
                 Log.d(TAG, "onFailure：" + e.getMessage());
 
                 if (handError != null) {
@@ -115,6 +117,13 @@ public class SenderDingdingMsg {
             public void onResponse(Call call, Response response) throws IOException {
                 final String responseStr = response.body().string();
                 Log.d(TAG, "Code：" + String.valueOf(response.code()) + responseStr);
+
+                //TODO:粗略解析是否发送成功
+                if (responseStr.contains("\"errcode\":0")) {
+                    LogUtil.updateLog(logId, 1, responseStr);
+                } else {
+                    LogUtil.updateLog(logId, 0, responseStr);
+                }
 
                 if (handError != null) {
                     android.os.Message msg = new android.os.Message();
