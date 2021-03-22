@@ -95,7 +95,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="发件帐号" />
+                android:text="发件人帐号" />
 
             <EditText
                 android:id="@+id/editTextEmailFromAdd"
@@ -104,6 +104,28 @@
                 android:layout_marginLeft="3dp"
                 android:ems="14"
                 android:inputType="textEmailAddress"
+                android:text="" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发件人昵称" />
+
+            <EditText
+                android:id="@+id/editTextEmailNickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:ems="14"
+                android:inputType=""
                 android:text="" />
         </LinearLayout>
 

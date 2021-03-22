@@ -7,17 +7,19 @@ public class EmailSettingVo implements Serializable {
     private String port;
     private Boolean ssl = true;
     private String fromEmail;
+    private String nickname;
     private String pwd;
     private String toEmail;
 
     public EmailSettingVo() {
     }
 
-    public EmailSettingVo(String host, String port, Boolean ssl, String fromEmail, String pwd, String toEmail) {
+    public EmailSettingVo(String host, String port, Boolean ssl, String fromEmail, String nickname, String pwd, String toEmail) {
         this.host = host;
         this.port = port;
         this.ssl = ssl;
         this.fromEmail = fromEmail;
+        this.nickname = nickname;
         this.pwd = pwd;
         this.toEmail = toEmail;
     }
@@ -52,6 +54,14 @@ public class EmailSettingVo implements Serializable {
 
     public void setFromEmail(String fromEmail) {
         this.fromEmail = fromEmail;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getPwd() {

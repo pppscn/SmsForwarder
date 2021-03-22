@@ -14,9 +14,9 @@ import static com.idormy.sms.forwarder.SenderActivity.NOTIFY;
 public class SenderMailMsg {
     private static String TAG = "SenderMailMsg";
 
-    public static void sendEmail(final long logId, final Handler handError, final String host, final String port, final boolean ssl, final String fromemail, final String pwd, final String toAdd, final String title, final String content) {
+    public static void sendEmail(final long logId, final Handler handError, final String host, final String port, final boolean ssl, final String fromemail, final String nickname, final String pwd, final String toAdd, final String title, final String content) {
 
-        Log.d(TAG, "sendEmail: host:" + host + " port:" + port + " ssl:" + ssl + " fromemail:" + fromemail + " pwd:" + pwd + " toAdd:" + toAdd);
+        Log.d(TAG, "sendEmail: host:" + host + " port:" + port + " ssl:" + ssl + " fromemail:" + fromemail + " nickname:" + nickname + " pwd:" + pwd + " toAdd:" + toAdd);
 
         try {
             //初始化框架
@@ -30,7 +30,7 @@ public class SenderMailMsg {
 
             //设置一封草稿邮件
             Draft draft = new Draft()
-                    .setNickname("SmsForwarder")   //发件人昵称
+                    .setNickname(nickname)   //发件人昵称
                     .setTo(toAdd)                  //收件人邮箱
                     .setSubject(title)             //邮件主题
                     .setText(content);             //邮件正文

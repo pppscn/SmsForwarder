@@ -373,6 +373,8 @@ public class SenderActivity extends AppCompatActivity {
         if (emailSettingVo != null) switchEmailSSl.setChecked(emailSettingVo.getSsl());
         final EditText editTextEmailFromAdd = view1.findViewById(R.id.editTextEmailFromAdd);
         if (emailSettingVo != null) editTextEmailFromAdd.setText(emailSettingVo.getFromEmail());
+        final EditText editTextEmailNickname = view1.findViewById(R.id.editTextEmailNickname);
+        if (emailSettingVo != null) editTextEmailNickname.setText(emailSettingVo.getNickname());
         final EditText editTextEmailPsw = view1.findViewById(R.id.editTextEmailPsw);
         if (emailSettingVo != null) editTextEmailPsw.setText(emailSettingVo.getPwd());
         final EditText editTextEmailToAdd = view1.findViewById(R.id.editTextEmailToAdd);
@@ -402,6 +404,7 @@ public class SenderActivity extends AppCompatActivity {
                             editTextEmailPort.getText().toString(),
                             switchEmailSSl.isChecked(),
                             editTextEmailFromAdd.getText().toString(),
+                            editTextEmailNickname.getText().toString(),
                             editTextEmailPsw.getText().toString(),
                             editTextEmailToAdd.getText().toString()
                     );
@@ -418,6 +421,7 @@ public class SenderActivity extends AppCompatActivity {
                             editTextEmailPort.getText().toString(),
                             switchEmailSSl.isChecked(),
                             editTextEmailFromAdd.getText().toString(),
+                            editTextEmailNickname.getText().toString(),
                             editTextEmailPsw.getText().toString(),
                             editTextEmailToAdd.getText().toString()
                     );
@@ -452,15 +456,21 @@ public class SenderActivity extends AppCompatActivity {
                 String fromemail = editTextEmailFromAdd.getText().toString();
                 String pwd = editTextEmailPsw.getText().toString();
                 String toemail = editTextEmailToAdd.getText().toString();
+
+                String nickname = editTextEmailNickname.getText().toString();
+                if (nickname == null || nickname.equals("")) {
+                    nickname = "SmsForwarder";
+                }
+
                 if (!host.isEmpty() && !port.isEmpty() && !fromemail.isEmpty() && !pwd.isEmpty() && !toemail.isEmpty()) {
                     try {
-                        SenderMailMsg.sendEmail(0, handler, host, port, ssl, fromemail, pwd, toemail, "SmsForwarder Title", "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                        SenderMailMsg.sendEmail(0, handler, host, port, ssl, fromemail, nickname, pwd, toemail, "SmsForwarder Title", "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                     } catch (Exception e) {
                         Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
                         e.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(SenderActivity.this, "token 不能为空", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SenderActivity.this, "邮箱参数不完整", Toast.LENGTH_LONG).show();
                 }
             }
         });

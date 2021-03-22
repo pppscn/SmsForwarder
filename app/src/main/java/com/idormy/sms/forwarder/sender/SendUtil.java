@@ -127,7 +127,7 @@ public class SendUtil {
                     EmailSettingVo emailSettingVo = JSON.parseObject(senderModel.getJsonSetting(), EmailSettingVo.class);
                     if (emailSettingVo != null) {
                         try {
-                            SenderMailMsg.sendEmail(logId, handError, emailSettingVo.getHost(), emailSettingVo.getPort(), emailSettingVo.getSsl(), emailSettingVo.getFromEmail(),
+                            SenderMailMsg.sendEmail(logId, handError, emailSettingVo.getHost(), emailSettingVo.getPort(), emailSettingVo.getSsl(), emailSettingVo.getFromEmail(), emailSettingVo.getNickname(),
                                     emailSettingVo.getPwd(), emailSettingVo.getToEmail(), smsVo.getMobile(), smsVo.getSmsVoForSend());
                         } catch (Exception e) {
                             LogUtil.updateLog(logId, 0, e.getMessage());
