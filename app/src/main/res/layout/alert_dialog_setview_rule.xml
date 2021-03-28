@@ -112,7 +112,6 @@
                 <RadioButton
                     android:id="@+id/btnIs"
                     style="@style/rg_rb_style"
-                    android:checked="true"
                     android:text="是　　　" />
 
                 <RadioButton
