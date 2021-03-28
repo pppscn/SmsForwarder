@@ -153,6 +153,8 @@ public class RuleActivity extends AppCompatActivity {
             } else {
                 radioGroupRuleCheck2.check(ruleCheckCheckId);
             }
+        } else {
+            radioGroupRuleCheck.check(R.id.btnIs);
         }
 
         final RadioGroup radioGroupSimSlot = (RadioGroup) view1.findViewById(R.id.radioGroupSimSlot);
