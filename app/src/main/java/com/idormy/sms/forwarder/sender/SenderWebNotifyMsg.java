@@ -94,8 +94,8 @@ public class SenderWebNotifyMsg {
                 final String responseStr = response.body().string();
                 Log.d(TAG, "Code：" + response.code() + " Response：" + responseStr);
 
-                //TODO:粗略解析是否发送成功
-                if (responseStr.contains("\"code\":1")) {
+                //返回http状态200即为成功
+                if (200 == response.code()) {
                     LogUtil.updateLog(logId, 1, responseStr);
                 } else {
                     LogUtil.updateLog(logId, 0, responseStr);
