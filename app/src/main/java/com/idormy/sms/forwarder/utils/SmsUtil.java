@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.telephony.SmsManager;
 import android.util.Log;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class SmsUtil {
     static String TAG = "SmsUtil";
@@ -31,10 +31,15 @@ public class SmsUtil {
             PendingIntent sendPI = PendingIntent.getBroadcast(context, 0, new Intent(Context.TELEPHONY_SUBSCRIPTION_SERVICE), PendingIntent.FLAG_ONE_SHOT);
             PendingIntent deliverPI = PendingIntent.getBroadcast(context, 0, new Intent("DELIVERED_SMS_ACTION"), 0);
 
-            List<String> divideContents = smsManager.divideMessage(message);
-            for (String text : divideContents) {
-                smsManager.sendTextMessage(mobiles, null, text, sendPI, deliverPI);
+            ArrayList<PendingIntent> sentPendingIntents = new ArrayList<PendingIntent>();
+            ArrayList<PendingIntent> deliveredPendingIntents = new ArrayList<PendingIntent>();
+            ArrayList<String> divideContents = smsManager.divideMessage(message);
+
+            for (int i = 0; i < divideContents.size(); i++) {
+                sentPendingIntents.add(i, sendPI);
+                deliveredPendingIntents.add(i, deliverPI);
             }
+            smsManager.sendMultipartTextMessage(mobiles, null, divideContents, sentPendingIntents, deliveredPendingIntents);
 
             return null;
         } catch (Exception e) {
