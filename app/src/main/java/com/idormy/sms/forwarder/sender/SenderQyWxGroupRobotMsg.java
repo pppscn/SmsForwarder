@@ -4,9 +4,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.idormy.sms.forwarder.utils.LogUtil;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -29,10 +32,17 @@ public class SenderQyWxGroupRobotMsg {
             return;
         }
 
-        String textMsg = "{ \"msgtype\": \"text\", \"text\": {\"content\": \"" + from + " : " + content + "\"}}";
+        //String textMsg = "{ \"msgtype\": \"text\", \"text\": {\"content\": \"" + from + " : " + content + "\"}}";
+        Map textMsgMap = new HashMap();
+        textMsgMap.put("msgtype", "text");
+        Map textText = new HashMap();
+        textText.put("content", content);
+        textMsgMap.put("text", textText);
+        String textMsg = JSON.toJSONString(textMsgMap);
+        Log.i(TAG, "textMsg:" + textMsg);
+
         OkHttpClient client = new OkHttpClient();
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=utf-8"),
-                textMsg);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), textMsg);
 
         final Request request = new Request.Builder()
                 .url(webHook)
