@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 
+import com.idormy.sms.forwarder.utils.CertUtils;
 import com.idormy.sms.forwarder.utils.LogUtil;
 
 import java.io.IOException;
@@ -70,7 +71,11 @@ public class SenderWebNotifyMsg {
             request = new Request.Builder().url(webServer).method("POST", body).build();
         }
 
-        OkHttpClient client = new OkHttpClient().newBuilder().build();
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                //忽略https证书
+                .sslSocketFactory(CertUtils.getSSLSocketFactory(), CertUtils.getX509TrustManager())
+                .hostnameVerifier(CertUtils.getHostnameVerifier())
+                .build();
         Call call = client.newCall(request);
         call.enqueue(new Callback() {
             @Override
