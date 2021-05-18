@@ -186,6 +186,7 @@ public class SettingActivity extends AppCompatActivity {
                 return;
             case R.id.bt_insert_time:
                 textSmsTemplate.append("{{接收时间}}");
+                return;
             case R.id.bt_insert_device_name:
                 textSmsTemplate.append("{{设备名称}}");
                 return;

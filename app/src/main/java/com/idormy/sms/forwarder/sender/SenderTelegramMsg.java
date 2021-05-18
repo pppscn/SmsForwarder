@@ -34,14 +34,14 @@ public class SenderTelegramMsg {
         }
 
         //特殊处理避免标题重复
-        text = text.replaceFirst("^" + from + "(.*)", "").trim();
+        text = text.replaceFirst("^" + from + "(.*)", "").replaceAll("#", "井").trim();
 
         String sendUrl = "https://api.telegram.org/bot" + apiToken + "/sendMessage";
         Log.d(TAG, "sendUrl：" + sendUrl);
 
         Map bodyMap = new HashMap();
         bodyMap.put("chat_id", chatId);
-        bodyMap.put("text", text.trim());
+        bodyMap.put("text", text);
         bodyMap.put("parse_mode", "HTML");
         String bodyMsg = JSON.toJSONString(bodyMap);
         Log.d(TAG, "body：" + bodyMsg);
