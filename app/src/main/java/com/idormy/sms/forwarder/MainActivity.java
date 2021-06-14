@@ -201,6 +201,30 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
         } else {
             builder.setMessage(logVo.getFrom() + "\n\n" + logVo.getContent() + "\n\n" + logVo.getRule() + "\n\n" + aUtil.utc2Local(logVo.getTime()) + "\n\nResponse：" + logVo.getForwardResponse());
         }
+        //重发
+        builder.setPositiveButton("重发", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Long id = logVo.getId();
+                Log.d(TAG, "id = " + id);
+                Log.d(TAG, logVo.toString());
+                Toast.makeText(MainActivity.this, "你确定要重发吗？", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+        //删除
+        builder.setNegativeButton("删除", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Long id = logVo.getId();
+                Log.d(TAG, "id = " + id);
+                LogUtil.delLog(id, null);
+                initTLogs(); //初始化数据
+                showList(logVos);
+                Toast.makeText(MainActivity.this, "已删除该条记录", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
         builder.show();
     }
 
