@@ -6,11 +6,11 @@ buildscript {
         google()
         jcenter()
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url 'https://repo1.maven.org/maven2/' }
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.3'
+        classpath 'com.android.tools.build:gradle:4.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.chenenyu:img-optimizer:1.2.0' //图片压缩
     }
@@ -21,7 +21,7 @@ allprojects {
         google()
         jcenter()
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url 'https://repo1.maven.org/maven2/' }
         maven { url "https://jitpack.io" }
     }
 }
