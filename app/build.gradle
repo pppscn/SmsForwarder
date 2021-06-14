@@ -77,8 +77,9 @@ dependencies {
     //implementation 'com.linkedin.dexmaker:dexmaker-mockito:2.12.1'
 
     //友盟基础组件库（所有友盟业务SDK都依赖基础组件库）
-    implementation "com.umeng.umsdk:common:9.3.6"
-    implementation "com.umeng.umsdk:asms:1.2.0"
+    implementation  'com.umeng.umsdk:common:9.3.8'
+    implementation  'com.umeng.umsdk:asms:1.2.2'
+    implementation  'com.umeng.umsdk:abtest:1.0.0'
 
     //XUpdate
     implementation 'com.github.xuexiangjys:XUpdate:2.0.7'
