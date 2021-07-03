@@ -49,7 +49,7 @@ public class SimUtil {
             Log.d(TAG, "getSimExtra Fail: " + e.getMessage());
         }
 
-        return 0;
+        return 1;
     }
 
 
