@@ -540,11 +540,12 @@ public class PhoneUtils {
         boolean permission_send_sms = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.SEND_SMS", that.getPackageName()));
         boolean permission_read_phone_state = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_PHONE_STATE", that.getPackageName()));
         boolean permission_read_phone_numbers = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_PHONE_NUMBERS", that.getPackageName()));
+        boolean permission_battery_stats = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.BATTERY_STATS", that.getPackageName()));
 
         if (!(permission_internet && permission_receive_boot && permission_foreground_service &&
                 permission_read_external_storage && permission_write_external_storage &&
                 permission_receive_sms && permission_read_sms && permission_send_sms &&
-                permission_read_phone_state && permission_read_phone_numbers)) {
+                permission_read_phone_state && permission_read_phone_numbers && permission_battery_stats)) {
             ActivityCompat.requestPermissions((Activity) that, new String[]{
                     Manifest.permission.INTERNET,
                     Manifest.permission.RECEIVE_BOOT_COMPLETED,
@@ -556,6 +557,7 @@ public class PhoneUtils {
                     Manifest.permission.READ_PHONE_STATE,
                     Manifest.permission.READ_PHONE_NUMBERS,
                     Manifest.permission.FOREGROUND_SERVICE,
+                    Manifest.permission.BATTERY_STATS,
             }, 0x01);
         }
     }

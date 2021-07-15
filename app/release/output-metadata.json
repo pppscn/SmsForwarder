@@ -5,14 +5,14 @@
     "kind": "Directory"
   },
   "applicationId": "com.idormy.sms.forwarder",
-  "variantName": "processReleaseResources",
+  "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 24,
-      "versionName": "1.7.3",
-      "outputFile": "SmsForwarder_release_20210331_1.7.3.apk"
+      "versionCode": 25,
+      "versionName": "1.7.4",
+      "outputFile": "SmsForwarder_release_20210715_1.7.4.apk"
     }
   ]
 }
