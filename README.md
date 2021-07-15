@@ -211,6 +211,7 @@
     + [v1.7.1](app/release/SmsForwarder_release_20210321_1.7.1.apk) 新增转发记录的转发状态(成功/失败&应答信息)
     + [v1.7.2](app/release/SmsForwarder_release_20210325_1.7.2.apk) 新增V1版证书签名，避免部分低版本系统(Android 6.x)无证书错误 & 发送方邮箱允许自定义发件人昵称
     + [v1.7.3](app/release/SmsForwarder_release_20210331_1.7.3.apk) 修复“设置匹配模式”默认选择BUG & 转发到webhook时返回http状态200即为成功 & 转发到其他手机短信支持长短信合并
+    + [v1.7.4](app/release/SmsForwarder_release_20210715_1.7.4.apk) 修复转发企业微信群机器人碰到"被截断问题 & 转发到webhook时忽略ssl证书校验（提高自建服务端兼容性） & 转发telegram时将 # 替换为 井，避免被当作标签 & 隐私保护，发送方设置中敏感信息(密码/token/secret等)用星号显示 & 更新友盟基础组件库 & 解决“设置页面关闭卡槽信息，同时使用默认模板时，发送消息卡槽信息仍显示”
 
 --------
 
