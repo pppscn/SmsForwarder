@@ -9,10 +9,12 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.Toast;
+
+import com.idormy.sms.forwarder.utils.KeepAliveUtils;
+import com.idormy.sms.forwarder.utils.SettingUtil;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.idormy.sms.forwarder.utils.SettingUtil;
 
 
 public class SettingActivity extends AppCompatActivity {
@@ -223,4 +225,11 @@ public class SettingActivity extends AppCompatActivity {
 
     }
 
+    public void batterySetting(View view) {
+        if (KeepAliveUtils.isIgnoreBatteryOptimization(this)) {
+            Toast.makeText(this,R.string.isIgnored,Toast.LENGTH_SHORT).show();
+        } else {
+            KeepAliveUtils.ignoreBatteryOptimization(this);
+        }
+    }
 }
