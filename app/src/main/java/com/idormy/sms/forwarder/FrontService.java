@@ -10,9 +10,10 @@ import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-
 import com.idormy.sms.forwarder.utils.OSUtils;
+import com.idormy.sms.forwarder.utils.PhoneUtils;
+
+import androidx.annotation.Nullable;
 
 
 public class FrontService extends Service {
@@ -59,6 +60,10 @@ public class FrontService extends Service {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O_MR1) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+        }
+        // 手机重启，未打开app时，主动获取SIM卡信息
+        if (MyApplication.SimInfoList.isEmpty()) {
+            MyApplication.SimInfoList = PhoneUtils.getSimMultiInfo();
         }
     }
 
