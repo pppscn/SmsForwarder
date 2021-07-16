@@ -293,6 +293,16 @@
             android:padding="0dp"
             android:text="恢复初始化配置" />
 
+        <Button
+            android:id="@+id/btnBatterySetting"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_margin="10dp"
+            android:background="@color/colorPrimary"
+            android:onClick="batterySetting"
+            android:padding="0dp"
+            android:text="设置电池优化" />
+
     </LinearLayout>
 
 </ScrollView>
