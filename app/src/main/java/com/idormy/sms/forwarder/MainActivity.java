@@ -18,9 +18,6 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.idormy.sms.forwarder.BroadCastReceiver.SmsForwarderBroadcastReceiver;
 import com.idormy.sms.forwarder.adapter.LogAdapter;
 import com.idormy.sms.forwarder.model.vo.LogVo;
@@ -33,6 +30,9 @@ import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements ReFlashListView.IReflashListener {
 
@@ -73,8 +73,6 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
 
         //获取SIM信息
         PhoneUtils.init(this);
-        MyApplication.SimInfoList = PhoneUtils.getSimMultiInfo();
-        Log.d(TAG, "SimInfoList = " + MyApplication.SimInfoList);
 
         //短信&网络组件初始化
         SmsUtil.init(this);
@@ -301,6 +299,11 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+		//第一次打开，申请权限前无法获取SIM信息，尝试在此重新获取
+        if (MyApplication.SimInfoList.isEmpty()) {
+            MyApplication.SimInfoList = PhoneUtils.getSimMultiInfo();
+        }
+        Log.d(TAG, "SimInfoList = " + MyApplication.SimInfoList.size());
     }
 
     @Override
