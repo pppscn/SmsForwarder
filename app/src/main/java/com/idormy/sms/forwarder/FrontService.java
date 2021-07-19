@@ -63,6 +63,7 @@ public class FrontService extends Service {
         }
         // 手机重启，未打开app时，主动获取SIM卡信息
         if (MyApplication.SimInfoList.isEmpty()) {
+            PhoneUtils.init(this);
             MyApplication.SimInfoList = PhoneUtils.getSimMultiInfo();
         }
     }
