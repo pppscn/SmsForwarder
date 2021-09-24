@@ -8,14 +8,16 @@ public class WebNotifySettingVo implements Serializable {
     private String webServer;
     private String secret;
     private String method;
+    private String webParams;
 
     public WebNotifySettingVo() {
     }
 
-    public WebNotifySettingVo(String webServer, String secret, String method) {
+    public WebNotifySettingVo(String webServer, String secret, String method, String webParams) {
         this.webServer = webServer;
         this.secret = secret;
         this.method = method;
+        this.webParams = webParams;
     }
 
     public String getWebServer() {
@@ -24,6 +26,14 @@ public class WebNotifySettingVo implements Serializable {
 
     public void setWebServer(String webServer) {
         this.webServer = webServer;
+    }
+
+    public String getwebParams() {
+        return webParams;
+    }
+
+    public void setWebParams(String webParams) {
+        this.webParams = webParams;
     }
 
     public String getSecret() {
@@ -49,4 +59,6 @@ public class WebNotifySettingVo implements Serializable {
             return R.id.radioWebNotifyMethodGet;
         }
     }
+
+
 }

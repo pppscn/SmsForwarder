@@ -16,6 +16,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -28,8 +29,8 @@ public class SenderWebNotifyMsg {
 
     static String TAG = "SenderWebNotifyMsg";
 
-    public static void sendMsg(final long logId, final Handler handError, String webServer, String secret, String method, String from, String content) throws Exception {
-        Log.i(TAG, "sendMsg webServer:" + webServer + " from:" + from + " content:" + content);
+    public static void sendMsg(final long logId, final Handler handError, String webServer, String webParams, String secret, String method, String from, String content) throws Exception {
+        Log.i(TAG, "sendMsg webServer:" + webServer + " webParams:" + webParams + " from:" + from + " content:" + content);
 
         if (webServer == null || webServer.isEmpty()) {
             return;
@@ -57,6 +58,23 @@ public class SenderWebNotifyMsg {
 
             Log.d(TAG, "method = GET, Url = " + webServer);
             request = new Request.Builder().url(webServer).get().build();
+        } else if (webParams != null && webParams.contains("[msg]")){
+            String bodyMsg;
+            String Content_Type = "application/x-www-form-urlencoded";
+            if (webParams.startsWith("{")){
+                bodyMsg = content.replace("\n","\\n");
+                bodyMsg = webParams.replace("[msg]",bodyMsg);
+                Content_Type = "application/json;charset=utf-8";
+            }else{
+                bodyMsg = webParams.replace("[msg]",URLEncoder.encode(content, "UTF-8"));
+            }
+            RequestBody body =  RequestBody.create(MediaType.parse(Content_Type), bodyMsg);
+            request = new Request.Builder()
+                    .url(webServer)
+                    .addHeader("Content-Type", Content_Type)
+                    .method("POST", body)
+                    .build();
+            Log.d(TAG, "method = POST webParams, Body = " + bodyMsg);
         } else {
             MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
                     .addFormDataPart("from", from)
