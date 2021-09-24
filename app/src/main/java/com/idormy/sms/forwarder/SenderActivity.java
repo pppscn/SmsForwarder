@@ -657,6 +657,7 @@ public class SenderActivity extends AppCompatActivity {
         });
     }
 
+    //webhook
     private void setWebNotify(final SenderModel senderModel) {
         WebNotifySettingVo webNotifySettingVo = null;
         //try phrase json setting
@@ -674,6 +675,8 @@ public class SenderActivity extends AppCompatActivity {
         if (senderModel != null) editTextWebNotifyName.setText(senderModel.getName());
         final EditText editTextWebNotifyWebServer = view1.findViewById(R.id.editTextWebNotifyWebServer);
         if (webNotifySettingVo != null) editTextWebNotifyWebServer.setText(webNotifySettingVo.getWebServer());
+        final EditText editTextWebNotifyWebParams = view1.findViewById(R.id.editTextWebNotifyWebParams);
+        if (webNotifySettingVo != null) editTextWebNotifyWebParams.setText(webNotifySettingVo.getwebParams());
         final EditText editTextWebNotifySecret = view1.findViewById(R.id.editTextWebNotifySecret);
         if (webNotifySettingVo != null) editTextWebNotifySecret.setText(webNotifySettingVo.getSecret());
         final RadioGroup radioGroupWebNotifyMethod = (RadioGroup) view1.findViewById(R.id.radioGroupWebNotifyMethod);
@@ -692,38 +695,29 @@ public class SenderActivity extends AppCompatActivity {
         buttonbebnotifyok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                WebNotifySettingVo webNotifySettingVoNew = new WebNotifySettingVo(
+                        editTextWebNotifyWebServer.getText().toString(),
+                        editTextWebNotifySecret.getText().toString(),
+                        (radioGroupWebNotifyMethod.getCheckedRadioButtonId() == R.id.radioWebNotifyMethodGet ? "GET" : "POST"),
+                        editTextWebNotifyWebParams.getText().toString()
+                );
                 if (senderModel == null) {
                     SenderModel newSenderModel = new SenderModel();
                     newSenderModel.setName(editTextWebNotifyName.getText().toString());
                     newSenderModel.setType(TYPE_WEB_NOTIFY);
                     newSenderModel.setStatus(STATUS_ON);
-                    WebNotifySettingVo webNotifySettingVoNew = new WebNotifySettingVo(
-                            editTextWebNotifyWebServer.getText().toString(),
-                            editTextWebNotifySecret.getText().toString(),
-                            (radioGroupWebNotifyMethod.getCheckedRadioButtonId() == R.id.radioWebNotifyMethodGet ? "GET" : "POST")
-                    );
                     newSenderModel.setJsonSetting(JSON.toJSONString(webNotifySettingVoNew));
                     SenderUtil.addSender(newSenderModel);
-                    initSenders();
-                    adapter.add(senderModels);
                 } else {
                     senderModel.setName(editTextWebNotifyName.getText().toString());
                     senderModel.setType(TYPE_WEB_NOTIFY);
                     senderModel.setStatus(STATUS_ON);
-                    WebNotifySettingVo webNotifySettingVoNew = new WebNotifySettingVo(
-                            editTextWebNotifyWebServer.getText().toString(),
-                            editTextWebNotifySecret.getText().toString(),
-                            (radioGroupWebNotifyMethod.getCheckedRadioButtonId() == R.id.radioWebNotifyMethodGet ? "GET" : "POST")
-                    );
                     senderModel.setJsonSetting(JSON.toJSONString(webNotifySettingVoNew));
                     SenderUtil.updateSender(senderModel);
-                    initSenders();
-                    adapter.update(senderModels);
                 }
-
+                initSenders();
+                adapter.update(senderModels);
                 show.dismiss();
-
             }
         });
         buttonbebnotifydel.setOnClickListener(new View.OnClickListener() {
@@ -741,11 +735,12 @@ public class SenderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String webServer = editTextWebNotifyWebServer.getText().toString();
+                String webParams = editTextWebNotifyWebParams.getText().toString();
                 String secret = editTextWebNotifySecret.getText().toString();
                 String method = radioGroupWebNotifyMethod.getCheckedRadioButtonId() == R.id.radioWebNotifyMethodGet ? "GET" : "POST";
                 if (!webServer.isEmpty()) {
                     try {
-                        SenderWebNotifyMsg.sendMsg(0, handler, webServer, secret, method, "SmsForwarder Title", "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                        SenderWebNotifyMsg.sendMsg(0, handler, webServer, webParams,secret, method, "SmsForwarder Title", "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                     } catch (Exception e) {
                         Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
                         e.printStackTrace();
@@ -757,6 +752,7 @@ public class SenderActivity extends AppCompatActivity {
         });
     }
 
+    //企业微信群机器人
     private void setQYWXGroupRobot(final SenderModel senderModel) {
         QYWXGroupRobotSettingVo qywxGroupRobotSettingVo = null;
         //try phrase json setting
