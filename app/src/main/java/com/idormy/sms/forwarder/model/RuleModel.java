@@ -8,6 +8,7 @@ import com.idormy.sms.forwarder.utils.RuleLineUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -172,7 +173,13 @@ public class RuleModel {
                 case CHECK_REGEX:
                     if (msgValue != null) {
                         try {
-                            checked = Pattern.matches(this.value, msgValue);
+                            //checked = Pattern.matches(this.value, msgValue);
+                            Pattern pattern = Pattern.compile(this.value, Pattern.CASE_INSENSITIVE);
+                            Matcher matcher = pattern.matcher(msgValue);
+                            while (matcher.find()) {
+                                checked = true;
+                                break;
+                            }
                         } catch (PatternSyntaxException e) {
                             checked = false;
                             Log.d(TAG, "PatternSyntaxException: ");
