@@ -1,5 +1,8 @@
 package com.idormy.sms.forwarder.model;
 
+import lombok.Data;
+
+@Data
 public class LogModel {
     private String from;
     private String content;
@@ -12,46 +15,6 @@ public class LogModel {
         this.content = content;
         this.simInfo = simInfo;
         this.ruleId = ruleId;
-    }
-
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getSimInfo() {
-        return simInfo;
-    }
-
-    public void setSimInfo(String simInfo) {
-        this.simInfo = simInfo;
-    }
-
-    public Long getRuleId() {
-        return ruleId;
-    }
-
-    public void setRuleId(Long ruleId) {
-        this.ruleId = ruleId;
-    }
-
-    public Long getTime() {
-        return time;
-    }
-
-    public void setTime(Long time) {
-        this.time = time;
     }
 
     @Override

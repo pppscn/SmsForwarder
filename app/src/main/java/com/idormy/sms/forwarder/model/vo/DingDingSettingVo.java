@@ -2,6 +2,9 @@ package com.idormy.sms.forwarder.model.vo;
 
 import java.io.Serializable;
 
+import lombok.Data;
+
+@Data
 public class DingDingSettingVo implements Serializable {
     private String token;
     private String secret;
@@ -15,38 +18,6 @@ public class DingDingSettingVo implements Serializable {
         this.token = token;
         this.secret = secret;
         this.atMobils = atMobils;
-        this.atAll = atAll;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getSecret() {
-        return secret;
-    }
-
-    public void setSecret(String secret) {
-        this.secret = secret;
-    }
-
-    public String getAtMobils() {
-        return atMobils;
-    }
-
-    public void setAtMobils(String atMobils) {
-        this.atMobils = atMobils;
-    }
-
-    public Boolean getAtAll() {
-        return atAll;
-    }
-
-    public void setAtAll(Boolean atAll) {
         this.atAll = atAll;
     }
 }

@@ -676,7 +676,7 @@ public class SenderActivity extends AppCompatActivity {
         final EditText editTextWebNotifyWebServer = view1.findViewById(R.id.editTextWebNotifyWebServer);
         if (webNotifySettingVo != null) editTextWebNotifyWebServer.setText(webNotifySettingVo.getWebServer());
         final EditText editTextWebNotifyWebParams = view1.findViewById(R.id.editTextWebNotifyWebParams);
-        if (webNotifySettingVo != null) editTextWebNotifyWebParams.setText(webNotifySettingVo.getwebParams());
+        if (webNotifySettingVo != null) editTextWebNotifyWebParams.setText(webNotifySettingVo.getWebParams());
         final EditText editTextWebNotifySecret = view1.findViewById(R.id.editTextWebNotifySecret);
         if (webNotifySettingVo != null) editTextWebNotifySecret.setText(webNotifySettingVo.getSecret());
         final RadioGroup radioGroupWebNotifyMethod = (RadioGroup) view1.findViewById(R.id.radioGroupWebNotifyMethod);

@@ -2,6 +2,9 @@ package com.idormy.sms.forwarder.model.vo;
 
 import java.io.Serializable;
 
+import lombok.Data;
+
+@Data
 public class ServerChanSettingVo implements Serializable {
     private String sendKey;
 
@@ -12,11 +15,4 @@ public class ServerChanSettingVo implements Serializable {
         this.sendKey = sendKey;
     }
 
-    public String getSendKey() {
-        return sendKey;
-    }
-
-    public void setSendKey(String sendKey) {
-        this.sendKey = sendKey;
-    }
 }
