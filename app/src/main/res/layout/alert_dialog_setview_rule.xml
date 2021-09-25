@@ -115,14 +115,14 @@
                     android:text="是　　　" />
 
                 <RadioButton
-                    android:id="@+id/btnNotIs"
-                    style="@style/rg_rb_style"
-                    android:text="不是　　" />
-
-                <RadioButton
                     android:id="@+id/btnContain"
                     style="@style/rg_rb_style"
                     android:text="包含　　" />
+
+                <RadioButton
+                    android:id="@+id/btnNotContain"
+                    style="@style/rg_rb_style"
+                    android:text="不包含　" />
             </RadioGroup>
 
             <RadioGroup

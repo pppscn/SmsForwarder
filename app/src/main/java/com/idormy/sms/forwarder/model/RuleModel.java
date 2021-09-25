@@ -23,6 +23,7 @@ public class RuleModel {
     public static final Map<String, String> FILED_MAP = new HashMap<String, String>();
     public static final String CHECK_IS = "is";
     public static final String CHECK_CONTAIN = "contain";
+    public static final String CHECK_NOT_CONTAIN = "notcontain";
     public static final String CHECK_START_WITH = "startwith";
     public static final String CHECK_END_WITH = "endwith";
     public static final String CHECK_NOT_IS = "notis";
@@ -42,10 +43,11 @@ public class RuleModel {
 
     static {
         CHECK_MAP.put("is", "是");
+        CHECK_MAP.put("notis", "不是");
         CHECK_MAP.put("contain", "包含");
         CHECK_MAP.put("startwith", "开头是");
         CHECK_MAP.put("endwith", "结尾是");
-        CHECK_MAP.put("notis", "不是");
+        CHECK_MAP.put("notcontain", "不包含");
         CHECK_MAP.put("regex", "正则匹配");
     }
 
@@ -96,8 +98,8 @@ public class RuleModel {
                 return CHECK_END_WITH;
             case R.id.btnRegex:
                 return CHECK_REGEX;
-            case R.id.btnNotIs:
-                return CHECK_NOT_IS;
+            case R.id.btnNotContain:
+                return CHECK_NOT_CONTAIN;
             default:
                 return CHECK_IS;
         }
@@ -155,9 +157,17 @@ public class RuleModel {
                 case CHECK_IS:
                     checked = this.value.equals(msgValue);
                     break;
+                case CHECK_NOT_IS:
+                    checked = !this.value.equals(msgValue);
+                    break;
                 case CHECK_CONTAIN:
                     if (msgValue != null) {
                         checked = msgValue.contains(this.value);
+                    }
+                    break;
+                case CHECK_NOT_CONTAIN:
+                    if (msgValue != null) {
+                        checked = !msgValue.contains(this.value);
                     }
                     break;
                 case CHECK_START_WITH:
@@ -237,8 +247,8 @@ public class RuleModel {
                 return R.id.btnEndWith;
             case CHECK_REGEX:
                 return R.id.btnRegex;
-            case CHECK_NOT_IS:
-                return R.id.btnNotIs;
+            case CHECK_NOT_CONTAIN:
+                return R.id.btnNotContain;
             default:
                 return R.id.btnIs;
         }

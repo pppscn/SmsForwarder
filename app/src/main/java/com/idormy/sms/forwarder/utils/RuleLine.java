@@ -19,6 +19,7 @@ class RuleLine {
     public static final String SURE_NOT = "不是";
     public static final String CHECK_EQUALS = "相等";
     public static final String CHECK_CONTAIN = "包含";
+    public static final String CHECK_NOT_CONTAIN = "不包含";
     public static final String CHECK_START_WITH = "开头";
     public static final String CHECK_END_WITH = "结尾";
     public static final String CHECK_REGEX = "正则";
@@ -51,6 +52,8 @@ class RuleLine {
         CHECK_LIST.add("包含");
         CHECK_LIST.add("开头");
         CHECK_LIST.add("结尾");
+        CHECK_LIST.add("不包含");
+        CHECK_LIST.add("正则匹配");
     }
 
     //开头有几个空格
