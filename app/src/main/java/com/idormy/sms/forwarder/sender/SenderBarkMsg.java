@@ -24,7 +24,7 @@ public class SenderBarkMsg {
 
     static String TAG = "SenderBarkMsg";
 
-    public static void sendMsg(final long logId, final Handler handError, String barkServer, String from, String content) throws Exception {
+    public static void sendMsg(final long logId, final Handler handError, String barkServer, String from, String content, String groupName) throws Exception {
         Log.i(TAG, "sendMsg barkServer:" + barkServer + " from:" + from + " content:" + content);
 
         if (barkServer == null || barkServer.isEmpty()) {
@@ -37,6 +37,7 @@ public class SenderBarkMsg {
         barkServer += URLEncoder.encode(from, "UTF-8");
         barkServer += "/" + URLEncoder.encode(content, "UTF-8");
         barkServer += "?isArchive=1"; //自动保存
+        barkServer += "&group=" + URLEncoder.encode(groupName, "UTF-8"); //增加支持分组
         int isCode = content.indexOf("验证码");
         int isPassword = content.indexOf("动态密码");
         if (isCode != -1 || isPassword != -1) {
