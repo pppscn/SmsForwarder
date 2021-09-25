@@ -11,6 +11,9 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import lombok.Data;
+
+@Data
 public class RuleModel {
     public static final String FILED_TRANSPOND_ALL = "transpond_all";
     public static final String FILED_PHONE_NUM = "phone_num";
@@ -244,63 +247,6 @@ public class RuleModel {
                 return R.id.btnSimSlotAll;
         }
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getSenderId() {
-        return senderId;
-    }
-
-    public void setSenderId(Long senderId) {
-        this.senderId = senderId;
-    }
-
-    public Long getTime() {
-        return time;
-    }
-
-    public void setTime(Long time) {
-        this.time = time;
-    }
-
-    public String getFiled() {
-        return filed;
-    }
-
-    public void setFiled(String filed) {
-        this.filed = filed;
-    }
-
-    public String getSimSlot() {
-        return simSlot;
-    }
-
-    public void setSimSlot(String simSlot) {
-        this.simSlot = simSlot;
-    }
-
-    public String getCheck() {
-        return check;
-    }
-
-    public void setCheck(String check) {
-        this.check = check;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
 
     @Override
     public String toString() {

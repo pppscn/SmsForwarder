@@ -1,10 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android-extensions'
 apply from: 'version.gradle'
 
 android {
-    buildToolsVersion '29.0.3'
     compileSdkVersion 29
     compileOptions {
         sourceCompatibility 1.8
@@ -82,11 +81,14 @@ dependencies {
     implementation  'com.umeng.umsdk:abtest:1.0.0'
 
     //XUpdate
-    implementation 'com.github.xuexiangjys:XUpdate:2.0.7'
+    implementation 'com.github.xuexiangjys:XUpdate:2.1.0'
     implementation 'com.github.xuexiangjys.XUpdateAPI:xupdate-easy:1.0.0'
     implementation 'com.github.xuexiangjys.XUpdateAPI:xupdate-downloader-aria:1.0.0'
 
     //EmailKit
     implementation 'com.github.mailhu:emailkit:4.2.2'
 
+    //Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
 }

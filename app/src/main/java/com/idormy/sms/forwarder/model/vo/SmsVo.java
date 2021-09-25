@@ -6,6 +6,9 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import lombok.Data;
+
+@Data
 public class SmsVo implements Serializable {
     String mobile;
     String content;
@@ -19,38 +22,6 @@ public class SmsVo implements Serializable {
         this.mobile = mobile;
         this.content = content;
         this.date = date;
-        this.simInfo = simInfo;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getSimInfo() {
-        return simInfo;
-    }
-
-    public void setSimInfo(String simInfo) {
         this.simInfo = simInfo;
     }
 

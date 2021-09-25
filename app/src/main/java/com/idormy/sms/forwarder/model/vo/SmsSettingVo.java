@@ -4,6 +4,9 @@ import com.idormy.sms.forwarder.R;
 
 import java.io.Serializable;
 
+import lombok.Data;
+
+@Data
 public class SmsSettingVo implements Serializable {
     private int simSlot;
     private String mobiles;
@@ -15,30 +18,6 @@ public class SmsSettingVo implements Serializable {
     public SmsSettingVo(int simSlot, String mobiles, Boolean onlyNoNetwork) {
         this.simSlot = simSlot;
         this.mobiles = mobiles;
-        this.onlyNoNetwork = onlyNoNetwork;
-    }
-
-    public int getSimSlot() {
-        return simSlot;
-    }
-
-    public void setSimSlot(int simSlot) {
-        this.simSlot = simSlot;
-    }
-
-    public String getMobiles() {
-        return mobiles;
-    }
-
-    public void setMobiles(String mobiles) {
-        this.mobiles = mobiles;
-    }
-
-    public Boolean getOnlyNoNetwork() {
-        return onlyNoNetwork;
-    }
-
-    public void setOnlyNoNetwork(Boolean onlyNoNetwork) {
         this.onlyNoNetwork = onlyNoNetwork;
     }
 

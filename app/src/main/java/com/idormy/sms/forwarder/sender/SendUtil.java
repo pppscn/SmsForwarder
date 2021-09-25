@@ -1,5 +1,15 @@
 package com.idormy.sms.forwarder.sender;
 
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_BARK;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_DINGDING;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SERVER_CHAN;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SMS;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_TELEGRAM;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_WEB_NOTIFY;
+
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
@@ -23,16 +33,6 @@ import com.idormy.sms.forwarder.utils.NetUtil;
 import com.idormy.sms.forwarder.utils.RuleUtil;
 
 import java.util.List;
-
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_BARK;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_DINGDING;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SERVER_CHAN;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SMS;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_TELEGRAM;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_WEB_NOTIFY;
 
 public class SendUtil {
     private static String TAG = "SendUtil";
@@ -158,7 +158,7 @@ public class SendUtil {
                     WebNotifySettingVo webNotifySettingVo = JSON.parseObject(senderModel.getJsonSetting(), WebNotifySettingVo.class);
                     if (webNotifySettingVo != null) {
                         try {
-                            SenderWebNotifyMsg.sendMsg(logId, handError, webNotifySettingVo.getWebServer(), webNotifySettingVo.getwebParams(), webNotifySettingVo.getSecret(), webNotifySettingVo.getMethod(), smsVo.getMobile(), smsVo.getSmsVoForSend());
+                            SenderWebNotifyMsg.sendMsg(logId, handError, webNotifySettingVo.getWebServer(), webNotifySettingVo.getWebParams(), webNotifySettingVo.getSecret(), webNotifySettingVo.getMethod(), smsVo.getMobile(), smsVo.getSmsVoForSend());
                         } catch (Exception e) {
                             LogUtil.updateLog(logId, 0, e.getMessage());
                             Log.e(TAG, "senderSendMsg: SenderWebNotifyMsg error " + e.getMessage());

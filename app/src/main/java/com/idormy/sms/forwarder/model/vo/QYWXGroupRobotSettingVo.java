@@ -2,6 +2,9 @@ package com.idormy.sms.forwarder.model.vo;
 
 import java.io.Serializable;
 
+import lombok.Data;
+
+@Data
 public class QYWXGroupRobotSettingVo implements Serializable {
     private String webHook;
 
@@ -12,11 +15,4 @@ public class QYWXGroupRobotSettingVo implements Serializable {
         this.webHook = webHook;
     }
 
-    public String getWebHook() {
-        return webHook;
-    }
-
-    public void setWebHook(String webHook) {
-        this.webHook = webHook;
-    }
 }
