@@ -87,6 +87,8 @@ dependencies {
 
     //EmailKit
     implementation 'com.github.mailhu:emailkit:4.2.2'
+    implementation 'androidx.test.ext:junit-ktx:1.1.2'
+    testImplementation 'junit:junit:4.12'
 
     //Lombok
     compileOnly 'org.projectlombok:lombok:1.18.20'

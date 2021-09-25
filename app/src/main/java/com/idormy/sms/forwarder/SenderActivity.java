@@ -554,7 +554,7 @@ public class SenderActivity extends AppCompatActivity {
                 String barkServer = editTextBarkServer.getText().toString();
                 if (!barkServer.isEmpty()) {
                     try {
-                        SenderBarkMsg.sendMsg(0, handler, barkServer, "19999999999", "【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服");
+                        SenderBarkMsg.sendMsg(0, handler, barkServer, "19999999999", "【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服", "测试分组");
                     } catch (Exception e) {
                         Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
                         e.printStackTrace();
