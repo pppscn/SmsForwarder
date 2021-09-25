@@ -148,7 +148,7 @@ public class RuleActivity extends AppCompatActivity {
         final RadioGroup radioGroupRuleCheck2 = (RadioGroup) view1.findViewById(R.id.radioGroupRuleCheck2);
         if (ruleModel != null) {
             int ruleCheckCheckId = ruleModel.getRuleCheckCheckId();
-            if (ruleCheckCheckId == R.id.btnIs || ruleCheckCheckId == R.id.btnNotIs || ruleCheckCheckId == R.id.btnContain) {
+            if (ruleCheckCheckId == R.id.btnIs || ruleCheckCheckId == R.id.btnNotContain || ruleCheckCheckId == R.id.btnContain) {
                 radioGroupRuleCheck.check(ruleCheckCheckId);
             } else {
                 radioGroupRuleCheck2.check(ruleCheckCheckId);
