@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
-import com.idormy.sms.forwarder.FrontService;
+import com.idormy.sms.forwarder.service.FrontService;
 import com.idormy.sms.forwarder.utils.InitUtil;
 
 public class RebootBroadcastReceiver extends BroadcastReceiver {
@@ -26,6 +26,9 @@ public class RebootBroadcastReceiver extends BroadcastReceiver {
             } else {
                 context.startService(frontServiceIntent);
             }
+            //监控当前电量
+            //Intent batteryServiceIntent = new Intent(context, BatteryService.class);
+            //context.startService(batteryServiceIntent);
         }
 
     }

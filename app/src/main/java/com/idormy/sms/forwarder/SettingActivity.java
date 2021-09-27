@@ -38,6 +38,9 @@ public class SettingActivity extends AppCompatActivity {
         EditText et_add_extra_sim2 = (EditText) findViewById(R.id.et_add_extra_sim2);
         editAddExtraSim2(et_add_extra_sim2);
 
+        EditText et_battery_level_alarm = (EditText) findViewById(R.id.et_battery_level_alarm);
+        editBatteryLevelAlarm(et_battery_level_alarm);
+
         Switch switch_sms_template = (Switch) findViewById(R.id.switch_sms_template);
         switchSmsTemplate(switch_sms_template);
 
@@ -120,6 +123,26 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 SettingUtil.setAddExtraSim2(et_add_extra_sim2.getText().toString());
+            }
+        });
+    }
+
+    //设置低电量报警值
+    private void editBatteryLevelAlarm(final EditText et_battery_level_alarm) {
+        et_battery_level_alarm.setText(SettingUtil.getBatteryLevelAlarm());
+
+        et_battery_level_alarm.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                SettingUtil.setBatteryLevelAlarm(et_battery_level_alarm.getText().toString());
             }
         });
     }

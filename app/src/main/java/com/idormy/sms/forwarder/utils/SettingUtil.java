@@ -99,6 +99,18 @@ public class SettingUtil {
                 .apply();
     }
 
+    public static String getBatteryLevelAlarm() {
+        String res = sp_setting.getString(Define.SP_MSG_KEY_STRING_BATTERY_LEVEL_ALARM, "");
+        return res;
+    }
+
+    public static void setBatteryLevelAlarm(String battery_level) {
+        Log.d(TAG, "battery_level :" + battery_level);
+        sp_setting.edit()
+                .putString(Define.SP_MSG_KEY_STRING_BATTERY_LEVEL_ALARM, battery_level)
+                .apply();
+    }
+
     public static boolean saveMsgHistory() {
         return sp_setting.getBoolean("option_save_history_on", false);
     }

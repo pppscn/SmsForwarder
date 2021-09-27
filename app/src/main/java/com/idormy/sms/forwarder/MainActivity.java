@@ -18,6 +18,9 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.idormy.sms.forwarder.BroadCastReceiver.SmsForwarderBroadcastReceiver;
 import com.idormy.sms.forwarder.adapter.LogAdapter;
 import com.idormy.sms.forwarder.model.vo.LogVo;
@@ -30,9 +33,6 @@ import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements ReFlashListView.IReflashListener {
 
@@ -203,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
         builder.setPositiveButton("重发", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                System.out.println(logVo.toString());
                 Long id = logVo.getId();
                 Log.d(TAG, "id = " + id);
                 Log.d(TAG, logVo.toString());
@@ -299,7 +300,7 @@ public class MainActivity extends AppCompatActivity implements ReFlashListView.I
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-		//第一次打开，申请权限前无法获取SIM信息，尝试在此重新获取
+        //第一次打开，申请权限前无法获取SIM信息，尝试在此重新获取
         if (MyApplication.SimInfoList.isEmpty()) {
             MyApplication.SimInfoList = PhoneUtils.getSimMultiInfo();
         }
