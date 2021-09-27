@@ -11,3 +11,4 @@ local.properties
 .settings/*
 */.settings/*
 /app/pppscn.jks
+/psd

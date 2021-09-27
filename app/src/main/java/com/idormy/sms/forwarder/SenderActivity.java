@@ -1,5 +1,17 @@
 package com.idormy.sms.forwarder;
 
+import static com.idormy.sms.forwarder.model.SenderModel.STATUS_ON;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_BARK;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_DINGDING;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_FEISHU;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SERVER_CHAN;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SMS;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_TELEGRAM;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_WEB_NOTIFY;
+
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +38,7 @@ import com.idormy.sms.forwarder.model.SenderModel;
 import com.idormy.sms.forwarder.model.vo.BarkSettingVo;
 import com.idormy.sms.forwarder.model.vo.DingDingSettingVo;
 import com.idormy.sms.forwarder.model.vo.EmailSettingVo;
+import com.idormy.sms.forwarder.model.vo.FeiShuSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXAppSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXGroupRobotSettingVo;
 import com.idormy.sms.forwarder.model.vo.ServerChanSettingVo;
@@ -34,6 +47,7 @@ import com.idormy.sms.forwarder.model.vo.TelegramSettingVo;
 import com.idormy.sms.forwarder.model.vo.WebNotifySettingVo;
 import com.idormy.sms.forwarder.sender.SenderBarkMsg;
 import com.idormy.sms.forwarder.sender.SenderDingdingMsg;
+import com.idormy.sms.forwarder.sender.SenderFeishuMsg;
 import com.idormy.sms.forwarder.sender.SenderMailMsg;
 import com.idormy.sms.forwarder.sender.SenderQyWxAppMsg;
 import com.idormy.sms.forwarder.sender.SenderQyWxGroupRobotMsg;
@@ -48,17 +62,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static com.idormy.sms.forwarder.model.SenderModel.STATUS_ON;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_BARK;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_DINGDING;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SERVER_CHAN;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SMS;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_TELEGRAM;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_WEB_NOTIFY;
 
 public class SenderActivity extends AppCompatActivity {
 
@@ -140,6 +143,9 @@ public class SenderActivity extends AppCompatActivity {
                     case TYPE_SMS:
                         setSms(senderModel);
                         break;
+                    case TYPE_FEISHU:
+                        setFeiShu(senderModel);
+                        break;
                     default:
                         Toast.makeText(SenderActivity.this, "异常的发送方类型，自动删除！", Toast.LENGTH_LONG).show();
                         if (senderModel != null) {
@@ -175,7 +181,6 @@ public class SenderActivity extends AppCompatActivity {
 
                 //添加AlertDialog.Builder对象的setNegativeButton()方法
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -227,6 +232,9 @@ public class SenderActivity extends AppCompatActivity {
                     case TYPE_SMS:
                         setSms(null);
                         break;
+                    case TYPE_FEISHU:
+                        setFeiShu(null);
+                        break;
                     default:
                         Toast.makeText(SenderActivity.this, "暂不支持这种转发！", Toast.LENGTH_LONG).show();
                         break;
@@ -237,6 +245,7 @@ public class SenderActivity extends AppCompatActivity {
         Log.d(TAG, "setDingDing show" + senderModels.size());
     }
 
+    //钉钉机器人
     private void setDingDing(final SenderModel senderModel) {
         DingDingSettingVo dingDingSettingVo = null;
         //try phrase json setting
@@ -349,6 +358,7 @@ public class SenderActivity extends AppCompatActivity {
         });
     }
 
+    //邮箱
     private void setEmail(final SenderModel senderModel) {
         EmailSettingVo emailSettingVo = null;
         //try phrase json setting
@@ -476,6 +486,7 @@ public class SenderActivity extends AppCompatActivity {
         });
     }
 
+    //Bark
     private void setBark(final SenderModel senderModel) {
         BarkSettingVo barkSettingVo = null;
         //try phrase json setting
@@ -566,6 +577,7 @@ public class SenderActivity extends AppCompatActivity {
         });
     }
 
+    //Server酱·Turbo版
     private void setServerChan(final SenderModel senderModel) {
         ServerChanSettingVo serverchanSettingVo = null;
         //try phrase json setting
@@ -740,7 +752,7 @@ public class SenderActivity extends AppCompatActivity {
                 String method = radioGroupWebNotifyMethod.getCheckedRadioButtonId() == R.id.radioWebNotifyMethodGet ? "GET" : "POST";
                 if (!webServer.isEmpty()) {
                     try {
-                        SenderWebNotifyMsg.sendMsg(0, handler, webServer, webParams,secret, method, "SmsForwarder Title", "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                        SenderWebNotifyMsg.sendMsg(0, handler, webServer, webParams, secret, method, "SmsForwarder Title", "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                     } catch (Exception e) {
                         Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
                         e.printStackTrace();
@@ -1073,7 +1085,7 @@ public class SenderActivity extends AppCompatActivity {
         });
     }
 
-    //Sms
+    //短信
     private void setSms(final SenderModel senderModel) {
         SmsSettingVo smsSettingVo = null;
         //try phrase json setting
@@ -1173,6 +1185,101 @@ public class SenderActivity extends AppCompatActivity {
                     }
                 } else {
                     Toast.makeText(SenderActivity.this, "接收手机号不能为空", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    //飞书机器人
+    private void setFeiShu(final SenderModel senderModel) {
+        FeiShuSettingVo feiShuSettingVo = null;
+        //try phrase json setting
+        if (senderModel != null) {
+            String jsonSettingStr = senderModel.getJsonSetting();
+            if (jsonSettingStr != null) {
+                feiShuSettingVo = JSON.parseObject(jsonSettingStr, FeiShuSettingVo.class);
+            }
+        }
+        final AlertDialog.Builder alertDialog71 = new AlertDialog.Builder(SenderActivity.this);
+        View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_feishu, null);
+
+        final EditText editTextFeishuName = view1.findViewById(R.id.editTextFeishuName);
+        if (senderModel != null)
+            editTextFeishuName.setText(senderModel.getName());
+        final EditText editTextFeishuWebhook = view1.findViewById(R.id.editTextFeishuWebhook);
+        if (feiShuSettingVo != null)
+            editTextFeishuWebhook.setText(feiShuSettingVo.getWebhook());
+        final EditText editTextFeishuSecret = view1.findViewById(R.id.editTextFeishuSecret);
+        if (feiShuSettingVo != null)
+            editTextFeishuSecret.setText(feiShuSettingVo.getSecret());
+
+        Button buttonfeishuok = view1.findViewById(R.id.buttonfeishuok);
+        Button buttonfeishudel = view1.findViewById(R.id.buttonfeishudel);
+        Button buttonfeishutest = view1.findViewById(R.id.buttonfeishutest);
+        alertDialog71
+                .setTitle(R.string.setfeishutitle)
+                .setIcon(R.mipmap.feishu)
+                .setView(view1)
+                .create();
+        final AlertDialog show = alertDialog71.show();
+        buttonfeishuok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (senderModel == null) {
+                    SenderModel newSenderModel = new SenderModel();
+                    newSenderModel.setName(editTextFeishuName.getText().toString());
+                    newSenderModel.setType(TYPE_FEISHU);
+                    newSenderModel.setStatus(STATUS_ON);
+                    FeiShuSettingVo feiShuSettingVonew = new FeiShuSettingVo(
+                            editTextFeishuWebhook.getText().toString(),
+                            editTextFeishuSecret.getText().toString());
+                    newSenderModel.setJsonSetting(JSON.toJSONString(feiShuSettingVonew));
+                    SenderUtil.addSender(newSenderModel);
+                    initSenders();
+                    adapter.add(senderModels);
+                } else {
+                    senderModel.setName(editTextFeishuName.getText().toString());
+                    senderModel.setType(TYPE_FEISHU);
+                    senderModel.setStatus(STATUS_ON);
+                    FeiShuSettingVo feiShuSettingVonew = new FeiShuSettingVo(
+                            editTextFeishuWebhook.getText().toString(),
+                            editTextFeishuSecret.getText().toString());
+                    senderModel.setJsonSetting(JSON.toJSONString(feiShuSettingVonew));
+                    SenderUtil.updateSender(senderModel);
+                    initSenders();
+                    adapter.update(senderModels);
+                }
+                show.dismiss();
+            }
+        });
+
+        buttonfeishudel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (senderModel != null) {
+                    SenderUtil.delSender(senderModel.getId());
+                    initSenders();
+                    adapter.del(senderModels);
+                }
+                show.dismiss();
+            }
+        });
+
+        buttonfeishutest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String token = editTextFeishuWebhook.getText().toString();
+                String secret = editTextFeishuSecret.getText().toString();
+                if (token != null && !token.isEmpty()) {
+                    try {
+                        SenderFeishuMsg.sendMsg(0, handler, token, secret, "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                    } catch (Exception e) {
+                        Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(SenderActivity.this, "token 不能为空", Toast.LENGTH_LONG).show();
                 }
             }
         });
