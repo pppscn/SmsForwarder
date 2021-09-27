@@ -1,19 +1,37 @@
-package com.idormy.sms.forwarder;
+package com.idormy.sms.forwarder.service;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
+import com.idormy.sms.forwarder.MainActivity;
+import com.idormy.sms.forwarder.MyApplication;
+import com.idormy.sms.forwarder.R;
+import com.idormy.sms.forwarder.model.LogModel;
+import com.idormy.sms.forwarder.model.SenderModel;
+import com.idormy.sms.forwarder.model.vo.SmsVo;
+import com.idormy.sms.forwarder.sender.SendUtil;
+import com.idormy.sms.forwarder.sender.SenderUtil;
+import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.OSUtils;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
+import com.idormy.sms.forwarder.utils.SettingUtil;
 
-import androidx.annotation.Nullable;
+import java.util.Date;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class FrontService extends Service {
@@ -66,6 +84,37 @@ public class FrontService extends Service {
             PhoneUtils.init(this);
             MyApplication.SimInfoList = PhoneUtils.getSimMultiInfo();
         }
+
+        // 低电量预警
+        final int[] alarmTimes = {0}; //通知次数，只通知2次
+        SenderUtil.init(this);
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                int batteryLevel = getBatteryLevel();
+                System.out.println("当前剩余电量：" + batteryLevel + "%");
+                int batteryLevelAlarm = Integer.parseInt(SettingUtil.getBatteryLevelAlarm());
+                System.out.println(alarmTimes[0]);
+                if (alarmTimes[0] <= 1 && batteryLevelAlarm > 0 && batteryLevelAlarm <= 100 && batteryLevel == batteryLevelAlarm) {
+                    Date date = new Date();
+                    String msg = "当前剩余电量：" + batteryLevel + "%，已经到达低电量预警阈值，请及时充电！";
+                    System.out.println(msg);
+                    SmsVo smsVo = new SmsVo("888888", msg, date, "");
+                    List<SenderModel> senderModels = SenderUtil.getSender(null, null);
+                    for (SenderModel senderModel : senderModels
+                    ) {
+                        long ruleId = 0;
+                        long logId = LogUtil.addLog(new LogModel(smsVo.getMobile(), smsVo.getContent(), smsVo.getSimInfo(), ruleId));
+                        SendUtil.senderSendMsgNoHandError(smsVo, senderModel, logId);
+                    }
+                    alarmTimes[0] = alarmTimes[0] + 1;
+                }
+
+                if (batteryLevelAlarm > 0 && batteryLevelAlarm <= 100 && batteryLevel > batteryLevelAlarm) {
+                    alarmTimes[0] = 0;
+                }
+            }
+        }, 0, 10000);
     }
 
     @Nullable
@@ -77,7 +126,19 @@ public class FrontService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(TAG, "flags: " + flags + " startId: " + startId);
-        return START_STICKY;
+        return START_STICKY; //保证service不被杀死
     }
 
+    //获取当前电量
+    private int getBatteryLevel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            BatteryManager batteryManager = (BatteryManager) getSystemService(BATTERY_SERVICE);
+            return batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+        } else {
+            Intent intent = new ContextWrapper(getApplicationContext()).
+                    registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+            return (intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) * 100) /
+                    intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+        }
+    }
 }

@@ -91,13 +91,6 @@ public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
                 Log.e(TAG, "解析短信失败：" + throwable.getMessage());
             }
 
-        } else if (intent.ACTION_BATTERY_CHANGED.equals(receiveAction)) {
-            //获得当前电量
-            intLevel = intent.getIntExtra("level", 0);
-            //获得手机总电量
-            intScale = intent.getIntExtra("scale", 100);
-            int percent = intLevel * 100 / intScale;
-            Log.d(TAG, "当前电量：" + percent + "%");
         }
 
     }

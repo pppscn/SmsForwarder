@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.idormy.sms.forwarder">
-    <uses-permission
-        android:name="android.permission.BATTERY_STATS"
-        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 授予应用程序访问系统开机事件的权限 -->
@@ -22,6 +19,8 @@
     <!--Android 9（API 级别 28）或更高版本并使用前台服务，则其必须请求 FOREGROUND_SERVICE 权限-->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.BATTERY_STATS"
+        tools:ignore="ProtectedPermissions" />
 
     <application
         android:name=".MyApplication"
@@ -78,8 +77,7 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-
-        <service android:name=".FrontService" />
+        <service android:name=".service.FrontService" />
     </application>
 
 </manifest>
