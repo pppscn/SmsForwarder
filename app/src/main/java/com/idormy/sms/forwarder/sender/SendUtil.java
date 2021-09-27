@@ -3,6 +3,7 @@ package com.idormy.sms.forwarder.sender;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_BARK;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_DINGDING;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_FEISHU;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SERVER_CHAN;
@@ -21,6 +22,7 @@ import com.idormy.sms.forwarder.model.SenderModel;
 import com.idormy.sms.forwarder.model.vo.BarkSettingVo;
 import com.idormy.sms.forwarder.model.vo.DingDingSettingVo;
 import com.idormy.sms.forwarder.model.vo.EmailSettingVo;
+import com.idormy.sms.forwarder.model.vo.FeiShuSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXAppSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXGroupRobotSettingVo;
 import com.idormy.sms.forwarder.model.vo.ServerChanSettingVo;
@@ -249,6 +251,21 @@ public class SendUtil {
                         } catch (Exception e) {
                             LogUtil.updateLog(logId, 0, e.getMessage());
                             Log.e(TAG, "senderSendMsg: SenderSmsMsg error " + e.getMessage());
+                        }
+                    }
+                }
+                break;
+
+            case TYPE_FEISHU:
+                //try phrase json setting
+                if (senderModel.getJsonSetting() != null) {
+                    FeiShuSettingVo feiShuSettingVo = JSON.parseObject(senderModel.getJsonSetting(), FeiShuSettingVo.class);
+                    if (feiShuSettingVo != null) {
+                        try {
+                            SenderFeishuMsg.sendMsg(logId, handError, feiShuSettingVo.getWebhook(), feiShuSettingVo.getSecret(), smsVo.getSmsVoForSend());
+                        } catch (Exception e) {
+                            LogUtil.updateLog(logId, 0, e.getMessage());
+                            Log.e(TAG, "senderSendMsg: feishu error " + e.getMessage());
                         }
                     }
                 }

@@ -10,5 +10,6 @@
         <item>转发到Server酱·Turbo版</item>
         <item>转发到Telegram机器人</item>
         <item>转发到其他手机短信</item>
+        <item>转发到飞书机器人</item>
     </string-array>
 </resources>
