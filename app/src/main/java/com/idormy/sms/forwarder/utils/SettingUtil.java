@@ -114,4 +114,33 @@ public class SettingUtil {
     public static boolean saveMsgHistory() {
         return sp_setting.getBoolean("option_save_history_on", false);
     }
+
+    //接口请求失败重试
+    private static String getRetryDelayTimeKey(int index) {
+        switch (index) {
+            case 1:
+                return Define.SP_MSG_KEY_STRING_RETRY_DELAY_TIME1;
+            case 2:
+                return Define.SP_MSG_KEY_STRING_RETRY_DELAY_TIME2;
+            case 3:
+                return Define.SP_MSG_KEY_STRING_RETRY_DELAY_TIME3;
+            case 4:
+                return Define.SP_MSG_KEY_STRING_RETRY_DELAY_TIME4;
+            case 5:
+            default:
+                return Define.SP_MSG_KEY_STRING_RETRY_DELAY_TIME5;
+        }
+    }
+
+    public static int getRetryDelayTime(int index) {
+        String key = getRetryDelayTimeKey(index);
+        return sp_setting.getInt(key, (int) Math.pow(2, (index - 1)));
+    }
+
+    public static void setRetryDelayTime(int index, int retry_delay_time) {
+        String key = getRetryDelayTimeKey(index);
+        Log.d(TAG, "retry_delay_time_" + index + " :" + retry_delay_time);
+        sp_setting.edit().putInt(key, retry_delay_time).apply();
+    }
+
 }

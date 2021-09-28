@@ -11,6 +11,11 @@ public class Define {
     public static String SP_MSG_KEY_SWITCH_SMS_TEMPLATE = "tsms_msg_key_switch_sms_template";
     public static String SP_MSG_KEY_STRING_SMS_TEMPLATE = "tsms_msg_key_string_sms_template";
     public static String SP_MSG_KEY_STRING_BATTERY_LEVEL_ALARM = "tsms_msg_key_string_battery_level_alarm";
+    public static String SP_MSG_KEY_STRING_RETRY_DELAY_TIME1 = "tsms_msg_key_string_retry_delay_time1";
+    public static String SP_MSG_KEY_STRING_RETRY_DELAY_TIME2 = "tsms_msg_key_string_retry_delay_time2";
+    public static String SP_MSG_KEY_STRING_RETRY_DELAY_TIME3 = "tsms_msg_key_string_retry_delay_time3";
+    public static String SP_MSG_KEY_STRING_RETRY_DELAY_TIME4 = "tsms_msg_key_string_retry_delay_time4";
+    public static String SP_MSG_KEY_STRING_RETRY_DELAY_TIME5 = "tsms_msg_key_string_retry_delay_time5";
 
     public static String SP_MSG = "forwarder_msg";
     public static String SP_MSG_SET_KEY = "forwarder_msg_set_key";

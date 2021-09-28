@@ -1,19 +1,22 @@
 package com.idormy.sms.forwarder.sender;
 
-import android.os.Bundle;
 import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 
 import com.idormy.sms.forwarder.utils.CertUtils;
 import com.idormy.sms.forwarder.utils.LogUtil;
+import com.idormy.sms.forwarder.utils.SettingUtil;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.concurrent.TimeUnit;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableEmitter;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -23,9 +26,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static com.idormy.sms.forwarder.SenderActivity.NOTIFY;
-
-public class SenderWebNotifyMsg {
+public class SenderWebNotifyMsg extends SenderBaseMsg {
 
     static String TAG = "SenderWebNotifyMsg";
 
@@ -58,17 +59,17 @@ public class SenderWebNotifyMsg {
 
             Log.d(TAG, "method = GET, Url = " + webServer);
             request = new Request.Builder().url(webServer).get().build();
-        } else if (webParams != null && webParams.contains("[msg]")){
+        } else if (webParams != null && webParams.contains("[msg]")) {
             String bodyMsg;
             String Content_Type = "application/x-www-form-urlencoded";
-            if (webParams.startsWith("{")){
-                bodyMsg = content.replace("\n","\\n");
-                bodyMsg = webParams.replace("[msg]",bodyMsg);
+            if (webParams.startsWith("{")) {
+                bodyMsg = content.replace("\n", "\\n");
+                bodyMsg = webParams.replace("[msg]", bodyMsg);
                 Content_Type = "application/json;charset=utf-8";
-            }else{
-                bodyMsg = webParams.replace("[msg]",URLEncoder.encode(content, "UTF-8"));
+            } else {
+                bodyMsg = webParams.replace("[msg]", URLEncoder.encode(content, "UTF-8"));
             }
-            RequestBody body =  RequestBody.create(MediaType.parse(Content_Type), bodyMsg);
+            RequestBody body = RequestBody.create(MediaType.parse(Content_Type), bodyMsg);
             request = new Request.Builder()
                     .url(webServer)
                     .addHeader("Content-Type", Content_Type)
@@ -89,52 +90,52 @@ public class SenderWebNotifyMsg {
             request = new Request.Builder().url(webServer).method("POST", body).build();
         }
 
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                //忽略https证书
-                .sslSocketFactory(CertUtils.getSSLSocketFactory(), CertUtils.getX509TrustManager())
-                .hostnameVerifier(CertUtils.getHostnameVerifier())
-                .build();
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, final IOException e) {
-                LogUtil.updateLog(logId, 0, e.getMessage());
-                Log.d(TAG, "onFailure：" + e.getMessage());
+        Observable
+                .create((ObservableEmitter<Object> emitter) -> {
+                    Toast(handError, TAG, "开始请求接口...");
 
-                if (handError != null) {
-                    android.os.Message msg = new android.os.Message();
-                    msg.what = NOTIFY;
-                    Bundle bundle = new Bundle();
-                    bundle.putString("DATA", "发送失败：" + e.getMessage());
-                    msg.setData(bundle);
-                    handError.sendMessage(msg);
-                }
+                    OkHttpClient client = new OkHttpClient().newBuilder()
+                            //忽略https证书
+                            .sslSocketFactory(CertUtils.getSSLSocketFactory(), CertUtils.getX509TrustManager())
+                            .hostnameVerifier(CertUtils.getHostnameVerifier())
+                            .build();
+                    Call call = client.newCall(request);
+                    call.enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, final IOException e) {
+                            LogUtil.updateLog(logId, 0, e.getMessage());
+                            Toast(handError, TAG, "发送失败：" + e.getMessage());
+                            emitter.onError(new RuntimeException("请求接口异常..."));
+                        }
 
-            }
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            final String responseStr = response.body().string();
+                            Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
+                            Toast(handError, TAG, "发送状态：" + responseStr);
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String responseStr = response.body().string();
-                Log.d(TAG, "Code：" + response.code() + " Response：" + responseStr);
+                            //返回http状态200即为成功
+                            if (200 == response.code()) {
+                                LogUtil.updateLog(logId, 1, responseStr);
+                            } else {
+                                LogUtil.updateLog(logId, 0, responseStr);
+                            }
+                        }
+                    });
 
-                //返回http状态200即为成功
-                if (200 == response.code()) {
-                    LogUtil.updateLog(logId, 1, responseStr);
-                } else {
-                    LogUtil.updateLog(logId, 0, responseStr);
-                }
-
-                if (handError != null) {
-                    android.os.Message msg = new android.os.Message();
-                    msg.what = NOTIFY;
-                    Bundle bundle = new Bundle();
-                    bundle.putString("DATA", "发送状态：" + responseStr);
-                    msg.setData(bundle);
-                    handError.sendMessage(msg);
-                }
-
-            }
-        });
+                }).retryWhen((Observable<Throwable> errorObservable) -> errorObservable
+                .zipWith(Observable.just(
+                        SettingUtil.getRetryDelayTime(1),
+                        SettingUtil.getRetryDelayTime(2),
+                        SettingUtil.getRetryDelayTime(3),
+                        SettingUtil.getRetryDelayTime(4),
+                        SettingUtil.getRetryDelayTime(5)
+                ), (Throwable e, Integer time) -> time)
+                .flatMap((Integer delay) -> {
+                    Toast(handError, TAG, "请求接口异常，" + delay + "秒后重试");
+                    return Observable.timer(delay, TimeUnit.SECONDS);
+                }))
+                .subscribe(System.out::println);
     }
 
 

@@ -75,10 +75,11 @@ dependencies {
     //其中动态代理抽象类回调需要使用ProxyBuilder类，故依赖一个库
     //implementation 'com.linkedin.dexmaker:dexmaker-mockito:2.12.1'
 
-    //友盟基础组件库（所有友盟业务SDK都依赖基础组件库）
-    implementation  'com.umeng.umsdk:common:9.3.8'
-    implementation  'com.umeng.umsdk:asms:1.2.2'
-    implementation  'com.umeng.umsdk:abtest:1.0.0'
+    // 友盟统计SDK
+    implementation 'com.umeng.umsdk:common:9.4.4'// 必选
+    implementation 'com.umeng.umsdk:asms:1.4.1'// 必选
+    implementation 'com.umeng.umsdk:apm:1.4.2' // 错误分析升级为独立SDK，看crash数据请一定集成，可选
+    implementation 'com.umeng.umsdk:abtest:1.0.0'//使用U-App中ABTest能力，可选
 
     //XUpdate
     implementation 'com.github.xuexiangjys:XUpdate:2.1.0'
@@ -93,4 +94,8 @@ dependencies {
     //Lombok
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    //RxJava
+    implementation "io.reactivex.rxjava3:rxjava:3.1.1"
+
 }

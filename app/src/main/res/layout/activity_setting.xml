@@ -31,6 +31,7 @@
                 android:layout_marginLeft="5dp"
                 android:ems="16"
                 android:inputType=""
+                android:maxLines="1"
                 android:text="" />
 
         </LinearLayout>
@@ -70,6 +71,7 @@
                 android:layout_marginLeft="5dp"
                 android:ems="16"
                 android:inputType=""
+                android:maxLines="1"
                 android:text="" />
 
         </LinearLayout>
@@ -109,6 +111,7 @@
                 android:layout_marginLeft="5dp"
                 android:ems="16"
                 android:inputType=""
+                android:maxLines="1"
                 android:text="" />
 
         </LinearLayout>
@@ -130,7 +133,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="低电量预警阈值"
+                    android:text="低电量预警阈值(%)"
                     android:textStyle="bold" />
 
                 <TextView
@@ -151,6 +154,96 @@
                 android:maxLines="1"
                 android:text="" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="每次重试间隔(秒)"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="接口请求失败后将重试5次"
+                    android:textSize="9dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_retry_delay_time1"
+                    android:layout_width="42dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="5dp"
+                    android:ems="16"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textAlignment="center"
+                    android:text="" />
+
+                <EditText
+                    android:id="@+id/et_retry_delay_time2"
+                    android:layout_width="42dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="5dp"
+                    android:ems="16"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textAlignment="center"
+                    android:text="" />
+
+                <EditText
+                    android:id="@+id/et_retry_delay_time3"
+                    android:layout_width="42dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="5dp"
+                    android:ems="16"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textAlignment="center"
+                    android:text="" />
+
+                <EditText
+                    android:id="@+id/et_retry_delay_time4"
+                    android:layout_width="42dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="5dp"
+                    android:ems="16"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textAlignment="center"
+                    android:text="" />
+
+                <EditText
+                    android:id="@+id/et_retry_delay_time5"
+                    android:layout_width="42dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="5dp"
+                    android:ems="16"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textAlignment="center"
+                    android:text="" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
