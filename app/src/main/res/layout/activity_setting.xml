@@ -28,11 +28,13 @@
                 android:id="@+id/et_add_extra_device_mark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:ems="16"
-                android:inputType=""
+                android:inputType="text"
                 android:maxLines="1"
-                android:text="" />
+                android:text=""
+                tools:ignore="LabelFor"
+                android:autofillHints="" />
 
         </LinearLayout>
 
@@ -61,18 +63,19 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:text="运营商_手机号"
-                    android:textSize="9dp" />
+                    android:textSize="9sp" />
             </LinearLayout>
 
             <EditText
                 android:id="@+id/et_add_extra_sim1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:ems="16"
-                android:inputType=""
+                android:inputType="text"
                 android:maxLines="1"
-                android:text="" />
+                android:text=""
+                android:autofillHints="" />
 
         </LinearLayout>
 
@@ -101,18 +104,19 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:text="运营商_手机号"
-                    android:textSize="9dp" />
+                    android:textSize="9sp" />
             </LinearLayout>
 
             <EditText
                 android:id="@+id/et_add_extra_sim2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:ems="16"
-                android:inputType=""
+                android:inputType="text"
                 android:maxLines="1"
-                android:text="" />
+                android:text=""
+                android:autofillHints="" />
 
         </LinearLayout>
 
@@ -141,18 +145,19 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:text="取值范围：0-100，留空或0禁用"
-                    android:textSize="9dp" />
+                    android:textSize="9sp" />
             </LinearLayout>
 
             <EditText
                 android:id="@+id/et_battery_level_alarm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:ems="16"
                 android:inputType="number"
                 android:maxLines="1"
-                android:text="" />
+                android:text=""
+                android:autofillHints="" />
 
         </LinearLayout>
 
@@ -181,7 +186,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:text="接口请求失败后将重试5次"
-                    android:textSize="9dp" />
+                    android:textSize="9sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -193,56 +198,61 @@
                     android:id="@+id/et_retry_delay_time1"
                     android:layout_width="42dp"
                     android:layout_height="48dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:ems="16"
                     android:inputType="number"
                     android:maxLines="1"
                     android:textAlignment="center"
-                    android:text="" />
+                    android:text=""
+                    android:autofillHints="" />
 
                 <EditText
                     android:id="@+id/et_retry_delay_time2"
                     android:layout_width="42dp"
                     android:layout_height="48dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:ems="16"
                     android:inputType="number"
                     android:maxLines="1"
                     android:textAlignment="center"
-                    android:text="" />
+                    android:text=""
+                    android:autofillHints="" />
 
                 <EditText
                     android:id="@+id/et_retry_delay_time3"
                     android:layout_width="42dp"
                     android:layout_height="48dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:ems="16"
                     android:inputType="number"
                     android:maxLines="1"
                     android:textAlignment="center"
-                    android:text="" />
+                    android:text=""
+                    android:autofillHints="" />
 
                 <EditText
                     android:id="@+id/et_retry_delay_time4"
                     android:layout_width="42dp"
                     android:layout_height="48dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:ems="16"
                     android:inputType="number"
                     android:maxLines="1"
                     android:textAlignment="center"
-                    android:text="" />
+                    android:text=""
+                    android:autofillHints="" />
 
                 <EditText
                     android:id="@+id/et_retry_delay_time5"
                     android:layout_width="42dp"
                     android:layout_height="48dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:ems="16"
                     android:inputType="number"
                     android:maxLines="1"
                     android:textAlignment="center"
-                    android:text="" />
+                    android:text=""
+                    android:autofillHints="" />
             </LinearLayout>
         </LinearLayout>
 
@@ -267,9 +277,61 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:gravity="end"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="转发时附加设备名称"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/switch_add_device_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:gravity="end"
+                android:textSize="18sp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:padding="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="转发来电"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/switch_enable_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:checked="true"
+                android:gravity="end"
+                android:textSize="18sp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -293,7 +355,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:gravity="end"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         </LinearLayout>
 
@@ -322,17 +385,18 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:text="Tip：按需插入内容标签；留空使用默认模版"
-                    android:textSize="11dp" />
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <EditText
                 android:id="@+id/text_sms_template"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:text=""
+                android:autofillHints="" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -368,7 +432,7 @@
                     android:id="@+id/bt_insert_content"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
@@ -380,7 +444,7 @@
                     android:id="@+id/bt_insert_extra"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
@@ -392,7 +456,7 @@
                     android:id="@+id/bt_insert_time"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
@@ -404,7 +468,7 @@
                     android:id="@+id/bt_insert_device_name"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"

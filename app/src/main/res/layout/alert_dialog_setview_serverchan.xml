@@ -24,10 +24,11 @@
                 android:id="@+id/editTextServerChanName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:ems="11"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -48,7 +49,8 @@
                 android:layout_height="wrap_content"
                 android:ems="14"
                 android:inputType="textPassword"
-                android:text="" />
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -68,7 +70,7 @@
                 android:id="@+id/buttonServerChanDel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:text="@string/del" />
 
@@ -76,7 +78,7 @@
                 android:id="@+id/buttonServerChanTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:text="@string/test" />
 

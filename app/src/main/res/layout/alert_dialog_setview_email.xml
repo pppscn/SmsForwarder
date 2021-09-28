@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -24,10 +25,11 @@
                 android:id="@+id/editTextEmailName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:ems="11"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -46,10 +48,11 @@
                 android:id="@+id/editTextEmailHost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:ems="14"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -68,10 +71,11 @@
                 android:id="@+id/editTextEmailPort"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:ems="5"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:text=""
+                android:autofillHints="" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -82,7 +86,8 @@
                 android:id="@+id/switchEmailSSl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true" />
+                android:checked="true"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 
         <LinearLayout
@@ -101,10 +106,11 @@
                 android:id="@+id/editTextEmailFromAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:ems="14"
                 android:inputType="textEmailAddress"
-                android:text="" />
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -123,10 +129,11 @@
                 android:id="@+id/editTextEmailNickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:ems="14"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -145,10 +152,11 @@
                 android:id="@+id/editTextEmailPsw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:ems="14"
                 android:inputType="textPassword"
-                android:text="" />
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -167,10 +175,11 @@
                 android:id="@+id/editTextEmailToAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:ems="14"
                 android:inputType="textEmailAddress"
-                android:text="" />
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -180,25 +189,25 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonemailok"
+                android:id="@+id/buttonEmailOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/ok" />
 
             <Button
-                android:id="@+id/buttonemaildel"
+                android:id="@+id/buttonEmailDel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:text="@string/del" />
 
             <Button
-                android:id="@+id/buttonemailtest"
+                android:id="@+id/buttonEmailTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:text="@string/test" />
 

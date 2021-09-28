@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.utils;
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -7,10 +8,13 @@ import android.telephony.SmsManager;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
+@SuppressWarnings("SynchronizeOnNonFinalField")
 public class SmsUtil {
-    static String TAG = "SmsUtil";
+    static final String TAG = "SmsUtil";
     static Boolean hasInit = false;
+    @SuppressLint("StaticFieldLeak")
     static Context context;
 
 
@@ -28,11 +32,11 @@ public class SmsUtil {
 
         try {
             SmsManager smsManager = SmsManager.getSmsManagerForSubscriptionId(subId);
-            PendingIntent sendPI = PendingIntent.getBroadcast(context, 0, new Intent(Context.TELEPHONY_SUBSCRIPTION_SERVICE), PendingIntent.FLAG_ONE_SHOT);
-            PendingIntent deliverPI = PendingIntent.getBroadcast(context, 0, new Intent("DELIVERED_SMS_ACTION"), 0);
+            @SuppressLint("UnspecifiedImmutableFlag") PendingIntent sendPI = PendingIntent.getBroadcast(context, 0, new Intent(Context.TELEPHONY_SUBSCRIPTION_SERVICE), PendingIntent.FLAG_ONE_SHOT);
+            @SuppressLint("UnspecifiedImmutableFlag") PendingIntent deliverPI = PendingIntent.getBroadcast(context, 0, new Intent("DELIVERED_SMS_ACTION"), 0);
 
-            ArrayList<PendingIntent> sentPendingIntents = new ArrayList<PendingIntent>();
-            ArrayList<PendingIntent> deliveredPendingIntents = new ArrayList<PendingIntent>();
+            ArrayList<PendingIntent> sentPendingIntents = new ArrayList<>();
+            ArrayList<PendingIntent> deliveredPendingIntents = new ArrayList<>();
             ArrayList<String> divideContents = smsManager.divideMessage(message);
 
             for (int i = 0; i < divideContents.size(); i++) {
@@ -43,7 +47,7 @@ public class SmsUtil {
 
             return null;
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
+            Log.e(TAG, Objects.requireNonNull(e.getMessage()));
             return e.getMessage();
         }
     }

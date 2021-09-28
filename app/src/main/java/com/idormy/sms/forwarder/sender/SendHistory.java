@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.sender;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,10 +20,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@SuppressWarnings({"SynchronizeOnNonFinalField", "unused", "MismatchedQueryAndUpdateOfCollection"})
 public class SendHistory {
-    static String TAG = "SendHistory";
+    static final String TAG = "SendHistory";
     static Boolean hasInit = false;
 
+    @SuppressLint("StaticFieldLeak")
     static Context context;
     static DbHelper dbHelper;
     static SQLiteDatabase db;
@@ -37,16 +40,17 @@ public class SendHistory {
         }
     }
 
+    @SuppressLint("MutatingSharedPrefs")
     public static void addHistory(String msg) {
         //不保存转发消息
-        if (!SettingUtil.saveMsgHistory()) return;
+        if (SettingUtil.saveMsgHistory()) return;
         //保存
         SharedPreferences sp = context.getSharedPreferences(Define.SP_MSG, Context.MODE_PRIVATE);
         Set<String> msg_set_default = new HashSet<>();
         Set<String> msg_set;
         msg_set = sp.getStringSet(Define.SP_MSG_SET_KEY, msg_set_default);
         Log.d(TAG, "msg_set：" + msg_set.toString());
-        Log.d(TAG, "msg_set：" + Integer.toString(msg_set.size()));
+        Log.d(TAG, "msg_set_size：" + msg_set.size());
         msg_set.add(msg);
         sp.edit().putStringSet(Define.SP_MSG_SET_KEY, msg_set).apply();
     }
@@ -56,16 +60,16 @@ public class SendHistory {
         Set<String> msg_set = new HashSet<>();
         msg_set = sp.getStringSet(Define.SP_MSG_SET_KEY, msg_set);
         Log.d(TAG, "msg_set.toString()" + msg_set.toString());
-        String getMsg = "";
+        StringBuilder getMsg = new StringBuilder();
         for (String str : msg_set) {
-            getMsg += str + "\n";
+            getMsg.append(str).append("\n");
         }
-        return getMsg;
+        return getMsg.toString();
     }
 
     public static long addHistoryDb(LogModel logModel) {
         //不保存转发消息
-        if (!SettingUtil.saveMsgHistory()) return 0;
+        if (SettingUtil.saveMsgHistory()) return 0;
 
         // Gets the data repository in write mode
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -101,7 +105,7 @@ public class SendHistory {
             selectionArgList.add(key);
             selectionArgList.add(key);
         }
-        String[] selectionArgs = selectionArgList.toArray(new String[selectionArgList.size()]);
+        String[] selectionArgs = selectionArgList.toArray(new String[0]);
         // Issue SQL statement.
         return db.delete(LogTable.LogEntry.TABLE_NAME, selection, selectionArgs);
 
@@ -134,7 +138,7 @@ public class SendHistory {
             selectionArgList.add(key);
             selectionArgList.add(key);
         }
-        String[] selectionArgs = selectionArgList.toArray(new String[selectionArgList.size()]);
+        String[] selectionArgs = selectionArgList.toArray(new String[0]);
 
         // How you want the results sorted in the resulting Cursor
         String sortOrder =
@@ -161,11 +165,11 @@ public class SendHistory {
         Set<String> msg_set = new HashSet<>();
         msg_set = sp.getStringSet(Define.SP_MSG_SET_KEY, msg_set);
         Log.d(TAG, "msg_set.toString()" + msg_set.toString());
-        String getMsg = "";
+        StringBuilder getMsg = new StringBuilder();
         for (String str : msg_set) {
-            getMsg += str + "\n";
+            getMsg.append(str).append("\n");
         }
-        return getMsg;
+        return getMsg.toString();
     }
 
 }

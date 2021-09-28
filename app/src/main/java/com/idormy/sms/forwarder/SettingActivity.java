@@ -1,11 +1,11 @@
 package com.idormy.sms.forwarder;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -18,61 +18,58 @@ import com.idormy.sms.forwarder.utils.SettingUtil;
 
 
 public class SettingActivity extends AppCompatActivity {
-    private String TAG = "SettingActivity";
+    private final String TAG = "SettingActivity";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "oncreate");
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        Switch switch_add_extra = (Switch) findViewById(R.id.switch_add_extra);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_add_extra = findViewById(R.id.switch_add_extra);
         switchAddExtra(switch_add_extra);
 
-        EditText et_add_extra_device_mark = (EditText) findViewById(R.id.et_add_extra_device_mark);
+        EditText et_add_extra_device_mark = findViewById(R.id.et_add_extra_device_mark);
         editAddExtraDeviceMark(et_add_extra_device_mark);
 
-        EditText et_add_extra_sim1 = (EditText) findViewById(R.id.et_add_extra_sim1);
+        EditText et_add_extra_sim1 = findViewById(R.id.et_add_extra_sim1);
         editAddExtraSim1(et_add_extra_sim1);
 
-        EditText et_add_extra_sim2 = (EditText) findViewById(R.id.et_add_extra_sim2);
+        EditText et_add_extra_sim2 = findViewById(R.id.et_add_extra_sim2);
         editAddExtraSim2(et_add_extra_sim2);
 
-        EditText et_battery_level_alarm = (EditText) findViewById(R.id.et_battery_level_alarm);
+        EditText et_battery_level_alarm = findViewById(R.id.et_battery_level_alarm);
         editBatteryLevelAlarm(et_battery_level_alarm);
 
-        EditText et_retry_delay_time1 = (EditText) findViewById(R.id.et_retry_delay_time1);
+        EditText et_retry_delay_time1 = findViewById(R.id.et_retry_delay_time1);
         editRetryDelayTime(et_retry_delay_time1, 1);
-        EditText et_retry_delay_time2 = (EditText) findViewById(R.id.et_retry_delay_time2);
+        EditText et_retry_delay_time2 = findViewById(R.id.et_retry_delay_time2);
         editRetryDelayTime(et_retry_delay_time2, 2);
-        EditText et_retry_delay_time3 = (EditText) findViewById(R.id.et_retry_delay_time3);
+        EditText et_retry_delay_time3 = findViewById(R.id.et_retry_delay_time3);
         editRetryDelayTime(et_retry_delay_time3, 3);
-        EditText et_retry_delay_time4 = (EditText) findViewById(R.id.et_retry_delay_time4);
+        EditText et_retry_delay_time4 = findViewById(R.id.et_retry_delay_time4);
         editRetryDelayTime(et_retry_delay_time4, 4);
-        EditText et_retry_delay_time5 = (EditText) findViewById(R.id.et_retry_delay_time5);
+        EditText et_retry_delay_time5 = findViewById(R.id.et_retry_delay_time5);
         editRetryDelayTime(et_retry_delay_time5, 5);
 
-        Switch switch_sms_template = (Switch) findViewById(R.id.switch_sms_template);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_sms_template = findViewById(R.id.switch_sms_template);
         switchSmsTemplate(switch_sms_template);
 
-        EditText textSmsTemplate = (EditText) findViewById(R.id.text_sms_template);
+        EditText textSmsTemplate = findViewById(R.id.text_sms_template);
         editSmsTemplate(textSmsTemplate);
     }
 
     //设置转发附加信息
-    private void switchAddExtra(Switch switch_add_extra) {
+    private void switchAddExtra(@SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_add_extra) {
         switch_add_extra.setChecked(SettingUtil.getSwitchAddExtra());
 
-        switch_add_extra.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingUtil.switchAddExtra(isChecked);
-                Log.d(TAG, "onCheckedChanged:" + isChecked);
-            }
+        switch_add_extra.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingUtil.switchAddExtra(isChecked);
+            Log.d(TAG, "onCheckedChanged:" + isChecked);
         });
     }
 
-    //设置转发附加信息devicemark
+    //设置转发附加信息deviceMark
     private void editAddExtraDeviceMark(final EditText et_add_extra_device_mark) {
         et_add_extra_device_mark.setText(SettingUtil.getAddExtraDeviceMark());
 
@@ -94,7 +91,7 @@ public class SettingActivity extends AppCompatActivity {
         });
     }
 
-    //设置转发附加信息devicemark
+    //设置转发附加信息deviceMark
     private void editAddExtraSim1(final EditText et_add_extra_sim1) {
         et_add_extra_sim1.setText(SettingUtil.getAddExtraSim1());
 
@@ -116,7 +113,7 @@ public class SettingActivity extends AppCompatActivity {
         });
     }
 
-    //设置转发附加信息devicemark
+    //设置转发附加信息deviceMark
     private void editAddExtraSim2(final EditText et_add_extra_sim2) {
         et_add_extra_sim2.setText(SettingUtil.getAddExtraSim2());
 
@@ -180,28 +177,25 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     //设置转发时启用自定义模版
-    private void switchSmsTemplate(Switch switch_sms_template) {
+    private void switchSmsTemplate(@SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_sms_template) {
         boolean isOn = SettingUtil.getSwitchSmsTemplate();
         switch_sms_template.setChecked(isOn);
 
-        final LinearLayout layout_sms_template = (LinearLayout) findViewById(R.id.layout_sms_template);
+        final LinearLayout layout_sms_template = findViewById(R.id.layout_sms_template);
         layout_sms_template.setVisibility(isOn ? View.VISIBLE : View.GONE);
-        final EditText textSmsTemplate = (EditText) findViewById(R.id.text_sms_template);
+        final EditText textSmsTemplate = findViewById(R.id.text_sms_template);
 
-        switch_sms_template.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Log.d(TAG, "onCheckedChanged:" + isChecked);
-                layout_sms_template.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-                SettingUtil.switchSmsTemplate(isChecked);
-                if (!isChecked) {
-                    textSmsTemplate.setText("{{来源号码}}\n{{短信内容}}\n{{卡槽信息}}\n{{接收时间}}\n{{设备名称}}");
-                }
+        switch_sms_template.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Log.d(TAG, "onCheckedChanged:" + isChecked);
+            layout_sms_template.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            SettingUtil.switchSmsTemplate(isChecked);
+            if (!isChecked) {
+                textSmsTemplate.setText("{{来源号码}}\n{{短信内容}}\n{{卡槽信息}}\n{{接收时间}}\n{{设备名称}}");
             }
         });
     }
 
-    //设置转发附加信息devicemark
+    //设置转发附加信息deviceMark
     private void editSmsTemplate(final EditText textSmsTemplate) {
         textSmsTemplate.setText(SettingUtil.getSmsTemplate());
 
@@ -224,17 +218,15 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     //插入标签
+    @SuppressLint("NonConstantResourceId")
     public void toInsertLabel(View v) {
-        EditText textSmsTemplate = (EditText) findViewById(R.id.text_sms_template);
+        EditText textSmsTemplate = findViewById(R.id.text_sms_template);
         textSmsTemplate.setFocusable(true);
         textSmsTemplate.requestFocus();
         switch (v.getId()) {
             case R.id.bt_insert_sender:
                 textSmsTemplate.append("{{来源号码}}");
                 return;
-            /*case R.id.bt_insert_receiver:
-                textSmsTemplate.append("{{接收号码}}");
-                return;*/
             case R.id.bt_insert_content:
                 textSmsTemplate.append("{{短信内容}}");
                 return;
@@ -248,33 +240,32 @@ public class SettingActivity extends AppCompatActivity {
                 textSmsTemplate.append("{{设备名称}}");
                 return;
             default:
-                return;
         }
     }
 
     //恢复初始化配置
-    public void initSetting(View v) {
-        Switch switch_add_extra = (Switch) findViewById(R.id.switch_add_extra);
+    public void initSetting(View view) {
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_add_extra = findViewById(R.id.switch_add_extra);
         switch_add_extra.setChecked(false);
         switchAddExtra(switch_add_extra);
 
-        EditText et_add_extra_device_mark = (EditText) findViewById(R.id.et_add_extra_device_mark);
+        EditText et_add_extra_device_mark = findViewById(R.id.et_add_extra_device_mark);
         et_add_extra_device_mark.setText("");
         editAddExtraDeviceMark(et_add_extra_device_mark);
 
-        EditText et_add_extra_sim1 = (EditText) findViewById(R.id.et_add_extra_sim1);
+        EditText et_add_extra_sim1 = findViewById(R.id.et_add_extra_sim1);
         et_add_extra_sim1.setText("");
         editAddExtraSim1(et_add_extra_sim1);
 
-        EditText et_add_extra_sim2 = (EditText) findViewById(R.id.et_add_extra_sim2);
+        EditText et_add_extra_sim2 = findViewById(R.id.et_add_extra_sim2);
         et_add_extra_sim2.setText("");
         editAddExtraSim2(et_add_extra_sim2);
 
-        Switch switch_sms_template = (Switch) findViewById(R.id.switch_sms_template);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_sms_template = findViewById(R.id.switch_sms_template);
         switch_sms_template.setChecked(false);
         switchSmsTemplate(switch_sms_template);
 
-        EditText textSmsTemplate = (EditText) findViewById(R.id.text_sms_template);
+        EditText textSmsTemplate = findViewById(R.id.text_sms_template);
         textSmsTemplate.setText("{{来源号码}}\n{{短信内容}}\n{{卡槽信息}}\n{{接收时间}}\n{{设备名称}}");
         editSmsTemplate(textSmsTemplate);
 

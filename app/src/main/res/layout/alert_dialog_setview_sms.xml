@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -24,10 +25,11 @@
                 android:id="@+id/editTextSmsName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:ems="14"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -47,7 +49,7 @@
             <RadioGroup
                 android:id="@+id/radioGroupSmsSimSlot"
                 style="@style/rg_style"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -86,9 +88,10 @@
                 android:id="@+id/editTextSmsMobiles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:ems="14"
-                android:text="" />
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -108,7 +111,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                android:ems="14" />
+                android:ems="14"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 
         <LinearLayout
@@ -128,7 +132,7 @@
                 android:id="@+id/buttonSmsDel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:text="@string/del" />
 
@@ -136,7 +140,7 @@
                 android:id="@+id/buttonSmsTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:text="@string/test" />
 

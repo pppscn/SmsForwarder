@@ -4,14 +4,18 @@ import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.alibaba.fastjson.JSON;
 import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import javax.crypto.Mac;
@@ -27,9 +31,10 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+@SuppressWarnings({"ResultOfMethodCallIgnored", "rawtypes", "unchecked", "deprecation"})
 public class SenderFeishuMsg extends SenderBaseMsg {
 
-    static String TAG = "SenderFeishuMsg";
+    static final String TAG = "SenderFeishuMsg";
 
     public static void sendMsg(final long logId, final Handler handError, String webhook, String secret, String content) throws Exception {
         Log.i(TAG, "sendMsg webhook:" + webhook + " secret:" + secret + " content:" + content);
@@ -45,8 +50,8 @@ public class SenderFeishuMsg extends SenderBaseMsg {
             Long timestamp = System.currentTimeMillis();
             String stringToSign = timestamp + "\n" + secret;
             Mac mac = Mac.getInstance("HmacSHA256");
-            mac.init(new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256"));
-            byte[] signData = mac.doFinal(stringToSign.getBytes("UTF-8"));
+            mac.init(new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
+            byte[] signData = mac.doFinal(stringToSign.getBytes(StandardCharsets.UTF_8));
             String sign = URLEncoder.encode(new String(Base64.encode(signData, Base64.NO_WRAP)), "UTF-8");
             textMsgMap.put("timestamp", timestamp);
             textMsgMap.put("sign", sign);
@@ -78,15 +83,15 @@ public class SenderFeishuMsg extends SenderBaseMsg {
                     Call call = client.newCall(request);
                     call.enqueue(new Callback() {
                         @Override
-                        public void onFailure(Call call, final IOException e) {
+                        public void onFailure(@NonNull Call call, @NonNull final IOException e) {
                             LogUtil.updateLog(logId, 0, e.getMessage());
                             Toast(handError, TAG, "发送失败：" + e.getMessage());
                             emitter.onError(new RuntimeException("请求接口异常..."));
                         }
 
                         @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            final String responseStr = response.body().string();
+                        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                            final String responseStr = Objects.requireNonNull(response.body()).string();
                             Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
                             Toast(handError, TAG, "发送状态：" + responseStr);
 

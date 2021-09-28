@@ -37,7 +37,7 @@ import com.idormy.sms.forwarder.utils.RuleUtil;
 import java.util.List;
 
 public class SendUtil {
-    private static String TAG = "SendUtil";
+    private static final String TAG = "SendUtil";
 
     public static void send_msg_list(Context context, List<SmsVo> smsVoList, int simId) {
         Log.i(TAG, "send_msg_list size: " + smsVoList.size());
@@ -52,10 +52,10 @@ public class SendUtil {
         LogUtil.init(context);
 
         String key = "SIM" + simId;
-        List<RuleModel> rulelist = RuleUtil.getRule(null, key);
-        if (!rulelist.isEmpty()) {
+        List<RuleModel> ruleList = RuleUtil.getRule(null, key);
+        if (!ruleList.isEmpty()) {
             SenderUtil.init(context);
-            for (RuleModel ruleModel : rulelist) {
+            for (RuleModel ruleModel : ruleList) {
                 //规则匹配发现需要发送
                 try {
                     if (ruleModel.checkMsg(smsVo)) {
@@ -114,7 +114,7 @@ public class SendUtil {
                     DingDingSettingVo dingDingSettingVo = JSON.parseObject(senderModel.getJsonSetting(), DingDingSettingVo.class);
                     if (dingDingSettingVo != null) {
                         try {
-                            SenderDingdingMsg.sendMsg(logId, handError, dingDingSettingVo.getToken(), dingDingSettingVo.getSecret(), dingDingSettingVo.getAtMobils(), dingDingSettingVo.getAtAll(), smsVo.getSmsVoForSend());
+                            SenderDingdingMsg.sendMsg(logId, handError, dingDingSettingVo.getToken(), dingDingSettingVo.getSecret(), dingDingSettingVo.getAtMobiles(), dingDingSettingVo.getAtAll(), smsVo.getSmsVoForSend());
                         } catch (Exception e) {
                             LogUtil.updateLog(logId, 0, e.getMessage());
                             Log.e(TAG, "senderSendMsg: dingding error " + e.getMessage());
@@ -235,7 +235,7 @@ public class SendUtil {
                     SmsSettingVo smsSettingVo = JSON.parseObject(senderModel.getJsonSetting(), SmsSettingVo.class);
                     if (smsSettingVo != null) {
                         //仅当无网络时启用
-                        if (true == smsSettingVo.getOnlyNoNetwork() && 0 != NetUtil.getNetWorkStatus()) {
+                        if (smsSettingVo.getOnlyNoNetwork() && 0 != NetUtil.getNetWorkStatus()) {
                             String msg = "仅当无网络时启用，当前网络状态：" + NetUtil.getNetWorkStatus();
                             LogUtil.updateLog(logId, 0, msg);
                             Log.d(TAG, msg);

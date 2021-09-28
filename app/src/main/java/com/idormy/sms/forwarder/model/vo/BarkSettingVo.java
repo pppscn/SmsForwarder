@@ -8,9 +8,6 @@ import lombok.Data;
 public class BarkSettingVo implements Serializable {
     private String server;
 
-    public BarkSettingVo() {
-    }
-
     public BarkSettingVo(String server) {
         this.server = server;
     }

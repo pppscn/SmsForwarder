@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.utils;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -19,15 +20,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("UnusedReturnValue")
 public class LogUtil {
-    static String TAG = "LogUtil";
+    static final String TAG = "LogUtil";
     static Boolean hasInit = false;
 
+    @SuppressLint("StaticFieldLeak")
     static Context context;
     static DbHelper dbHelper;
     static SQLiteDatabase db;
 
     public static void init(Context context1) {
+        //noinspection SynchronizeOnNonFinalField
         synchronized (hasInit) {
             if (hasInit) return;
             hasInit = true;
@@ -56,7 +60,7 @@ public class LogUtil {
         return db.insert(LogTable.LogEntry.TABLE_NAME, null, values);
     }
 
-    public static int delLog(Long id, String key) {
+    public static void delLog(Long id, String key) {
         // Define 'where' part of query.
         String selection = " 1 ";
         // Specify arguments in placeholder order.
@@ -66,7 +70,6 @@ public class LogUtil {
             selection += " and " + LogTable.LogEntry._ID + " = ? ";
             // Specify arguments in placeholder order.
             selectionArgList.add(String.valueOf(id));
-
         }
 
         if (key != null) {
@@ -76,9 +79,9 @@ public class LogUtil {
             selectionArgList.add(key);
             selectionArgList.add(key);
         }
-        String[] selectionArgs = selectionArgList.toArray(new String[selectionArgList.size()]);
+        String[] selectionArgs = selectionArgList.toArray(new String[0]);
         // Issue SQL statement.
-        return db.delete(LogTable.LogEntry.TABLE_NAME, selection, selectionArgs);
+        db.delete(LogTable.LogEntry.TABLE_NAME, selection, selectionArgs);
 
     }
 
@@ -93,7 +96,7 @@ public class LogUtil {
         values.put(LogTable.LogEntry.COLUMN_NAME_FORWARD_STATUS, forward_status);
         values.put(LogTable.LogEntry.COLUMN_NAME_FORWARD_RESPONSE, forward_response);
 
-        String[] selectionArgs = selectionArgList.toArray(new String[selectionArgList.size()]);
+        String[] selectionArgs = selectionArgList.toArray(new String[0]);
         return db.update(LogTable.LogEntry.TABLE_NAME, values, selection, selectionArgs);
 
     }
@@ -134,7 +137,7 @@ public class LogUtil {
             selectionArgList.add(key);
             selectionArgList.add(key);
         }
-        String[] selectionArgs = selectionArgList.toArray(new String[selectionArgList.size()]);
+        String[] selectionArgs = selectionArgList.toArray(new String[0]);
 
         // How you want the results sorted in the resulting Cursor
         String sortOrder =
@@ -160,9 +163,9 @@ public class LogUtil {
         Log.d(TAG, "getLog: itemId cursor" + Arrays.toString(cursor.getColumnNames()));
         while (cursor.moveToNext()) {
             try {
-                Long itemid = cursor.getLong(
+                Long itemId = cursor.getLong(
                         cursor.getColumnIndexOrThrow(BaseColumns._ID));
-                String itemfrom = cursor.getString(
+                String itemFrom = cursor.getString(
                         cursor.getColumnIndexOrThrow(LogTable.LogEntry.COLUMN_NAME_FROM));
                 String content = cursor.getString(
                         cursor.getColumnIndexOrThrow(LogTable.LogEntry.COLUMN_NAME_CONTENT));
@@ -184,14 +187,14 @@ public class LogUtil {
                         cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT));
                 String senderName = cursor.getString(
                         cursor.getColumnIndexOrThrow(SenderTable.SenderEntry.COLUMN_NAME_NAME));
-                Integer senderType = cursor.getInt(
+                int senderType = cursor.getInt(
                         cursor.getColumnIndexOrThrow(SenderTable.SenderEntry.COLUMN_NAME_TYPE));
 
                 String rule = RuleModel.getRuleMatch(ruleFiled, ruleCheck, ruleValue, ruleSimSlot);
                 if (senderName != null) rule += senderName.trim();
 
                 int senderImageId = SenderModel.getImageId(senderType);
-                LogVo logVo = new LogVo(itemid, itemfrom, content, simInfo, time, rule, senderImageId, forwardStatus, forwardResponse);
+                LogVo logVo = new LogVo(itemId, itemFrom, content, simInfo, time, rule, senderImageId, forwardStatus, forwardResponse);
                 LogVos.add(logVo);
             } catch (Exception e) {
                 Log.e(TAG, "getLog e:" + e.getMessage());

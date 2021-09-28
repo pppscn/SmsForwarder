@@ -8,16 +8,13 @@ import lombok.Data;
 public class DingDingSettingVo implements Serializable {
     private String token;
     private String secret;
-    private String atMobils;
+    private String atMobiles;
     private Boolean atAll;
 
-    public DingDingSettingVo() {
-    }
-
-    public DingDingSettingVo(String token, String secret, String atMobils, Boolean atAll) {
+    public DingDingSettingVo(String token, String secret, String atMobiles, Boolean atAll) {
         this.token = token;
         this.secret = secret;
-        this.atMobils = atMobils;
+        this.atMobiles = atMobiles;
         this.atAll = atAll;
     }
 }

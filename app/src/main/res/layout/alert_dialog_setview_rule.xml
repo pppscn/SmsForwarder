@@ -11,14 +11,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:text="设置匹配的卡槽"
                 android:textStyle="bold" />
 
@@ -49,14 +49,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:text="设置匹配的字段"
                 android:textStyle="bold" />
 
@@ -93,14 +93,14 @@
             android:id="@+id/matchTypeLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:text="设置匹配的模式"
                 android:textStyle="bold" />
 
@@ -152,7 +152,7 @@
             android:id="@+id/matchValueLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
 
             android:orientation="vertical">
@@ -168,8 +168,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="14"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:text=""
+                android:autofillHints="" />
 
             <TextView
                 android:id="@+id/tv_mu_rule_tips"
@@ -191,7 +192,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
 
             android:orientation="vertical">
@@ -219,7 +220,7 @@
                     android:id="@+id/ruleSenderTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:text="" />
             </LinearLayout>
 
@@ -233,25 +234,25 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonruleok"
+                android:id="@+id/buttonRuleOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/ok" />
 
             <Button
-                android:id="@+id/buttonruledel"
+                android:id="@+id/buttonRuleDel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:text="@string/del" />
 
             <Button
-                android:id="@+id/buttonruletest"
+                android:id="@+id/buttonRuleTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:text="@string/test" />
 

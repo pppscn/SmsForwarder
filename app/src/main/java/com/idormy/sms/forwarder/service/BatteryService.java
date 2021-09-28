@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.service;
 
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.util.Log;
 
 import java.text.SimpleDateFormat;
 
+@SuppressWarnings("deprecation")
 public class BatteryService extends Service {
 
     private static final String TAG = "BatteryReceiver";
@@ -24,9 +26,9 @@ public class BatteryService extends Service {
     public void onCreate() {
         super.onCreate();
         Log.i(TAG, "onCreate--------------");
-        IntentFilter batteryfilter = new IntentFilter();
-        batteryfilter.addAction(Intent.ACTION_BATTERY_CHANGED);
-        registerReceiver(batteryReceiver, batteryfilter);
+        IntentFilter batteryFilter = new IntentFilter();
+        batteryFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(batteryReceiver, batteryFilter);
     }
 
     @Override
@@ -49,7 +51,8 @@ public class BatteryService extends Service {
     }
 
     // 接收电池信息更新的广播
-    private BroadcastReceiver batteryReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver batteryReceiver = new BroadcastReceiver() {
+        @SuppressWarnings("unused")
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "BatteryReceiver--------------");
@@ -96,7 +99,7 @@ public class BatteryService extends Service {
                     break;
             }
 
-            SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss:SSS ");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss:SSS ");
             String date = sDateFormat.format(new java.util.Date());
 
             Log.i(TAG, "battery: date=" + date + ",status " + statusString

@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +16,7 @@ public class KeepAliveUtils {
 
     public static boolean isIgnoreBatteryOptimization(Activity activity) {
         PowerManager powerManager = (PowerManager) activity.getSystemService(Context.POWER_SERVICE);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M && powerManager != null) {
+        if (powerManager != null) {
             return powerManager.isIgnoringBatteryOptimizations(activity.getPackageName());
         } else {
             return true;
@@ -26,7 +27,7 @@ public class KeepAliveUtils {
         if (isIgnoreBatteryOptimization(activity)) {
             return;
         }
-        Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+        @SuppressLint("BatteryLife") Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
         intent.setData(Uri.parse("package:" + activity.getPackageName()));
         ResolveInfo resolveInfo = activity.getPackageManager().resolveActivity(intent, 0);
         if (resolveInfo != null) {

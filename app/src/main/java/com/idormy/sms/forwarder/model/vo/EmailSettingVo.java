@@ -8,14 +8,11 @@ import lombok.Data;
 public class EmailSettingVo implements Serializable {
     private String host;
     private String port;
-    private Boolean ssl = true;
+    private Boolean ssl;
     private String fromEmail;
     private String nickname;
     private String pwd;
     private String toEmail;
-
-    public EmailSettingVo() {
-    }
 
     public EmailSettingVo(String host, String port, Boolean ssl, String fromEmail, String nickname, String pwd, String toEmail) {
         this.host = host;

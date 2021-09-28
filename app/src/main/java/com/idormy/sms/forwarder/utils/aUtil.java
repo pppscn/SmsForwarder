@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -15,15 +16,13 @@ import java.util.Properties;
 import java.util.TimeZone;
 
 public class aUtil {
-    private static String TAG = "aUtil";
-
-    private static Context context = null;
 
     /**
      * 判断是否为MIUI系统，参考http://blog.csdn.net/xx326664162/article/details/52438706
      *
-     * @return
+     * @return 返回结果
      */
+    @SuppressWarnings("unused")
     public static boolean isMIUI() {
         try {
             String KEY_MIUI_VERSION_CODE = "ro.miui.ui.version.code";
@@ -45,8 +44,7 @@ public class aUtil {
         PackageManager packageManager = context.getPackageManager();
         // getPackageName()是你当前类的包名，0代表是获取版本信息
         PackageInfo packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
-        String version = packInfo.versionName;
-        return version;
+        return packInfo.versionName;
     }
 
     public static Integer getVersionCode(Context context) throws Exception {
@@ -54,15 +52,14 @@ public class aUtil {
         PackageManager packageManager = context.getPackageManager();
         // getPackageName()是你当前类的包名，0代表是获取版本信息
         PackageInfo packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
-        Integer versionCode = packInfo.versionCode;
-        return versionCode;
+        return packInfo.versionCode;
     }
 
     //友好时间显示
     public static String friendlyTime(String utcTime) {
-        SimpleDateFormat utcFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat utcFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         utcFormater.setTimeZone(TimeZone.getTimeZone("UTC"));//时区定义并进行时间获取
-        Date utcDate = null;
+        Date utcDate;
         try {
             utcDate = utcFormater.parse(utcTime);
         } catch (ParseException e) {
@@ -71,6 +68,7 @@ public class aUtil {
         }
 
         //获取utcDate距离当前的秒数
+        assert utcDate != null;
         int ct = (int) ((System.currentTimeMillis() - utcDate.getTime()) / 1000);
 
         if (ct == 0) {
@@ -107,10 +105,10 @@ public class aUtil {
     public static String utc2Local(String utcTime) {
         String utcTimePatten = "yyyy-MM-dd HH:mm:ss";
         String localTimePatten = "yyyy-MM-dd HH:mm:ss";
-        SimpleDateFormat utcFormater = new SimpleDateFormat(utcTimePatten);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat utcFormater = new SimpleDateFormat(utcTimePatten);
         utcFormater.setTimeZone(TimeZone.getTimeZone("UTC"));//时区定义并进行时间获取
 
-        Date utcDate = null;
+        Date utcDate;
         try {
             utcDate = utcFormater.parse(utcTime);
         } catch (ParseException e) {
@@ -118,10 +116,10 @@ public class aUtil {
             return utcTime;
         }
 
-        SimpleDateFormat localFormater = new SimpleDateFormat(localTimePatten);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat localFormater = new SimpleDateFormat(localTimePatten);
         localFormater.setTimeZone(TimeZone.getDefault());
-        String localTime = localFormater.format(utcDate.getTime());
-        return localTime;
+        assert utcDate != null;
+        return localFormater.format(utcDate.getTime());
     }
 
 }

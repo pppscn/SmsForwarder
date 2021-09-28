@@ -24,10 +24,11 @@
                 android:id="@+id/editTextQYWXGroupRobotName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:ems="11"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -47,8 +48,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="14"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -68,7 +70,7 @@
                 android:id="@+id/buttonQyWxGroupRobotDel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:text="@string/del" />
 
@@ -76,7 +78,7 @@
                 android:id="@+id/buttonQyWxGroupRobotTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:text="@string/test" />
 

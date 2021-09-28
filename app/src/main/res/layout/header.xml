@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -25,7 +26,7 @@
                 android:text="下拉可以刷新！" />
 
             <TextView
-                android:id="@+id/lastupdate_time"
+                android:id="@+id/lastUpdateTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -34,17 +35,18 @@
             android:id="@+id/arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dip"
-            android:layout_toLeftOf="@id/layout"
-            android:src="@android:drawable/ic_popup_sync" />
+            android:layout_marginEnd="20dip"
+            android:layout_toStartOf="@id/layout"
+            android:src="@android:drawable/ic_popup_sync"
+            tools:ignore="ContentDescription" />
 
         <ProgressBar
             android:id="@+id/progress"
             style="?android:attr/progressBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dip"
-            android:layout_toLeftOf="@id/layout"
+            android:layout_marginEnd="20dip"
+            android:layout_toStartOf="@id/layout"
             android:visibility="gone" />
     </RelativeLayout>
 

@@ -12,6 +12,7 @@ import com.idormy.sms.forwarder.model.SenderTable;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class DbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
     public static final String TAG = "DbHelper";

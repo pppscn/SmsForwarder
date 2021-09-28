@@ -53,18 +53,16 @@ public class OSUtils {
     //EMUI标识
     private static final String KEY_EMUI_VERSION_CODE = "ro.build.version.emui";
     //Flyme标识
-    private static final String KEY_FLYME_ID_FALG_KEY = "ro.build.display.id";
-    private static final String KEY_FLYME_ID_FALG_VALUE_KEYWORD = "Flyme";
-    private static final String KEY_FLYME_ICON_FALG = "persist.sys.use.flyme.icon";
-    private static final String KEY_FLYME_SETUP_FALG = "ro.meizu.setupwizard.flyme";
-    private static final String KEY_FLYME_PUBLISH_FALG = "ro.flyme.published";
+    private static final String KEY_FLYME_ID_FLAG_KEY = "ro.build.display.id";
+    private static final String KEY_FLYME_ID_FLAG_VALUE_KEYWORD = "Flyme";
+    private static final String KEY_FLYME_ICON_FLAG = "persist.sys.use.flyme.icon";
+    private static final String KEY_FLYME_SETUP_FLAG = "ro.meizu.setupwizard.flyme";
+    private static final String KEY_FLYME_PUBLISH_FLAG = "ro.flyme.published";
 
     /**
-     * @param
+     * 获取ROM类型，MIUI_ROM, *FLYME_ROM,    * EMUI_ROM,    * OTHER_ROM
+     *
      * @return ROM_TYPE ROM类型的枚举
-     * @datecreate at 2016/5/11 0011 9:46
-     * @mehtodgetRomType
-     * @description获取ROM类型，MIUI_ROM, *FLYME_ROM,    * EMUI_ROM,    * OTHER_ROM
      */
     public static ROM_TYPE getRomType() {
         ROM_TYPE rom_type = ROM_TYPE.OTHER_ROM;
@@ -76,12 +74,12 @@ public class OSUtils {
             if (buildProperties.containsKey(KEY_MIUI_VERSION_CODE) || buildProperties.containsKey(KEY_MIUI_VERSION_NAME)) {
                 return ROM_TYPE.MIUI_ROM;
             }
-            if (buildProperties.containsKey(KEY_FLYME_ICON_FALG) || buildProperties.containsKey(KEY_FLYME_SETUP_FALG) || buildProperties.containsKey(KEY_FLYME_PUBLISH_FALG)) {
+            if (buildProperties.containsKey(KEY_FLYME_ICON_FLAG) || buildProperties.containsKey(KEY_FLYME_SETUP_FLAG) || buildProperties.containsKey(KEY_FLYME_PUBLISH_FLAG)) {
                 return ROM_TYPE.FLYME_ROM;
             }
-            if (buildProperties.containsKey(KEY_FLYME_ID_FALG_KEY)) {
-                String romName = buildProperties.getProperty(KEY_FLYME_ID_FALG_KEY);
-                if (!TextUtils.isEmpty(romName) && romName.contains(KEY_FLYME_ID_FALG_VALUE_KEYWORD)) {
+            if (buildProperties.containsKey(KEY_FLYME_ID_FLAG_KEY)) {
+                String romName = buildProperties.getProperty(KEY_FLYME_ID_FLAG_KEY);
+                if (!TextUtils.isEmpty(romName) && romName.contains(KEY_FLYME_ID_FLAG_VALUE_KEYWORD)) {
                     return ROM_TYPE.FLYME_ROM;
                 }
             }

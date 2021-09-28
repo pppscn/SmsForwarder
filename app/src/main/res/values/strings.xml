@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">短信转发器</string>
-    <string name="dingdingok">确认</string>
+    <string name="notification_content">根据规则转发到钉钉/微信/邮箱/bark/Server酱/Telegram/webhook等</string>
     <string name="ok">确认</string>
+    <string name="cancel">取消</string>
     <string name="del">删除</string>
     <string name="test">测试</string>
     <string name="setdingdingtitle">设置钉钉机器人</string>
@@ -22,6 +23,11 @@
     <string name="log_tips">提示：置顶下拉刷新，长按删除单条记录</string>
     <string name="rule_tips">提示：新建规则点击“添加”，长按删除/点击编辑已有</string>
     <string name="sender_tips">提示：新建发送方点击“添加”，长按删除/点击编辑已有</string>
+    <string name="unknown_number">未知号码</string>
+    <string name="calling">来电</string>
     <string name="unsupport">您的手机不支持此设置</string>
     <string name="isIgnored">已设置成功！</string>
+    <string name="wechat_id" />
+    <string name="Agent_ID" />
+    <string name="App_Secret" />
 </resources>

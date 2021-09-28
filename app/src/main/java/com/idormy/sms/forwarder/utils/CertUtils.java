@@ -1,5 +1,7 @@
 package com.idormy.sms.forwarder.utils;
 
+import android.annotation.SuppressLint;
+
 import java.security.KeyStore;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
@@ -29,10 +31,12 @@ public class CertUtils {
     private static TrustManager[] getTrustManager() {
         return new TrustManager[]{
                 new X509TrustManager() {
+                    @SuppressLint("TrustAllX509TrustManager")
                     @Override
                     public void checkClientTrusted(X509Certificate[] chain, String authType) {
                     }
 
+                    @SuppressLint("TrustAllX509TrustManager")
                     @Override
                     public void checkServerTrusted(X509Certificate[] chain, String authType) {
                     }

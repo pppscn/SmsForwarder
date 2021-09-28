@@ -24,10 +24,11 @@
                 android:id="@+id/editTextFeishuName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:ems="11"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -47,8 +48,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="14"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
 
@@ -70,7 +72,8 @@
                 android:layout_height="wrap_content"
                 android:ems="14"
                 android:inputType="textPassword"
-                android:text="" />
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -80,25 +83,25 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonfeishuok"
+                android:id="@+id/buttonFeishuOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/ok" />
 
             <Button
-                android:id="@+id/buttonfeishudel"
+                android:id="@+id/buttonFeishuDel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:text="@string/del" />
 
             <Button
-                android:id="@+id/buttonfeishutest"
+                android:id="@+id/buttonFeishuTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:text="@string/test" />
 
