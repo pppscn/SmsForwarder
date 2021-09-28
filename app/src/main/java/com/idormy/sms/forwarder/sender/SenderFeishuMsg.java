@@ -1,23 +1,24 @@
 package com.idormy.sms.forwarder.sender;
 
-import static com.idormy.sms.forwarder.SenderActivity.NOTIFY;
-
-import android.os.Bundle;
 import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.idormy.sms.forwarder.utils.LogUtil;
+import com.idormy.sms.forwarder.utils.SettingUtil;
 
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableEmitter;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -26,12 +27,12 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class SenderFeishuMsg {
+public class SenderFeishuMsg extends SenderBaseMsg {
 
     static String TAG = "SenderFeishuMsg";
 
-    public static void sendMsg(final long logId, final Handler handError, String webhook, String secret, String msg) throws Exception {
-        Log.i(TAG, "sendMsg webhook:" + webhook + " secret:" + secret + " msg:" + msg);
+    public static void sendMsg(final long logId, final Handler handError, String webhook, String secret, String content) throws Exception {
+        Log.i(TAG, "sendMsg webhook:" + webhook + " secret:" + secret + " content:" + content);
 
         if (webhook == null || webhook.isEmpty()) {
             return;
@@ -53,64 +54,64 @@ public class SenderFeishuMsg {
 
         //组装报文
         textMsgMap.put("msg_type", "text");
-        Map content = new HashMap();
-        content.put("text", msg);
-        textMsgMap.put("content", content);
+        Map contentMap = new HashMap();
+        contentMap.put("text", content);
+        textMsgMap.put("content", contentMap);
 
-        String textMsg = JSON.toJSONString(textMsgMap);
-        Log.i(TAG, "textMsg:" + textMsg);
+        final String requestUrl = webhook;
+        Log.i(TAG, "requestUrl:" + requestUrl);
+        final String requestMsg = JSON.toJSONString(textMsgMap);
+        Log.i(TAG, "requestMsg:" + requestMsg);
 
-        OkHttpClient client = new OkHttpClient();
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=utf-8"),
-                textMsg);
+        Observable
+                .create((ObservableEmitter<Object> emitter) -> {
+                    Toast(handError, TAG, "开始请求接口...");
 
-        final Request request = new Request.Builder()
-                .url(webhook)
-                .addHeader("Content-Type", "application/json; charset=utf-8")
-                .post(requestBody)
-                .build();
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, final IOException e) {
-                LogUtil.updateLog(logId, 0, e.getMessage());
-                Log.d(TAG, "onFailure：" + e.getMessage());
+                    OkHttpClient client = new OkHttpClient();
+                    RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), requestMsg);
 
-                if (handError != null) {
-                    android.os.Message msg = new android.os.Message();
-                    msg.what = NOTIFY;
-                    Bundle bundle = new Bundle();
-                    bundle.putString("DATA", "发送失败：" + e.getMessage());
-                    msg.setData(bundle);
-                    handError.sendMessage(msg);
-                }
+                    final Request request = new Request.Builder()
+                            .url(requestUrl)
+                            .addHeader("Content-Type", "application/json; charset=utf-8")
+                            .post(requestBody)
+                            .build();
+                    Call call = client.newCall(request);
+                    call.enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, final IOException e) {
+                            LogUtil.updateLog(logId, 0, e.getMessage());
+                            Toast(handError, TAG, "发送失败：" + e.getMessage());
+                            emitter.onError(new RuntimeException("请求接口异常..."));
+                        }
 
-            }
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            final String responseStr = response.body().string();
+                            Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
+                            Toast(handError, TAG, "发送状态：" + responseStr);
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String responseStr = response.body().string();
-                Log.d(TAG, "Code：" + String.valueOf(response.code()) + responseStr);
+                            //TODO:粗略解析是否发送成功
+                            if (responseStr.contains("\"StatusCode\":0")) {
+                                LogUtil.updateLog(logId, 1, responseStr);
+                            } else {
+                                LogUtil.updateLog(logId, 0, responseStr);
+                            }
+                        }
+                    });
 
-                //TODO:粗略解析是否发送成功
-                if (responseStr.contains("\"StatusCode\":0")) {
-                    LogUtil.updateLog(logId, 1, responseStr);
-                } else {
-                    LogUtil.updateLog(logId, 0, responseStr);
-                }
-
-                if (handError != null) {
-                    android.os.Message msg = new android.os.Message();
-                    msg.what = NOTIFY;
-                    Bundle bundle = new Bundle();
-                    bundle.putString("DATA", "发送状态：" + responseStr);
-                    msg.setData(bundle);
-                    handError.sendMessage(msg);
-                    Log.d(TAG, "respone：" + String.valueOf(response.code()) + responseStr);
-                }
-
-            }
-        });
+                }).retryWhen((Observable<Throwable> errorObservable) -> errorObservable
+                .zipWith(Observable.just(
+                        SettingUtil.getRetryDelayTime(1),
+                        SettingUtil.getRetryDelayTime(2),
+                        SettingUtil.getRetryDelayTime(3),
+                        SettingUtil.getRetryDelayTime(4),
+                        SettingUtil.getRetryDelayTime(5)
+                ), (Throwable e, Integer time) -> time)
+                .flatMap((Integer delay) -> {
+                    Toast(handError, TAG, "请求接口异常，" + delay + "秒后重试");
+                    return Observable.timer(delay, TimeUnit.SECONDS);
+                }))
+                .subscribe(System.out::println);
     }
 
 }

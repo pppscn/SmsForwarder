@@ -94,7 +94,6 @@ public class FrontService extends Service {
                 int batteryLevel = getBatteryLevel();
                 System.out.println("当前剩余电量：" + batteryLevel + "%");
                 int batteryLevelAlarm = Integer.parseInt(SettingUtil.getBatteryLevelAlarm());
-                System.out.println(alarmTimes[0]);
                 if (alarmTimes[0] <= 1 && batteryLevelAlarm > 0 && batteryLevelAlarm <= 100 && batteryLevel == batteryLevelAlarm) {
                     Date date = new Date();
                     String msg = "当前剩余电量：" + batteryLevel + "%，已经到达低电量预警阈值，请及时充电！";
