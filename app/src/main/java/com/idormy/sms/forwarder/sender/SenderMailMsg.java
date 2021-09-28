@@ -14,12 +14,13 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableEmitter;
 
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class SenderMailMsg extends SenderBaseMsg {
-    private static String TAG = "SenderMailMsg";
+    private static final String TAG = "SenderMailMsg";
 
-    public static void sendEmail(final long logId, final Handler handError, final String host, final String port, final boolean ssl, final String fromemail, final String nickname, final String pwd, final String toAdd, final String title, final String content) {
+    public static void sendEmail(final long logId, final Handler handError, final String host, final String port, final boolean ssl, final String fromEmail, final String nickname, final String pwd, final String toAdd, final String title, final String content) {
 
-        Log.d(TAG, "sendEmail: host:" + host + " port:" + port + " ssl:" + ssl + " fromemail:" + fromemail + " nickname:" + nickname + " pwd:" + pwd + " toAdd:" + toAdd);
+        Log.d(TAG, "sendEmail: host:" + host + " port:" + port + " ssl:" + ssl + " fromEmail:" + fromEmail + " nickname:" + nickname + " pwd:" + pwd + " toAdd:" + toAdd);
 
         Observable
                 .create((ObservableEmitter<Object> emitter) -> {
@@ -31,7 +32,7 @@ public class SenderMailMsg extends SenderBaseMsg {
                         //配置发件人邮件服务器参数
                         EmailKit.Config config = new EmailKit.Config()
                                 .setSMTP(host, Integer.parseInt(port), ssl)  //设置SMTP服务器主机地址、端口和是否开启ssl
-                                .setAccount(fromemail)             //发件人邮箱
+                                .setAccount(fromEmail)             //发件人邮箱
                                 .setPassword(pwd);                 //密码或授权码
 
                         //设置一封草稿邮件

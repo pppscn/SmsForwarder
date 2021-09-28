@@ -13,8 +13,9 @@ import com.idormy.sms.forwarder.model.SenderModel;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class SenderAdapter extends ArrayAdapter<SenderModel> {
-    private int resourceId;
+    private final int resourceId;
     private List<SenderModel> list;
 
     // 适配器的构造函数，把要适配的数据传入这里
@@ -120,7 +121,7 @@ public class SenderAdapter extends ArrayAdapter<SenderModel> {
     }
 
     // 定义一个内部类，用于对控件的实例进行缓存
-    class ViewHolder {
+    static class ViewHolder {
         ImageView senderImage;
         TextView senderName;
     }

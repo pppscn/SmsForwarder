@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.utils;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -13,9 +14,11 @@ import com.idormy.sms.forwarder.model.RuleTable;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({"UnusedReturnValue", "SynchronizeOnNonFinalField"})
 public class RuleUtil {
-    static String TAG = "RuleUtil";
+    static final String TAG = "RuleUtil";
     static Boolean hasInit = false;
+    @SuppressLint("StaticFieldLeak")
     static Context context;
     static DbHelper dbHelper;
     static SQLiteDatabase db;
@@ -75,7 +78,7 @@ public class RuleUtil {
             selectionArgList.add(String.valueOf(id));
 
         }
-        String[] selectionArgs = selectionArgList.toArray(new String[selectionArgList.size()]);
+        String[] selectionArgs = selectionArgList.toArray(new String[0]);
         // Issue SQL statement.
         return db.delete(RuleTable.RuleEntry.TABLE_NAME, selection, selectionArgs);
 
@@ -114,7 +117,7 @@ public class RuleUtil {
             // Specify arguments in placeholder order.
             selectionArgList.add(key);
         }
-        String[] selectionArgs = selectionArgList.toArray(new String[selectionArgList.size()]);
+        String[] selectionArgs = selectionArgList.toArray(new String[0]);
 
         // How you want the results sorted in the resulting Cursor
         String sortOrder =

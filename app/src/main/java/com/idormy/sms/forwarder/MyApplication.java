@@ -38,8 +38,8 @@ public class MyApplication extends Application {
      * android:value="Umeng">
      * </meta-data>
      *
-     * @param ctx
-     * @return
+     * @param ctx 上下文
+     * @return 渠道名称
      */
     // 获取渠道工具函数
     public static String getChannelName(Context ctx) {
@@ -52,10 +52,8 @@ public class MyApplication extends Application {
             if (packageManager != null) {
                 //注意此处为ApplicationInfo 而不是 ActivityInfo,因为友盟设置的meta-data是在application标签中，而不是activity标签中，所以用ApplicationInfo
                 ApplicationInfo applicationInfo = packageManager.getApplicationInfo(ctx.getPackageName(), PackageManager.GET_META_DATA);
-                if (applicationInfo != null) {
-                    if (applicationInfo.metaData != null) {
-                        channelName = applicationInfo.metaData.get("UMENG_CHANNEL") + "";
-                    }
+                if (applicationInfo.metaData != null) {
+                    channelName = applicationInfo.metaData.get("UMENG_CHANNEL") + "";
                 }
             }
         } catch (PackageManager.NameNotFoundException e) {
@@ -84,7 +82,7 @@ public class MyApplication extends Application {
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.LEGACY_MANUAL);
         //pro close log
         UMConfigure.setLogEnabled(true);
-        Log.i(TAG, "uminit");
+
         Intent intent = new Intent(this, FrontService.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(intent);

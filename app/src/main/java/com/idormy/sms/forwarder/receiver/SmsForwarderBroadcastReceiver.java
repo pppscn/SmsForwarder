@@ -1,4 +1,4 @@
-package com.idormy.sms.forwarder.BroadCastReceiver;
+package com.idormy.sms.forwarder.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,14 +20,12 @@ import java.util.Map;
 import java.util.Objects;
 
 public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
-    private String TAG = "SmsForwarderBroadcastReceiver";
-    private int intLevel;
-    private int intScale;
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
         String receiveAction = intent.getAction();
+        String TAG = "SmsForwarderBroadcastReceiver";
         Log.d(TAG, "onReceive intent " + receiveAction);
         if ("android.provider.Telephony.SMS_RECEIVED".equals(receiveAction)) {
             try {

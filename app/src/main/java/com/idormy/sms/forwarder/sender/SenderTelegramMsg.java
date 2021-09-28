@@ -3,6 +3,8 @@ package com.idormy.sms.forwarder.sender;
 import android.os.Handler;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.alibaba.fastjson.JSON;
 import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.SettingUtil;
@@ -10,6 +12,7 @@ import com.idormy.sms.forwarder.utils.SettingUtil;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -22,9 +25,10 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+@SuppressWarnings({"rawtypes", "unchecked", "deprecation", "ResultOfMethodCallIgnored"})
 public class SenderTelegramMsg extends SenderBaseMsg {
 
-    static String TAG = "SenderTelegramMsg";
+    static final String TAG = "SenderTelegramMsg";
 
     public static void sendMsg(final long logId, final Handler handError, String apiToken, String chatId, String from, String text) throws Exception {
         Log.i(TAG, "sendMsg apiToken:" + apiToken + " chatId:" + chatId + " text:" + text);
@@ -62,15 +66,15 @@ public class SenderTelegramMsg extends SenderBaseMsg {
                     Call call = client.newCall(request);
                     call.enqueue(new Callback() {
                         @Override
-                        public void onFailure(Call call, final IOException e) {
+                        public void onFailure(@NonNull Call call, @NonNull final IOException e) {
                             LogUtil.updateLog(logId, 0, e.getMessage());
                             Toast(handError, TAG, "发送失败：" + e.getMessage());
                             emitter.onError(new RuntimeException("请求接口异常..."));
                         }
 
                         @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            final String responseStr = response.body().string();
+                        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                            final String responseStr = Objects.requireNonNull(response.body()).string();
                             Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
                             Toast(handError, TAG, "发送状态：" + responseStr);
 

@@ -16,7 +16,7 @@ import com.idormy.sms.forwarder.sender.SenderUtil;
 import java.util.List;
 
 public class RuleAdapter extends ArrayAdapter<RuleModel> {
-    private int resourceId;
+    private final int resourceId;
     private List<RuleModel> list;
 
     // 适配器的构造函数，把要适配的数据传入这里
@@ -108,7 +108,7 @@ public class RuleAdapter extends ArrayAdapter<RuleModel> {
     }
 
     // 定义一个内部类，用于对控件的实例进行缓存
-    class ViewHolder {
+    static class ViewHolder {
         TextView ruleMatch;
         TextView ruleSender;
         ImageView ruleSenderImage;

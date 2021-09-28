@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -18,7 +19,7 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="设置名称"
                 android:textStyle="bold" />
 
@@ -26,9 +27,10 @@
                 android:id="@+id/editTextQYWXAppName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:inputType=""
-                android:text="" />
+                android:layout_marginStart="5dp"
+                android:inputType="text"
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -41,7 +43,7 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="企业ID"
                 android:textStyle="bold" />
 
@@ -49,9 +51,10 @@
                 android:id="@+id/editTextQYWXAppCorpID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:inputType=""
-                android:text="" />
+                android:layout_marginStart="5dp"
+                android:inputType="text"
+                android:text="@string/wechat_id"
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -64,7 +67,7 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="AgentID"
                 android:textStyle="bold" />
 
@@ -72,9 +75,10 @@
                 android:id="@+id/editTextQYWXAppAgentID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:inputType=""
-                android:text="" />
+                android:layout_marginStart="5dp"
+                android:inputType="text"
+                android:text="@string/Agent_ID"
+                android:autofillHints="" />
         </LinearLayout>
 
 
@@ -88,7 +92,7 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="Secret"
                 android:textStyle="bold" />
 
@@ -96,9 +100,10 @@
                 android:id="@+id/editTextQYWXAppSecret"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:inputType="textPassword"
-                android:text="" />
+                android:text="@string/App_Secret"
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -111,7 +116,7 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="是否@all"
                 android:textStyle="bold" />
 
@@ -119,7 +124,8 @@
                 android:id="@+id/switchQYWXAppAtAll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checked="false" />
+                android:checked="false"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 
         <LinearLayout
@@ -138,7 +144,7 @@
                 <TextView
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:text="指定成员"
                     android:textStyle="bold" />
 
@@ -146,9 +152,10 @@
                     android:id="@+id/editTextQYWXAppToUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:inputType=""
-                    android:text="" />
+                    android:layout_marginStart="5dp"
+                    android:inputType="text"
+                    android:text=""
+                    android:autofillHints="" />
             </LinearLayout>
 
             <TextView
@@ -176,7 +183,7 @@
                 android:id="@+id/buttonQYWXAppDel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:text="@string/del" />
 
@@ -184,7 +191,7 @@
                 android:id="@+id/buttonQYWXAppTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:text="@string/test" />
 

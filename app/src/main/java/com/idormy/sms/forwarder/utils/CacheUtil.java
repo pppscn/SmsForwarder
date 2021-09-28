@@ -10,11 +10,10 @@ public class CacheUtil {
     /**
      * 获取缓存大小
      *
-     * @param context
-     * @return
-     * @throws Exception
+     * @param context 上下文
+     * @return 缓存大小
      */
-    public static String getTotalCacheSize(Context context) throws Exception {
+    public static String getTotalCacheSize(Context context) {
         long cacheSize = getFolderSize(context.getCacheDir());
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             cacheSize += getFolderSize(context.getExternalCacheDir());
@@ -24,7 +23,7 @@ public class CacheUtil {
 
     /***
      * 清理所有缓存
-     * @param context
+     * @param context 上下文
      */
     public static void clearAllCache(Context context) {
         deleteDir(context.getCacheDir());
@@ -36,29 +35,32 @@ public class CacheUtil {
     private static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
+            assert children != null;
+            for (String child : children) {
+                boolean success = deleteDir(new File(dir, child));
                 if (!success) {
                     return false;
                 }
             }
         }
+        assert dir != null;
         return dir.delete();
     }
 
     // 获取文件
     //Context.getExternalFilesDir() --> SDCard/Android/data/你的应用的包名/files/ 目录，一般放一些长时间保存的数据
     //Context.getExternalCacheDir() --> SDCard/Android/data/你的应用包名/cache/目录，一般存放临时缓存数据
-    public static long getFolderSize(File file) throws Exception {
+    public static long getFolderSize(File file) {
         long size = 0;
         try {
             File[] fileList = file.listFiles();
-            for (int i = 0; i < fileList.length; i++) {
+            assert fileList != null;
+            for (File value : fileList) {
                 // 如果下面还有文件
-                if (fileList[i].isDirectory()) {
-                    size = size + getFolderSize(fileList[i]);
+                if (value.isDirectory()) {
+                    size = size + getFolderSize(value);
                 } else {
-                    size = size + fileList[i].length();
+                    size = size + value.length();
                 }
             }
         } catch (Exception e) {
@@ -70,8 +72,8 @@ public class CacheUtil {
     /**
      * 格式化单位
      *
-     * @param size
-     * @return
+     * @param size 文件大小
+     * @return 结果
      */
     public static String getFormatSize(double size) {
         double kiloByte = size / 1024;

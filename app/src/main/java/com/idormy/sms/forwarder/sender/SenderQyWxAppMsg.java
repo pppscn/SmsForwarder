@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.idormy.sms.forwarder.MyApplication;
@@ -16,6 +18,7 @@ import com.idormy.sms.forwarder.utils.SettingUtil;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -28,9 +31,10 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+@SuppressWarnings({"rawtypes", "unchecked", "deprecation", "ResultOfMethodCallIgnored"})
 public class SenderQyWxAppMsg extends SenderBaseMsg {
 
-    static String TAG = "SenderQyWxAppMsg";
+    static final String TAG = "SenderQyWxAppMsg";
 
     public static void sendMsg(final long logId, final Handler handError, String corpID, String agentID, String secret, String toUser, String content, boolean forceRefresh) throws Exception {
         Log.i(TAG, "sendMsg corpID:" + corpID + " agentID:" + agentID + " secret:" + secret + " toUser:" + toUser + " content:" + content + " forceRefresh:" + forceRefresh);
@@ -40,20 +44,20 @@ public class SenderQyWxAppMsg extends SenderBaseMsg {
         }
 
         //TODO:判断access_token是否失效
-        if (forceRefresh == true
+        if (forceRefresh
                 || MyApplication.QyWxAccessToken == null || MyApplication.QyWxAccessToken.isEmpty()
                 || System.currentTimeMillis() > MyApplication.QyWxAccessTokenExpiresIn) {
-            String gettokenUrl = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?";
-            gettokenUrl += "corpid=" + corpID;
-            gettokenUrl += "&corpsecret=" + secret;
-            Log.d(TAG, "gettokenUrl：" + gettokenUrl);
+            String getTokenUrl = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?";
+            getTokenUrl += "corpid=" + corpID;
+            getTokenUrl += "&corpsecret=" + secret;
+            Log.d(TAG, "getTokenUrl：" + getTokenUrl);
 
             OkHttpClient client = new OkHttpClient();
-            final Request request = new Request.Builder().url(gettokenUrl).get().build();
+            final Request request = new Request.Builder().url(getTokenUrl).get().build();
             Call call = client.newCall(request);
             call.enqueue(new Callback() {
                 @Override
-                public void onFailure(Call call, final IOException e) {
+                public void onFailure(@NonNull Call call, @NonNull final IOException e) {
                     LogUtil.updateLog(logId, 0, e.getMessage());
                     Log.d(TAG, "onFailure：" + e.getMessage());
                     if (handError != null) {
@@ -67,14 +71,14 @@ public class SenderQyWxAppMsg extends SenderBaseMsg {
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    final String json = response.body().string();
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    final String json = Objects.requireNonNull(response.body()).string();
                     Log.d(TAG, "Code：" + response.code() + " Response: " + json);
                     JSONObject jsonObject = JSON.parseObject(json);
                     int errcode = jsonObject.getInteger("errcode");
                     if (errcode == 0) {
                         MyApplication.QyWxAccessToken = jsonObject.getString("access_token");
-                        MyApplication.QyWxAccessTokenExpiresIn = System.currentTimeMillis() + (jsonObject.getInteger("expires_in") - 120) * 1000; //提前2分钟过期
+                        MyApplication.QyWxAccessTokenExpiresIn = System.currentTimeMillis() + (jsonObject.getInteger("expires_in") - 120) * 1000L; //提前2分钟过期
                         Log.d(TAG, "access_token：" + MyApplication.QyWxAccessToken);
                         Log.d(TAG, "expires_in：" + MyApplication.QyWxAccessTokenExpiresIn);
 
@@ -133,15 +137,15 @@ public class SenderQyWxAppMsg extends SenderBaseMsg {
                     Call call = client.newCall(request);
                     call.enqueue(new Callback() {
                         @Override
-                        public void onFailure(Call call, final IOException e) {
+                        public void onFailure(@NonNull Call call, @NonNull final IOException e) {
                             LogUtil.updateLog(logId, 0, e.getMessage());
                             Toast(handError, TAG, "发送失败：" + e.getMessage());
                             emitter.onError(new RuntimeException("请求接口异常..."));
                         }
 
                         @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            final String responseStr = response.body().string();
+                        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                            final String responseStr = Objects.requireNonNull(response.body()).string();
                             Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
                             Toast(handError, TAG, "发送状态：" + responseStr);
 

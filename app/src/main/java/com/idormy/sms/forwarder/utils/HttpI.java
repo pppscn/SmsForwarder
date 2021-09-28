@@ -10,6 +10,7 @@ import java.util.Map;
 /**
  * app版本更新接口
  */
+@SuppressWarnings("unused")
 public interface HttpI extends Serializable {
     /**
      * 异步get

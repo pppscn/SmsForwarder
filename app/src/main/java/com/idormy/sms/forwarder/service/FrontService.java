@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.service;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -39,6 +40,7 @@ public class FrontService extends Service {
     private static final String CHANNEL_ONE_ID = "com.idormy.sms.forwarder";
     private static final String CHANNEL_ONE_NAME = "com.idormy.sms.forwarderName";
 
+    @SuppressLint("IconColors")
     @Override
     public void onCreate() {
         super.onCreate();
@@ -48,11 +50,11 @@ public class FrontService extends Service {
         OSUtils.ROM_TYPE romType = OSUtils.getRomType();
         //Log.d(TAG, "onCreate: " + romType);
         if (romType == OSUtils.ROM_TYPE.MIUI_ROM) {
-            builder.setContentTitle("短信转发器");
+            builder.setContentTitle(getString(R.string.app_name));
         }
-        builder.setContentText("根据规则转发到钉钉/微信/邮箱/bark/Server酱/Telegram/webhook等");
+        builder.setContentText(getString(R.string.notification_content));
         Intent intent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity
+        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent pendingIntent = PendingIntent.getActivity
                 (this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
 

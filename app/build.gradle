@@ -1,10 +1,21 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-//apply plugin: 'kotlin-android-extensions'
-apply from: 'version.gradle'
+
+def keyProps = new Properties()
+def keyPropsFile = rootProject.file('keystore/keystore.properties')
+if (keyPropsFile.exists()) {
+    keyProps.load(new FileInputStream(keyPropsFile))
+}
+
+// 读取version.properties
+def versionProps = new Properties()
+def versionPropsFile = rootProject.file('version.properties')
+if (versionPropsFile.exists()) {
+    versionProps.load(new FileInputStream(versionPropsFile))
+}
 
 android {
-    compileSdkVersion 29
+    buildToolsVersion '30.0.3'
+    compileSdkVersion 30
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
@@ -12,74 +23,115 @@ android {
     defaultConfig {
         applicationId "com.idormy.sms.forwarder"
         minSdkVersion 23
-        targetSdkVersion 29
-        versionCode appVersionCode
-        versionName appVersionName
+        targetSdkVersion 30
+        versionCode versionProps['versionCode'].toInteger()
+        versionName versionProps['versionName']
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     lintOptions {
         checkReleaseBuilds false
     }
     signingConfigs {
-        //签名信息保存在 C:\Users\<Username>\.gradle\gradle.properties
         release {
-            storeFile file(RELEASE_STORE_FILE)
-            keyAlias RELEASE_KEY_ALIAS
-            storePassword RELEASE_KEY_PASSWORD
-            keyPassword RELEASE_STORE_PASSWORD
+            keyAlias keyProps['keyAlias']
+            keyPassword keyProps['keyPassword']
+            storeFile keyProps['storeFile'] ? file(keyProps['storeFile']) : null
+            storePassword keyProps['storePassword']
+        }
+        debug {
+            keyAlias keyProps['keyAlias']
+            keyPassword keyProps['keyPassword']
+            storeFile keyProps['storeFile'] ? file(keyProps['storeFile']) : null
+            storePassword keyProps['storePassword']
         }
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
-
         debug {
-            signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
     //apk file name
-    android.applicationVariants.all { variant ->
+/*    android.applicationVariants.all { variant ->
         variant.outputs.all {
             //def date = new Date().format("yyyyMMdd" , TimeZone.getTimeZone("Asia/Shanghai"))
             def date = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08"))
-            if (variant.buildType.name.equals('debug')) {
+            if (variant.buildType.name == 'debug') {
                 outputFileName = "SmsForwarder_debug_${date}_${versionName}.apk"
             }
-            if (variant.buildType.name.equals('release')) {
+            if (variant.buildType.name == 'release') {
                 outputFileName = "SmsForwarder_release_${date}_${versionName}.apk"
             }
         }
+    }*/
+}
+
+
+task upgradeVersion {
+    group 'help'
+    description '构建新版本'
+    doLast {
+        println("---自动升级版本号---\n")
+        String oldVersionCode = versionProps['versionCode']
+        String oldVersionName = versionProps['versionName']
+        if (oldVersionCode == null || oldVersionName == null ||
+                oldVersionCode.isEmpty() || oldVersionName.isEmpty()) {
+            println("error:版本号不能为空")
+            return
+        }
+        versionProps['versionCode'] = String.valueOf(versionProps['versionCode'].toInteger() + 1)
+        String str = versionProps['versionName'].toString()
+        versionProps['versionName'] = str.substring(0, str.lastIndexOf('.') + 1) +
+                (str.substring(str.lastIndexOf('.') + 1).toInteger() + 1)
+        String tip =
+                "版本号从$oldVersionName($oldVersionCode)升级到${versionProps['versionName']}(${versionProps['versionCode']})"
+        println(tip)
+
+        def writer = new FileWriter(versionPropsFile)
+        versionProps.store(writer, null)
+        writer.flush()
+        writer.close()
+        def tag = "v${versionProps['versionName']}"
+        cmdExecute("git pull")
+        cmdExecute("git add version.properties")
+        cmdExecute("git commit -m \"版本号升级为：$tag\"")
+        cmdExecute("git push origin")
+        cmdExecute("git tag $tag")
+        cmdExecute("git push origin $tag")
     }
 }
 
+void cmdExecute(String cmd) {
+    println "\n执行$cmd"
+    println cmd.execute().text
+}
+
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    //testImplementation 'junit:junit:4.12'
-    //androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    //androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     //okhttp
-    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     implementation 'com.squareup.okio:okio:2.10.0'
 
     //fastjson
-    implementation "com.alibaba:fastjson:1.2.75"
-
-    //android8.0以上需要使用到反射获取隐藏的系统api和动态代理隐藏的抽象类回调
-    //其中动态代理抽象类回调需要使用ProxyBuilder类，故依赖一个库
-    //implementation 'com.linkedin.dexmaker:dexmaker-mockito:2.12.1'
+    implementation "com.alibaba:fastjson:1.2.78"
 
     // 友盟统计SDK
     implementation 'com.umeng.umsdk:common:9.4.4'// 必选
     implementation 'com.umeng.umsdk:asms:1.4.1'// 必选
     implementation 'com.umeng.umsdk:apm:1.4.2' // 错误分析升级为独立SDK，看crash数据请一定集成，可选
-    implementation 'com.umeng.umsdk:abtest:1.0.0'//使用U-App中ABTest能力，可选
 
     //XUpdate
     implementation 'com.github.xuexiangjys:XUpdate:2.1.0'
@@ -88,8 +140,6 @@ dependencies {
 
     //EmailKit
     implementation 'com.github.mailhu:emailkit:4.2.2'
-    implementation 'androidx.test.ext:junit-ktx:1.1.2'
-    testImplementation 'junit:junit:4.12'
 
     //Lombok
     compileOnly 'org.projectlombok:lombok:1.18.20'

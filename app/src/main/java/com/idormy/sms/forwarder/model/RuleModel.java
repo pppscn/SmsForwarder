@@ -1,6 +1,9 @@
 package com.idormy.sms.forwarder.model;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.idormy.sms.forwarder.R;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
@@ -14,13 +17,14 @@ import java.util.regex.PatternSyntaxException;
 
 import lombok.Data;
 
+@SuppressWarnings({"unused", "LoopStatementThatDoesntLoop"})
 @Data
 public class RuleModel {
     public static final String FILED_TRANSPOND_ALL = "transpond_all";
     public static final String FILED_PHONE_NUM = "phone_num";
     public static final String FILED_MSG_CONTENT = "msg_content";
     public static final String FILED_MULTI_MATCH = "multi_match";
-    public static final Map<String, String> FILED_MAP = new HashMap<String, String>();
+    public static final Map<String, String> FILED_MAP = new HashMap<>();
     public static final String CHECK_IS = "is";
     public static final String CHECK_CONTAIN = "contain";
     public static final String CHECK_NOT_CONTAIN = "notcontain";
@@ -28,11 +32,11 @@ public class RuleModel {
     public static final String CHECK_END_WITH = "endwith";
     public static final String CHECK_NOT_IS = "notis";
     public static final String CHECK_REGEX = "regex";
-    public static final Map<String, String> CHECK_MAP = new HashMap<String, String>();
+    public static final Map<String, String> CHECK_MAP = new HashMap<>();
     public static final String CHECK_SIM_SLOT_ALL = "ALL";
     public static final String CHECK_SIM_SLOT_1 = "SIM1";
     public static final String CHECK_SIM_SLOT_2 = "SIM2";
-    public static final Map<String, String> SIM_SLOT_MAP = new HashMap<String, String>();
+    public static final Map<String, String> SIM_SLOT_MAP = new HashMap<>();
 
     static {
         FILED_MAP.put("transpond_all", "全部转发");
@@ -75,6 +79,7 @@ public class RuleModel {
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     public static String getRuleFiledFromCheckId(int id) {
         switch (id) {
             case R.id.btnContent:
@@ -88,6 +93,7 @@ public class RuleModel {
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     public static String getRuleCheckFromCheckId(int id) {
         switch (id) {
             case R.id.btnContain:
@@ -105,6 +111,7 @@ public class RuleModel {
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     public static String getRuleSimSlotFromCheckId(int id) {
         switch (id) {
             case R.id.btnSimSlot1:
@@ -191,7 +198,6 @@ public class RuleModel {
                                 break;
                             }
                         } catch (PatternSyntaxException e) {
-                            checked = false;
                             Log.d(TAG, "PatternSyntaxException: ");
                             Log.d(TAG, "Description: " + e.getDescription());
                             Log.d(TAG, "Index: " + e.getIndex());
@@ -265,6 +271,7 @@ public class RuleModel {
         }
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "RuleModel{" +

@@ -1,5 +1,8 @@
 package com.idormy.sms.forwarder.utils;
 
+import static com.idormy.sms.forwarder.utils.RuleLine.CONJUNCTION_AND;
+import static com.idormy.sms.forwarder.utils.RuleLine.CONJUNCTION_OR;
+
 import android.util.Log;
 
 import com.idormy.sms.forwarder.model.vo.SmsVo;
@@ -7,11 +10,9 @@ import com.idormy.sms.forwarder.model.vo.SmsVo;
 import java.util.Date;
 import java.util.Scanner;
 
-import static com.idormy.sms.forwarder.utils.RuleLine.CONJUNCTION_AND;
-import static com.idormy.sms.forwarder.utils.RuleLine.CONJUNCTION_OR;
-
+@SuppressWarnings("unused")
 public class RuleLineUtils {
-    static String TAG = "RuleLineUtils";
+    static final String TAG = "RuleLineUtils";
     static Boolean STARTLOG = false;
 
     public static void main(String[] args) throws Exception {
@@ -41,16 +42,16 @@ public class RuleLineUtils {
 
         Scanner scanner = new Scanner(RuleLines);
 
-        int linenum = 0;
+        int lineNum = 0;
         RuleLine headRuleLine = null;
 
         RuleLine beforeRuleLine = null;
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            logg(linenum + " : " + line);
+            logg(lineNum + " : " + line);
             //第一行
-            if (linenum == 0) {
+            if (lineNum == 0) {
                 //第一行不允许缩进
                 if (line.startsWith(" ")) {
                     throw new Exception("第一行不允许缩进");
@@ -60,14 +61,15 @@ public class RuleLineUtils {
             // process the line
 
 
-            beforeRuleLine = RuleLineUtils.generateRuleTree(line, linenum, beforeRuleLine);
-            if (linenum == 0) {
+            beforeRuleLine = RuleLineUtils.generateRuleTree(line, lineNum, beforeRuleLine);
+            if (lineNum == 0) {
                 headRuleLine = beforeRuleLine;
             }
 
-            linenum++;
+            lineNum++;
         }
 
+        assert headRuleLine != null;
         return checkRuleTree(msg, headRuleLine);
 
     }

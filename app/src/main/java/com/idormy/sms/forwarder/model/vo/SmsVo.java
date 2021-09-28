@@ -1,5 +1,9 @@
 package com.idormy.sms.forwarder.model.vo;
 
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
+
 import com.idormy.sms.forwarder.utils.SettingUtil;
 
 import java.io.Serializable;
@@ -13,10 +17,7 @@ public class SmsVo implements Serializable {
     String mobile;
     String content;
     Date date;
-    String simInfo = "SIM1_unknown_unknown";
-
-    public SmsVo() {
-    }
+    String simInfo;
 
     public SmsVo(String mobile, String content, Date date, String simInfo) {
         this.mobile = mobile;
@@ -25,6 +26,7 @@ public class SmsVo implements Serializable {
         this.simInfo = simInfo;
     }
 
+    @SuppressLint("SimpleDateFormat")
     public String getSmsVoForSend() {
         boolean switchAddExtra = SettingUtil.getSwitchAddExtra();
         boolean switchSmsTemplate = SettingUtil.getSwitchSmsTemplate();
@@ -46,6 +48,7 @@ public class SmsVo implements Serializable {
                 .trim();
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "SmsVo{" +

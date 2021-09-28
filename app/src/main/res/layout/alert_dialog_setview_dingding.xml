@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -24,10 +25,11 @@
                 android:id="@+id/editTextDingdingName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:ems="11"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -48,7 +50,8 @@
                 android:layout_height="wrap_content"
                 android:ems="14"
                 android:inputType="textPassword"
-                android:text="" />
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
 
@@ -70,7 +73,8 @@
                 android:layout_height="wrap_content"
                 android:ems="14"
                 android:inputType="textPassword"
-                android:text="" />
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -90,8 +94,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="14"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:text=""
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -111,7 +116,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                android:ems="14" />
+                android:ems="14"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 
         <LinearLayout
@@ -121,25 +127,25 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttondingdingok"
+                android:id="@+id/buttonDingdingOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/ok" />
 
             <Button
-                android:id="@+id/buttondingdingdel"
+                android:id="@+id/buttonDingdingDel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:text="@string/del" />
 
             <Button
-                android:id="@+id/buttondingdingtest"
+                android:id="@+id/buttonDingdingTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:text="@string/test" />
 

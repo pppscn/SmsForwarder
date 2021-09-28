@@ -6,8 +6,9 @@ import android.util.Log;
 import com.idormy.sms.forwarder.MyApplication;
 
 
+@SuppressWarnings("unused")
 public class SimUtil {
-    private static String TAG = "SimUtil";
+    private static final String TAG = "SimUtil";
 
     //获取卡槽信息ID
     public static int getSimId(Bundle bundle) {

@@ -5,10 +5,12 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+@SuppressWarnings({"SynchronizeOnNonFinalField", "unused"})
 public class SettingUtil {
     static Boolean hasInit = false;
-    private static String TAG = "SettingUtil";
+    private static final String TAG = "SettingUtil";
     private static SharedPreferences sp_setting = null;
+    @SuppressWarnings("FieldCanBeLocal")
     private static Context context = null;
 
     public static void init(Context context1) {
@@ -30,6 +32,27 @@ public class SettingUtil {
 
     public static boolean getSwitchAddExtra() {
         return sp_setting.getBoolean(Define.SP_MSG_KEY_SWITCH_ADD_EXTRA, false);
+    }
+
+    public static void switchAddDeviceName(Boolean switchAddDeviceName) {
+        Log.d(TAG, "switchAddDeviceName :" + switchAddDeviceName);
+        sp_setting.edit()
+                .putBoolean(Define.SP_MSG_KEY_STRING_ADD_EXTRA_DEVICE_NAME, switchAddDeviceName)
+                .apply();
+    }
+
+    public static boolean getSwitchAddDeviceName() {
+        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ADD_EXTRA_DEVICE_NAME, false);
+    }
+
+    public static void switchEnablePhone(Boolean enable) {
+        sp_setting.edit()
+                .putBoolean(Define.SP_MSG_KEY_STRING_ENABLE_PHONE, enable)
+                .apply();
+    }
+
+    public static boolean getSwitchEnablePhone() {
+        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_PHONE, true);
     }
 
     public static void switchSmsTemplate(Boolean switchSmsTemplate) {
@@ -100,8 +123,7 @@ public class SettingUtil {
     }
 
     public static String getBatteryLevelAlarm() {
-        String res = sp_setting.getString(Define.SP_MSG_KEY_STRING_BATTERY_LEVEL_ALARM, "");
-        return res;
+        return sp_setting.getString(Define.SP_MSG_KEY_STRING_BATTERY_LEVEL_ALARM, "");
     }
 
     public static void setBatteryLevelAlarm(String battery_level) {
@@ -112,7 +134,7 @@ public class SettingUtil {
     }
 
     public static boolean saveMsgHistory() {
-        return sp_setting.getBoolean("option_save_history_on", false);
+        return !sp_setting.getBoolean("option_save_history_on", false);
     }
 
     //接口请求失败重试

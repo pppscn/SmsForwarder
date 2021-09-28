@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.sender;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -14,10 +15,12 @@ import com.idormy.sms.forwarder.utils.DbHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({"SynchronizeOnNonFinalField", "UnusedReturnValue", "unused"})
 public class SenderUtil {
-    static String TAG = "SenderUtil";
+    static final String TAG = "SenderUtil";
     static Boolean hasInit = false;
 
+    @SuppressLint("StaticFieldLeak")
     static Context context;
     static DbHelper dbHelper;
     static SQLiteDatabase db;
@@ -76,7 +79,7 @@ public class SenderUtil {
             selectionArgList.add(String.valueOf(id));
 
         }
-        String[] selectionArgs = selectionArgList.toArray(new String[selectionArgList.size()]);
+        String[] selectionArgs = selectionArgList.toArray(new String[0]);
         // Issue SQL statement.
         return db.delete(SenderTable.SenderEntry.TABLE_NAME, selection, selectionArgs);
 
@@ -111,7 +114,7 @@ public class SenderUtil {
             selectionArgList.add(key);
             selectionArgList.add(key);
         }
-        String[] selectionArgs = selectionArgList.toArray(new String[selectionArgList.size()]);
+        String[] selectionArgs = selectionArgList.toArray(new String[0]);
 
         // How you want the results sorted in the resulting Cursor
         String sortOrder =
@@ -174,7 +177,7 @@ public class SenderUtil {
             selectionArgList.add(key);
             selectionArgList.add(key);
         }
-        String[] selectionArgs = selectionArgList.toArray(new String[selectionArgList.size()]);
+        String[] selectionArgs = selectionArgList.toArray(new String[0]);
 
         // How you want the results sorted in the resulting Cursor
 

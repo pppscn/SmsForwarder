@@ -8,9 +8,6 @@ import lombok.Data;
 public class ServerChanSettingVo implements Serializable {
     private String sendKey;
 
-    public ServerChanSettingVo() {
-    }
-
     public ServerChanSettingVo(String sendKey) {
         this.sendKey = sendKey;
     }

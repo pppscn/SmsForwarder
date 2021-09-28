@@ -13,9 +13,6 @@ public class WebNotifySettingVo implements Serializable {
     private String method;
     private String webParams;
 
-    public WebNotifySettingVo() {
-    }
-
     public WebNotifySettingVo(String webServer, String secret, String method, String webParams) {
         this.webServer = webServer;
         this.secret = secret;

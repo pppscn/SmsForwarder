@@ -1,9 +1,12 @@
 package com.idormy.sms.forwarder.model;
 
+import androidx.annotation.NonNull;
+
 import com.idormy.sms.forwarder.R;
 
 import lombok.Data;
 
+@SuppressWarnings("unused")
 @Data
 public class SenderModel {
     public static final int STATUS_ON = 1;
@@ -98,6 +101,7 @@ public class SenderModel {
         }
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "SenderModel{" +

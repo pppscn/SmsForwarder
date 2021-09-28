@@ -3,6 +3,8 @@ package com.idormy.sms.forwarder.utils;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+@SuppressWarnings("unused")
 class RuleLine {
     public static final String CONJUNCTION_AND = "并且";
     public static final String CONJUNCTION_OR = "或者";
@@ -23,11 +26,11 @@ class RuleLine {
     public static final String CHECK_START_WITH = "开头";
     public static final String CHECK_END_WITH = "结尾";
     public static final String CHECK_REGEX = "正则";
-    public static List<String> CONJUNCTION_LIST = new ArrayList<String>();
-    public static List<String> FILED_LIST = new ArrayList<String>();
-    public static List<String> SURE_LIST = new ArrayList<String>();
-    public static List<String> CHECK_LIST = new ArrayList<String>();
-    static String TAG = "RuleLine";
+    public static final List<String> CONJUNCTION_LIST = new ArrayList<>();
+    public static final List<String> FILED_LIST = new ArrayList<>();
+    public static final List<String> SURE_LIST = new ArrayList<>();
+    public static final List<String> CHECK_LIST = new ArrayList<>();
+    static final String TAG = "RuleLine";
     static Boolean STARTLOG = true;
 
     static {
@@ -71,8 +74,8 @@ class RuleLine {
     String check;
     String value;
 
-    public RuleLine(String line, int linenum, RuleLine beforeRuleLine) throws Exception {
-        logg("----------" + linenum + "-----------------");
+    public RuleLine(String line, int lineNum, RuleLine beforeRuleLine) throws Exception {
+        logg("----------" + lineNum + "-----------------");
         logg(line);
         //规则检验：
         //并且 是 手机号 相等 10086
@@ -85,7 +88,7 @@ class RuleLine {
 
         //标记3个阶段
         boolean isCountHeading = false;
-        boolean isDealMiddel = false;
+        boolean isDealMiddle = false;
         boolean isDealValue = false;
 
         //用于保存4个中间体： 并且, 是, 内容, 包含
@@ -107,44 +110,41 @@ class RuleLine {
                     isCountHeading = true;
                 } else {
                     //直接进入处理中间体阶段
-                    isCountHeading = false;
-                    isDealMiddel = true;
-                    logg("start to isDealMiddel:");
+                    isDealMiddle = true;
+                    logg("start to isDealMiddle:");
                 }
 
             }
             //正在数空格头，但是遇到非空格，阶段变更:由处理空头阶段  变为  处理 中间体阶段
             if (isCountHeading && (!" ".equals(w))) {
-                logg("isCountHeading to isDealMiddel:");
+                logg("isCountHeading to isDealMiddle:");
 
                 isCountHeading = false;
-                isDealMiddel = true;
+                isDealMiddle = true;
             }
 
             //正在处理中间体，中间体数量够了，阶段变更：由处理中间体  变为  处理 value
-            if (isDealMiddel && middleList.size() == 4) {
-                logg("isDealMiddel done middleList:" + middleList);
-                logg("isDealMiddel to isDealValue:");
-                isDealMiddel = false;
+            if (isDealMiddle && middleList.size() == 4) {
+                logg("isDealMiddle done middleList:" + middleList);
+                logg("isDealMiddle to isDealValue:");
+                isDealMiddle = false;
                 isDealValue = true;
             }
 
             logg("isCountHeading:" + isCountHeading);
-            logg("isDealMiddel:" + isDealMiddel);
+            logg("isDealMiddle:" + isDealMiddle);
             logg("isDealValue:" + isDealValue);
 
             if (isCountHeading) {
-                if (" ".equals(w)) {
-                    logg("headSpaceNum++:" + headSpaceNum);
-                    headSpaceNum++;
-                }
+                logg("headSpaceNum++:" + headSpaceNum);
+                headSpaceNum++;
             }
 
-            if (isDealMiddel) {
+            if (isDealMiddle) {
                 //遇到空格
                 if (" ".equals(w)) {
                     if (buildMiddleWord.length() == 0) {
-                        throw new Exception(linenum + "行：语法错误不允许出现连续空格！");
+                        throw new Exception(lineNum + "行：语法错误不允许出现连续空格！");
                     } else {
                         //生成了一个中间体
                         middleList.add(buildMiddleWord.toString());
@@ -170,7 +170,7 @@ class RuleLine {
 
 
         if (middleList.size() != 4) {
-            throw new Exception(linenum + "行配置错误：每行必须有4段组成，例如： 并且 手机号 是 相等 ");
+            throw new Exception(lineNum + "行配置错误：每行必须有4段组成，例如： 并且 手机号 是 相等 ");
         }
 
 
@@ -232,19 +232,19 @@ class RuleLine {
         this.value = valueBuilder.toString();
 
         if (!CONJUNCTION_LIST.contains(this.conjunction)) {
-            throw new Exception(linenum + "行配置错误：连接词只支持：" + CONJUNCTION_LIST + " 但提供了" + this.conjunction);
+            throw new Exception(lineNum + "行配置错误：连接词只支持：" + CONJUNCTION_LIST + " 但提供了" + this.conjunction);
         }
         if (!FILED_LIST.contains(this.field)) {
-            throw new Exception(linenum + "行配置错误：字段只支持：" + FILED_LIST + " 但提供了" + this.field);
+            throw new Exception(lineNum + "行配置错误：字段只支持：" + FILED_LIST + " 但提供了" + this.field);
         }
         if (!SURE_LIST.contains(this.sure)) {
-            throw new Exception(linenum + "行配置错误 " + this.sure + " 确认词只支持：" + SURE_LIST + " 但提供了" + this.sure);
+            throw new Exception(lineNum + "行配置错误 " + this.sure + " 确认词只支持：" + SURE_LIST + " 但提供了" + this.sure);
         }
         if (!CHECK_LIST.contains(this.check)) {
-            throw new Exception(linenum + "行配置错误：比较词只支持：" + CHECK_LIST + " 但提供了" + this.check);
+            throw new Exception(lineNum + "行配置错误：比较词只支持：" + CHECK_LIST + " 但提供了" + this.check);
         }
 
-        logg("----------" + linenum + "==" + this);
+        logg("----------" + lineNum + "==" + this);
 
 
     }
@@ -282,7 +282,6 @@ class RuleLine {
         //整合肯定词
         switch (this.sure) {
             case SURE_YES:
-                mixChecked = mixChecked;
                 break;
             case SURE_NOT:
                 mixChecked = !mixChecked;
@@ -311,6 +310,11 @@ class RuleLine {
                     checked = msgValue.contains(this.value);
                 }
                 break;
+            case CHECK_NOT_CONTAIN:
+                if (msgValue != null) {
+                    checked = !msgValue.contains(this.value);
+                }
+                break;
             case CHECK_START_WITH:
                 if (msgValue != null) {
                     checked = msgValue.startsWith(this.value);
@@ -326,7 +330,6 @@ class RuleLine {
                     try {
                         checked = Pattern.matches(this.value, msgValue);
                     } catch (PatternSyntaxException e) {
-                        checked = false;
                         logg("PatternSyntaxException: ");
                         logg("Description: " + e.getDescription());
                         logg("Index: " + e.getIndex());
@@ -344,6 +347,7 @@ class RuleLine {
 
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "RuleLine{" +

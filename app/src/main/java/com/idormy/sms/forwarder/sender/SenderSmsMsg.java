@@ -13,9 +13,10 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableEmitter;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class SenderSmsMsg extends SenderBaseMsg {
 
-    static String TAG = "SenderSmsMsg";
+    static final String TAG = "SenderSmsMsg";
 
     public static void sendMsg(final long logId, final Handler handError, int simSlot, String mobiles, Boolean onlyNoNetwork, String from, String text) throws Exception {
         Log.i(TAG, "sendMsg simSlot:" + simSlot + " mobiles:" + mobiles + " onlyNoNetwork:" + onlyNoNetwork + " from:" + from + " text:" + text);

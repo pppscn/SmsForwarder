@@ -1,7 +1,6 @@
 package com.idormy.sms.forwarder.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,9 @@ import com.idormy.sms.forwarder.utils.aUtil;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class LogAdapter extends ArrayAdapter<LogVo> {
-    private int resourceId;
+    private final int resourceId;
     private List<LogVo> list;
 
     // 适配器的构造函数，把要适配的数据传入这里
@@ -112,7 +112,7 @@ public class LogAdapter extends ArrayAdapter<LogVo> {
     }
 
     // 定义一个内部类，用于对控件的实例进行缓存
-    class ViewHolder {
+    static class ViewHolder {
         TextView tLogFrom;
         TextView tLogContent;
         TextView tLogRule;

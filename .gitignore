@@ -3,6 +3,7 @@
 .git
 build
 local.properties
+gradle.properties
 *.iml
 *.project
 */*.project
@@ -11,4 +12,6 @@ local.properties
 .settings/*
 */.settings/*
 /app/pppscn.jks
+/app/release/*
+/app/build/*
 /psd

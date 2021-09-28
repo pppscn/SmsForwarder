@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -20,11 +21,12 @@ import java.util.Locale;
 /**
  * 自定义listview
  */
+@SuppressWarnings({"CommentedOutCode", "unused"})
 public class ReFlashListView extends ListView implements AbsListView.OnScrollListener {
-    private static final String TAG = "ReFlashListView";
+    //private static final String TAG = "ReFlashListView";
     final int NONE = 0;// 正常状态；
     final int PULL = 1;// 提示下拉状态；
-    final int RELESE = 2;// 提示释放状态；
+    final int RELEASE = 2;// 提示释放状态；
     final int REFLASHING = 3;// 刷新状态；
     View header;// 顶部布局文件；
     int headerHeight;// 顶部布局文件的高度；
@@ -33,7 +35,7 @@ public class ReFlashListView extends ListView implements AbsListView.OnScrollLis
     boolean isRemark;// 标记，当前是在listview最顶端摁下的；
     int startY;// 摁下时的Y值；
     int state;// 当前的状态；
-    IReflashListener iReflashListener;//刷新数据的接口
+    IRefreshListener iRefreshListener;//刷新数据的接口
 
     public ReFlashListView(Context context) {
         super(context);
@@ -55,9 +57,8 @@ public class ReFlashListView extends ListView implements AbsListView.OnScrollLis
 
     /**
      * 初始化界面，添加顶部布局文件到 listview
-     *
-     * @param context
      */
+    @SuppressLint("InflateParams")
     private void initView(Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
         header = inflater.inflate(R.layout.header, null);
@@ -71,8 +72,6 @@ public class ReFlashListView extends ListView implements AbsListView.OnScrollLis
 
     /**
      * 通知父布局，占用的宽，高；
-     *
-     * @param view
      */
     private void measureView(View view) {
         ViewGroup.LayoutParams p = view.getLayoutParams();
@@ -94,8 +93,6 @@ public class ReFlashListView extends ListView implements AbsListView.OnScrollLis
 
     /**
      * 设置header 布局 上边距；
-     *
-     * @param topPadding
      */
     private void topPadding(int topPadding) {
         header.setPadding(header.getPaddingLeft(), topPadding,
@@ -116,6 +113,7 @@ public class ReFlashListView extends ListView implements AbsListView.OnScrollLis
         this.scrollState = scrollState;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         // TODO Auto-generated method stub
@@ -131,23 +129,23 @@ public class ReFlashListView extends ListView implements AbsListView.OnScrollLis
                 onMove(ev);
                 break;
             case MotionEvent.ACTION_UP:
-                if (state == RELESE || state == PULL) {
+                if (state == RELEASE || state == PULL) {
                     state = REFLASHING;
                     // 加载最新数据；
-                    reflashViewByState();
-                    iReflashListener.onReflash();
+                    refreshViewByState();
+                    iRefreshListener.onRefresh();
                 }
-//                if (state == RELESE) {
+//                if (state == RELEASE) {
 //                    Log.d(TAG, "onTouchEvent: up release");
 //                    state = REFLASHING;
 //                    // 加载最新数据；
-//                    reflashViewByState();
-//                    iReflashListener.onReflash();
+//                    refreshViewByState();
+//                    iRefreshListener.onRefresh();
 //                } else if (state == PULL) {
 //                    Log.d(TAG, "onTouchEvent: up pull");
 //                    state = NONE;
 //                    isRemark = false;
-//                    reflashViewByState();
+//                    refreshViewByState();
 //                }
                 break;
         }
@@ -156,8 +154,6 @@ public class ReFlashListView extends ListView implements AbsListView.OnScrollLis
 
     /**
      * 判断移动过程操作；
-     *
-     * @param ev
      */
     private void onMove(MotionEvent ev) {
         if (!isRemark) {
@@ -170,26 +166,26 @@ public class ReFlashListView extends ListView implements AbsListView.OnScrollLis
             case NONE:
                 if (space > 0) {
                     state = PULL;
-                    reflashViewByState();
+                    refreshViewByState();
                 }
                 break;
             case PULL:
                 topPadding(topPadding);
                 if (space > headerHeight + 30
                         && scrollState == SCROLL_STATE_TOUCH_SCROLL) {
-                    state = RELESE;
-                    reflashViewByState();
+                    state = RELEASE;
+                    refreshViewByState();
                 }
                 break;
-            case RELESE:
+            case RELEASE:
                 topPadding(topPadding);
                 if (space < headerHeight + 30) {
                     state = PULL;
-                    reflashViewByState();
+                    refreshViewByState();
                 } else if (space <= 0) {
                     state = NONE;
                     isRemark = false;
-                    reflashViewByState();
+                    refreshViewByState();
                 }
                 break;
         }
@@ -198,10 +194,10 @@ public class ReFlashListView extends ListView implements AbsListView.OnScrollLis
     /**
      * 根据当前状态，改变界面显示；
      */
-    private void reflashViewByState() {
-        TextView tip = (TextView) header.findViewById(R.id.tip);
-        ImageView arrow = (ImageView) header.findViewById(R.id.arrow);
-        ProgressBar progress = (ProgressBar) header.findViewById(R.id.progress);
+    private void refreshViewByState() {
+        TextView tip = header.findViewById(R.id.tip);
+        ImageView arrow = header.findViewById(R.id.arrow);
+        ProgressBar progress = header.findViewById(R.id.progress);
         RotateAnimation anim = new RotateAnimation(0, 180,
                 RotateAnimation.RELATIVE_TO_SELF, 0.5f,
                 RotateAnimation.RELATIVE_TO_SELF, 0.5f);
@@ -225,7 +221,7 @@ public class ReFlashListView extends ListView implements AbsListView.OnScrollLis
                 arrow.clearAnimation();
                 arrow.setAnimation(anim1);
                 break;
-            case RELESE:
+            case RELEASE:
                 arrow.setVisibility(View.VISIBLE);
                 progress.setVisibility(View.GONE);
                 tip.setText("松开可以刷新！");
@@ -245,19 +241,19 @@ public class ReFlashListView extends ListView implements AbsListView.OnScrollLis
     /**
      * 获取完数据；
      */
-    public void reflashComplete() {
+    public void refreshComplete() {
         state = NONE;
         isRemark = false;
-        reflashViewByState();
-        TextView lastupdatetime = (TextView) header
-                .findViewById(R.id.lastupdate_time);
+        refreshViewByState();
+        TextView lastUpdateTime = header
+                .findViewById(R.id.lastUpdateTime);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         String time = sdf.format(new java.util.Date());
-        lastupdatetime.setText(time);
+        lastUpdateTime.setText(time);
     }
 
-    public void setInterface(IReflashListener iReflashListener) {
-        this.iReflashListener = iReflashListener;
+    public void setInterface(IRefreshListener iRefreshListener) {
+        this.iRefreshListener = iRefreshListener;
     }
 
     /**
@@ -265,7 +261,7 @@ public class ReFlashListView extends ListView implements AbsListView.OnScrollLis
      *
      * @author Administrator
      */
-    public interface IReflashListener {
-        public void onReflash();
+    public interface IRefreshListener {
+        void onRefresh();
     }
 }

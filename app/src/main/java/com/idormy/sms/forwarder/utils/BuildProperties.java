@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+@SuppressWarnings("rawtypes")
 public class BuildProperties {
     private static BuildProperties ourInstance;
     private final Properties properties;

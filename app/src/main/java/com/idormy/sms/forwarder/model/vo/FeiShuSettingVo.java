@@ -9,9 +9,6 @@ public class FeiShuSettingVo implements Serializable {
     private String webhook;
     private String secret;
 
-    public FeiShuSettingVo() {
-    }
-
     public FeiShuSettingVo(String webhook, String secret) {
         this.webhook = webhook;
         this.secret = secret;

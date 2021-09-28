@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -11,13 +12,15 @@ public class NetUtil {
     //移动网络
     private static final int NETWORK_MOBILE = 1;
     //无线网络
-    private static final int NETWORW_WIFI = 2;
+    private static final int NETWORK_WIFI = 2;
 
     static Boolean hasInit = false;
+    @SuppressLint("StaticFieldLeak")
     static Context context;
 
 
     public static void init(Context context1) {
+        //noinspection SynchronizeOnNonFinalField
         synchronized (hasInit) {
             if (hasInit) return;
             hasInit = true;
@@ -37,7 +40,7 @@ public class NetUtil {
             if (activeNetworkInfo.getType() == (ConnectivityManager.TYPE_WIFI)) {
                 //返回无线网络
                 Toast.makeText(context, "当前处于无线网络", Toast.LENGTH_SHORT).show();
-                return NETWORW_WIFI;
+                return NETWORK_WIFI;
                 //判断是否移动网络
             } else if (activeNetworkInfo.getType() == (ConnectivityManager.TYPE_MOBILE)) {
                 Toast.makeText(context, "当前处于移动网络", Toast.LENGTH_SHORT).show();

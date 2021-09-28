@@ -1,5 +1,7 @@
 package com.idormy.sms.forwarder.model;
 
+import androidx.annotation.NonNull;
+
 import lombok.Data;
 
 @Data
@@ -17,6 +19,7 @@ public class LogModel {
         this.ruleId = ruleId;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "LogModel{" +
