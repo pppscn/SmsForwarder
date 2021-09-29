@@ -9,6 +9,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.2'
+        classpath 'com.chenenyu:img-optimizer:1.2.0'
     }
 }
 
