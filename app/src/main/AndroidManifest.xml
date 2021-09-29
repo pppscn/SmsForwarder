@@ -57,6 +57,12 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:label="关于">
+            <intent-filter>
                 <!--协议部分，随便设置-->
                 <data
                     android:scheme="forwarder"
@@ -67,9 +73,6 @@
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".AboutActivity"
-            android:label="关于" />
         <activity
             android:name=".SettingActivity"
             android:label="设置" />

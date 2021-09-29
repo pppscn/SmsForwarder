@@ -114,7 +114,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="更新日志" />
+                android:text="开源地址" />
 
             <TextView
                 android:id="@+id/linkweb"
@@ -123,7 +123,34 @@
                 android:layout_weight="3"
                 android:autoLink="web"
                 android:gravity="end"
-                android:text="https://github.com/pppscn/SmsForwarder/releases"
+                android:text="https://github.com/pppscn/SmsForwarder"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/about_web2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="同步镜像" />
+
+            <TextView
+                android:id="@+id/linkweb2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:autoLink="web"
+                android:gravity="end"
+                android:text="https://gitee.com/pp/SmsForwarder"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -146,22 +173,34 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="用户交流群" />
+                    android:text="互帮互助QQ群" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="562854376" />
+                    android:gravity="start"
+                    android:text="①群：562854376" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="②群：31330492" />
             </LinearLayout>
 
             <Button
-                android:id="@+id/join_qq_group"
+                android:id="@+id/join_qq_group1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="加入QQ群" />
+                android:text="加入①群" />
 
+            <Button
+                android:id="@+id/join_qq_group2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="加入②群" />
         </LinearLayout>
 
         <LinearLayout

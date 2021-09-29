@@ -159,13 +159,13 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
             builder.setMessage(logVo.getFrom() + "\n\n" + logVo.getContent() + "\n\n" + logVo.getRule() + "\n\n" + aUtil.utc2Local(logVo.getTime()) + "\n\nResponse：" + logVo.getForwardResponse());
         }
         //重发
-        builder.setPositiveButton("重发", (dialog, which) -> {
+        /*builder.setPositiveButton("重发", (dialog, which) -> {
             Long id = logVo.getId();
             Log.d(TAG, "id = " + id);
             Log.d(TAG, logVo.toString());
             Toast.makeText(MainActivity.this, "你确定要重发吗？", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
-        });
+        });*/
         //删除
         builder.setNegativeButton("删除", (dialog, which) -> {
             Long id = logVo.getId();

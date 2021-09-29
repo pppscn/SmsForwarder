@@ -97,9 +97,15 @@ public class AboutActivity extends AppCompatActivity {
             Toast.makeText(AboutActivity.this, "缓存清理完成", Toast.LENGTH_LONG).show();
         });
 
-        Button join_qq_group = findViewById(R.id.join_qq_group);
-        join_qq_group.setOnClickListener(v -> {
-            String key = "HvroJRfvK7GGfnQgaIQ4Rh1un9O83N7M";
+        Button join_qq_group1 = findViewById(R.id.join_qq_group1);
+        join_qq_group1.setOnClickListener(v -> {
+            String key = "Mj5m39bqy6eodOImrFLI19Tdeqvv-9zf";
+            joinQQGroup(key);
+        });
+
+        Button join_qq_group2 = findViewById(R.id.join_qq_group2);
+        join_qq_group2.setOnClickListener(v -> {
+            String key = "jPXy4YaUzA7Uo0yPPbZXdkb66NS1smU_";
             joinQQGroup(key);
         });
 
