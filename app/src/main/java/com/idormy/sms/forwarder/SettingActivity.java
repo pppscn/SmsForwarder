@@ -137,7 +137,7 @@ public class SettingActivity extends AppCompatActivity {
 
     //设置低电量报警值
     private void editBatteryLevelAlarm(final EditText et_battery_level_alarm) {
-        et_battery_level_alarm.setText(SettingUtil.getBatteryLevelAlarm());
+        et_battery_level_alarm.setText(String.valueOf(SettingUtil.getBatteryLevelAlarm()));
 
         et_battery_level_alarm.addTextChangedListener(new TextWatcher() {
             @Override
@@ -150,7 +150,7 @@ public class SettingActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                SettingUtil.setBatteryLevelAlarm(et_battery_level_alarm.getText().toString());
+                SettingUtil.setBatteryLevelAlarm(Integer.parseInt(et_battery_level_alarm.getText().toString()));
             }
         });
     }
@@ -158,7 +158,7 @@ public class SettingActivity extends AppCompatActivity {
 
     //接口请求失败重试
     private void editRetryDelayTime(final EditText et_retry_delay_time, final int index) {
-        et_retry_delay_time.setText(SettingUtil.getRetryDelayTime(index));
+        et_retry_delay_time.setText(String.valueOf(SettingUtil.getRetryDelayTime(index)));
 
         et_retry_delay_time.addTextChangedListener(new TextWatcher() {
             @Override

@@ -12,6 +12,9 @@ public class QYWXAppSettingVo implements Serializable {
     private String toUser;
     private Boolean atAll;
 
+    public QYWXAppSettingVo() {
+    }
+
     public QYWXAppSettingVo(String corpID, String agentID, String secret, String toUser, Boolean atAll) {
         this.corpID = corpID;
         this.agentID = agentID;

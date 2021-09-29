@@ -27,13 +27,13 @@ import com.idormy.sms.forwarder.utils.aUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements ReFlashListView.IRefreshListener {
+public class MainActivity extends AppCompatActivity implements RefreshListView.IRefreshListener {
 
     private final String TAG = "MainActivity";
     // logVoList用于存储数据
     private List<LogVo> logVos = new ArrayList<>();
     private LogAdapter adapter;
-    private ReFlashListView listView;
+    private RefreshListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

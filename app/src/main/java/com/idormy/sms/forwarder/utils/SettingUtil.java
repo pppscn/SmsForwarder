@@ -122,14 +122,14 @@ public class SettingUtil {
                 .apply();
     }
 
-    public static String getBatteryLevelAlarm() {
-        return sp_setting.getString(Define.SP_MSG_KEY_STRING_BATTERY_LEVEL_ALARM, "");
+    public static int getBatteryLevelAlarm() {
+        return sp_setting.getInt(Define.SP_MSG_KEY_STRING_BATTERY_LEVEL_ALARM, 0);
     }
 
-    public static void setBatteryLevelAlarm(String battery_level) {
+    public static void setBatteryLevelAlarm(int battery_level) {
         Log.d(TAG, "battery_level :" + battery_level);
         sp_setting.edit()
-                .putString(Define.SP_MSG_KEY_STRING_BATTERY_LEVEL_ALARM, battery_level)
+                .putInt(Define.SP_MSG_KEY_STRING_BATTERY_LEVEL_ALARM, battery_level)
                 .apply();
     }
 

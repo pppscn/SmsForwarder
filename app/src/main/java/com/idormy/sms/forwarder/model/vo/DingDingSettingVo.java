@@ -11,6 +11,9 @@ public class DingDingSettingVo implements Serializable {
     private String atMobiles;
     private Boolean atAll;
 
+    public DingDingSettingVo() {
+    }
+
     public DingDingSettingVo(String token, String secret, String atMobiles, Boolean atAll) {
         this.token = token;
         this.secret = secret;

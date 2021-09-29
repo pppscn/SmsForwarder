@@ -19,6 +19,9 @@ public class SmsVo implements Serializable {
     Date date;
     String simInfo;
 
+    public SmsVo() {
+    }
+
     public SmsVo(String mobile, String content, Date date, String simInfo) {
         this.mobile = mobile;
         this.content = content;

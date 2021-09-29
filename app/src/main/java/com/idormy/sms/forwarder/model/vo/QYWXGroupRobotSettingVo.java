@@ -8,6 +8,9 @@ import lombok.Data;
 public class QYWXGroupRobotSettingVo implements Serializable {
     private String webHook;
 
+    public QYWXGroupRobotSettingVo() {
+    }
+
     public QYWXGroupRobotSettingVo(String webHook) {
         this.webHook = webHook;
     }

@@ -14,6 +14,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
+@SuppressLint("TrustAllX509TrustManager")
 public class CertUtils {
 
     //获取这个SSLSocketFactory
@@ -31,12 +32,10 @@ public class CertUtils {
     private static TrustManager[] getTrustManager() {
         return new TrustManager[]{
                 new X509TrustManager() {
-                    @SuppressLint("TrustAllX509TrustManager")
                     @Override
                     public void checkClientTrusted(X509Certificate[] chain, String authType) {
                     }
 
-                    @SuppressLint("TrustAllX509TrustManager")
                     @Override
                     public void checkServerTrusted(X509Certificate[] chain, String authType) {
                     }
