@@ -150,7 +150,12 @@ public class SettingActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                SettingUtil.setBatteryLevelAlarm(Integer.parseInt(et_battery_level_alarm.getText().toString()));
+                String batteryLevel = et_battery_level_alarm.getText().toString();
+                if (!batteryLevel.isEmpty()) {
+                    SettingUtil.setBatteryLevelAlarm(Integer.parseInt(batteryLevel));
+                } else {
+                    SettingUtil.setBatteryLevelAlarm(0);
+                }
             }
         });
     }
@@ -171,7 +176,12 @@ public class SettingActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                SettingUtil.setRetryDelayTime(index, Integer.parseInt(et_retry_delay_time.getText().toString()));
+                String delayTime = et_retry_delay_time.getText().toString();
+                if (!delayTime.isEmpty()) {
+                    SettingUtil.setRetryDelayTime(index, Integer.parseInt(delayTime));
+                } else {
+                    SettingUtil.setRetryDelayTime(index, 0);
+                }
             }
         });
     }

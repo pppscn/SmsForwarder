@@ -114,7 +114,7 @@ void cmdExecute(String cmd) {
 
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
     testImplementation 'junit:junit:4.13.2'
@@ -128,11 +128,10 @@ dependencies {
     //fastjson
     implementation "com.alibaba:fastjson:1.2.78"
 
-    // 友盟统计SDK
-    //友盟基础组件库（所有友盟业务SDK都依赖基础组件库）
-    implementation 'com.umeng.umsdk:common:9.3.8'
-    implementation 'com.umeng.umsdk:asms:1.2.2'
-    implementation 'com.umeng.umsdk:abtest:1.0.0'
+    //友盟统计SDK
+    implementation 'com.umeng.umsdk:common:9.4.4'// 必选
+    implementation 'com.umeng.umsdk:asms:1.4.1'// 必选
+    implementation 'com.umeng.umsdk:apm:1.4.2' // 错误分析升级为独立SDK，看crash数据请一定集成，可选
 
     //XUpdate
     implementation 'com.github.xuexiangjys:XUpdate:2.1.0'
