@@ -11,7 +11,6 @@ import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,12 +46,17 @@ public class SenderFeishuMsg extends SenderBaseMsg {
 
         //签名校验
         if (secret != null && !secret.isEmpty()) {
-            Long timestamp = System.currentTimeMillis();
+            Long timestamp = System.currentTimeMillis() / 1000;
+            //把timestamp+"\n"+密钥当做签名字符串
             String stringToSign = timestamp + "\n" + secret;
+            Log.i(TAG, "stringToSign = " + stringToSign);
+
+            //使用HmacSHA256算法计算签名
             Mac mac = Mac.getInstance("HmacSHA256");
-            mac.init(new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
-            byte[] signData = mac.doFinal(stringToSign.getBytes(StandardCharsets.UTF_8));
-            String sign = URLEncoder.encode(new String(Base64.encode(signData, Base64.NO_WRAP)), "UTF-8");
+            mac.init(new SecretKeySpec(stringToSign.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
+            byte[] signData = mac.doFinal(new byte[]{});
+            String sign = new String(Base64.encode(signData, Base64.NO_WRAP));
+            
             textMsgMap.put("timestamp", timestamp);
             textMsgMap.put("sign", sign);
         }
