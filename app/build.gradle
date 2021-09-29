@@ -58,7 +58,7 @@ android {
         }
     }
     //apk file name
-/*    android.applicationVariants.all { variant ->
+    android.applicationVariants.all { variant ->
         variant.outputs.all {
             //def date = new Date().format("yyyyMMdd" , TimeZone.getTimeZone("Asia/Shanghai"))
             def date = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08"))
@@ -69,7 +69,7 @@ android {
                 outputFileName = "SmsForwarder_release_${date}_${versionName}.apk"
             }
         }
-    }*/
+    }
 }
 
 
@@ -129,9 +129,10 @@ dependencies {
     implementation "com.alibaba:fastjson:1.2.78"
 
     // 友盟统计SDK
-    implementation 'com.umeng.umsdk:common:9.4.4'// 必选
-    implementation 'com.umeng.umsdk:asms:1.4.1'// 必选
-    implementation 'com.umeng.umsdk:apm:1.4.2' // 错误分析升级为独立SDK，看crash数据请一定集成，可选
+    //友盟基础组件库（所有友盟业务SDK都依赖基础组件库）
+    implementation 'com.umeng.umsdk:common:9.3.8'
+    implementation 'com.umeng.umsdk:asms:1.2.2'
+    implementation 'com.umeng.umsdk:abtest:1.0.0'
 
     //XUpdate
     implementation 'com.github.xuexiangjys:XUpdate:2.1.0'

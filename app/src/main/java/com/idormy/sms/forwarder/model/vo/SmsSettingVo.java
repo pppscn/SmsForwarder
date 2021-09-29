@@ -12,6 +12,9 @@ public class SmsSettingVo implements Serializable {
     private String mobiles;
     private Boolean onlyNoNetwork;
 
+    public SmsSettingVo() {
+    }
+
     public SmsSettingVo(int simSlot, String mobiles, Boolean onlyNoNetwork) {
         this.simSlot = simSlot;
         this.mobiles = mobiles;

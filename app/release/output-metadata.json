@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "artifactType": {
     "type": "APK",
     "kind": "Directory"
@@ -10,9 +10,11 @@
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 25,
-      "versionName": "1.7.4",
-      "outputFile": "SmsForwarder_release_20210715_1.7.4.apk"
+      "attributes": [],
+      "versionCode": 26,
+      "versionName": "2.0.0",
+      "outputFile": "SmsForwarder_release_20210929_2.0.0.apk"
     }
-  ]
+  ],
+  "elementType": "File"
 }

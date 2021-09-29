@@ -14,6 +14,9 @@ public class EmailSettingVo implements Serializable {
     private String pwd;
     private String toEmail;
 
+    public EmailSettingVo() {
+    }
+
     public EmailSettingVo(String host, String port, Boolean ssl, String fromEmail, String nickname, String pwd, String toEmail) {
         this.host = host;
         this.port = port;

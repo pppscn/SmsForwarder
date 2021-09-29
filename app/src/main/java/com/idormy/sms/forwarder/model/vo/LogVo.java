@@ -16,6 +16,9 @@ public class LogVo {
     private int forwardStatus;
     private String forwardResponse;
 
+    public LogVo() {
+    }
+
     public LogVo(Long id, String from, String content, String simInfo, String time, String rule, int senderImageId, int forwardStatus, String forwardResponse) {
         this.id = id;
         this.from = from;

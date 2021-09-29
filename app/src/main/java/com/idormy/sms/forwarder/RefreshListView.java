@@ -22,8 +22,8 @@ import java.util.Locale;
  * 自定义listview
  */
 @SuppressWarnings({"CommentedOutCode", "unused"})
-public class ReFlashListView extends ListView implements AbsListView.OnScrollListener {
-    //private static final String TAG = "ReFlashListView";
+public class RefreshListView extends ListView implements AbsListView.OnScrollListener {
+    //private static final String TAG = "RefreshListView";
     final int NONE = 0;// 正常状态；
     final int PULL = 1;// 提示下拉状态；
     final int RELEASE = 2;// 提示释放状态；
@@ -37,19 +37,19 @@ public class ReFlashListView extends ListView implements AbsListView.OnScrollLis
     int state;// 当前的状态；
     IRefreshListener iRefreshListener;//刷新数据的接口
 
-    public ReFlashListView(Context context) {
+    public RefreshListView(Context context) {
         super(context);
         // TODO Auto-generated constructor stub
         initView(context);
     }
 
-    public ReFlashListView(Context context, AttributeSet attrs) {
+    public RefreshListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         // TODO Auto-generated constructor stub
         initView(context);
     }
 
-    public ReFlashListView(Context context, AttributeSet attrs, int defStyle) {
+    public RefreshListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         // TODO Auto-generated constructor stub
         initView(context);
