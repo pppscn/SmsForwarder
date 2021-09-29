@@ -15,7 +15,7 @@ public class SenderBaseMsg {
             Message msg = new Message();
             msg.what = NOTIFY;
             Bundle bundle = new Bundle();
-            bundle.putString("DATA", Tag + ":" + data);
+            bundle.putString("DATA", Tag + "-" + data);
             msg.setData(bundle);
             handError.sendMessage(msg);
         }
