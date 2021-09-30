@@ -18,8 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="测试模拟的接收卡槽" />
-
+                android:text="@string/test_sim_slot" />
 
             <RadioGroup
                 android:id="@+id/radioGroupTestSimSlot"
@@ -47,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="测试模拟的来源号码" />
+                android:text="@string/test_phone_number" />
 
 
             <EditText
@@ -64,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="测试模拟的短信内容" />
+                android:text="@string/test_msg_content" />
 
 
             <EditText

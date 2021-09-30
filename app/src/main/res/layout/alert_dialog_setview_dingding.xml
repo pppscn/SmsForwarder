@@ -19,7 +19,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置名称" />
+                android:text="@string/set_name" />
 
             <EditText
                 android:id="@+id/editTextDingdingName"
@@ -42,7 +42,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置Token 例如 https://oapi.dingtalk.com/robot/send?access_token=XXXXXX 中的 XXXXXX" />
+                android:text="@string/dingding_token" />
 
             <EditText
                 android:id="@+id/editTextDingdingToken"
@@ -65,7 +65,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="加签 Secret 没有可不填" />
+                android:text="@string/dingding_secret" />
 
             <EditText
                 android:id="@+id/editTextDingdingSecret"
@@ -87,7 +87,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="转发时@某人 填写某人的手机号，多个用逗号分开 例如：18888888888,19999999999" />
+                android:text="@string/dingding_at" />
 
             <EditText
                 android:id="@+id/editTextDingdingAtMobiles"
@@ -109,7 +109,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="是否@所有人" />
+                android:text="@string/is_at_all" />
 
             <Switch
                 android:id="@+id/switchDingdingAtAll"

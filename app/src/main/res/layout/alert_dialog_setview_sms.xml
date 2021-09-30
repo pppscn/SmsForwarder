@@ -19,7 +19,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置名称" />
+                android:text="@string/set_name" />
 
             <EditText
                 android:id="@+id/editTextSmsName"
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
-                android:text="发送卡槽" />
+                android:text="@string/SmsSimSlot" />
 
             <RadioGroup
                 android:id="@+id/radioGroupSmsSimSlot"
@@ -56,7 +56,7 @@
                     android:id="@+id/btnSmsSimSlotOrg"
                     style="@style/rg_rb_style"
                     android:checked="true"
-                    android:text="原进原出" />
+                    android:text="@string/same_source" />
 
                 <RadioButton
                     android:id="@+id/btnSmsSimSlot1"
@@ -82,7 +82,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="接收手机，多个号码以半角分号分隔，例如：15888888888;19999999999" />
+                android:text="@string/SmsMobiles" />
 
             <EditText
                 android:id="@+id/editTextSmsMobiles"
@@ -104,7 +104,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="仅当无网络时启用" />
+                android:text="@string/OnlyNoNetwork" />
 
             <Switch
                 android:id="@+id/switchSmsOnlyNoNetwork"

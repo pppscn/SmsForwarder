@@ -61,7 +61,7 @@
         </activity>
         <activity
             android:name=".AboutActivity"
-            android:label="关于">
+            android:label="@string/about">
             <intent-filter>
                 <!--协议部分，随便设置-->
                 <data
@@ -75,13 +75,13 @@
         </activity>
         <activity
             android:name=".SettingActivity"
-            android:label="设置" />
+            android:label="@string/setting" />
         <activity
             android:name=".RuleActivity"
-            android:label="转发规则" />
+            android:label="@string/rule_setting" />
         <activity
             android:name=".SenderActivity"
-            android:label="发送方" />
+            android:label="@string/sender_setting" />
 
         <receiver
             android:name=".receiver.RebootBroadcastReceiver"
@@ -110,7 +110,6 @@
         </receiver>
 
         <service android:name=".service.FrontService" />
-        <service android:name=".service.BatteryService" />
     </application>
 
 </manifest>

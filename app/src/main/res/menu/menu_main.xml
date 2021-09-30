@@ -5,12 +5,12 @@
     <item
         android:id="@+id/to_setting"
         android:orderInCategory="100"
-        android:title="@string/to_setting"
+        android:title="@string/setting"
         app:showAsAction="never" />
     <item
         android:id="@+id/to_about"
         android:orderInCategory="100"
-        android:title="@string/to_about"
+        android:title="@string/about"
         app:showAsAction="never" />
 
 </menu>

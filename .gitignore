@@ -17,3 +17,4 @@ gradle.properties
 /psd
 /keystore/keystore.properties
 /app/release
+/keystore

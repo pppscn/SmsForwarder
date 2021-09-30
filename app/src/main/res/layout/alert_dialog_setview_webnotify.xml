@@ -18,7 +18,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置名称" />
+                android:text="@string/set_name" />
 
             <EditText
                 android:id="@+id/editTextWebNotifyName"
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
-                android:text="请求方式" />
+                android:text="@string/WebNotifyMethod" />
 
             <RadioGroup
                 android:id="@+id/radioGroupWebNotifyMethod"
@@ -78,7 +78,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置WebServer：例如：https://a.b.com/msg?token=xyz" />
+                android:text="@string/WebNotifyWebServer" />
 
             <EditText
                 android:id="@+id/editTextWebNotifyWebServer"
@@ -100,7 +100,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='设置WebParams：例如：payload=%7B%22text%22%3A%22[msg]%22%7D [msg]将被替换成短信内容。\n支持Json格式，例如：{"text":[msg]}。\n注意：除JSON格式外，msg会自动进行UTF-8编码' />
+                android:text='@string/WebNotifyWebParams' />
 
             <EditText
                 android:id="@+id/editTextWebNotifyWebParams"
@@ -122,7 +122,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置Secret:置空则不计算sign" />
+                android:text="@string/WebNotifySecret" />
 
             <EditText
                 android:id="@+id/editTextWebNotifySecret"

@@ -58,7 +58,7 @@ android {
         }
     }
     //apk file name
-    android.applicationVariants.all { variant ->
+    /*android.applicationVariants.all { variant ->
         variant.outputs.all {
             //def date = new Date().format("yyyyMMdd" , TimeZone.getTimeZone("Asia/Shanghai"))
             def date = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08"))
@@ -69,7 +69,7 @@ android {
                 outputFileName = "SmsForwarder_release_${date}_${versionName}.apk"
             }
         }
-    }
+    }*/
 }
 
 

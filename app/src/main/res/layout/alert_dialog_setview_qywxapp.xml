@@ -20,7 +20,7 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="设置名称"
+                android:text="@string/set_name"
                 android:textStyle="bold" />
 
             <EditText
@@ -44,7 +44,7 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="企业ID"
+                android:text="@string/Corp_ID"
                 android:textStyle="bold" />
 
             <EditText
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:inputType="text"
-                android:text="@string/wechat_id"
+                android:text=""
                 android:autofillHints="" />
         </LinearLayout>
 
@@ -68,7 +68,7 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="AgentID"
+                android:text="@string/Agent_ID"
                 android:textStyle="bold" />
 
             <EditText
@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:inputType="text"
-                android:text="@string/Agent_ID"
+                android:text=""
                 android:autofillHints="" />
         </LinearLayout>
 
@@ -93,7 +93,7 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="Secret"
+                android:text="@string/App_Secret"
                 android:textStyle="bold" />
 
             <EditText
@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:inputType="textPassword"
-                android:text="@string/App_Secret"
+                android:text=""
                 android:autofillHints="" />
         </LinearLayout>
 
@@ -117,7 +117,7 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="是否@all"
+                android:text="@string/is_at_all"
                 android:textStyle="bold" />
 
             <Switch
@@ -145,7 +145,7 @@
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="指定成员"
+                    android:text="@string/specified_member"
                     android:textStyle="bold" />
 
                 <EditText
@@ -163,7 +163,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="Tip：指定接收消息的成员，成员ID列表（多个接收者用‘|’分隔，最多支持1000个）" />
+                android:text="@string/specified_member_tips" />
         </LinearLayout>
 
         <LinearLayout

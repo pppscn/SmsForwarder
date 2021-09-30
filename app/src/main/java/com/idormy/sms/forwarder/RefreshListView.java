@@ -217,14 +217,14 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
             case PULL:
                 arrow.setVisibility(View.VISIBLE);
                 progress.setVisibility(View.GONE);
-                tip.setText("下拉可以刷新！");
+                tip.setText(R.string.pull_tips);
                 arrow.clearAnimation();
                 arrow.setAnimation(anim1);
                 break;
             case RELEASE:
                 arrow.setVisibility(View.VISIBLE);
                 progress.setVisibility(View.GONE);
-                tip.setText("松开可以刷新！");
+                tip.setText(R.string.release_tips);
                 arrow.clearAnimation();
                 arrow.setAnimation(anim);
                 break;
@@ -232,7 +232,7 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
                 topPadding(50);
                 arrow.setVisibility(View.GONE);
                 progress.setVisibility(View.VISIBLE);
-                tip.setText("正在刷新...");
+                tip.setText(R.string.reflashing_tips);
                 arrow.clearAnimation();
                 break;
         }

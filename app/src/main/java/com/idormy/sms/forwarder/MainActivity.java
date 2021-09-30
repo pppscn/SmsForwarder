@@ -83,21 +83,21 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
 
             //定义AlertDialog.Builder对象，当长按列表项的时候弹出确认删除对话框
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setMessage("确定删除?");
-            builder.setTitle("提示");
+            builder.setTitle(R.string.delete_log_title);
+            builder.setMessage(R.string.delete_log_tips);
 
             //添加AlertDialog.Builder对象的setPositiveButton()方法
-            builder.setPositiveButton("确定", (dialog, which) -> {
+            builder.setPositiveButton(R.string.confirm, (dialog, which) -> {
                 Long id1 = logVos.get(position - 1).getId();
                 Log.d(TAG, "id = " + id1);
                 LogUtil.delLog(id1, null);
                 initTLogs(); //初始化数据
                 showList(logVos);
-                Toast.makeText(getBaseContext(), "删除列表项", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), R.string.delete_log_toast, Toast.LENGTH_SHORT).show();
             });
 
             //添加AlertDialog.Builder对象的setNegativeButton()方法
-            builder.setNegativeButton("取消", (dialog, which) -> {
+            builder.setNegativeButton(R.string.cancel, (dialog, which) -> {
             });
 
             builder.create().show();
@@ -151,29 +151,21 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
 
     public void logDetail(LogVo logVo) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("详情");
+        builder.setTitle(R.string.details);
         String simInfo = logVo.getSimInfo();
         if (simInfo != null) {
             builder.setMessage(logVo.getFrom() + "\n\n" + logVo.getContent() + "\n\n" + logVo.getSimInfo() + "\n\n" + logVo.getRule() + "\n\n" + aUtil.utc2Local(logVo.getTime()) + "\n\nResponse：" + logVo.getForwardResponse());
         } else {
             builder.setMessage(logVo.getFrom() + "\n\n" + logVo.getContent() + "\n\n" + logVo.getRule() + "\n\n" + aUtil.utc2Local(logVo.getTime()) + "\n\nResponse：" + logVo.getForwardResponse());
         }
-        //重发
-        /*builder.setPositiveButton("重发", (dialog, which) -> {
-            Long id = logVo.getId();
-            Log.d(TAG, "id = " + id);
-            Log.d(TAG, logVo.toString());
-            Toast.makeText(MainActivity.this, "你确定要重发吗？", Toast.LENGTH_SHORT).show();
-            dialog.dismiss();
-        });*/
         //删除
-        builder.setNegativeButton("删除", (dialog, which) -> {
+        builder.setNegativeButton(R.string.del, (dialog, which) -> {
             Long id = logVo.getId();
             Log.d(TAG, "id = " + id);
             LogUtil.delLog(id, null);
             initTLogs(); //初始化数据
             showList(logVos);
-            Toast.makeText(MainActivity.this, "已删除该条记录", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, R.string.delete_log_toast, Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });
         builder.show();
@@ -201,8 +193,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
 
     public void cleanLog(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("确定要清空转发记录吗？")
-                .setPositiveButton("清空", (dialog, which) -> {
+        builder.setTitle(R.string.clear_logs_tips)
+                .setPositiveButton(R.string.confirm, (dialog, which) -> {
                     // TODO Auto-generated method stub
                     LogUtil.delLog(null, null);
                     initTLogs();

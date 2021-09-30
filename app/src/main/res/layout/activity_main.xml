@@ -40,11 +40,11 @@
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"
                 android:onClick="cleanLog"
-                android:text="清空记录"
+                android:text="@string/bt_refresh_log"
                 tools:ignore="NestedWeights" />
 
             <Button
-                android:id="@+id/bt_rule_set"
+                android:id="@+id/rule_setting"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginStart="10dp"
@@ -53,11 +53,11 @@
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"
                 android:onClick="toRuleSetting"
-                android:text="设置转发规则"
+                android:text="@string/rule_setting"
                 tools:ignore="NestedWeights" />
 
             <Button
-                android:id="@+id/bt_send_set"
+                android:id="@+id/sender_setting"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
@@ -67,7 +67,7 @@
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"
                 android:onClick="toSendSetting"
-                android:text="设置发送方" />
+                android:text="@string/sender_setting" />
         </LinearLayout>
     </LinearLayout>
 

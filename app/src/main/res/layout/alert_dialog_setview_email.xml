@@ -19,7 +19,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置名称" />
+                android:text="@string/set_name" />
 
             <EditText
                 android:id="@+id/editTextEmailName"
@@ -42,7 +42,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="发件服务器" />
+                android:text="@string/email_host" />
 
             <EditText
                 android:id="@+id/editTextEmailHost"
@@ -65,7 +65,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SMTP端口" />
+                android:text="@string/smtp_port" />
 
             <EditText
                 android:id="@+id/editTextEmailPort"
@@ -80,7 +80,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="开启SSL" />
+                android:text="@string/enable_ssl" />
 
             <Switch
                 android:id="@+id/switchEmailSSl"
@@ -100,7 +100,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="发件人帐号" />
+                android:text="@string/email_account" />
 
             <EditText
                 android:id="@+id/editTextEmailFromAdd"
@@ -123,7 +123,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="发件人昵称" />
+                android:text="@string/email_nickname" />
 
             <EditText
                 android:id="@+id/editTextEmailNickname"
@@ -146,7 +146,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="登录密码/授权码" />
+                android:text="@string/email_password" />
 
             <EditText
                 android:id="@+id/editTextEmailPsw"
@@ -169,7 +169,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="收件地址" />
+                android:text="@string/email_to" />
 
             <EditText
                 android:id="@+id/editTextEmailToAdd"
