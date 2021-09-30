@@ -27,7 +27,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="当前版本" />
+                    android:text="@string/version" />
 
                 <TextView
                     android:id="@+id/version_now"
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="检查新版本" />
+                android:text="@string/check_for_updates" />
 
         </LinearLayout>
 
@@ -60,7 +60,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="开机启动" />
+                android:text="@string/auto_startup" />
 
             <Switch
                 android:id="@+id/switch_with_reboot"
@@ -87,7 +87,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="页面帮助提示" />
+                android:text="@string/show_tips" />
 
             <Switch
                 android:id="@+id/switch_help_tip"
@@ -114,7 +114,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="开源地址" />
+                android:text="@string/open_source" />
 
             <TextView
                 android:id="@+id/linkweb"
@@ -141,7 +141,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="同步镜像" />
+                android:text="@string/synchronize_mirror" />
 
             <TextView
                 android:id="@+id/linkweb2"
@@ -173,19 +173,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="互帮互助QQ群" />
+                    android:text="@string/qq_group" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="start"
-                    android:text="①群：562854376" />
+                    android:text="@string/qq_group1" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="start"
-                    android:text="②群：31330492" />
+                    android:text="@string/qq_group2" />
             </LinearLayout>
 
             <Button
@@ -193,14 +193,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="加入①群" />
+                android:text="@string/join_qq_group1" />
 
             <Button
                 android:id="@+id/join_qq_group2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="加入②群" />
+                android:text="@string/join_qq_group2" />
         </LinearLayout>
 
         <LinearLayout
@@ -221,7 +221,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="缓存大小" />
+                    android:text="@string/cache" />
 
                 <TextView
                     android:id="@+id/cache_size"
@@ -236,7 +236,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="清除缓存" />
+                android:text="@string/purge" />
 
         </LinearLayout>
 

@@ -18,7 +18,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置名称" />
+                android:text="@string/set_name" />
 
             <EditText
                 android:id="@+id/editTextTelegramName"
@@ -41,7 +41,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置Telegram机器人的ApiToken" />
+                android:text="@string/TelegramApiToken" />
 
             <EditText
                 android:id="@+id/editTextTelegramApiToken"
@@ -63,7 +63,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置被通知人(或群组)的ChatId" />
+                android:text="@string/TelegramChatId" />
 
             <EditText
                 android:id="@+id/editTextTelegramChatId"

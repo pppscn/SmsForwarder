@@ -88,20 +88,19 @@ public class RuleActivity extends AppCompatActivity {
         listView.setOnItemLongClickListener((parent, view, position, id) -> {
             //定义AlertDialog.Builder对象，当长按列表项的时候弹出确认删除对话框
             AlertDialog.Builder builder = new AlertDialog.Builder(RuleActivity.this);
-
-            builder.setMessage("确定删除?");
-            builder.setTitle("提示");
+            builder.setTitle(R.string.delete_rule_title);
+            builder.setMessage(R.string.delete_rule_tips);
 
             //添加AlertDialog.Builder对象的setPositiveButton()方法
-            builder.setPositiveButton("确定", (dialog, which) -> {
+            builder.setPositiveButton(R.string.confirm, (dialog, which) -> {
                 RuleUtil.delRule(ruleModels.get(position).getId());
                 initRules();
                 adapter.del(ruleModels);
-                Toast.makeText(getBaseContext(), "删除列表项", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), R.string.delete_rule_toast, Toast.LENGTH_SHORT).show();
             });
 
             //添加AlertDialog.Builder对象的setNegativeButton()方法
-            builder.setNegativeButton("取消", (dialog, which) -> {
+            builder.setNegativeButton(R.string.cancel, (dialog, which) -> {
 
             });
 
@@ -219,7 +218,7 @@ public class RuleActivity extends AppCompatActivity {
         buttonRuleTest.setOnClickListener(view -> {
             Object senderId = ruleSenderTv.getTag();
             if (senderId == null) {
-                Toast.makeText(RuleActivity.this, "请先创建选择发送方", Toast.LENGTH_LONG).show();
+                Toast.makeText(RuleActivity.this, R.string.new_sender_first, Toast.LENGTH_LONG).show();
             } else {
                 int radioGroupRuleCheckId = Math.max(radioGroupRuleCheck.getCheckedRadioButtonId(), radioGroupRuleCheck2.getCheckedRadioButtonId());
                 if (ruleModel == null) {
@@ -331,7 +330,7 @@ public class RuleActivity extends AppCompatActivity {
     public void selectSender(final TextView showTv) {
         final List<SenderModel> senderModels = SenderUtil.getSender(null, null);
         if (senderModels.isEmpty()) {
-            Toast.makeText(RuleActivity.this, "请先去设置发送方页面添加", Toast.LENGTH_SHORT).show();
+            Toast.makeText(RuleActivity.this, R.string.add_sender_first, Toast.LENGTH_SHORT).show();
             return;
         }
         final CharSequence[] senderNames = new CharSequence[senderModels.size()];
@@ -339,7 +338,7 @@ public class RuleActivity extends AppCompatActivity {
             senderNames[i] = senderModels.get(i).getName();
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(RuleActivity.this);
-        builder.setTitle("选择发送方");
+        builder.setTitle(R.string.select_sender);
         //添加列表
         builder.setItems(senderNames, (dialogInterface, which) -> {
             Toast.makeText(RuleActivity.this, senderNames[which], Toast.LENGTH_LONG).show();
@@ -356,7 +355,7 @@ public class RuleActivity extends AppCompatActivity {
         final EditText editTextTestMsgContent = view.findViewById(R.id.editTextTestMsgContent);
         Button buttonRuleTest = view.findViewById(R.id.buttonRuleTest);
         AlertDialog.Builder ad1 = new AlertDialog.Builder(RuleActivity.this);
-        ad1.setTitle("测试规则");
+        ad1.setTitle(R.string.rule_tester);
         ad1.setIcon(android.R.drawable.ic_dialog_email);
         ad1.setView(view);
         buttonRuleTest.setOnClickListener(v -> {

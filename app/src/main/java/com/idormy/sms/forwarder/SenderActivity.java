@@ -143,7 +143,7 @@ public class SenderActivity extends AppCompatActivity {
                     setFeiShu(senderModel);
                     break;
                 default:
-                    Toast.makeText(SenderActivity.this, "异常的发送方类型，自动删除！", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SenderActivity.this, R.string.invalid_sender, Toast.LENGTH_LONG).show();
                     SenderUtil.delSender(senderModel.getId());
                     initSenders();
                     adapter.del(senderModels);
@@ -155,20 +155,19 @@ public class SenderActivity extends AppCompatActivity {
         listView.setOnItemLongClickListener((parent, view, position, id) -> {
             //定义AlertDialog.Builder对象，当长按列表项的时候弹出确认删除对话框
             AlertDialog.Builder builder = new AlertDialog.Builder(SenderActivity.this);
-
-            builder.setMessage("确定删除?");
-            builder.setTitle("提示");
+            builder.setTitle(R.string.delete_sender_title);
+            builder.setMessage(R.string.delete_sender_tips);
 
             //添加AlertDialog.Builder对象的setPositiveButton()方法
-            builder.setPositiveButton("确定", (dialog, which) -> {
+            builder.setPositiveButton(R.string.confirm, (dialog, which) -> {
                 SenderUtil.delSender(senderModels.get(position).getId());
                 initSenders();
                 adapter.del(senderModels);
-                Toast.makeText(getBaseContext(), "删除列表项", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), R.string.delete_sender_toast, Toast.LENGTH_SHORT).show();
             });
 
             //添加AlertDialog.Builder对象的setNegativeButton()方法
-            builder.setNegativeButton("取消", (dialog, which) -> {
+            builder.setNegativeButton(R.string.cancel, (dialog, which) -> {
 
             });
 
@@ -184,7 +183,7 @@ public class SenderActivity extends AppCompatActivity {
 
     public void addSender(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(SenderActivity.this);
-        builder.setTitle("选择发送方类型");
+        builder.setTitle(R.string.add_sender_title);
         //添加列表
         builder.setItems(R.array.add_sender_menu, (dialogInterface, which) -> {
             switch (which) {
@@ -219,7 +218,7 @@ public class SenderActivity extends AppCompatActivity {
                     setFeiShu(null);
                     break;
                 default:
-                    Toast.makeText(SenderActivity.this, "暂不支持这种转发！", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SenderActivity.this, R.string.not_supported, Toast.LENGTH_LONG).show();
                     break;
             }
         });
@@ -282,7 +281,6 @@ public class SenderActivity extends AppCompatActivity {
                 SenderUtil.addSender(newSenderModel);
                 initSenders();
                 adapter.add(senderModels);
-//                    adapter.add(newSenderModel);
             } else {
                 senderModel.setName(editTextDingdingName.getText().toString());
                 senderModel.setType(TYPE_DINGDING);
@@ -296,7 +294,6 @@ public class SenderActivity extends AppCompatActivity {
                 SenderUtil.updateSender(senderModel);
                 initSenders();
                 adapter.update(senderModels);
-//                    adapter.update(senderModel,position);
             }
 
 
@@ -309,8 +306,6 @@ public class SenderActivity extends AppCompatActivity {
                 SenderUtil.delSender(senderModel.getId());
                 initSenders();
                 adapter.del(senderModels);
-//                    adapter.del(position);
-
             }
             show.dismiss();
         });
@@ -321,13 +316,13 @@ public class SenderActivity extends AppCompatActivity {
             Boolean atAll = switchDingdingAtAll.isChecked();
             if (!token.isEmpty()) {
                 try {
-                    SenderDingdingMsg.sendMsg(0, handler, token, secret, atMobiles, atAll, "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                    SenderDingdingMsg.sendMsg(0, handler, token, secret, atMobiles, atAll, R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                 } catch (Exception e) {
-                    Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             } else {
-                Toast.makeText(SenderActivity.this, "token 不能为空", Toast.LENGTH_LONG).show();
+                Toast.makeText(SenderActivity.this, R.string.invalid_token, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -441,13 +436,13 @@ public class SenderActivity extends AppCompatActivity {
 
             if (!host.isEmpty() && !port.isEmpty() && !fromEmail.isEmpty() && !pwd.isEmpty() && !toEmail.isEmpty()) {
                 try {
-                    SenderMailMsg.sendEmail(0, handler, host, port, ssl, fromEmail, nickname, pwd, toEmail, "SmsForwarder Title", "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                    SenderMailMsg.sendEmail(0, handler, host, port, ssl, fromEmail, nickname, pwd, toEmail, "SmsForwarder Title", R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                 } catch (Exception e) {
-                    Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             } else {
-                Toast.makeText(SenderActivity.this, "邮箱参数不完整", Toast.LENGTH_LONG).show();
+                Toast.makeText(SenderActivity.this, R.string.invalid_email, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -523,13 +518,13 @@ public class SenderActivity extends AppCompatActivity {
             String barkServer = editTextBarkServer.getText().toString();
             if (!barkServer.isEmpty()) {
                 try {
-                    SenderBarkMsg.sendMsg(0, handler, barkServer, "19999999999", "【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服", "测试分组");
+                    SenderBarkMsg.sendMsg(0, handler, barkServer, getString(R.string.test_phone_num), getString(R.string.test_sms), getString(R.string.test_group_name));
                 } catch (Exception e) {
-                    Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             } else {
-                Toast.makeText(SenderActivity.this, "bark-server 不能为空", Toast.LENGTH_LONG).show();
+                Toast.makeText(SenderActivity.this, R.string.invalid_bark_server, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -606,13 +601,13 @@ public class SenderActivity extends AppCompatActivity {
             String serverChanServer = editTextServerChanSendKey.getText().toString();
             if (!serverChanServer.isEmpty()) {
                 try {
-                    SenderServerChanMsg.sendMsg(0, handler, serverChanServer, "19999999999", "【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服");
+                    SenderServerChanMsg.sendMsg(0, handler, serverChanServer, getString(R.string.test_phone_num), getString(R.string.test_sms));
                 } catch (Exception e) {
-                    Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             } else {
-                Toast.makeText(SenderActivity.this, "Server酱·Turbo版的 SendKey 不能为空", Toast.LENGTH_LONG).show();
+                Toast.makeText(SenderActivity.this, R.string.invalid_sendkey, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -693,13 +688,13 @@ public class SenderActivity extends AppCompatActivity {
             String method = radioGroupWebNotifyMethod.getCheckedRadioButtonId() == R.id.radioWebNotifyMethodGet ? "GET" : "POST";
             if (!webServer.isEmpty()) {
                 try {
-                    SenderWebNotifyMsg.sendMsg(0, handler, webServer, webParams, secret, method, "SmsForwarder Title", "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                    SenderWebNotifyMsg.sendMsg(0, handler, webServer, webParams, secret, method, "SmsForwarder Title", R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                 } catch (Exception e) {
-                    Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             } else {
-                Toast.makeText(SenderActivity.this, "WebServer 不能为空", Toast.LENGTH_LONG).show();
+                Toast.makeText(SenderActivity.this, R.string.invalid_webserver, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -777,13 +772,13 @@ public class SenderActivity extends AppCompatActivity {
             String webHook = editTextQYWXGroupRobotWebHook.getText().toString();
             if (!webHook.isEmpty()) {
                 try {
-                    SenderQyWxGroupRobotMsg.sendMsg(0, handler, webHook, "SmsForwarder Title", "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                    SenderQyWxGroupRobotMsg.sendMsg(0, handler, webHook, "SmsForwarder Title", R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                 } catch (Exception e) {
-                    Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             } else {
-                Toast.makeText(SenderActivity.this, "webHook 不能为空", Toast.LENGTH_LONG).show();
+                Toast.makeText(SenderActivity.this, R.string.invalid_webhook, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -842,7 +837,7 @@ public class SenderActivity extends AppCompatActivity {
         buttonQYWXAppOk.setOnClickListener(view -> {
             String toUser = editTextQYWXAppToUser.getText().toString();
             if (toUser.isEmpty()) {
-                Toast.makeText(SenderActivity.this, "指定成员 不能为空 或者 选择@all", Toast.LENGTH_LONG).show();
+                Toast.makeText(SenderActivity.this, R.string.invalid_at_mobiles, Toast.LENGTH_LONG).show();
                 editTextQYWXAppToUser.setFocusable(true);
                 editTextQYWXAppToUser.requestFocus();
                 return;
@@ -897,13 +892,13 @@ public class SenderActivity extends AppCompatActivity {
             //Boolean atAll = switchQYWXAppAtAll.isChecked();
             if (!toUser.isEmpty()) {
                 try {
-                    SenderQyWxAppMsg.sendMsg(0, handler, cropID, agentID, secret, toUser, "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())), true);
+                    SenderQyWxAppMsg.sendMsg(0, handler, cropID, agentID, secret, toUser, R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())), true);
                 } catch (Exception e) {
-                    Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             } else {
-                Toast.makeText(SenderActivity.this, "指定成员 不能为空 或者 选择@all", Toast.LENGTH_LONG).show();
+                Toast.makeText(SenderActivity.this, R.string.invalid_at_mobiles, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -986,13 +981,13 @@ public class SenderActivity extends AppCompatActivity {
             String chatId = editTextTelegramChatId.getText().toString();
             if (!apiToken.isEmpty() && !chatId.isEmpty()) {
                 try {
-                    SenderTelegramMsg.sendMsg(0, handler, apiToken, chatId, "19999999999", "【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服");
+                    SenderTelegramMsg.sendMsg(0, handler, apiToken, chatId, getString(R.string.test_phone_num), getString(R.string.test_sms));
                 } catch (Exception e) {
-                    Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             } else {
-                Toast.makeText(SenderActivity.this, "机器人的ApiToken 和 被通知人的ChatId 都不能为空", Toast.LENGTH_LONG).show();
+                Toast.makeText(SenderActivity.this, R.string.invalid_apiToken_or_chatId, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -1082,13 +1077,13 @@ public class SenderActivity extends AppCompatActivity {
             Boolean onlyNoNetwork = switchSmsOnlyNoNetwork.isChecked();
             if (!mobiles.isEmpty()) {
                 try {
-                    SenderSmsMsg.sendMsg(0, handler, simSlot, mobiles, onlyNoNetwork, "19999999999", "【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服");
+                    SenderSmsMsg.sendMsg(0, handler, simSlot, mobiles, onlyNoNetwork, getString(R.string.test_phone_num), getString(R.string.test_sms));
                 } catch (Exception e) {
-                    Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             } else {
-                Toast.makeText(SenderActivity.this, "接收手机号不能为空", Toast.LENGTH_LONG).show();
+                Toast.makeText(SenderActivity.this, R.string.invalid_phone_num, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -1169,13 +1164,13 @@ public class SenderActivity extends AppCompatActivity {
             String secret = editTextFeishuSecret.getText().toString();
             if (!token.isEmpty()) {
                 try {
-                    SenderFeishuMsg.sendMsg(0, handler, token, secret, "测试内容(content)@" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                    SenderFeishuMsg.sendMsg(0, handler, token, secret, getString(R.string.test_content) + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                 } catch (Exception e) {
-                    Toast.makeText(SenderActivity.this, "发送失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             } else {
-                Toast.makeText(SenderActivity.this, "token 不能为空", Toast.LENGTH_LONG).show();
+                Toast.makeText(SenderActivity.this, R.string.invalid_webhook, Toast.LENGTH_LONG).show();
             }
         });
     }

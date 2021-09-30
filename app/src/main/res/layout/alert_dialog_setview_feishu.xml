@@ -18,7 +18,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置名称" />
+                android:text="@string/set_name" />
 
             <EditText
                 android:id="@+id/editTextFeishuName"
@@ -41,7 +41,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置 Webhook 地址" />
+                android:text="@string/feishu_webhook" />
 
             <EditText
                 android:id="@+id/editTextFeishuWebhook"
@@ -64,7 +64,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="加签 Secret 没有可不填" />
+                android:text="@string/feishu_secret" />
 
             <EditText
                 android:id="@+id/editTextFeishuSecret"

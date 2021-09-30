@@ -63,14 +63,14 @@ public class AboutActivity extends AppCompatActivity {
                             @Override
                             public void onBeforeCheck() {
                                 super.onBeforeCheck();
-                                Toast.makeText(AboutActivity.this, "查询中...", Toast.LENGTH_LONG).show();
+                                Toast.makeText(AboutActivity.this, R.string.checking, Toast.LENGTH_LONG).show();
                             }
 
                             @Override
                             public void noNewVersion(Throwable throwable) {
                                 super.noNewVersion(throwable);
                                 // 没有最新版本的处理
-                                Toast.makeText(AboutActivity.this, "已是最新版本！", Toast.LENGTH_LONG).show();
+                                Toast.makeText(AboutActivity.this, R.string.up_to_date, Toast.LENGTH_LONG).show();
                             }
                         })
                         .update();
@@ -94,7 +94,7 @@ public class AboutActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            Toast.makeText(AboutActivity.this, "缓存清理完成", Toast.LENGTH_LONG).show();
+            Toast.makeText(AboutActivity.this, R.string.cache_purged, Toast.LENGTH_LONG).show();
         });
 
         Button join_qq_group1 = findViewById(R.id.join_qq_group1);
@@ -150,7 +150,7 @@ public class AboutActivity extends AppCompatActivity {
             startActivity(intent);
         } catch (Exception e) {
             // 未安装手Q或安装的版本不支持
-            Toast.makeText(AboutActivity.this, "未安装手Q或安装的版本不支持！", Toast.LENGTH_LONG).show();
+            Toast.makeText(AboutActivity.this, R.string.unknown_qq_version, Toast.LENGTH_LONG).show();
         }
     }
 

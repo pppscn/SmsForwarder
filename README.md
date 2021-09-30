@@ -57,11 +57,12 @@
 - [x] 支持标注卡槽号码(优先使用)、设备信息；自定义转发信息模版
 - [x] 支持正则匹配规则
 - [x] 支持卡槽匹配规则
-- [x] 来电提醒转发
+- [x] 转发未接来电提醒
 - [x] 接口请求失败后延时重试5次（可配置间隔时间）
 - [x] 转发到飞书机器人
 - [x] 自定义 Scheme（forwarder://main）用于唤起App
 - [x] 低电量预警
+- [x] 多语言支持（目前：中文、英文）
 
 ### 使用流程：
 
@@ -192,32 +193,32 @@
 
 ## 更新记录：（PS.点击版本号下载对应的版本）
 
-+ [v1.0.0](app/release/SmsForwarder_release_20210213_1.0.0.apk) 优化后第一版
-+ [v1.1.0](app/release/SmsForwarder_release_20210214_1.1.0.apk) 新增在线升级、缓存清理、加入QQ群功能
-    + [v1.1.1](app/release/SmsForwarder_release_20210215_1.1.1.apk) 更新应用/通知栏图标
-    + [v1.1.2](app/release/SmsForwarder_release_20210218_1.1.2.apk) 获取系统(ROM)类别及版本号，MIUI通知栏显示标题
-    + [v1.1.3](app/release/SmsForwarder_release_20210218_1.1.3.apk) AlertDialog增加滚动条，避免参数过长时无法点击按钮
-+ [v1.2.0](app/release/SmsForwarder_release_20210219_1.2.0.apk) 重写SMTP邮件发送（推荐升级）
-    + [v1.2.1](app/release/SmsForwarder_release_20210226_1.2.1.apk) 修复bark-server升级到2.0后的兼容性问题
-    + [v1.2.2](app/release/SmsForwarder_release_20210302_1.2.2.apk) 【预发布】短信模板增加卡槽标识（SIM1_中国联通_Unknown 或 SIM2_中国移动_+8615866666666）
-    + [v1.2.3](app/release/SmsForwarder_release_20210302_1.2.3.apk) 【预发布】转发日志列表/详情增加卡槽标识（SIM1 或 SIM2）
-+ [v1.3.0](app/release/SmsForwarder_release_20210303_1.3.0.apk) 支持双卡手机，增加卡槽标识/运营商/手机号(如果能获取的话)
-+ [v1.4.0](app/release/SmsForwarder_release_20210304_1.4.0.apk) 支持多重匹配规则
-    + [v1.4.1](app/release/SmsForwarder_release_20210304_1.4.1.apk) 设置中允许关闭页面帮助/表单填写提示
-+ [v1.5.0](app/release/SmsForwarder_release_20210305_1.5.0.apk) 新增转发到企业微信应用消息
-    + [v1.5.1](app/release/SmsForwarder_release_20210310_1.5.1.apk) 解决Android 9.xx、10.xx收不到广播问题
-    + [v1.5.2](app/release/SmsForwarder_release_20210311_1.5.2.apk) 支持标注卡槽号码(优先使用)、设备信息；自定义转发信息模版
-+ [v1.6.0](app/release/SmsForwarder_release_20210312_1.6.0.apk) 优化获取SIM信息（兼容高版本Android） & 自动填写设备备注 & 自动填充卡槽信息到SIM1备注/SIM2备注 & 支持卡槽匹配规则 & 支持正则匹配规则
-    + [v1.6.1](app/release/SmsForwarder_release_20210312_1.6.1.apk) 新增转发到Server酱·Turbo版
-    + [v1.6.2](app/release/SmsForwarder_release_20210312_1.6.2.apk) 新增转发到Telegram机器人
-    + [v1.6.3](app/release/SmsForwarder_release_20210313_1.6.3.apk) 转发到webhook支持GET方式（节点改变，原配置要重新编辑）；兼容Android5.0（待验证，仅minSdkVersion改为21）；修复钉钉机器人没启用加签时url拼接错误问题
-    + [v1.6.4](app/release/SmsForwarder_release_20210313_1.6.4.apk) Android8.1以下手机重启后尝试启动主界面，以便动态获取权限（修复开机自启后无法转发短信，要打开软件后才会转发短信的问题）
-+ [v1.7.0](app/release/SmsForwarder_release_20210318_1.7.0.apk) 新增转发到其他手机短信 & 避免热插卡时FC & 规则展示优化 & 获取多卡信息&获取卡槽备注优化 & 新增恢复初始化配置
-    + [v1.7.1](app/release/SmsForwarder_release_20210321_1.7.1.apk) 新增转发记录的转发状态(成功/失败&应答信息)
-    + [v1.7.2](app/release/SmsForwarder_release_20210325_1.7.2.apk) 新增V1版证书签名，避免部分低版本系统(Android 6.x)无证书错误 & 发送方邮箱允许自定义发件人昵称
-    + [v1.7.3](app/release/SmsForwarder_release_20210331_1.7.3.apk) 修复“设置匹配模式”默认选择BUG & 转发到webhook时返回http状态200即为成功 & 转发到其他手机短信支持长短信合并
-    + [v1.7.4](app/release/SmsForwarder_release_20210715_1.7.4.apk) 修复转发企业微信群机器人碰到"被截断问题 & 转发到webhook时忽略ssl证书校验（提高自建服务端兼容性） & 转发telegram时将 # 替换为 井，避免被当作标签 & 隐私保护，发送方设置中敏感信息(密码/token/secret等)用星号显示 & 更新友盟基础组件库 & 解决“设置页面关闭卡槽信息，同时使用默认模板时，发送消息卡槽信息仍显示”
-+ [v2.0.0](app/release/SmsForwarder_release_20210930_2.0.0.apk) 来电提醒转发 & 接口请求失败后延时重试5次（可配置间隔时间） & 转发到飞书机器人 & 自定义 Scheme（forwarder://main）用于唤起App & 低电量预警 & 重新梳理代码（消灭waring）& Bark增加支持分组 & 引入Lombok & 升级gradle版本 & 增加电池优化白名单设置和权限 & 转发到webhook增加支持自定义post数据，并支持Json数据提交
++ [v1.0.0] 优化后第一版
++ [v1.1.0] 新增在线升级、缓存清理、加入QQ群功能
+    + [v1.1.1] 更新应用/通知栏图标
+    + [v1.1.2] 获取系统(ROM)类别及版本号，MIUI通知栏显示标题
+    + [v1.1.3] AlertDialog增加滚动条，避免参数过长时无法点击按钮
++ [v1.2.0] 重写SMTP邮件发送（推荐升级）
+    + [v1.2.1] 修复bark-server升级到2.0后的兼容性问题
+    + [v1.2.2] 【预发布】短信模板增加卡槽标识（SIM1_中国联通_Unknown 或 SIM2_中国移动_+8615866666666）
+    + [v1.2.3] 【预发布】转发日志列表/详情增加卡槽标识（SIM1 或 SIM2）
++ [v1.3.0] 支持双卡手机，增加卡槽标识/运营商/手机号(如果能获取的话)
++ [v1.4.0] 支持多重匹配规则
+    + [v1.4.1] 设置中允许关闭页面帮助/表单填写提示
++ [v1.5.0] 新增转发到企业微信应用消息
+    + [v1.5.1] 解决Android 9.xx、10.xx收不到广播问题
+    + [v1.5.2] 支持标注卡槽号码(优先使用)、设备信息；自定义转发信息模版
++ [v1.6.0] 优化获取SIM信息（兼容高版本Android） & 自动填写设备备注 & 自动填充卡槽信息到SIM1备注/SIM2备注 & 支持卡槽匹配规则 & 支持正则匹配规则
+    + [v1.6.1] 新增转发到Server酱·Turbo版
+    + [v1.6.2] 新增转发到Telegram机器人
+    + [v1.6.3] 转发到webhook支持GET方式（节点改变，原配置要重新编辑）；兼容Android5.0（待验证，仅minSdkVersion改为21）；修复钉钉机器人没启用加签时url拼接错误问题
+    + [v1.6.4] Android8.1以下手机重启后尝试启动主界面，以便动态获取权限（修复开机自启后无法转发短信，要打开软件后才会转发短信的问题）
++ [v1.7.0] 新增转发到其他手机短信 & 避免热插卡时FC & 规则展示优化 & 获取多卡信息&获取卡槽备注优化 & 新增恢复初始化配置
+    + [v1.7.1] 新增转发记录的转发状态(成功/失败&应答信息)
+    + [v1.7.2] 新增V1版证书签名，避免部分低版本系统(Android 6.x)无证书错误 & 发送方邮箱允许自定义发件人昵称
+    + [v1.7.3] 修复“设置匹配模式”默认选择BUG & 转发到webhook时返回http状态200即为成功 & 转发到其他手机短信支持长短信合并
+    + [v1.7.4] 修复转发企业微信群机器人碰到"被截断问题 & 转发到webhook时忽略ssl证书校验（提高自建服务端兼容性） & 转发telegram时将 # 替换为 井，避免被当作标签 & 隐私保护，发送方设置中敏感信息(密码/token/secret等)用星号显示 & 更新友盟基础组件库 & 解决“设置页面关闭卡槽信息，同时使用默认模板时，发送消息卡槽信息仍显示”
++ [v2.0.0] 来电提醒转发 & 接口请求失败后延时重试5次（可配置间隔时间）& 转发到飞书机器人 & 自定义 Scheme（forwarder://main）用于唤起App & 低电量预警 & 重新梳理代码（消灭waring）& Bark增加支持分组 & 引入Lombok & 升级gradle版本 & 增加电池优化白名单设置和权限 & 转发到webhook增加支持自定义post数据，并支持Json数据提交
 
 --------
 

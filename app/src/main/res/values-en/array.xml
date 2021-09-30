@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="add_sender_menu">
+        <item>DingTalk Bot</item>
+        <item>Email</item>
+        <item>Bark</item>
+        <item>Webhook</item>
+        <item>WeCom Group Bot</item>
+        <item>WeCom</item>
+        <item>ServerChan·Turbo</item>
+        <item>Telegram Bot</item>
+        <item>SMS</item>
+        <item>FeiShu Bot</item>
+    </string-array>
+</resources>

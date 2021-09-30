@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设备名称"
+                android:text="@string/device_name"
                 android:textStyle="bold" />
 
             <EditText
@@ -55,14 +55,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="SIM1备注"
+                    android:text="@string/sim1_remark"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="运营商_手机号"
+                    android:text="@string/carrier_mobile"
                     android:textSize="9sp" />
             </LinearLayout>
 
@@ -96,14 +96,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="SIM2备注"
+                    android:text="@string/sim2_remark"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="运营商_手机号"
+                    android:text="@string/carrier_mobile"
                     android:textSize="9sp" />
             </LinearLayout>
 
@@ -137,14 +137,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="低电量预警阈值(%)"
+                    android:text="@string/low_power_alarm_threshold"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="取值范围：0-100，留空或0禁用"
+                    android:text="@string/low_power_alarm_threshold_tips"
                     android:textSize="9sp" />
             </LinearLayout>
 
@@ -178,14 +178,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="每次重试间隔(秒)"
+                    android:text="@string/retry_interval"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="接口请求失败后将重试5次"
+                    android:text="@string/retry_interval_tips"
                     android:textSize="9sp" />
             </LinearLayout>
 
@@ -268,7 +268,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="转发时附加卡槽信息"
+                android:text="@string/add_extra"
                 android:textStyle="bold" />
 
             <Switch
@@ -295,7 +295,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="转发时附加设备名称"
+                android:text="@string/add_device_name"
                 android:textStyle="bold" />
 
             <Switch
@@ -318,7 +318,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="转发来电"
+                android:text="@string/forward_missed_calls"
                 android:textStyle="bold" />
 
             <Switch
@@ -346,7 +346,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="转发时启用自定义模版"
+                android:text="@string/enable_custom_templates"
                 android:textStyle="bold" />
 
             <Switch
@@ -379,14 +379,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="转发信息模版"
+                    android:text="@string/custom_templates"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="Tip：按需插入内容标签；留空使用默认模版"
+                    android:text="@string/custom_templates_tips"
                     android:textSize="11sp" />
             </LinearLayout>
 
@@ -412,21 +412,8 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
-                    android:text="来源号码"
+                    android:text="@string/insert_sender"
                     tools:ignore="NestedWeights" />
-
-                <!--<Button
-                    android:id="@+id/bt_insert_receiver"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimary"
-                    android:onClick="toInsertLabel"
-                    android:text="接收号码"
-                    tools:ignore="NestedWeights" />-->
 
                 <Button
                     android:id="@+id/bt_insert_content"
@@ -438,7 +425,7 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
-                    android:text="短信内容" />
+                    android:text="@string/insert_content" />
 
                 <Button
                     android:id="@+id/bt_insert_extra"
@@ -450,7 +437,7 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
-                    android:text="卡槽信息" />
+                    android:text="@string/insert_extra" />
 
                 <Button
                     android:id="@+id/bt_insert_time"
@@ -462,7 +449,7 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
-                    android:text="接收时间" />
+                    android:text="@string/insert_time" />
 
                 <Button
                     android:id="@+id/bt_insert_device_name"
@@ -474,7 +461,7 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
-                    android:text="设备名称" />
+                    android:text="@string/insert_device_name" />
 
             </LinearLayout>
 
@@ -488,7 +475,7 @@
             android:background="@color/colorPrimary"
             android:onClick="initSetting"
             android:padding="0dp"
-            android:text="恢复初始化配置" />
+            android:text="@string/init_setting" />
 
         <Button
             android:id="@+id/btnBatterySetting"
@@ -498,7 +485,7 @@
             android:background="@color/colorPrimary"
             android:onClick="batterySetting"
             android:padding="0dp"
-            android:text="设置电池优化" />
+            android:text="@string/battery_setting" />
 
     </LinearLayout>
 

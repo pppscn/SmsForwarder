@@ -18,7 +18,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置名称" />
+                android:text="@string/set_name" />
 
             <EditText
                 android:id="@+id/editTextQYWXGroupRobotName"
@@ -41,7 +41,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置WebHook地址:示例：https://qyapi.weixin.qq.com/cgixx?key=xxx" />
+                android:text="@string/QYWXGroupRobotWebHook" />
 
             <EditText
                 android:id="@+id/editTextQYWXGroupRobotWebHook"

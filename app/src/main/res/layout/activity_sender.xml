@@ -32,7 +32,7 @@
             android:background="@color/colorPrimary"
             android:onClick="addSender"
             android:padding="0dp"
-            android:text="添加发送方" />
+            android:text="@string/new_sender" />
     </LinearLayout>
 
 </LinearLayout>

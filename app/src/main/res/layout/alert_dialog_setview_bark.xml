@@ -19,7 +19,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置分组名称" />
+                android:text="@string/set_bark_name" />
 
             <EditText
                 android:id="@+id/editTextBarkName"
@@ -43,7 +43,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置Bark-Server地址，示例：https://bark.bms.ink/XXXXXXXX/" />
+                android:text="@string/set_bark_server" />
 
             <EditText
                 android:id="@+id/editTextBarkServer"
