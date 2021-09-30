@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SmsForwarder</string>
-    <string name="notification_content">Forward to DingTalk Bot/WeCom Group Bot/Email/Bark/ServerChan/Telegram/Webhook, etc</string>
+    <string name="notification_content">Forward to DingTalk/WeCom/FeiShu/Email/Bark/ServerChan/Telegram/Webhook, etc</string>
     <!--Common-->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>

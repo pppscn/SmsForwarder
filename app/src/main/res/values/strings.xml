@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">短信转发器</string>
-    <string name="notification_content">根据规则转发到钉钉/微信/邮箱/bark/Server酱/Telegram/webhook等</string>
+    <string name="notification_content">根据规则转发到钉钉/微信/飞书/邮箱/bark/Server酱/Telegram/webhook等</string>
     <!--Common-->
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
