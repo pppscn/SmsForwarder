@@ -61,7 +61,8 @@
         </activity>
         <activity
             android:name=".AboutActivity"
-            android:label="@string/about">
+            android:label="@string/about"
+            tools:ignore="IntentFilterExportedReceiver">
             <intent-filter>
                 <!--协议部分，随便设置-->
                 <data

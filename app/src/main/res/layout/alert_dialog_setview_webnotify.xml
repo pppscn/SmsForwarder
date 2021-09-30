@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
@@ -25,10 +26,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
+                android:autofillHints=""
                 android:ems="11"
                 android:inputType="text"
                 android:text=""
-                android:autofillHints="" />
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <LinearLayout
@@ -56,13 +58,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="POST" />
+                    android:text="@string/post" />
 
                 <RadioButton
                     android:id="@+id/radioWebNotifyMethodGet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="GET" />
+                    android:text="@string/get" />
 
             </RadioGroup>
 
@@ -84,10 +86,11 @@
                 android:id="@+id/editTextWebNotifyWebServer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:autofillHints=""
                 android:ems="14"
                 android:inputType="text"
                 android:text=""
-                android:autofillHints="" />
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <LinearLayout
@@ -106,10 +109,11 @@
                 android:id="@+id/editTextWebNotifyWebParams"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:autofillHints=""
                 android:ems="14"
                 android:inputType="text"
                 android:text=""
-                android:autofillHints="" />
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <LinearLayout
@@ -128,10 +132,11 @@
                 android:id="@+id/editTextWebNotifySecret"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:autofillHints=""
                 android:ems="14"
                 android:inputType="textPassword"
                 android:text=""
-                android:autofillHints="" />
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <LinearLayout
@@ -141,11 +146,13 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonWebNotifyOk"
+                android:id="@+id/buttonWebNotifyTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="@string/ok" />
+                android:text="@string/test"
+                tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
                 android:id="@+id/buttonWebNotifyDel"
@@ -153,15 +160,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="@string/del" />
+                android:text="@string/del"
+                tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
-                android:id="@+id/buttonWebNotifyTest"
+                android:id="@+id/buttonWebNotifyOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="@string/test" />
+                android:text="@string/ok"
+                tools:ignore="ButtonStyle,NestedWeights" />
 
         </LinearLayout>
 

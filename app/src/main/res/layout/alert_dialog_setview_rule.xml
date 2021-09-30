@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
@@ -36,12 +37,12 @@
                 <RadioButton
                     android:id="@+id/btnSimSlot1"
                     style="@style/rg_rb_style"
-                    android:text="SIM1" />
+                    android:text="@string/sim1" />
 
                 <RadioButton
                     android:id="@+id/btnSimSlot2"
                     style="@style/rg_rb_style"
-                    android:text="SIM2" />
+                    android:text="@string/sim2" />
             </RadioGroup>
 
         </LinearLayout>
@@ -94,8 +95,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
             android:orientation="vertical">
 
             <TextView
@@ -170,26 +171,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:autofillHints=""
                 android:ems="14"
                 android:inputType="text"
                 android:text=""
-                android:autofillHints="" />
+                tools:ignore="LabelFor" />
 
             <TextView
                 android:id="@+id/tv_mu_rule_tips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="
-多重匹配规则示例：\n
-\n
-并且 是 手机号 相等 10086\n
- 或者 是 手机号 相等 10011\n
-并且 是 短信内容 包含 欠费\n
-\n
-以上规则表示：收到短信，并且（手机号是10086 或者 手机号是10010），并且 短信内容 包含 欠费 时转发短信\n
-注意：每行开始的空格代表层级，太过复杂的多重规则可能导致内存占用很大！
-" />
+                android:text="@string/mu_rule_tips" />
         </LinearLayout>
 
         <LinearLayout
@@ -237,11 +230,13 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonRuleOk"
+                android:id="@+id/buttonRuleTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="@string/ok" />
+                android:text="@string/test"
+                tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
                 android:id="@+id/buttonRuleDel"
@@ -249,15 +244,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="@string/del" />
+                android:text="@string/del"
+                tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
-                android:id="@+id/buttonRuleTest"
+                android:id="@+id/buttonRuleOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="@string/test" />
+                android:text="@string/ok"
+                tools:ignore="ButtonStyle,NestedWeights" />
 
         </LinearLayout>
 

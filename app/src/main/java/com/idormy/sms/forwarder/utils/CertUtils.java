@@ -14,7 +14,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
-@SuppressLint("TrustAllX509TrustManager")
+@SuppressLint("ALL")
 public class CertUtils {
 
     //获取这个SSLSocketFactory

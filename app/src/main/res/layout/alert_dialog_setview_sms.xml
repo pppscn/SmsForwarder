@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
@@ -26,10 +26,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
+                android:autofillHints=""
                 android:ems="14"
                 android:inputType="text"
                 android:text=""
-                android:autofillHints="" />
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <LinearLayout
@@ -61,12 +62,12 @@
                 <RadioButton
                     android:id="@+id/btnSmsSimSlot1"
                     style="@style/rg_rb_style"
-                    android:text="SIM1" />
+                    android:text="@string/sim1" />
 
                 <RadioButton
                     android:id="@+id/btnSmsSimSlot2"
                     style="@style/rg_rb_style"
-                    android:text="SIM2" />
+                    android:text="@string/sim2" />
             </RadioGroup>
 
         </LinearLayout>
@@ -89,9 +90,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
+                android:autofillHints=""
                 android:ems="14"
+                android:inputType="text"
                 android:text=""
-                android:autofillHints="" />
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <LinearLayout
@@ -122,11 +125,13 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonSmsOk"
+                android:id="@+id/buttonSmsTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="@string/ok" />
+                android:text="@string/test"
+                tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
                 android:id="@+id/buttonSmsDel"
@@ -134,15 +139,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="@string/del" />
+                android:text="@string/del"
+                tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
-                android:id="@+id/buttonSmsTest"
+                android:id="@+id/buttonSmsOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="@string/test" />
+                android:text="@string/ok"
+                tools:ignore="ButtonStyle,NestedWeights" />
 
         </LinearLayout>
 

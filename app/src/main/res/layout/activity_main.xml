@@ -31,7 +31,6 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/bt_refresh_log"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginStart="10dp"
@@ -41,10 +40,9 @@
                 android:background="@color/colorPrimary"
                 android:onClick="cleanLog"
                 android:text="@string/bt_refresh_log"
-                tools:ignore="NestedWeights" />
+                tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
-                android:id="@+id/rule_setting"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginStart="10dp"
@@ -54,10 +52,9 @@
                 android:background="@color/colorPrimary"
                 android:onClick="toRuleSetting"
                 android:text="@string/rule_setting"
-                tools:ignore="NestedWeights" />
+                tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
-                android:id="@+id/sender_setting"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
@@ -67,7 +64,8 @@
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"
                 android:onClick="toSendSetting"
-                android:text="@string/sender_setting" />
+                android:text="@string/sender_setting"
+                tools:ignore="ButtonStyle" />
         </LinearLayout>
     </LinearLayout>
 

@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
@@ -34,7 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="v1.0" />
+                    android:text="@string/version_now" />
             </LinearLayout>
 
             <Button
@@ -47,7 +47,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/auto_reboot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
@@ -101,7 +100,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/about_web"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
@@ -117,18 +115,16 @@
                 android:text="@string/open_source" />
 
             <TextView
-                android:id="@+id/linkweb"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:autoLink="web"
                 android:gravity="end"
-                android:text="https://github.com/pppscn/SmsForwarder"
+                android:text="@string/linkweb"
                 android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/about_web2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
@@ -144,18 +140,16 @@
                 android:text="@string/synchronize_mirror" />
 
             <TextView
-                android:id="@+id/linkweb2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:autoLink="web"
                 android:gravity="end"
-                android:text="https://gitee.com/pp/SmsForwarder"
+                android:text="@string/linkweb2"
                 android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_wait_open_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
@@ -228,7 +222,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="0KB" />
+                    android:text="@string/cache_size" />
             </LinearLayout>
 
             <Button

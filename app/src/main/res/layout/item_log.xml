@@ -7,7 +7,6 @@
     <LinearLayout
         android:layout_width="34dp"
         android:layout_height="34dp"
-        android:layout_alignParentEnd="true"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:orientation="vertical">

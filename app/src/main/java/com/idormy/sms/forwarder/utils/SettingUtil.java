@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -10,7 +11,7 @@ public class SettingUtil {
     static Boolean hasInit = false;
     private static final String TAG = "SettingUtil";
     private static SharedPreferences sp_setting = null;
-    @SuppressWarnings("FieldCanBeLocal")
+    @SuppressLint("StaticFieldLeak")
     private static Context context = null;
 
     public static void init(Context context1) {
