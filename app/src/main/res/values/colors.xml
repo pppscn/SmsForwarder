@@ -4,14 +4,4 @@
     <color name="colorPrimaryDark">#1B8DD4</color>
     <color name="colorAccent">#63C2FA</color>
 
-    <color name="white">#FFFFFF</color>
-    <color name="blank">#696969</color>
-
-    <color name="textColor">#DF000000</color>
-    <color name="textColorRequire">#F44336</color>
-    <color name="textHintColor">#8A000000</color>
-    <color name="grey">#EEEEEE</color>
-    <color name="greyDark">#DDDDDD</color>
-    <color name="success">#4CAF50</color>
-    <color name="error">#F44336</color>
 </resources>

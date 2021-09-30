@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dip"
-        android:paddingBottom="10dip">
+        android:paddingBottom="10dip"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:id="@+id/layout"
@@ -17,13 +18,14 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="RelativeOverlap">
 
             <TextView
                 android:id="@+id/tip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="下拉可以刷新！" />
+                android:text="@string/pull_tips" />
 
             <TextView
                 android:id="@+id/lastUpdateTime"

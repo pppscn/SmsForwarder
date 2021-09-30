@@ -25,7 +25,6 @@
             android:textColor="@color/colorPrimary" />
 
         <Button
-            android:id="@+id/bt_add_rule"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_margin="10dp"

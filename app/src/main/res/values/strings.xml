@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">短信转发器</string>
     <string name="notification_content">根据规则转发到钉钉/微信/邮箱/bark/Server酱/Telegram/webhook等</string>
     <!--Common-->
@@ -7,7 +7,6 @@
     <string name="del">删除</string>
     <string name="test">测试</string>
     <string name="confirm">确认</string>
-    <string name="tips">提示</string>
     <string name="all">全部</string>
     <string name="select">选择</string>
     <string name="setting">设置</string>
@@ -31,7 +30,7 @@
     <string name="join_qq_group2">加入②群</string>
     <string name="cache">缓存大小</string>
     <string name="purge">清除缓存</string>
-    <string name="checking">检查中...</string>
+    <string name="checking">检查中…</string>
     <string name="up_to_date">已是最新版本！</string>
     <string name="cache_purged">缓存清理完成</string>
     <string name="unknown_qq_version">未安装手Q或安装的版本不支持！</string>
@@ -44,7 +43,7 @@
     <string name="clear_logs_tips">确定要清空转发记录吗？</string>
     <string name="pull_tips">下拉可以刷新！</string>
     <string name="release_tips">松开可以刷新！</string>
-    <string name="reflashing_tips">正在刷新...</string>
+    <string name="reflashing_tips">正在刷新…</string>
     <!--RuleActivity-->
     <string name="setrule">设置转发规则</string>
     <string name="delete_rule_title">规则删除确认</string>
@@ -138,11 +137,11 @@
     <string name="OnlyNoNetwork">仅当无网络时启用</string>
     <!--SettingActivity-->
     <string name="device_name">设备名称</string>
-    <string name="sim1_remark">SIM1备注</string>
-    <string name="sim2_remark">SIM2备注</string>
+    <string name="sim1_remark" tools:ignore="Typos">SIM1备注</string>
+    <string name="sim2_remark" tools:ignore="Typos">SIM2备注</string>
     <string name="carrier_mobile">运营商_手机号</string>
     <string name="low_power_alarm_threshold">低电量预警阈值</string>
-    <string name="low_power_alarm_threshold_tips">取值范围：0-100，留空或0禁用</string>
+    <string name="low_power_alarm_threshold_tips">取值范围：0–100，留空或0禁用</string>
     <string name="retry_interval">每次重试间隔(秒)</string>
     <string name="retry_interval_tips">接口请求失败后将重试5次</string>
     <string name="add_extra">转发时附加卡槽信息</string>
@@ -162,6 +161,14 @@
     <string name="calling">来电</string>
     <string name="unsupport">您的手机不支持此设置</string>
     <string name="isIgnored">已设置成功！</string>
-    <!--SenderBaseMsg-->
-    <string name="start_request_interface">开始请求接口...</string>
+    <!--Other-->
+    <string name="version_now">v1.0</string>
+    <string name="linkweb">https://github.com/pppscn/SmsForwarder</string>
+    <string name="linkweb2">https://gitee.com/pp/SmsForwarder</string>
+    <string name="cache_size">0KB</string>
+    <string name="sim1" tools:ignore="Typos">SIM1</string>
+    <string name="sim2" tools:ignore="Typos">SIM2</string>
+    <string name="mu_rule_tips">多重匹配规则示例：\n \n 并且 是 手机号 相等 10086\n 或者 是 手机号 相等 10011\n 并且 是 短信内容 包含 欠费\n \n 以上规则表示：收到短信，并且（手机号是10086 或者 手机号是10010），并且 短信内容 包含 欠费 时转发短信\n 注意：每行开始的空格代表层级，太过复杂的多重规则可能导致内存占用很大！</string>
+    <string name="post">POST</string>
+    <string name="get">GET</string>
 </resources>

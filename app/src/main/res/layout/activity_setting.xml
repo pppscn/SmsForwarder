@@ -29,12 +29,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:autofillHints=""
                 android:ems="16"
                 android:inputType="text"
                 android:maxLines="1"
                 android:text=""
-                tools:ignore="LabelFor"
-                android:autofillHints="" />
+                tools:ignore="LabelFor" />
 
         </LinearLayout>
 
@@ -63,7 +63,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:text="@string/carrier_mobile"
-                    android:textSize="9sp" />
+                    android:textSize="9sp"
+                    tools:ignore="SmallSp" />
             </LinearLayout>
 
             <EditText
@@ -71,11 +72,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:autofillHints=""
                 android:ems="16"
                 android:inputType="text"
                 android:maxLines="1"
                 android:text=""
-                android:autofillHints="" />
+                tools:ignore="LabelFor" />
 
         </LinearLayout>
 
@@ -104,7 +106,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:text="@string/carrier_mobile"
-                    android:textSize="9sp" />
+                    android:textSize="9sp"
+                    tools:ignore="SmallSp" />
             </LinearLayout>
 
             <EditText
@@ -112,11 +115,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:autofillHints=""
                 android:ems="16"
                 android:inputType="text"
                 android:maxLines="1"
                 android:text=""
-                android:autofillHints="" />
+                tools:ignore="LabelFor" />
 
         </LinearLayout>
 
@@ -145,7 +149,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:text="@string/low_power_alarm_threshold_tips"
-                    android:textSize="9sp" />
+                    android:textSize="9sp"
+                    tools:ignore="SmallSp" />
             </LinearLayout>
 
             <EditText
@@ -153,11 +158,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:autofillHints=""
                 android:ems="16"
                 android:inputType="number"
                 android:maxLines="1"
                 android:text=""
-                android:autofillHints="" />
+                tools:ignore="LabelFor" />
 
         </LinearLayout>
 
@@ -186,7 +192,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:text="@string/retry_interval_tips"
-                    android:textSize="9sp" />
+                    android:textSize="9sp"
+                    tools:ignore="SmallSp" />
             </LinearLayout>
 
             <LinearLayout
@@ -199,60 +206,65 @@
                     android:layout_width="42dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="5dp"
+                    android:autofillHints=""
                     android:ems="16"
                     android:inputType="number"
                     android:maxLines="1"
-                    android:textAlignment="center"
                     android:text=""
-                    android:autofillHints="" />
+                    android:textAlignment="center"
+                    tools:ignore="LabelFor" />
 
                 <EditText
                     android:id="@+id/et_retry_delay_time2"
                     android:layout_width="42dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="5dp"
+                    android:autofillHints=""
                     android:ems="16"
                     android:inputType="number"
                     android:maxLines="1"
-                    android:textAlignment="center"
                     android:text=""
-                    android:autofillHints="" />
+                    android:textAlignment="center"
+                    tools:ignore="LabelFor" />
 
                 <EditText
                     android:id="@+id/et_retry_delay_time3"
                     android:layout_width="42dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="5dp"
+                    android:autofillHints=""
                     android:ems="16"
                     android:inputType="number"
                     android:maxLines="1"
-                    android:textAlignment="center"
                     android:text=""
-                    android:autofillHints="" />
+                    android:textAlignment="center"
+                    tools:ignore="LabelFor" />
 
                 <EditText
                     android:id="@+id/et_retry_delay_time4"
                     android:layout_width="42dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="5dp"
+                    android:autofillHints=""
                     android:ems="16"
                     android:inputType="number"
                     android:maxLines="1"
-                    android:textAlignment="center"
                     android:text=""
-                    android:autofillHints="" />
+                    android:textAlignment="center"
+                    tools:ignore="LabelFor" />
 
                 <EditText
                     android:id="@+id/et_retry_delay_time5"
                     android:layout_width="42dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="5dp"
+                    android:autofillHints=""
                     android:ems="16"
                     android:inputType="number"
                     android:maxLines="1"
-                    android:textAlignment="center"
                     android:text=""
-                    android:autofillHints="" />
+                    android:textAlignment="center"
+                    tools:ignore="LabelFor" />
             </LinearLayout>
         </LinearLayout>
 
@@ -299,7 +311,6 @@
                 android:textStyle="bold" />
 
             <Switch
-                android:id="@+id/switch_add_device_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
@@ -319,10 +330,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/forward_missed_calls"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="RelativeOverlap" />
 
             <Switch
-                android:id="@+id/switch_enable_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -394,9 +405,10 @@
                 android:id="@+id/text_sms_template"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autofillHints=""
                 android:inputType="text"
                 android:text=""
-                android:autofillHints="" />
+                tools:ignore="LabelFor" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -413,7 +425,7 @@
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
                     android:text="@string/insert_sender"
-                    tools:ignore="NestedWeights" />
+                    tools:ignore="ButtonStyle,NestedWeights" />
 
                 <Button
                     android:id="@+id/bt_insert_content"
@@ -425,7 +437,8 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
-                    android:text="@string/insert_content" />
+                    android:text="@string/insert_content"
+                    tools:ignore="ButtonStyle,NestedWeights" />
 
                 <Button
                     android:id="@+id/bt_insert_extra"
@@ -437,7 +450,8 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
-                    android:text="@string/insert_extra" />
+                    android:text="@string/insert_extra"
+                    tools:ignore="ButtonStyle,NestedWeights" />
 
                 <Button
                     android:id="@+id/bt_insert_time"
@@ -449,7 +463,8 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
-                    android:text="@string/insert_time" />
+                    android:text="@string/insert_time"
+                    tools:ignore="ButtonStyle,NestedWeights" />
 
                 <Button
                     android:id="@+id/bt_insert_device_name"
@@ -461,14 +476,14 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
-                    android:text="@string/insert_device_name" />
+                    android:text="@string/insert_device_name"
+                    tools:ignore="ButtonStyle,NestedWeights" />
 
             </LinearLayout>
 
         </LinearLayout>
 
         <Button
-            android:id="@+id/btnInitSetting"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_margin="10dp"
@@ -478,7 +493,6 @@
             android:text="@string/init_setting" />
 
         <Button
-            android:id="@+id/btnBatterySetting"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_margin="10dp"

@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
@@ -28,9 +28,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:autofillHints=""
                 android:inputType="text"
                 android:text=""
-                android:autofillHints="" />
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <LinearLayout
@@ -52,9 +53,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:autofillHints=""
                 android:inputType="text"
                 android:text=""
-                android:autofillHints="" />
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <LinearLayout
@@ -76,9 +78,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:autofillHints=""
                 android:inputType="text"
                 android:text=""
-                android:autofillHints="" />
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
 
@@ -101,9 +104,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:autofillHints=""
                 android:inputType="textPassword"
                 android:text=""
-                android:autofillHints="" />
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <LinearLayout
@@ -153,9 +157,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
+                    android:autofillHints=""
                     android:inputType="text"
                     android:text=""
-                    android:autofillHints="" />
+                    tools:ignore="LabelFor" />
             </LinearLayout>
 
             <TextView
@@ -173,11 +178,13 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonQYWXAppOk"
+                android:id="@+id/buttonQYWXAppTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="@string/ok" />
+                android:text="@string/test"
+                tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
                 android:id="@+id/buttonQYWXAppDel"
@@ -185,15 +192,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="@string/del" />
+                android:text="@string/del"
+                tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
-                android:id="@+id/buttonQYWXAppTest"
+                android:id="@+id/buttonQYWXAppOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="@string/test" />
+                android:text="@string/ok"
+                tools:ignore="ButtonStyle,NestedWeights" />
 
         </LinearLayout>
 

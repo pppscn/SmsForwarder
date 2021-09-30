@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SmsForwarder</string>
     <string name="notification_content">Forward to DingTalk Bot/WeCom Group Bot/Email/Bark/ServerChan/Telegram/Webhook, etc</string>
     <!--Common-->
@@ -7,7 +7,6 @@
     <string name="del">Delete</string>
     <string name="test">Test</string>
     <string name="confirm">Confirm</string>
-    <string name="tips">Tips</string>
     <string name="all">All</string>
     <string name="select">Select</string>
     <string name="setting">Settings</string>
@@ -31,7 +30,7 @@
     <string name="join_qq_group2">Join 2nd Group</string>
     <string name="cache">Cache</string>
     <string name="purge">Purge</string>
-    <string name="checking">Checking...</string>
+    <string name="checking">Checking…</string>
     <string name="up_to_date">Yo, you are up to date!</string>
     <string name="cache_purged">Cache purged</string>
     <string name="unknown_qq_version">No mobile QQ is installed or not supported by recent version!</string>
@@ -44,7 +43,7 @@
     <string name="clear_logs_tips">Are you sure to clear all forwarding logs?</string>
     <string name="pull_tips">Pull to refresh.</string>
     <string name="release_tips">Release to refresh.</string>
-    <string name="reflashing_tips">Refreshing...</string>
+    <string name="reflashing_tips">Refreshing…</string>
     <!--RuleActivity-->
     <string name="setrule">Fwd Rule Settings</string>
     <string name="delete_rule_title">Delete confirmation</string>
@@ -138,11 +137,11 @@
     <string name="OnlyNoNetwork">仅当无网络时启用</string>
     <!--SettingActivity-->
     <string name="device_name">Device name</string>
-    <string name="sim1_remark">SIM1 Remark</string>
-    <string name="sim2_remark">SIM2 Remark</string>
+    <string name="sim1_remark" tools:ignore="Typos">SIM1 Remark</string>
+    <string name="sim2_remark" tools:ignore="Typos">SIM2 Remark</string>
     <string name="carrier_mobile">Carrier_Mobile Number</string>
     <string name="low_power_alarm_threshold">Low power alarm threshold</string>
-    <string name="low_power_alarm_threshold_tips">Value range: 0-100. Left blank or 0 is disabled</string>
+    <string name="low_power_alarm_threshold_tips">Value range: 0–100. Left blank or 0 is disabled</string>
     <string name="retry_interval">Retry interval (seconds)</string>
     <string name="retry_interval_tips">Retry five times after it fails</string>
     <string name="add_extra">Sim slot info attached</string>
@@ -163,5 +162,13 @@
     <string name="unsupport">Your phone does not support this setting</string>
     <string name="isIgnored">Set successfully!</string>
     <!--SenderBaseMsg-->
-    <string name="start_request_interface">Start request interface...</string>
+    <string name="version_now">v1.0</string>
+    <string name="linkweb">https://github.com/pppscn/SmsForwarder</string>
+    <string name="linkweb2">https://gitee.com/pp/SmsForwarder</string>
+    <string name="cache_size">0KB</string>
+    <string name="sim1" tools:ignore="Typos">SIM1</string>
+    <string name="sim2" tools:ignore="Typos">SIM2</string>
+    <string name="mu_rule_tips">多重匹配规则示例：\n \n 并且 是 手机号 相等 10086\n 或者 是 手机号 相等 10011\n 并且 是 短信内容 包含 欠费\n \n 以上规则表示：收到短信，并且（手机号是10086 或者 手机号是10010），并且 短信内容 包含 欠费 时转发短信\n 注意：每行开始的空格代表层级，太过复杂的多重规则可能导致内存占用很大！</string>
+    <string name="post">POST</string>
+    <string name="get">GET</string>
 </resources>

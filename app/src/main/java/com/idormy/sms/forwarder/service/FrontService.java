@@ -46,7 +46,7 @@ public class FrontService extends Service {
         super.onCreate();
         Log.i(TAG, "onCreate");
         Notification.Builder builder = new Notification.Builder(this);
-        builder.setSmallIcon(R.drawable.ic_sms_forwarder);
+        builder.setSmallIcon(R.drawable.ic_forwarder);
         OSUtils.ROM_TYPE romType = OSUtils.getRomType();
         //Log.d(TAG, "onCreate: " + romType);
         if (romType == OSUtils.ROM_TYPE.MIUI_ROM) {
@@ -131,6 +131,7 @@ public class FrontService extends Service {
     }
 
     //获取当前电量
+    @SuppressLint("ObsoleteSdkInt")
     private int getBatteryLevel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             BatteryManager batteryManager = (BatteryManager) getSystemService(BATTERY_SERVICE);

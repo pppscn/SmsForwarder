@@ -142,6 +142,7 @@ dependencies {
     implementation 'com.github.mailhu:emailkit:4.2.2'
 
     //Lombok
+    //noinspection AnnotationProcessorOnCompilePath
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
