@@ -94,7 +94,7 @@ public class FrontService extends Service {
             @Override
             public void run() {
                 int batteryLevel = getBatteryLevel();
-                System.out.println("当前剩余电量：" + batteryLevel + "%");
+                //System.out.println("当前剩余电量：" + batteryLevel + "%");
                 int batteryLevelAlarm = SettingUtil.getBatteryLevelAlarm();
                 if (alarmTimes[0] <= 1 && batteryLevelAlarm > 0 && batteryLevelAlarm <= 100 && batteryLevel == batteryLevelAlarm) {
                     Date date = new Date();
