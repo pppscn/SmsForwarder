@@ -25,7 +25,6 @@ import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.utils.LogUtil;
-import com.idormy.sms.forwarder.utils.OSUtils;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 
@@ -47,11 +46,11 @@ public class FrontService extends Service {
         Log.i(TAG, "onCreate");
         Notification.Builder builder = new Notification.Builder(this);
         builder.setSmallIcon(R.drawable.ic_forwarder);
-        OSUtils.ROM_TYPE romType = OSUtils.getRomType();
+        //OSUtils.ROM_TYPE romType = OSUtils.getRomType();
         //Log.d(TAG, "onCreate: " + romType);
-        if (romType == OSUtils.ROM_TYPE.MIUI_ROM) {
-            builder.setContentTitle(getString(R.string.app_name));
-        }
+        //if (romType == OSUtils.ROM_TYPE.MIUI_ROM) {
+        builder.setContentTitle(getString(R.string.app_name));
+        //}
         builder.setContentText(getString(R.string.notification_content));
         Intent intent = new Intent(this, MainActivity.class);
         @SuppressLint("UnspecifiedImmutableFlag") PendingIntent pendingIntent = PendingIntent.getActivity
