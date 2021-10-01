@@ -6,6 +6,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -19,17 +20,13 @@ import androidx.annotation.Nullable;
 import com.idormy.sms.forwarder.MainActivity;
 import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.R;
-import com.idormy.sms.forwarder.model.LogModel;
-import com.idormy.sms.forwarder.model.SenderModel;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.sender.SenderUtil;
-import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -88,26 +85,26 @@ public class FrontService extends Service {
 
         // 低电量预警
         final int[] alarmTimes = {0}; //通知次数，只通知2次
-        SenderUtil.init(this);
+        Context context1 = this;
+        SenderUtil.init(context1);
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
                 int batteryLevel = getBatteryLevel();
-                //System.out.println("当前剩余电量：" + batteryLevel + "%");
+                System.out.println("当前剩余电量：" + batteryLevel + "%");
                 int batteryLevelAlarm = SettingUtil.getBatteryLevelAlarm();
-                if (alarmTimes[0] <= 1 && batteryLevelAlarm > 0 && batteryLevelAlarm <= 100 && batteryLevel == batteryLevelAlarm) {
-                    Date date = new Date();
-                    String msg = "当前剩余电量：" + batteryLevel + "%，已经到达低电量预警阈值，请及时充电！";
-                    System.out.println(msg);
-                    SmsVo smsVo = new SmsVo("888888", msg, date, "");
-                    List<SenderModel> senderModels = SenderUtil.getSender(null, null);
-                    for (SenderModel senderModel : senderModels
-                    ) {
-                        long ruleId = 0;
-                        long logId = LogUtil.addLog(new LogModel(smsVo.getMobile(), smsVo.getContent(), smsVo.getSimInfo(), ruleId));
-                        SendUtil.senderSendMsgNoHandError(smsVo, senderModel, logId);
+                if (alarmTimes[0] <= 1 && batteryLevelAlarm > 0 && batteryLevelAlarm <= 100 && (batteryLevel == batteryLevelAlarm || batteryLevel == batteryLevelAlarm - 1)) {
+                    try {
+                        alarmTimes[0] = alarmTimes[0] + 1;
+                        SmsVo smsVo = new SmsVo("88888888",
+                                "当前剩余电量：" + batteryLevel + "%，已经到达低电量预警阈值，请及时充电！",
+                                new Date(),
+                                "低电量预警");
+                        Log.d(TAG, "send_msg" + smsVo.toString());
+                        SendUtil.send_msg(context1, smsVo, 1);
+                    } catch (Exception e) {
+                        Log.e(TAG, "getLog e:" + e.getMessage());
                     }
-                    alarmTimes[0] = alarmTimes[0] + 1;
                 }
 
                 if (batteryLevelAlarm > 0 && batteryLevelAlarm <= 100 && batteryLevel > batteryLevelAlarm) {
