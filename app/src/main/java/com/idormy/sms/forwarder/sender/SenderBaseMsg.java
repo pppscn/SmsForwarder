@@ -9,7 +9,7 @@ import android.util.Log;
 
 public class SenderBaseMsg {
 
-    public static void Toast(final Handler handError, final String Tag, String data) {
+    public static void Toast(Handler handError, String Tag, String data) {
         Log.i(Tag, data);
         if (handError != null) {
             Message msg = new Message();

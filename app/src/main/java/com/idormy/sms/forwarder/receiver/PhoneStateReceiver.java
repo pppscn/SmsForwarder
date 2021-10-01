@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 public class PhoneStateReceiver extends BroadcastReceiver {
+    private static final String TAG = "PhoneStateReceiver";
     private TelephonyManager mTelephonyManager;
 
     @Override
@@ -33,7 +34,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                         (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             }
             int state = mTelephonyManager.getCallState();
-            Log.d("PhoneStateReceiver", "onReceive state=" + state + " phoneNumber = " + phoneNumber);
+            Log.d(TAG, "onReceive state=" + state + " phoneNumber = " + phoneNumber);
             switch (state) {
                 case TelephonyManager.CALL_STATE_RINGING:
                     if (!TextUtils.isEmpty(phoneNumber)) {
@@ -60,7 +61,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
             name = context.getString(R.string.unknown_number);
         }
         SmsVo smsVo = new SmsVo(phoneNumber, name + context.getString(R.string.calling), new Date(), name);
-        Log.d("PhoneStateReceiver", "send_msg" + smsVo.toString());
+        Log.d(TAG, "send_msg" + smsVo.toString());
         SendUtil.send_msg(context, smsVo, 1);
     }
 }
