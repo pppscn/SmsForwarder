@@ -3,8 +3,8 @@
 > ⚠ 有一个已经实现好的站点[消息通知](https://msg.allmything.com)
 
 ### 请求体如下
-> post form
-参数：
+
+> post form 参数：
 
 |  key   | 类型  |  说明  |
 |  ----  | ----  | ----  |
@@ -17,19 +17,21 @@
 * sign部分参考借鉴了[阿里钉钉群机器人的sign生成](https://developers.dingtalk.com/document/app/custom-robot-access)
 
 ### sign校验规则
-把timestamp+"\n"+密钥当做签名字符串，使用HmacSHA256算法计算签名，然后进行Base64 encode，最后再把签名参数再进行urlEncode，得到最终的签名（需要使用UTF-8字符集）
-|  参数    |  说明  |
-|  ----   | ----  |
-| timestamp   |  当前时间戳，单位是毫秒，（建议验证与请求调用时间误差不能超过1小时，防止重放欺骗） |
-| secret   | 密钥，web通知设置页面，secret |
+
+把timestamp+"\n"+密钥当做签名字符串，使用HmacSHA256算法计算签名，然后进行Base64 encode，最后再把签名参数再进行urlEncode，得到最终的签名（需要使用UTF-8字符集） | 参数 | 说明 | | ---- | ---- | | timestamp | 当前时间戳，单位是毫秒，（建议验证与请求调用时间误差不能超过1小时，防止重放欺骗） | | secret | 密钥，web通知设置页面，secret |
 
 示例：
+
 ```Java
 //java
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+
 import org.apache.commons.codec.binary.Base64;
+
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class Test {
     public static void main(String[] args) throws Exception {
@@ -38,9 +40,9 @@ public class Test {
 
         String stringToSign = timestamp + "\n" + secret;
         Mac mac = Mac.getInstance("HmacSHA256");
-        mac.init(new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256"));
-        byte[] signData = mac.doFinal(stringToSign.getBytes("UTF-8"));
-        String sign = URLEncoder.encode(new String(Base64.encodeBase64(signData)),"UTF-8");
+        mac.init(new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
+        byte[] signData = mac.doFinal(stringToSign.getBytes(StandardCharsets.UTF_8));
+        String sign = URLEncoder.encode(new String(Base64.encodeBase64(signData)), "UTF-8");
         System.out.println(sign);
     }
 
@@ -67,6 +69,7 @@ print(timestamp)
 print(sign)
 
 ```
+
 ```python
 #python 2.7
 import time
