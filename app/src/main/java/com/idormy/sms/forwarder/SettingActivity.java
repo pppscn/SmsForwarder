@@ -55,6 +55,9 @@ public class SettingActivity extends AppCompatActivity {
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_sms_template = findViewById(R.id.switch_sms_template);
         switchSmsTemplate(switch_sms_template);
 
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_enable_phone = findViewById(R.id.switch_enable_phone);
+        switchEnablePhone(switch_enable_phone);
+
         EditText textSmsTemplate = findViewById(R.id.text_sms_template);
         editSmsTemplate(textSmsTemplate);
     }
@@ -65,6 +68,16 @@ public class SettingActivity extends AppCompatActivity {
 
         switch_add_extra.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingUtil.switchAddExtra(isChecked);
+            Log.d(TAG, "onCheckedChanged:" + isChecked);
+        });
+    }
+
+    //设置转发来电
+    private void switchEnablePhone(@SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_enable_phone) {
+        switch_enable_phone.setChecked(SettingUtil.getSwitchEnablePhone());
+
+        switch_enable_phone.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingUtil.switchEnablePhone(isChecked);
             Log.d(TAG, "onCheckedChanged:" + isChecked);
         });
     }
