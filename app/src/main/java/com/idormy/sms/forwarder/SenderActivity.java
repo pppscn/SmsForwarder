@@ -465,6 +465,8 @@ public class SenderActivity extends AppCompatActivity {
         if (senderModel != null) editTextBarkName.setText(senderModel.getName());
         final EditText editTextBarkServer = view1.findViewById(R.id.editTextBarkServer);
         if (barkSettingVo != null) editTextBarkServer.setText(barkSettingVo.getServer());
+        final EditText editTextBarkIcon = view1.findViewById(R.id.editTextBarkIcon);
+        if (barkSettingVo != null) editTextBarkIcon.setText(barkSettingVo.getIcon());
 
         Button buttonBarkOk = view1.findViewById(R.id.buttonBarkOk);
         Button buttonBarkDel = view1.findViewById(R.id.buttonBarkDel);
@@ -484,7 +486,8 @@ public class SenderActivity extends AppCompatActivity {
                 newSenderModel.setType(TYPE_BARK);
                 newSenderModel.setStatus(STATUS_ON);
                 BarkSettingVo barkSettingVoNew = new BarkSettingVo(
-                        editTextBarkServer.getText().toString()
+                        editTextBarkServer.getText().toString(),
+                        editTextBarkIcon.getText().toString()
                 );
                 newSenderModel.setJsonSetting(JSON.toJSONString(barkSettingVoNew));
                 SenderUtil.addSender(newSenderModel);
@@ -495,7 +498,8 @@ public class SenderActivity extends AppCompatActivity {
                 senderModel.setType(TYPE_BARK);
                 senderModel.setStatus(STATUS_ON);
                 BarkSettingVo barkSettingVoNew = new BarkSettingVo(
-                        editTextBarkServer.getText().toString()
+                        editTextBarkServer.getText().toString(),
+                        editTextBarkIcon.getText().toString()
                 );
                 senderModel.setJsonSetting(JSON.toJSONString(barkSettingVoNew));
                 SenderUtil.updateSender(senderModel);
@@ -516,9 +520,10 @@ public class SenderActivity extends AppCompatActivity {
         });
         buttonBarkTest.setOnClickListener(view -> {
             String barkServer = editTextBarkServer.getText().toString();
+            String barkIcon = editTextBarkIcon.getText().toString();
             if (!barkServer.isEmpty()) {
                 try {
-                    SenderBarkMsg.sendMsg(0, handler, barkServer, getString(R.string.test_phone_num), getString(R.string.test_sms), getString(R.string.test_group_name));
+                    SenderBarkMsg.sendMsg(0, handler, barkServer, barkIcon, getString(R.string.test_phone_num), getString(R.string.test_sms), getString(R.string.test_group_name));
                 } catch (Exception e) {
                     Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();

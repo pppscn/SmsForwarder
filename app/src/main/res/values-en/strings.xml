@@ -9,6 +9,7 @@
     <string name="confirm">Confirm</string>
     <string name="all">All</string>
     <string name="select">Select</string>
+    <string name="clone">Clone Settings</string>
     <string name="setting">Settings</string>
     <string name="about">About</string>
     <string name="rule_setting">Rule Setting</string>
@@ -104,6 +105,7 @@
     <string name="new_sender">New Sender</string>
     <string name="set_bark_name">Bark Group Name</string>
     <string name="set_bark_server">Bark-Server, e.g. https://bark.bms.ink/XXXXXXXX/</string>
+    <string name="set_bark_icon">Bark-Icon (optional), e.g. http://day.app/assets/images/avatar.jpg</string>
     <string name="set_name">Name</string>
     <string name="dingding_token">Token e.g. the XXXXXX part of https://oapi.dingtalk.com/robot/send?access_token=XXXXXX</string>
     <string name="dingding_secret">Secret (optional)</string>
@@ -161,7 +163,7 @@
     <string name="calling">Incoming telegram</string>
     <string name="unsupport">Your phone does not support this setting</string>
     <string name="isIgnored">Set successfully!</string>
-    <!--SenderBaseMsg-->
+    <!--Other-->
     <string name="version_now">v1.0</string>
     <string name="linkweb">https://github.com/pppscn/SmsForwarder</string>
     <string name="linkweb2">https://gitee.com/pp/SmsForwarder</string>
@@ -171,4 +173,21 @@
     <string name="mu_rule_tips">多重匹配规则示例：\n \n 并且 是 手机号 相等 10086\n 或者 是 手机号 相等 10011\n 并且 是 短信内容 包含 欠费\n \n 以上规则表示：收到短信，并且（手机号是10086 或者 手机号是10010），并且 短信内容 包含 欠费 时转发短信\n 注意：每行开始的空格代表层级，太过复杂的多重规则可能导致内存占用很大！</string>
     <string name="post">POST</string>
     <string name="get">GET</string>
+    <!--CloneActivity-->
+    <string name="local_ip">Local IP：</string>
+    <string name="operating_instruction">Operation instructions: \n1. Please keep the old and new phones in the same WiFi network, and do not turn on isolation \n2.The old mobile phone directly click "send" button, get "server IP" \n3. After filling in "Server IP" for the new mobile phone, click "Receive" button \n [note], the sender and forwarding rules will be completely covered after the new mobile phone receives!</string>
+    <string name="send">Send</string>
+    <string name="stop">Stop</string>
+    <string name="old_mobile_phone">I\'m the old phone</string>
+    <string name="receive">Receive</string>
+    <string name="new_mobile_phone">I\'m the new phone</string>
+    <string name="server_ip">Server IP: </string>
+    <string name="point">.</string>
+    <string name="invalid_ip">Please enter a valid IP address</string>
+    <string name="server_has_started">The server is started successfully</string>
+    <string name="server_has_stopped">The server has been stopped</string>
+    <string name="sender_cannot_receive">This mobile phone is the sender and cannot receive files.</string>
+    <string name="no_wifi_network">If the Wifi network is not connected, the one-click cloning function cannot be used.</string>
+    <string name="invalid_server_ip">Please enter a valid server IP address</string>
+    <string name="download_failed">Download Failed</string>
 </resources>
