@@ -9,6 +9,7 @@
     <string name="confirm">确认</string>
     <string name="all">全部</string>
     <string name="select">选择</string>
+    <string name="clone">一键克隆</string>
     <string name="setting">设置</string>
     <string name="about">关于</string>
     <string name="rule_setting">设置转发规则</string>
@@ -104,6 +105,7 @@
     <string name="new_sender">添加发送方</string>
     <string name="set_bark_name">设置分组名称</string>
     <string name="set_bark_server">设置Bark-Server地址，示例：https://bark.bms.ink/XXXXXXXX/</string>
+    <string name="set_bark_icon">设置推送消息图标(可选)，示例：http://day.app/assets/images/avatar.jpg</string>
     <string name="set_name">设置名称</string>
     <string name="dingding_token">设置Token 例如 https://oapi.dingtalk.com/robot/send?access_token=XXXXXX 中的 XXXXXX</string>
     <string name="dingding_secret">加签 Secret (没有可不填)</string>
@@ -171,4 +173,20 @@
     <string name="mu_rule_tips">多重匹配规则示例：\n \n 并且 是 手机号 相等 10086\n 或者 是 手机号 相等 10011\n 并且 是 短信内容 包含 欠费\n \n 以上规则表示：收到短信，并且（手机号是10086 或者 手机号是10010），并且 短信内容 包含 欠费 时转发短信\n 注意：每行开始的空格代表层级，太过复杂的多重规则可能导致内存占用很大！</string>
     <string name="post">POST</string>
     <string name="get">GET</string>
+    <string name="local_ip">本机IP：</string>
+    <string name="operating_instruction">操作说明：\n1.请保持新旧手机在同一个WiFi网络下，且没有开启隔离\n2.旧手机直接点【发送】按钮，获取到【服务端IP】\n3.新手机填写【服务端IP】后，点【接收】按钮\n【注意】新手机接收后，发送方、转发规则将完全被覆盖！</string>
+    <string name="send">发送</string>
+    <string name="stop">停止</string>
+    <string name="old_mobile_phone">我是旧手机</string>
+    <string name="receive">接收</string>
+    <string name="new_mobile_phone">我是新手机</string>
+    <string name="server_ip">服务端IP：</string>
+    <string name="point">.</string>
+    <string name="invalid_ip">请输入合法的IP地址</string>
+    <string name="server_has_started">服务端已启动</string>
+    <string name="server_has_stopped">服务端已停止</string>
+    <string name="sender_cannot_receive">本手机是发送端，不可接收文件，请先停止服务端！</string>
+    <string name="no_wifi_network">未接入Wifi网络，不可使用一键克隆功能!</string>
+    <string name="invalid_server_ip">请输入服务端IP</string>
+    <string name="download_failed">下载文件失败</string>
 </resources>
