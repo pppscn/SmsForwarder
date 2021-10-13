@@ -26,9 +26,6 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_add_extra = findViewById(R.id.switch_add_extra);
-        switchAddExtra(switch_add_extra);
-
         EditText et_add_extra_device_mark = findViewById(R.id.et_add_extra_device_mark);
         editAddExtraDeviceMark(et_add_extra_device_mark);
 
@@ -62,16 +59,6 @@ public class SettingActivity extends AppCompatActivity {
         editSmsTemplate(textSmsTemplate);
     }
 
-    //设置转发附加信息
-    private void switchAddExtra(@SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_add_extra) {
-        switch_add_extra.setChecked(SettingUtil.getSwitchAddExtra());
-
-        switch_add_extra.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            SettingUtil.switchAddExtra(isChecked);
-            Log.d(TAG, "onCheckedChanged:" + isChecked);
-        });
-    }
-
     //设置转发来电
     private void switchEnablePhone(@SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_enable_phone) {
         switch_enable_phone.setChecked(SettingUtil.getSwitchEnablePhone());
@@ -82,7 +69,7 @@ public class SettingActivity extends AppCompatActivity {
         });
     }
 
-    //设置转发附加信息deviceMark
+    //设置设备名称
     private void editAddExtraDeviceMark(final EditText et_add_extra_device_mark) {
         et_add_extra_device_mark.setText(SettingUtil.getAddExtraDeviceMark());
 
@@ -104,7 +91,7 @@ public class SettingActivity extends AppCompatActivity {
         });
     }
 
-    //设置转发附加信息deviceMark
+    //设置SIM1备注
     private void editAddExtraSim1(final EditText et_add_extra_sim1) {
         et_add_extra_sim1.setText(SettingUtil.getAddExtraSim1());
 
@@ -126,7 +113,7 @@ public class SettingActivity extends AppCompatActivity {
         });
     }
 
-    //设置转发附加信息deviceMark
+    //设置SIM2备注
     private void editAddExtraSim2(final EditText et_add_extra_sim2) {
         et_add_extra_sim2.setText(SettingUtil.getAddExtraSim2());
 
@@ -218,7 +205,7 @@ public class SettingActivity extends AppCompatActivity {
         });
     }
 
-    //设置转发附加信息deviceMark
+    //设置转发信息模版
     private void editSmsTemplate(final EditText textSmsTemplate) {
         textSmsTemplate.setText(SettingUtil.getSmsTemplate());
 
@@ -268,9 +255,6 @@ public class SettingActivity extends AppCompatActivity {
 
     //恢复初始化配置
     public void initSetting(View view) {
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_add_extra = findViewById(R.id.switch_add_extra);
-        switch_add_extra.setChecked(false);
-        switchAddExtra(switch_add_extra);
 
         EditText et_add_extra_device_mark = findViewById(R.id.et_add_extra_device_mark);
         et_add_extra_device_mark.setText("");
