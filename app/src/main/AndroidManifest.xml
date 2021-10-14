@@ -4,6 +4,7 @@
     package="com.idormy.sms.forwarder">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 授予应用程序访问系统开机事件的权限 -->
     <uses-permission
@@ -77,6 +78,9 @@
         <activity
             android:name=".SettingActivity"
             android:label="@string/setting" />
+        <activity
+            android:name=".CloneActivity"
+            android:label="@string/clone" />
         <activity
             android:name=".RuleActivity"
             android:label="@string/rule_setting" />

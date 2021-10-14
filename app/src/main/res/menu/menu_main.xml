@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.allmything.linkhelper.MainActivity">
     <item
+        android:id="@+id/to_clone"
+        android:orderInCategory="100"
+        android:title="@string/clone"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/to_setting"
         android:orderInCategory="100"
         android:title="@string/setting"

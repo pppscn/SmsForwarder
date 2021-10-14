@@ -171,6 +171,11 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         builder.show();
     }
 
+    public void toClone() {
+        Intent intent = new Intent(this, CloneActivity.class);
+        startActivity(intent);
+    }
+
     public void toSetting() {
         Intent intent = new Intent(this, SettingActivity.class);
         startActivity(intent);
@@ -217,6 +222,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.to_clone:
+                toClone();
+                return true;
             case R.id.to_setting:
                 toSetting();
                 return true;

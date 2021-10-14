@@ -190,4 +190,10 @@
     <string name="no_wifi_network">If the Wifi network is not connected, the one-click cloning function cannot be used.</string>
     <string name="invalid_server_ip">Please enter a valid server IP address</string>
     <string name="download_failed">Download Failed</string>
+    <string name="download_success">Download Success</string>
+    <string name="on_wireless_network">Currently on a wireless network</string>
+    <string name="on_mobile_network">Currently on a mobile network</string>
+    <string name="no_network">No network at present</string>
+    <string name="not_connected_wifi">Not connected WIFI</string>
+    <string name="failed_to_get_ip">Failed to get IP address</string>
 </resources>

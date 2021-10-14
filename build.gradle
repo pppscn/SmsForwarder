@@ -8,7 +8,7 @@ buildscript {
         maven { url 'https://repo1.maven.org/maven2/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.2'
+        classpath 'com.android.tools.build:gradle:7.0.3'
         classpath 'com.chenenyu:img-optimizer:1.2.0'
     }
 }

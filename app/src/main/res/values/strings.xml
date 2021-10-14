@@ -174,7 +174,7 @@
     <string name="post">POST</string>
     <string name="get">GET</string>
     <string name="local_ip">本机IP：</string>
-    <string name="operating_instruction">操作说明：\n1.请保持新旧手机在同一个WiFi网络下，且没有开启隔离\n2.旧手机直接点【发送】按钮，获取到【服务端IP】\n3.新手机填写【服务端IP】后，点【接收】按钮\n【注意】新手机接收后，发送方、转发规则将完全被覆盖！</string>
+    <string name="operating_instruction">操作说明：\n1.请保持新旧手机在同一个WiFi网络下，且没有开启隔离\n2.旧手机直接点【发送】按钮，获取到【服务端IP】\n3.新手机填写【服务端IP】后，点【接收】按钮\n【注意】新手机接收后，发送方、转发规则将完全被覆盖，清空历史记录！</string>
     <string name="send">发送</string>
     <string name="stop">停止</string>
     <string name="old_mobile_phone">我是旧手机</string>
@@ -189,4 +189,10 @@
     <string name="no_wifi_network">未接入Wifi网络，不可使用一键克隆功能!</string>
     <string name="invalid_server_ip">请输入服务端IP</string>
     <string name="download_failed">下载文件失败</string>
+    <string name="download_success">下载成功</string>
+    <string name="on_wireless_network">当前处于无线网络</string>
+    <string name="on_mobile_network">当前处于移动网络</string>
+    <string name="no_network">当前没有网络</string>
+    <string name="not_connected_wifi">未连接Wifi</string>
+    <string name="failed_to_get_ip">获取IP失败</string>
 </resources>
