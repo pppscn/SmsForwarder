@@ -18,3 +18,4 @@ gradle.properties
 /keystore/keystore.properties
 /app/release
 /keystore
+*.bak
