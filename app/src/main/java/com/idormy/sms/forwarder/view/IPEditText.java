@@ -169,7 +169,6 @@ public class IPEditText extends LinearLayout {
                     Edit4.setText(ip4);
                     Edit4.setSelection(ip4.length());
                     Toast.makeText(context, R.string.invalid_ip, Toast.LENGTH_LONG).show();
-                    return;
                 }
             }
 

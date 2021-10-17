@@ -12,15 +12,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.1"
-        android:gravity="start"
-        android:orientation="horizontal">
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.3"
         android:gravity="center"
@@ -62,8 +53,7 @@
         <com.idormy.sms.forwarder.view.IPEditText
             android:id="@+id/textServerIp"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_alignParentLeft="true" />
+            android:layout_width="match_parent" />
 
     </LinearLayout>
 
