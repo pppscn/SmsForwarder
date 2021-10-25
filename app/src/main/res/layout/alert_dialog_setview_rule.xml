@@ -173,7 +173,9 @@
                 android:layout_marginStart="5dp"
                 android:autofillHints=""
                 android:ems="14"
-                android:inputType="text"
+                android:inputType="textMultiLine"
+                android:gravity="left|top"
+                android:minLines="1"
                 android:text=""
                 tools:ignore="LabelFor" />
 
