@@ -88,7 +88,7 @@ public class SettingActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 String deviceMark =  et_add_extra_device_mark.getText().toString();
                 SettingUtil.setAddExtraDeviceMark(deviceMark);
-                SettingUtil.switchAddDeviceName(!deviceMark.isEmpty());
+                SettingUtil.switchAddDeviceName(!deviceMark.equals("0"));
             }
         });
     }
@@ -115,7 +115,7 @@ public class SettingActivity extends AppCompatActivity {
 
                 String sim1Str = et_add_extra_sim1.getText().toString();
                 SettingUtil.setAddExtraSim1(sim1Str);
-                SettingUtil.switchAddExtra(!sim2Str.isEmpty() || !sim1Str.isEmpty());
+                SettingUtil.switchAddExtra(!sim2Str.equals("0") || !sim1Str.equals("0"));
             }
         });
     }
@@ -142,7 +142,7 @@ public class SettingActivity extends AppCompatActivity {
 
                 String sim2Str = et_add_extra_sim2.getText().toString();
                 SettingUtil.setAddExtraSim2(sim2Str);
-                SettingUtil.switchAddExtra(!sim2Str.isEmpty() || !sim1Str.isEmpty());
+                SettingUtil.switchAddExtra(!sim2Str.equals("0") || !sim1Str.equals("0"));
             }
         });
     }

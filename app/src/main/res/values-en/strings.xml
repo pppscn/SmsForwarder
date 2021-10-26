@@ -139,9 +139,10 @@
     <string name="OnlyNoNetwork">仅当无网络时启用</string>
     <!--SettingActivity-->
     <string name="device_name">Device name</string>
+    <string name="device_name_tips">0 is disabled</string>
     <string name="sim1_remark" tools:ignore="Typos">SIM1 Remark</string>
     <string name="sim2_remark" tools:ignore="Typos">SIM2 Remark</string>
-    <string name="carrier_mobile">Carrier_Mobile Number</string>
+    <string name="carrier_mobile">Carrier_Mobile Number. 0 is disabled</string>
     <string name="low_power_alarm_threshold">Low power alarm threshold</string>
     <string name="low_power_alarm_threshold_tips">Value range: 0–100. Left blank or 0 is disabled</string>
     <string name="retry_interval">Retry interval (seconds)</string>
