@@ -86,7 +86,9 @@ public class SettingActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                SettingUtil.setAddExtraDeviceMark(et_add_extra_device_mark.getText().toString());
+                String deviceMark =  et_add_extra_device_mark.getText().toString();
+                SettingUtil.setAddExtraDeviceMark(deviceMark);
+                SettingUtil.switchAddDeviceName(!deviceMark.isEmpty());
             }
         });
     }
@@ -108,7 +110,12 @@ public class SettingActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                SettingUtil.setAddExtraSim1(et_add_extra_sim1.getText().toString());
+                EditText sim2= findViewById(R.id.et_add_extra_sim2);
+                String sim2Str = sim2.getText().toString();
+
+                String sim1Str = et_add_extra_sim1.getText().toString();
+                SettingUtil.setAddExtraSim1(sim1Str);
+                SettingUtil.switchAddExtra(!sim2Str.isEmpty() || !sim1Str.isEmpty());
             }
         });
     }
@@ -130,7 +137,12 @@ public class SettingActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                SettingUtil.setAddExtraSim2(et_add_extra_sim2.getText().toString());
+                EditText sim1= findViewById(R.id.et_add_extra_sim1);
+                String sim1Str = sim1.getText().toString();
+
+                String sim2Str = et_add_extra_sim2.getText().toString();
+                SettingUtil.setAddExtraSim2(sim2Str);
+                SettingUtil.switchAddExtra(!sim2Str.isEmpty() || !sim1Str.isEmpty());
             }
         });
     }
