@@ -40,14 +40,6 @@ public class SmsVo implements Serializable {
             smsTemplate = "{{来源号码}}\n{{短信内容}}\n{{卡槽信息}}\n{{接收时间}}\n{{设备名称}}";
         }
 
-        if (!switchAddExtra) {
-            smsTemplate = smsTemplate.replace("{{卡槽信息}}\n", "").replace("{{卡槽信息}}", "");
-        }
-
-        if (!switchAddDeviceName) {
-            smsTemplate = smsTemplate.replace("\n{{设备名称}}", "").replace("{{设备名称}}", "");
-        }
-
         return smsTemplate.replace("{{来源号码}}", mobile)
                 .replace("{{短信内容}}", content)
                 .replace("{{卡槽信息}}", simInfo)
