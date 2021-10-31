@@ -38,7 +38,7 @@ public class SenderTelegramMsg extends SenderBaseMsg {
         }
 
         //特殊处理避免标题重复
-        text = text.replaceFirst("^" + from + "(.*)", "").replaceAll("#", "井").trim();
+        text = text.replaceAll("#", "井").trim();
 
         final String requestUrl = "https://api.telegram.org/bot" + apiToken + "/sendMessage";
         Log.i(TAG, "requestUrl:" + requestUrl);
