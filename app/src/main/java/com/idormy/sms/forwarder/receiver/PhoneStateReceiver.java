@@ -3,6 +3,7 @@ package com.idormy.sms.forwarder.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,6 +14,7 @@ import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.utils.ContactHelper;
 import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.SimUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -26,19 +28,45 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         if (!SettingUtil.getSwitchEnablePhone()) {
             return;
         }
+
         String action = intent.getAction();
         if (TelephonyManager.ACTION_PHONE_STATE_CHANGED.equals(action)) {
+            //获取卡槽信息
+            Bundle extras = intent.getExtras();
+            String simInfo = "";
+            //卡槽ID，默认卡槽为1
+            int simId = 1;
+            try {
+                if (extras.containsKey("simId")) {
+                    simId = extras.getInt("simId");
+                } else if (extras.containsKey("subscription")) {
+                    simId = SimUtil.getSimIdBySubscriptionId(extras.getInt("subscription"));
+                }
+
+                //自定义备注优先
+                simInfo = simId == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1();
+                if (!simInfo.isEmpty()) {
+                    simInfo = "SIM" + simId + "_" + simInfo;
+                } else {
+                    simInfo = SimUtil.getSimInfo(simId);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "获取接收手机号失败：" + e.getMessage());
+            }
+            Log.d(TAG, "卡槽信息：" + simInfo);
+
+            //获取来电号码
             String phoneNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
             if (mTelephonyManager == null) {
                 mTelephonyManager =
                         (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             }
             int state = mTelephonyManager.getCallState();
-            Log.d(TAG, "onReceive state=" + state + " phoneNumber = " + phoneNumber);
+            Log.d(TAG, "来电信息：state=" + state + " phoneNumber = " + phoneNumber);
             switch (state) {
                 case TelephonyManager.CALL_STATE_RINGING:
                     if (!TextUtils.isEmpty(phoneNumber)) {
-                        sendReceiveCallMsg(context, phoneNumber);
+                        sendReceiveCallMsg(context, phoneNumber, simId, simInfo);
                     }
                     break;
                 case TelephonyManager.CALL_STATE_IDLE:
@@ -50,7 +78,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
 
     }
 
-    private void sendReceiveCallMsg(Context context, String phoneNumber) {
+    private void sendReceiveCallMsg(Context context, String phoneNumber, int simId, String simInfo) {
         List<PhoneBookEntity> contacts = ContactHelper.getInstance().getContactByNumber(context, phoneNumber);
         String name = "";
         if (contacts != null && contacts.size() > 0) {
@@ -60,8 +88,8 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         if (TextUtils.isEmpty(name)) {
             name = context.getString(R.string.unknown_number);
         }
-        SmsVo smsVo = new SmsVo(phoneNumber, name + context.getString(R.string.calling), new Date(), name);
+        SmsVo smsVo = new SmsVo(phoneNumber, name + context.getString(R.string.calling), new Date(), simInfo);
         Log.d(TAG, "send_msg" + smsVo.toString());
-        SendUtil.send_msg(context, smsVo, 1);
+        SendUtil.send_msg(context, smsVo, simId);
     }
 }
