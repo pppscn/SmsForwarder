@@ -40,7 +40,10 @@ public class SenderTelegramMsg extends SenderBaseMsg {
         //特殊处理避免标题重复
         text = text.replaceAll("#", "井").trim();
 
-        final String requestUrl = "https://api.telegram.org/bot" + apiToken + "/sendMessage";
+        if (!apiToken.startsWith("http")) {
+            apiToken = "https://api.telegram.org/bot" + apiToken + "/sendMessage";
+        }
+        final String requestUrl = apiToken;
         Log.i(TAG, "requestUrl:" + requestUrl);
 
         Map bodyMap = new HashMap();

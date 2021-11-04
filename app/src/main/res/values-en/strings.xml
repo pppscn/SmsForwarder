@@ -127,7 +127,7 @@
     <string name="specified_member_tips">Tip：Specify members receive messages, member ID list (multiple recipients with \'|\' space, maximum 1000)</string>
     <string name="QYWXGroupRobotWebHook">WebHook, e.g. https://qyapi.weixin.qq.com/cgixx?key=xxx</string>
     <string name="ServerChanSendKey">ServerChan\'s SendKey</string>
-    <string name="TelegramApiToken">ApiToken</string>
+    <string name="TelegramApiToken">ApiToken or Custom address</string>
     <string name="TelegramChatId">ChatId</string>
     <string name="WebNotifyMethod">Method</string>
     <string name="WebNotifyWebServer">WebServer e.g. https://a.b.com/msg?token=xyz</string>
