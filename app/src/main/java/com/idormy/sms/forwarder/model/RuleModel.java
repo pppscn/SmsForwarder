@@ -69,6 +69,8 @@ public class RuleModel {
     private Long senderId;
     private Long time;
     private String simSlot;
+    private boolean switchSmsTemplate;
+    private String smsTemplate;
 
     public static String getRuleMatch(String filed, String check, String value, String simSlot) {
         String SimStr = SIM_SLOT_MAP.get(simSlot) + "卡 ";
@@ -269,6 +271,10 @@ public class RuleModel {
             default:
                 return R.id.btnSimSlotAll;
         }
+    }
+
+    public boolean getSwitchSmsTemplate() {
+        return switchSmsTemplate;
     }
 
     @NonNull

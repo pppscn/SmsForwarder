@@ -149,7 +149,7 @@
     <string name="add_extra">转发时附加卡槽信息</string>
     <string name="add_device_name">转发时附加设备名称</string>
     <string name="forward_missed_calls">转发未接来电</string>
-    <string name="enable_custom_templates">转发时启用自定义模版</string>
+    <string name="enable_custom_templates">启用自定义模版</string>
     <string name="custom_templates">转发信息模版</string>
     <string name="custom_templates_tips">Tip：按需插入内容标签；留空使用默认模版</string>
     <string name="insert_sender">来源号码</string>

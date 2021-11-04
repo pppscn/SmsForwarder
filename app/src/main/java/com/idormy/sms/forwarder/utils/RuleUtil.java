@@ -43,6 +43,7 @@ public class RuleUtil {
         values.put(RuleTable.RuleEntry.COLUMN_NAME_VALUE, ruleModel.getValue());
         values.put(RuleTable.RuleEntry.COLUMN_NAME_SENDER_ID, ruleModel.getSenderId());
         values.put(RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT, ruleModel.getSimSlot());
+        values.put(RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE, ruleModel.getSmsTemplate());
 
         // Insert the new row, returning the primary key value of the new row
 
@@ -59,6 +60,7 @@ public class RuleUtil {
         values.put(RuleTable.RuleEntry.COLUMN_NAME_VALUE, ruleModel.getValue());
         values.put(RuleTable.RuleEntry.COLUMN_NAME_SENDER_ID, ruleModel.getSenderId());
         values.put(RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT, ruleModel.getSimSlot());
+        values.put(RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE, ruleModel.getSmsTemplate());
 
         String selection = RuleTable.RuleEntry._ID + " = ? ";
         String[] whereArgs = {String.valueOf(ruleModel.getId())};
@@ -95,6 +97,7 @@ public class RuleUtil {
                 RuleTable.RuleEntry.COLUMN_NAME_SENDER_ID,
                 RuleTable.RuleEntry.COLUMN_NAME_TIME,
                 RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT,
+                RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE,
         };
         // Define 'where' part of query.
         String selection = " 1 = 1 ";
@@ -149,6 +152,8 @@ public class RuleUtil {
                     cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_NAME_TIME));
             String itemSimSlot = cursor.getString(
                     cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT));
+            String smsTemplate = cursor.getString(
+                    cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE));
 
             Log.d(TAG, "getRule: itemId" + itemId);
             RuleModel ruleModel = new RuleModel();
@@ -159,6 +164,8 @@ public class RuleUtil {
             ruleModel.setSenderId(itemSenderId);
             ruleModel.setTime(itemTime);
             ruleModel.setSimSlot(itemSimSlot);
+            ruleModel.setSwitchSmsTemplate(!smsTemplate.trim().isEmpty());
+            ruleModel.setSmsTemplate(smsTemplate);
 
             tRules.add(ruleModel);
         }

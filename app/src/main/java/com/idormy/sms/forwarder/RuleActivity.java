@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -165,6 +166,14 @@ public class RuleActivity extends AppCompatActivity {
         final LinearLayout matchValueLayout = view1.findViewById(R.id.matchValueLayout);
         refreshSelectRadioGroupRuleFiled(radioGroupRuleFiled, radioGroupRuleCheck, radioGroupRuleCheck2, editTextRuleValue, tv_mu_rule_tips, matchTypeLayout, matchValueLayout);
 
+        //自定义模板
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switchSmsTemplate = view1.findViewById(R.id.switch_sms_template);
+        EditText textSmsTemplate = view1.findViewById(R.id.text_sms_template);
+        if (ruleModel != null) {
+            switchSmsTemplate.setChecked(ruleModel.getSwitchSmsTemplate());
+            textSmsTemplate.setText(ruleModel.getSmsTemplate());
+        }
+
         Button buttonRuleOk = view1.findViewById(R.id.buttonRuleOk);
         Button buttonRuleDel = view1.findViewById(R.id.buttonRuleDel);
         Button buttonRuleTest = view1.findViewById(R.id.buttonRuleTest);
@@ -184,6 +193,8 @@ public class RuleActivity extends AppCompatActivity {
                 newRuleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheckId));
                 newRuleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
                 newRuleModel.setValue(editTextRuleValue.getText().toString());
+                newRuleModel.setSwitchSmsTemplate(switchSmsTemplate.isChecked());
+                newRuleModel.setSmsTemplate(textSmsTemplate.getText().toString());
                 if (senderId != null) {
                     newRuleModel.setSenderId(Long.valueOf(senderId.toString()));
                 }
@@ -195,6 +206,8 @@ public class RuleActivity extends AppCompatActivity {
                 ruleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheckId));
                 ruleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
                 ruleModel.setValue(editTextRuleValue.getText().toString());
+                ruleModel.setSwitchSmsTemplate(switchSmsTemplate.isChecked());
+                ruleModel.setSmsTemplate(textSmsTemplate.getText().toString());
                 if (senderId != null) {
                     ruleModel.setSenderId(Long.valueOf(senderId.toString()));
                 }
@@ -240,6 +253,53 @@ public class RuleActivity extends AppCompatActivity {
                     testRule(ruleModel, Long.valueOf(senderId.toString()));
                 }
             }
+        });
+
+        //自定义模板
+        final LinearLayout layout_sms_template = view1.findViewById(R.id.layout_sms_template);
+        if (ruleModel != null) {
+            layout_sms_template.setVisibility(ruleModel.getSwitchSmsTemplate() ? View.VISIBLE : View.GONE);
+        }
+        switchSmsTemplate.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            layout_sms_template.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            if (!isChecked) {
+                textSmsTemplate.setText("");
+            }
+        });
+
+        Button buttonInsertSender = view1.findViewById(R.id.bt_insert_sender);
+        buttonInsertSender.setOnClickListener(view -> {
+            textSmsTemplate.setFocusable(true);
+            textSmsTemplate.requestFocus();
+            textSmsTemplate.append("{{来源号码}}");
+        });
+
+        Button buttonInsertContent = view1.findViewById(R.id.bt_insert_content);
+        buttonInsertContent.setOnClickListener(view -> {
+            textSmsTemplate.setFocusable(true);
+            textSmsTemplate.requestFocus();
+            textSmsTemplate.append("{{短信内容}}");
+        });
+
+        Button buttonInsertExtra = view1.findViewById(R.id.bt_insert_extra);
+        buttonInsertExtra.setOnClickListener(view -> {
+            textSmsTemplate.setFocusable(true);
+            textSmsTemplate.requestFocus();
+            textSmsTemplate.append("{{卡槽信息}}");
+        });
+
+        Button buttonInsertTime = view1.findViewById(R.id.bt_insert_time);
+        buttonInsertTime.setOnClickListener(view -> {
+            textSmsTemplate.setFocusable(true);
+            textSmsTemplate.requestFocus();
+            textSmsTemplate.append("{{接收时间}}");
+        });
+
+        Button buttonInsertDeviceName = view1.findViewById(R.id.bt_insert_device_name);
+        buttonInsertDeviceName.setOnClickListener(view -> {
+            textSmsTemplate.setFocusable(true);
+            textSmsTemplate.requestFocus();
+            textSmsTemplate.append("{{设备名称}}");
         });
 
     }

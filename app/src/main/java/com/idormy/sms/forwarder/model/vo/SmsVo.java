@@ -30,17 +30,22 @@ public class SmsVo implements Serializable {
     }
 
     @SuppressLint("SimpleDateFormat")
-    public String getSmsVoForSend() {
-        boolean switchAddExtra = SettingUtil.getSwitchAddExtra();
-        boolean switchAddDeviceName = SettingUtil.getSwitchAddDeviceName();
-        boolean switchSmsTemplate = SettingUtil.getSwitchSmsTemplate();
-        String smsTemplate = SettingUtil.getSmsTemplate().trim();
+    public String getSmsVoForSend(String ruleSmsTemplate) {
         String deviceMark = SettingUtil.getAddExtraDeviceMark().trim();
-        if (!switchSmsTemplate) {
-            smsTemplate = "{{来源号码}}\n{{短信内容}}\n{{卡槽信息}}\n{{接收时间}}\n{{设备名称}}";
+        String customSmsTemplate = "{{来源号码}}\n{{短信内容}}\n{{卡槽信息}}\n{{接收时间}}\n{{设备名称}}";
+
+        //优先取转发规则的自定义模板，留空则取全局设置
+        if (!ruleSmsTemplate.isEmpty()) {
+            customSmsTemplate = ruleSmsTemplate;
+        } else {
+            boolean switchSmsTemplate = SettingUtil.getSwitchSmsTemplate();
+            String smsTemplate = SettingUtil.getSmsTemplate().trim();
+            if (switchSmsTemplate && !smsTemplate.isEmpty()) {
+                customSmsTemplate = smsTemplate;
+            }
         }
 
-        return smsTemplate.replace("{{来源号码}}", mobile)
+        return customSmsTemplate.replace("{{来源号码}}", mobile)
                 .replace("{{短信内容}}", content)
                 .replace("{{卡槽信息}}", simInfo)
                 .replace("{{接收时间}}", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date))

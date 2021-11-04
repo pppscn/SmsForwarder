@@ -16,7 +16,7 @@ import java.util.List;
 public class DbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
     public static final String TAG = "DbHelper";
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "sms_forwarder.db";
 
     private static final List<String> SQL_CREATE_ENTRIES =
@@ -37,6 +37,7 @@ public class DbHelper extends SQLiteOpenHelper {
                             RuleTable.RuleEntry.COLUMN_NAME_VALUE + " TEXT," +
                             RuleTable.RuleEntry.COLUMN_NAME_SENDER_ID + " INTEGER," +
                             RuleTable.RuleEntry.COLUMN_NAME_TIME + " TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                            RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE + " TEXT NOT NULL DEFAULT ''," +
                             RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT + " TEXT NOT NULL DEFAULT 'ALL')"
                     , "CREATE TABLE " + SenderTable.SenderEntry.TABLE_NAME + " (" +
                             SenderTable.SenderEntry._ID + " INTEGER PRIMARY KEY," +
@@ -77,18 +78,22 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 2) { //当数据库版本小于版本2时
+        if (oldVersion < 2) { //转发日志添加SIM卡槽信息
             String sql = "Alter table " + LogTable.LogEntry.TABLE_NAME + " add column " + LogTable.LogEntry.COLUMN_NAME_SIM_INFO + " TEXT ";
             db.execSQL(sql);
         }
-        if (oldVersion < 3) { //当数据库版本小于版本3时
+        if (oldVersion < 3) { //转发规则添加SIM卡槽信息
             String sql = "Alter table " + RuleTable.RuleEntry.TABLE_NAME + " add column " + RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT + " TEXT NOT NULL DEFAULT 'ALL' ";
             db.execSQL(sql);
         }
-        if (oldVersion < 4) { //添加转发状态与返回信息
+        if (oldVersion < 4) { //转发日志添加转发状态与返回信息
             String sql = "Alter table " + LogTable.LogEntry.TABLE_NAME + " add column " + LogTable.LogEntry.COLUMN_NAME_FORWARD_STATUS + " INTEGER NOT NULL DEFAULT 1 ";
             db.execSQL(sql);
             sql = "Alter table " + LogTable.LogEntry.TABLE_NAME + " add column " + LogTable.LogEntry.COLUMN_NAME_FORWARD_RESPONSE + " TEXT NOT NULL DEFAULT 'ok' ";
+            db.execSQL(sql);
+        }
+        if (oldVersion < 5) { //转发规则添加规则自定义信息模板
+            String sql = "Alter table " + RuleTable.RuleEntry.TABLE_NAME + " add column " + RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE + " TEXT NOT NULL DEFAULT '' ";
             db.execSQL(sql);
         }
     }
