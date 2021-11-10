@@ -42,7 +42,7 @@ public class SenderBarkMsg extends SenderBaseMsg {
         barkServer += "/" + URLEncoder.encode(content, "UTF-8");
         barkServer += "?isArchive=1"; //自动保存
         barkServer += "&group=" + URLEncoder.encode(groupName, "UTF-8"); //增加支持分组
-        if (!barkIcon.isEmpty()) {
+        if (barkIcon != null && !barkIcon.isEmpty()) {
             barkServer += "&icon=" + URLEncoder.encode(barkIcon, "UTF-8"); //指定推送消息图标
         }
         int isCode = content.indexOf("验证码");
