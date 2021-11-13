@@ -47,7 +47,6 @@ public class BatteryService extends Service {
         Log.i(TAG, "onDestroy--------------");
         super.onDestroy();
         this.unregisterReceiver(batteryReceiver);
-
     }
 
     // 接收电池信息更新的广播
@@ -105,7 +104,6 @@ public class BatteryService extends Service {
             Log.i(TAG, "battery: date=" + date + ",status " + statusString
                     + ",level=" + level + ",scale=" + scale
                     + ",voltage=" + voltage + ",acString=" + acString);
-
         }
     };
 }

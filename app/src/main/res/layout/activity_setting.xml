@@ -436,23 +436,44 @@
 
         </LinearLayout>
 
-        <Button
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_margin="10dp"
-            android:background="@color/colorPrimary"
-            android:onClick="initSetting"
-            android:padding="0dp"
-            android:text="@string/init_setting" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="15dp">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_margin="10dp"
-            android:background="@color/colorPrimary"
-            android:onClick="batterySetting"
-            android:padding="0dp"
-            android:text="@string/battery_setting" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:onClick="batterySetting"
+                android:text="@string/battery_setting"
+                tools:ignore="ButtonStyle,NestedWeights" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:onClick="requestPermission"
+                android:text="@string/request_permission"
+                tools:ignore="ButtonStyle,NestedWeights" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:background="@color/colorBlueGreyDark"
+                android:onClick="initSetting"
+                android:text="@string/init_setting"
+                tools:ignore="ButtonStyle,NestedWeights" />
+        </LinearLayout>
 
     </LinearLayout>
 

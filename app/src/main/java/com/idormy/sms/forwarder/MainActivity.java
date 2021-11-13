@@ -1,10 +1,15 @@
 package com.idormy.sms.forwarder;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
+import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,27 +18,43 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.idormy.sms.forwarder.adapter.LogAdapter;
 import com.idormy.sms.forwarder.model.vo.LogVo;
+import com.idormy.sms.forwarder.model.vo.SmsVo;
+import com.idormy.sms.forwarder.notify.NotifyHelper;
+import com.idormy.sms.forwarder.notify.NotifyListener;
+import com.idormy.sms.forwarder.sender.SendUtil;
+import com.idormy.sms.forwarder.service.FrontService;
+import com.idormy.sms.forwarder.service.NotifyService;
 import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.NetUtil;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.SmsUtil;
 import com.idormy.sms.forwarder.utils.aUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
-public class MainActivity extends AppCompatActivity implements RefreshListView.IRefreshListener {
+public class MainActivity extends AppCompatActivity implements NotifyListener, RefreshListView.IRefreshListener {
 
     private final String TAG = "MainActivity";
+    private static final String ACTION_NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
     // logVoList用于存储数据
     private List<LogVo> logVos = new ArrayList<>();
     private LogAdapter adapter;
     private RefreshListView listView;
+    private Intent serviceIntent;
+    private static final int REQUEST_CODE = 9999;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +75,14 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         //短信&网络组件初始化
         SmsUtil.init(this);
         NetUtil.init(this);
+
+        //应用通知
+        NotifyHelper.getInstance().setNotifyListener(this);
+
+        //前台服务
+        serviceIntent = new Intent(MainActivity.this, FrontService.class);
+        serviceIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startService(serviceIntent);
     }
 
     @Override
@@ -105,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         });
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     @Override
     protected void onResume() {
         super.onResume();
@@ -113,7 +143,97 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
             MyApplication.SimInfoList = PhoneUtils.getSimMultiInfo();
         }
         Log.d(TAG, "SimInfoList = " + MyApplication.SimInfoList.size());
+
+        //开启读取通知栏权限
+        if (!isNotificationListenerServiceEnabled(this)) {
+            openNotificationAccess();
+            toggleNotificationListenerService();
+            Toast.makeText(this, "请先勾选《短信转发器》的读取通知栏权限!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        //省电优化设置为无限制
+        if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            if (!isIgnoringBatteryOptimizations()) {
+                Toast.makeText(this, "请将省电优化设置为无限制，有利于防止《短信转发器》被杀！!", Toast.LENGTH_LONG).show();
+            }
+        }
+        startService(serviceIntent);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        startService(serviceIntent);
+    }
+
+    @Override
+    protected void onPause() {
+        //当界面返回到桌面之后.清除通知设置当中的数据.减少内存占有
+        //if (applicationList != null) {
+        //    applicationList.setAdapter(null);
+        //    adapter = null;
+        //}
+        super.onPause();
+        startService(serviceIntent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            if (isNotificationListenerServiceEnabled(this)) {
+                Toast.makeText(this, "通知服务已开启", Toast.LENGTH_SHORT).show();
+                toggleNotificationListenerService();
+            } else {
+                Toast.makeText(this, "通知服务未开启", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    // 权限判断相关
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    public void toggleNotificationListenerService() {
+        PackageManager pm = getPackageManager();
+        pm.setComponentEnabledSetting(new ComponentName(getApplicationContext(), NotifyService.class),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+
+        pm.setComponentEnabledSetting(new ComponentName(getApplicationContext(), NotifyService.class),
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+    }
+
+    private static boolean isNotificationListenerServiceEnabled(Context context) {
+        Set<String> packageNames = NotificationManagerCompat.getEnabledListenerPackages(context);
+        return packageNames.contains(context.getPackageName());
+    }
+
+    /**
+     * 判断系统是否已经关闭省电优化
+     *
+     * @return boolean
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private boolean isIgnoringBatteryOptimizations() {
+        boolean isIgnoring = false;
+        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        if (powerManager != null) {
+            isIgnoring = powerManager.isIgnoringBatteryOptimizations(getPackageName());
+        }
+        if (!isIgnoring) {
+            Intent i = new Intent(android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+            startActivity(i);
+        }
+        return isIgnoring;
+    }
+
+    private void openNotificationAccess() {
+        startActivity(new Intent(ACTION_NOTIFICATION_LISTENER_SETTINGS));
+    }
+
 
     // 初始化数据
     private void initTLogs() {
@@ -147,7 +267,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
             listView.refreshComplete();
         }, 2000);
     }
-
 
     public void logDetail(LogVo logVo) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -241,7 +360,71 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return true;
+    }
 
+    /**
+     * 收到通知
+     *
+     * @param type 通知类型
+     */
+    @Override
+    public void onReceiveMessage(int type) {
+        Log.d(TAG, "收到通知=" + type);
+    }
+
+    /**
+     * 移除通知
+     *
+     * @param type 通知类型
+     */
+    @Override
+    public void onRemovedMessage(int type) {
+        Log.d(TAG, "移除通知=" + type);
+    }
+
+    /**
+     * 收到通知
+     *
+     * @param sbn 状态栏通知
+     */
+    @Override
+    public void onReceiveMessage(StatusBarNotification sbn) {
+        if (sbn.getNotification() == null) return;
+
+        //推送通知的应用包名
+        String packageName = sbn.getPackageName();
+        //通知标题
+        String title = sbn.getNotification().extras.get("android.title").toString();
+        //通知内容
+        String text = sbn.getNotification().extras.get("android.text").toString();
+        if (text.isEmpty() && sbn.getNotification().tickerText != null) {
+            text = sbn.getNotification().tickerText.toString();
+        }
+        //通知时间
+        String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE).format(new Date(sbn.getPostTime()));
+
+        Log.d(TAG, String.format(
+                Locale.getDefault(),
+                "onNotificationPosted：\n应用包名：%s\n消息标题：%s\n消息内容：%s\n消息时间：%s\n",
+                packageName, title, text, time)
+        );
+
+        //不处理空消息
+        if (title.isEmpty() && text.isEmpty()) return;
+
+        SmsVo smsVo = new SmsVo(packageName, text, new Date(), title);
+        Log.d(TAG, "send_msg" + smsVo.toString());
+        SendUtil.send_msg(this, smsVo, 1);
+    }
+
+    /**
+     * 移除掉通知栏消息
+     *
+     * @param sbn 状态栏通知
+     */
+    @Override
+    public void onRemovedMessage(StatusBarNotification sbn) {
+        Log.d(TAG, "移除掉通知栏消息");
     }
 
 }

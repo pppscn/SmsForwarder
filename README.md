@@ -260,6 +260,7 @@
 + https://github.com/xuexiangjys/XUpdateAPI （在线升级）
 + https://github.com/mailhu/emailkit （邮件发送）
 + https://github.com/alibaba/fastjson (Json解析)
++ https://github.com/lilongweidev/NotifyListenerDemo (手机通知服务)
 
 ## LICENSE
 

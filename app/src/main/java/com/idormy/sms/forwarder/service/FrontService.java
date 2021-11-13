@@ -6,16 +6,19 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.idormy.sms.forwarder.MainActivity;
 import com.idormy.sms.forwarder.MyApplication;
@@ -27,14 +30,15 @@ import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 
 import java.util.Date;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-
 
 public class FrontService extends Service {
     private static final String TAG = "FrontService";
     private static final String CHANNEL_ONE_ID = "com.idormy.sms.forwarder";
     private static final String CHANNEL_ONE_NAME = "com.idormy.sms.forwarderName";
+    private static final String ACTION_NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
 
     @SuppressLint("IconColors")
     @Override
@@ -43,15 +47,10 @@ public class FrontService extends Service {
         Log.i(TAG, "onCreate");
         Notification.Builder builder = new Notification.Builder(this);
         builder.setSmallIcon(R.drawable.ic_forwarder);
-        //OSUtils.ROM_TYPE romType = OSUtils.getRomType();
-        //Log.d(TAG, "onCreate: " + romType);
-        //if (romType == OSUtils.ROM_TYPE.MIUI_ROM) {
         builder.setContentTitle(getString(R.string.app_name));
-        //}
         builder.setContentText(getString(R.string.notification_content));
         Intent intent = new Intent(this, MainActivity.class);
-        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent pendingIntent = PendingIntent.getActivity
-                (this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -112,18 +111,33 @@ public class FrontService extends Service {
                 }
             }
         }, 0, 10000);
+
+        if (!isNotificationListenerServiceEnabled(this)) {
+            openNotificationAccess();
+        }
+        toggleNotificationListenerService();
+    }
+
+    @Override
+    public void onDestroy() {
+        //进行自动重启
+        Intent intent = new Intent(FrontService.this, FrontService.class);
+        //重新开启服务
+        startService(intent);
+        stopForeground(true);
+        super.onDestroy();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        //return super.onStartCommand(intent, flags, startId);
+        return START_STICKY; //保证service不被杀死
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(TAG, "flags: " + flags + " startId: " + startId);
-        return START_STICKY; //保证service不被杀死
     }
 
     //获取当前电量
@@ -138,5 +152,23 @@ public class FrontService extends Service {
             return (intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) * 100) /
                     intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
         }
+    }
+
+    private void toggleNotificationListenerService() {
+        PackageManager pm = getPackageManager();
+        pm.setComponentEnabledSetting(new ComponentName(this, NotifyService.class),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+
+        pm.setComponentEnabledSetting(new ComponentName(this, NotifyService.class),
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+    }
+
+    private static boolean isNotificationListenerServiceEnabled(Context context) {
+        Set<String> packageNames = NotificationManagerCompat.getEnabledListenerPackages(context);
+        return packageNames.contains(context.getPackageName());
+    }
+
+    private void openNotificationAccess() {
+        startActivity(new Intent(ACTION_NOTIFICATION_LISTENER_SETTINGS));
     }
 }

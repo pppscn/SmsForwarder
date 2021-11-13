@@ -17,7 +17,6 @@ public class SmsUtil {
     @SuppressLint("StaticFieldLeak")
     static Context context;
 
-
     public static void init(Context context1) {
         synchronized (hasInit) {
             if (hasInit) return;

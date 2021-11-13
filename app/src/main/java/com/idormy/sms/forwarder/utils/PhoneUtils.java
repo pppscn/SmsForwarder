@@ -545,12 +545,13 @@ public class PhoneUtils {
         boolean permission_read_call_log = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_CALL_LOG", that.getPackageName()));
         boolean permission_read_contacts = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_CONTACTS", that.getPackageName()));
         boolean permission_battery_stats = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.BATTERY_STATS", that.getPackageName()));
+        boolean permission_bind_notification_listener_service = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.BIND_NOTIFICATION_LISTENER_SERVICE", that.getPackageName()));
 
         if (!(permission_internet && permission_receive_boot && permission_foreground_service &&
                 permission_read_external_storage && permission_write_external_storage &&
                 permission_receive_sms && permission_read_sms && permission_send_sms &&
                 permission_read_call_log && permission_read_contacts &&
-                permission_read_phone_state && permission_read_phone_numbers && permission_battery_stats)) {
+                permission_read_phone_state && permission_read_phone_numbers && permission_battery_stats && permission_bind_notification_listener_service)) {
             ActivityCompat.requestPermissions((Activity) that, new String[]{
                     Manifest.permission.INTERNET,
                     Manifest.permission.RECEIVE_BOOT_COMPLETED,
@@ -565,6 +566,7 @@ public class PhoneUtils {
                     Manifest.permission.READ_PHONE_NUMBERS,
                     Manifest.permission.FOREGROUND_SERVICE,
                     Manifest.permission.BATTERY_STATS,
+                    Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE,
             }, 0x01);
         }
     }

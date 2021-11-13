@@ -1,6 +1,9 @@
 package com.idormy.sms.forwarder;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,16 +12,23 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 
+import com.idormy.sms.forwarder.service.NotifyService;
 import com.idormy.sms.forwarder.utils.KeepAliveUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 
+import java.util.Set;
 
 public class SettingActivity extends AppCompatActivity {
     private final String TAG = "SettingActivity";
+
+    private static final int REQUEST_CODE = 9527;
+    private TextView textView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -285,4 +295,62 @@ public class SettingActivity extends AppCompatActivity {
             KeepAliveUtils.ignoreBatteryOptimization(this);
         }
     }
+
+
+    /**
+     * 请求权限
+     *
+     * @param view 控件
+     */
+    public void requestPermission(View view) {
+        if (!isNLServiceEnabled()) {
+            Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+            startActivityForResult(intent, REQUEST_CODE);
+        } else {
+            showMsg("通知服务已开启");
+            toggleNotificationListenerService();
+        }
+    }
+
+    /**
+     * 是否启用通知监听服务
+     *
+     * @return boolean
+     */
+    public boolean isNLServiceEnabled() {
+        Set<String> packageNames = NotificationManagerCompat.getEnabledListenerPackages(this);
+        return packageNames.contains(getPackageName());
+    }
+
+    /**
+     * 切换通知监听器服务
+     */
+    public void toggleNotificationListenerService() {
+        PackageManager pm = getPackageManager();
+        pm.setComponentEnabledSetting(new ComponentName(getApplicationContext(), NotifyService.class),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+
+        pm.setComponentEnabledSetting(new ComponentName(getApplicationContext(), NotifyService.class),
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            if (isNLServiceEnabled()) {
+                showMsg("通知服务已开启");
+                toggleNotificationListenerService();
+            } else {
+                showMsg("通知服务未开启");
+            }
+        }
+    }
+
+
+    private void showMsg(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
 }

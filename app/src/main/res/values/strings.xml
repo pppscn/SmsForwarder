@@ -12,11 +12,11 @@
     <string name="clone">一键克隆</string>
     <string name="setting">设置</string>
     <string name="about">关于</string>
-    <string name="rule_setting">设置转发规则</string>
-    <string name="sender_setting">设置发送方</string>
+    <string name="rule_setting">转发规则</string>
+    <string name="sender_setting">发送通道</string>
     <string name="log_tips">提示：置顶下拉刷新，长按删除单条记录</string>
     <string name="rule_tips">提示：新建规则点击“添加”，长按删除/点击编辑已有</string>
-    <string name="sender_tips">提示：新建发送方点击“添加”，长按删除/点击编辑已有</string>
+    <string name="sender_tips">提示：新建发送通道点击“添加”，长按删除/点击编辑已有</string>
     <!--AboutActivity-->
     <string name="version">当前版本</string>
     <string name="check_for_updates">检查新版本</string>
@@ -50,9 +50,9 @@
     <string name="delete_rule_title">规则删除确认</string>
     <string name="delete_rule_tips">确定删除该条规则?</string>
     <string name="delete_rule_toast">该条规则已经删除！</string>
-    <string name="new_sender_first">请先创建发送方再选择</string>
-    <string name="add_sender_first">请先去设置发送方页面添加</string>
-    <string name="select_sender">选择发送方</string>
+    <string name="new_sender_first">请先创建发送通道再选择</string>
+    <string name="add_sender_first">请先去设置发送通道页面添加</string>
+    <string name="select_sender">选择发送通道</string>
     <string name="rule_tester">规则测试</string>
     <string name="new_forwarding_rule">添加转发规则</string>
     <string name="test_sim_slot">测试模拟的接收卡槽</string>
@@ -72,11 +72,11 @@
     <string name="btn_regex">正则匹配</string>
     <string name="match_value">设置匹配的值</string>
     <!--SenderActivity-->
-    <string name="invalid_sender">异常的发送方类型，自动删除！</string>
-    <string name="delete_sender_title">发送方删除确认</string>
-    <string name="delete_sender_tips">确定删除该条发送方?</string>
-    <string name="delete_sender_toast">该条发送方已经删除！</string>
-    <string name="add_sender_title">选择发送方类型</string>
+    <string name="invalid_sender">异常的发送通道类型，自动删除！</string>
+    <string name="delete_sender_title">发送通道删除确认</string>
+    <string name="delete_sender_tips">确定删除该条发送通道?</string>
+    <string name="delete_sender_toast">该条发送通道已经删除！</string>
+    <string name="add_sender_title">选择发送通道类型</string>
     <string name="not_supported">暂不支持这种转发</string>
     <string name="setdingdingtitle">设置钉钉机器人</string>
     <string name="setemailtitle">设置邮箱</string>
@@ -102,7 +102,7 @@
     <string name="invalid_webhook">webHook 不能为空</string>
     <string name="invalid_at_mobiles">指定成员 不能为空 或者 选择@all</string>
     <string name="invalid_phone_num">接收手机号不能为空</string>
-    <string name="new_sender">添加发送方</string>
+    <string name="new_sender">添加发送通道</string>
     <string name="set_bark_name">设置分组名称</string>
     <string name="set_bark_server">设置Bark-Server地址，示例：https://bark.bms.ink/XXXXXXXX/</string>
     <string name="set_bark_icon">设置推送消息图标(可选)，示例：http://day.app/assets/images/avatar.jpg</string>
@@ -157,8 +157,9 @@
     <string name="insert_extra">卡槽信息</string>
     <string name="insert_time">接收时间</string>
     <string name="insert_device_name">设备名称</string>
-    <string name="init_setting">恢复初始化配置</string>
+    <string name="init_setting">恢复默认配置</string>
     <string name="battery_setting">设置电池优化</string>
+    <string name="request_permission">请求通知权限</string>
     <string name="unknown_number">未知号码</string>
     <string name="calling">来电</string>
     <string name="unsupport">您的手机不支持此设置</string>
@@ -174,7 +175,7 @@
     <string name="post">POST</string>
     <string name="get">GET</string>
     <string name="local_ip">本机IP：</string>
-    <string name="operating_instruction">操作说明：\n1.请保持新旧手机在同一个WiFi网络下，且没有开启隔离\n2.旧手机直接点【发送】按钮，获取到【服务端IP】\n3.新手机填写【服务端IP】后，点【接收】按钮\n【注意】新手机接收后，发送方、转发规则将完全被覆盖，清空历史记录！</string>
+    <string name="operating_instruction">操作说明：\n1.新旧手机连接同一个WiFi网络(禁用AP隔离)\n2.旧手机直接点【发送】按钮，获取到【服务端IP】\n3.新手机填写【服务端IP】后，点【接收】按钮\n【注意】新手机接收后，发送通道、转发规则将完全被覆盖，清空历史记录！</string>
     <string name="send">发送</string>
     <string name="stop">停止</string>
     <string name="old_mobile_phone">我是旧手机</string>

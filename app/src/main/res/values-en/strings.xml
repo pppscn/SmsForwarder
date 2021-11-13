@@ -159,6 +159,7 @@
     <string name="insert_device_name">Device</string>
     <string name="init_setting">Restore initial Setting</string>
     <string name="battery_setting">Battery Optimization</string>
+    <string name="request_permission">Request Notify Permission</string>
     <string name="unknown_number">Unknown Number</string>
     <string name="calling">Incoming telegram</string>
     <string name="unsupport">Your phone does not support this setting</string>

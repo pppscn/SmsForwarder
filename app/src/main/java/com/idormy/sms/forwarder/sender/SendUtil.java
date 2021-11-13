@@ -76,7 +76,7 @@ public class SendUtil {
 
     public static void sendMsgByRuleModelSenderId(final Handler handError, RuleModel ruleModel, SmsVo smsVo, Long senderId) throws Exception {
         if (senderId == null) {
-            throw new Exception("先新建并选择发送方");
+            throw new Exception("先新建并选择发送通道");
         }
 
         String testSim = smsVo.getSimInfo().substring(0, 4);
@@ -92,7 +92,7 @@ public class SendUtil {
 
         List<SenderModel> senderModels = SenderUtil.getSender(senderId, null);
         if (senderModels.isEmpty()) {
-            throw new Exception("未找到发送方");
+            throw new Exception("未找到发送通道");
         }
 
         for (SenderModel senderModel : senderModels
