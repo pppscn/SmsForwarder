@@ -56,6 +56,16 @@ public class SettingUtil {
         return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_PHONE, true);
     }
 
+    public static void switchEnableAppNotify(Boolean enable) {
+        sp_setting.edit()
+                .putBoolean(Define.SP_MSG_KEY_STRING_ENABLE_APP_NOTIFY, enable)
+                .apply();
+    }
+
+    public static boolean getSwitchEnableAppNotify() {
+        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_APP_NOTIFY, true);
+    }
+
     public static void switchSmsTemplate(Boolean switchSmsTemplate) {
         Log.d(TAG, "switchSmsTemplate :" + switchSmsTemplate);
         sp_setting.edit()

@@ -90,6 +90,6 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         }
         SmsVo smsVo = new SmsVo(phoneNumber, name + context.getString(R.string.calling), new Date(), simInfo);
         Log.d(TAG, "send_msg" + smsVo.toString());
-        SendUtil.send_msg(context, smsVo, simId);
+        SendUtil.send_msg(context, smsVo, simId, "call");
     }
 }

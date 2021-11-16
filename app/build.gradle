@@ -129,9 +129,9 @@ dependencies {
     implementation "com.alibaba:fastjson:1.2.78"
 
     //友盟统计SDK
-    implementation 'com.umeng.umsdk:common:9.4.4'// 必选
-    implementation 'com.umeng.umsdk:asms:1.4.1'// 必选
-    implementation 'com.umeng.umsdk:apm:1.4.2' // 错误分析升级为独立SDK，看crash数据请一定集成，可选
+//    implementation 'com.umeng.umsdk:common:9.4.4'// 必选
+//    implementation 'com.umeng.umsdk:asms:1.4.1'// 必选
+//    implementation 'com.umeng.umsdk:apm:1.4.2' // 错误分析升级为独立SDK，看crash数据请一定集成，可选
 
     //XUpdate
     implementation 'com.github.xuexiangjys:XUpdate:2.1.0'
@@ -151,4 +151,8 @@ dependencies {
 
     //AndroidAsync
     implementation 'com.koushikdutta.async:androidasync:3.1.0'
+
+    //Bind Android views and callbacks to fields and methods.
+    //implementation 'com.jakewharton:butterknife-gradle-plugin:10.2.3'
+    //annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
 }

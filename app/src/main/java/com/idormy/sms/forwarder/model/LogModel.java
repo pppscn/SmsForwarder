@@ -11,12 +11,14 @@ public class LogModel {
     private Long ruleId;
     private Long time;
     private String simInfo;
+    private String type;
 
-    public LogModel(String from, String content, String simInfo, Long ruleId) {
+    public LogModel(String type, String from, String content, String simInfo, Long ruleId) {
         this.from = from;
         this.content = content;
         this.simInfo = simInfo;
         this.ruleId = ruleId;
+        this.type = type;
     }
 
     @NonNull
@@ -27,6 +29,7 @@ public class LogModel {
                 ", content='" + content + '\'' +
                 ", simInfo=" + simInfo +
                 ", ruleId=" + ruleId +
+                ", type=" + type +
                 ", time=" + time +
                 '}';
     }

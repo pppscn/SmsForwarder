@@ -81,7 +81,7 @@ public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
                         smsVoList.add(new SmsVo(mobile, mobileToContent.get(mobile), date, simInfo));
                     }
                     Log.d(TAG, "短信：" + smsVoList);
-                    SendUtil.send_msg_list(context, smsVoList, simId);
+                    SendUtil.send_msg_list(context, smsVoList, simId, "sms");
 
                 }
 

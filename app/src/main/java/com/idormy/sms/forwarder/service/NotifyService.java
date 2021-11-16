@@ -9,6 +9,7 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 import com.idormy.sms.forwarder.notify.NotifyHelper;
+import com.idormy.sms.forwarder.utils.SettingUtil;
 
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class NotifyService extends NotificationListenerService {
@@ -23,6 +24,9 @@ public class NotifyService extends NotificationListenerService {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
+        if (!SettingUtil.getSwitchEnableAppNotify()) {
+            return;
+        }
         if (sbn.getNotification() == null) return;
         Log.d(TAG, sbn.getPackageName());
         NotifyHelper.getInstance().onReceive(sbn);
@@ -36,6 +40,9 @@ public class NotifyService extends NotificationListenerService {
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
         Log.d(TAG, sbn.getPackageName());
+        if (!SettingUtil.getSwitchEnableAppNotify()) {
+            return;
+        }
         NotifyHelper.getInstance().onRemoved(sbn);
     }
 

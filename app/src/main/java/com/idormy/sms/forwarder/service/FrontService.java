@@ -90,7 +90,7 @@ public class FrontService extends Service {
             @Override
             public void run() {
                 int batteryLevel = getBatteryLevel();
-                System.out.println("当前剩余电量：" + batteryLevel + "%");
+                //System.out.println("当前剩余电量：" + batteryLevel + "%");
                 int batteryLevelAlarm = SettingUtil.getBatteryLevelAlarm();
                 if (alarmTimes[0] <= 1 && batteryLevelAlarm > 0 && batteryLevelAlarm <= 100 && (batteryLevel == batteryLevelAlarm || batteryLevel == batteryLevelAlarm - 1)) {
                     try {
@@ -100,7 +100,7 @@ public class FrontService extends Service {
                                 new Date(),
                                 "低电量预警");
                         Log.d(TAG, "send_msg" + smsVo.toString());
-                        SendUtil.send_msg(context1, smsVo, 1);
+                        SendUtil.send_msg(context1, smsVo, 1, "app");
                     } catch (Exception e) {
                         Log.e(TAG, "getLog e:" + e.getMessage());
                     }

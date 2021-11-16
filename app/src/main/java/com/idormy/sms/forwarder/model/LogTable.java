@@ -11,6 +11,7 @@ public final class LogTable {
     /* Inner class that defines the table contents */
     public static class LogEntry implements BaseColumns {
         public static final String TABLE_NAME = "log";
+        public static final String COLUMN_NAME_TYPE = "type";
         public static final String COLUMN_NAME_FROM = "l_from";
         public static final String COLUMN_NAME_CONTENT = "content";
         public static final String COLUMN_NAME_RULE_ID = "rule_id";

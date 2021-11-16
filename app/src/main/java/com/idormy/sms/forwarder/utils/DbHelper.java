@@ -16,13 +16,14 @@ import java.util.List;
 public class DbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
     public static final String TAG = "DbHelper";
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "sms_forwarder.db";
 
     private static final List<String> SQL_CREATE_ENTRIES =
             Arrays.asList(
                     "CREATE TABLE " + LogTable.LogEntry.TABLE_NAME + " (" +
                             LogTable.LogEntry._ID + " INTEGER PRIMARY KEY," +
+                            LogTable.LogEntry.COLUMN_NAME_TYPE + " TEXT NOT NULL DEFAULT 'sms'," +
                             LogTable.LogEntry.COLUMN_NAME_FROM + " TEXT," +
                             LogTable.LogEntry.COLUMN_NAME_CONTENT + " TEXT," +
                             LogTable.LogEntry.COLUMN_NAME_SIM_INFO + " TEXT," +
@@ -32,6 +33,7 @@ public class DbHelper extends SQLiteOpenHelper {
                             LogTable.LogEntry.COLUMN_NAME_TIME + " TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)"
                     , "CREATE TABLE " + RuleTable.RuleEntry.TABLE_NAME + " (" +
                             RuleTable.RuleEntry._ID + " INTEGER PRIMARY KEY," +
+                            RuleTable.RuleEntry.COLUMN_NAME_TYPE + " TEXT NOT NULL DEFAULT 'sms'," +
                             RuleTable.RuleEntry.COLUMN_NAME_FILED + " TEXT," +
                             RuleTable.RuleEntry.COLUMN_NAME_CHECK + " TEXT," +
                             RuleTable.RuleEntry.COLUMN_NAME_VALUE + " TEXT," +
@@ -94,6 +96,12 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         if (oldVersion < 5) { //转发规则添加规则自定义信息模板
             String sql = "Alter table " + RuleTable.RuleEntry.TABLE_NAME + " add column " + RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE + " TEXT NOT NULL DEFAULT '' ";
+            db.execSQL(sql);
+        }
+        if (oldVersion < 6) { //增加转发规则与日志的分类
+            String sql = "Alter table " + RuleTable.RuleEntry.TABLE_NAME + " add column " + RuleTable.RuleEntry.COLUMN_NAME_TYPE + " TEXT NOT NULL DEFAULT 'sms' ";
+            db.execSQL(sql);
+            sql = "Alter table " + LogTable.LogEntry.TABLE_NAME + " add column " + RuleTable.RuleEntry.COLUMN_NAME_TYPE + " TEXT NOT NULL DEFAULT 'sms' ";
             db.execSQL(sql);
         }
     }

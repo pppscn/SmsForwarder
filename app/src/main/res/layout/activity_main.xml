@@ -5,6 +5,40 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dip"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:id="@+id/radioGroupTypeCheck"
+            style="@style/rg_style"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/btnTypeSms"
+                style="@style/select_style"
+                android:tag="sms"
+                android:text="@string/sms"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/btnTypeCall"
+                style="@style/select_style"
+                android:tag="call"
+                android:text="@string/call" />
+
+            <RadioButton
+                android:id="@+id/btnTypeApp"
+                style="@style/select_style"
+                android:tag="app"
+                android:text="@string/app" />
+        </RadioGroup>
+
+    </LinearLayout>
+
     <com.idormy.sms.forwarder.RefreshListView
         android:id="@+id/list_view_log"
         android:layout_width="match_parent"

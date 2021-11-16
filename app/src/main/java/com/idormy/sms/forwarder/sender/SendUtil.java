@@ -39,20 +39,20 @@ import java.util.List;
 public class SendUtil {
     private static final String TAG = "SendUtil";
 
-    public static void send_msg_list(Context context, List<SmsVo> smsVoList, int simId) {
+    public static void send_msg_list(Context context, List<SmsVo> smsVoList, int simId, String type) {
         Log.i(TAG, "send_msg_list size: " + smsVoList.size());
         for (SmsVo smsVo : smsVoList) {
-            SendUtil.send_msg(context, smsVo, simId);
+            SendUtil.send_msg(context, smsVo, simId, type);
         }
     }
 
-    public static void send_msg(Context context, SmsVo smsVo, int simId) {
+    public static void send_msg(Context context, SmsVo smsVo, int simId, String type) {
         Log.i(TAG, "send_msg smsVo:" + smsVo);
         RuleUtil.init(context);
         LogUtil.init(context);
 
         String key = "SIM" + simId;
-        List<RuleModel> ruleList = RuleUtil.getRule(null, key);
+        List<RuleModel> ruleList = RuleUtil.getRule(null, key, type);
         if (!ruleList.isEmpty()) {
             SenderUtil.init(context);
             for (RuleModel ruleModel : ruleList) {
@@ -62,7 +62,7 @@ public class SendUtil {
                         List<SenderModel> senderModels = SenderUtil.getSender(ruleModel.getSenderId(), null);
                         for (SenderModel senderModel : senderModels
                         ) {
-                            long logId = LogUtil.addLog(new LogModel(smsVo.getMobile(), smsVo.getContent(), smsVo.getSimInfo(), ruleModel.getId()));
+                            long logId = LogUtil.addLog(new LogModel(type, smsVo.getMobile(), smsVo.getContent(), smsVo.getSimInfo(), ruleModel.getId()));
                             String smsTemplate = ruleModel.getSwitchSmsTemplate() ? ruleModel.getSmsTemplate() : "";
                             SendUtil.senderSendMsgNoHandError(smsVo, senderModel, logId, smsTemplate);
                         }

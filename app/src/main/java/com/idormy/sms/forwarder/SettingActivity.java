@@ -65,6 +65,9 @@ public class SettingActivity extends AppCompatActivity {
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_enable_phone = findViewById(R.id.switch_enable_phone);
         switchEnablePhone(switch_enable_phone);
 
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_enable_app_notify = findViewById(R.id.switch_enable_app_notify);
+        switchEnableAppNotify(switch_enable_app_notify);
+
         EditText textSmsTemplate = findViewById(R.id.text_sms_template);
         editSmsTemplate(textSmsTemplate);
     }
@@ -75,6 +78,16 @@ public class SettingActivity extends AppCompatActivity {
 
         switch_enable_phone.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingUtil.switchEnablePhone(isChecked);
+            Log.d(TAG, "onCheckedChanged:" + isChecked);
+        });
+    }
+
+    //设置转发APP通知
+    private void switchEnableAppNotify(@SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_enable_app_notify) {
+        switch_enable_app_notify.setChecked(SettingUtil.getSwitchEnableAppNotify());
+
+        switch_enable_app_notify.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingUtil.switchEnableAppNotify(isChecked);
             Log.d(TAG, "onCheckedChanged:" + isChecked);
         });
     }

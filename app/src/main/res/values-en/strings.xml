@@ -149,6 +149,7 @@
     <string name="add_extra">Sim slot info attached</string>
     <string name="add_device_name">Device Name attached</string>
     <string name="forward_missed_calls">Forward missed calls</string>
+    <string name="forward_app_notify">Forward app notify</string>
     <string name="enable_custom_templates">Enable custom templates</string>
     <string name="custom_templates">Custom templates</string>
     <string name="custom_templates_tips">Tip：Insert labels as needed;Leave blank to default template</string>
@@ -197,4 +198,7 @@
     <string name="no_network">No network at present</string>
     <string name="not_connected_wifi">Not connected WIFI</string>
     <string name="failed_to_get_ip">Failed to get IP address</string>
+    <string name="sms">短 信</string>
+    <string name="call">来 电</string>
+    <string name="app">应 用</string>
 </resources>

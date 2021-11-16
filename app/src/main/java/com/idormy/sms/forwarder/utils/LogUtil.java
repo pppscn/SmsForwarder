@@ -50,6 +50,7 @@ public class LogUtil {
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
+        values.put(LogTable.LogEntry.COLUMN_NAME_TYPE, logModel.getType());
         values.put(LogTable.LogEntry.COLUMN_NAME_FROM, logModel.getFrom());
         values.put(LogTable.LogEntry.COLUMN_NAME_CONTENT, logModel.getContent());
         values.put(LogTable.LogEntry.COLUMN_NAME_SIM_INFO, logModel.getSimInfo());
@@ -101,7 +102,7 @@ public class LogUtil {
 
     }
 
-    public static List<LogVo> getLog(Long id, String key) {
+    public static List<LogVo> getLog(Long id, String key, String type) {
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
         String[] projection = {
@@ -130,9 +131,15 @@ public class LogUtil {
             selectionArgList.add(String.valueOf(id));
         }
 
+        if (type != null) {
+            // Define 'where' part of query.
+            selection += " and " + LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_TYPE + " = ? ";
+            selectionArgList.add(type);
+        }
+
         if (key != null) {
             // Define 'where' part of query.
-            selection = " and (" + LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_FROM + " LIKE ? or " + LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_CONTENT + " LIKE ? ) ";
+            selection += " and (" + LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_FROM + " LIKE ? or " + LogTable.LogEntry.TABLE_NAME + "." + LogTable.LogEntry.COLUMN_NAME_CONTENT + " LIKE ? ) ";
             // Specify arguments in placeholder order.
             selectionArgList.add(key);
             selectionArgList.add(key);

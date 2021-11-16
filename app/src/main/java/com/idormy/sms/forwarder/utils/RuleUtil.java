@@ -38,6 +38,7 @@ public class RuleUtil {
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
+        values.put(RuleTable.RuleEntry.COLUMN_NAME_TYPE, ruleModel.getType());
         values.put(RuleTable.RuleEntry.COLUMN_NAME_FILED, ruleModel.getFiled());
         values.put(RuleTable.RuleEntry.COLUMN_NAME_CHECK, ruleModel.getCheck());
         values.put(RuleTable.RuleEntry.COLUMN_NAME_VALUE, ruleModel.getValue());
@@ -86,11 +87,12 @@ public class RuleUtil {
 
     }
 
-    public static List<RuleModel> getRule(Long id, String key) {
+    public static List<RuleModel> getRule(Long id, String key, String type) {
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
         String[] projection = {
                 BaseColumns._ID,
+                RuleTable.RuleEntry.COLUMN_NAME_TYPE,
                 RuleTable.RuleEntry.COLUMN_NAME_FILED,
                 RuleTable.RuleEntry.COLUMN_NAME_CHECK,
                 RuleTable.RuleEntry.COLUMN_NAME_VALUE,
@@ -108,6 +110,11 @@ public class RuleUtil {
             selection += " and " + RuleTable.RuleEntry._ID + " = ? ";
             // Specify arguments in placeholder order.
             selectionArgList.add(String.valueOf(id));
+        }
+
+        if (type != null) {
+            selection += " and " + RuleTable.RuleEntry.COLUMN_NAME_TYPE + " = ? ";
+            selectionArgList.add(type);
         }
 
         if (key != null) {
@@ -140,6 +147,8 @@ public class RuleUtil {
 
             long itemId = cursor.getLong(
                     cursor.getColumnIndexOrThrow(RuleTable.RuleEntry._ID));
+            String itemType = cursor.getString(
+                    cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_NAME_TYPE));
             String itemFiled = cursor.getString(
                     cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_NAME_FILED));
             String itemCheck = cursor.getString(
@@ -158,6 +167,7 @@ public class RuleUtil {
             Log.d(TAG, "getRule: itemId" + itemId);
             RuleModel ruleModel = new RuleModel();
             ruleModel.setId(itemId);
+            ruleModel.setType(itemType);
             ruleModel.setFiled(itemFiled);
             ruleModel.setCheck(itemCheck);
             ruleModel.setValue(itemValue);

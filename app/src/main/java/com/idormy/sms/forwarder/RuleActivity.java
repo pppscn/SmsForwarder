@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -28,7 +29,6 @@ import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.utils.RuleUtil;
 import com.idormy.sms.forwarder.utils.SettingUtil;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,6 +41,7 @@ public class RuleActivity extends AppCompatActivity {
     // 用于存储数据
     private List<RuleModel> ruleModels = new ArrayList<>();
     private RuleAdapter adapter;
+    private String currentType = "sms";
 
     //消息处理者,创建一个Handler的子类对象,目的是重写Handler的处理消息的方法(handleMessage())
     @SuppressLint("HandlerLeak")
@@ -108,11 +109,34 @@ public class RuleActivity extends AppCompatActivity {
             builder.create().show();
             return true;
         });
+
+        //切换日志类别
+        int typeCheckId = getTypeCheckId(currentType);
+        final RadioGroup radioGroupTypeCheck = findViewById(R.id.radioGroupTypeCheck);
+        radioGroupTypeCheck.check(typeCheckId);
+        radioGroupTypeCheck.setOnCheckedChangeListener((group, checkedId) -> {
+            RadioButton rb = findViewById(checkedId);
+            currentType = (String) rb.getTag();
+            initRules(); //初始化数据
+            adapter = new RuleAdapter(RuleActivity.this, R.layout.item_rule, ruleModels);
+            listView.setAdapter(adapter);
+        });
+    }
+
+    private int getTypeCheckId(String currentType) {
+        switch (currentType) {
+            case "call":
+                return R.id.btnTypeCall;
+            case "app":
+                return R.id.btnTypeApp;
+            default:
+                return R.id.btnTypeSms;
+        }
     }
 
     // 初始化数据
     private void initRules() {
-        ruleModels = RuleUtil.getRule(null, null);
+        ruleModels = RuleUtil.getRule(null, null, currentType);
     }
 
     public void addRule(View view) {
@@ -189,6 +213,7 @@ public class RuleActivity extends AppCompatActivity {
             Log.d(TAG, radioGroupRuleCheck.getCheckedRadioButtonId() + "  " + radioGroupRuleCheck2.getCheckedRadioButtonId() + " " + radioGroupRuleCheckId);
             if (ruleModel == null) {
                 RuleModel newRuleModel = new RuleModel();
+                newRuleModel.setType(currentType);
                 newRuleModel.setFiled(RuleModel.getRuleFiledFromCheckId(radioGroupRuleFiled.getCheckedRadioButtonId()));
                 newRuleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheckId));
                 newRuleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
@@ -449,13 +474,13 @@ public class RuleActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);
+        //MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPause(this);
+        //MobclickAgent.onPause(this);
     }
 
 }

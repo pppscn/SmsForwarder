@@ -32,12 +32,15 @@ public class LogVo {
     }
 
     public int getSimImageId() {
-        if (this.simInfo != null && !this.simInfo.isEmpty()
-                && this.simInfo.replace("-", "").startsWith("SIM2")) {
-            return R.mipmap.sim2;
+        if (this.simInfo != null && !this.simInfo.isEmpty()) {
+            if (this.simInfo.replace("-", "").startsWith("SIM2")) {
+                return R.drawable.sim2; //mipmap
+            } else if (this.simInfo.replace("-", "").startsWith("SIM1")) {
+                return R.drawable.sim1;
+            }
         }
 
-        return R.mipmap.sim1;
+        return R.drawable.app;
     }
 
     public int getStatusImageId() {

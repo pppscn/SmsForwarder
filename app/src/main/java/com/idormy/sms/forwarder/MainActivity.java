@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements NotifyListener, R
     private RefreshListView listView;
     private Intent serviceIntent;
     private static final int REQUEST_CODE = 9999;
+    private String currentType = "sms";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +101,17 @@ public class MainActivity extends AppCompatActivity implements NotifyListener, R
         initTLogs(); //初始化数据
         showList(logVos);
 
+        //切换日志类别
+        int typeCheckId = getTypeCheckId(currentType);
+        final RadioGroup radioGroupTypeCheck = findViewById(R.id.radioGroupTypeCheck);
+        radioGroupTypeCheck.check(typeCheckId);
+        radioGroupTypeCheck.setOnCheckedChangeListener((group, checkedId) -> {
+            RadioButton rb = findViewById(checkedId);
+            currentType = (String) rb.getTag();
+            initTLogs();
+            showList(logVos);
+        });
+
         // 为ListView注册一个监听器，当用户点击了ListView中的任何一个子项时，就会回调onItemClick()方法
         // 在这个方法中可以通过position参数判断出用户点击的是那一个子项
         listView.setOnItemClickListener((parent, view, position, id) -> {
@@ -132,6 +146,17 @@ public class MainActivity extends AppCompatActivity implements NotifyListener, R
             builder.create().show();
             return true;
         });
+    }
+
+    private int getTypeCheckId(String currentType) {
+        switch (currentType) {
+            case "call":
+                return R.id.btnTypeCall;
+            case "app":
+                return R.id.btnTypeApp;
+            default:
+                return R.id.btnTypeSms;
+        }
     }
 
     @SuppressLint("ObsoleteSdkInt")
@@ -237,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements NotifyListener, R
 
     // 初始化数据
     private void initTLogs() {
-        logVos = LogUtil.getLog(null, null);
+        logVos = LogUtil.getLog(null, null, currentType);
     }
 
     private void showList(List<LogVo> logVosN) {
@@ -247,7 +272,6 @@ public class MainActivity extends AppCompatActivity implements NotifyListener, R
             listView = findViewById(R.id.list_view_log);
             listView.setInterface(this);
             adapter = new LogAdapter(MainActivity.this, R.layout.item_log, logVosN);
-
             listView.setAdapter(adapter);
         } else {
             adapter.onDateChange(logVosN);
@@ -390,6 +414,7 @@ public class MainActivity extends AppCompatActivity implements NotifyListener, R
     @Override
     public void onReceiveMessage(StatusBarNotification sbn) {
         if (sbn.getNotification() == null) return;
+        if (sbn.getNotification().extras == null) return;
 
         //推送通知的应用包名
         String packageName = sbn.getPackageName();
@@ -414,7 +439,7 @@ public class MainActivity extends AppCompatActivity implements NotifyListener, R
 
         SmsVo smsVo = new SmsVo(packageName, text, new Date(), title);
         Log.d(TAG, "send_msg" + smsVo.toString());
-        SendUtil.send_msg(this, smsVo, 1);
+        SendUtil.send_msg(this, smsVo, 1, "app");
     }
 
     /**

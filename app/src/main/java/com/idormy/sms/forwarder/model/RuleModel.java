@@ -37,6 +37,13 @@ public class RuleModel {
     public static final String CHECK_SIM_SLOT_1 = "SIM1";
     public static final String CHECK_SIM_SLOT_2 = "SIM2";
     public static final Map<String, String> SIM_SLOT_MAP = new HashMap<>();
+    public static final Map<String, String> TYPE_MAP = new HashMap<>();
+
+    static {
+        TYPE_MAP.put("sms", "短信");
+        TYPE_MAP.put("call", "来电");
+        TYPE_MAP.put("app", "应用");
+    }
 
     static {
         FILED_MAP.put("transpond_all", "全部转发");
@@ -63,6 +70,7 @@ public class RuleModel {
 
     private String TAG = "RuleModel";
     private Long id;
+    private String type;
     private String filed;
     private String check;
     private String value;

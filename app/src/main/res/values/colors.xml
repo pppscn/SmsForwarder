@@ -6,4 +6,14 @@
     <color name="colorBlueGreyLight">#B0BBC5</color>
     <color name="colorBlueGrey">#78909C</color>
     <color name="colorBlueGreyDark">#546E7A</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="line_gray">#dcdcdc</color>
+    <color name="line_gray_light">#f1f1f1</color>
+    <color name="gray_page_bg">#ecedf1</color>
+    <color name="gray_text">#5b5b5b</color>
+    <color name="gray_text_dark">#292929</color>
+    <color name="gray_text_light">#979797</color>
+    <color name="window_half_transparent">#90000000</color>
+    <color name="blue_white">#0eabe5</color>
 </resources>
