@@ -17,7 +17,9 @@ class RuleLine {
     public static final String CONJUNCTION_AND = "并且";
     public static final String CONJUNCTION_OR = "或者";
     public static final String FILED_PHONE_NUM = "手机号";
+    public static final String FILED_PACKAGE_NAME = "APP包名";
     public static final String FILED_MSG_CONTENT = "短信内容";
+    public static final String FILED_INFORM_CONTENT = "通知内容";
     public static final String SURE_YES = "是";
     public static final String SURE_NOT = "不是";
     public static final String CHECK_EQUALS = "相等";
@@ -43,6 +45,8 @@ class RuleLine {
     static {
         FILED_LIST.add("手机号");
         FILED_LIST.add("短信内容");
+        FILED_LIST.add("APP包名");
+        FILED_LIST.add("通知内容");
     }
 
     static {
@@ -269,9 +273,11 @@ class RuleLine {
         //先检查规则是否命中
         switch (this.field) {
             case FILED_PHONE_NUM:
+            case FILED_PACKAGE_NAME:
                 mixChecked = checkValue(msg.getMobile());
                 break;
             case FILED_MSG_CONTENT:
+            case FILED_INFORM_CONTENT:
                 mixChecked = checkValue(msg.getContent());
                 break;
             default:

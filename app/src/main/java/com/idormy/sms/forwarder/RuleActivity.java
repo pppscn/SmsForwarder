@@ -29,6 +29,7 @@ import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.utils.RuleUtil;
 import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -134,6 +135,28 @@ public class RuleActivity extends AppCompatActivity {
         }
     }
 
+    private int getDialogView(String currentType) {
+        switch (currentType) {
+            case "call":
+                return R.layout.alert_dialog_setview_rule_call;
+            case "app":
+                return R.layout.alert_dialog_setview_rule_app;
+            default:
+                return R.layout.alert_dialog_setview_rule;
+        }
+    }
+
+    private int getDialogTitle(String currentType) {
+        switch (currentType) {
+            case "call":
+                return R.string.setrule_call;
+            case "app":
+                return R.string.setrule_app;
+            default:
+                return R.string.setrule;
+        }
+    }
+
     // 初始化数据
     private void initRules() {
         ruleModels = RuleUtil.getRule(null, null, currentType);
@@ -145,7 +168,7 @@ public class RuleActivity extends AppCompatActivity {
 
     private void setRule(final RuleModel ruleModel) {
         final AlertDialog.Builder alertDialog71 = new AlertDialog.Builder(RuleActivity.this);
-        final View view1 = View.inflate(RuleActivity.this, R.layout.alert_dialog_setview_rule, null);
+        final View view1 = View.inflate(RuleActivity.this, getDialogView(currentType), null);
 
         final RadioGroup radioGroupRuleFiled = view1.findViewById(R.id.radioGroupRuleFiled);
         if (ruleModel != null) radioGroupRuleFiled.check(ruleModel.getRuleFiledCheckId());
@@ -202,13 +225,16 @@ public class RuleActivity extends AppCompatActivity {
         Button buttonRuleDel = view1.findViewById(R.id.buttonRuleDel);
         Button buttonRuleTest = view1.findViewById(R.id.buttonRuleTest);
         alertDialog71
-                .setTitle(R.string.setrule)
-                //.setIcon(R.drawable.ic_sms_forwarder)
+                .setTitle(getDialogTitle(currentType))
                 .setView(view1)
                 .create();
         final AlertDialog show = alertDialog71.show();
         buttonRuleOk.setOnClickListener(view -> {
             Object senderId = ruleSenderTv.getTag();
+            if (senderId == null) {
+                Toast.makeText(RuleActivity.this, R.string.new_sender_first, Toast.LENGTH_LONG).show();
+                return;
+            }
             int radioGroupRuleCheckId = Math.max(radioGroupRuleCheck.getCheckedRadioButtonId(), radioGroupRuleCheck2.getCheckedRadioButtonId());
             Log.d(TAG, radioGroupRuleCheck.getCheckedRadioButtonId() + "  " + radioGroupRuleCheck2.getCheckedRadioButtonId() + " " + radioGroupRuleCheckId);
             if (ruleModel == null) {
@@ -220,9 +246,7 @@ public class RuleActivity extends AppCompatActivity {
                 newRuleModel.setValue(editTextRuleValue.getText().toString());
                 newRuleModel.setSwitchSmsTemplate(switchSmsTemplate.isChecked());
                 newRuleModel.setSmsTemplate(textSmsTemplate.getText().toString());
-                if (senderId != null) {
-                    newRuleModel.setSenderId(Long.valueOf(senderId.toString()));
-                }
+                newRuleModel.setSenderId(Long.valueOf(senderId.toString()));
                 RuleUtil.addRule(newRuleModel);
                 initRules();
                 adapter.add(ruleModels);
@@ -233,9 +257,7 @@ public class RuleActivity extends AppCompatActivity {
                 ruleModel.setValue(editTextRuleValue.getText().toString());
                 ruleModel.setSwitchSmsTemplate(switchSmsTemplate.isChecked());
                 ruleModel.setSmsTemplate(textSmsTemplate.getText().toString());
-                if (senderId != null) {
-                    ruleModel.setSenderId(Long.valueOf(senderId.toString()));
-                }
+                ruleModel.setSenderId(Long.valueOf(senderId.toString()));
                 RuleUtil.updateRule(ruleModel);
                 initRules();
                 adapter.update(ruleModels);
@@ -257,26 +279,27 @@ public class RuleActivity extends AppCompatActivity {
             Object senderId = ruleSenderTv.getTag();
             if (senderId == null) {
                 Toast.makeText(RuleActivity.this, R.string.new_sender_first, Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            int radioGroupRuleCheckId = Math.max(radioGroupRuleCheck.getCheckedRadioButtonId(), radioGroupRuleCheck2.getCheckedRadioButtonId());
+            if (ruleModel == null) {
+                RuleModel newRuleModel = new RuleModel();
+                newRuleModel.setFiled(RuleModel.getRuleFiledFromCheckId(radioGroupRuleFiled.getCheckedRadioButtonId()));
+                newRuleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheckId));
+                newRuleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
+                newRuleModel.setValue(editTextRuleValue.getText().toString());
+                newRuleModel.setSenderId(Long.valueOf(senderId.toString()));
+
+                testRule(newRuleModel, Long.valueOf(senderId.toString()));
             } else {
-                int radioGroupRuleCheckId = Math.max(radioGroupRuleCheck.getCheckedRadioButtonId(), radioGroupRuleCheck2.getCheckedRadioButtonId());
-                if (ruleModel == null) {
-                    RuleModel newRuleModel = new RuleModel();
-                    newRuleModel.setFiled(RuleModel.getRuleFiledFromCheckId(radioGroupRuleFiled.getCheckedRadioButtonId()));
-                    newRuleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheckId));
-                    newRuleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
-                    newRuleModel.setValue(editTextRuleValue.getText().toString());
-                    newRuleModel.setSenderId(Long.valueOf(senderId.toString()));
+                ruleModel.setFiled(RuleModel.getRuleFiledFromCheckId(radioGroupRuleFiled.getCheckedRadioButtonId()));
+                ruleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheckId));
+                ruleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
+                ruleModel.setValue(editTextRuleValue.getText().toString());
+                ruleModel.setSenderId(Long.valueOf(senderId.toString()));
 
-                    testRule(newRuleModel, Long.valueOf(senderId.toString()));
-                } else {
-                    ruleModel.setFiled(RuleModel.getRuleFiledFromCheckId(radioGroupRuleFiled.getCheckedRadioButtonId()));
-                    ruleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheckId));
-                    ruleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
-                    ruleModel.setValue(editTextRuleValue.getText().toString());
-                    ruleModel.setSenderId(Long.valueOf(senderId.toString()));
-
-                    testRule(ruleModel, Long.valueOf(senderId.toString()));
-                }
+                testRule(ruleModel, Long.valueOf(senderId.toString()));
             }
         });
 
@@ -304,6 +327,20 @@ public class RuleActivity extends AppCompatActivity {
             textSmsTemplate.setFocusable(true);
             textSmsTemplate.requestFocus();
             textSmsTemplate.append("{{短信内容}}");
+        });
+
+        Button buttonInsertSenderApp = view1.findViewById(R.id.bt_insert_sender_app);
+        buttonInsertSenderApp.setOnClickListener(view -> {
+            textSmsTemplate.setFocusable(true);
+            textSmsTemplate.requestFocus();
+            textSmsTemplate.append("{{APP包名}}");
+        });
+
+        Button buttonInsertContentApp = view1.findViewById(R.id.bt_insert_content_app);
+        buttonInsertContentApp.setOnClickListener(view -> {
+            textSmsTemplate.setFocusable(true);
+            textSmsTemplate.requestFocus();
+            textSmsTemplate.append("{{通知内容}}");
         });
 
         Button buttonInsertExtra = view1.findViewById(R.id.bt_insert_extra);
@@ -474,13 +511,13 @@ public class RuleActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //MobclickAgent.onResume(this);
+        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //MobclickAgent.onPause(this);
+        MobclickAgent.onPause(this);
     }
 
 }

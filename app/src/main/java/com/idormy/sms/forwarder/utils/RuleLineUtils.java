@@ -80,7 +80,6 @@ public class RuleLineUtils {
      * Rule节点是否命中取决于：该节点是否命中、该节点子结点（如果有的话）是否命中、该节点下节点（如果有的话）是否命中
      * 递归检查
      */
-
     public static boolean checkRuleTree(SmsVo msg, RuleLine currentRuleLine) throws Exception {
         //该节点是否命中
         boolean currentAll = currentRuleLine.checkMsg(msg);
@@ -126,7 +125,6 @@ public class RuleLineUtils {
      * 生成规则树
      * 一行代表一个规则
      */
-
     public static RuleLine generateRuleTree(String line, int lineNum, RuleLine parentRuleLine) throws Exception {
         String[] words = line.split(" ");
 

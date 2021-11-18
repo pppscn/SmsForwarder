@@ -106,7 +106,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".receiver.SmsForwarderBroadcastReceiver"
+            android:name=".receiver.SmsBroadcastReceiver"
             android:permission="android.permission.BROADCAST_SMS"
             tools:ignore="IntentFilterExportedReceiver">
             <intent-filter android:priority="2147483647">

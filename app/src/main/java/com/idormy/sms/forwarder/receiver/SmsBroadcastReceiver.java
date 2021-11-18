@@ -19,13 +19,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class SmsForwarderBroadcastReceiver extends BroadcastReceiver {
+public class SmsBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
         String receiveAction = intent.getAction();
-        String TAG = "SmsForwarderBroadcastReceiver";
+        String TAG = "SmsBroadcastReceiver";
         Log.d(TAG, "onReceive intent " + receiveAction);
         if ("android.provider.Telephony.SMS_RECEIVED".equals(receiveAction)) {
             try {

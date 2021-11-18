@@ -80,7 +80,8 @@
                 <RadioButton
                     android:id="@+id/btnContent"
                     style="@style/rg_rb_style"
-                    android:text="@string/sms_content" />
+                    android:text="@string/sms_content"
+                    android:visibility="gone" />
 
                 <RadioButton
                     android:id="@+id/btnPackageName"
@@ -97,7 +98,8 @@
                 <RadioButton
                     android:id="@+id/btnMultiMatch"
                     style="@style/rg_rb_style"
-                    android:text="@string/multiple_matches" />
+                    android:text="@string/multiple_matches"
+                    android:visibility="gone" />
             </RadioGroup>
 
         </LinearLayout>
@@ -109,7 +111,8 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="match_parent"
@@ -332,7 +335,8 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:text="@string/insert_content"
-                    tools:ignore="ButtonStyle,NestedWeights" />
+                    tools:ignore="ButtonStyle,NestedWeights"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/bt_insert_extra"

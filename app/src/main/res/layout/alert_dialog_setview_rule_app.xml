@@ -14,7 +14,8 @@
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -75,24 +76,24 @@
                 <RadioButton
                     android:id="@+id/btnPhone"
                     style="@style/rg_rb_style"
-                    android:text="@string/phone_number" />
+                    android:text="@string/phone_number"
+                    android:visibility="gone" />
 
                 <RadioButton
                     android:id="@+id/btnContent"
                     style="@style/rg_rb_style"
-                    android:text="@string/sms_content" />
+                    android:text="@string/sms_content"
+                    android:visibility="gone" />
 
                 <RadioButton
                     android:id="@+id/btnPackageName"
                     style="@style/rg_rb_style"
-                    android:text="@string/package_name"
-                    android:visibility="gone" />
+                    android:text="@string/package_name" />
 
                 <RadioButton
                     android:id="@+id/btnInformContent"
                     style="@style/rg_rb_style"
-                    android:text="@string/inform_content"
-                    android:visibility="gone" />
+                    android:text="@string/inform_content" />
 
                 <RadioButton
                     android:id="@+id/btnMultiMatch"
@@ -196,7 +197,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="@string/mu_rule_tips" />
+                android:text="@string/mu_rule_tips2" />
         </LinearLayout>
 
         <LinearLayout
@@ -320,7 +321,8 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:text="@string/insert_sender"
-                    tools:ignore="ButtonStyle,NestedWeights" />
+                    tools:ignore="ButtonStyle,NestedWeights"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/bt_insert_content"
@@ -332,7 +334,8 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:text="@string/insert_content"
-                    tools:ignore="ButtonStyle,NestedWeights" />
+                    tools:ignore="ButtonStyle,NestedWeights"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/bt_insert_extra"
@@ -344,7 +347,8 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:text="@string/insert_extra"
-                    tools:ignore="ButtonStyle,NestedWeights" />
+                    tools:ignore="ButtonStyle,NestedWeights"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/bt_insert_sender_app"
@@ -355,8 +359,7 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:text="@string/insert_sender_app"
-                    tools:ignore="ButtonStyle,NestedWeights"
-                    android:visibility="gone" />
+                    tools:ignore="ButtonStyle,NestedWeights" />
 
                 <Button
                     android:id="@+id/bt_insert_content_app"
@@ -368,8 +371,7 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:text="@string/insert_content_app"
-                    tools:ignore="ButtonStyle,NestedWeights"
-                    android:visibility="gone" />
+                    tools:ignore="ButtonStyle,NestedWeights" />
 
                 <Button
                     android:id="@+id/bt_insert_time"

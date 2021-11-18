@@ -22,7 +22,9 @@ import lombok.Data;
 public class RuleModel {
     public static final String FILED_TRANSPOND_ALL = "transpond_all";
     public static final String FILED_PHONE_NUM = "phone_num";
+    public static final String FILED_PACKAGE_NAME = "package_name";
     public static final String FILED_MSG_CONTENT = "msg_content";
+    public static final String FILED_INFORM_CONTENT = "inform_content";
     public static final String FILED_MULTI_MATCH = "multi_match";
     public static final Map<String, String> FILED_MAP = new HashMap<>();
     public static final String CHECK_IS = "is";
@@ -50,6 +52,8 @@ public class RuleModel {
         FILED_MAP.put("phone_num", "手机号");
         FILED_MAP.put("msg_content", "内容");
         FILED_MAP.put("multi_match", "多重匹配");
+        FILED_MAP.put("package_name", "APP包名");
+        FILED_MAP.put("inform_content", "通知内容");
     }
 
     static {
@@ -96,6 +100,10 @@ public class RuleModel {
                 return FILED_MSG_CONTENT;
             case R.id.btnPhone:
                 return FILED_PHONE_NUM;
+            case R.id.btnPackageName:
+                return FILED_PACKAGE_NAME;
+            case R.id.btnInformContent:
+                return FILED_INFORM_CONTENT;
             case R.id.btnMultiMatch:
                 return FILED_MULTI_MATCH;
             default:
@@ -228,7 +236,7 @@ public class RuleModel {
     }
 
     public String getRuleMatch() {
-        String SimStr = SIM_SLOT_MAP.get(simSlot) + "卡 ";
+        String SimStr = "app".equals(type) ? "" : SIM_SLOT_MAP.get(simSlot) + "卡 ";
         if (filed == null || filed.equals(FILED_TRANSPOND_ALL)) {
             return SimStr + "全部 转发到 ";
         } else {
@@ -246,6 +254,10 @@ public class RuleModel {
                 return R.id.btnContent;
             case FILED_PHONE_NUM:
                 return R.id.btnPhone;
+            case FILED_PACKAGE_NAME:
+                return R.id.btnPackageName;
+            case FILED_INFORM_CONTENT:
+                return R.id.btnInformContent;
             case FILED_MULTI_MATCH:
                 return R.id.btnMultiMatch;
             default:

@@ -47,6 +47,8 @@
     <string name="reflashing_tips">Refreshing…</string>
     <!--RuleActivity-->
     <string name="setrule">Fwd Rule Settings</string>
+    <string name="setrule_call">Fwd Rule Settings of call</string>
+    <string name="setrule_app">Fwd Rule Settings of app</string>
     <string name="delete_rule_title">Delete confirmation</string>
     <string name="delete_rule_tips">Are you sure to delete this rule entry?</string>
     <string name="delete_rule_toast">The rule entry has deleted.</string>
@@ -61,7 +63,9 @@
     <string name="match_sim_slot">Sim Slot</string>
     <string name="match_field">Field</string>
     <string name="phone_number">Phone No.</string>
+    <string name="package_name">PackageName</string>
     <string name="sms_content">SMS</string>
+    <string name="inform_content">Inform content</string>
     <string name="multiple_matches">Multiple</string>
     <string name="match_type">Type</string>
     <string name="btn_is">Is</string>
@@ -129,7 +133,7 @@
     <string name="ServerChanSendKey">ServerChan\'s SendKey</string>
     <string name="TelegramApiToken">ApiToken or Custom address</string>
     <string name="TelegramChatId">ChatId</string>
-    <string name="WebNotifyMethod">Method</string>
+    <string name="WebNotifyMethod" formatted="false">Method</string>
     <string name="WebNotifyWebServer">WebServer e.g. https://a.b.com/msg?token=xyz</string>
     <string name="WebNotifyWebParams">WebParams e.g. payload=%7B%22text%22%3A%22[msg]%22%7D [msg] will be replaced with text message content. \nSupport Json format, for example: {"text":[MSG]}.\n Note: MSG is automatically utF-8 encoded in addition to JSON format</string>
     <string name="WebNotifySecret">Secret (If empty, sign is not counted)</string>
@@ -154,7 +158,9 @@
     <string name="custom_templates">Custom templates</string>
     <string name="custom_templates_tips">Tip：Insert labels as needed;Leave blank to default template</string>
     <string name="insert_sender">Phone</string>
+    <string name="insert_sender_app">PackageName</string>
     <string name="insert_content">SMS</string>
+    <string name="insert_content_app">InformContent</string>
     <string name="insert_extra">SIM</string>
     <string name="insert_time">Time</string>
     <string name="insert_device_name">Device</string>
@@ -173,6 +179,7 @@
     <string name="sim1" tools:ignore="Typos">SIM1</string>
     <string name="sim2" tools:ignore="Typos">SIM2</string>
     <string name="mu_rule_tips">多重匹配规则示例：\n \n 并且 是 手机号 相等 10086\n 或者 是 手机号 相等 10011\n 并且 是 短信内容 包含 欠费\n \n 以上规则表示：收到短信，并且（手机号是10086 或者 手机号是10010），并且 短信内容 包含 欠费 时转发短信\n 注意：每行开始的空格代表层级，太过复杂的多重规则可能导致内存占用很大！</string>
+    <string name="mu_rule_tips2">多重匹配规则示例：\n \n 并且 是 包名 相等 com.tencent.mm\n 或者 是 包名 相等 com.tencent.mm\n 并且 是 通知内容 包含 欠费\n \n 以上规则表示：收到APP通知，并且（包名是com.tencent.mm 或者 包名是com.tencent.mm），并且 通知内容 包含 欠费 时转发通知\n 注意：每行开始的空格代表层级，太过复杂的多重规则可能导致内存占用很大！</string>
     <string name="post">POST</string>
     <string name="get">GET</string>
     <!--CloneActivity-->
