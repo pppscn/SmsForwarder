@@ -98,6 +98,13 @@
 
 > 信息 > 左上角3个点 > 设置 > 隐私保护 > 关闭验证码安全保护开关
 
+6. 稳定保活发送方案 **使用红米9A手机**：
+    1. 使用usb线接入电脑或者服务器。
+    2. 安装adb组件。
+    3. 打开开发者模式
+    4. adb进行授权 ```adb attach``` 然后允许授权
+    5. 配置定时任务每分钟执行命令 ```adb shell am start -n com.idormy.sms.forwarder/com.idormy.sms.forwarder.MainActivity```
+
 ### 发送方设置参考
 
 #### 钉钉机器人
