@@ -6,6 +6,7 @@ public class Define {
 
     public static final String SP_MSG_KEY_SWITCH_ADD_EXTRA = "tsms_msg_key_switch_add_extra";
     public static final String SP_MSG_KEY_STRING_ADD_EXTRA_DEVICE_NAME = "tsms_msg_key_switch_add_extra_device_name";
+    public static final String SP_MSG_KEY_STRING_ENABLE_SMS = "tsms_msg_key_switch_enable_sms";
     public static final String SP_MSG_KEY_STRING_ENABLE_PHONE = "tsms_msg_key_switch_enable_phone";
     public static final String SP_MSG_KEY_STRING_ENABLE_APP_NOTIFY = "tsms_msg_key_switch_enable_app_notify";
     public static final String SP_MSG_KEY_STRING_ADD_EXTRA_DEVICE_MARK = "tsms_msg_key_string_add_extra_device_mark";

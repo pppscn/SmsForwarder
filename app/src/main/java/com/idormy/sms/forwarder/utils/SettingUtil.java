@@ -46,6 +46,16 @@ public class SettingUtil {
         return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ADD_EXTRA_DEVICE_NAME, false);
     }
 
+    public static void switchEnableSms(Boolean enable) {
+        sp_setting.edit()
+                .putBoolean(Define.SP_MSG_KEY_STRING_ENABLE_SMS, enable)
+                .apply();
+    }
+
+    public static boolean getSwitchEnableSms() {
+        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_SMS, true);
+    }
+
     public static void switchEnablePhone(Boolean enable) {
         sp_setting.edit()
                 .putBoolean(Define.SP_MSG_KEY_STRING_ENABLE_PHONE, enable)

@@ -29,6 +29,9 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         Log.d(TAG, "onReceive intent " + receiveAction);
         if ("android.provider.Telephony.SMS_RECEIVED".equals(receiveAction)) {
             try {
+                if (!SettingUtil.getSwitchEnableSms()) {
+                    return;
+                }
 
                 Bundle extras = intent.getExtras();
                 Object[] object = (Object[]) Objects.requireNonNull(extras).get("pdus");
