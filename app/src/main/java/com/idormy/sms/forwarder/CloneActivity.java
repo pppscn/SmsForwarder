@@ -36,7 +36,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class CloneActivity extends AppCompatActivity {
-    private final String TAG = "com.idormy.sms.forwarder.CloneActivity";
+    private final String TAG = "CloneActivity";
     private Context context;
     private boolean isRunning = false;
     private String serverIp;

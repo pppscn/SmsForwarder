@@ -95,6 +95,9 @@
         <activity
             android:name=".SenderActivity"
             android:label="@string/sender_setting" />
+        <activity
+            android:name=".AppListActivity"
+            android:label="@string/app_list" />
 
         <receiver
             android:name=".receiver.RebootBroadcastReceiver"

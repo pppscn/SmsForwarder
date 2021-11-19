@@ -14,9 +14,11 @@
     <string name="about">About</string>
     <string name="rule_setting">Rule Setting</string>
     <string name="sender_setting">Sender Setting</string>
+    <string name="app_list">App List</string>
     <string name="log_tips">Tips: Pull to refresh; Long press to delete one log entry.</string>
     <string name="rule_tips">Tips: Tap "NEW FORWARDING RULE" to add a new rule; Long press one to delete; Tap an existing one to edit.</string>
     <string name="sender_tips">Tips: Tap "NEW SENDER" to add a new sender; Long press one to delete; Tap an existing one to edit.</string>
+    <string name="app_tips">Tips: Tap to copy the package name of APP; Long press one to start and jump to.</string>
     <!--AboutActivity-->
     <string name="version">Version</string>
     <string name="check_for_updates">Check for updates</string>
@@ -152,6 +154,7 @@
     <string name="retry_interval_tips">Retry five times after it fails</string>
     <string name="add_extra">Sim slot info attached</string>
     <string name="add_device_name">Device Name attached</string>
+    <string name="forward_sms">Forward sms</string>
     <string name="forward_missed_calls">Forward missed calls</string>
     <string name="forward_app_notify">Forward app notify</string>
     <string name="enable_custom_templates">Enable custom templates</string>
@@ -205,7 +208,10 @@
     <string name="no_network">No network at present</string>
     <string name="not_connected_wifi">Not connected WIFI</string>
     <string name="failed_to_get_ip">Failed to get IP address</string>
-    <string name="sms">短 信</string>
-    <string name="call">来 电</string>
-    <string name="app">应 用</string>
+    <string name="sms">SMS</string>
+    <string name="call">Call</string>
+    <string name="app">App</string>
+    <string name="appicon">App Icon</string>
+    <string name="user_app">User App</string>
+    <string name="system_app">System App</string>
 </resources>

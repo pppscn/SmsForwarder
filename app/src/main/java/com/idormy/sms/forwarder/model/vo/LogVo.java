@@ -40,7 +40,7 @@ public class LogVo {
             }
         }
 
-        return R.drawable.app;
+        return R.drawable.ic_app;
     }
 
     public int getStatusImageId() {

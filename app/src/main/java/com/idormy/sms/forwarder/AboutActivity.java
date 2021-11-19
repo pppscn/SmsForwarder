@@ -26,7 +26,7 @@ import com.xuexiang.xupdate.proxy.impl.DefaultUpdateChecker;
 
 @SuppressWarnings("SpellCheckingInspection")
 public class AboutActivity extends AppCompatActivity {
-    private final String TAG = "com.idormy.sms.forwarder.AboutActivity";
+    private final String TAG = "AboutActivity";
     private Context context;
 
     @Override
