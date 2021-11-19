@@ -362,6 +362,33 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
+                android:text="@string/enable_exclude_from_recents"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/switch_exclude_from_recents"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:gravity="end"
+                android:textSize="18sp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
                 android:text="@string/enable_custom_templates"
                 android:textStyle="bold" />
 
@@ -415,7 +442,7 @@
                 android:gravity="left|top"
                 android:minLines="1"
                 android:text=""
-                tools:ignore="LabelFor" />
+                tools:ignore="LabelFor,RtlHardcoded" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -432,7 +459,7 @@
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
                     android:text="@string/insert_sender"
-                    tools:ignore="ButtonStyle,NestedWeights" />
+                    tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
 
                 <Button
                     android:id="@+id/bt_insert_content"
@@ -445,7 +472,7 @@
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
                     android:text="@string/insert_content"
-                    tools:ignore="ButtonStyle,NestedWeights" />
+                    tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
 
                 <Button
                     android:id="@+id/bt_insert_extra"
@@ -458,7 +485,7 @@
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
                     android:text="@string/insert_extra"
-                    tools:ignore="ButtonStyle,NestedWeights" />
+                    tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
 
                 <Button
                     android:id="@+id/bt_insert_time"
@@ -471,7 +498,7 @@
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
                     android:text="@string/insert_time"
-                    tools:ignore="ButtonStyle,NestedWeights" />
+                    tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
 
                 <Button
                     android:id="@+id/bt_insert_device_name"
@@ -484,7 +511,7 @@
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
                     android:text="@string/insert_device_name"
-                    tools:ignore="ButtonStyle,NestedWeights" />
+                    tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
 
             </LinearLayout>
 
@@ -506,7 +533,7 @@
                 android:background="@color/colorPrimary"
                 android:onClick="batterySetting"
                 android:text="@string/battery_setting"
-                tools:ignore="ButtonStyle,NestedWeights" />
+                tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
 
             <Button
                 android:layout_width="match_parent"
@@ -516,7 +543,7 @@
                 android:background="@color/colorPrimary"
                 android:onClick="requestPermission"
                 android:text="@string/request_permission"
-                tools:ignore="ButtonStyle,NestedWeights" />
+                tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
 
             <Button
                 android:layout_width="match_parent"
@@ -526,7 +553,7 @@
                 android:background="@color/colorBlueGreyDark"
                 android:onClick="initSetting"
                 android:text="@string/init_setting"
-                tools:ignore="ButtonStyle,NestedWeights" />
+                tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
         </LinearLayout>
 
     </LinearLayout>

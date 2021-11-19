@@ -158,6 +158,7 @@
     <string name="forward_missed_calls">Forward missed calls</string>
     <string name="forward_app_notify">Forward app notify</string>
     <string name="enable_custom_templates">Enable custom templates</string>
+    <string name="enable_exclude_from_recents">Exclude from recents</string>
     <string name="custom_templates">Custom templates</string>
     <string name="custom_templates_tips">Tip：Insert labels as needed;Leave blank to default template</string>
     <string name="insert_sender">Phone</string>

@@ -1,9 +1,12 @@
 package com.idormy.sms.forwarder;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,6 +25,7 @@ import com.idormy.sms.forwarder.service.NotifyService;
 import com.idormy.sms.forwarder.utils.KeepAliveUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 
+import java.util.List;
 import java.util.Set;
 
 public class SettingActivity extends AppCompatActivity {
@@ -71,6 +75,9 @@ public class SettingActivity extends AppCompatActivity {
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_enable_app_notify = findViewById(R.id.switch_enable_app_notify);
         switchEnableAppNotify(switch_enable_app_notify);
 
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_exclude_from_recents = findViewById(R.id.switch_exclude_from_recents);
+        switchExcludeFromRecents(switch_exclude_from_recents);
+
         EditText textSmsTemplate = findViewById(R.id.text_sms_template);
         editSmsTemplate(textSmsTemplate);
     }
@@ -101,6 +108,26 @@ public class SettingActivity extends AppCompatActivity {
 
         switch_enable_app_notify.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingUtil.switchEnableAppNotify(isChecked);
+            Log.d(TAG, "onCheckedChanged:" + isChecked);
+        });
+    }
+
+    //不在最近任务列表中显示
+    @SuppressLint("ObsoleteSdkInt")
+    private void switchExcludeFromRecents(Switch switch_exclude_from_recents) {
+        switch_exclude_from_recents.setChecked(SettingUtil.getExcludeFromRecents());
+
+        switch_exclude_from_recents.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingUtil.switchExcludeFromRecents(isChecked);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ActivityManager am = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
+                if (am != null) {
+                    List<ActivityManager.AppTask> appTasks = am.getAppTasks();
+                    if (appTasks != null && !appTasks.isEmpty()) {
+                        appTasks.get(0).setExcludeFromRecents(isChecked);
+                    }
+                }
+            }
             Log.d(TAG, "onCheckedChanged:" + isChecked);
         });
     }
@@ -195,7 +222,6 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
     }
-
 
     //接口请求失败重试
     private void editRetryDelayTime(final EditText et_retry_delay_time, final int index) {
@@ -314,6 +340,7 @@ public class SettingActivity extends AppCompatActivity {
 
     }
 
+    //电池优化设置
     public void batterySetting(View view) {
         if (KeepAliveUtils.isIgnoreBatteryOptimization(this)) {
             Toast.makeText(this, R.string.isIgnored, Toast.LENGTH_SHORT).show();
@@ -322,12 +349,12 @@ public class SettingActivity extends AppCompatActivity {
         }
     }
 
-
     /**
      * 请求权限
      *
      * @param view 控件
      */
+    @SuppressWarnings("deprecation")
     public void requestPermission(View view) {
         if (!isNLServiceEnabled()) {
             Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
@@ -360,7 +387,6 @@ public class SettingActivity extends AppCompatActivity {
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -373,7 +399,6 @@ public class SettingActivity extends AppCompatActivity {
             }
         }
     }
-
 
     private void showMsg(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();

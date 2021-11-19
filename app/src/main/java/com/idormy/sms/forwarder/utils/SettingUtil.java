@@ -73,7 +73,17 @@ public class SettingUtil {
     }
 
     public static boolean getSwitchEnableAppNotify() {
-        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_APP_NOTIFY, true);
+        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_APP_NOTIFY, false);
+    }
+
+    public static void switchExcludeFromRecents(Boolean enable) {
+        sp_setting.edit()
+                .putBoolean(Define.SP_MSG_KEY_STRING_ENABLE_EXCLUDE_FROM_RECENTS, enable)
+                .apply();
+    }
+
+    public static boolean getExcludeFromRecents() {
+        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_EXCLUDE_FROM_RECENTS, false);
     }
 
     public static void switchSmsTemplate(Boolean switchSmsTemplate) {

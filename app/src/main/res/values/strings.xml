@@ -158,6 +158,7 @@
     <string name="forward_missed_calls">转发未接来电</string>
     <string name="forward_app_notify">转发APP通知</string>
     <string name="enable_custom_templates">启用自定义模版</string>
+    <string name="enable_exclude_from_recents">不在最近任务列表中显示</string>
     <string name="custom_templates">转发信息模版</string>
     <string name="custom_templates_tips">Tip：按需插入内容标签；留空使用默认模版</string>
     <string name="insert_sender">来源号码</string>
