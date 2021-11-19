@@ -6,14 +6,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 import com.idormy.sms.forwarder.R;
 
 public class KeepAliveUtils {
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public static boolean isIgnoreBatteryOptimization(Activity activity) {
         PowerManager powerManager = (PowerManager) activity.getSystemService(Context.POWER_SERVICE);
         if (powerManager != null) {
@@ -23,6 +27,7 @@ public class KeepAliveUtils {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public static void ignoreBatteryOptimization(Activity activity) {
         if (isIgnoreBatteryOptimization(activity)) {
             return;

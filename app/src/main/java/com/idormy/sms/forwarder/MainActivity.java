@@ -34,11 +34,12 @@ import com.idormy.sms.forwarder.notify.NotifyListener;
 import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.service.FrontService;
 import com.idormy.sms.forwarder.service.NotifyService;
+import com.idormy.sms.forwarder.utils.CommonUtil;
 import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.NetUtil;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.SmsUtil;
-import com.idormy.sms.forwarder.utils.aUtil;
+import com.idormy.sms.forwarder.utils.TimeUtil;
 
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements NotifyListener, R
 
         //检查权限是否获取
         PackageManager pm = getPackageManager();
-        PhoneUtils.CheckPermission(pm, this);
+        CommonUtil.CheckPermission(pm, this);
 
         //获取SIM信息
         PhoneUtils.init(this);
@@ -298,9 +299,9 @@ public class MainActivity extends AppCompatActivity implements NotifyListener, R
         builder.setTitle(R.string.details);
         String simInfo = logVo.getSimInfo();
         if (simInfo != null) {
-            builder.setMessage(logVo.getFrom() + "\n\n" + logVo.getContent() + "\n\n" + logVo.getSimInfo() + "\n\n" + logVo.getRule() + "\n\n" + aUtil.utc2Local(logVo.getTime()) + "\n\nResponse：" + logVo.getForwardResponse());
+            builder.setMessage(logVo.getFrom() + "\n\n" + logVo.getContent() + "\n\n" + logVo.getSimInfo() + "\n\n" + logVo.getRule() + "\n\n" + TimeUtil.utc2Local(logVo.getTime()) + "\n\nResponse：" + logVo.getForwardResponse());
         } else {
-            builder.setMessage(logVo.getFrom() + "\n\n" + logVo.getContent() + "\n\n" + logVo.getRule() + "\n\n" + aUtil.utc2Local(logVo.getTime()) + "\n\nResponse：" + logVo.getForwardResponse());
+            builder.setMessage(logVo.getFrom() + "\n\n" + logVo.getContent() + "\n\n" + logVo.getRule() + "\n\n" + TimeUtil.utc2Local(logVo.getTime()) + "\n\nResponse：" + logVo.getForwardResponse());
         }
         //删除
         builder.setNegativeButton(R.string.del, (dialog, which) -> {

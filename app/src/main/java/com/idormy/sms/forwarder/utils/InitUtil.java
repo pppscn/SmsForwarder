@@ -21,8 +21,6 @@ public class InitUtil {
             Log.d(TAG, "init context");
             SettingUtil.init(context);
         }
-
-
     }
 
 }

@@ -1,12 +1,16 @@
 package com.idormy.sms.forwarder.utils;
 
+import android.os.Environment;
 import android.text.TextUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Properties;
 
 /**
  * 使用方法:
- * OSUtils.ROM_TYPE romType = OSUtils.getRomType();
+ * OSUtil.ROM_TYPE romType = OSUtil.getRomType();
  * 可能您需要对其他的ROM进行区分，那么只需三步：
  * 一：使用BuildProperties获取到所有的key,遍历获取到所有的value(getProperty),或者直接找到build.prop文件。
  * 二：找到定制ROM特征的标识（key/value）
@@ -14,7 +18,30 @@ import java.io.IOException;
  * 作者：YouAreMyShine
  * 链接：https://www.jianshu.com/p/bb1f765a425f
  */
-public class OSUtils {
+public class OSUtil {
+
+    /**
+     * 判断是否为MIUI系统，参考http://blog.csdn.net/xx326664162/article/details/52438706
+     *
+     * @return 返回结果
+     */
+    @SuppressWarnings("unused")
+    public static boolean isMIUI() {
+        try {
+            String KEY_MIUI_VERSION_CODE = "ro.miui.ui.version.code";
+            String KEY_MIUI_VERSION_NAME = "ro.miui.ui.version.name";
+            String KEY_MIUI_INTERNAL_STORAGE = "ro.miui.internal.storage";
+            Properties prop = new Properties();
+            prop.load(new FileInputStream(new File(Environment.getRootDirectory(), "build.prop")));
+
+            return prop.getProperty(KEY_MIUI_VERSION_CODE, null) != null
+                    || prop.getProperty(KEY_MIUI_VERSION_NAME, null) != null
+                    || prop.getProperty(KEY_MIUI_INTERNAL_STORAGE, null) != null;
+        } catch (final IOException e) {
+            return false;
+        }
+    }
+
     /**
      * MIUI ROM标识
      * <p>

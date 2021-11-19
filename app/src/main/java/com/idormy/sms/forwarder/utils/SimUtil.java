@@ -53,7 +53,6 @@ public class SimUtil {
         return 1;
     }
 
-
     //通过卡槽ID获取SubscriptionId
     public static int getSubscriptionIdBySimId(int simId) {
         try {

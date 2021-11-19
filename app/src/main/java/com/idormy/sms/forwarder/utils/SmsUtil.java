@@ -4,8 +4,11 @@ import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.telephony.SmsManager;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -25,6 +28,7 @@ public class SmsUtil {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     public static String sendSms(int subId, String mobiles, String message) {
         mobiles = mobiles.replace("；", ";");
         Log.d(TAG, "subId = " + subId + ", mobiles = " + mobiles + ", message = " + message);

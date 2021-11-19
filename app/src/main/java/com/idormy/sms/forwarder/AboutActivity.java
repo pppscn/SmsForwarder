@@ -18,8 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.idormy.sms.forwarder.receiver.RebootBroadcastReceiver;
 import com.idormy.sms.forwarder.utils.CacheUtil;
+import com.idormy.sms.forwarder.utils.CommonUtil;
 import com.idormy.sms.forwarder.utils.Define;
-import com.idormy.sms.forwarder.utils.aUtil;
 import com.xuexiang.xupdate.easy.EasyUpdate;
 import com.xuexiang.xupdate.proxy.impl.DefaultUpdateChecker;
 
@@ -48,7 +48,7 @@ public class AboutActivity extends AppCompatActivity {
         final TextView version_now = findViewById(R.id.version_now);
         Button check_version_now = findViewById(R.id.check_version_now);
         try {
-            version_now.setText(aUtil.getVersionName(AboutActivity.this));
+            version_now.setText(CommonUtil.getVersionName(AboutActivity.this));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,7 +56,7 @@ public class AboutActivity extends AppCompatActivity {
         check_version_now.setOnClickListener(v -> {
             try {
                 String updateUrl = "https://xupdate.bms.ink/update/checkVersion?appKey=com.idormy.sms.forwarder&versionCode=";
-                updateUrl += aUtil.getVersionCode(AboutActivity.this);
+                updateUrl += CommonUtil.getVersionCode(AboutActivity.this);
 
                 EasyUpdate.create(AboutActivity.this, updateUrl)
                         .updateChecker(new DefaultUpdateChecker() {
@@ -153,6 +153,5 @@ public class AboutActivity extends AppCompatActivity {
             Toast.makeText(AboutActivity.this, R.string.unknown_qq_version, Toast.LENGTH_LONG).show();
         }
     }
-
 
 }
