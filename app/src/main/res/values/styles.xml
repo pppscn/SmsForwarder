@@ -6,6 +6,13 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionOverflowMenuStyle">@style/OverflowMenu</item>
+    </style>
+
+    <style name="OverflowMenu" parent="Base.Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:dropDownWidth">100dp</item>
+        <!-- 是否覆盖锚点，默认为true，即盖住Toolbar -->
+        <item name="overlapAnchor">false</item>
     </style>
 
     <style name="rg_style">
@@ -21,16 +28,19 @@
 
     <!-- 选择框自定义主题 -->
     <style name="select_style">
-        <item name="android:layout_width">60dip</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">4dip</item>
-        <item name="android:layout_marginRight">4dip</item>
-        <item name="android:paddingTop">4dip</item>
-        <item name="android:paddingBottom">4dip</item>
+        <item name="android:layout_marginLeft">5dip</item>
+        <item name="android:layout_marginRight">5dip</item>
+        <item name="android:paddingLeft">10dip</item>
+        <item name="android:paddingRight">10dip</item>
+        <item name="android:paddingTop">5dip</item>
+        <item name="android:paddingBottom">5dip</item>
         <item name="android:background">@drawable/select_selector</item>
         <item name="android:button">@null</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">13sp</item>
+        <item name="android:letterSpacing">0.1</item>
         <item name="android:textColor">@drawable/txt_select_selector</item>
     </style>
 </resources>

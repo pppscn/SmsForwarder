@@ -12,9 +12,9 @@ import android.os.PowerManager;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -40,6 +40,7 @@ import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.SmsUtil;
 import com.idormy.sms.forwarder.utils.aUtil;
 
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -314,6 +315,11 @@ public class MainActivity extends AppCompatActivity implements NotifyListener, R
         builder.show();
     }
 
+    public void toAppList() {
+        Intent intent = new Intent(this, AppListActivity.class);
+        startActivity(intent);
+    }
+
     public void toClone() {
         Intent intent = new Intent(this, CloneActivity.class);
         startActivity(intent);
@@ -360,11 +366,22 @@ public class MainActivity extends AppCompatActivity implements NotifyListener, R
         startActivity(intent);
     }
 
+    //启用menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    //menu点击事件
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.to_app_list:
+                toAppList();
+                return true;
             case R.id.to_clone:
                 toClone();
                 return true;
@@ -379,12 +396,25 @@ public class MainActivity extends AppCompatActivity implements NotifyListener, R
         }
     }
 
+    //设置menu图标显示
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return true;
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        if (featureId == Window.FEATURE_ACTION_BAR && menu != null) {
+            if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
+                try {
+                    Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                } catch (NoSuchMethodException e) {
+                    Log.e(TAG, "onMenuOpened", e);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return super.onMenuOpened(featureId, menu);
     }
+
 
     /**
      * 收到通知
