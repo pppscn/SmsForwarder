@@ -49,7 +49,7 @@ public class CommonUtil {
 
     //获取当前版本名称
     public static String getVersionName(Context context) throws Exception {
-        // 获取packagemanager的实例
+        // 获取PackageManager的实例
         PackageManager packageManager = context.getPackageManager();
         // getPackageName()是你当前类的包名，0代表是获取版本信息
         PackageInfo packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
@@ -58,7 +58,7 @@ public class CommonUtil {
 
     //获取当前版本号
     public static Integer getVersionCode(Context context) throws Exception {
-        // 获取packagemanager的实例
+        // 获取PackageManager的实例
         PackageManager packageManager = context.getPackageManager();
         // getPackageName()是你当前类的包名，0代表是获取版本信息
         PackageInfo packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
@@ -83,12 +83,14 @@ public class CommonUtil {
         boolean permission_read_contacts = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_CONTACTS", that.getPackageName()));
         boolean permission_battery_stats = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.BATTERY_STATS", that.getPackageName()));
         boolean permission_bind_notification_listener_service = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.BIND_NOTIFICATION_LISTENER_SERVICE", that.getPackageName()));
+        boolean permission_query_all_packages = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.QUERY_ALL_PACKAGES", that.getPackageName()));
 
         if (!(permission_internet && permission_receive_boot && permission_foreground_service &&
                 permission_read_external_storage && permission_write_external_storage &&
                 permission_receive_sms && permission_read_sms && permission_send_sms &&
                 permission_read_call_log && permission_read_contacts &&
-                permission_read_phone_state && permission_read_phone_numbers && permission_battery_stats && permission_bind_notification_listener_service)) {
+                permission_read_phone_state && permission_read_phone_numbers && permission_battery_stats &&
+                permission_bind_notification_listener_service && permission_query_all_packages)) {
             ActivityCompat.requestPermissions((Activity) that, new String[]{
                     Manifest.permission.INTERNET,
                     Manifest.permission.RECEIVE_BOOT_COMPLETED,
@@ -104,6 +106,7 @@ public class CommonUtil {
                     Manifest.permission.FOREGROUND_SERVICE,
                     Manifest.permission.BATTERY_STATS,
                     Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE,
+                    Manifest.permission.QUERY_ALL_PACKAGES,
             }, 0x01);
         }
     }

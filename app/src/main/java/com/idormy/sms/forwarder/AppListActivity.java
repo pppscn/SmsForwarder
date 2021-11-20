@@ -65,7 +65,6 @@ public class AppListActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart");
-        Toast.makeText(AppListActivity.this, "加载应用列表中，请稍候...", Toast.LENGTH_LONG).show();
 
         //是否关闭页面提示
         TextView help_tip = findViewById(R.id.help_tip);
@@ -110,32 +109,48 @@ public class AppListActivity extends AppCompatActivity {
     //获取应用列表
     private void getAppList() {
         new Thread(() -> {
+            Message msg = new Message();
+            msg.what = NOTIFY;
+            Bundle bundle = new Bundle();
+            bundle.putString("DATA", "user".equals(currentType) ? "正在加载用户应用，请稍候..." : "正在加载系统应用，请稍候...");
+            msg.setData(bundle);
+            handler.sendMessage(msg);
+
             appInfoList = new ArrayList<>();
             PackageManager pm = getApplication().getPackageManager();
-            @SuppressLint("QueryPermissionsNeeded") List<PackageInfo> packages = pm.getInstalledPackages(PackageManager.GET_UNINSTALLED_PACKAGES);
-            for (PackageInfo packageInfo : packages) {
-                //只取用户应用
-                if ("user".equals(currentType) && (packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1) {
-                    continue;
+            try {
+                List<PackageInfo> packages = pm.getInstalledPackages(PackageManager.GET_ACTIVITIES | PackageManager.GET_SERVICES);
+                for (PackageInfo packageInfo : packages) {
+                    //只取用户应用
+                    if ("user".equals(currentType) && isSystemApp(packageInfo)) continue;
+                    //只取系统应用
+                    if ("sys".equals(currentType) && !isSystemApp(packageInfo)) continue;
+
+                    String appName = packageInfo.applicationInfo.loadLabel(pm).toString();
+                    String packageName = packageInfo.packageName;
+                    Drawable drawable = packageInfo.applicationInfo.loadIcon(pm);
+                    String verName = packageInfo.versionName;
+                    int verCode = packageInfo.versionCode;
+                    AppInfo appInfo = new AppInfo(appName, packageName, drawable, verName, verCode);
+                    appInfoList.add(appInfo);
+                    Log.d(TAG, appInfo.toString());
                 }
-                //只取系统应用
-                if ("sys".equals(currentType) && (packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 1) {
-                    continue;
-                }
-                String appName = packageInfo.applicationInfo.loadLabel(pm).toString();
-                String packageName = packageInfo.packageName;
-                Drawable drawable = packageInfo.applicationInfo.loadIcon(pm);
-                String verName = packageInfo.versionName;
-                int verCode = packageInfo.versionCode;
-                AppInfo appInfo = new AppInfo(appName, packageName, drawable, verName, verCode);
-                appInfoList.add(appInfo);
-                Log.d(TAG, appInfo.toString());
+            } catch (Throwable t) {
+                t.printStackTrace();
             }
+
             Message message = new Message();
             message.what = APP_LIST;
             message.obj = appInfoList;
             handler.sendMessage(message);
         }).start();
+    }
+
+    // 通过packName得到PackageInfo，作为参数传入即可
+    private boolean isSystemApp(PackageInfo pi) {
+        boolean isSysApp = (pi.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1;
+        boolean isSysUpd = (pi.applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 1;
+        return isSysApp || isSysUpd;
     }
 
     @Override
