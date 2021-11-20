@@ -53,7 +53,7 @@ public class SettingUtil {
     }
 
     public static boolean getSwitchEnableSms() {
-        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_SMS, true);
+        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_SMS, false);
     }
 
     public static void switchEnablePhone(Boolean enable) {
@@ -63,7 +63,7 @@ public class SettingUtil {
     }
 
     public static boolean getSwitchEnablePhone() {
-        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_PHONE, true);
+        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_PHONE, false);
     }
 
     public static void switchEnableAppNotify(Boolean enable) {
@@ -196,4 +196,11 @@ public class SettingUtil {
         sp_setting.edit().putInt(key, retry_delay_time).apply();
     }
 
+    public static String getPrevNoticeHash(String key) {
+        return sp_setting.getString(key, "");
+    }
+
+    public static void setPrevNoticeHash(String key, String value) {
+        sp_setting.edit().putString(key, value).apply();
+    }
 }

@@ -3,16 +3,49 @@ package com.idormy.sms.forwarder.utils;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import com.idormy.sms.forwarder.service.NotifyService;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Set;
 
 /**
  * 权限相关工具类
  */
 public class CommonUtil {
+    public static final int NOTIFICATION_REQUEST_CODE = 9527;
+    private static final String ACTION_NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
+
+    //是否启用通知监听服务
+    public static boolean isNotificationListenerServiceEnabled(Context context) {
+        Set<String> packageNames = NotificationManagerCompat.getEnabledListenerPackages(context);
+        return packageNames.contains(context.getPackageName());
+    }
+
+    //开关通知监听服务
+    public static void toggleNotificationListenerService(Context context) {
+        PackageManager pm = context.getPackageManager();
+        pm.setComponentEnabledSetting(new ComponentName(context.getApplicationContext(), NotifyService.class),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+
+        pm.setComponentEnabledSetting(new ComponentName(context.getApplicationContext(), NotifyService.class),
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+    }
+
+    //跳转通知使用权设置界面
+    public static void openNotificationAccess(Activity activity) {
+        Intent intent = new Intent(ACTION_NOTIFICATION_LISTENER_SETTINGS);
+        activity.startActivityForResult(intent, NOTIFICATION_REQUEST_CODE);
+    }
 
     //获取当前版本名称
     public static String getVersionName(Context context) throws Exception {
@@ -73,5 +106,26 @@ public class CommonUtil {
                     Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE,
             }, 0x01);
         }
+    }
+
+    //计算MD5
+    public static String MD5(String input) {
+        if (input == null || input.length() == 0) return null;
+
+        try {
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            md5.update(input.getBytes());
+            byte[] byteArray = md5.digest();
+            StringBuilder sb = new StringBuilder();
+            for (byte b : byteArray) {
+                // 一个byte格式化成两位的16进制，不足两位高位补零
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString().toUpperCase();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

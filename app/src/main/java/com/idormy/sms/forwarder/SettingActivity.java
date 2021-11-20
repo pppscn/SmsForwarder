@@ -2,10 +2,8 @@ package com.idormy.sms.forwarder;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,20 +16,17 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationManagerCompat;
 
-import com.idormy.sms.forwarder.service.NotifyService;
+import com.idormy.sms.forwarder.utils.CommonUtil;
 import com.idormy.sms.forwarder.utils.KeepAliveUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 
 import java.util.List;
-import java.util.Set;
 
 public class SettingActivity extends AppCompatActivity {
     private final String TAG = "SettingActivity";
-
-    private static final int REQUEST_CODE = 9527;
     private TextView textView;
 
     @Override
@@ -87,8 +82,9 @@ public class SettingActivity extends AppCompatActivity {
         switch_enable_sms.setChecked(SettingUtil.getSwitchEnableSms());
 
         switch_enable_sms.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            //TODO:校验使用短信转发必备的权限
             SettingUtil.switchEnableSms(isChecked);
-            Log.d(TAG, "onCheckedChanged:" + isChecked);
+            Log.d(TAG, "switchEnableSms:" + isChecked);
         });
     }
 
@@ -97,8 +93,9 @@ public class SettingActivity extends AppCompatActivity {
         switch_enable_phone.setChecked(SettingUtil.getSwitchEnablePhone());
 
         switch_enable_phone.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            //TODO:校验使用来电转发必备的权限
             SettingUtil.switchEnablePhone(isChecked);
-            Log.d(TAG, "onCheckedChanged:" + isChecked);
+            Log.d(TAG, "switchEnablePhone:" + isChecked);
         });
     }
 
@@ -107,14 +104,25 @@ public class SettingActivity extends AppCompatActivity {
         switch_enable_app_notify.setChecked(SettingUtil.getSwitchEnableAppNotify());
 
         switch_enable_app_notify.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            //TODO:校验使用APP通知转发必备的权限
+            if (isChecked) {
+                if (!CommonUtil.isNotificationListenerServiceEnabled(this)) {
+                    CommonUtil.openNotificationAccess(this);
+                    Toast.makeText(this, "请先授予《短信转发器》通知使用权，否则无法转发APP通知，开启失败!", Toast.LENGTH_LONG).show();
+                    return;
+                } else {
+                    Toast.makeText(this, "通知服务已开启", Toast.LENGTH_LONG).show();
+                    CommonUtil.toggleNotificationListenerService(this);
+                }
+            }
             SettingUtil.switchEnableAppNotify(isChecked);
-            Log.d(TAG, "onCheckedChanged:" + isChecked);
+            Log.d(TAG, "switchEnableAppNotify:" + isChecked);
         });
     }
 
     //不在最近任务列表中显示
     @SuppressLint("ObsoleteSdkInt")
-    private void switchExcludeFromRecents(Switch switch_exclude_from_recents) {
+    private void switchExcludeFromRecents(@SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_exclude_from_recents) {
         switch_exclude_from_recents.setChecked(SettingUtil.getExcludeFromRecents());
 
         switch_exclude_from_recents.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -139,12 +147,10 @@ public class SettingActivity extends AppCompatActivity {
         et_add_extra_device_mark.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
@@ -161,12 +167,10 @@ public class SettingActivity extends AppCompatActivity {
         et_add_extra_sim1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
@@ -183,12 +187,10 @@ public class SettingActivity extends AppCompatActivity {
         et_add_extra_sim2.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
@@ -341,6 +343,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     //电池优化设置
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void batterySetting(View view) {
         if (KeepAliveUtils.isIgnoreBatteryOptimization(this)) {
             Toast.makeText(this, R.string.isIgnored, Toast.LENGTH_SHORT).show();
@@ -350,58 +353,30 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     /**
-     * 请求权限
+     * 请求通知使用权限
      *
      * @param view 控件
      */
-    @SuppressWarnings("deprecation")
-    public void requestPermission(View view) {
-        if (!isNLServiceEnabled()) {
-            Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-            startActivityForResult(intent, REQUEST_CODE);
+    public void requestNotificationPermission(View view) {
+        if (!CommonUtil.isNotificationListenerServiceEnabled(this)) {
+            CommonUtil.openNotificationAccess(this);
         } else {
-            showMsg("通知服务已开启");
-            toggleNotificationListenerService();
+            Toast.makeText(this, "通知服务已开启", Toast.LENGTH_SHORT).show();
+            CommonUtil.toggleNotificationListenerService(this);
         }
-    }
-
-    /**
-     * 是否启用通知监听服务
-     *
-     * @return boolean
-     */
-    public boolean isNLServiceEnabled() {
-        Set<String> packageNames = NotificationManagerCompat.getEnabledListenerPackages(this);
-        return packageNames.contains(getPackageName());
-    }
-
-    /**
-     * 切换通知监听器服务
-     */
-    public void toggleNotificationListenerService() {
-        PackageManager pm = getPackageManager();
-        pm.setComponentEnabledSetting(new ComponentName(getApplicationContext(), NotifyService.class),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-
-        pm.setComponentEnabledSetting(new ComponentName(getApplicationContext(), NotifyService.class),
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE) {
-            if (isNLServiceEnabled()) {
-                showMsg("通知服务已开启");
-                toggleNotificationListenerService();
+        if (requestCode == CommonUtil.NOTIFICATION_REQUEST_CODE) {
+            if (CommonUtil.isNotificationListenerServiceEnabled(this)) {
+                Toast.makeText(this, "通知服务已开启", Toast.LENGTH_SHORT).show();
+                CommonUtil.toggleNotificationListenerService(this);
             } else {
-                showMsg("通知服务未开启");
+                Toast.makeText(this, "通知服务未开启", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-    private void showMsg(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -472,9 +472,23 @@ public class RuleActivity extends AppCompatActivity {
 
     public void testRule(final RuleModel ruleModel, final Long senderId) {
         final View view = View.inflate(RuleActivity.this, R.layout.alert_dialog_setview_rule_test, null);
+        final TextView textTestSimSlot = view.findViewById(R.id.textTestSimSlot);
+        final TextView textTestPhone = view.findViewById(R.id.textTestPhone);
+        final TextView textTestContent = view.findViewById(R.id.textTestContent);
         final RadioGroup radioGroupTestSimSlot = view.findViewById(R.id.radioGroupTestSimSlot);
         final EditText editTextTestPhone = view.findViewById(R.id.editTextTestPhone);
         final EditText editTextTestMsgContent = view.findViewById(R.id.editTextTestMsgContent);
+
+        if ("app".equals(currentType)) {
+            textTestSimSlot.setVisibility(View.GONE);
+            radioGroupTestSimSlot.setVisibility(View.GONE);
+            textTestPhone.setText(R.string.test_package_name);
+            textTestContent.setText(R.string.test_inform_content);
+        } else if ("call".equals(currentType)) {
+            textTestContent.setVisibility(View.GONE);
+            editTextTestMsgContent.setVisibility(View.GONE);
+        }
+
         Button buttonRuleTest = view.findViewById(R.id.buttonRuleTest);
         AlertDialog.Builder ad1 = new AlertDialog.Builder(RuleActivity.this);
         ad1.setTitle(R.string.rule_tester);

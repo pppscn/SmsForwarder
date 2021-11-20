@@ -62,6 +62,8 @@
     <string name="test_sim_slot">Test Sim Slot</string>
     <string name="test_phone_number">Test Phone Number</string>
     <string name="test_msg_content">Test Msg Content</string>
+    <string name="test_package_name">Test PackageName</string>
+    <string name="test_inform_content">Test Inform content</string>
     <string name="match_sim_slot">Sim Slot</string>
     <string name="match_field">Field</string>
     <string name="phone_number">Phone No.</string>

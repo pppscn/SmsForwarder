@@ -16,6 +16,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/textTestSimSlot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
@@ -44,11 +45,11 @@
             </RadioGroup>
 
             <TextView
+                android:id="@+id/textTestPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
                 android:text="@string/test_phone_number" />
-
 
             <EditText
                 android:id="@+id/editTextTestPhone"
@@ -62,11 +63,11 @@
                 tools:ignore="LabelFor,TextFields" />
 
             <TextView
+                android:id="@+id/textTestContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
                 android:text="@string/test_msg_content" />
-
 
             <EditText
                 android:id="@+id/editTextTestMsgContent"

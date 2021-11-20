@@ -114,10 +114,12 @@ public class AppListActivity extends AppCompatActivity {
             PackageManager pm = getApplication().getPackageManager();
             @SuppressLint("QueryPermissionsNeeded") List<PackageInfo> packages = pm.getInstalledPackages(PackageManager.GET_UNINSTALLED_PACKAGES);
             for (PackageInfo packageInfo : packages) {
-                if ("user".equals(currentType) && (packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1) { //用户应用
+                //只取用户应用
+                if ("user".equals(currentType) && (packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1) {
                     continue;
                 }
-                if ("sys".equals(currentType) && (packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) { //系统应用
+                //只取系统应用
+                if ("sys".equals(currentType) && (packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 1) {
                     continue;
                 }
                 String appName = packageInfo.applicationInfo.loadLabel(pm).toString();

@@ -153,9 +153,11 @@ public class RuleModel {
                     mixChecked = true;
                     break;
                 case FILED_PHONE_NUM:
+                case FILED_PACKAGE_NAME:
                     mixChecked = checkValue(msg.getMobile());
                     break;
                 case FILED_MSG_CONTENT:
+                case FILED_INFORM_CONTENT:
                     mixChecked = checkValue(msg.getContent());
                     break;
                 case FILED_MULTI_MATCH:
@@ -163,10 +165,8 @@ public class RuleModel {
                     break;
                 default:
                     break;
-
             }
         }
-
 
         Log.i(TAG, "rule:" + this + " checkMsg:" + msg + " checked:" + mixChecked);
         return mixChecked;

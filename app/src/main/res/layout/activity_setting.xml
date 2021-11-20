@@ -541,7 +541,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"
-                android:onClick="requestPermission"
+                android:onClick="requestNotificationPermission"
                 android:text="@string/request_permission"
                 tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
 
