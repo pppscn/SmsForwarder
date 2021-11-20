@@ -6,19 +6,16 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationManagerCompat;
 
 import com.idormy.sms.forwarder.MainActivity;
 import com.idormy.sms.forwarder.MyApplication;
@@ -26,11 +23,11 @@ import com.idormy.sms.forwarder.R;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.sender.SenderUtil;
+import com.idormy.sms.forwarder.utils.CommonUtil;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 
 import java.util.Date;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -112,10 +109,9 @@ public class FrontService extends Service {
             }
         }, 0, 10000);
 
-        if (!isNotificationListenerServiceEnabled(this)) {
-            openNotificationAccess();
+        if (SettingUtil.getSwitchEnableAppNotify() && CommonUtil.isNotificationListenerServiceEnabled(this)) {
+            CommonUtil.toggleNotificationListenerService(this);
         }
-        toggleNotificationListenerService();
     }
 
     @Override
@@ -154,21 +150,4 @@ public class FrontService extends Service {
         }
     }
 
-    private void toggleNotificationListenerService() {
-        PackageManager pm = getPackageManager();
-        pm.setComponentEnabledSetting(new ComponentName(this, NotifyService.class),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-
-        pm.setComponentEnabledSetting(new ComponentName(this, NotifyService.class),
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
-    }
-
-    private static boolean isNotificationListenerServiceEnabled(Context context) {
-        Set<String> packageNames = NotificationManagerCompat.getEnabledListenerPackages(context);
-        return packageNames.contains(context.getPackageName());
-    }
-
-    private void openNotificationAccess() {
-        startActivity(new Intent(ACTION_NOTIFICATION_LISTENER_SETTINGS));
-    }
 }
