@@ -162,7 +162,7 @@
     <string name="forward_sms_tips">总开关，请授予读取短信、通知类短信、发送短信等权限，开启后需添加转发规则</string>
     <string name="forward_missed_calls">转发未接来电</string>
     <string name="forward_missed_calls_tips">总开关，请授予读取通话记录、联系人等权限，开启后需添加转发规则</string>
-    <string name="forward_app_notify">转发APP通知</string>
+    <string name="forward_app_notify">转发应用通知</string>
     <string name="forward_app_notify_tips">总开关，请先授予通知使用权，开启后需添加转发规则</string>
     <string name="enable_custom_templates">启用自定义模版</string>
     <string name="enable_custom_templates_tips">全局自定义模版，如果添加转发规则再次定义，则优先取转发规则的</string>
