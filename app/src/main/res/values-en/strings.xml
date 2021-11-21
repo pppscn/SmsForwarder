@@ -58,7 +58,9 @@
     <string name="add_sender_first">Please add a sender first.</string>
     <string name="select_sender">Select Sender</string>
     <string name="rule_tester">Rule tester:</string>
-    <string name="new_forwarding_rule">New forwarding rule</string>
+    <string name="new_sms_rule">New sms forwarding rule</string>
+    <string name="new_call_rule">New call forwarding rule</string>
+    <string name="new_app_rule">New app forwarding rule</string>
     <string name="test_sim_slot">Test Sim Slot</string>
     <string name="test_phone_number">Test Phone Number</string>
     <string name="test_msg_content">Test Msg Content</string>
@@ -157,10 +159,15 @@
     <string name="add_extra">Sim slot info attached</string>
     <string name="add_device_name">Device Name attached</string>
     <string name="forward_sms">Forward sms</string>
+    <string name="forward_sms_tips">总开关，请授予读取短信、通知类短信、发送短信等权限，开启后需添加转发规则</string>
     <string name="forward_missed_calls">Forward missed calls</string>
+    <string name="forward_missed_calls_tips">总开关，请授予读取通话记录、联系人等权限，开启后需添加转发规则</string>
     <string name="forward_app_notify">Forward app notify</string>
+    <string name="forward_app_notify_tips">总开关，请先授予通知使用权，开启后需添加转发规则</string>
     <string name="enable_custom_templates">Enable custom templates</string>
+    <string name="enable_custom_templates_tips">全局自定义模版，如果添加转发规则再次定义，则优先取转发规则的</string>
     <string name="enable_exclude_from_recents">Exclude from recents</string>
+    <string name="enable_exclude_from_recents_tips">开启后，有效避免手动误杀进程，利于保活？</string>
     <string name="custom_templates">Custom templates</string>
     <string name="custom_templates_tips">Tip：Insert labels as needed;Leave blank to default template</string>
     <string name="insert_sender">Phone</string>

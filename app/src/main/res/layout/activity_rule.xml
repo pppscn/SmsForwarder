@@ -38,11 +38,21 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="1dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="#aadcdcdc" />
+
     <ListView
         android:id="@+id/list_view_rule"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="0dp"
         android:layout_weight="1" />
 
     <LinearLayout
@@ -58,14 +68,53 @@
             android:text="@string/rule_tips"
             android:textColor="@color/colorPrimary" />
 
-        <Button
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_margin="10dp"
-            android:background="@color/colorPrimary"
-            android:onClick="addRule"
-            android:padding="0dp"
-            android:text="@string/new_forwarding_rule" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dip"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:onClick="addRule"
+                android:tag="sms"
+                android:padding="0dp"
+                android:text="@string/new_sms_rule" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:onClick="addRule"
+                android:tag="call"
+                android:padding="0dp"
+                android:text="@string/new_call_rule" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:onClick="addRule"
+                android:tag="app"
+                android:padding="0dp"
+                android:text="@string/new_app_rule" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

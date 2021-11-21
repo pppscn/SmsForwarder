@@ -43,6 +43,7 @@ public class RuleActivity extends AppCompatActivity {
     private List<RuleModel> ruleModels = new ArrayList<>();
     private RuleAdapter adapter;
     private String currentType = "sms";
+    private ListView listView;
 
     //消息处理者,创建一个Handler的子类对象,目的是重写Handler的处理消息的方法(handleMessage())
     @SuppressLint("HandlerLeak")
@@ -78,7 +79,7 @@ public class RuleActivity extends AppCompatActivity {
         adapter = new RuleAdapter(RuleActivity.this, R.layout.item_rule, ruleModels);
 
         // 将适配器上的数据传递给listView
-        ListView listView = findViewById(R.id.list_view_rule);
+        listView = findViewById(R.id.list_view_rule);
         listView.setAdapter(adapter);
 
         // 为ListView注册一个监听器，当用户点击了ListView中的任何一个子项时，就会回调onItemClick()方法
@@ -163,6 +164,11 @@ public class RuleActivity extends AppCompatActivity {
     }
 
     public void addRule(View view) {
+        currentType = (String) view.getTag();
+        int typeCheckId = getTypeCheckId(currentType);
+        final RadioGroup radioGroupTypeCheck = findViewById(R.id.radioGroupTypeCheck);
+        radioGroupTypeCheck.check(typeCheckId);
+
         setRule(null);
     }
 

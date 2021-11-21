@@ -15,7 +15,7 @@
     <string name="rule_setting">转发规则</string>
     <string name="sender_setting">发送通道</string>
     <string name="app_list">应用列表</string>
-    <string name="log_tips">提示：置顶下拉刷新，长按删除单条记录</string>
+    <string name="log_tips">提示：置顶下拉刷新，长按删除单条，选项卡切换日志类型</string>
     <string name="rule_tips">提示：新建规则点击“添加”，长按删除/点击编辑已有</string>
     <string name="sender_tips">提示：新建发送通道点击“添加”，长按删除/点击编辑已有</string>
     <string name="app_tips">提示：点击复制APP的包名，长按则启动并跳转该APP</string>
@@ -58,7 +58,9 @@
     <string name="add_sender_first">请先去设置发送通道页面添加</string>
     <string name="select_sender">选择发送通道</string>
     <string name="rule_tester">规则测试</string>
-    <string name="new_forwarding_rule">添加转发规则</string>
+    <string name="new_sms_rule">添加短信转发</string>
+    <string name="new_call_rule">添加来电转发</string>
+    <string name="new_app_rule">添加应用转发</string>
     <string name="test_sim_slot">测试模拟的接收卡槽</string>
     <string name="test_phone_number">测试模拟的来源号码</string>
     <string name="test_msg_content">测试模拟的短信内容</string>
@@ -157,10 +159,15 @@
     <string name="add_extra">转发时附加卡槽信息</string>
     <string name="add_device_name">转发时附加设备名称</string>
     <string name="forward_sms">转发短信广播</string>
+    <string name="forward_sms_tips">总开关，请授予读取短信、通知类短信、发送短信等权限，开启后需添加转发规则</string>
     <string name="forward_missed_calls">转发未接来电</string>
+    <string name="forward_missed_calls_tips">总开关，请授予读取通话记录、联系人等权限，开启后需添加转发规则</string>
     <string name="forward_app_notify">转发APP通知</string>
+    <string name="forward_app_notify_tips">总开关，请先授予通知使用权，开启后需添加转发规则</string>
     <string name="enable_custom_templates">启用自定义模版</string>
+    <string name="enable_custom_templates_tips">全局自定义模版，如果添加转发规则再次定义，则优先取转发规则的</string>
     <string name="enable_exclude_from_recents">不在最近任务列表中显示</string>
+    <string name="enable_exclude_from_recents_tips">开启后，有效避免手动误杀进程，利于保活？</string>
     <string name="custom_templates">转发信息模版</string>
     <string name="custom_templates_tips">Tip：按需插入内容标签；留空使用默认模版</string>
     <string name="insert_sender">来源号码</string>
