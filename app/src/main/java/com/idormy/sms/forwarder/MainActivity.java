@@ -3,6 +3,7 @@ package com.idormy.sms.forwarder;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -296,6 +297,12 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         startActivity(intent);
     }
 
+    public void toHelp() {
+        Uri uri = Uri.parse("https://github.com/pppscn/SmsForwarder/wiki");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+    }
+
     public void toRuleSetting(View view) {
         Intent intent = new Intent(this, RuleActivity.class);
         startActivity(intent);
@@ -351,6 +358,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
                 return true;
             case R.id.to_about:
                 toAbout();
+                return true;
+            case R.id.to_help:
+                toHelp();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

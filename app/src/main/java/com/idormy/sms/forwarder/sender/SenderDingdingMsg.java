@@ -75,14 +75,12 @@ public class SenderDingdingMsg extends SenderBaseMsg {
                 }
                 if (!atMobilesList.isEmpty()) {
                     AtMap.put("atMobiles", atMobilesList);
-
                 }
             }
 
             AtMap.put("isAtAll", false);
             if (atAll != null) {
                 AtMap.put("isAtAll", atAll);
-
             }
 
             textMsgMap.put("at", AtMap);

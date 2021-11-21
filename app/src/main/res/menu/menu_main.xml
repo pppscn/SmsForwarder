@@ -27,4 +27,10 @@
         android:title="@string/about"
         android:icon="@drawable/ic_forwarder"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/to_help"
+        android:orderInCategory="100"
+        android:title="@string/help"
+        android:icon="@drawable/ic_help"
+        app:showAsAction="never" />
 </menu>
