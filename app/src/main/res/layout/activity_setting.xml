@@ -39,7 +39,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:background="@android:color/white"
@@ -48,7 +48,7 @@
             android:padding="15dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -82,7 +82,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:background="@android:color/white"
@@ -91,7 +91,7 @@
             android:padding="15dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -125,7 +125,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:background="@android:color/white"
@@ -134,7 +134,7 @@
             android:padding="15dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -168,7 +168,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:background="@android:color/white"
@@ -177,7 +177,7 @@
             android:padding="15dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -203,7 +203,7 @@
 
                 <EditText
                     android:id="@+id/et_retry_delay_time1"
-                    android:layout_width="42dp"
+                    android:layout_width="40dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="5dp"
                     android:autofillHints=""
@@ -216,7 +216,7 @@
 
                 <EditText
                     android:id="@+id/et_retry_delay_time2"
-                    android:layout_width="42dp"
+                    android:layout_width="40dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="5dp"
                     android:autofillHints=""
@@ -229,7 +229,7 @@
 
                 <EditText
                     android:id="@+id/et_retry_delay_time3"
-                    android:layout_width="42dp"
+                    android:layout_width="40dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="5dp"
                     android:autofillHints=""
@@ -242,7 +242,7 @@
 
                 <EditText
                     android:id="@+id/et_retry_delay_time4"
-                    android:layout_width="42dp"
+                    android:layout_width="40dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="5dp"
                     android:autofillHints=""
@@ -255,7 +255,7 @@
 
                 <EditText
                     android:id="@+id/et_retry_delay_time5"
-                    android:layout_width="42dp"
+                    android:layout_width="40dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="5dp"
                     android:autofillHints=""
@@ -278,8 +278,9 @@
             android:padding="15dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="4"
                 android:orientation="vertical">
 
                 <TextView
@@ -302,7 +303,7 @@
                 android:id="@+id/switch_enable_sms"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="1"
                 android:gravity="end"
                 android:textSize="18sp"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
@@ -319,8 +320,9 @@
             android:padding="15dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="4"
                 android:orientation="vertical">
 
                 <TextView
@@ -343,7 +345,7 @@
                 android:id="@+id/switch_enable_phone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="1"
                 android:gravity="end"
                 android:textSize="18sp"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
@@ -360,8 +362,9 @@
             android:padding="15dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="4"
                 android:orientation="vertical">
 
                 <TextView
@@ -384,7 +387,7 @@
                 android:id="@+id/switch_enable_app_notify"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="1"
                 android:gravity="end"
                 android:textSize="18sp"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
@@ -401,8 +404,9 @@
             android:padding="15dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="4"
                 android:orientation="vertical">
 
                 <TextView
@@ -425,7 +429,7 @@
                 android:id="@+id/switch_exclude_from_recents"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="1"
                 android:gravity="end"
                 android:textSize="18sp"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
@@ -442,8 +446,9 @@
             android:padding="15dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="4"
                 android:orientation="vertical">
 
                 <TextView
@@ -466,7 +471,7 @@
                 android:id="@+id/switch_sms_template"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="1"
                 android:gravity="end"
                 android:textSize="18sp"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />

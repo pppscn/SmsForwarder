@@ -153,7 +153,7 @@
     <string name="sim1_remark" tools:ignore="Typos">SIM1备注</string>
     <string name="sim2_remark" tools:ignore="Typos">SIM2备注</string>
     <string name="carrier_mobile">运营商_手机号</string>
-    <string name="low_power_alarm_threshold">低电量预警阈值</string>
+    <string name="low_power_alarm_threshold">低电量预警阈值(%)</string>
     <string name="low_power_alarm_threshold_tips">取值范围：0–100，留空或0禁用</string>
     <string name="retry_interval">每次重试间隔(秒)</string>
     <string name="retry_interval_tips">接口请求失败后将重试5次</string>
@@ -166,7 +166,7 @@
     <string name="forward_app_notify">转发应用通知</string>
     <string name="forward_app_notify_tips">总开关，请先授予通知使用权</string>
     <string name="enable_custom_templates">启用自定义模版</string>
-    <string name="enable_custom_templates_tips">全局自定义模版，如果添加转发规则再次定义，则优先取转发规则的</string>
+    <string name="enable_custom_templates_tips">优先级：转发规则的自定义模板 > 全局自定义模版 > 默认</string>
     <string name="enable_exclude_from_recents">不在最近任务列表中显示</string>
     <string name="enable_exclude_from_recents_tips">开启后，有效避免手动误杀进程，利于保活？</string>
     <string name="custom_templates">转发信息模版</string>

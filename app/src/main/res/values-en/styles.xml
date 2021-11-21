@@ -28,12 +28,12 @@
 
     <!-- 选择框自定义主题 -->
     <style name="select_style">
-        <item name="android:layout_width">60dip</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">4dip</item>
-        <item name="android:layout_marginRight">4dip</item>
-        <item name="android:paddingTop">4dip</item>
-        <item name="android:paddingBottom">4dip</item>
+        <item name="android:layout_marginLeft">5dip</item>
+        <item name="android:layout_marginRight">5dip</item>
+        <item name="android:paddingTop">5dip</item>
+        <item name="android:paddingBottom">5dip</item>
         <item name="android:background">@drawable/select_selector</item>
         <item name="android:button">@null</item>
         <item name="android:gravity">center</item>
