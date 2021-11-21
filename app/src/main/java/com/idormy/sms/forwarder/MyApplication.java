@@ -75,27 +75,31 @@ public class MyApplication extends Application {
     public void onCreate() {
         Log.d(TAG, "onCreate");
         super.onCreate();
-        //初始化组件化基础库, 所有友盟业务SDK都必须调用此初始化接口。
-        //建议在宿主App的Application.onCreate函数中调用基础组件库初始化函数。
-        UMConfigure.init(this, "60254fc7425ec25f10f4293e", getChannelName(this), UMConfigure.DEVICE_TYPE_PHONE, "");
-        // 选用LEGACY_AUTO页面采集模式
-        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.LEGACY_MANUAL);
-        //pro close log
-        UMConfigure.setLogEnabled(true);
 
-        Intent intent = new Intent(this, FrontService.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(intent);
-        } else {
-            startService(intent);
+        try {
+            //初始化组件化基础库, 所有友盟业务SDK都必须调用此初始化接口。
+            //建议在宿主App的Application.onCreate函数中调用基础组件库初始化函数。
+            UMConfigure.init(this, "60254fc7425ec25f10f4293e", getChannelName(this), UMConfigure.DEVICE_TYPE_PHONE, "");
+            // 选用LEGACY_AUTO页面采集模式
+            MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.LEGACY_MANUAL);
+            //pro close log
+            UMConfigure.setLogEnabled(true);
+
+            Intent intent = new Intent(this, FrontService.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(intent);
+            } else {
+                startService(intent);
+            }
+            SendHistory.init(this);
+            SettingUtil.init(this);
+
+            EmailKit.initialize(this);
+
+            SharedPreferences sp = MyApplication.this.getSharedPreferences(Define.SP_CONFIG, Context.MODE_PRIVATE);
+            showHelpTip = sp.getBoolean(Define.SP_CONFIG_SWITCH_HELP_TIP, true);
+        } catch (Exception e) {
+            Log.e(TAG, "onCreate:", e);
         }
-        SendHistory.init(this);
-        SettingUtil.init(this);
-
-        EmailKit.initialize(this);
-
-        SharedPreferences sp = MyApplication.this.getSharedPreferences(Define.SP_CONFIG, Context.MODE_PRIVATE);
-        showHelpTip = sp.getBoolean(Define.SP_CONFIG_SWITCH_HELP_TIP, true);
-
     }
 }

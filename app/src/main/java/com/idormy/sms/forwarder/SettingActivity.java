@@ -361,7 +361,7 @@ public class SettingActivity extends AppCompatActivity {
         if (!CommonUtil.isNotificationListenerServiceEnabled(this)) {
             CommonUtil.openNotificationAccess(this);
         } else {
-            Toast.makeText(this, "通知服务已开启", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.notification_listener_service_enabled, Toast.LENGTH_SHORT).show();
             CommonUtil.toggleNotificationListenerService(this);
         }
     }
@@ -371,11 +371,16 @@ public class SettingActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CommonUtil.NOTIFICATION_REQUEST_CODE) {
             if (CommonUtil.isNotificationListenerServiceEnabled(this)) {
-                Toast.makeText(this, "通知服务已开启", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.notification_listener_service_enabled, Toast.LENGTH_SHORT).show();
                 CommonUtil.toggleNotificationListenerService(this);
+                SettingUtil.switchEnableAppNotify(true);
             } else {
-                Toast.makeText(this, "通知服务未开启", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.notification_listener_service_disabled, Toast.LENGTH_SHORT).show();
+                SettingUtil.switchEnableAppNotify(false);
             }
+
+            @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_enable_app_notify = findViewById(R.id.switch_enable_app_notify);
+            switch_enable_app_notify.setChecked(SettingUtil.getSwitchEnableAppNotify());
         }
     }
 

@@ -74,7 +74,7 @@
                 android:background="@color/colorPrimary"
                 android:onClick="cleanLog"
                 android:text="@string/bt_refresh_log"
-                tools:ignore="ButtonStyle,NestedWeights" />
+                tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
 
             <Button
                 android:layout_width="match_parent"
@@ -86,7 +86,7 @@
                 android:background="@color/colorPrimary"
                 android:onClick="toRuleSetting"
                 android:text="@string/rule_setting"
-                tools:ignore="ButtonStyle,NestedWeights" />
+                tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
 
             <Button
                 android:layout_width="match_parent"
@@ -99,7 +99,7 @@
                 android:background="@color/colorPrimary"
                 android:onClick="toSendSetting"
                 android:text="@string/sender_setting"
-                tools:ignore="ButtonStyle" />
+                tools:ignore="ButtonStyle,UsingOnClickInXml" />
         </LinearLayout>
     </LinearLayout>
 

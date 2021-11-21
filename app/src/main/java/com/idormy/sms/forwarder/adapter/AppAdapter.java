@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,7 @@ public class AppAdapter extends ArrayAdapter<AppInfo> {
         return 0;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         AppInfo appInfo = getItem(position); //获取当前项的TLog实例

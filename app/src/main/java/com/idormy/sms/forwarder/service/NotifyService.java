@@ -41,38 +41,47 @@ public class NotifyService extends NotificationListenerService {
         //自身通知跳过
         if ("com.idormy.sms.forwarder".equals(packageName)) return;
 
-        //通知标题
-        String title = sbn.getNotification().extras.get("android.title").toString();
-        //通知内容
-        String text = sbn.getNotification().extras.get("android.text").toString();
-        if (text.isEmpty() && sbn.getNotification().tickerText != null) {
-            text = sbn.getNotification().tickerText.toString();
+        try {
+            //通知标题
+            String title = "";
+            if (sbn.getNotification().extras.get("android.title") != null) {
+                title = sbn.getNotification().extras.get("android.title").toString();
+            }
+            //通知内容
+            String text = "";
+            if (sbn.getNotification().extras.get("android.text") != null) {
+                text = sbn.getNotification().extras.get("android.text").toString();
+            }
+            if (text.isEmpty() && sbn.getNotification().tickerText != null) {
+                text = sbn.getNotification().tickerText.toString();
+            }
+            //不处理空消息（标题跟内容都为空）
+            if (title.isEmpty() && text.isEmpty()) return;
+
+            //通知时间
+            String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE).format(new Date(sbn.getPostTime()));
+            Log.d(TAG, String.format(
+                    Locale.getDefault(),
+                    "onNotificationPosted：\n应用包名：%s\n消息标题：%s\n消息内容：%s\n消息时间：%s\n",
+                    packageName, title, text, time)
+            );
+
+            //重复通知不再处理
+            String prevHash = SettingUtil.getPrevNoticeHash(packageName);
+            String currHash = CommonUtil.MD5(packageName + title + text + time);
+            Log.d(TAG, "prevHash=" + prevHash + " currHash=" + currHash);
+            if (prevHash != null && prevHash.equals(currHash)) {
+                Log.w(TAG, "重复通知不再处理");
+                return;
+            }
+            SettingUtil.setPrevNoticeHash(packageName, currHash);
+
+            SmsVo smsVo = new SmsVo(packageName, text, new Date(), title);
+            Log.d(TAG, "send_msg" + smsVo.toString());
+            SendUtil.send_msg(this, smsVo, 1, "app");
+        } catch (Exception e) {
+            Log.e(TAG, "onNotificationPosted:", e);
         }
-        //不处理空消息（标题跟内容都为空）
-        if (title.isEmpty() && text.isEmpty()) return;
-
-        //通知时间
-        String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE).format(new Date(sbn.getPostTime()));
-        Log.d(TAG, String.format(
-                Locale.getDefault(),
-                "onNotificationPosted：\n应用包名：%s\n消息标题：%s\n消息内容：%s\n消息时间：%s\n",
-                packageName, title, text, time)
-        );
-
-        //重复通知不再处理
-        String prevHash = SettingUtil.getPrevNoticeHash(packageName);
-        String currHash = CommonUtil.MD5(packageName + title + text + time);
-        Log.d(TAG, "prevHash=" + prevHash + " currHash=" + currHash);
-        if (prevHash != null && prevHash.equals(currHash)) {
-            Log.w(TAG, "重复通知不再处理");
-            return;
-        }
-        SettingUtil.setPrevNoticeHash(packageName, currHash);
-
-        SmsVo smsVo = new SmsVo(packageName, text, new Date(), title);
-        Log.d(TAG, "send_msg" + smsVo.toString());
-        SendUtil.send_msg(this, smsVo, 1, "app");
-
         //NotifyHelper.getInstance().onReceive(sbn);
     }
 

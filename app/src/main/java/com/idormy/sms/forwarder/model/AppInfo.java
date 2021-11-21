@@ -3,6 +3,8 @@ package com.idormy.sms.forwarder.model;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 
+import androidx.annotation.NonNull;
+
 import lombok.Data;
 
 @Data
@@ -34,6 +36,7 @@ public class AppInfo {
         this.verCode = verCode;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "AppInfo{" +

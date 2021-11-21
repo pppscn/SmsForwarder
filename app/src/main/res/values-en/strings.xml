@@ -217,4 +217,8 @@
     <string name="appicon">App Icon</string>
     <string name="user_app">User App</string>
     <string name="system_app">System App</string>
+    <string name="tips_battery_optimization">请将省电优化设置为无限制(不优化)，有利于《短信转发器》保活！</string>
+    <string name="tips_notification_listener">请先授予《短信转发器》通知使用权，否则无法转发APP通知，已经自动关闭转发!</string>
+    <string name="notification_listener_service_enabled">通知服务已开启</string>
+    <string name="notification_listener_service_disabled">通知服务未开启</string>
 </resources>

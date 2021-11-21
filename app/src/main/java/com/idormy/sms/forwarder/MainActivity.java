@@ -31,6 +31,7 @@ import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.idormy.sms.forwarder.utils.SmsUtil;
 import com.idormy.sms.forwarder.utils.TimeUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -67,9 +68,13 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         NetUtil.init(this);
 
         //前台服务
-        serviceIntent = new Intent(MainActivity.this, FrontService.class);
-        serviceIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startService(serviceIntent);
+        try {
+            serviceIntent = new Intent(MainActivity.this, FrontService.class);
+            serviceIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startService(serviceIntent);
+        } catch (Exception e) {
+            Log.e(TAG, "onCreate:", e);
+        }
     }
 
     @Override
@@ -147,6 +152,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
+
         //第一次打开，未授权无法获取SIM信息，尝试在此重新获取
         if (MyApplication.SimInfoList.isEmpty()) {
             MyApplication.SimInfoList = PhoneUtils.getSimMultiInfo();
@@ -156,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         //省电优化设置为无限制
         if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             if (!KeepAliveUtils.isIgnoreBatteryOptimization(this)) {
-                Toast.makeText(this, "请将省电优化设置为无限制(不优化)，有利于《短信转发器》保活！", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.tips_battery_optimization, Toast.LENGTH_LONG).show();
             }
         }
 
@@ -164,22 +171,36 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         if (SettingUtil.getSwitchEnableAppNotify() && !CommonUtil.isNotificationListenerServiceEnabled(this)) {
             CommonUtil.toggleNotificationListenerService(this);
             SettingUtil.switchEnableAppNotify(false);
-            Toast.makeText(this, "请先授予《短信转发器》通知使用权，否则无法转发APP通知，已经自动关闭转发!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.tips_notification_listener, Toast.LENGTH_LONG).show();
             return;
         }
-        startService(serviceIntent);
+
+        try {
+            if (serviceIntent != null) startService(serviceIntent);
+        } catch (Exception e) {
+            Log.e(TAG, "onResume:", e);
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        startService(serviceIntent);
+        try {
+            if (serviceIntent != null) startService(serviceIntent);
+        } catch (Exception e) {
+            Log.e(TAG, "onDestroy:", e);
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        startService(serviceIntent);
+        MobclickAgent.onPause(this);
+        try {
+            if (serviceIntent != null) startService(serviceIntent);
+        } catch (Exception e) {
+            Log.e(TAG, "onPause:", e);
+        }
     }
 
     @Override
@@ -187,10 +208,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CommonUtil.NOTIFICATION_REQUEST_CODE) {
             if (CommonUtil.isNotificationListenerServiceEnabled(this)) {
-                Toast.makeText(this, "通知服务已开启", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.notification_listener_service_enabled, Toast.LENGTH_SHORT).show();
                 CommonUtil.toggleNotificationListenerService(this);
             } else {
-                Toast.makeText(this, "通知服务未开启", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.notification_listener_service_disabled, Toast.LENGTH_SHORT).show();
             }
         }
     }
