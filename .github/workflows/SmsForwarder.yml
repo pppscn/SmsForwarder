@@ -58,6 +58,13 @@ jobs:
           draft: false
           prerelease: false
       # 获取apk版本号
+      - name: Get Date
+        uses: ajilraju/actions-date@v0.1
+        id: get-date
+        with:
+          args: date +%Y%m%d
+          result-encoding: string
+      # 获取apk版本号
       - name: Get Version Name
         uses: actions/github-script@v3
         id: get-version
@@ -80,6 +87,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # 上传网址，无需改动
-          asset_path: app/build/outputs/apk/release/app-release.apk # 上传路径
-          asset_name: SmsForwarder-${{steps.get-version.outputs.result}}.apk # 资源名
+          asset_path: app/build/outputs/apk/release/SmsForwarder_release_${{steps.get-date.outputs.result}}_${{steps.get-version.outputs.result}}.apk # 上传路径
+          asset_name: SmsForwarder_release_${{steps.get-date.outputs.result}}_${{steps.get-version.outputs.result}}.apk # 资源名
           asset_content_type: application/vnd.android.package-archiv #资源类型
