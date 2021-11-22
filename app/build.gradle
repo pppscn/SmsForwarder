@@ -17,8 +17,8 @@ android {
     buildToolsVersion '30.0.3'
     compileSdkVersion 30
     compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+        sourceCompatibility 11
+        targetCompatibility 11
     }
     defaultConfig {
         applicationId "com.idormy.sms.forwarder"
