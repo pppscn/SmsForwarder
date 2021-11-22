@@ -11,5 +11,6 @@
         <item>Telegram Bot</item>
         <item>SMS</item>
         <item>FeiShu Bot</item>
+        <item>PushPlus</item>
     </string-array>
 </resources>

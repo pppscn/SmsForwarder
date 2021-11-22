@@ -19,3 +19,4 @@ gradle.properties
 /app/release
 /keystore
 *.bak
+/pic/working_principle.drawio

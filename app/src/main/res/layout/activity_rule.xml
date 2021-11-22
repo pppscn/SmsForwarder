@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -86,7 +87,8 @@
                 android:onClick="addRule"
                 android:tag="sms"
                 android:padding="0dp"
-                android:text="@string/new_sms_rule" />
+                android:text="@string/new_sms_rule"
+                tools:ignore="ButtonStyle,UsingOnClickInXml" />
 
             <Button
                 android:layout_width="match_parent"
@@ -99,7 +101,8 @@
                 android:onClick="addRule"
                 android:tag="call"
                 android:padding="0dp"
-                android:text="@string/new_call_rule" />
+                android:text="@string/new_call_rule"
+                tools:ignore="ButtonStyle,UsingOnClickInXml" />
 
             <Button
                 android:layout_width="match_parent"
@@ -113,7 +116,8 @@
                 android:onClick="addRule"
                 android:tag="app"
                 android:padding="0dp"
-                android:text="@string/new_app_rule" />
+                android:text="@string/new_app_rule"
+                tools:ignore="ButtonStyle,UsingOnClickInXml" />
         </LinearLayout>
     </LinearLayout>
 

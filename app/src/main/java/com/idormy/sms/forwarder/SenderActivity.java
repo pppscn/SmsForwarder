@@ -5,6 +5,7 @@ import static com.idormy.sms.forwarder.model.SenderModel.TYPE_BARK;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_DINGDING;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_FEISHU;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_PUSHPLUS;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SERVER_CHAN;
@@ -37,6 +38,7 @@ import com.idormy.sms.forwarder.model.vo.BarkSettingVo;
 import com.idormy.sms.forwarder.model.vo.DingDingSettingVo;
 import com.idormy.sms.forwarder.model.vo.EmailSettingVo;
 import com.idormy.sms.forwarder.model.vo.FeiShuSettingVo;
+import com.idormy.sms.forwarder.model.vo.PushPlusSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXAppSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXGroupRobotSettingVo;
 import com.idormy.sms.forwarder.model.vo.ServerChanSettingVo;
@@ -47,6 +49,7 @@ import com.idormy.sms.forwarder.sender.SenderBarkMsg;
 import com.idormy.sms.forwarder.sender.SenderDingdingMsg;
 import com.idormy.sms.forwarder.sender.SenderFeishuMsg;
 import com.idormy.sms.forwarder.sender.SenderMailMsg;
+import com.idormy.sms.forwarder.sender.SenderPushPlusMsg;
 import com.idormy.sms.forwarder.sender.SenderQyWxAppMsg;
 import com.idormy.sms.forwarder.sender.SenderQyWxGroupRobotMsg;
 import com.idormy.sms.forwarder.sender.SenderServerChanMsg;
@@ -142,6 +145,9 @@ public class SenderActivity extends AppCompatActivity {
                 case TYPE_FEISHU:
                     setFeiShu(senderModel);
                     break;
+                case TYPE_PUSHPLUS:
+                    setPushPlus(senderModel);
+                    break;
                 default:
                     Toast.makeText(SenderActivity.this, R.string.invalid_sender, Toast.LENGTH_LONG).show();
                     SenderUtil.delSender(senderModel.getId());
@@ -216,6 +222,9 @@ public class SenderActivity extends AppCompatActivity {
                     break;
                 case TYPE_FEISHU:
                     setFeiShu(null);
+                    break;
+                case TYPE_PUSHPLUS:
+                    setPushPlus(null);
                     break;
                 default:
                     Toast.makeText(SenderActivity.this, R.string.not_supported, Toast.LENGTH_LONG).show();
@@ -1176,6 +1185,119 @@ public class SenderActivity extends AppCompatActivity {
                 }
             } else {
                 Toast.makeText(SenderActivity.this, R.string.invalid_webhook, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    //推送加
+    @SuppressLint("SimpleDateFormat")
+    private void setPushPlus(final SenderModel senderModel) {
+        PushPlusSettingVo pushPlusSettingVo = null;
+        //try phrase json setting
+        if (senderModel != null) {
+            String jsonSettingStr = senderModel.getJsonSetting();
+            if (jsonSettingStr != null) {
+                pushPlusSettingVo = JSON.parseObject(jsonSettingStr, PushPlusSettingVo.class);
+            }
+        }
+        final AlertDialog.Builder alertDialog71 = new AlertDialog.Builder(SenderActivity.this);
+        View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_pushplus, null);
+
+        final EditText editTextPushPlusName = view1.findViewById(R.id.editTextPushPlusName);
+        final EditText editTextPushPlusToken = view1.findViewById(R.id.editTextPushPlusToken);
+        final EditText editTextPushPlusTopic = view1.findViewById(R.id.editTextPushPlusTopic);
+        final EditText editTextPushPlusTemplate = view1.findViewById(R.id.editTextPushPlusTemplate);
+        final EditText editTextPushPlusChannel = view1.findViewById(R.id.editTextPushPlusChannel);
+        final EditText editTextPushPlusWebhook = view1.findViewById(R.id.editTextPushPlusWebhook);
+        final EditText editTextPushPlusCallbackUrl = view1.findViewById(R.id.editTextPushPlusCallbackUrl);
+
+        if (pushPlusSettingVo != null) {
+            editTextPushPlusName.setText(senderModel.getName());
+            editTextPushPlusToken.setText(pushPlusSettingVo.getToken());
+            editTextPushPlusTopic.setText(pushPlusSettingVo.getTopic());
+            editTextPushPlusTemplate.setText(pushPlusSettingVo.getTemplate());
+            editTextPushPlusChannel.setText(pushPlusSettingVo.getChannel());
+            editTextPushPlusWebhook.setText(pushPlusSettingVo.getWebhook());
+            editTextPushPlusCallbackUrl.setText(pushPlusSettingVo.getCallbackUrl());
+        }
+
+        Button buttonPushPlusOk = view1.findViewById(R.id.buttonPushPlusOk);
+        Button buttonPushPlusDel = view1.findViewById(R.id.buttonPushPlusDel);
+        Button buttonPushPlusTest = view1.findViewById(R.id.buttonPushPlusTest);
+        alertDialog71
+                .setTitle(R.string.setpushplustitle)
+                .setIcon(R.mipmap.pushplus)
+                .setView(view1)
+                .create();
+        final AlertDialog show = alertDialog71.show();
+        buttonPushPlusOk.setOnClickListener(view -> {
+
+            if (senderModel == null) {
+                SenderModel newSenderModel = new SenderModel();
+                newSenderModel.setName(editTextPushPlusName.getText().toString());
+                newSenderModel.setType(TYPE_PUSHPLUS);
+                newSenderModel.setStatus(STATUS_ON);
+                PushPlusSettingVo pushPlusSettingVoNew = new PushPlusSettingVo(
+                        editTextPushPlusToken.getText().toString(),
+                        editTextPushPlusTopic.getText().toString(),
+                        editTextPushPlusTemplate.getText().toString(),
+                        editTextPushPlusChannel.getText().toString(),
+                        editTextPushPlusWebhook.getText().toString(),
+                        editTextPushPlusCallbackUrl.getText().toString()
+                );
+                newSenderModel.setJsonSetting(JSON.toJSONString(pushPlusSettingVoNew));
+                SenderUtil.addSender(newSenderModel);
+                initSenders();
+                adapter.add(senderModels);
+            } else {
+                senderModel.setName(editTextPushPlusName.getText().toString());
+                senderModel.setType(TYPE_PUSHPLUS);
+                senderModel.setStatus(STATUS_ON);
+                PushPlusSettingVo pushPlusSettingVoNew = new PushPlusSettingVo(
+                        editTextPushPlusToken.getText().toString(),
+                        editTextPushPlusTopic.getText().toString(),
+                        editTextPushPlusTemplate.getText().toString(),
+                        editTextPushPlusChannel.getText().toString(),
+                        editTextPushPlusWebhook.getText().toString(),
+                        editTextPushPlusCallbackUrl.getText().toString()
+                );
+                senderModel.setJsonSetting(JSON.toJSONString(pushPlusSettingVoNew));
+                SenderUtil.updateSender(senderModel);
+                initSenders();
+                adapter.update(senderModels);
+            }
+            show.dismiss();
+        });
+
+        buttonPushPlusDel.setOnClickListener(view -> {
+            if (senderModel != null) {
+                SenderUtil.delSender(senderModel.getId());
+                initSenders();
+                adapter.del(senderModels);
+            }
+            show.dismiss();
+        });
+
+        buttonPushPlusTest.setOnClickListener(view -> {
+            PushPlusSettingVo pushPlusSettingVoNew = new PushPlusSettingVo(
+                    editTextPushPlusToken.getText().toString(),
+                    editTextPushPlusTopic.getText().toString(),
+                    editTextPushPlusTemplate.getText().toString(),
+                    editTextPushPlusChannel.getText().toString(),
+                    editTextPushPlusWebhook.getText().toString(),
+                    editTextPushPlusCallbackUrl.getText().toString()
+            );
+
+            String token = pushPlusSettingVoNew.getToken();
+            if (token != null && !token.isEmpty()) {
+                try {
+                    SenderPushPlusMsg.sendMsg(0, handler, pushPlusSettingVoNew, "SmsForwarder", getString(R.string.test_content) + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                } catch (Exception e) {
+                    Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            } else {
+                Toast.makeText(SenderActivity.this, R.string.invalid_token, Toast.LENGTH_LONG).show();
             }
         });
     }

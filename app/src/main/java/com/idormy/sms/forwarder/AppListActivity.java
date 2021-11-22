@@ -148,9 +148,7 @@ public class AppListActivity extends AppCompatActivity {
 
     // 通过packName得到PackageInfo，作为参数传入即可
     private boolean isSystemApp(PackageInfo pi) {
-        boolean isSysApp = (pi.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1;
-        boolean isSysUpd = (pi.applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 1;
-        return isSysApp || isSysUpd;
+        return (pi.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1;
     }
 
     @Override

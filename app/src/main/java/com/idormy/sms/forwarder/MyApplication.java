@@ -65,7 +65,7 @@ public class MyApplication extends Application {
             SharedPreferences sp = MyApplication.this.getSharedPreferences(Define.SP_CONFIG, Context.MODE_PRIVATE);
             showHelpTip = sp.getBoolean(Define.SP_CONFIG_SWITCH_HELP_TIP, true);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && SettingUtil.getExcludeFromRecents()) {
+            if (SettingUtil.getExcludeFromRecents()) {
                 ActivityManager am = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
                 if (am != null) {
                     List<ActivityManager.AppTask> appTasks = am.getAppTasks();

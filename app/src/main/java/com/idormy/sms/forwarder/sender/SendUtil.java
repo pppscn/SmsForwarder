@@ -4,6 +4,7 @@ import static com.idormy.sms.forwarder.model.SenderModel.TYPE_BARK;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_DINGDING;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_FEISHU;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_PUSHPLUS;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SERVER_CHAN;
@@ -23,6 +24,7 @@ import com.idormy.sms.forwarder.model.vo.BarkSettingVo;
 import com.idormy.sms.forwarder.model.vo.DingDingSettingVo;
 import com.idormy.sms.forwarder.model.vo.EmailSettingVo;
 import com.idormy.sms.forwarder.model.vo.FeiShuSettingVo;
+import com.idormy.sms.forwarder.model.vo.PushPlusSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXAppSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXGroupRobotSettingVo;
 import com.idormy.sms.forwarder.model.vo.ServerChanSettingVo;
@@ -264,6 +266,21 @@ public class SendUtil {
                     if (feiShuSettingVo != null) {
                         try {
                             SenderFeishuMsg.sendMsg(logId, handError, feiShuSettingVo.getWebhook(), feiShuSettingVo.getSecret(), smsVo.getSmsVoForSend(smsTemplate));
+                        } catch (Exception e) {
+                            LogUtil.updateLog(logId, 0, e.getMessage());
+                            Log.e(TAG, "senderSendMsg: feishu error " + e.getMessage());
+                        }
+                    }
+                }
+                break;
+
+            case TYPE_PUSHPLUS:
+                //try phrase json setting
+                if (senderModel.getJsonSetting() != null) {
+                    PushPlusSettingVo pushPlusSettingVo = JSON.parseObject(senderModel.getJsonSetting(), PushPlusSettingVo.class);
+                    if (pushPlusSettingVo != null) {
+                        try {
+                            SenderPushPlusMsg.sendMsg(logId, handError, pushPlusSettingVo, smsVo.getMobile(), smsVo.getSmsVoForSend(smsTemplate));
                         } catch (Exception e) {
                             LogUtil.updateLog(logId, 0, e.getMessage());
                             Log.e(TAG, "senderSendMsg: feishu error " + e.getMessage());

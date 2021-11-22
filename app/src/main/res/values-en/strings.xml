@@ -99,6 +99,7 @@
     <string name="settelegramtitle">Telegram Bot Settings</string>
     <string name="setsmstitle">SMS Settings</string>
     <string name="setfeishutitle">FeiShu Bot Settings</string>
+    <string name="setpushplustitle">PushPlus Settings</string>
     <string name="test_phone_num">19999999999</string>
     <string name="test_content">Test content @</string>
     <string name="test_sms">【JD】code 387481, ihelp.jd.com</string>
@@ -147,7 +148,7 @@
     <string name="SmsSimSlot">Sim Slot</string>
     <string name="same_source">Same source</string>
     <string name="SmsMobiles">Receive mobile phone numbers separated by, e.g. 15888888888;19999999999</string>
-    <string name="OnlyNoNetwork">仅当无网络时启用</string>
+    <string name="OnlyNoNetwork">Enable when no network is available</string>
     <!--SettingActivity-->
     <string name="device_name">Device name</string>
     <string name="sim1_remark" tools:ignore="Typos">SIM1 Remark</string>
@@ -157,18 +158,16 @@
     <string name="low_power_alarm_threshold_tips">Value range: 0–100. Left blank or 0 is disabled</string>
     <string name="retry_interval">Retry interval (seconds)</string>
     <string name="retry_interval_tips">Retry five times after it fails</string>
-    <string name="add_extra">Sim slot info attached</string>
-    <string name="add_device_name">Device Name attached</string>
     <string name="forward_sms">Forward sms</string>
-    <string name="forward_sms_tips">总开关，请授予读取短信、通知类短信、发送短信等权限，开启后需添加转发规则</string>
+    <string name="forward_sms_tips">Main switch, grant the permission to read short messages, notify short messages, and send short messages</string>
     <string name="forward_missed_calls">Forward missed calls</string>
-    <string name="forward_missed_calls_tips">总开关，请授予读取通话记录、联系人等权限，开启后需添加转发规则</string>
+    <string name="forward_missed_calls_tips">Main switch, please grant read call history, contact rights</string>
     <string name="forward_app_notify">Forward app notify</string>
-    <string name="forward_app_notify_tips">总开关，请先授予通知使用权，开启后需添加转发规则</string>
+    <string name="forward_app_notify_tips">Master switch, please grant notice first</string>
     <string name="enable_custom_templates">Enable custom templates</string>
-    <string name="enable_custom_templates_tips">全局自定义模版，如果添加转发规则再次定义，则优先取转发规则的</string>
+    <string name="enable_custom_templates_tips">Priority: custom template for forwarding rules >Global custom template >The default</string>
     <string name="enable_exclude_from_recents">Exclude from recents</string>
-    <string name="enable_exclude_from_recents_tips">开启后，有效避免手动误杀进程，利于保活？</string>
+    <string name="enable_exclude_from_recents_tips">After this function is enabled, manual killing of processes is effectively avoided, which helps to keep the process alive</string>
     <string name="custom_templates">Custom templates</string>
     <string name="custom_templates_tips">Tip：Insert labels as needed;Leave blank to default template</string>
     <string name="insert_sender">Phone</string>
@@ -212,7 +211,6 @@
     <string name="sender_cannot_receive">This mobile phone is the sender and cannot receive files.</string>
     <string name="no_wifi_network">If the Wifi network is not connected, the one-click cloning function cannot be used.</string>
     <string name="invalid_server_ip">Please enter a valid server IP address</string>
-    <string name="download_failed">Download Failed</string>
     <string name="download_success">Download Success</string>
     <string name="on_wireless_network">Currently on a wireless network</string>
     <string name="on_mobile_network">Currently on a mobile network</string>
@@ -225,8 +223,16 @@
     <string name="appicon">App Icon</string>
     <string name="user_app">User App</string>
     <string name="system_app">System App</string>
-    <string name="tips_battery_optimization">请将省电优化设置为无限制(不优化)，有利于《短信转发器》保活！</string>
-    <string name="tips_notification_listener">请先授予《短信转发器》通知使用权，否则无法转发APP通知，已经自动关闭转发!</string>
-    <string name="notification_listener_service_enabled">通知服务已开启</string>
-    <string name="notification_listener_service_disabled">通知服务未开启</string>
+    <string name="tips_battery_optimization">Please set the power saving optimization to unlimited (no optimization), which is conducive to the survival of SMS forwarder!</string>
+    <string name="tips_notification_listener">Please grant the right to use SMS forwarder notification first, otherwise the APP notification cannot be forwarded and the forwarding will be automatically closed!</string>
+    <string name="notification_listener_service_enabled">The notification service is enabled</string>
+    <string name="notification_listener_service_disabled">The notification service is disabled</string>
+    <string name="pushplus_token">Token</string>
+    <string name="pushplus_topic">Topic</string>
+    <string name="pushplus_template">Template</string>
+    <string name="html">html</string>
+    <string name="pushplus_channel">Channel</string>
+    <string name="pushplus_webhook">Webhook Code</string>
+    <string name="pushplus_callback">Callback Url</string>
+    <string name="wechat">wechat</string>
 </resources>
