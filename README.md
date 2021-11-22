@@ -150,6 +150,7 @@
 * 进入自建应用，复制「AgentId」和「Secret」
 * 默认是 @all (应用的可见范围内所有人)，如果只想通知一个人，在「指定成员」一栏填写员工账号
 * 点击【测试】按钮验证一下
+* 【技巧】无需下载企业微信客户端，直接用微信扫码关注 [微信插件](https://work.weixin.qq.com/wework_admin/frame#profile/wxPlugin)，即可在微信中接收企业通知和使用企业应用
 
 #### Server酱·Turbo版
 
