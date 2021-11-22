@@ -298,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     }
 
     public void toHelp() {
-        Uri uri = Uri.parse("https://github.com/pppscn/SmsForwarder/wiki");
+        Uri uri = Uri.parse("https://gitee.com/pp/SmsForwarder/wikis/pages");
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }
