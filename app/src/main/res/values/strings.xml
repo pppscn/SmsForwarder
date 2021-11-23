@@ -235,5 +235,6 @@
     <string name="pushplus_channel">发送渠道</string>
     <string name="pushplus_webhook">webhook编码</string>
     <string name="pushplus_callback">回调地址</string>
+    <string name="pushplus_valid_time">有效时间(秒)</string>
     <string name="wechat">wechat</string>
 </resources>

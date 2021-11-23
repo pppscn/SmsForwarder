@@ -12,16 +12,18 @@ public class PushPlusSettingVo implements Serializable {
     private String channel;
     private String webhook;
     private String callbackUrl;
+    private String validTime;
 
     public PushPlusSettingVo() {
     }
 
-    public PushPlusSettingVo(String token, String topic, String template, String channel, String webhook, String callbackUrl) {
+    public PushPlusSettingVo(String token, String topic, String template, String channel, String webhook, String callbackUrl, String validTime) {
         this.token = token;
         this.topic = topic;
         this.template = template;
         this.channel = channel;
         this.webhook = webhook;
         this.callbackUrl = callbackUrl;
+        this.validTime = validTime;
     }
 }

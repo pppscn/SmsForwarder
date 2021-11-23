@@ -1244,6 +1244,7 @@ public class SenderActivity extends AppCompatActivity {
         final EditText editTextPushPlusChannel = view1.findViewById(R.id.editTextPushPlusChannel);
         final EditText editTextPushPlusWebhook = view1.findViewById(R.id.editTextPushPlusWebhook);
         final EditText editTextPushPlusCallbackUrl = view1.findViewById(R.id.editTextPushPlusCallbackUrl);
+        final EditText editTextPushPlusValidTime = view1.findViewById(R.id.editTextPushPlusValidTime);
 
         if (pushPlusSettingVo != null) {
             editTextPushPlusName.setText(senderModel.getName());
@@ -1253,6 +1254,7 @@ public class SenderActivity extends AppCompatActivity {
             editTextPushPlusChannel.setText(pushPlusSettingVo.getChannel());
             editTextPushPlusWebhook.setText(pushPlusSettingVo.getWebhook());
             editTextPushPlusCallbackUrl.setText(pushPlusSettingVo.getCallbackUrl());
+            editTextPushPlusValidTime.setText(pushPlusSettingVo.getValidTime());
         }
 
         Button buttonPushPlusOk = view1.findViewById(R.id.buttonPushPlusOk);
@@ -1272,12 +1274,13 @@ public class SenderActivity extends AppCompatActivity {
                 newSenderModel.setType(TYPE_PUSHPLUS);
                 newSenderModel.setStatus(STATUS_ON);
                 PushPlusSettingVo pushPlusSettingVoNew = new PushPlusSettingVo(
-                        editTextPushPlusToken.getText().toString(),
-                        editTextPushPlusTopic.getText().toString(),
-                        editTextPushPlusTemplate.getText().toString(),
-                        editTextPushPlusChannel.getText().toString(),
-                        editTextPushPlusWebhook.getText().toString(),
-                        editTextPushPlusCallbackUrl.getText().toString()
+                        editTextPushPlusToken.getText().toString().trim(),
+                        editTextPushPlusTopic.getText().toString().trim(),
+                        editTextPushPlusTemplate.getText().toString().trim(),
+                        editTextPushPlusChannel.getText().toString().trim(),
+                        editTextPushPlusWebhook.getText().toString().trim(),
+                        editTextPushPlusCallbackUrl.getText().toString().trim(),
+                        editTextPushPlusValidTime.getText().toString().trim()
                 );
                 newSenderModel.setJsonSetting(JSON.toJSONString(pushPlusSettingVoNew));
                 SenderUtil.addSender(newSenderModel);
@@ -1288,12 +1291,13 @@ public class SenderActivity extends AppCompatActivity {
                 senderModel.setType(TYPE_PUSHPLUS);
                 senderModel.setStatus(STATUS_ON);
                 PushPlusSettingVo pushPlusSettingVoNew = new PushPlusSettingVo(
-                        editTextPushPlusToken.getText().toString(),
-                        editTextPushPlusTopic.getText().toString(),
-                        editTextPushPlusTemplate.getText().toString(),
-                        editTextPushPlusChannel.getText().toString(),
-                        editTextPushPlusWebhook.getText().toString(),
-                        editTextPushPlusCallbackUrl.getText().toString()
+                        editTextPushPlusToken.getText().toString().trim(),
+                        editTextPushPlusTopic.getText().toString().trim(),
+                        editTextPushPlusTemplate.getText().toString().trim(),
+                        editTextPushPlusChannel.getText().toString().trim(),
+                        editTextPushPlusWebhook.getText().toString().trim(),
+                        editTextPushPlusCallbackUrl.getText().toString().trim(),
+                        editTextPushPlusValidTime.getText().toString().trim()
                 );
                 senderModel.setJsonSetting(JSON.toJSONString(pushPlusSettingVoNew));
                 SenderUtil.updateSender(senderModel);
@@ -1314,12 +1318,13 @@ public class SenderActivity extends AppCompatActivity {
 
         buttonPushPlusTest.setOnClickListener(view -> {
             PushPlusSettingVo pushPlusSettingVoNew = new PushPlusSettingVo(
-                    editTextPushPlusToken.getText().toString(),
-                    editTextPushPlusTopic.getText().toString(),
-                    editTextPushPlusTemplate.getText().toString(),
-                    editTextPushPlusChannel.getText().toString(),
-                    editTextPushPlusWebhook.getText().toString(),
-                    editTextPushPlusCallbackUrl.getText().toString()
+                    editTextPushPlusToken.getText().toString().trim(),
+                    editTextPushPlusTopic.getText().toString().trim(),
+                    editTextPushPlusTemplate.getText().toString().trim(),
+                    editTextPushPlusChannel.getText().toString().trim(),
+                    editTextPushPlusWebhook.getText().toString().trim(),
+                    editTextPushPlusCallbackUrl.getText().toString().trim(),
+                    editTextPushPlusValidTime.getText().toString().trim()
             );
 
             String token = pushPlusSettingVoNew.getToken();

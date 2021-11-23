@@ -29,7 +29,7 @@ import okhttp3.Response;
 @SuppressWarnings({"ResultOfMethodCallIgnored", "rawtypes", "unchecked", "deprecation"})
 public class SenderPushPlusMsg extends SenderBaseMsg {
 
-    static final String TAG = "SenderFeishuMsg";
+    static final String TAG = "SenderPushPlusMsg";
 
     public static void sendMsg(final long logId, final Handler handError, PushPlusSettingVo pushPlusSettingVo, String title, String content) throws Exception {
 
@@ -67,7 +67,10 @@ public class SenderPushPlusMsg extends SenderBaseMsg {
         if (callbackUrl != null && !callbackUrl.isEmpty()) textMsgMap.put("callbackUrl", callbackUrl);
 
         //毫秒时间戳。格式如：1632993318000。服务器时间戳大于此时间戳，则消息不会发送
-        textMsgMap.put("timestamp", System.currentTimeMillis());
+        String validTime = pushPlusSettingVo.getValidTime();
+        if (validTime != null && !validTime.isEmpty() && Integer.parseInt(validTime) > 0) {
+            textMsgMap.put("timestamp", System.currentTimeMillis() + Integer.parseInt(validTime) * 1000L);
+        }
 
         final String requestUrl = "http://www.pushplus.plus/send/" + token;
         Log.i(TAG, "requestUrl:" + requestUrl);
