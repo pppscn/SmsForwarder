@@ -4,8 +4,11 @@ import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -17,9 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.idormy.sms.forwarder.utils.CommonUtil;
+import com.idormy.sms.forwarder.utils.DbHelper;
 import com.idormy.sms.forwarder.utils.KeepAliveUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 
@@ -320,26 +325,34 @@ public class SettingActivity extends AppCompatActivity {
     //恢复初始化配置
     public void initSetting(View view) {
 
-        EditText et_add_extra_device_mark = findViewById(R.id.et_add_extra_device_mark);
-        et_add_extra_device_mark.setText("");
-        editAddExtraDeviceMark(et_add_extra_device_mark);
+        AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
+        builder.setTitle(R.string.init_setting);
+        builder.setMessage(R.string.init_setting_tips);
 
-        EditText et_add_extra_sim1 = findViewById(R.id.et_add_extra_sim1);
-        et_add_extra_sim1.setText("");
-        editAddExtraSim1(et_add_extra_sim1);
+        //添加AlertDialog.Builder对象的setPositiveButton()方法
+        builder.setPositiveButton(R.string.confirm, (dialog, which) -> {
+            //初始化配置
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.commit();
 
-        EditText et_add_extra_sim2 = findViewById(R.id.et_add_extra_sim2);
-        et_add_extra_sim2.setText("");
-        editAddExtraSim2(et_add_extra_sim2);
+            //初始化数据库
+            DbHelper dbHelper = new DbHelper(this);
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            dbHelper.delCreateTable(db);
+            dbHelper.onCreate(db);
 
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_sms_template = findViewById(R.id.switch_sms_template);
-        switch_sms_template.setChecked(false);
-        switchSmsTemplate(switch_sms_template);
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        });
 
-        EditText textSmsTemplate = findViewById(R.id.text_sms_template);
-        textSmsTemplate.setText("{{来源号码}}\n{{短信内容}}\n{{卡槽信息}}\n{{接收时间}}\n{{设备名称}}");
-        editSmsTemplate(textSmsTemplate);
+        //添加AlertDialog.Builder对象的setNegativeButton()方法
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> {
 
+        });
+
+        builder.create().show();
     }
 
     //电池优化设置

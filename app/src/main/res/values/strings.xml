@@ -178,7 +178,8 @@
     <string name="insert_extra">卡槽信息</string>
     <string name="insert_time">接收时间</string>
     <string name="insert_device_name">设备名称</string>
-    <string name="init_setting">恢复默认配置</string>
+    <string name="init_setting">恢复初始配置</string>
+    <string name="init_setting_tips">确定需要恢复初始配置吗？\n\n【警告】此操作将重置设置、删除发送通道、规则、日志！</string>
     <string name="battery_setting">设置电池优化</string>
     <string name="request_permission">请求通知权限</string>
     <string name="unknown_number">未知号码</string>

@@ -179,6 +179,7 @@
     <string name="insert_time">Time</string>
     <string name="insert_device_name">Device</string>
     <string name="init_setting">Restore initial Setting</string>
+    <string name="init_setting_tips">Are you sure you want to restore the initial configuration? \n\n[Warning] This operation will reset Settings, delete send channels, rules, logs!</string>
     <string name="battery_setting">Battery Optimization</string>
     <string name="request_permission">Request Notify Permission</string>
     <string name="unknown_number">Unknown Number</string>
