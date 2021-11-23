@@ -211,6 +211,7 @@ public class RuleModel {
                             //checked = Pattern.matches(this.value, msgValue);
                             Pattern pattern = Pattern.compile(this.value, Pattern.CASE_INSENSITIVE);
                             Matcher matcher = pattern.matcher(msgValue);
+                            //noinspection LoopStatementThatDoesntLoop
                             while (matcher.find()) {
                                 checked = true;
                                 break;

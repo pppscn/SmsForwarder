@@ -249,9 +249,9 @@ public class RuleActivity extends AppCompatActivity {
                 newRuleModel.setFiled(RuleModel.getRuleFiledFromCheckId(radioGroupRuleFiled.getCheckedRadioButtonId()));
                 newRuleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheckId));
                 newRuleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
-                newRuleModel.setValue(editTextRuleValue.getText().toString());
+                newRuleModel.setValue(editTextRuleValue.getText().toString().trim());
                 newRuleModel.setSwitchSmsTemplate(switchSmsTemplate.isChecked());
-                newRuleModel.setSmsTemplate(textSmsTemplate.getText().toString());
+                newRuleModel.setSmsTemplate(textSmsTemplate.getText().toString().trim());
                 newRuleModel.setSenderId(Long.valueOf(senderId.toString()));
                 RuleUtil.addRule(newRuleModel);
                 initRules();
@@ -260,9 +260,9 @@ public class RuleActivity extends AppCompatActivity {
                 ruleModel.setFiled(RuleModel.getRuleFiledFromCheckId(radioGroupRuleFiled.getCheckedRadioButtonId()));
                 ruleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheckId));
                 ruleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
-                ruleModel.setValue(editTextRuleValue.getText().toString());
+                ruleModel.setValue(editTextRuleValue.getText().toString().trim());
                 ruleModel.setSwitchSmsTemplate(switchSmsTemplate.isChecked());
-                ruleModel.setSmsTemplate(textSmsTemplate.getText().toString());
+                ruleModel.setSmsTemplate(textSmsTemplate.getText().toString().trim());
                 ruleModel.setSenderId(Long.valueOf(senderId.toString()));
                 RuleUtil.updateRule(ruleModel);
                 initRules();
@@ -294,7 +294,7 @@ public class RuleActivity extends AppCompatActivity {
                 newRuleModel.setFiled(RuleModel.getRuleFiledFromCheckId(radioGroupRuleFiled.getCheckedRadioButtonId()));
                 newRuleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheckId));
                 newRuleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
-                newRuleModel.setValue(editTextRuleValue.getText().toString());
+                newRuleModel.setValue(editTextRuleValue.getText().toString().trim());
                 newRuleModel.setSenderId(Long.valueOf(senderId.toString()));
 
                 testRule(newRuleModel, Long.valueOf(senderId.toString()));
@@ -302,7 +302,7 @@ public class RuleActivity extends AppCompatActivity {
                 ruleModel.setFiled(RuleModel.getRuleFiledFromCheckId(radioGroupRuleFiled.getCheckedRadioButtonId()));
                 ruleModel.setCheck(RuleModel.getRuleCheckFromCheckId(radioGroupRuleCheckId));
                 ruleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
-                ruleModel.setValue(editTextRuleValue.getText().toString());
+                ruleModel.setValue(editTextRuleValue.getText().toString().trim());
                 ruleModel.setSenderId(Long.valueOf(senderId.toString()));
 
                 testRule(ruleModel, Long.valueOf(senderId.toString()));
@@ -502,8 +502,8 @@ public class RuleActivity extends AppCompatActivity {
         ad1.setView(view);
         buttonRuleTest.setOnClickListener(v -> {
 
-            Log.i("editTextTestPhone", editTextTestPhone.getText().toString());
-            Log.i("editTextTestMsgContent", editTextTestMsgContent.getText().toString());
+            Log.i("editTextTestPhone", editTextTestPhone.getText().toString().trim());
+            Log.i("editTextTestMsgContent", editTextTestMsgContent.getText().toString().trim());
 
             try {
                 String simSlot = RuleModel.getRuleSimSlotFromCheckId(radioGroupTestSimSlot.getCheckedRadioButtonId());
@@ -513,7 +513,7 @@ public class RuleActivity extends AppCompatActivity {
                 } else {
                     simInfo = simSlot + "_" + SettingUtil.getAddExtraSim1();
                 }
-                SmsVo testSmsVo = new SmsVo(editTextTestPhone.getText().toString(), editTextTestMsgContent.getText().toString(), new Date(), simInfo);
+                SmsVo testSmsVo = new SmsVo(editTextTestPhone.getText().toString().trim(), editTextTestMsgContent.getText().toString().trim(), new Date(), simInfo);
                 SendUtil.sendMsgByRuleModelSenderId(handler, ruleModel, testSmsVo, senderId);
             } catch (Exception e) {
                 Toast.makeText(RuleActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();

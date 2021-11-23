@@ -278,26 +278,26 @@ public class SenderActivity extends AppCompatActivity {
 
             if (senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
-                newSenderModel.setName(editTextDingdingName.getText().toString());
+                newSenderModel.setName(editTextDingdingName.getText().toString().trim());
                 newSenderModel.setType(TYPE_DINGDING);
                 newSenderModel.setStatus(STATUS_ON);
                 DingDingSettingVo dingDingSettingVoNew = new DingDingSettingVo(
-                        editTextDingdingToken.getText().toString(),
-                        editTextDingdingSecret.getText().toString(),
-                        editTextDingdingAtMobiles.getText().toString(),
+                        editTextDingdingToken.getText().toString().trim(),
+                        editTextDingdingSecret.getText().toString().trim(),
+                        editTextDingdingAtMobiles.getText().toString().trim(),
                         switchDingdingAtAll.isChecked());
                 newSenderModel.setJsonSetting(JSON.toJSONString(dingDingSettingVoNew));
                 SenderUtil.addSender(newSenderModel);
                 initSenders();
                 adapter.add(senderModels);
             } else {
-                senderModel.setName(editTextDingdingName.getText().toString());
+                senderModel.setName(editTextDingdingName.getText().toString().trim());
                 senderModel.setType(TYPE_DINGDING);
                 senderModel.setStatus(STATUS_ON);
                 DingDingSettingVo dingDingSettingVoNew = new DingDingSettingVo(
-                        editTextDingdingToken.getText().toString(),
-                        editTextDingdingSecret.getText().toString(),
-                        editTextDingdingAtMobiles.getText().toString(),
+                        editTextDingdingToken.getText().toString().trim(),
+                        editTextDingdingSecret.getText().toString().trim(),
+                        editTextDingdingAtMobiles.getText().toString().trim(),
                         switchDingdingAtAll.isChecked());
                 senderModel.setJsonSetting(JSON.toJSONString(dingDingSettingVoNew));
                 SenderUtil.updateSender(senderModel);
@@ -319,9 +319,9 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
         buttonDingdingTest.setOnClickListener(view -> {
-            String token = editTextDingdingToken.getText().toString();
-            String secret = editTextDingdingSecret.getText().toString();
-            String atMobiles = editTextDingdingAtMobiles.getText().toString();
+            String token = editTextDingdingToken.getText().toString().trim();
+            String secret = editTextDingdingSecret.getText().toString().trim();
+            String atMobiles = editTextDingdingAtMobiles.getText().toString().trim();
             Boolean atAll = switchDingdingAtAll.isChecked();
             if (!token.isEmpty()) {
                 try {
@@ -386,36 +386,36 @@ public class SenderActivity extends AppCompatActivity {
         buttonEmailOk.setOnClickListener(view -> {
             if (senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
-                newSenderModel.setName(editTextEmailName.getText().toString());
+                newSenderModel.setName(editTextEmailName.getText().toString().trim());
                 newSenderModel.setType(TYPE_EMAIL);
                 newSenderModel.setStatus(STATUS_ON);
                 EmailSettingVo emailSettingVoNew = new EmailSettingVo(
-                        editTextEmailHost.getText().toString(),
-                        editTextEmailPort.getText().toString(),
+                        editTextEmailHost.getText().toString().trim(),
+                        editTextEmailPort.getText().toString().trim(),
                         switchEmailSSl.isChecked(),
-                        editTextEmailFromAdd.getText().toString(),
-                        editTextEmailNickname.getText().toString(),
-                        editTextEmailPsw.getText().toString(),
-                        editTextEmailToAdd.getText().toString(),
-                        editTextEmailTitle.getText().toString()
+                        editTextEmailFromAdd.getText().toString().trim(),
+                        editTextEmailNickname.getText().toString().trim(),
+                        editTextEmailPsw.getText().toString().trim(),
+                        editTextEmailToAdd.getText().toString().trim(),
+                        editTextEmailTitle.getText().toString().trim()
                 );
                 newSenderModel.setJsonSetting(JSON.toJSONString(emailSettingVoNew));
                 SenderUtil.addSender(newSenderModel);
                 initSenders();
                 adapter.add(senderModels);
             } else {
-                senderModel.setName(editTextEmailName.getText().toString());
+                senderModel.setName(editTextEmailName.getText().toString().trim());
                 senderModel.setType(TYPE_EMAIL);
                 senderModel.setStatus(STATUS_ON);
                 EmailSettingVo emailSettingVoNew = new EmailSettingVo(
-                        editTextEmailHost.getText().toString(),
-                        editTextEmailPort.getText().toString(),
+                        editTextEmailHost.getText().toString().trim(),
+                        editTextEmailPort.getText().toString().trim(),
                         switchEmailSSl.isChecked(),
-                        editTextEmailFromAdd.getText().toString(),
-                        editTextEmailNickname.getText().toString(),
-                        editTextEmailPsw.getText().toString(),
-                        editTextEmailToAdd.getText().toString(),
-                        editTextEmailTitle.getText().toString()
+                        editTextEmailFromAdd.getText().toString().trim(),
+                        editTextEmailNickname.getText().toString().trim(),
+                        editTextEmailPsw.getText().toString().trim(),
+                        editTextEmailToAdd.getText().toString().trim(),
+                        editTextEmailTitle.getText().toString().trim()
                 );
                 senderModel.setJsonSetting(JSON.toJSONString(emailSettingVoNew));
                 SenderUtil.updateSender(senderModel);
@@ -434,17 +434,17 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
         buttonEmailTest.setOnClickListener(view -> {
-            String host = editTextEmailHost.getText().toString();
-            String port = editTextEmailPort.getText().toString();
+            String host = editTextEmailHost.getText().toString().trim();
+            String port = editTextEmailPort.getText().toString().trim();
             boolean ssl = switchEmailSSl.isChecked();
-            String fromEmail = editTextEmailFromAdd.getText().toString();
-            String pwd = editTextEmailPsw.getText().toString();
-            String toEmail = editTextEmailToAdd.getText().toString();
+            String fromEmail = editTextEmailFromAdd.getText().toString().trim();
+            String pwd = editTextEmailPsw.getText().toString().trim();
+            String toEmail = editTextEmailToAdd.getText().toString().trim();
 
-            String title = editTextEmailTitle.getText().toString();
+            String title = editTextEmailTitle.getText().toString().trim();
             if (title.isEmpty()) title = "SmsForwarder Title";
 
-            String nickname = editTextEmailNickname.getText().toString();
+            String nickname = editTextEmailNickname.getText().toString().trim();
             if (nickname.isEmpty()) nickname = "SmsForwarder";
 
             if (!host.isEmpty() && !port.isEmpty() && !fromEmail.isEmpty() && !pwd.isEmpty() && !toEmail.isEmpty()) {
@@ -525,24 +525,24 @@ public class SenderActivity extends AppCompatActivity {
 
             if (senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
-                newSenderModel.setName(editTextBarkName.getText().toString());
+                newSenderModel.setName(editTextBarkName.getText().toString().trim());
                 newSenderModel.setType(TYPE_BARK);
                 newSenderModel.setStatus(STATUS_ON);
                 BarkSettingVo barkSettingVoNew = new BarkSettingVo(
-                        editTextBarkServer.getText().toString(),
-                        editTextBarkIcon.getText().toString()
+                        editTextBarkServer.getText().toString().trim(),
+                        editTextBarkIcon.getText().toString().trim()
                 );
                 newSenderModel.setJsonSetting(JSON.toJSONString(barkSettingVoNew));
                 SenderUtil.addSender(newSenderModel);
                 initSenders();
                 adapter.add(senderModels);
             } else {
-                senderModel.setName(editTextBarkName.getText().toString());
+                senderModel.setName(editTextBarkName.getText().toString().trim());
                 senderModel.setType(TYPE_BARK);
                 senderModel.setStatus(STATUS_ON);
                 BarkSettingVo barkSettingVoNew = new BarkSettingVo(
-                        editTextBarkServer.getText().toString(),
-                        editTextBarkIcon.getText().toString()
+                        editTextBarkServer.getText().toString().trim(),
+                        editTextBarkIcon.getText().toString().trim()
                 );
                 senderModel.setJsonSetting(JSON.toJSONString(barkSettingVoNew));
                 SenderUtil.updateSender(senderModel);
@@ -562,8 +562,8 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
         buttonBarkTest.setOnClickListener(view -> {
-            String barkServer = editTextBarkServer.getText().toString();
-            String barkIcon = editTextBarkIcon.getText().toString();
+            String barkServer = editTextBarkServer.getText().toString().trim();
+            String barkIcon = editTextBarkIcon.getText().toString().trim();
             if (!barkServer.isEmpty()) {
                 try {
                     SenderBarkMsg.sendMsg(0, handler, barkServer, barkIcon, getString(R.string.test_phone_num), getString(R.string.test_sms), getString(R.string.test_group_name));
@@ -611,22 +611,22 @@ public class SenderActivity extends AppCompatActivity {
 
             if (senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
-                newSenderModel.setName(editTextServerChanName.getText().toString());
+                newSenderModel.setName(editTextServerChanName.getText().toString().trim());
                 newSenderModel.setType(TYPE_SERVER_CHAN);
                 newSenderModel.setStatus(STATUS_ON);
                 ServerChanSettingVo serverChanSettingVoNew = new ServerChanSettingVo(
-                        editTextServerChanSendKey.getText().toString()
+                        editTextServerChanSendKey.getText().toString().trim()
                 );
                 newSenderModel.setJsonSetting(JSON.toJSONString(serverChanSettingVoNew));
                 SenderUtil.addSender(newSenderModel);
                 initSenders();
                 adapter.add(senderModels);
             } else {
-                senderModel.setName(editTextServerChanName.getText().toString());
+                senderModel.setName(editTextServerChanName.getText().toString().trim());
                 senderModel.setType(TYPE_SERVER_CHAN);
                 senderModel.setStatus(STATUS_ON);
                 ServerChanSettingVo serverChanSettingVoNew = new ServerChanSettingVo(
-                        editTextServerChanSendKey.getText().toString()
+                        editTextServerChanSendKey.getText().toString().trim()
                 );
                 senderModel.setJsonSetting(JSON.toJSONString(serverChanSettingVoNew));
                 SenderUtil.updateSender(senderModel);
@@ -646,7 +646,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
         buttonServerChanTest.setOnClickListener(view -> {
-            String serverChanServer = editTextServerChanSendKey.getText().toString();
+            String serverChanServer = editTextServerChanSendKey.getText().toString().trim();
             if (!serverChanServer.isEmpty()) {
                 try {
                     SenderServerChanMsg.sendMsg(0, handler, serverChanServer, getString(R.string.test_phone_num), getString(R.string.test_sms));
@@ -698,20 +698,20 @@ public class SenderActivity extends AppCompatActivity {
 
         buttonWebNotifyOk.setOnClickListener(view -> {
             WebNotifySettingVo webNotifySettingVoNew = new WebNotifySettingVo(
-                    editTextWebNotifyWebServer.getText().toString(),
-                    editTextWebNotifySecret.getText().toString(),
+                    editTextWebNotifyWebServer.getText().toString().trim(),
+                    editTextWebNotifySecret.getText().toString().trim(),
                     (radioGroupWebNotifyMethod.getCheckedRadioButtonId() == R.id.radioWebNotifyMethodGet ? "GET" : "POST"),
-                    editTextWebNotifyWebParams.getText().toString()
+                    editTextWebNotifyWebParams.getText().toString().trim()
             );
             if (senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
-                newSenderModel.setName(editTextWebNotifyName.getText().toString());
+                newSenderModel.setName(editTextWebNotifyName.getText().toString().trim());
                 newSenderModel.setType(TYPE_WEB_NOTIFY);
                 newSenderModel.setStatus(STATUS_ON);
                 newSenderModel.setJsonSetting(JSON.toJSONString(webNotifySettingVoNew));
                 SenderUtil.addSender(newSenderModel);
             } else {
-                senderModel.setName(editTextWebNotifyName.getText().toString());
+                senderModel.setName(editTextWebNotifyName.getText().toString().trim());
                 senderModel.setType(TYPE_WEB_NOTIFY);
                 senderModel.setStatus(STATUS_ON);
                 senderModel.setJsonSetting(JSON.toJSONString(webNotifySettingVoNew));
@@ -730,9 +730,9 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
         buttonWebNotifyTest.setOnClickListener(view -> {
-            String webServer = editTextWebNotifyWebServer.getText().toString();
-            String webParams = editTextWebNotifyWebParams.getText().toString();
-            String secret = editTextWebNotifySecret.getText().toString();
+            String webServer = editTextWebNotifyWebServer.getText().toString().trim();
+            String webParams = editTextWebNotifyWebParams.getText().toString().trim();
+            String secret = editTextWebNotifySecret.getText().toString().trim();
             String method = radioGroupWebNotifyMethod.getCheckedRadioButtonId() == R.id.radioWebNotifyMethodGet ? "GET" : "POST";
             if (!webServer.isEmpty()) {
                 try {
@@ -783,22 +783,22 @@ public class SenderActivity extends AppCompatActivity {
 
             if (senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
-                newSenderModel.setName(editTextQYWXGroupRobotName.getText().toString());
+                newSenderModel.setName(editTextQYWXGroupRobotName.getText().toString().trim());
                 newSenderModel.setType(TYPE_QYWX_GROUP_ROBOT);
                 newSenderModel.setStatus(STATUS_ON);
                 QYWXGroupRobotSettingVo qywxGroupRobotSettingVoNew = new QYWXGroupRobotSettingVo(
-                        editTextQYWXGroupRobotWebHook.getText().toString()
+                        editTextQYWXGroupRobotWebHook.getText().toString().trim()
                 );
                 newSenderModel.setJsonSetting(JSON.toJSONString(qywxGroupRobotSettingVoNew));
                 SenderUtil.addSender(newSenderModel);
                 initSenders();
                 adapter.add(senderModels);
             } else {
-                senderModel.setName(editTextQYWXGroupRobotName.getText().toString());
+                senderModel.setName(editTextQYWXGroupRobotName.getText().toString().trim());
                 senderModel.setType(TYPE_QYWX_GROUP_ROBOT);
                 senderModel.setStatus(STATUS_ON);
                 QYWXGroupRobotSettingVo qywxGroupRobotSettingVoNew = new QYWXGroupRobotSettingVo(
-                        editTextQYWXGroupRobotWebHook.getText().toString()
+                        editTextQYWXGroupRobotWebHook.getText().toString().trim()
                 );
                 senderModel.setJsonSetting(JSON.toJSONString(qywxGroupRobotSettingVoNew));
                 SenderUtil.updateSender(senderModel);
@@ -818,7 +818,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
         buttonQyWxGroupRobotTest.setOnClickListener(view -> {
-            String webHook = editTextQYWXGroupRobotWebHook.getText().toString();
+            String webHook = editTextQYWXGroupRobotWebHook.getText().toString().trim();
             if (!webHook.isEmpty()) {
                 try {
                     SenderQyWxGroupRobotMsg.sendMsg(0, handler, webHook, "SmsForwarder Title", R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
@@ -885,7 +885,7 @@ public class SenderActivity extends AppCompatActivity {
                 .create();
         final AlertDialog show = alertDialog71.show();
         buttonQYWXAppOk.setOnClickListener(view -> {
-            String toUser = editTextQYWXAppToUser.getText().toString();
+            String toUser = editTextQYWXAppToUser.getText().toString().trim();
             if (toUser.isEmpty()) {
                 Toast.makeText(SenderActivity.this, R.string.invalid_at_mobiles, Toast.LENGTH_LONG).show();
                 editTextQYWXAppToUser.setFocusable(true);
@@ -895,28 +895,28 @@ public class SenderActivity extends AppCompatActivity {
 
             if (senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
-                newSenderModel.setName(editTextQYWXAppName.getText().toString());
+                newSenderModel.setName(editTextQYWXAppName.getText().toString().trim());
                 newSenderModel.setType(TYPE_QYWX_APP);
                 newSenderModel.setStatus(STATUS_ON);
                 QYWXAppSettingVo QYWXAppSettingVoNew = new QYWXAppSettingVo(
-                        editTextQYWXAppCorpID.getText().toString(),
-                        editTextQYWXAppAgentID.getText().toString(),
-                        editTextQYWXAppSecret.getText().toString(),
-                        editTextQYWXAppToUser.getText().toString(),
+                        editTextQYWXAppCorpID.getText().toString().trim(),
+                        editTextQYWXAppAgentID.getText().toString().trim(),
+                        editTextQYWXAppSecret.getText().toString().trim(),
+                        editTextQYWXAppToUser.getText().toString().trim(),
                         switchQYWXAppAtAll.isChecked());
                 newSenderModel.setJsonSetting(JSON.toJSONString(QYWXAppSettingVoNew));
                 SenderUtil.addSender(newSenderModel);
                 initSenders();
                 adapter.add(senderModels);
             } else {
-                senderModel.setName(editTextQYWXAppName.getText().toString());
+                senderModel.setName(editTextQYWXAppName.getText().toString().trim());
                 senderModel.setType(TYPE_QYWX_APP);
                 senderModel.setStatus(STATUS_ON);
                 QYWXAppSettingVo QYWXAppSettingVoNew = new QYWXAppSettingVo(
-                        editTextQYWXAppCorpID.getText().toString(),
-                        editTextQYWXAppAgentID.getText().toString(),
-                        editTextQYWXAppSecret.getText().toString(),
-                        editTextQYWXAppToUser.getText().toString(),
+                        editTextQYWXAppCorpID.getText().toString().trim(),
+                        editTextQYWXAppAgentID.getText().toString().trim(),
+                        editTextQYWXAppSecret.getText().toString().trim(),
+                        editTextQYWXAppToUser.getText().toString().trim(),
                         switchQYWXAppAtAll.isChecked());
                 senderModel.setJsonSetting(JSON.toJSONString(QYWXAppSettingVoNew));
                 SenderUtil.updateSender(senderModel);
@@ -935,10 +935,10 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
         buttonQYWXAppTest.setOnClickListener(view -> {
-            String cropID = editTextQYWXAppCorpID.getText().toString();
-            String agentID = editTextQYWXAppAgentID.getText().toString();
-            String secret = editTextQYWXAppSecret.getText().toString();
-            String toUser = editTextQYWXAppToUser.getText().toString();
+            String cropID = editTextQYWXAppCorpID.getText().toString().trim();
+            String agentID = editTextQYWXAppAgentID.getText().toString().trim();
+            String secret = editTextQYWXAppSecret.getText().toString().trim();
+            String toUser = editTextQYWXAppToUser.getText().toString().trim();
             //Boolean atAll = switchQYWXAppAtAll.isChecked();
             if (!toUser.isEmpty()) {
                 try {
@@ -990,24 +990,24 @@ public class SenderActivity extends AppCompatActivity {
 
             if (senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
-                newSenderModel.setName(editTextTelegramName.getText().toString());
+                newSenderModel.setName(editTextTelegramName.getText().toString().trim());
                 newSenderModel.setType(TYPE_TELEGRAM);
                 newSenderModel.setStatus(STATUS_ON);
                 TelegramSettingVo telegramSettingVoNew = new TelegramSettingVo(
-                        editTextTelegramApiToken.getText().toString(),
-                        editTextTelegramChatId.getText().toString()
+                        editTextTelegramApiToken.getText().toString().trim(),
+                        editTextTelegramChatId.getText().toString().trim()
                 );
                 newSenderModel.setJsonSetting(JSON.toJSONString(telegramSettingVoNew));
                 SenderUtil.addSender(newSenderModel);
                 initSenders();
                 adapter.add(senderModels);
             } else {
-                senderModel.setName(editTextTelegramName.getText().toString());
+                senderModel.setName(editTextTelegramName.getText().toString().trim());
                 senderModel.setType(TYPE_TELEGRAM);
                 senderModel.setStatus(STATUS_ON);
                 TelegramSettingVo telegramSettingVoNew = new TelegramSettingVo(
-                        editTextTelegramApiToken.getText().toString(),
-                        editTextTelegramChatId.getText().toString()
+                        editTextTelegramApiToken.getText().toString().trim(),
+                        editTextTelegramChatId.getText().toString().trim()
                 );
                 senderModel.setJsonSetting(JSON.toJSONString(telegramSettingVoNew));
                 SenderUtil.updateSender(senderModel);
@@ -1027,8 +1027,8 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
         buttonTelegramTest.setOnClickListener(view -> {
-            String apiToken = editTextTelegramApiToken.getText().toString();
-            String chatId = editTextTelegramChatId.getText().toString();
+            String apiToken = editTextTelegramApiToken.getText().toString().trim();
+            String chatId = editTextTelegramChatId.getText().toString().trim();
             if (!apiToken.isEmpty() && !chatId.isEmpty()) {
                 try {
                     SenderTelegramMsg.sendMsg(0, handler, apiToken, chatId, getString(R.string.test_phone_num), getString(R.string.test_sms));
@@ -1080,12 +1080,12 @@ public class SenderActivity extends AppCompatActivity {
 
             if (senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
-                newSenderModel.setName(editTextSmsName.getText().toString());
+                newSenderModel.setName(editTextSmsName.getText().toString().trim());
                 newSenderModel.setType(TYPE_SMS);
                 newSenderModel.setStatus(STATUS_ON);
                 SmsSettingVo smsSettingVoNew = new SmsSettingVo(
                         newSenderModel.getSmsSimSlotId(radioGroupSmsSimSlot.getCheckedRadioButtonId()),
-                        editTextSmsMobiles.getText().toString(),
+                        editTextSmsMobiles.getText().toString().trim(),
                         switchSmsOnlyNoNetwork.isChecked()
                 );
                 newSenderModel.setJsonSetting(JSON.toJSONString(smsSettingVoNew));
@@ -1093,12 +1093,12 @@ public class SenderActivity extends AppCompatActivity {
                 initSenders();
                 adapter.add(senderModels);
             } else {
-                senderModel.setName(editTextSmsName.getText().toString());
+                senderModel.setName(editTextSmsName.getText().toString().trim());
                 senderModel.setType(TYPE_SMS);
                 senderModel.setStatus(STATUS_ON);
                 SmsSettingVo smsSettingVoNew = new SmsSettingVo(
                         senderModel.getSmsSimSlotId(radioGroupSmsSimSlot.getCheckedRadioButtonId()),
-                        editTextSmsMobiles.getText().toString(),
+                        editTextSmsMobiles.getText().toString().trim(),
                         switchSmsOnlyNoNetwork.isChecked()
                 );
                 senderModel.setJsonSetting(JSON.toJSONString(smsSettingVoNew));
@@ -1123,7 +1123,7 @@ public class SenderActivity extends AppCompatActivity {
             if (R.id.btnSmsSimSlot2 == radioGroupSmsSimSlot.getCheckedRadioButtonId()) {
                 simSlot = 1;
             }
-            String mobiles = editTextSmsMobiles.getText().toString();
+            String mobiles = editTextSmsMobiles.getText().toString().trim();
             Boolean onlyNoNetwork = switchSmsOnlyNoNetwork.isChecked();
             if (!mobiles.isEmpty()) {
                 try {
@@ -1175,23 +1175,23 @@ public class SenderActivity extends AppCompatActivity {
 
             if (senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
-                newSenderModel.setName(editTextFeishuName.getText().toString());
+                newSenderModel.setName(editTextFeishuName.getText().toString().trim());
                 newSenderModel.setType(TYPE_FEISHU);
                 newSenderModel.setStatus(STATUS_ON);
                 FeiShuSettingVo feiShuSettingVoNew = new FeiShuSettingVo(
-                        editTextFeishuWebhook.getText().toString(),
-                        editTextFeishuSecret.getText().toString());
+                        editTextFeishuWebhook.getText().toString().trim(),
+                        editTextFeishuSecret.getText().toString().trim());
                 newSenderModel.setJsonSetting(JSON.toJSONString(feiShuSettingVoNew));
                 SenderUtil.addSender(newSenderModel);
                 initSenders();
                 adapter.add(senderModels);
             } else {
-                senderModel.setName(editTextFeishuName.getText().toString());
+                senderModel.setName(editTextFeishuName.getText().toString().trim());
                 senderModel.setType(TYPE_FEISHU);
                 senderModel.setStatus(STATUS_ON);
                 FeiShuSettingVo feiShuSettingVoNew = new FeiShuSettingVo(
-                        editTextFeishuWebhook.getText().toString(),
-                        editTextFeishuSecret.getText().toString());
+                        editTextFeishuWebhook.getText().toString().trim(),
+                        editTextFeishuSecret.getText().toString().trim());
                 senderModel.setJsonSetting(JSON.toJSONString(feiShuSettingVoNew));
                 SenderUtil.updateSender(senderModel);
                 initSenders();
@@ -1210,8 +1210,8 @@ public class SenderActivity extends AppCompatActivity {
         });
 
         buttonFeishuTest.setOnClickListener(view -> {
-            String token = editTextFeishuWebhook.getText().toString();
-            String secret = editTextFeishuSecret.getText().toString();
+            String token = editTextFeishuWebhook.getText().toString().trim();
+            String secret = editTextFeishuSecret.getText().toString().trim();
             if (!token.isEmpty()) {
                 try {
                     SenderFeishuMsg.sendMsg(0, handler, token, secret, getString(R.string.test_content) + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
@@ -1272,7 +1272,7 @@ public class SenderActivity extends AppCompatActivity {
 
             if (senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
-                newSenderModel.setName(editTextPushPlusName.getText().toString());
+                newSenderModel.setName(editTextPushPlusName.getText().toString().trim());
                 newSenderModel.setType(TYPE_PUSHPLUS);
                 newSenderModel.setStatus(STATUS_ON);
                 PushPlusSettingVo pushPlusSettingVoNew = new PushPlusSettingVo(

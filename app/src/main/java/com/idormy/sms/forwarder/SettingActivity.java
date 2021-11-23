@@ -160,7 +160,7 @@ public class SettingActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                SettingUtil.setAddExtraDeviceMark(et_add_extra_device_mark.getText().toString());
+                SettingUtil.setAddExtraDeviceMark(et_add_extra_device_mark.getText().toString().trim());
             }
         });
     }
@@ -180,7 +180,7 @@ public class SettingActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                SettingUtil.setAddExtraSim1(et_add_extra_sim1.getText().toString());
+                SettingUtil.setAddExtraSim1(et_add_extra_sim1.getText().toString().trim());
             }
         });
     }
@@ -200,7 +200,7 @@ public class SettingActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                SettingUtil.setAddExtraSim2(et_add_extra_sim2.getText().toString());
+                SettingUtil.setAddExtraSim2(et_add_extra_sim2.getText().toString().trim());
             }
         });
     }
@@ -220,7 +220,7 @@ public class SettingActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String batteryLevel = et_battery_level_alarm.getText().toString();
+                String batteryLevel = et_battery_level_alarm.getText().toString().trim();
                 if (!batteryLevel.isEmpty()) {
                     SettingUtil.setBatteryLevelAlarm(Integer.parseInt(batteryLevel));
                 } else {
@@ -245,7 +245,7 @@ public class SettingActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String delayTime = et_retry_delay_time.getText().toString();
+                String delayTime = et_retry_delay_time.getText().toString().trim();
                 if (!delayTime.isEmpty()) {
                     SettingUtil.setRetryDelayTime(index, Integer.parseInt(delayTime));
                 } else {
@@ -291,7 +291,7 @@ public class SettingActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                SettingUtil.setSmsTemplate(textSmsTemplate.getText().toString());
+                SettingUtil.setSmsTemplate(textSmsTemplate.getText().toString().trim());
             }
         });
     }
@@ -335,7 +335,7 @@ public class SettingActivity extends AppCompatActivity {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = preferences.edit();
             editor.clear();
-            editor.commit();
+            editor.apply();
 
             //初始化数据库
             DbHelper dbHelper = new DbHelper(this);
