@@ -30,7 +30,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-@SuppressWarnings({"ResultOfMethodCallIgnored", "rawtypes", "unchecked", "deprecation"})
+@SuppressWarnings("ALL")
 public class SenderFeishuMsg extends SenderBaseMsg {
 
     static final String TAG = "SenderFeishuMsg";
@@ -56,7 +56,7 @@ public class SenderFeishuMsg extends SenderBaseMsg {
             mac.init(new SecretKeySpec(stringToSign.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
             byte[] signData = mac.doFinal(new byte[]{});
             String sign = new String(Base64.encode(signData, Base64.NO_WRAP));
-            
+
             textMsgMap.put("timestamp", timestamp);
             textMsgMap.put("sign", sign);
         }

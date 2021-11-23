@@ -28,7 +28,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-@SuppressWarnings({"deprecation", "rawtypes", "unchecked", "CommentedOutCode", "SynchronizeOnNonFinalField", "unused", "SameReturnValue"})
+@SuppressWarnings({"deprecation", "rawtypes", "unchecked", "CommentedOutCode", "SynchronizeOnNonFinalField", "unused", "SameReturnValue", "SpellCheckingInspection"})
 public class PhoneUtils {
     static Boolean hasInit = false;
     @SuppressLint("StaticFieldLeak")
@@ -530,6 +530,7 @@ public class PhoneUtils {
     /**
      * SIM 卡信息
      */
+    @SuppressWarnings("SpellCheckingInspection")
     public static class SimInfo {
         /**
          * 运营商信息：中国移动 中国联通 中国电信

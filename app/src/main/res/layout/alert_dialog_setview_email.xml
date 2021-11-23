@@ -223,11 +223,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
-                android:inputType="textMultiLine"
+                android:inputType="text"
                 android:gravity="start|top"
                 android:minLines="1"
                 android:text=""
-                tools:ignore="LabelFor" />
+                tools:ignore="LabelFor,TextFields" />
 
             <LinearLayout
                 android:layout_width="match_parent"

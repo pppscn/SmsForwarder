@@ -10,7 +10,7 @@ import com.idormy.sms.forwarder.model.vo.SmsVo;
 import java.util.Date;
 import java.util.Scanner;
 
-@SuppressWarnings("unused")
+@SuppressWarnings("ALL")
 public class RuleLineUtils {
     static final String TAG = "RuleLineUtils";
     static Boolean STARTLOG = false;

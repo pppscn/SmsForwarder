@@ -211,7 +211,7 @@ public class SettingUtil {
         // 获取PackageManager的实例
         PackageManager packageManager = context.getPackageManager();
         // getPackageName()是你当前类的包名，0代表是获取版本信息
-        PackageInfo packInfo = null;
+        PackageInfo packInfo;
         try {
             packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
             return packInfo.versionName;

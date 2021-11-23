@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "SpellCheckingInspection"})
 class RuleLine {
     public static final String CONJUNCTION_AND = "并且";
     public static final String CONJUNCTION_OR = "或者";

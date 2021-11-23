@@ -748,6 +748,7 @@ public class SenderActivity extends AppCompatActivity {
     }
 
     //企业微信群机器人
+    @SuppressWarnings("SpellCheckingInspection")
     @SuppressLint("SimpleDateFormat")
     private void setQYWXGroupRobot(final SenderModel senderModel) {
         QYWXGroupRobotSettingVo qywxGroupRobotSettingVo = null;
@@ -832,6 +833,7 @@ public class SenderActivity extends AppCompatActivity {
     }
 
     //企业微信应用
+    @SuppressWarnings("SpellCheckingInspection")
     @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
     private void setQYWXApp(final SenderModel senderModel) {
         QYWXAppSettingVo QYWXAppSettingVo = null;

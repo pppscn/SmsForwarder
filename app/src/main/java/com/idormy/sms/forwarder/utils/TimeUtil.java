@@ -11,11 +11,11 @@ public class TimeUtil {
 
     //友好时间显示
     public static String friendlyTime(String utcTime) {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat utcFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        utcFormater.setTimeZone(TimeZone.getTimeZone("UTC"));//时区定义并进行时间获取
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat utcFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        utcFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));//时区定义并进行时间获取
         Date utcDate;
         try {
-            utcDate = utcFormater.parse(utcTime);
+            utcDate = utcFormatter.parse(utcTime);
         } catch (ParseException e) {
             e.printStackTrace();
             return utcTime;
@@ -59,21 +59,21 @@ public class TimeUtil {
     public static String utc2Local(String utcTime) {
         String utcTimePatten = "yyyy-MM-dd HH:mm:ss";
         String localTimePatten = "yyyy-MM-dd HH:mm:ss";
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat utcFormater = new SimpleDateFormat(utcTimePatten);
-        utcFormater.setTimeZone(TimeZone.getTimeZone("UTC"));//时区定义并进行时间获取
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat utcFormatter = new SimpleDateFormat(utcTimePatten);
+        utcFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));//时区定义并进行时间获取
 
         Date utcDate;
         try {
-            utcDate = utcFormater.parse(utcTime);
+            utcDate = utcFormatter.parse(utcTime);
         } catch (ParseException e) {
             e.printStackTrace();
             return utcTime;
         }
 
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat localFormater = new SimpleDateFormat(localTimePatten);
-        localFormater.setTimeZone(TimeZone.getDefault());
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat localFormatter = new SimpleDateFormat(localTimePatten);
+        localFormatter.setTimeZone(TimeZone.getDefault());
         assert utcDate != null;
-        return localFormater.format(utcDate.getTime());
+        return localFormatter.format(utcDate.getTime());
     }
 
 }
