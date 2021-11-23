@@ -129,6 +129,7 @@
     <string name="email_password">Password/Auth Code</string>
     <string name="email_nickname">Nickname</string>
     <string name="email_to">Send To</string>
+    <string name="email_title">Email Title</string>
     <string name="feishu_webhook">Webhook</string>
     <string name="feishu_secret">Secret (optional)</string>
     <string name="Corp_ID">Corp ID</string>

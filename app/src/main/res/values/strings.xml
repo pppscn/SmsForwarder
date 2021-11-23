@@ -129,6 +129,7 @@
     <string name="email_password">登录密码/授权码</string>
     <string name="email_nickname">发件人昵称</string>
     <string name="email_to">收件地址</string>
+    <string name="email_title">邮件主题</string>
     <string name="feishu_webhook">Webhook 地址</string>
     <string name="feishu_secret">加签 Secret (没有可不填)</string>
     <string name="Corp_ID">Corp ID</string>

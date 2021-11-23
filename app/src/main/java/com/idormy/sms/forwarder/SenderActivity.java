@@ -353,21 +353,25 @@ public class SenderActivity extends AppCompatActivity {
 
         final EditText editTextEmailName = view1.findViewById(R.id.editTextEmailName);
         if (senderModel != null) editTextEmailName.setText(senderModel.getName());
-        final EditText editTextEmailHost = view1.findViewById(R.id.editTextEmailHost);
-        if (emailSettingVo != null) editTextEmailHost.setText(emailSettingVo.getHost());
-        final EditText editTextEmailPort = view1.findViewById(R.id.editTextEmailPort);
-        if (emailSettingVo != null) editTextEmailPort.setText(emailSettingVo.getPort());
 
+        final EditText editTextEmailHost = view1.findViewById(R.id.editTextEmailHost);
+        final EditText editTextEmailPort = view1.findViewById(R.id.editTextEmailPort);
         @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchEmailSSl = view1.findViewById(R.id.switchEmailSSl);
-        if (emailSettingVo != null) switchEmailSSl.setChecked(emailSettingVo.getSsl());
         final EditText editTextEmailFromAdd = view1.findViewById(R.id.editTextEmailFromAdd);
-        if (emailSettingVo != null) editTextEmailFromAdd.setText(emailSettingVo.getFromEmail());
         final EditText editTextEmailNickname = view1.findViewById(R.id.editTextEmailNickname);
-        if (emailSettingVo != null) editTextEmailNickname.setText(emailSettingVo.getNickname());
         final EditText editTextEmailPsw = view1.findViewById(R.id.editTextEmailPsw);
-        if (emailSettingVo != null) editTextEmailPsw.setText(emailSettingVo.getPwd());
         final EditText editTextEmailToAdd = view1.findViewById(R.id.editTextEmailToAdd);
-        if (emailSettingVo != null) editTextEmailToAdd.setText(emailSettingVo.getToEmail());
+        final EditText editTextEmailTitle = view1.findViewById(R.id.editTextEmailTitle);
+        if (emailSettingVo != null) {
+            editTextEmailHost.setText(emailSettingVo.getHost());
+            editTextEmailPort.setText(emailSettingVo.getPort());
+            switchEmailSSl.setChecked(emailSettingVo.getSsl());
+            editTextEmailFromAdd.setText(emailSettingVo.getFromEmail());
+            editTextEmailNickname.setText(emailSettingVo.getNickname());
+            editTextEmailPsw.setText(emailSettingVo.getPwd());
+            editTextEmailToAdd.setText(emailSettingVo.getToEmail());
+            editTextEmailTitle.setText(emailSettingVo.getTitle());
+        }
 
         Button buttonEmailOk = view1.findViewById(R.id.buttonEmailOk);
         Button buttonEmailDel = view1.findViewById(R.id.buttonEmailDel);
@@ -380,7 +384,6 @@ public class SenderActivity extends AppCompatActivity {
         final AlertDialog show = alertDialog71.show();
 
         buttonEmailOk.setOnClickListener(view -> {
-
             if (senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextEmailName.getText().toString());
@@ -393,7 +396,8 @@ public class SenderActivity extends AppCompatActivity {
                         editTextEmailFromAdd.getText().toString(),
                         editTextEmailNickname.getText().toString(),
                         editTextEmailPsw.getText().toString(),
-                        editTextEmailToAdd.getText().toString()
+                        editTextEmailToAdd.getText().toString(),
+                        editTextEmailTitle.getText().toString()
                 );
                 newSenderModel.setJsonSetting(JSON.toJSONString(emailSettingVoNew));
                 SenderUtil.addSender(newSenderModel);
@@ -410,7 +414,8 @@ public class SenderActivity extends AppCompatActivity {
                         editTextEmailFromAdd.getText().toString(),
                         editTextEmailNickname.getText().toString(),
                         editTextEmailPsw.getText().toString(),
-                        editTextEmailToAdd.getText().toString()
+                        editTextEmailToAdd.getText().toString(),
+                        editTextEmailTitle.getText().toString()
                 );
                 senderModel.setJsonSetting(JSON.toJSONString(emailSettingVoNew));
                 SenderUtil.updateSender(senderModel);
@@ -419,8 +424,6 @@ public class SenderActivity extends AppCompatActivity {
             }
 
             show.dismiss();
-
-
         });
         buttonEmailDel.setOnClickListener(view -> {
             if (senderModel != null) {
@@ -438,14 +441,15 @@ public class SenderActivity extends AppCompatActivity {
             String pwd = editTextEmailPsw.getText().toString();
             String toEmail = editTextEmailToAdd.getText().toString();
 
+            String title = editTextEmailTitle.getText().toString();
+            if (title.isEmpty()) title = "SmsForwarder Title";
+
             String nickname = editTextEmailNickname.getText().toString();
-            if (nickname.equals("")) {
-                nickname = "SmsForwarder";
-            }
+            if (nickname.isEmpty()) nickname = "SmsForwarder";
 
             if (!host.isEmpty() && !port.isEmpty() && !fromEmail.isEmpty() && !pwd.isEmpty() && !toEmail.isEmpty()) {
                 try {
-                    SenderMailMsg.sendEmail(0, handler, host, port, ssl, fromEmail, nickname, pwd, toEmail, "SmsForwarder Title", R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                    SenderMailMsg.sendEmail(0, handler, host, port, ssl, fromEmail, nickname, pwd, toEmail, title, R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                 } catch (Exception e) {
                     Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
@@ -454,6 +458,36 @@ public class SenderActivity extends AppCompatActivity {
                 Toast.makeText(SenderActivity.this, R.string.invalid_email, Toast.LENGTH_LONG).show();
             }
         });
+
+
+        Button buttonInsertSender = view1.findViewById(R.id.bt_insert_sender);
+        buttonInsertSender.setOnClickListener(view -> {
+            editTextEmailTitle.setFocusable(true);
+            editTextEmailTitle.requestFocus();
+            editTextEmailTitle.append("{{来源号码}}");
+        });
+
+        Button buttonInsertExtra = view1.findViewById(R.id.bt_insert_extra);
+        buttonInsertExtra.setOnClickListener(view -> {
+            editTextEmailTitle.setFocusable(true);
+            editTextEmailTitle.requestFocus();
+            editTextEmailTitle.append("{{卡槽信息}}");
+        });
+
+        Button buttonInsertTime = view1.findViewById(R.id.bt_insert_time);
+        buttonInsertTime.setOnClickListener(view -> {
+            editTextEmailTitle.setFocusable(true);
+            editTextEmailTitle.requestFocus();
+            editTextEmailTitle.append("{{接收时间}}");
+        });
+
+        Button buttonInsertDeviceName = view1.findViewById(R.id.bt_insert_device_name);
+        buttonInsertDeviceName.setOnClickListener(view -> {
+            editTextEmailTitle.setFocusable(true);
+            editTextEmailTitle.requestFocus();
+            editTextEmailTitle.append("{{设备名称}}");
+        });
+
     }
 
     //Bark
