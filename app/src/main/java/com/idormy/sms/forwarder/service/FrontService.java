@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.BitmapFactory;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.IBinder;
@@ -24,6 +25,7 @@ import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.utils.CommonUtil;
+import com.idormy.sms.forwarder.utils.OSUtil;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 
@@ -44,7 +46,10 @@ public class FrontService extends Service {
         Log.i(TAG, "onCreate");
         Notification.Builder builder = new Notification.Builder(this);
         builder.setSmallIcon(R.drawable.ic_forwarder);
-        builder.setContentTitle(getString(R.string.app_name));
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+        if (OSUtil.isMIUI()) {
+            builder.setContentTitle(getString(R.string.app_name));
+        }
         builder.setContentText(getString(R.string.notification_content));
         Intent intent = new Intent(this, MainActivity.class);
         @SuppressLint("UnspecifiedImmutableFlag") PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
