@@ -122,10 +122,13 @@
     <string name="dingding_token">设置Token 例如 https://oapi.dingtalk.com/robot/send?access_token=XXXXXX 中的 XXXXXX</string>
     <string name="dingding_secret">加签 Secret (没有可不填)</string>
     <string name="dingding_at">转发时@某人 填写某人的手机号，多个用逗号分开 例如：18888888888,19999999999</string>
-    <string name="email_host">SMTP服务器</string>
-    <string name="smtp_port">SMTP端口</string>
+    <string name="email_protocol">协议类型</string>
+    <string name="email_smtp">SMTP</string>
+    <string name="email_imap">IMAP</string>
+    <string name="email_host">服务器地址</string>
+    <string name="smtp_port">服务器端口</string>
     <string name="enable_ssl">开启SSL</string>
-    <string name="email_account">发件人帐号</string>
+    <string name="email_account">发件人邮箱</string>
     <string name="email_password">登录密码/授权码</string>
     <string name="email_nickname">发件人昵称</string>
     <string name="email_to">收件地址</string>
@@ -237,4 +240,7 @@
     <string name="pushplus_callback">回调地址</string>
     <string name="pushplus_valid_time">有效时间(秒)</string>
     <string name="wechat">wechat</string>
+    <string name="account">✱帐户管理</string>
+    <string name="servers">✱服务器信息</string>
+    <string name="email">✱邮件设置</string>
 </resources>

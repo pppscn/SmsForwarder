@@ -122,8 +122,11 @@
     <string name="dingding_token">Token e.g. the XXXXXX part of https://oapi.dingtalk.com/robot/send?access_token=XXXXXX</string>
     <string name="dingding_secret">Secret (optional)</string>
     <string name="dingding_at">At Mobiles e.g. 18888888888,19999999999</string>
-    <string name="email_host">SMTP Host</string>
-    <string name="smtp_port">SMTP Port</string>
+    <string name="email_protocol">Protocol</string>
+    <string name="email_smtp">SMTP</string>
+    <string name="email_imap">IMAP </string>
+    <string name="email_host">Server Host</string>
+    <string name="smtp_port">Server Port</string>
     <string name="enable_ssl">SSL</string>
     <string name="email_account">Account</string>
     <string name="email_password">Password/Auth Code</string>
@@ -238,4 +241,7 @@
     <string name="pushplus_callback">Callback Url</string>
     <string name="pushplus_valid_time">Valid time(secs)</string>
     <string name="wechat">wechat</string>
+    <string name="account">✱Account</string>
+    <string name="servers">✱Servers</string>
+    <string name="email">✱Email</string>
 </resources>

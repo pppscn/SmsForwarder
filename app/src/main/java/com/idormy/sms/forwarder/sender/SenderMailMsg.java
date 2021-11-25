@@ -18,9 +18,9 @@ import io.reactivex.rxjava3.core.ObservableEmitter;
 public class SenderMailMsg extends SenderBaseMsg {
     private static final String TAG = "SenderMailMsg";
 
-    public static void sendEmail(final long logId, final Handler handError, final String host, final String port, final boolean ssl, final String fromEmail, final String nickname, final String pwd, final String toAdd, final String title, final String content) {
+    public static void sendEmail(final long logId, final Handler handError, final String protocol, final String host, final String port, final boolean ssl, final String fromEmail, final String nickname, final String pwd, final String toAdd, final String title, final String content) {
 
-        Log.d(TAG, "sendEmail: host:" + host + " port:" + port + " ssl:" + ssl + " fromEmail:" + fromEmail + " nickname:" + nickname + " pwd:" + pwd + " toAdd:" + toAdd);
+        Log.d(TAG, "sendEmail: protocol:" + protocol + " host:" + host + " port:" + port + " ssl:" + ssl + " fromEmail:" + fromEmail + " nickname:" + nickname + " pwd:" + pwd + " toAdd:" + toAdd);
 
         Observable
                 .create((ObservableEmitter<Object> emitter) -> {

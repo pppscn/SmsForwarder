@@ -362,7 +362,9 @@ public class SenderActivity extends AppCompatActivity {
         final EditText editTextEmailPsw = view1.findViewById(R.id.editTextEmailPsw);
         final EditText editTextEmailToAdd = view1.findViewById(R.id.editTextEmailToAdd);
         final EditText editTextEmailTitle = view1.findViewById(R.id.editTextEmailTitle);
+        final RadioGroup radioGroupEmailProtocol = view1.findViewById(R.id.radioGroupEmailProtocol);
         if (emailSettingVo != null) {
+            radioGroupEmailProtocol.check(emailSettingVo.getEmailProtocolCheckId());
             editTextEmailHost.setText(emailSettingVo.getHost());
             editTextEmailPort.setText(emailSettingVo.getPort());
             switchEmailSSl.setChecked(emailSettingVo.getSsl());
@@ -384,21 +386,31 @@ public class SenderActivity extends AppCompatActivity {
         final AlertDialog show = alertDialog71.show();
 
         buttonEmailOk.setOnClickListener(view -> {
+            String protocol = radioGroupEmailProtocol.getCheckedRadioButtonId() == R.id.radioEmailProtocolSmtp ? "SMTP" : "IMAP";
+            String host = editTextEmailHost.getText().toString().trim();
+            String port = editTextEmailPort.getText().toString().trim();
+            boolean ssl = switchEmailSSl.isChecked();
+            String fromEmail = editTextEmailFromAdd.getText().toString().trim();
+            String pwd = editTextEmailPsw.getText().toString().trim();
+            String toEmail = editTextEmailToAdd.getText().toString().trim();
+
+            String title = editTextEmailTitle.getText().toString().trim();
+            if (title.isEmpty()) title = "SmsForwarder Title";
+
+            String nickname = editTextEmailNickname.getText().toString().trim();
+            if (nickname.isEmpty()) nickname = "SmsForwarder";
+            if (host.isEmpty() || port.isEmpty() || fromEmail.isEmpty() || pwd.isEmpty() || toEmail.isEmpty()) {
+                Toast.makeText(SenderActivity.this, R.string.invalid_email, Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            EmailSettingVo emailSettingVoNew = new EmailSettingVo(protocol, host, port, ssl, fromEmail, nickname, pwd, toEmail, title);
+
             if (senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextEmailName.getText().toString().trim());
                 newSenderModel.setType(TYPE_EMAIL);
                 newSenderModel.setStatus(STATUS_ON);
-                EmailSettingVo emailSettingVoNew = new EmailSettingVo(
-                        editTextEmailHost.getText().toString().trim(),
-                        editTextEmailPort.getText().toString().trim(),
-                        switchEmailSSl.isChecked(),
-                        editTextEmailFromAdd.getText().toString().trim(),
-                        editTextEmailNickname.getText().toString().trim(),
-                        editTextEmailPsw.getText().toString().trim(),
-                        editTextEmailToAdd.getText().toString().trim(),
-                        editTextEmailTitle.getText().toString().trim()
-                );
                 newSenderModel.setJsonSetting(JSON.toJSONString(emailSettingVoNew));
                 SenderUtil.addSender(newSenderModel);
                 initSenders();
@@ -407,16 +419,6 @@ public class SenderActivity extends AppCompatActivity {
                 senderModel.setName(editTextEmailName.getText().toString().trim());
                 senderModel.setType(TYPE_EMAIL);
                 senderModel.setStatus(STATUS_ON);
-                EmailSettingVo emailSettingVoNew = new EmailSettingVo(
-                        editTextEmailHost.getText().toString().trim(),
-                        editTextEmailPort.getText().toString().trim(),
-                        switchEmailSSl.isChecked(),
-                        editTextEmailFromAdd.getText().toString().trim(),
-                        editTextEmailNickname.getText().toString().trim(),
-                        editTextEmailPsw.getText().toString().trim(),
-                        editTextEmailToAdd.getText().toString().trim(),
-                        editTextEmailTitle.getText().toString().trim()
-                );
                 senderModel.setJsonSetting(JSON.toJSONString(emailSettingVoNew));
                 SenderUtil.updateSender(senderModel);
                 initSenders();
@@ -434,6 +436,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
         buttonEmailTest.setOnClickListener(view -> {
+            String protocol = radioGroupEmailProtocol.getCheckedRadioButtonId() == R.id.radioEmailProtocolSmtp ? "SMTP" : "IMAP";
             String host = editTextEmailHost.getText().toString().trim();
             String port = editTextEmailPort.getText().toString().trim();
             boolean ssl = switchEmailSSl.isChecked();
@@ -449,7 +452,7 @@ public class SenderActivity extends AppCompatActivity {
 
             if (!host.isEmpty() && !port.isEmpty() && !fromEmail.isEmpty() && !pwd.isEmpty() && !toEmail.isEmpty()) {
                 try {
-                    SenderMailMsg.sendEmail(0, handler, host, port, ssl, fromEmail, nickname, pwd, toEmail, title, R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                    SenderMailMsg.sendEmail(0, handler, protocol, host, port, ssl, fromEmail, nickname, pwd, toEmail, title, R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                 } catch (Exception e) {
                     Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
