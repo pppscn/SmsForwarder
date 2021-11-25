@@ -183,7 +183,7 @@
     <string name="battery_setting">设置电池优化</string>
     <string name="request_permission">请求通知权限</string>
     <string name="unknown_number">未知号码</string>
-    <string name="calling">来电</string>
+    <string name="calling">的来电未接</string>
     <string name="unsupport">您的手机不支持此设置</string>
     <string name="isIgnored">已将省电优化设置为无限制(不优化)！</string>
     <!--Other-->
