@@ -533,29 +533,42 @@ public class PhoneUtils {
     /**
      * 获取后一条通话记录
      */
-    public static CallInfo getLastCallInfo() {
+    public static CallInfo getLastCallInfo(String phoneNumber) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
             return null;
         }
 
-        String[] columns = {CallLog.Calls.CACHED_NAME// 通话记录的联系人
-                , CallLog.Calls.NUMBER// 通话记录的电话号码
-                , CallLog.Calls.DATE// 通话记录的日期
-                , CallLog.Calls.DURATION// 通话时长
-                , CallLog.Calls.TYPE// 通话类型
-                , CallLog.Calls.PHONE_ACCOUNT_ID
-        };
+        try {
+            String[] columns = {CallLog.Calls.CACHED_NAME// 通话记录的联系人
+                    , CallLog.Calls.NUMBER// 通话记录的电话号码
+                    , CallLog.Calls.DATE// 通话记录的日期
+                    , CallLog.Calls.DURATION// 通话时长
+                    , CallLog.Calls.TYPE// 通话类型
+                    , CallLog.Calls.PHONE_ACCOUNT_ID
+            };
 
-        @SuppressLint("Recycle") Cursor cursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, CallLog.Calls.DATE + " DESC");
-        while (cursor.moveToNext()) {
-            return new CallInfo(
-                    cursor.getString(cursor.getColumnIndex(CallLog.Calls.CACHED_NAME)),  //姓名
-                    cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER)),  //号码
-                    cursor.getLong(cursor.getColumnIndex(CallLog.Calls.DATE)), //获取通话日期
-                    cursor.getInt(cursor.getColumnIndex(CallLog.Calls.DURATION)),//获取通话时长，值为多少秒
-                    cursor.getInt(cursor.getColumnIndex(CallLog.Calls.TYPE)), //获取通话类型：1.呼入2.呼出3.未接
-                    cursor.getInt(cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID))
-            );
+            CallInfo callInfo;
+            Cursor cursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, null,
+                    CallLog.Calls.NUMBER + " like ?",
+                    new String[]{phoneNumber + "%"}, CallLog.Calls.DEFAULT_SORT_ORDER);
+            Log.i(TAG, "cursor count:" + cursor.getCount());
+
+            //noinspection LoopStatementThatDoesntLoop
+            while (cursor.moveToNext()) {
+                callInfo = new CallInfo(
+                        cursor.getString(cursor.getColumnIndex(CallLog.Calls.CACHED_NAME)),  //姓名
+                        cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER)),  //号码
+                        cursor.getLong(cursor.getColumnIndex(CallLog.Calls.DATE)), //获取通话日期
+                        cursor.getInt(cursor.getColumnIndex(CallLog.Calls.DURATION)),//获取通话时长，值为多少秒
+                        cursor.getInt(cursor.getColumnIndex(CallLog.Calls.TYPE)), //获取通话类型：1.呼入2.呼出3.未接
+                        cursor.getInt(cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID))
+                );
+                Log.d(TAG, callInfo.toString());
+                cursor.close();
+                return callInfo;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "getLastCallInfo:", e);
         }
 
         return null;
