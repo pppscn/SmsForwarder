@@ -3,16 +3,17 @@ package com.idormy.sms.forwarder.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.idormy.sms.forwarder.R;
+import com.idormy.sms.forwarder.model.CallInfo;
 import com.idormy.sms.forwarder.model.PhoneBookEntity;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.utils.ContactHelper;
+import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.idormy.sms.forwarder.utils.SimUtil;
 
@@ -31,30 +32,6 @@ public class PhoneStateReceiver extends BroadcastReceiver {
 
         String action = intent.getAction();
         if (TelephonyManager.ACTION_PHONE_STATE_CHANGED.equals(action)) {
-            //获取卡槽信息
-            Bundle extras = intent.getExtras();
-            String simInfo = "";
-            //卡槽ID，默认卡槽为1
-            int simId = 1;
-            try {
-                if (extras.containsKey("simId")) {
-                    simId = extras.getInt("simId");
-                } else if (extras.containsKey("subscription")) {
-                    simId = SimUtil.getSimIdBySubscriptionId(extras.getInt("subscription"));
-                }
-
-                //自定义备注优先
-                simInfo = simId == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1();
-                if (!simInfo.isEmpty()) {
-                    simInfo = "SIM" + simId + "_" + simInfo;
-                } else {
-                    simInfo = SimUtil.getSimInfo(simId);
-                }
-            } catch (Exception e) {
-                Log.e(TAG, "获取接收手机号失败：" + e.getMessage());
-            }
-            Log.d(TAG, "卡槽信息：" + simInfo);
-
             //获取来电号码
             String phoneNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
             if (mTelephonyManager == null) {
@@ -66,7 +43,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
             switch (state) {
                 case TelephonyManager.CALL_STATE_RINGING:
                     if (!TextUtils.isEmpty(phoneNumber)) {
-                        sendReceiveCallMsg(context, phoneNumber, simId, simInfo);
+                        sendReceiveCallMsg(context, phoneNumber);
                     }
                     break;
                 case TelephonyManager.CALL_STATE_IDLE:
@@ -78,13 +55,34 @@ public class PhoneStateReceiver extends BroadcastReceiver {
 
     }
 
-    private void sendReceiveCallMsg(Context context, String phoneNumber, int simId, String simInfo) {
-        List<PhoneBookEntity> contacts = ContactHelper.getInstance().getContactByNumber(context, phoneNumber);
+    private void sendReceiveCallMsg(Context context, String phoneNumber) {
+        int simId = 0;
         String name = "";
-        if (contacts != null && contacts.size() > 0) {
-            PhoneBookEntity phoneBookEntity = contacts.get(0);
-            name = phoneBookEntity.getName();
+        String simInfo = "";
+
+        //获取后一条通话记录
+        CallInfo callInfo = PhoneUtils.getLastCallInfo();
+        if (callInfo != null) {
+            Log.d(TAG, callInfo.toString());
+
+            simId = SimUtil.getSimIdBySubscriptionId(callInfo.getSubscriptionId());
+            //自定义备注优先
+            simInfo = simId == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1();
+            if (!simInfo.isEmpty()) {
+                simInfo = "SIM" + simId + "_" + simInfo;
+            } else {
+                simInfo = SimUtil.getSimInfo(simId);
+            }
+
+            name = callInfo.getName();
+        } else {
+            List<PhoneBookEntity> contacts = ContactHelper.getInstance().getContactByNumber(context, phoneNumber);
+            if (contacts != null && contacts.size() > 0) {
+                PhoneBookEntity phoneBookEntity = contacts.get(0);
+                name = phoneBookEntity.getName();
+            }
         }
+
         if (TextUtils.isEmpty(name)) {
             name = context.getString(R.string.unknown_number);
         }

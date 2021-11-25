@@ -76,7 +76,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                         String content = mobileToContent.get(mobile);
                         if (content == null) content = "";
 
-                        content += sms.getMessageBody();//短信内容
+                        content += sms.getMessageBody().trim();//短信内容
                         mobileToContent.put(mobile, content);
 
                     }
