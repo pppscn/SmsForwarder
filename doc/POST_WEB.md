@@ -1,26 +1,61 @@
-## 配置转发到WEB后，测试或者转发时会向配置的token即url发送POST请求
+# 1、请求方式： GET
 
-> ⚠ 有一个已经实现好的站点[消息通知](https://msg.allmything.com)
+- `webParams` 参数无需填写（填写了也无效）
+- 在 `WebServer` 的基础上，追加 `2、post form 参数列表` 所列的节点经过`urlEncode`的值
 
-### 请求体如下
+***
 
-> post form 参数：
+# 2、请求方式： POST
+
+## 2.1 `webParams` 非空，包含 `[msg]` 标签、并且以 `{` 开头的 `json` 报文
+
+将 `短信内容(content)` 替换报文中的 `[msg]` 标签，然后以 `application/json;charset=utf-8` 形式 `POST` 提交
+
+## 2.2 `webParams` 非空，包含 `[msg]` 标签、不以 `{` 开头
+
+将 `短信内容(content)` 经过 `URLEncoder.encode(content, "UTF-8")` 处理后，替换报文中的 `[msg]` 标签，然后以 `application/x-www-form-urlencoded` 形式 `POST` 提交
+
+## 2.3 `webParams` 为空
+
+将以 `application/x-www-form-urlencoded` 形式 `POST` 提交 `2、参数列表` 所列节点的表单（PS. 此形式适用于 `附录1`）
+
+***
+
+# 2、post form 参数列表
 
 |  key   | 类型  |  说明  |
 |  ----  | ----  | ----  |
 | from  | string  | 来源手机号 |
 | content  | string  | 短信内容 |
 | timestamp  | string |  当前时间戳，单位是毫秒，（建议验证与请求调用时间误差不能超过1小时，防止重放欺骗） |
-| sign  | string  | 当设置secret时，生成的sign签名，用于发送端校验，规则见下方sign校验规则 |
+| sign  | string  | 当设置`secret`时，生成的`sign`签名，用于发送端校验，规则见下方`sign`校验规则 |
 
-* get请求的时，以上节点经过urlEncode后加在url上
-* sign部分参考借鉴了[阿里钉钉群机器人的sign生成](https://developers.dingtalk.com/document/app/custom-robot-access)
+* `sign` 部分参考借鉴了 [阿里钉钉群机器人的sign生成](https://developers.dingtalk.com/document/app/custom-robot-access)
+* `sign` 校验规则：
 
-### sign校验规则
+把 `timestamp+"\n"+密钥` 当做签名字符串，使用 `HmacSHA256` 算法计算签名，然后进行 Base64 encode，最后再把签名参数再进行urlEncode，得到最终的签名（需要使用UTF-8字符集）
 
-把timestamp+"\n"+密钥当做签名字符串，使用HmacSHA256算法计算签名，然后进行Base64 encode，最后再把签名参数再进行urlEncode，得到最终的签名（需要使用UTF-8字符集） | 参数 | 说明 | | ---- | ---- | | timestamp | 当前时间戳，单位是毫秒，（建议验证与请求调用时间误差不能超过1小时，防止重放欺骗） | | secret | 密钥，web通知设置页面，secret |
+| 参数 | 说明 |
+| ---- | ---- |
+| timestamp | 当前时间戳，单位是毫秒，（建议验证与请求调用时间误差不能超过1小时，防止重放欺骗） |
+| secret | 密钥，web通知设置页面，secret |
 
-示例：
+
+***
+
+
+# 附录：
+
+## 1、一个现成的 `webhook` 服务端站点：可以在线查看 [消息通知](https://msg.allmything.com) 
+
+来自：[TSMS](https://github.com/xiaoyuanhost/TranspondSms)
+
+登录之后，可以获取到一个带token的链接（类似：https://api.sl.willanddo.com/api/msg/pushMsg?token=123456）
+
+此链接填写到 `WebServer` ， `webParams` 留空 ，即可通过该站点直接查看提交的消息列表
+
+
+## 2、`sign` 签名计算示例：
 
 ```Java
 //java
