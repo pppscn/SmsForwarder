@@ -1,7 +1,7 @@
 # 1、请求方式： GET
 
 - `webParams` 参数无需填写（填写了也无效）
-- 在 `WebServer` 的基础上，追加 `2、post form 参数列表` 所列的节点经过`urlEncode`的值
+- 在 `WebServer` 的基础上，追加 `3、post form 参数列表` 所列的节点经过`urlEncode`的值
 
 ***
 
@@ -21,12 +21,12 @@
 
 ***
 
-# 2、post form 参数列表
+# 3、post form 参数列表
 
 |  key   | 类型  |  说明  |
 |  ----  | ----  | ----  |
-| from  | string  | 来源手机号 |
-| content  | string  | 短信内容 |
+| from  | string  | 来源手机号 / App包名 |
+| content  | string  | 短信内容 / 通知内容 |
 | timestamp  | string |  当前时间戳，单位是毫秒，（建议验证与请求调用时间误差不能超过1小时，防止重放欺骗） |
 | sign  | string  | 当设置`secret`时，生成的`sign`签名，用于发送端校验，规则见下方`sign`校验规则 |
 
