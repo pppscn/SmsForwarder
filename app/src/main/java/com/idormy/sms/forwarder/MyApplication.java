@@ -27,10 +27,6 @@ public class MyApplication extends Application {
     public static List<PhoneUtils.SimInfo> SimInfoList = new ArrayList<>();
     //是否关闭页面提示
     public static boolean showHelpTip = true;
-    //企业微信
-    public static String QyWxAccessToken;
-    public static long QyWxAccessTokenExpiresIn = 0;
-
 
     @Override
     protected void attachBaseContext(Context base) {

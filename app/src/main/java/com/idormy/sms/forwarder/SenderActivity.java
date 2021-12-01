@@ -938,20 +938,23 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
         buttonQYWXAppTest.setOnClickListener(view -> {
-            String cropID = editTextQYWXAppCorpID.getText().toString().trim();
-            String agentID = editTextQYWXAppAgentID.getText().toString().trim();
-            String secret = editTextQYWXAppSecret.getText().toString().trim();
-            String toUser = editTextQYWXAppToUser.getText().toString().trim();
-            //Boolean atAll = switchQYWXAppAtAll.isChecked();
-            if (!toUser.isEmpty()) {
-                try {
-                    SenderQyWxAppMsg.sendMsg(0, handler, cropID, agentID, secret, toUser, R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())), true);
-                } catch (Exception e) {
-                    Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                }
-            } else {
+
+            QYWXAppSettingVo QYWXAppSettingVoNew = new QYWXAppSettingVo(
+                    editTextQYWXAppCorpID.getText().toString().trim(),
+                    editTextQYWXAppAgentID.getText().toString().trim(),
+                    editTextQYWXAppSecret.getText().toString().trim(),
+                    editTextQYWXAppToUser.getText().toString().trim(),
+                    switchQYWXAppAtAll.isChecked());
+            if (QYWXAppSettingVoNew.getToUser().isEmpty()) {
                 Toast.makeText(SenderActivity.this, R.string.invalid_at_mobiles, Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            try {
+                SenderQyWxAppMsg.sendMsg(0, handler, senderModel, QYWXAppSettingVoNew, R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+            } catch (Exception e) {
+                Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
+                e.printStackTrace();
             }
         });
     }

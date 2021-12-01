@@ -193,7 +193,7 @@ public class SendUtil {
                     QYWXAppSettingVo qYWXAppSettingVo = JSON.parseObject(senderModel.getJsonSetting(), QYWXAppSettingVo.class);
                     if (qYWXAppSettingVo != null) {
                         try {
-                            SenderQyWxAppMsg.sendMsg(logId, handError, qYWXAppSettingVo.getCorpID(), qYWXAppSettingVo.getAgentID(), qYWXAppSettingVo.getSecret(), qYWXAppSettingVo.getToUser(), smsVo.getSmsVoForSend(smsTemplate), false);
+                            SenderQyWxAppMsg.sendMsg(logId, handError, senderModel, qYWXAppSettingVo, smsVo.getSmsVoForSend(smsTemplate));
                         } catch (Exception e) {
                             LogUtil.updateLog(logId, 0, e.getMessage());
                             Log.e(TAG, "senderSendMsg: qywx_app error " + e.getMessage());
