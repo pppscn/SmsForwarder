@@ -12,13 +12,16 @@ import com.idormy.sms.forwarder.model.CallInfo;
 import com.idormy.sms.forwarder.model.PhoneBookEntity;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
+import com.idormy.sms.forwarder.utils.CommonUtil;
 import com.idormy.sms.forwarder.utils.ContactHelper;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.idormy.sms.forwarder.utils.SimUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class PhoneStateReceiver extends BroadcastReceiver {
     private static final String TAG = "PhoneStateReceiver";
@@ -94,6 +97,18 @@ public class PhoneStateReceiver extends BroadcastReceiver {
             }
             if (TextUtils.isEmpty(name)) name = context.getString(R.string.unknown_number);
         }
+
+
+        //TODO:同一卡槽同一秒的重复未接来电广播不再重复处理（部分机型会收到两条广播？）
+        String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE).format(new Date());
+        String prevHash = SettingUtil.getPrevNoticeHash(phoneNumber);
+        String currHash = CommonUtil.MD5(phoneNumber + simInfo + time);
+        Log.d(TAG, "prevHash=" + prevHash + " currHash=" + currHash);
+        if (prevHash != null && prevHash.equals(currHash)) {
+            Log.w(TAG, "同一卡槽同一秒的重复未接来电广播不再重复处理（部分机型会收到两条广播）");
+            return;
+        }
+        SettingUtil.setPrevNoticeHash(phoneNumber, currHash);
 
         SmsVo smsVo = new SmsVo(phoneNumber, name + context.getString(R.string.calling), new Date(), simInfo);
         Log.d(TAG, "send_msg" + smsVo.toString());
