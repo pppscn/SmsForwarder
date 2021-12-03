@@ -2,7 +2,7 @@
 
 # SmsForwarder (短信转发器)
 
-[![GitHub release](https://img.shields.io/github/release/pppscn/SmsForwarder.svg)](https://github.com/pppscn/SmsForwarder/releases) [![GitHub stars](https://img.shields.io/github/stars/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/stargazers) [![GitHub forks](https://img.shields.io/github/forks/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/network/members) [![GitHub issues](https://img.shields.io/github/issues/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/issues) [![GitHub license](https://img.shields.io/github/license/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/blob/main/LICENSE) 
+[![GitHub release](https://img.shields.io/github/release/pppscn/SmsForwarder.svg)](https://github.com/pppscn/SmsForwarder/releases) [![GitHub stars](https://img.shields.io/github/stars/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/stargazers) [![GitHub forks](https://img.shields.io/github/forks/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/network/members) [![GitHub issues](https://img.shields.io/github/issues/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/issues) [![GitHub license](https://img.shields.io/github/license/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/blob/main/LICENSE)
 
 短信转发器——监控Android手机短信、来电、APP通知，并根据指定规则转发到其他手机：钉钉机器人、企业微信群机器人、飞书机器人、企业微信应用消息、邮箱、bark、webhook、Telegram机器人、Server酱、PushPlus、手机短信等。
 
@@ -82,6 +82,8 @@
 - [x] 增加配置导出导入功能（一键克隆）
 - [x] 监听其他APP通知信息并转发
 - [x] 转发到PushPlus
+- [x] 转发规则上允许自定义模板（留空则取全局设置）
+- [x] 转发规则上支持配置正则替换内容
 
 --------
 
@@ -100,7 +102,6 @@
 | ![在线升级](pic/update.jpg "在线升级") | ![支持正则匹配规则 & 支持卡槽匹配规则](pic/regex.jpg "支持正则匹配规则 & 支持卡槽匹配规则") | ![转发短信模板增加卡槽标识](pic/siminfo.jpg "转发短信模板增加卡槽标识") | ![添加/编辑发送通道其他手机短信](pic/sendersetsms.jpg "添加/编辑发送通道其他手机短信") |
 | 添加/编辑发送通道飞书机器人 | 增加配置导出导入功能（一键克隆） | 监听其他APP通知信息并转发 | 获取所有应用列表（方便复制APP包名）|
 | ![添加/编辑发送通道飞书](pic/senderfeishu.png "添加/编辑发送通道飞书") | ![增加配置导出导入功能（一键克隆）](pic/clone.png "增加配置导出导入功能（一键克隆）") | ![监听其他APP通知信息并转发](pic/app_notify.png "监听其他APP通知信息并转发") | ![获取所有应用列表（方便复制APP包名）](pic/app_list.png "获取所有应用列表（方便复制APP包名）") |
-
 
 --------
 

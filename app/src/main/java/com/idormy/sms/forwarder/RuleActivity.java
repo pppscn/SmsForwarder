@@ -227,6 +227,14 @@ public class RuleActivity extends AppCompatActivity {
             textSmsTemplate.setText(ruleModel.getSmsTemplate());
         }
 
+        //正则替换
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switchRegexReplace = view1.findViewById(R.id.switch_regex_replace);
+        EditText textRegexReplace = view1.findViewById(R.id.text_regex_replace);
+        if (ruleModel != null) {
+            switchRegexReplace.setChecked(ruleModel.getSwitchRegexReplace());
+            textRegexReplace.setText(ruleModel.getRegexReplace());
+        }
+
         Button buttonRuleOk = view1.findViewById(R.id.buttonRuleOk);
         Button buttonRuleDel = view1.findViewById(R.id.buttonRuleDel);
         Button buttonRuleTest = view1.findViewById(R.id.buttonRuleTest);
@@ -241,6 +249,15 @@ public class RuleActivity extends AppCompatActivity {
                 Toast.makeText(RuleActivity.this, R.string.new_sender_first, Toast.LENGTH_LONG).show();
                 return;
             }
+
+            //检查正则替换填写是否正确
+            String regexReplace = textRegexReplace.getText().toString().trim();
+            int lineNum = checkRegexReplace(regexReplace);
+            if (lineNum > 0) {
+                Toast.makeText(getBaseContext(), String.format(RuleActivity.this.getString(R.string.regex_check_tips), lineNum), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             int radioGroupRuleCheckId = Math.max(radioGroupRuleCheck.getCheckedRadioButtonId(), radioGroupRuleCheck2.getCheckedRadioButtonId());
             Log.d(TAG, radioGroupRuleCheck.getCheckedRadioButtonId() + "  " + radioGroupRuleCheck2.getCheckedRadioButtonId() + " " + radioGroupRuleCheckId);
             if (ruleModel == null) {
@@ -252,6 +269,8 @@ public class RuleActivity extends AppCompatActivity {
                 newRuleModel.setValue(editTextRuleValue.getText().toString().trim());
                 newRuleModel.setSwitchSmsTemplate(switchSmsTemplate.isChecked());
                 newRuleModel.setSmsTemplate(textSmsTemplate.getText().toString().trim());
+                newRuleModel.setSwitchRegexReplace(switchRegexReplace.isChecked());
+                newRuleModel.setRegexReplace(regexReplace);
                 newRuleModel.setSenderId(Long.valueOf(senderId.toString()));
                 RuleUtil.addRule(newRuleModel);
                 initRules();
@@ -263,6 +282,8 @@ public class RuleActivity extends AppCompatActivity {
                 ruleModel.setValue(editTextRuleValue.getText().toString().trim());
                 ruleModel.setSwitchSmsTemplate(switchSmsTemplate.isChecked());
                 ruleModel.setSmsTemplate(textSmsTemplate.getText().toString().trim());
+                ruleModel.setSwitchRegexReplace(switchRegexReplace.isChecked());
+                ruleModel.setRegexReplace(regexReplace);
                 ruleModel.setSenderId(Long.valueOf(senderId.toString()));
                 RuleUtil.updateRule(ruleModel);
                 initRules();
@@ -288,6 +309,14 @@ public class RuleActivity extends AppCompatActivity {
                 return;
             }
 
+            //检查正则替换填写是否正确
+            String regexReplace = textRegexReplace.getText().toString().trim();
+            int lineNum = checkRegexReplace(regexReplace);
+            if (lineNum > 0) {
+                Toast.makeText(getBaseContext(), String.format(RuleActivity.this.getString(R.string.regex_check_tips), lineNum), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             int radioGroupRuleCheckId = Math.max(radioGroupRuleCheck.getCheckedRadioButtonId(), radioGroupRuleCheck2.getCheckedRadioButtonId());
             if (ruleModel == null) {
                 RuleModel newRuleModel = new RuleModel();
@@ -296,6 +325,10 @@ public class RuleActivity extends AppCompatActivity {
                 newRuleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
                 newRuleModel.setValue(editTextRuleValue.getText().toString().trim());
                 newRuleModel.setSenderId(Long.valueOf(senderId.toString()));
+                newRuleModel.setSwitchSmsTemplate(switchSmsTemplate.isChecked());
+                newRuleModel.setSmsTemplate(textSmsTemplate.getText().toString().trim());
+                newRuleModel.setSwitchRegexReplace(switchRegexReplace.isChecked());
+                newRuleModel.setRegexReplace(regexReplace);
 
                 testRule(newRuleModel, Long.valueOf(senderId.toString()));
             } else {
@@ -304,6 +337,10 @@ public class RuleActivity extends AppCompatActivity {
                 ruleModel.setSimSlot(RuleModel.getRuleSimSlotFromCheckId(radioGroupSimSlot.getCheckedRadioButtonId()));
                 ruleModel.setValue(editTextRuleValue.getText().toString().trim());
                 ruleModel.setSenderId(Long.valueOf(senderId.toString()));
+                ruleModel.setSwitchSmsTemplate(switchSmsTemplate.isChecked());
+                ruleModel.setSmsTemplate(textSmsTemplate.getText().toString().trim());
+                ruleModel.setSwitchRegexReplace(switchRegexReplace.isChecked());
+                ruleModel.setRegexReplace(regexReplace);
 
                 testRule(ruleModel, Long.valueOf(senderId.toString()));
             }
@@ -368,6 +405,18 @@ public class RuleActivity extends AppCompatActivity {
             textSmsTemplate.setFocusable(true);
             textSmsTemplate.requestFocus();
             textSmsTemplate.append("{{设备名称}}");
+        });
+
+        //正则替换
+        final LinearLayout layout_regex_replace = view1.findViewById(R.id.layout_regex_replace);
+        if (ruleModel != null) {
+            layout_regex_replace.setVisibility(ruleModel.getSwitchRegexReplace() ? View.VISIBLE : View.GONE);
+        }
+        switchRegexReplace.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            layout_regex_replace.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            if (!isChecked) {
+                textRegexReplace.setText("");
+            }
         });
 
     }
@@ -540,4 +589,17 @@ public class RuleActivity extends AppCompatActivity {
         MobclickAgent.onPause(this);
     }
 
+    private int checkRegexReplace(String regexReplace) {
+        if (regexReplace == null || regexReplace.isEmpty()) return 0;
+
+        int lineNum = 1;
+        String[] lineArray = regexReplace.split("\\n");
+        for (String line : lineArray) {
+            int position = line.indexOf("===");
+            if (position < 1) return lineNum;
+            lineNum++;
+        }
+
+        return 0;
+    }
 }

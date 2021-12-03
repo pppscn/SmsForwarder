@@ -45,6 +45,7 @@ public class RuleUtil {
         values.put(RuleTable.RuleEntry.COLUMN_NAME_SENDER_ID, ruleModel.getSenderId());
         values.put(RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT, ruleModel.getSimSlot());
         values.put(RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE, ruleModel.getSmsTemplate());
+        values.put(RuleTable.RuleEntry.COLUMN_REGEX_REPLACE, ruleModel.getRegexReplace());
 
         // Insert the new row, returning the primary key value of the new row
 
@@ -62,6 +63,7 @@ public class RuleUtil {
         values.put(RuleTable.RuleEntry.COLUMN_NAME_SENDER_ID, ruleModel.getSenderId());
         values.put(RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT, ruleModel.getSimSlot());
         values.put(RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE, ruleModel.getSmsTemplate());
+        values.put(RuleTable.RuleEntry.COLUMN_REGEX_REPLACE, ruleModel.getRegexReplace());
 
         String selection = RuleTable.RuleEntry._ID + " = ? ";
         String[] whereArgs = {String.valueOf(ruleModel.getId())};
@@ -100,6 +102,7 @@ public class RuleUtil {
                 RuleTable.RuleEntry.COLUMN_NAME_TIME,
                 RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT,
                 RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE,
+                RuleTable.RuleEntry.COLUMN_REGEX_REPLACE,
         };
         // Define 'where' part of query.
         String selection = " 1 = 1 ";
@@ -163,6 +166,8 @@ public class RuleUtil {
                     cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT));
             String smsTemplate = cursor.getString(
                     cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE));
+            String regexReplace = cursor.getString(
+                    cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_REGEX_REPLACE));
 
             Log.d(TAG, "getRule: itemId" + itemId);
             RuleModel ruleModel = new RuleModel();
@@ -176,6 +181,8 @@ public class RuleUtil {
             ruleModel.setSimSlot(itemSimSlot);
             ruleModel.setSwitchSmsTemplate(!smsTemplate.trim().isEmpty());
             ruleModel.setSmsTemplate(smsTemplate);
+            ruleModel.setSwitchRegexReplace(!regexReplace.trim().isEmpty());
+            ruleModel.setRegexReplace(regexReplace);
 
             tRules.add(ruleModel);
         }

@@ -140,7 +140,7 @@
     <string name="App_Secret">App Secret</string>
     <string name="is_at_all">Is at all</string>
     <string name="specified_member">Specified Member</string>
-    <string name="at_all"><![CDATA[@all]]></string>
+    <string name="at_all">\@all</string>
     <string name="specified_member_tips">Tip：Specify members receive messages, member ID list (multiple recipients with \'|\' space, maximum 1000)</string>
     <string name="QYWXGroupRobotWebHook">WebHook, e.g. https://qyapi.weixin.qq.com/cgixx?key=xxx</string>
     <string name="ServerChanSendKey">ServerChan\'s SendKey</string>
@@ -171,6 +171,9 @@
     <string name="forward_app_notify_tips">Master switch, please grant notice first</string>
     <string name="enable_custom_templates">Enable custom templates</string>
     <string name="enable_custom_templates_tips">Priority: custom template for forwarding rules >Global custom template >The default</string>
+    <string name="enable_regex_replace">Enable regular replacement content</string>
+    <string name="enable_regex_replace_tips">Format: RegularExpression===ReplacementResult,One rule per line.\ne.g. (\\d{3})\\d+(\\d{4})===$1****$2</string>
+    <string name="regex_check_tips">Format check: line %d is badly formatted! Format: RegularExpression===ReplacementResult</string>
     <string name="enable_exclude_from_recents">Exclude from recents</string>
     <string name="enable_exclude_from_recents_tips">After this function is enabled, manual killing of processes is effectively avoided, which helps to keep the process alive</string>
     <string name="custom_templates">Custom templates</string>

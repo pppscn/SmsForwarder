@@ -83,6 +83,8 @@ public class RuleModel {
     private String simSlot;
     private boolean switchSmsTemplate;
     private String smsTemplate;
+    private boolean switchRegexReplace;
+    private String regexReplace;
 
     public static String getRuleMatch(String filed, String check, String value, String simSlot) {
         String SimStr = SIM_SLOT_MAP.get(simSlot) + "卡 ";
@@ -296,6 +298,10 @@ public class RuleModel {
 
     public boolean getSwitchSmsTemplate() {
         return switchSmsTemplate;
+    }
+
+    public boolean getSwitchRegexReplace() {
+        return switchRegexReplace;
     }
 
     @NonNull

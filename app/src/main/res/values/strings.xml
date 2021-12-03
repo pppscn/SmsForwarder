@@ -140,7 +140,7 @@
     <string name="App_Secret">应用Secret</string>
     <string name="is_at_all">是否@all</string>
     <string name="specified_member">指定成员</string>
-    <string name="at_all"><![CDATA[@all]]></string>
+    <string name="at_all">\@all</string>
     <string name="specified_member_tips">Tip：指定接收消息的成员，成员ID列表（多个接收者用‘|’分隔，最多支持1000个）</string>
     <string name="QYWXGroupRobotWebHook">设置WebHook地址:示例：https://qyapi.weixin.qq.com/cgixx?key=xxx</string>
     <string name="ServerChanSendKey">设置Server酱·Turbo版的SendKey</string>
@@ -171,6 +171,9 @@
     <string name="forward_app_notify_tips">总开关，请先授予通知使用权</string>
     <string name="enable_custom_templates">启用自定义模版</string>
     <string name="enable_custom_templates_tips">优先级：转发规则的自定义模板 > 全局自定义模版 > 默认</string>
+    <string name="enable_regex_replace">启用正则替换内容</string>
+    <string name="enable_regex_replace_tips">格式：正则表达式===替换结果，每行一个规则.\n例如：(\\d{3})\\d{4}(\\d{4})===$1****$2</string>
+    <string name="regex_check_tips">正则替换检查：第 %d 行格式错误！格式：正则表达式===替换结果</string>
     <string name="enable_exclude_from_recents">不在最近任务列表中显示</string>
     <string name="enable_exclude_from_recents_tips">开启后，有效避免手动误杀进程，利于保活</string>
     <string name="custom_templates">转发信息模版</string>
