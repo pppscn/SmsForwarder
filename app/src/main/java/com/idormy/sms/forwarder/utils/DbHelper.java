@@ -40,6 +40,7 @@ public class DbHelper extends SQLiteOpenHelper {
                             RuleTable.RuleEntry.COLUMN_NAME_SENDER_ID + " INTEGER," +
                             RuleTable.RuleEntry.COLUMN_NAME_TIME + " TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP," +
                             RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE + " TEXT NOT NULL DEFAULT ''," +
+                            RuleTable.RuleEntry.COLUMN_REGEX_REPLACE + " TEXT NOT NULL DEFAULT ''," +
                             RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT + " TEXT NOT NULL DEFAULT 'ALL')"
                     , "CREATE TABLE " + SenderTable.SenderEntry.TABLE_NAME + " (" +
                             SenderTable.SenderEntry._ID + " INTEGER PRIMARY KEY," +
