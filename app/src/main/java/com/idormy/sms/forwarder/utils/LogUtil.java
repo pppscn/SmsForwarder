@@ -86,20 +86,17 @@ public class LogUtil {
 
     }
 
-    public static int updateLog(Long id, int forward_status, String forward_response) {
-        if (id == null || id <= 0) return 0;
+    public static void updateLog(Long id, int forward_status, String forward_response) {
+        if (id == null || id <= 0) return;
 
-        String selection = LogTable.LogEntry._ID + " = ? ";
-        List<String> selectionArgList = new ArrayList<>();
-        selectionArgList.add(String.valueOf(id));
-
-        ContentValues values = new ContentValues();
-        values.put(LogTable.LogEntry.COLUMN_NAME_FORWARD_STATUS, forward_status);
-        values.put(LogTable.LogEntry.COLUMN_NAME_FORWARD_RESPONSE, forward_response);
-
-        String[] selectionArgs = selectionArgList.toArray(new String[0]);
-        return db.update(LogTable.LogEntry.TABLE_NAME, values, selection, selectionArgs);
-
+        String sql = new StringBuilder().append("UPDATE ").append(LogTable.LogEntry.TABLE_NAME)
+                .append(" SET ").append(LogTable.LogEntry.COLUMN_NAME_FORWARD_STATUS).append(" = ? , ")
+                .append(LogTable.LogEntry.COLUMN_NAME_FORWARD_RESPONSE)
+                .append(" = CASE WHEN ").append(LogTable.LogEntry.COLUMN_NAME_FORWARD_STATUS).append(" = 1 THEN ? ELSE ")
+                .append(LogTable.LogEntry.COLUMN_NAME_FORWARD_RESPONSE).append(" || '\n ---------- \n' || ? END ")
+                .append(" WHERE ").append(LogTable.LogEntry._ID).append(" = ? ")
+                .toString();
+        db.execSQL(sql, new Object[]{forward_status, forward_response, forward_response, id});
     }
 
     public static List<LogVo> getLog(Long id, String key, String type) {

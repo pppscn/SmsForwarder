@@ -121,7 +121,7 @@ public class SenderWebNotifyMsg extends SenderBaseMsg {
 
                             //返回http状态200即为成功
                             if (200 == response.code()) {
-                                LogUtil.updateLog(logId, 1, responseStr);
+                                LogUtil.updateLog(logId, 2, responseStr);
                             } else {
                                 LogUtil.updateLog(logId, 0, responseStr);
                             }

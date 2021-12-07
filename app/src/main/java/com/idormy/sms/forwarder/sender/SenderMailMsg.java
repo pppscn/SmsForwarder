@@ -47,7 +47,7 @@ public class SenderMailMsg extends SenderBaseMsg {
                                 .send(draft, new EmailKit.GetSendCallback() {
                                     @Override
                                     public void onSuccess() {
-                                        LogUtil.updateLog(logId, 1, "发送成功");
+                                        LogUtil.updateLog(logId, 2, "发送成功");
                                         Toast(handError, TAG, "发送成功");
                                     }
 

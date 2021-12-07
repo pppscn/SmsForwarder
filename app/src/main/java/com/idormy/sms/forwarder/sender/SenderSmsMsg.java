@@ -20,7 +20,7 @@ public class SenderSmsMsg extends SenderBaseMsg {
 
         //TODO:粗略解析是否发送成功
         if (res == null) {
-            LogUtil.updateLog(logId, 1, "发送成功");
+            LogUtil.updateLog(logId, 2, "发送成功");
         } else {
             LogUtil.updateLog(logId, 0, res);
             Toast(handError, TAG, "短信发送失败");

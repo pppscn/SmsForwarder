@@ -16,7 +16,7 @@ import java.util.List;
 public class DbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
     public static final String TAG = "DbHelper";
-    public static final int DATABASE_VERSION = 7;
+    public static final int DATABASE_VERSION = 8;
     public static final String DATABASE_NAME = "sms_forwarder.db";
 
     private static final List<String> SQL_CREATE_ENTRIES =
@@ -107,6 +107,10 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         if (oldVersion < 7) { //转发规则添加正则替换内容
             String sql = "Alter table " + RuleTable.RuleEntry.TABLE_NAME + " add column " + RuleTable.RuleEntry.COLUMN_REGEX_REPLACE + " TEXT NOT NULL DEFAULT '' ";
+            db.execSQL(sql);
+        }
+        if (oldVersion < 8) { //更新日志表状态：0=失败，1=待处理，2=成功
+            String sql = "update " + LogTable.LogEntry.TABLE_NAME + " set " + LogTable.LogEntry.COLUMN_NAME_FORWARD_STATUS + " = 2 where " + LogTable.LogEntry.COLUMN_NAME_FORWARD_STATUS + " = 1 ";
             db.execSQL(sql);
         }
     }

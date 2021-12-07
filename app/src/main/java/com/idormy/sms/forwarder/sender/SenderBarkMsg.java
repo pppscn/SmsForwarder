@@ -82,7 +82,7 @@ public class SenderBarkMsg extends SenderBaseMsg {
 
                             //TODO:粗略解析是否发送成功
                             if (responseStr.contains("\"message\":\"success\"")) {
-                                LogUtil.updateLog(logId, 1, responseStr);
+                                LogUtil.updateLog(logId, 2, responseStr);
                             } else {
                                 LogUtil.updateLog(logId, 0, responseStr);
                             }

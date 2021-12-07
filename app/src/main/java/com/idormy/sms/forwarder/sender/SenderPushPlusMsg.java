@@ -106,7 +106,7 @@ public class SenderPushPlusMsg extends SenderBaseMsg {
 
                             //TODO:粗略解析是否发送成功
                             if (responseStr.contains("\"code\":200")) {
-                                LogUtil.updateLog(logId, 1, responseStr);
+                                LogUtil.updateLog(logId, 2, responseStr);
                             } else {
                                 LogUtil.updateLog(logId, 0, responseStr);
                             }

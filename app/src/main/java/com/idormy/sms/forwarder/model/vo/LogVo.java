@@ -45,9 +45,17 @@ public class LogVo {
 
     public int getStatusImageId() {
         if (this.forwardStatus == 1) {
+            return R.drawable.ic_round_warning;
+        } else if (this.forwardStatus == 2) {
             return R.drawable.ic_round_check;
         }
 
         return R.drawable.ic_round_cancel;
+    }
+
+    public String getForwardResponse() {
+        if (this.forwardStatus == 1) return "处理中...";
+
+        return forwardResponse;
     }
 }
