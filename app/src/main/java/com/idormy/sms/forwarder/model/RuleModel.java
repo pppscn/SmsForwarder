@@ -17,7 +17,7 @@ import java.util.regex.PatternSyntaxException;
 
 import lombok.Data;
 
-@SuppressWarnings({"unused", "SpellCheckingInspection"})
+@SuppressWarnings({"unused"})
 @Data
 public class RuleModel {
     public static final String FILED_TRANSPOND_ALL = "transpond_all";

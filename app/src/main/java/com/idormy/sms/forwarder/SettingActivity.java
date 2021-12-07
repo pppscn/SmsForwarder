@@ -49,8 +49,10 @@ public class SettingActivity extends AppCompatActivity {
         EditText et_add_extra_sim2 = findViewById(R.id.et_add_extra_sim2);
         editAddExtraSim2(et_add_extra_sim2);
 
-        EditText et_battery_level_alarm = findViewById(R.id.et_battery_level_alarm);
-        editBatteryLevelAlarm(et_battery_level_alarm);
+        EditText et_battery_level_alarm_min = findViewById(R.id.et_battery_level_alarm_min);
+        editBatteryLevelAlarmMin(et_battery_level_alarm_min);
+        EditText et_battery_level_alarm_max = findViewById(R.id.et_battery_level_alarm_max);
+        editBatteryLevelAlarmMax(et_battery_level_alarm_max);
 
         EditText et_retry_delay_time1 = findViewById(R.id.et_retry_delay_time1);
         editRetryDelayTime(et_retry_delay_time1, 1);
@@ -78,6 +80,9 @@ public class SettingActivity extends AppCompatActivity {
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_exclude_from_recents = findViewById(R.id.switch_exclude_from_recents);
         switchExcludeFromRecents(switch_exclude_from_recents);
 
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_battery_receiver = findViewById(R.id.switch_battery_receiver);
+        switchBatteryReceiver(switch_battery_receiver);
+
         EditText textSmsTemplate = findViewById(R.id.text_sms_template);
         editSmsTemplate(textSmsTemplate);
     }
@@ -100,6 +105,17 @@ public class SettingActivity extends AppCompatActivity {
         switch_enable_phone.setOnCheckedChangeListener((buttonView, isChecked) -> {
             //TODO:校验使用来电转发必备的权限
             SettingUtil.switchEnablePhone(isChecked);
+            Log.d(TAG, "switchEnablePhone:" + isChecked);
+        });
+    }
+
+    //监听电池状态变化
+    private void switchBatteryReceiver(@SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_battery_receiver) {
+        switch_battery_receiver.setChecked(SettingUtil.getSwitchEnableBatteryReceiver());
+
+        switch_battery_receiver.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            //TODO:校验使用来电转发必备的权限
+            SettingUtil.switchEnableBatteryReceiver(isChecked);
             Log.d(TAG, "switchEnablePhone:" + isChecked);
         });
     }
@@ -205,9 +221,9 @@ public class SettingActivity extends AppCompatActivity {
         });
     }
 
-    //设置低电量报警值
-    private void editBatteryLevelAlarm(final EditText et_battery_level_alarm) {
-        et_battery_level_alarm.setText(String.valueOf(SettingUtil.getBatteryLevelAlarm()));
+    //设置低电量报警值下限
+    private void editBatteryLevelAlarmMin(final EditText et_battery_level_alarm) {
+        et_battery_level_alarm.setText(String.valueOf(SettingUtil.getBatteryLevelAlarmMin()));
 
         et_battery_level_alarm.addTextChangedListener(new TextWatcher() {
             @Override
@@ -222,9 +238,34 @@ public class SettingActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 String batteryLevel = et_battery_level_alarm.getText().toString().trim();
                 if (!batteryLevel.isEmpty()) {
-                    SettingUtil.setBatteryLevelAlarm(Integer.parseInt(batteryLevel));
+                    SettingUtil.setBatteryLevelAlarmMin(Integer.parseInt(batteryLevel));
                 } else {
-                    SettingUtil.setBatteryLevelAlarm(0);
+                    SettingUtil.setBatteryLevelAlarmMin(0);
+                }
+            }
+        });
+    }
+
+    //设置低电量报警值上限
+    private void editBatteryLevelAlarmMax(final EditText et_battery_level_alarm) {
+        et_battery_level_alarm.setText(String.valueOf(SettingUtil.getBatteryLevelAlarmMax()));
+
+        et_battery_level_alarm.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String batteryLevel = et_battery_level_alarm.getText().toString().trim();
+                if (!batteryLevel.isEmpty()) {
+                    SettingUtil.setBatteryLevelAlarmMax(Integer.parseInt(batteryLevel));
+                } else {
+                    SettingUtil.setBatteryLevelAlarmMax(0);
                 }
             }
         });

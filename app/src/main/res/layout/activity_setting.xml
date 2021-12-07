@@ -134,150 +134,6 @@
             android:padding="15dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/low_power_alarm_threshold"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/low_power_alarm_threshold_tips"
-                    android:textSize="9sp"
-                    tools:ignore="SmallSp" />
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/et_battery_level_alarm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:autofillHints=""
-                android:ems="16"
-                android:inputType="number"
-                android:maxLines="1"
-                android:text=""
-                tools:ignore="LabelFor" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/retry_interval"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/retry_interval_tips"
-                    android:textSize="9sp"
-                    tools:ignore="SmallSp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/et_retry_delay_time1"
-                    android:layout_width="40dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="5dp"
-                    android:autofillHints=""
-                    android:ems="16"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:text=""
-                    android:textAlignment="center"
-                    tools:ignore="LabelFor" />
-
-                <EditText
-                    android:id="@+id/et_retry_delay_time2"
-                    android:layout_width="40dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="5dp"
-                    android:autofillHints=""
-                    android:ems="16"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:text=""
-                    android:textAlignment="center"
-                    tools:ignore="LabelFor" />
-
-                <EditText
-                    android:id="@+id/et_retry_delay_time3"
-                    android:layout_width="40dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="5dp"
-                    android:autofillHints=""
-                    android:ems="16"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:text=""
-                    android:textAlignment="center"
-                    tools:ignore="LabelFor" />
-
-                <EditText
-                    android:id="@+id/et_retry_delay_time4"
-                    android:layout_width="40dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="5dp"
-                    android:autofillHints=""
-                    android:ems="16"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:text=""
-                    android:textAlignment="center"
-                    tools:ignore="LabelFor" />
-
-                <EditText
-                    android:id="@+id/et_retry_delay_time5"
-                    android:layout_width="40dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="5dp"
-                    android:autofillHints=""
-                    android:ems="16"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:text=""
-                    android:textAlignment="center"
-                    tools:ignore="LabelFor" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
@@ -385,48 +241,6 @@
 
             <Switch
                 android:id="@+id/switch_enable_app_notify"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:textSize="18sp"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/enable_exclude_from_recents"
-                    android:textStyle="bold"
-                    tools:ignore="RelativeOverlap" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/enable_exclude_from_recents_tips"
-                    android:textSize="9sp"
-                    tools:ignore="SmallSp" />
-            </LinearLayout>
-
-            <Switch
-                android:id="@+id/switch_exclude_from_recents"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -601,6 +415,272 @@
             android:orientation="horizontal"
             android:padding="15dp">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/retry_interval"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/retry_interval_tips"
+                    android:textSize="9sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_retry_delay_time1"
+                    android:layout_width="40dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="5dp"
+                    android:autofillHints=""
+                    android:ems="16"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textAlignment="center"
+                    tools:ignore="LabelFor" />
+
+                <EditText
+                    android:id="@+id/et_retry_delay_time2"
+                    android:layout_width="40dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="5dp"
+                    android:autofillHints=""
+                    android:ems="16"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textAlignment="center"
+                    tools:ignore="LabelFor" />
+
+                <EditText
+                    android:id="@+id/et_retry_delay_time3"
+                    android:layout_width="40dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="5dp"
+                    android:autofillHints=""
+                    android:ems="16"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textAlignment="center"
+                    tools:ignore="LabelFor" />
+
+                <EditText
+                    android:id="@+id/et_retry_delay_time4"
+                    android:layout_width="40dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="5dp"
+                    android:autofillHints=""
+                    android:ems="16"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textAlignment="center"
+                    tools:ignore="LabelFor" />
+
+                <EditText
+                    android:id="@+id/et_retry_delay_time5"
+                    android:layout_width="40dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="5dp"
+                    android:autofillHints=""
+                    android:ems="16"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textAlignment="center"
+                    tools:ignore="LabelFor" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/low_power_alarm_threshold"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/low_power_alarm_threshold_tips"
+                    android:textSize="9sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/below"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_battery_level_alarm_min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="2"
+                android:inputType="number"
+                android:maxLines="1"
+                android:text=""
+                android:textAlignment="center"
+                tools:ignore="LabelFor" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/percent"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/above"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_battery_level_alarm_max"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="2"
+                android:inputType="number"
+                android:maxLines="1"
+                android:text="@string/zero"
+                android:textAlignment="center"
+                tools:ignore="LabelFor" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/percent"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/monitor_battery_status_changes"
+                    android:textStyle="bold"
+                    tools:ignore="RelativeOverlap" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/battery_status_changes_tips"
+                    android:textSize="9sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <Switch
+                android:id="@+id/switch_battery_receiver"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textSize="18sp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enable_exclude_from_recents"
+                    android:textStyle="bold"
+                    tools:ignore="RelativeOverlap" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/enable_exclude_from_recents_tips"
+                    android:textSize="9sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <Switch
+                android:id="@+id/switch_exclude_from_recents"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textSize="18sp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
@@ -628,7 +708,7 @@
                 android:background="@color/colorBlueGreyDark"
                 android:onClick="initSetting"
                 android:text="@string/init_setting"
-                tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
+                tools:ignore="ButtonStyle,NestedWeights,TooManyViews,UsingOnClickInXml" />
         </LinearLayout>
 
     </LinearLayout>

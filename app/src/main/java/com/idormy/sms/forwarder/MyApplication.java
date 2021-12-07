@@ -9,6 +9,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.idormy.sms.forwarder.sender.SendHistory;
+import com.idormy.sms.forwarder.service.BatteryService;
 import com.idormy.sms.forwarder.service.FrontService;
 import com.idormy.sms.forwarder.utils.CommonUtil;
 import com.idormy.sms.forwarder.utils.Define;
@@ -47,12 +48,14 @@ public class MyApplication extends Application {
             //pro close log
             UMConfigure.setLogEnabled(true);
 
+            //前台服务
             Intent intent = new Intent(this, FrontService.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 startForegroundService(intent);
             } else {
                 startService(intent);
             }
+
             SendHistory.init(this);
             SettingUtil.init(this);
 
@@ -70,6 +73,10 @@ public class MyApplication extends Application {
                     }
                 }
             }
+
+            //电池状态监听
+            Intent batteryServiceIntent = new Intent(this, BatteryService.class);
+            startService(batteryServiceIntent);
         } catch (Exception e) {
             Log.e(TAG, "onCreate:", e);
         }

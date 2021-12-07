@@ -78,6 +78,16 @@ public class SettingUtil {
         return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_APP_NOTIFY, false);
     }
 
+    public static void switchEnableBatteryReceiver(Boolean enable) {
+        sp_setting.edit()
+                .putBoolean(Define.SP_MSG_KEY_STRING_BATTERY_RECEIVER, enable)
+                .apply();
+    }
+
+    public static boolean getSwitchEnableBatteryReceiver() {
+        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_BATTERY_RECEIVER, false);
+    }
+
     public static void switchExcludeFromRecents(Boolean enable) {
         sp_setting.edit()
                 .putBoolean(Define.SP_MSG_KEY_STRING_ENABLE_EXCLUDE_FROM_RECENTS, enable)
@@ -155,14 +165,47 @@ public class SettingUtil {
                 .apply();
     }
 
-    public static int getBatteryLevelAlarm() {
+    public static int getBatteryLevelAlarmMin() {
         return sp_setting.getInt(Define.SP_MSG_KEY_STRING_BATTERY_LEVEL_ALARM, 0);
     }
 
-    public static void setBatteryLevelAlarm(int battery_level) {
+    public static void setBatteryLevelAlarmMin(int battery_level) {
         Log.d(TAG, "battery_level :" + battery_level);
         sp_setting.edit()
                 .putInt(Define.SP_MSG_KEY_STRING_BATTERY_LEVEL_ALARM, battery_level)
+                .apply();
+    }
+
+    public static int getBatteryLevelAlarmMax() {
+        return sp_setting.getInt(Define.SP_MSG_KEY_STRING_BATTERY_LEVEL_MAX, 0);
+    }
+
+    public static void setBatteryLevelAlarmMax(int battery_level) {
+        Log.d(TAG, "battery_level :" + battery_level);
+        sp_setting.edit()
+                .putInt(Define.SP_MSG_KEY_STRING_BATTERY_LEVEL_MAX, battery_level)
+                .apply();
+    }
+
+    public static int getBatteryLevelCurrent() {
+        return sp_setting.getInt(Define.SP_MSG_KEY_STRING_BATTERY_LEVEL_CURRENT, 0);
+    }
+
+    public static void setBatteryLevelCurrent(int battery_level) {
+        Log.d(TAG, "battery_level :" + battery_level);
+        sp_setting.edit()
+                .putInt(Define.SP_MSG_KEY_STRING_BATTERY_LEVEL_CURRENT, battery_level)
+                .apply();
+    }
+
+    public static int getBatteryStatus() {
+        return sp_setting.getInt(Define.SP_MSG_KEY_STRING_BATTERY_STATUS, 0);
+    }
+
+    public static void setBatteryStatus(int battery_status) {
+        Log.d(TAG, "battery_status :" + battery_status);
+        sp_setting.edit()
+                .putInt(Define.SP_MSG_KEY_STRING_BATTERY_STATUS, battery_status)
                 .apply();
     }
 

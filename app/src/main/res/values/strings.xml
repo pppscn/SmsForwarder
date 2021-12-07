@@ -159,8 +159,8 @@
     <string name="sim1_remark" tools:ignore="Typos">SIM1备注</string>
     <string name="sim2_remark" tools:ignore="Typos">SIM2备注</string>
     <string name="carrier_mobile">运营商_手机号</string>
-    <string name="low_power_alarm_threshold">低电量预警阈值(%)</string>
-    <string name="low_power_alarm_threshold_tips">取值范围：0–100，留空或0禁用</string>
+    <string name="low_power_alarm_threshold">电量预警阈值(%)</string>
+    <string name="low_power_alarm_threshold_tips">取值范围：0–100，0禁用</string>
     <string name="retry_interval">每次重试间隔(秒)</string>
     <string name="retry_interval_tips">接口请求失败后将重试5次</string>
     <string name="forward_sms">转发短信广播</string>
@@ -247,4 +247,10 @@
     <string name="account">✱帐户管理</string>
     <string name="servers">✱服务器信息</string>
     <string name="email">✱邮件设置</string>
+    <string name="below">低于</string>
+    <string name="percent">%</string>
+    <string name="above">高于</string>
+    <string name="zero">0</string>
+    <string name="monitor_battery_status_changes">监听电池状态变化</string>
+    <string name="battery_status_changes_tips">充电状态改变(充电中/放电中/未充电/已充满)时发出通知</string>
 </resources>

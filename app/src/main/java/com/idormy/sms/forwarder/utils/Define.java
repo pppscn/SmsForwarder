@@ -15,7 +15,11 @@ public class Define {
     public static final String SP_MSG_KEY_STRING_ADD_EXTRA_SIM2 = "tsms_msg_key_string_add_extra_sim2";
     public static final String SP_MSG_KEY_SWITCH_SMS_TEMPLATE = "tsms_msg_key_switch_sms_template";
     public static final String SP_MSG_KEY_STRING_SMS_TEMPLATE = "tsms_msg_key_string_sms_template";
+    public static final String SP_MSG_KEY_STRING_BATTERY_STATUS = "tsms_msg_key_string_battery_status";
+    public static final String SP_MSG_KEY_STRING_BATTERY_RECEIVER = "tsms_msg_key_switch_battery_receiver";
+    public static final String SP_MSG_KEY_STRING_BATTERY_LEVEL_CURRENT = "tsms_msg_key_string_battery_level_current";
     public static final String SP_MSG_KEY_STRING_BATTERY_LEVEL_ALARM = "tsms_msg_key_string_battery_level_alarm";
+    public static final String SP_MSG_KEY_STRING_BATTERY_LEVEL_MAX = "tsms_msg_key_string_battery_level_max";
     public static final String SP_MSG_KEY_STRING_RETRY_DELAY_TIME1 = "tsms_msg_key_string_retry_delay_time1";
     public static final String SP_MSG_KEY_STRING_RETRY_DELAY_TIME2 = "tsms_msg_key_string_retry_delay_time2";
     public static final String SP_MSG_KEY_STRING_RETRY_DELAY_TIME3 = "tsms_msg_key_string_retry_delay_time3";

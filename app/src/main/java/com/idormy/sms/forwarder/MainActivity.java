@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.idormy.sms.forwarder.adapter.LogAdapter;
 import com.idormy.sms.forwarder.model.vo.LogVo;
+import com.idormy.sms.forwarder.service.BatteryService;
 import com.idormy.sms.forwarder.service.FrontService;
 import com.idormy.sms.forwarder.utils.CommonUtil;
 import com.idormy.sms.forwarder.utils.KeepAliveUtils;
@@ -74,7 +75,16 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
             serviceIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startService(serviceIntent);
         } catch (Exception e) {
-            Log.e(TAG, "onCreate:", e);
+            Log.e(TAG, "FrontService:", e);
+        }
+
+        //监听电池状态
+        try {
+            Intent batteryServiceIntent = new Intent(this, BatteryService.class);
+            batteryServiceIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startService(batteryServiceIntent);
+        } catch (Exception e) {
+            Log.e(TAG, "BatteryService:", e);
         }
     }
 
@@ -162,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         Log.d(TAG, "SimInfoList = " + MyApplication.SimInfoList.size());
 
         //省电优化设置为无限制
-        if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+        if (MyApplication.showHelpTip && Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             if (!KeepAliveUtils.isIgnoreBatteryOptimization(this)) {
                 Toast.makeText(this, R.string.tips_battery_optimization, Toast.LENGTH_LONG).show();
             }

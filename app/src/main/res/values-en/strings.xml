@@ -248,4 +248,10 @@
     <string name="account">✱Account</string>
     <string name="servers">✱Servers</string>
     <string name="email">✱Email</string>
+    <string name="below">below</string>
+    <string name="percent">%</string>
+    <string name="above">above</string>
+    <string name="zero">0</string>
+    <string name="monitor_battery_status_changes">Monitor battery status changes</string>
+    <string name="battery_status_changes_tips">Notify when charging status changes (charging/discharging/uncharged/fully charged)</string>
 </resources>

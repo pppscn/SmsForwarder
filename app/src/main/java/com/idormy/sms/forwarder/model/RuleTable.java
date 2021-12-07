@@ -9,7 +9,6 @@ public final class RuleTable {
     }
 
     /* Inner class that defines the table contents */
-    @SuppressWarnings("SpellCheckingInspection")
     public static class RuleEntry implements BaseColumns {
         public static final String TABLE_NAME = "rule";
         public static final String COLUMN_NAME_TYPE = "type";

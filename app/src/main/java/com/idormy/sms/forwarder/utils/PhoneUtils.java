@@ -31,7 +31,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-@SuppressWarnings({"deprecation", "rawtypes", "unchecked", "CommentedOutCode", "SynchronizeOnNonFinalField", "unused", "SameReturnValue", "SpellCheckingInspection"})
+@SuppressWarnings({"deprecation", "rawtypes", "unchecked", "CommentedOutCode", "SynchronizeOnNonFinalField", "unused", "SameReturnValue"})
 public class PhoneUtils {
     static Boolean hasInit = false;
     @SuppressLint("StaticFieldLeak")
