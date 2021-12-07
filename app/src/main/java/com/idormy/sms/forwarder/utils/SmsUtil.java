@@ -30,29 +30,33 @@ public class SmsUtil {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     public static String sendSms(int subId, String mobiles, String message) {
-        mobiles = mobiles.replace("；", ";");
+        mobiles = mobiles.replace("；", ";").replace("，", ";").replace(",", ";");
         Log.d(TAG, "subId = " + subId + ", mobiles = " + mobiles + ", message = " + message);
 
-        try {
-            SmsManager smsManager = SmsManager.getSmsManagerForSubscriptionId(subId);
-            @SuppressLint("UnspecifiedImmutableFlag") PendingIntent sendPI = PendingIntent.getBroadcast(context, 0, new Intent(Context.TELEPHONY_SUBSCRIPTION_SERVICE), PendingIntent.FLAG_ONE_SHOT);
-            @SuppressLint("UnspecifiedImmutableFlag") PendingIntent deliverPI = PendingIntent.getBroadcast(context, 0, new Intent("DELIVERED_SMS_ACTION"), 0);
+        String[] mobileArray = mobiles.split(";");
+        for (String mobile : mobileArray) {
+            try {
+                SmsManager smsManager = SmsManager.getSmsManagerForSubscriptionId(subId);
+                @SuppressLint("UnspecifiedImmutableFlag") PendingIntent sendPI = PendingIntent.getBroadcast(context, 0, new Intent(Context.TELEPHONY_SUBSCRIPTION_SERVICE), PendingIntent.FLAG_ONE_SHOT);
+                @SuppressLint("UnspecifiedImmutableFlag") PendingIntent deliverPI = PendingIntent.getBroadcast(context, 0, new Intent("DELIVERED_SMS_ACTION"), 0);
 
-            ArrayList<PendingIntent> sentPendingIntents = new ArrayList<>();
-            ArrayList<PendingIntent> deliveredPendingIntents = new ArrayList<>();
-            ArrayList<String> divideContents = smsManager.divideMessage(message);
+                ArrayList<PendingIntent> sentPendingIntents = new ArrayList<>();
+                ArrayList<PendingIntent> deliveredPendingIntents = new ArrayList<>();
+                ArrayList<String> divideContents = smsManager.divideMessage(message);
 
-            for (int i = 0; i < divideContents.size(); i++) {
-                sentPendingIntents.add(i, sendPI);
-                deliveredPendingIntents.add(i, deliverPI);
+                for (int i = 0; i < divideContents.size(); i++) {
+                    sentPendingIntents.add(i, sendPI);
+                    deliveredPendingIntents.add(i, deliverPI);
+                }
+                smsManager.sendMultipartTextMessage(mobile, null, divideContents, sentPendingIntents, deliveredPendingIntents);
+
+            } catch (Exception e) {
+                Log.e(TAG, Objects.requireNonNull(e.getMessage()));
+                return e.getMessage();
             }
-            smsManager.sendMultipartTextMessage(mobiles, null, divideContents, sentPendingIntents, deliveredPendingIntents);
-
-            return null;
-        } catch (Exception e) {
-            Log.e(TAG, Objects.requireNonNull(e.getMessage()));
-            return e.getMessage();
         }
+
+        return null;
     }
 
 }
