@@ -29,6 +29,7 @@
                 android:autofillHints=""
                 android:ems="11"
                 android:inputType="text"
+                android:maxLines="1"
                 android:text=""
                 tools:ignore="LabelFor,TextFields" />
         </LinearLayout>
@@ -63,6 +64,7 @@
                 android:autofillHints=""
                 android:ems="14"
                 android:inputType="textEmailAddress"
+                android:maxLines="1"
                 android:text=""
                 tools:ignore="LabelFor" />
         </LinearLayout>
@@ -87,6 +89,7 @@
                 android:autofillHints=""
                 android:ems="14"
                 android:inputType="textPassword"
+                android:maxLines="1"
                 android:text=""
                 tools:ignore="LabelFor,TextFields" />
         </LinearLayout>
@@ -111,6 +114,7 @@
                 android:autofillHints=""
                 android:ems="14"
                 android:inputType="text"
+                android:maxLines="1"
                 android:text=""
                 tools:ignore="LabelFor,TextFields" />
         </LinearLayout>
@@ -184,6 +188,7 @@
                 android:autofillHints=""
                 android:ems="14"
                 android:inputType="text"
+                android:maxLines="1"
                 android:text=""
                 tools:ignore="LabelFor,TextFields" />
         </LinearLayout>
@@ -207,7 +212,8 @@
                 android:layout_marginStart="3dp"
                 android:autofillHints=""
                 android:ems="5"
-                android:inputType="text"
+                android:inputType="number"
+                android:maxLines="1"
                 android:text=""
                 tools:ignore="LabelFor,TextFields" />
 
@@ -254,6 +260,7 @@
                 android:autofillHints=""
                 android:ems="14"
                 android:inputType="textEmailAddress"
+                android:maxLines="1"
                 android:text=""
                 tools:ignore="LabelFor" />
         </LinearLayout>

@@ -32,7 +32,6 @@ import java.util.Map;
 import java.util.Set;
 
 
-@SuppressWarnings("SpellCheckingInspection")
 public class AboutActivity extends AppCompatActivity {
     private final String TAG = "AboutActivity";
     private Context context;

@@ -577,7 +577,6 @@ public class PhoneUtils {
     /**
      * SIM 卡信息
      */
-    @SuppressWarnings("SpellCheckingInspection")
     public static class SimInfo {
         /**
          * 运营商信息：中国移动 中国联通 中国电信

@@ -19,7 +19,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/set_name" />
+                android:text="@string/set_name"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextTelegramName"
@@ -43,7 +44,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/TelegramApiToken" />
+                android:text="@string/TelegramApiToken"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextTelegramApiToken"
@@ -66,7 +68,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/TelegramChatId" />
+                android:text="@string/TelegramChatId"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextTelegramChatId"
@@ -77,6 +80,152 @@
                 android:inputType="text"
                 android:text=""
                 tools:ignore="LabelFor" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/proxy_settings"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupProxyType"
+                style="@style/rg_style"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/btnProxyNone"
+                    style="@style/rg_rb_style"
+                    android:checked="true"
+                    android:text="@string/proxy_none" />
+
+                <RadioButton
+                    android:id="@+id/btnProxyHttp"
+                    style="@style/rg_rb_style"
+                    android:text="@string/proxy_http" />
+
+                <RadioButton
+                    android:id="@+id/btnProxySocks"
+                    style="@style/rg_rb_style"
+                    android:text="@string/proxy_socks" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutProxyHost"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hostname" />
+
+            <EditText
+                android:id="@+id/editTextProxyHost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:autofillHints=""
+                android:ems="14"
+                android:inputType="text"
+                android:text=""
+                tools:ignore="LabelFor,TextFields" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutProxyPort"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/port" />
+
+            <EditText
+                android:id="@+id/editTextProxyPort"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:autofillHints=""
+                android:ems="5"
+                android:inputType="number"
+                android:maxLines="1"
+                android:text=""
+                tools:ignore="LabelFor,TextFields" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/proxy_authenticator" />
+
+            <Switch
+                android:id="@+id/switchProxyAuthenticator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/layoutProxyAuthenticator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/username" />
+
+            <EditText
+                android:id="@+id/editTextProxyUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:autofillHints=""
+                android:ems="7"
+                android:inputType="text"
+                android:text=""
+                tools:ignore="LabelFor" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/password" />
+
+            <EditText
+                android:id="@+id/editTextProxyPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:autofillHints=""
+                android:ems="7"
+                android:inputType="textPassword"
+                android:text=""
+                tools:ignore="LabelFor,TextFields" />
         </LinearLayout>
 
         <LinearLayout

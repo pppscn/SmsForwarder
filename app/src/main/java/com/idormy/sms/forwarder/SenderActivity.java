@@ -59,6 +59,7 @@ import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.sender.SenderWebNotifyMsg;
 import com.umeng.analytics.MobclickAgent;
 
+import java.net.Proxy;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -751,7 +752,6 @@ public class SenderActivity extends AppCompatActivity {
     }
 
     //企业微信群机器人
-    @SuppressWarnings("SpellCheckingInspection")
     @SuppressLint("SimpleDateFormat")
     private void setQYWXGroupRobot(final SenderModel senderModel) {
         QYWXGroupRobotSettingVo qywxGroupRobotSettingVo = null;
@@ -836,7 +836,6 @@ public class SenderActivity extends AppCompatActivity {
     }
 
     //企业微信应用
-    @SuppressWarnings("SpellCheckingInspection")
     @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
     private void setQYWXApp(final SenderModel senderModel) {
         QYWXAppSettingVo QYWXAppSettingVo = null;
@@ -975,12 +974,63 @@ public class SenderActivity extends AppCompatActivity {
 
         final EditText editTextTelegramName = view1.findViewById(R.id.editTextTelegramName);
         if (senderModel != null) editTextTelegramName.setText(senderModel.getName());
+
         final EditText editTextTelegramApiToken = view1.findViewById(R.id.editTextTelegramApiToken);
-        if (telegramSettingVo != null)
-            editTextTelegramApiToken.setText(telegramSettingVo.getApiToken());
         final EditText editTextTelegramChatId = view1.findViewById(R.id.editTextTelegramChatId);
-        if (telegramSettingVo != null)
+
+        final RadioGroup radioGroupProxyType = view1.findViewById(R.id.radioGroupProxyType);
+        final EditText editTextProxyHost = view1.findViewById(R.id.editTextProxyHost);
+        final EditText editTextProxyPort = view1.findViewById(R.id.editTextProxyPort);
+
+        @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchProxyAuthenticator = view1.findViewById(R.id.switchProxyAuthenticator);
+        final EditText editTextProxyUsername = view1.findViewById(R.id.editTextProxyUsername);
+        final EditText editTextProxyPassword = view1.findViewById(R.id.editTextProxyPassword);
+
+        final LinearLayout layoutProxyHost = view1.findViewById(R.id.layoutProxyHost);
+        final LinearLayout layoutProxyPort = view1.findViewById(R.id.layoutProxyPort);
+        final LinearLayout layoutProxyAuthenticator = view1.findViewById(R.id.layoutProxyAuthenticator);
+
+        switchProxyAuthenticator.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Log.d(TAG, "onCheckedChanged:" + isChecked);
+            layoutProxyAuthenticator.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+        });
+
+        radioGroupProxyType.setOnCheckedChangeListener((group, checkedId) -> {
+            if (group != null && checkedId > 0) {
+                if (checkedId == R.id.btnProxyNone) {
+                    layoutProxyHost.setVisibility(View.GONE);
+                    layoutProxyPort.setVisibility(View.GONE);
+                    layoutProxyAuthenticator.setVisibility(View.GONE);
+                } else {
+                    layoutProxyHost.setVisibility(View.VISIBLE);
+                    layoutProxyPort.setVisibility(View.VISIBLE);
+                    layoutProxyAuthenticator.setVisibility(switchProxyAuthenticator.isChecked() ? View.VISIBLE : View.GONE);
+                }
+                group.check(checkedId);
+            }
+        });
+
+        if (telegramSettingVo != null) {
+            editTextTelegramApiToken.setText(telegramSettingVo.getApiToken());
             editTextTelegramChatId.setText(telegramSettingVo.getChatId());
+
+            radioGroupProxyType.check(telegramSettingVo.getProxyTypeCheckId());
+            layoutProxyAuthenticator.setVisibility(telegramSettingVo.getProxyAuthenticator() ? View.VISIBLE : View.GONE);
+
+            switchProxyAuthenticator.setChecked(telegramSettingVo.getProxyAuthenticator());
+            if (Proxy.Type.DIRECT == telegramSettingVo.getProxyType()) {
+                layoutProxyHost.setVisibility(View.GONE);
+                layoutProxyPort.setVisibility(View.GONE);
+            } else {
+                layoutProxyHost.setVisibility(View.VISIBLE);
+                layoutProxyPort.setVisibility(View.VISIBLE);
+            }
+            editTextProxyHost.setText(telegramSettingVo.getProxyHost());
+            editTextProxyPort.setText(telegramSettingVo.getProxyPort());
+
+            editTextProxyUsername.setText(telegramSettingVo.getProxyUsername());
+            editTextProxyPassword.setText(telegramSettingVo.getProxyPassword());
+        }
 
         Button buttonTelegramOk = view1.findViewById(R.id.buttonTelegramOk);
         Button buttonTelegramDel = view1.findViewById(R.id.buttonTelegramDel);
@@ -1001,7 +1051,14 @@ public class SenderActivity extends AppCompatActivity {
                 newSenderModel.setStatus(STATUS_ON);
                 TelegramSettingVo telegramSettingVoNew = new TelegramSettingVo(
                         editTextTelegramApiToken.getText().toString().trim(),
-                        editTextTelegramChatId.getText().toString().trim()
+                        editTextTelegramChatId.getText().toString().trim(),
+                        radioGroupProxyType.getCheckedRadioButtonId(),
+                        editTextProxyHost.getText().toString().trim(),
+                        editTextProxyPort.getText().toString().trim(),
+                        switchProxyAuthenticator.isChecked(),
+                        editTextProxyUsername.getText().toString().trim(),
+                        editTextProxyPassword.getText().toString().trim()
+
                 );
                 newSenderModel.setJsonSetting(JSON.toJSONString(telegramSettingVoNew));
                 SenderUtil.addSender(newSenderModel);
@@ -1013,7 +1070,13 @@ public class SenderActivity extends AppCompatActivity {
                 senderModel.setStatus(STATUS_ON);
                 TelegramSettingVo telegramSettingVoNew = new TelegramSettingVo(
                         editTextTelegramApiToken.getText().toString().trim(),
-                        editTextTelegramChatId.getText().toString().trim()
+                        editTextTelegramChatId.getText().toString().trim(),
+                        radioGroupProxyType.getCheckedRadioButtonId(),
+                        editTextProxyHost.getText().toString().trim(),
+                        editTextProxyPort.getText().toString().trim(),
+                        switchProxyAuthenticator.isChecked(),
+                        editTextProxyUsername.getText().toString().trim(),
+                        editTextProxyPassword.getText().toString().trim()
                 );
                 senderModel.setJsonSetting(JSON.toJSONString(telegramSettingVoNew));
                 SenderUtil.updateSender(senderModel);
@@ -1037,7 +1100,17 @@ public class SenderActivity extends AppCompatActivity {
             String chatId = editTextTelegramChatId.getText().toString().trim();
             if (!apiToken.isEmpty() && !chatId.isEmpty()) {
                 try {
-                    SenderTelegramMsg.sendMsg(0, handler, apiToken, chatId, getString(R.string.test_phone_num), getString(R.string.test_sms));
+                    TelegramSettingVo telegramSettingVoNew = new TelegramSettingVo(
+                            apiToken,
+                            chatId,
+                            radioGroupProxyType.getCheckedRadioButtonId(),
+                            editTextProxyHost.getText().toString().trim(),
+                            editTextProxyPort.getText().toString().trim(),
+                            switchProxyAuthenticator.isChecked(),
+                            editTextProxyUsername.getText().toString().trim(),
+                            editTextProxyPassword.getText().toString().trim()
+                    );
+                    SenderTelegramMsg.sendMsg(0, handler, telegramSettingVoNew, getString(R.string.test_phone_num), getString(R.string.test_sms));
                 } catch (Exception e) {
                     Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
