@@ -20,3 +20,4 @@ gradle.properties
 /keystore
 *.bak
 /pic/working_principle.drawio
+/app/debug
