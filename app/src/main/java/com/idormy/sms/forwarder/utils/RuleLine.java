@@ -38,29 +38,29 @@ class RuleLine {
     static {
         CONJUNCTION_LIST.add("and");
         CONJUNCTION_LIST.add("or");
-        CONJUNCTION_LIST.add("并且");
-        CONJUNCTION_LIST.add("或者");
+        CONJUNCTION_LIST.add(CONJUNCTION_AND);
+        CONJUNCTION_LIST.add(CONJUNCTION_OR);
     }
 
     static {
-        FILED_LIST.add("手机号");
-        FILED_LIST.add("短信内容");
-        FILED_LIST.add("APP包名");
-        FILED_LIST.add("通知内容");
+        FILED_LIST.add(FILED_PHONE_NUM);
+        FILED_LIST.add(FILED_PACKAGE_NAME);
+        FILED_LIST.add(FILED_MSG_CONTENT);
+        FILED_LIST.add(FILED_INFORM_CONTENT);
     }
 
     static {
-        SURE_LIST.add("是");
-        SURE_LIST.add("不是");
+        SURE_LIST.add(SURE_YES);
+        SURE_LIST.add(SURE_NOT);
     }
 
     static {
-        CHECK_LIST.add("相等");
-        CHECK_LIST.add("包含");
-        CHECK_LIST.add("开头");
-        CHECK_LIST.add("结尾");
-        CHECK_LIST.add("不包含");
-        CHECK_LIST.add("正则匹配");
+        CHECK_LIST.add(CHECK_EQUALS);
+        CHECK_LIST.add(CHECK_CONTAIN);
+        CHECK_LIST.add(CHECK_NOT_CONTAIN);
+        CHECK_LIST.add(CHECK_START_WITH);
+        CHECK_LIST.add(CHECK_END_WITH);
+        CHECK_LIST.add(CHECK_REGEX);
     }
 
     //开头有几个空格
@@ -250,7 +250,6 @@ class RuleLine {
 
         logg("----------" + lineNum + "==" + this);
 
-
     }
 
     public static void startLog(boolean startLog) {
@@ -261,7 +260,6 @@ class RuleLine {
         if (STARTLOG) {
             Log.i(TAG, msg);
         }
-
     }
 
     //字段分支
@@ -282,7 +280,6 @@ class RuleLine {
                 break;
             default:
                 break;
-
         }
 
         //整合肯定词
@@ -295,7 +292,6 @@ class RuleLine {
             default:
                 mixChecked = false;
                 break;
-
         }
 
         logg("rule:" + this + " checkMsg:" + msg + " checked:" + mixChecked);
