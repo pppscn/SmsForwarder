@@ -27,7 +27,7 @@ class RuleLine {
     public static final String CHECK_NOT_CONTAIN = "不包含";
     public static final String CHECK_START_WITH = "开头";
     public static final String CHECK_END_WITH = "结尾";
-    public static final String CHECK_REGEX = "正则";
+    public static final String CHECK_REGEX = "正则匹配";
     public static final List<String> CONJUNCTION_LIST = new ArrayList<>();
     public static final List<String> FILED_LIST = new ArrayList<>();
     public static final List<String> SURE_LIST = new ArrayList<>();
