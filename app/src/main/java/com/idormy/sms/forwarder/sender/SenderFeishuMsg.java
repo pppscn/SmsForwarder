@@ -12,6 +12,8 @@ import com.idormy.sms.forwarder.utils.SettingUtil;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -35,7 +37,60 @@ public class SenderFeishuMsg extends SenderBaseMsg {
 
     static final String TAG = "SenderFeishuMsg";
 
-    public static void sendMsg(final long logId, final Handler handError, String webhook, String secret, String content) throws Exception {
+    static final String MSG_TEMPLATE = "{\n" +
+            "  \"config\": {\n" +
+            "    \"wide_screen_mode\": true\n" +
+            "  },\n" +
+            "  \"elements\": [\n" +
+            "    {\n" +
+            "      \"fields\": [\n" +
+            "        {\n" +
+            "          \"is_short\": true,\n" +
+            "          \"text\": {\n" +
+            "            \"content\": \"**时间**\\n${MSG_TIME}\",\n" +
+            "            \"tag\": \"lark_md\"\n" +
+            "          }\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"is_short\": true,\n" +
+            "          \"text\": {\n" +
+            "            \"content\": \"**来源**\\n${MSG_FROM}\",\n" +
+            "            \"tag\": \"lark_md\"\n" +
+            "          }\n" +
+            "        }\n" +
+            "      ],\n" +
+            "      \"tag\": \"div\"\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"tag\": \"div\",\n" +
+            "      \"text\": {\n" +
+            "        \"content\": \"${MSG_CONTENT}\",\n" +
+            "        \"tag\": \"lark_md\"\n" +
+            "      }\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"tag\": \"hr\"\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"elements\": [\n" +
+            "        {\n" +
+            "          \"content\": \"[SmsForwarder](https://github.com/pppscn/SmsForwarder)\",\n" +
+            "          \"tag\": \"lark_md\"\n" +
+            "        }\n" +
+            "      ],\n" +
+            "      \"tag\": \"note\"\n" +
+            "    }\n" +
+            "  ],\n" +
+            "  \"header\": {\n" +
+            "    \"template\": \"turquoise\",\n" +
+            "    \"title\": {\n" +
+            "      \"content\": \"${MSG_TITLE}\",\n" +
+            "      \"tag\": \"plain_text\"\n" +
+            "    }\n" +
+            "  }\n" +
+            "}";
+
+    public static void sendMsg(final long logId, final Handler handError, String webhook, String secret, String from, Date date, String content) throws Exception {
         Log.i(TAG, "sendMsg webhook:" + webhook + " secret:" + secret + " content:" + content);
 
         if (webhook == null || webhook.isEmpty()) {
@@ -62,14 +117,12 @@ public class SenderFeishuMsg extends SenderBaseMsg {
         }
 
         //组装报文
-        textMsgMap.put("msg_type", "text");
-        Map contentMap = new HashMap();
-        contentMap.put("text", content);
-        textMsgMap.put("content", contentMap);
+        textMsgMap.put("msg_type", "interactive");
+        textMsgMap.put("card", "${CARD_BODY}");
 
         final String requestUrl = webhook;
         Log.i(TAG, "requestUrl:" + requestUrl);
-        final String requestMsg = JSON.toJSONString(textMsgMap);
+        final String requestMsg = JSON.toJSONString(textMsgMap).replace("\"${CARD_BODY}\"", buildMsg(from, date, content));
         Log.i(TAG, "requestMsg:" + requestMsg);
 
         Observable
@@ -121,6 +174,25 @@ public class SenderFeishuMsg extends SenderBaseMsg {
                     return Observable.timer(delay, TimeUnit.SECONDS);
                 }))
                 .subscribe(System.out::println);
+    }
+
+    private static String buildMsg(String from, Date date, String content) {
+        String msgTitle = jsonInnerStr("【" + SettingUtil.getAddExtraDeviceMark().trim() + "】来自" + from + "的通知");
+        String msgTime = jsonInnerStr(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
+        String msgFrom = jsonInnerStr(from);
+        String msgContent = jsonInnerStr(content);
+        return MSG_TEMPLATE.replace("${MSG_TITLE}", msgTitle)
+                .replace("${MSG_TIME}", msgTime)
+                .replace("${MSG_FROM}", msgFrom)
+                .replace("${MSG_CONTENT}", msgContent);
+    }
+
+    private static String jsonInnerStr(String string) {
+        if (string == null) {
+            return "null";
+        }
+        String jsonStr = JSON.toJSONString(string);
+        return jsonStr.length() >= 2 ? jsonStr.substring(1, jsonStr.length() - 1) : jsonStr;
     }
 
 }
