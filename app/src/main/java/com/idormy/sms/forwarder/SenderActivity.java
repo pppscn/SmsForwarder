@@ -1293,7 +1293,7 @@ public class SenderActivity extends AppCompatActivity {
             String secret = editTextFeishuSecret.getText().toString().trim();
             if (!token.isEmpty()) {
                 try {
-                    SenderFeishuMsg.sendMsg(0, handler, token, secret, getString(R.string.test_content) + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                    SenderFeishuMsg.sendMsg(0, handler, token, secret, getString(R.string.test_phone_num), new Date(), getString(R.string.test_sms));
                 } catch (Exception e) {
                     Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
