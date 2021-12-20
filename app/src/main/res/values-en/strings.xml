@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SmsForwarder</string>
-    <string name="notification_content">Forward to DingTalk/WeCom/FeiShu/Email/Bark/ServerChan/Telegram/Webhook, etc</string>
+    <string name="notification_content">Forward SMS (and others!) to another app/device, a must-have for anyone's secondary smartphone. Free and open source, do NOT buy or sell this App.</string>
     <!--Common-->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
@@ -17,22 +17,22 @@
     <string name="sender_setting">Sender Setting</string>
     <string name="app_list">App List</string>
     <string name="log_tips">Tips: Pull to refresh; Long press to delete one log entry.</string>
-    <string name="rule_tips">Tips: Tap "NEW FORWARDING RULE" to add a new rule; Long press one to delete; Tap an existing one to edit.</string>
-    <string name="sender_tips">Tips: Tap "NEW SENDER" to add a new sender; Long press one to delete; Tap an existing one to edit.</string>
-    <string name="app_tips">Tips: Tap to copy the package name of APP; Long press one to start and jump to.</string>
+    <string name="rule_tips">Tips: Tap "NEW FORWARDING RULE" to add a new rule; Long press a rule to delete; Tap an existing rule to edit.</string>
+    <string name="sender_tips">Tips: Tap "NEW SENDER" to add a new sender; Long press a sender to delete; Tap an existing sender to edit.</string>
+    <string name="app_tips">Tips: Tap to copy the package name of an App; Long press an App to start and jump to it.</string>
     <!--AboutActivity-->
     <string name="version">Version</string>
     <string name="check_for_updates">Check for updates</string>
     <string name="auto_startup">Auto startup</string>
     <string name="show_tips">Show tips</string>
-    <string name="open_source">Open source</string>
-    <string name="synchronize_mirror">Synchronize Mirror</string>
+    <string name="open_source">Repo URL</string>
+    <string name="synchronize_mirror">Repo Mirror</string>
     <string name="qq_group">QQ Group</string>
     <string name="qq_group1">1st：562854376</string>
     <string name="qq_group2">2nd：31330492</string>
     <string name="join_qq_group1">Join 1st Group</string>
     <string name="join_qq_group2">Join 2nd Group</string>
-    <string name="cache">Cache</string>
+    <string name="cache">Cache size</string>
     <string name="purge">Purge</string>
     <string name="checking">Checking…</string>
     <string name="up_to_date">Yo, you are up to date!</string>
@@ -42,7 +42,7 @@
     <string name="bt_refresh_log">Clear Logs</string>
     <string name="delete_log_title">Delete confirmation</string>
     <string name="delete_log_tips">Are you sure to delete this log entry?</string>
-    <string name="delete_log_toast">The log entry has deleted.</string>
+    <string name="delete_log_toast">This log entry is deleted.</string>
     <string name="details">Details</string>
     <string name="clear_logs_tips">Are you sure to clear all forwarding logs?</string>
     <string name="pull_tips">Pull to refresh.</string>
@@ -85,8 +85,8 @@
     <!--SenderActivity-->
     <string name="invalid_sender">Invalid sender, abort!</string>
     <string name="delete_sender_title">Delete confirmation</string>
-    <string name="delete_sender_tips">Are you sure to delete this rule entry?</string>
-    <string name="delete_sender_toast">The rule entry has deleted.</string>
+    <string name="delete_sender_tips">Are you sure to delete this sender?</string>
+    <string name="delete_sender_toast">The sender is deleted.</string>
     <string name="add_sender_title">Select sender type</string>
     <string name="not_supported">Not supported</string>
     <string name="setdingdingtitle">DingTalk Bot Settings</string>
@@ -105,15 +105,15 @@
     <string name="test_sms">【JD】code 387481, ihelp.jd.com</string>
     <string name="test_group_name">Test Group Name</string>
     <string name="failed_to_fwd">Failed to fwd：</string>
-    <string name="invalid_token">Token cannot be empty</string>
+    <string name="invalid_token">Token cannot be blank</string>
     <string name="invalid_email">Invalid email settings</string>
-    <string name="invalid_bark_server">Bark-server cannot be empty</string>
-    <string name="invalid_apiToken_or_chatId">Neither ApiToken nor ChatId can be empty</string>
-    <string name="invalid_sendkey">SendKey cannot be empty</string>
-    <string name="invalid_webserver">WebServer cannot be empty</string>
-    <string name="invalid_webhook">webHook cannot be empty</string>
-    <string name="invalid_at_mobiles">The specified member cannot be empty or select @all</string>
-    <string name="invalid_phone_num">Phone number cannot be empty</string>
+    <string name="invalid_bark_server">Bark-server cannot be blank</string>
+    <string name="invalid_apiToken_or_chatId">Neither ApiToken nor ChatId can be blank</string>
+    <string name="invalid_sendkey">SendKey cannot be blank</string>
+    <string name="invalid_webserver">WebServer cannot be blank</string>
+    <string name="invalid_webhook">Webhook cannot be blank</string>
+    <string name="invalid_at_mobiles">The specified member cannot be blank or select @all</string>  <!-- “指定成员 不能为空 或者 选择@all” 这句话是什么意思？“指定成员既不能为‘空’也不能为‘选择@all’”吗？还是“指定成员不能为空，或者可以@all”呢？ -->
+    <string name="invalid_phone_num">Phone number cannot be blank</string>
     <string name="new_sender">New Sender</string>
     <string name="set_bark_name">Bark Group Name</string>
     <string name="set_bark_server">Bark-Server, e.g. https://bark.bms.ink/XXXXXXXX/</string>
@@ -149,7 +149,7 @@
     <string name="WebNotifyMethod" formatted="false">Method</string>
     <string name="WebNotifyWebServer">WebServer e.g. https://a.b.com/msg?token=xyz</string>
     <string name="WebNotifyWebParams">WebParams e.g. payload=%7B%22text%22%3A%22[msg]%22%7D [msg] will be replaced with text message content. \nSupport Json format, for example: {"text":[MSG]}.\n Note: MSG is automatically utF-8 encoded in addition to JSON format</string>
-    <string name="WebNotifySecret">Secret (If empty, sign is not counted)</string>
+    <string name="WebNotifySecret">Secret (sign is not counted if left blank)</string>
     <string name="SmsSimSlot">Sim Slot</string>
     <string name="same_source">Same source</string>
     <string name="SmsMobiles">Receive mobile phone numbers separated by, e.g. 15888888888;19999999999</string>
@@ -174,8 +174,8 @@
     <string name="enable_regex_replace">Enable regular replacement content</string>
     <string name="enable_regex_replace_tips">Format: RegularExpression===ReplacementResult,One rule per line.\ne.g. (\\d{3})\\d+(\\d{4})===$1****$2</string>
     <string name="regex_check_tips">Format check: line %d is badly formatted! Format: RegularExpression===ReplacementResult</string>
-    <string name="enable_exclude_from_recents">Exclude from recents</string>
-    <string name="enable_exclude_from_recents_tips">After this function is enabled, manual killing of processes is effectively avoided, which helps to keep the process alive</string>
+    <string name="enable_exclude_from_recents">Hide from recent Apps</string>
+    <string name="enable_exclude_from_recents_tips">Enable to hide SmsForwarder from recent Apps so as to keep alive</string>
     <string name="custom_templates">Custom templates</string>
     <string name="custom_templates_tips">Tip：Insert labels as needed;Leave blank to default template</string>
     <string name="insert_sender">Phone</string>
@@ -200,40 +200,40 @@
     <string name="cache_size">0KB</string>
     <string name="sim1" tools:ignore="Typos">SIM1</string>
     <string name="sim2" tools:ignore="Typos">SIM2</string>
-    <string name="mu_rule_tips">多重匹配规则示例：\n \n 并且 是 手机号 相等 10086\n 或者 是 手机号 相等 10011\n 并且 是 短信内容 包含 欠费\n \n 以上规则表示：收到短信，并且（手机号是10086 或者 手机号是10010），并且 短信内容 包含 欠费 时转发短信\n 注意：每行开始的空格代表层级，太过复杂的多重规则可能导致内存占用很大！</string>
-    <string name="mu_rule_tips2">多重匹配规则示例：\n \n 并且 是 包名 相等 com.tencent.mm\n 或者 是 包名 相等 com.tencent.mm\n 并且 是 通知内容 包含 欠费\n \n 以上规则表示：收到APP通知，并且（包名是com.tencent.mm 或者 包名是com.tencent.mm），并且 通知内容 包含 欠费 时转发通知\n 注意：每行开始的空格代表层级，太过复杂的多重规则可能导致内存占用很大！</string>
+    <string name="mu_rule_tips">多重匹配规则示例：\n \n 并且 是 手机号 相等 10086\n 或者 是 手机号 相等 10011\n 并且 是 短信内容 包含 欠费\n \n 以上规则表示：收到短信，并且（手机号是10086 或者 手机号是10010），并且 短信内容 包含 欠费 时转发短信\n Note: Space(s) at beginning of each line indicates rule hierarchy, complicity of multiple rules may causes large memory usage!</string>
+    <string name="mu_rule_tips2">多重匹配规则示例：\n \n 并且 是 包名 相等 com.tencent.mm\n 或者 是 包名 相等 com.tencent.mm\n 并且 是 通知内容 包含 欠费\n \n 以上规则表示：收到APP通知，并且（包名是com.tencent.mm 或者 包名是com.tencent.mm），并且 通知内容 包含 欠费 时转发通知\n Note: Space(s) at beginning of each line indicates rule hierarchy, complicity of multiple rules may causes large memory usage!</string>
     <string name="post">POST</string>
     <string name="get">GET</string>
     <!--CloneActivity-->
     <string name="local_ip">Local IP：</string>
-    <string name="operating_instruction">Operation instructions: \n1. Please keep the old and new phones in the same WiFi network, and do not turn on isolation \n2.The old mobile phone directly click "send" button, get "server IP" \n3. After filling in "Server IP" for the new mobile phone, click "Receive" button \n [note], the sender and forwarding rules will be completely covered after the new mobile phone receives!</string>
+    <string name="operating_instruction">Instructions: \n1. Please keep the SOURCE and DESTINATION phones in the same Wi-Fi network, and do not turn on isolation. \n2. Tap "Send" on SOURCE mobile phone, and get "server IP" \n3. After filling in "Server IP" on DESTINATION phone, tap "Receive". \n [NOTE:] sender(s), forwarding rule(s) and log(s) will be overwritten after cloning!</string> <!-- 原文是“新旧手机”，英文翻译中处理为“源”手机和“目标”手机，因为担心“新旧”的表述引起混淆（有没一种可能就是用户就是用从新手机的设备复制到旧手机上去呢？）。 -->
     <string name="send">Send</string>
     <string name="stop">Stop</string>
-    <string name="old_mobile_phone">I\'m the old phone</string>
+    <string name="old_mobile_phone">I\'m the SCOURCE phone</string>
     <string name="receive">Receive</string>
-    <string name="new_mobile_phone">I\'m the new phone</string>
+    <string name="new_mobile_phone">I\'m the DESTINATION phone</string>
     <string name="server_ip">Server IP: </string>
     <string name="point">.</string>
     <string name="invalid_ip">Please enter a valid IP address</string>
     <string name="server_has_started">The server is started successfully</string>
     <string name="server_has_stopped">The server has been stopped</string>
-    <string name="sender_cannot_receive">This mobile phone is the sender and cannot receive files.</string>
-    <string name="no_wifi_network">If the Wifi network is not connected, the one-click cloning function cannot be used.</string>
+    <string name="sender_cannot_receive">This mobile phone is the SOURCE and cannot receive files.</string>
+    <string name="no_wifi_network">One-tap cloning function does NOT work without Wi-Fi connection.</string>
     <string name="invalid_server_ip">Please enter a valid server IP address</string>
     <string name="download_success">Download Success</string>
-    <string name="on_wireless_network">Currently on a wireless network</string>
-    <string name="on_mobile_network">Currently on a mobile network</string>
-    <string name="no_network">No network at present</string>
-    <string name="not_connected_wifi">Not connected WIFI</string>
-    <string name="failed_to_get_ip">Failed to get IP address</string>
+    <string name="on_wireless_network">A Wireless network connected.</string>
+    <string name="on_mobile_network">A Mobile network connected.</string>
+    <string name="no_network">Not connected to a network.</string>
+    <string name="not_connected_wifi">No Wi-Fi network connected.</string>
+    <string name="failed_to_get_ip">Failed to get an IP address</string>
     <string name="sms">SMS</string>
     <string name="call">Call</string>
     <string name="app">App</string>
     <string name="appicon">App Icon</string>
     <string name="user_app">User App</string>
     <string name="system_app">System App</string>
-    <string name="tips_battery_optimization">Please set the power saving optimization to unlimited (no optimization), which is conducive to the survival of SMS forwarder!</string>
-    <string name="tips_notification_listener">Please grant the right to use SMS forwarder notification first, otherwise the APP notification cannot be forwarded and the forwarding will be automatically closed!</string>
+    <string name="tips_battery_optimization">Please deactivate power optimization for SmsForwarder, in order to keep the App alive!</string>
+    <string name="tips_notification_listener">Please grant Notification reading permission to SmsForwarder, before other Apps' notification could be forwarded. Forwarding automatically canceled!</string>
     <string name="notification_listener_service_enabled">The notification service is enabled</string>
     <string name="notification_listener_service_disabled">The notification service is disabled</string>
     <string name="pushplus_token">Token</string>
