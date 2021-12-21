@@ -87,8 +87,9 @@ public class RuleActivity extends AppCompatActivity {
         listView.setOnItemClickListener((parent, view, position, id) -> {
             RuleModel ruleModel = ruleModels.get(position);
             Log.d(TAG, "onItemClick: " + ruleModel);
-            setRule(ruleModel);
+            setRule(ruleModel, false);
         });
+
         listView.setOnItemLongClickListener((parent, view, position, id) -> {
             //定义AlertDialog.Builder对象，当长按列表项的时候弹出确认删除对话框
             AlertDialog.Builder builder = new AlertDialog.Builder(RuleActivity.this);
@@ -101,6 +102,17 @@ public class RuleActivity extends AppCompatActivity {
                 initRules();
                 adapter.del(ruleModels);
                 Toast.makeText(getBaseContext(), R.string.delete_rule_toast, Toast.LENGTH_SHORT).show();
+            });
+
+            //添加AlertDialog.Builder对象的setNegativeButton()方法
+            builder.setNeutralButton(R.string.clone, (dialog, which) -> {
+                RuleModel ruleModel = ruleModels.get(position);
+                //TODO:直接复制
+                //RuleUtil.addRule(ruleModel);
+                //initRules();
+                //adapter.add(ruleModels);
+                //TODO:只复制到编辑对话框
+                setRule(ruleModel, true);
             });
 
             //添加AlertDialog.Builder对象的setNegativeButton()方法
@@ -169,10 +181,10 @@ public class RuleActivity extends AppCompatActivity {
         final RadioGroup radioGroupTypeCheck = findViewById(R.id.radioGroupTypeCheck);
         radioGroupTypeCheck.check(typeCheckId);
 
-        setRule(null);
+        setRule(null, false);
     }
 
-    private void setRule(final RuleModel ruleModel) {
+    private void setRule(final RuleModel ruleModel, final boolean isClone) {
         final AlertDialog.Builder alertDialog71 = new AlertDialog.Builder(RuleActivity.this);
         final View view1 = View.inflate(RuleActivity.this, getDialogView(currentType), null);
 
@@ -260,7 +272,7 @@ public class RuleActivity extends AppCompatActivity {
 
             int radioGroupRuleCheckId = Math.max(radioGroupRuleCheck.getCheckedRadioButtonId(), radioGroupRuleCheck2.getCheckedRadioButtonId());
             Log.d(TAG, radioGroupRuleCheck.getCheckedRadioButtonId() + "  " + radioGroupRuleCheck2.getCheckedRadioButtonId() + " " + radioGroupRuleCheckId);
-            if (ruleModel == null) {
+            if (isClone || ruleModel == null) {
                 RuleModel newRuleModel = new RuleModel();
                 newRuleModel.setType(currentType);
                 newRuleModel.setFiled(RuleModel.getRuleFiledFromCheckId(radioGroupRuleFiled.getCheckedRadioButtonId()));

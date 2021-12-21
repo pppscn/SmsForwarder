@@ -17,7 +17,7 @@
     <string name="sender_setting">Sender Setting</string>
     <string name="app_list">App List</string>
     <string name="log_tips">Tips: Pull to refresh; Long press to delete one log entry.</string>
-    <string name="rule_tips">Tips: Tap "NEW FORWARDING RULE" to add a new rule; Long press a rule to delete; Tap an existing rule to edit.</string>
+    <string name="rule_tips">Tips: Tap "NEW FORWARDING RULE" to add a new rule; Long press a rule to delete or clone; Tap an existing rule to edit.</string>
     <string name="sender_tips">Tips: Tap "NEW SENDER" to add a new sender; Long press a sender to delete; Tap an existing sender to edit.</string>
     <string name="app_tips">Tips: Tap to copy the package name of an App; Long press an App to start and jump to it.</string>
     <!--AboutActivity-->
@@ -52,7 +52,7 @@
     <string name="setrule">Fwd Rule Settings</string>
     <string name="setrule_call">Fwd Rule Settings of call</string>
     <string name="setrule_app">Fwd Rule Settings of app</string>
-    <string name="delete_rule_title">Delete confirmation</string>
+    <string name="delete_rule_title">Confirmation</string>
     <string name="delete_rule_tips">Are you sure to delete this rule entry?</string>
     <string name="delete_rule_toast">The rule entry has deleted.</string>
     <string name="new_sender_first">Please add a new sender and then choose it.</string>
