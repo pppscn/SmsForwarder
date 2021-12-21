@@ -146,7 +146,7 @@
     <string name="ServerChanSendKey">设置Server酱·Turbo版的SendKey</string>
     <string name="TelegramApiToken">设置Telegram机器人的ApiToken 或 自定义地址(http开头)</string>
     <string name="TelegramChatId">设置被通知人(或群组)的ChatId</string>
-    <string name="WebNotifyMethod" formatted="false">请求方式</string>
+    <string name="WebNotifyMethod">请求方式</string>
     <string name="WebNotifyWebServer">设置WebServer：例如：https://a.b.com/msg?token=xyz</string>
     <string name="WebNotifyWebParams">设置WebParams：例如：payload=%7B%22text%22%3A%22[msg]%22%7D [msg]将被替换成短信内容。\n支持Json格式，例如：{"text":[msg]}。\n注意：除JSON格式外，msg会自动进行UTF-8编码</string>
     <string name="WebNotifySecret">设置Secret:置空则不计算sign</string>

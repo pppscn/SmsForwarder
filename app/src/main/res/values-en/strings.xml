@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SmsForwarder</string>
-    <string name="notification_content">Forward SMS (and others!) to another app/device, a must-have for anyone's secondary smartphone. Free and open source, do NOT buy or sell this App.</string>
+    <string name="notification_content">Forward SMS (and others!) to another app/device, a must-have for anyone\'s secondary smartphone. Free and open source, do NOT buy or sell this App.</string>
     <!--Common-->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
@@ -146,7 +146,7 @@
     <string name="ServerChanSendKey">ServerChan\'s SendKey</string>
     <string name="TelegramApiToken">ApiToken or Custom address</string>
     <string name="TelegramChatId">ChatId</string>
-    <string name="WebNotifyMethod" formatted="false">Method</string>
+    <string name="WebNotifyMethod">Method</string>
     <string name="WebNotifyWebServer">WebServer e.g. https://a.b.com/msg?token=xyz</string>
     <string name="WebNotifyWebParams">WebParams e.g. payload=%7B%22text%22%3A%22[msg]%22%7D [msg] will be replaced with text message content. \nSupport Json format, for example: {"text":[MSG]}.\n Note: MSG is automatically utF-8 encoded in addition to JSON format</string>
     <string name="WebNotifySecret">Secret (sign is not counted if left blank)</string>
@@ -233,7 +233,7 @@
     <string name="user_app">User App</string>
     <string name="system_app">System App</string>
     <string name="tips_battery_optimization">Please deactivate power optimization for SmsForwarder, in order to keep the App alive!</string>
-    <string name="tips_notification_listener">Please grant Notification reading permission to SmsForwarder, before other Apps' notification could be forwarded. Forwarding automatically canceled!</string>
+    <string name="tips_notification_listener">Please grant Notification reading permission to SmsForwarder, before other App\'s notification could be forwarded. Forwarding automatically canceled!</string>
     <string name="notification_listener_service_enabled">The notification service is enabled</string>
     <string name="notification_listener_service_disabled">The notification service is disabled</string>
     <string name="pushplus_token">Token</string>
