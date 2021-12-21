@@ -18,7 +18,7 @@
     <string name="app_list">App List</string>
     <string name="log_tips">Tips: Pull to refresh; Long press to delete one log entry.</string>
     <string name="rule_tips">Tips: Tap "NEW FORWARDING RULE" to add a new rule; Long press a rule to delete or clone; Tap an existing rule to edit.</string>
-    <string name="sender_tips">Tips: Tap "NEW SENDER" to add a new sender; Long press a sender to delete; Tap an existing sender to edit.</string>
+    <string name="sender_tips">Tips: Tap "NEW SENDER" to add a new sender; Long press a sender to delete or clone; Tap an existing sender to edit.</string>
     <string name="app_tips">Tips: Tap to copy the package name of an App; Long press an App to start and jump to it.</string>
     <!--AboutActivity-->
     <string name="version">Version</string>
@@ -84,7 +84,7 @@
     <string name="match_value">Value</string>
     <!--SenderActivity-->
     <string name="invalid_sender">Invalid sender, abort!</string>
-    <string name="delete_sender_title">Delete confirmation</string>
+    <string name="delete_sender_title">Confirmation</string>
     <string name="delete_sender_tips">Are you sure to delete this sender?</string>
     <string name="delete_sender_toast">The sender is deleted.</string>
     <string name="add_sender_title">Select sender type</string>

@@ -117,37 +117,37 @@ public class SenderActivity extends AppCompatActivity {
 
             switch (senderModel.getType()) {
                 case TYPE_DINGDING:
-                    setDingDing(senderModel);
+                    setDingDing(senderModel, false);
                     break;
                 case TYPE_EMAIL:
-                    setEmail(senderModel);
+                    setEmail(senderModel, false);
                     break;
                 case TYPE_BARK:
-                    setBark(senderModel);
+                    setBark(senderModel, false);
                     break;
                 case TYPE_WEB_NOTIFY:
-                    setWebNotify(senderModel);
+                    setWebNotify(senderModel, false);
                     break;
                 case TYPE_QYWX_GROUP_ROBOT:
-                    setQYWXGroupRobot(senderModel);
+                    setQYWXGroupRobot(senderModel, false);
                     break;
                 case TYPE_QYWX_APP:
-                    setQYWXApp(senderModel);
+                    setQYWXApp(senderModel, false);
                     break;
                 case TYPE_SERVER_CHAN:
-                    setServerChan(senderModel);
+                    setServerChan(senderModel, false);
                     break;
                 case TYPE_TELEGRAM:
-                    setTelegram(senderModel);
+                    setTelegram(senderModel, false);
                     break;
                 case TYPE_SMS:
-                    setSms(senderModel);
+                    setSms(senderModel, false);
                     break;
                 case TYPE_FEISHU:
-                    setFeiShu(senderModel);
+                    setFeiShu(senderModel, false);
                     break;
                 case TYPE_PUSHPLUS:
-                    setPushPlus(senderModel);
+                    setPushPlus(senderModel, false);
                     break;
                 default:
                     Toast.makeText(SenderActivity.this, R.string.invalid_sender, Toast.LENGTH_LONG).show();
@@ -173,6 +173,51 @@ public class SenderActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), R.string.delete_sender_toast, Toast.LENGTH_SHORT).show();
             });
 
+            builder.setNeutralButton(R.string.clone, (dialog, which) -> {
+                SenderModel senderModel = senderModels.get(position);
+                switch (senderModel.getType()) {
+                    case TYPE_DINGDING:
+                        setDingDing(senderModel, true);
+                        break;
+                    case TYPE_EMAIL:
+                        setEmail(senderModel, true);
+                        break;
+                    case TYPE_BARK:
+                        setBark(senderModel, true);
+                        break;
+                    case TYPE_WEB_NOTIFY:
+                        setWebNotify(senderModel, true);
+                        break;
+                    case TYPE_QYWX_GROUP_ROBOT:
+                        setQYWXGroupRobot(senderModel, true);
+                        break;
+                    case TYPE_QYWX_APP:
+                        setQYWXApp(senderModel, true);
+                        break;
+                    case TYPE_SERVER_CHAN:
+                        setServerChan(senderModel, true);
+                        break;
+                    case TYPE_TELEGRAM:
+                        setTelegram(senderModel, true);
+                        break;
+                    case TYPE_SMS:
+                        setSms(senderModel, true);
+                        break;
+                    case TYPE_FEISHU:
+                        setFeiShu(senderModel, true);
+                        break;
+                    case TYPE_PUSHPLUS:
+                        setPushPlus(senderModel, true);
+                        break;
+                    default:
+                        Toast.makeText(SenderActivity.this, R.string.invalid_sender, Toast.LENGTH_LONG).show();
+                        SenderUtil.delSender(senderModel.getId());
+                        initSenders();
+                        adapter.del(senderModels);
+                        break;
+                }
+            });
+
             //添加AlertDialog.Builder对象的setNegativeButton()方法
             builder.setNegativeButton(R.string.cancel, (dialog, which) -> {
 
@@ -195,37 +240,37 @@ public class SenderActivity extends AppCompatActivity {
         builder.setItems(R.array.add_sender_menu, (dialogInterface, which) -> {
             switch (which) {
                 case TYPE_DINGDING:
-                    setDingDing(null);
+                    setDingDing(null, false);
                     break;
                 case TYPE_EMAIL:
-                    setEmail(null);
+                    setEmail(null, false);
                     break;
                 case TYPE_BARK:
-                    setBark(null);
+                    setBark(null, false);
                     break;
                 case TYPE_WEB_NOTIFY:
-                    setWebNotify(null);
+                    setWebNotify(null, false);
                     break;
                 case TYPE_QYWX_GROUP_ROBOT:
-                    setQYWXGroupRobot(null);
+                    setQYWXGroupRobot(null, false);
                     break;
                 case TYPE_QYWX_APP:
-                    setQYWXApp(null);
+                    setQYWXApp(null, false);
                     break;
                 case TYPE_SERVER_CHAN:
-                    setServerChan(null);
+                    setServerChan(null, false);
                     break;
                 case TYPE_TELEGRAM:
-                    setTelegram(null);
+                    setTelegram(null, false);
                     break;
                 case TYPE_SMS:
-                    setSms(null);
+                    setSms(null, false);
                     break;
                 case TYPE_FEISHU:
-                    setFeiShu(null);
+                    setFeiShu(null, false);
                     break;
                 case TYPE_PUSHPLUS:
-                    setPushPlus(null);
+                    setPushPlus(null, false);
                     break;
                 default:
                     Toast.makeText(SenderActivity.this, R.string.not_supported, Toast.LENGTH_LONG).show();
@@ -238,7 +283,7 @@ public class SenderActivity extends AppCompatActivity {
 
     //钉钉机器人
     @SuppressLint("SimpleDateFormat")
-    private void setDingDing(final SenderModel senderModel) {
+    private void setDingDing(final SenderModel senderModel, final boolean isClone) {
         DingDingSettingVo dingDingSettingVo = null;
         //try phrase json setting
         if (senderModel != null) {
@@ -277,7 +322,7 @@ public class SenderActivity extends AppCompatActivity {
         final AlertDialog show = alertDialog71.show();
         buttonDingdingOk.setOnClickListener(view -> {
 
-            if (senderModel == null) {
+            if (isClone || senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextDingdingName.getText().toString().trim());
                 newSenderModel.setType(TYPE_DINGDING);
@@ -339,7 +384,7 @@ public class SenderActivity extends AppCompatActivity {
 
     //邮箱
     @SuppressLint("SimpleDateFormat")
-    private void setEmail(final SenderModel senderModel) {
+    private void setEmail(final SenderModel senderModel, final boolean isClone) {
         EmailSettingVo emailSettingVo = null;
         //try phrase json setting
         if (senderModel != null) {
@@ -407,7 +452,7 @@ public class SenderActivity extends AppCompatActivity {
 
             EmailSettingVo emailSettingVoNew = new EmailSettingVo(protocol, host, port, ssl, fromEmail, nickname, pwd, toEmail, title);
 
-            if (senderModel == null) {
+            if (isClone || senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextEmailName.getText().toString().trim());
                 newSenderModel.setType(TYPE_EMAIL);
@@ -495,7 +540,7 @@ public class SenderActivity extends AppCompatActivity {
     }
 
     //Bark
-    private void setBark(final SenderModel senderModel) {
+    private void setBark(final SenderModel senderModel, final boolean isClone) {
         BarkSettingVo barkSettingVo = null;
         //try phrase json setting
         if (senderModel != null) {
@@ -527,7 +572,7 @@ public class SenderActivity extends AppCompatActivity {
 
         buttonBarkOk.setOnClickListener(view -> {
 
-            if (senderModel == null) {
+            if (isClone || senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextBarkName.getText().toString().trim());
                 newSenderModel.setType(TYPE_BARK);
@@ -582,7 +627,7 @@ public class SenderActivity extends AppCompatActivity {
     }
 
     //Server酱·Turbo版
-    private void setServerChan(final SenderModel senderModel) {
+    private void setServerChan(final SenderModel senderModel, final boolean isClone) {
         ServerChanSettingVo serverchanSettingVo = null;
         //try phrase json setting
         if (senderModel != null) {
@@ -613,7 +658,7 @@ public class SenderActivity extends AppCompatActivity {
 
         buttonServerChanOk.setOnClickListener(view -> {
 
-            if (senderModel == null) {
+            if (isClone || senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextServerChanName.getText().toString().trim());
                 newSenderModel.setType(TYPE_SERVER_CHAN);
@@ -666,7 +711,7 @@ public class SenderActivity extends AppCompatActivity {
 
     //webhook
     @SuppressLint("SimpleDateFormat")
-    private void setWebNotify(final SenderModel senderModel) {
+    private void setWebNotify(final SenderModel senderModel, final boolean isClone) {
         WebNotifySettingVo webNotifySettingVo = null;
         //try phrase json setting
         if (senderModel != null) {
@@ -707,7 +752,7 @@ public class SenderActivity extends AppCompatActivity {
                     (radioGroupWebNotifyMethod.getCheckedRadioButtonId() == R.id.radioWebNotifyMethodGet ? "GET" : "POST"),
                     editTextWebNotifyWebParams.getText().toString().trim()
             );
-            if (senderModel == null) {
+            if (isClone || senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextWebNotifyName.getText().toString().trim());
                 newSenderModel.setType(TYPE_WEB_NOTIFY);
@@ -753,7 +798,7 @@ public class SenderActivity extends AppCompatActivity {
 
     //企业微信群机器人
     @SuppressLint("SimpleDateFormat")
-    private void setQYWXGroupRobot(final SenderModel senderModel) {
+    private void setQYWXGroupRobot(final SenderModel senderModel, final boolean isClone) {
         QYWXGroupRobotSettingVo qywxGroupRobotSettingVo = null;
         //try phrase json setting
         if (senderModel != null) {
@@ -784,7 +829,7 @@ public class SenderActivity extends AppCompatActivity {
 
         buttonQyWxGroupRobotOk.setOnClickListener(view -> {
 
-            if (senderModel == null) {
+            if (isClone || senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextQYWXGroupRobotName.getText().toString().trim());
                 newSenderModel.setType(TYPE_QYWX_GROUP_ROBOT);
@@ -837,7 +882,7 @@ public class SenderActivity extends AppCompatActivity {
 
     //企业微信应用
     @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
-    private void setQYWXApp(final SenderModel senderModel) {
+    private void setQYWXApp(final SenderModel senderModel, final boolean isClone) {
         QYWXAppSettingVo QYWXAppSettingVo = null;
         //try phrase json setting
         if (senderModel != null) {
@@ -895,7 +940,7 @@ public class SenderActivity extends AppCompatActivity {
                 return;
             }
 
-            if (senderModel == null) {
+            if (isClone || senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextQYWXAppName.getText().toString().trim());
                 newSenderModel.setType(TYPE_QYWX_APP);
@@ -959,7 +1004,7 @@ public class SenderActivity extends AppCompatActivity {
     }
 
     //Telegram机器人
-    private void setTelegram(final SenderModel senderModel) {
+    private void setTelegram(final SenderModel senderModel, final boolean isClone) {
         TelegramSettingVo telegramSettingVo = null;
         //try phrase json setting
         if (senderModel != null) {
@@ -1044,7 +1089,7 @@ public class SenderActivity extends AppCompatActivity {
 
         buttonTelegramOk.setOnClickListener(view -> {
 
-            if (senderModel == null) {
+            if (isClone || senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextTelegramName.getText().toString().trim());
                 newSenderModel.setType(TYPE_TELEGRAM);
@@ -1122,7 +1167,7 @@ public class SenderActivity extends AppCompatActivity {
     }
 
     //短信
-    private void setSms(final SenderModel senderModel) {
+    private void setSms(final SenderModel senderModel, final boolean isClone) {
         SmsSettingVo smsSettingVo = null;
         //try phrase json setting
         if (senderModel != null) {
@@ -1157,7 +1202,7 @@ public class SenderActivity extends AppCompatActivity {
 
         buttonSmsOk.setOnClickListener(view -> {
 
-            if (senderModel == null) {
+            if (isClone || senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextSmsName.getText().toString().trim());
                 newSenderModel.setType(TYPE_SMS);
@@ -1219,7 +1264,7 @@ public class SenderActivity extends AppCompatActivity {
 
     //飞书机器人
     @SuppressLint("SimpleDateFormat")
-    private void setFeiShu(final SenderModel senderModel) {
+    private void setFeiShu(final SenderModel senderModel, final boolean isClone) {
         FeiShuSettingVo feiShuSettingVo = null;
         //try phrase json setting
         if (senderModel != null) {
@@ -1252,7 +1297,7 @@ public class SenderActivity extends AppCompatActivity {
         final AlertDialog show = alertDialog71.show();
         buttonFeishuOk.setOnClickListener(view -> {
 
-            if (senderModel == null) {
+            if (isClone || senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextFeishuName.getText().toString().trim());
                 newSenderModel.setType(TYPE_FEISHU);
@@ -1306,7 +1351,7 @@ public class SenderActivity extends AppCompatActivity {
 
     //推送加
     @SuppressLint("SimpleDateFormat")
-    private void setPushPlus(final SenderModel senderModel) {
+    private void setPushPlus(final SenderModel senderModel, final boolean isClone) {
         PushPlusSettingVo pushPlusSettingVo = null;
         //try phrase json setting
         if (senderModel != null) {
@@ -1349,7 +1394,7 @@ public class SenderActivity extends AppCompatActivity {
         final AlertDialog show = alertDialog71.show();
         buttonPushPlusOk.setOnClickListener(view -> {
 
-            if (senderModel == null) {
+            if (isClone || senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextPushPlusName.getText().toString().trim());
                 newSenderModel.setType(TYPE_PUSHPLUS);
