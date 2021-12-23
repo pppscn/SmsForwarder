@@ -17,8 +17,8 @@
     <string name="sender_setting">发送通道</string>
     <string name="app_list">应用列表</string>
     <string name="log_tips">提示：置顶下拉刷新，长按删除单条，选项卡切换日志类型</string>
-    <string name="rule_tips">提示：新建规则点击“添加”，长按删除/点击编辑已有</string>
-    <string name="sender_tips">提示：新建发送通道点击“添加”，长按删除/点击编辑已有</string>
+    <string name="rule_tips">提示：新建规则点击“添加”，长按删除/克隆，点击编辑已有</string>
+    <string name="sender_tips">提示：新建发送通道点击“添加”，长按删除/克隆，点击编辑已有</string>
     <string name="app_tips">提示：点击复制APP的包名，长按则启动并跳转该APP</string>
     <!--AboutActivity-->
     <string name="version">当前版本</string>
@@ -52,7 +52,7 @@
     <string name="setrule">设置短信转发规则</string>
     <string name="setrule_call">设置来电转发规则</string>
     <string name="setrule_app">设置APP通知转发规则</string>
-    <string name="delete_rule_title">规则删除确认</string>
+    <string name="delete_rule_title">转发规则操作确认</string>
     <string name="delete_rule_tips">确定删除该条规则?</string>
     <string name="delete_rule_toast">该条规则已经删除！</string>
     <string name="new_sender_first">请选择发送通道（若无，请先添加）</string>
@@ -84,7 +84,7 @@
     <string name="match_value">设置匹配的值</string>
     <!--SenderActivity-->
     <string name="invalid_sender">异常的发送通道类型，自动删除！</string>
-    <string name="delete_sender_title">发送通道删除确认</string>
+    <string name="delete_sender_title">发送通道操作确认</string>
     <string name="delete_sender_tips">确定删除该条发送通道?</string>
     <string name="delete_sender_toast">该条发送通道已经删除！</string>
     <string name="add_sender_title">选择发送通道类型</string>
@@ -146,7 +146,7 @@
     <string name="ServerChanSendKey">设置Server酱·Turbo版的SendKey</string>
     <string name="TelegramApiToken">设置Telegram机器人的ApiToken 或 自定义地址(http开头)</string>
     <string name="TelegramChatId">设置被通知人(或群组)的ChatId</string>
-    <string name="WebNotifyMethod" formatted="false">请求方式</string>
+    <string name="WebNotifyMethod">请求方式</string>
     <string name="WebNotifyWebServer">设置WebServer：例如：https://a.b.com/msg?token=xyz</string>
     <string name="WebNotifyWebParams">设置WebParams：例如：payload=%7B%22text%22%3A%22[msg]%22%7D [msg]将被替换成短信内容。\n支持Json格式，例如：{"text":[msg]}。\n注意：除JSON格式外，msg会自动进行UTF-8编码</string>
     <string name="WebNotifySecret">设置Secret:置空则不计算sign</string>
