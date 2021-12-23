@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SmsForwarder</string>
-    <string name="notification_content">Forward SMS (and others!) to another app/device, a must-have for anyone\'s secondary smartphone. Free and open source, do NOT buy or sell this App.</string>
+    <string name="notification_content">Forward SMS (and others!) to another app/device, a must-have for anyones\' secondary smartphone. Free and open source, do NOT buy or sell this App.</string>
     <!--Common-->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
@@ -17,8 +17,8 @@
     <string name="sender_setting">Sender Setting</string>
     <string name="app_list">App List</string>
     <string name="log_tips">Tips: Pull to refresh; Long press to delete one log entry.</string>
-    <string name="rule_tips">Tips: Tap "NEW FORWARDING RULE" to add a new rule; Long press a rule to delete or clone; Tap an existing rule to edit.</string>
-    <string name="sender_tips">Tips: Tap "NEW SENDER" to add a new sender; Long press a sender to delete or clone; Tap an existing sender to edit.</string>
+    <string name="rule_tips">Tips: Tap "NEW FORWARDING RULE" to add a new rule; Long press a rule to delete; Tap an existing rule to edit.</string>
+    <string name="sender_tips">Tips: Tap "NEW SENDER" to add a new sender; Long press a sender to delete; Tap an existing sender to edit.</string>
     <string name="app_tips">Tips: Tap to copy the package name of an App; Long press an App to start and jump to it.</string>
     <!--AboutActivity-->
     <string name="version">Version</string>
@@ -49,30 +49,30 @@
     <string name="release_tips">Release to refresh.</string>
     <string name="reflashing_tips">Refreshing…</string>
     <!--RuleActivity-->
-    <string name="setrule">Fwd Rule Settings</string>
-    <string name="setrule_call">Fwd Rule Settings of call</string>
-    <string name="setrule_app">Fwd Rule Settings of app</string>
-    <string name="delete_rule_title">Confirmation</string>
-    <string name="delete_rule_tips">Are you sure to delete this rule entry?</string>
-    <string name="delete_rule_toast">The rule entry has deleted.</string>
+    <string name="setrule">SMS Fw. Rule Settings</string>
+    <string name="setrule_call">Call Fw. Rule Settings</string>
+    <string name="setrule_app">App Ntf. Fw. Rule Settings</string>
+    <string name="delete_rule_title">Delete confirmation</string>
+    <string name="delete_rule_tips">Are you sure to delete this rule?</string>
+    <string name="delete_rule_toast">The rule has deleted.</string>
     <string name="new_sender_first">Please add a new sender and then choose it.</string>
     <string name="add_sender_first">Please add a sender first.</string>
     <string name="select_sender">Select Sender</string>
     <string name="rule_tester">Rule tester:</string>
-    <string name="new_sms_rule">New sms forwarding rule</string>
-    <string name="new_call_rule">New call forwarding rule</string>
-    <string name="new_app_rule">New app forwarding rule</string>
+    <string name="new_sms_rule">New SMS Fw. rule</string>
+    <string name="new_call_rule">New Call Fw. rule</string>
+    <string name="new_app_rule">New App Fw. rule</string>
     <string name="test_sim_slot">Test Sim Slot</string>
     <string name="test_phone_number">Test Phone Number</string>
     <string name="test_msg_content">Test Msg Content</string>
     <string name="test_package_name">Test PackageName</string>
-    <string name="test_inform_content">Test Inform content</string>
-    <string name="match_sim_slot">Sim Slot</string>
+    <string name="test_inform_content">Test Ntf. content</string>
+    <string name="match_sim_slot">SIM Slot</string>
     <string name="match_field">Field</string>
     <string name="phone_number">Phone No.</string>
     <string name="package_name">PackageName</string>
     <string name="sms_content">SMS</string>
-    <string name="inform_content">Inform content</string>
+    <string name="inform_content">Ntf. content</string>
     <string name="multiple_matches">Multiple</string>
     <string name="match_type">Type</string>
     <string name="btn_is">Is</string>
@@ -84,7 +84,7 @@
     <string name="match_value">Value</string>
     <!--SenderActivity-->
     <string name="invalid_sender">Invalid sender, abort!</string>
-    <string name="delete_sender_title">Confirmation</string>
+    <string name="delete_sender_title">Delete confirmation</string>
     <string name="delete_sender_tips">Are you sure to delete this sender?</string>
     <string name="delete_sender_toast">The sender is deleted.</string>
     <string name="add_sender_title">Select sender type</string>
@@ -170,14 +170,14 @@
     <string name="forward_app_notify">Forward app notify</string>
     <string name="forward_app_notify_tips">Master switch, please grant notice first</string>
     <string name="enable_custom_templates">Enable custom templates</string>
-    <string name="enable_custom_templates_tips">Priority: custom template for forwarding rules >Global custom template >The default</string>
+    <string name="enable_custom_templates_tips">Priority: custom template for forwarding rules > Global custom template > System default</string>
     <string name="enable_regex_replace">Enable regular replacement content</string>
     <string name="enable_regex_replace_tips">Format: RegularExpression===ReplacementResult,One rule per line.\ne.g. (\\d{3})\\d+(\\d{4})===$1****$2</string>
     <string name="regex_check_tips">Format check: line %d is badly formatted! Format: RegularExpression===ReplacementResult</string>
     <string name="enable_exclude_from_recents">Hide from recent Apps</string>
-    <string name="enable_exclude_from_recents_tips">Enable to hide SmsForwarder from recent Apps so as to keep alive</string>
+    <string name="enable_exclude_from_recents_tips">Enable to hide SmsForwarder from recent Apps to keep it alive</string>
     <string name="custom_templates">Custom templates</string>
-    <string name="custom_templates_tips">Tip：Insert labels as needed;Leave blank to default template</string>
+    <string name="custom_templates_tips">Tip：Insert labels as needed; Leave blank to apply default template</string>
     <string name="insert_sender">Phone</string>
     <string name="insert_sender_app">PackageName</string>
     <string name="insert_content">SMS</string>
@@ -186,9 +186,9 @@
     <string name="insert_time">Time</string>
     <string name="insert_device_name">Device</string>
     <string name="init_setting">Restore initial Setting</string>
-    <string name="init_setting_tips">Are you sure you want to restore the initial configuration? \n\n[Warning] This operation will reset Settings, delete send channels, rules, logs!</string>
+    <string name="init_setting_tips">Are you sure you want to restore the initial configuration? \n\n[Warning] This operation will reset settings, and delete senders, rules, and logs!</string>
     <string name="battery_setting">Battery Optimization</string>
-    <string name="request_permission">Request Notify Permission</string>
+    <string name="request_permission">Request Ntf. Permission</string>
     <string name="unknown_number">Unknown Number</string>
     <string name="calling">Incoming telegram</string>
     <string name="unsupport">Your phone does not support this setting</string>
@@ -233,7 +233,7 @@
     <string name="user_app">User App</string>
     <string name="system_app">System App</string>
     <string name="tips_battery_optimization">Please deactivate power optimization for SmsForwarder, in order to keep the App alive!</string>
-    <string name="tips_notification_listener">Please grant Notification reading permission to SmsForwarder, before other App\'s notification could be forwarded. Forwarding automatically canceled!</string>
+    <string name="tips_notification_listener">Please grant Notification reading permission to SmsForwarder, before other Apps\' notification could be forwarded. Forwarding automatically canceled!</string>
     <string name="notification_listener_service_enabled">The notification service is enabled</string>
     <string name="notification_listener_service_disabled">The notification service is disabled</string>
     <string name="pushplus_token">Token</string>
