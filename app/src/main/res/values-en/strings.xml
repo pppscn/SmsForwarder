@@ -233,7 +233,7 @@
     <string name="user_app">User App</string>
     <string name="system_app">System App</string>
     <string name="tips_battery_optimization">Please deactivate power optimization for SmsForwarder, in order to keep the App alive!</string>
-    <string name="tips_notification_listener">Please grant Notification reading permission to SmsForwarder, before other Apps\' notification could be forwarded. Forwarding automatically canceled!</string>
+    <string name="tips_notification_listener">Please grant Notification reading permission to SmsForwarder, before other Apps\'s notification could be forwarded. Forwarding automatically canceled!</string>
     <string name="notification_listener_service_enabled">The notification service is enabled</string>
     <string name="notification_listener_service_disabled">The notification service is disabled</string>
     <string name="pushplus_token">Token</string>
