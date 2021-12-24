@@ -64,7 +64,7 @@ Benefit by simplicity:
 - [x] Forward to webhook (a single web page [sending POST/GET requests to a designated URL](doc/POST_WEB.md));
 - [x] Forward to WeCom Bots;
 - [x] Forward to WeCom enterprise channels;
-- [x] 转发到ServerChan(Server酱·Turbo版)
+- [x] Forward to ServerChan·Turbo;
 - [x] Forward to Telegram Bots (Proxy support ready);
 - [x] Forward to another mobile phone via SMS [Note: Paid service, carriers may charge for SMS forwarding. SMS forwarding should apply with filtered rules when device has no Internet access.]
 - [x] Check for new version and upgrade;

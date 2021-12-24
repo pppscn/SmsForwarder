@@ -17,7 +17,7 @@
     <string name="sender_setting">Sender Setting</string>
     <string name="app_list">App List</string>
     <string name="log_tips">Tips: Pull to refresh; Long press to delete one log entry.</string>
-    <string name="rule_tips">Tips: Tap "NEW FORWARDING RULE" to add a new rule; Long press a rule to delete; Tap an existing rule to edit.</string>
+    <string name="rule_tips">Tips: Tap "NEW SMS/Call Fw. RULE" to add a new rule; Long press a rule to delete; Tap an existing rule to edit.</string>
     <string name="sender_tips">Tips: Tap "NEW SENDER" to add a new sender; Long press a sender to delete; Tap an existing sender to edit.</string>
     <string name="app_tips">Tips: Tap to copy the package name of an App; Long press an App to start and jump to it.</string>
     <!--AboutActivity-->
@@ -28,10 +28,10 @@
     <string name="open_source">Repo URL</string>
     <string name="synchronize_mirror">Repo Mirror</string>
     <string name="qq_group">QQ Group</string>
-    <string name="qq_group1">1st：562854376</string>
-    <string name="qq_group2">2nd：31330492</string>
-    <string name="join_qq_group1">Join 1st Group</string>
-    <string name="join_qq_group2">Join 2nd Group</string>
+    <string name="qq_group1">Group 1：562854376</string>
+    <string name="qq_group2">Group 2：31330492</string>
+    <string name="join_qq_group1">Join Group 1</string>
+    <string name="join_qq_group2">Join Group 2</string>
     <string name="cache">Cache size</string>
     <string name="purge">Purge</string>
     <string name="checking">Checking…</string>
@@ -42,7 +42,7 @@
     <string name="bt_refresh_log">Clear Logs</string>
     <string name="delete_log_title">Delete confirmation</string>
     <string name="delete_log_tips">Are you sure to delete this log entry?</string>
-    <string name="delete_log_toast">This log entry is deleted.</string>
+    <string name="delete_log_toast">The log entry is deleted.</string>
     <string name="details">Details</string>
     <string name="clear_logs_tips">Are you sure to clear all forwarding logs?</string>
     <string name="pull_tips">Pull to refresh.</string>
@@ -59,10 +59,10 @@
     <string name="add_sender_first">Please add a sender first.</string>
     <string name="select_sender">Select Sender</string>
     <string name="rule_tester">Rule tester:</string>
-    <string name="new_sms_rule">New SMS Fw. rule</string>
-    <string name="new_call_rule">New Call Fw. rule</string>
-    <string name="new_app_rule">New App Fw. rule</string>
-    <string name="test_sim_slot">Test Sim Slot</string>
+    <string name="new_sms_rule">New SMS Fw. Rule</string>
+    <string name="new_call_rule">New Call Fw. Rule</string>
+    <string name="new_app_rule">New App Fw. Rule</string>
+    <string name="test_sim_slot">Test SIM Slot</string>
     <string name="test_phone_number">Test Phone Number</string>
     <string name="test_msg_content">Test Msg Content</string>
     <string name="test_package_name">Test PackageName</string>
@@ -150,26 +150,26 @@
     <string name="WebNotifyWebServer">WebServer e.g. https://a.b.com/msg?token=xyz</string>
     <string name="WebNotifyWebParams">WebParams e.g. payload=%7B%22text%22%3A%22[msg]%22%7D [msg] will be replaced with text message content. \nSupport Json format, for example: {"text":[MSG]}.\n Note: MSG is automatically utF-8 encoded in addition to JSON format</string>
     <string name="WebNotifySecret">Secret (sign is not counted if left blank)</string>
-    <string name="SmsSimSlot">Sim Slot</string>
+    <string name="SmsSimSlot">SIM Slot</string>
     <string name="same_source">Same source</string>
     <string name="SmsMobiles">Receive mobile phone numbers separated by, e.g. 15888888888;19999999999</string>
     <string name="OnlyNoNetwork">Enable when no network is available</string>
     <!--SettingActivity-->
     <string name="device_name">Device name</string>
-    <string name="sim1_remark" tools:ignore="Typos">SIM1 Remark</string>
-    <string name="sim2_remark" tools:ignore="Typos">SIM2 Remark</string>
-    <string name="carrier_mobile">Carrier_Mobile Number</string>
+    <string name="sim1_remark" tools:ignore="Typos">SIM1 Label</string>
+    <string name="sim2_remark" tools:ignore="Typos">SIM2 Label</string>
+    <string name="carrier_mobile">Label of SIM, eg.: "CMCC", "13800138000", etc.</string>
     <string name="low_power_alarm_threshold">Low power alarm threshold</string>
     <string name="low_power_alarm_threshold_tips">Value range: 0–100. Left blank or 0 is disabled</string>
     <string name="retry_interval">Retry interval (seconds)</string>
     <string name="retry_interval_tips">Retry five times after it fails</string>
     <string name="forward_sms">Forward sms</string>
-    <string name="forward_sms_tips">Main switch, grant the permission to read short messages, notify short messages, and send short messages</string>
+    <string name="forward_sms_tips">Main switch, requires permissions to read and sned SMS messages, especially verification SMS texts.</string>
     <string name="forward_missed_calls">Forward missed calls</string>
-    <string name="forward_missed_calls_tips">Main switch, please grant read call history, contact rights</string>
+    <string name="forward_missed_calls_tips">Main switch, requires permissions to read call log and contacts.</string>
     <string name="forward_app_notify">Forward app notify</string>
-    <string name="forward_app_notify_tips">Master switch, please grant notice first</string>
-    <string name="enable_custom_templates">Enable custom templates</string>
+    <string name="forward_app_notify_tips">Main switch, requires permission to read notification.</string>
+    <string name="enable_custom_templates">Global custom template</string>
     <string name="enable_custom_templates_tips">Priority: custom template for forwarding rules > Global custom template > System default</string>
     <string name="enable_regex_replace">Enable regular replacement content</string>
     <string name="enable_regex_replace_tips">Format: RegularExpression===ReplacementResult,One rule per line.\ne.g. (\\d{3})\\d+(\\d{4})===$1****$2</string>
