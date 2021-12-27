@@ -10,7 +10,7 @@ public class CallInfo {
     public String number;  //号码
     public Long dateLong; //获取通话日期
     public int duration;//获取通话时长，值为多少秒
-    public int type; //获取通话类型：1.呼入2.呼出3.未接
+    public int type; //获取通话类型：1.呼入 2.呼出 3.未接
     public int subscriptionId;
 
     public CallInfo() {

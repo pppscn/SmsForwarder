@@ -20,6 +20,8 @@ class RuleLine {
     public static final String FILED_PACKAGE_NAME = "APP包名";
     public static final String FILED_MSG_CONTENT = "短信内容";
     public static final String FILED_INFORM_CONTENT = "通知内容";
+    public static final String FILED_INFORM_TITLE = "通知标题";
+    public static final String FILED_SIM_SLOT_INFO = "卡槽信息";
     public static final String SURE_YES = "是";
     public static final String SURE_NOT = "不是";
     public static final String CHECK_EQUALS = "相等";
@@ -47,6 +49,8 @@ class RuleLine {
         FILED_LIST.add(FILED_PACKAGE_NAME);
         FILED_LIST.add(FILED_MSG_CONTENT);
         FILED_LIST.add(FILED_INFORM_CONTENT);
+        FILED_LIST.add(FILED_INFORM_TITLE);
+        FILED_LIST.add(FILED_SIM_SLOT_INFO);
     }
 
     static {
@@ -277,6 +281,10 @@ class RuleLine {
             case FILED_MSG_CONTENT:
             case FILED_INFORM_CONTENT:
                 mixChecked = checkValue(msg.getContent());
+                break;
+            case FILED_INFORM_TITLE:
+            case FILED_SIM_SLOT_INFO:
+                mixChecked = checkValue(msg.getSimInfo());
                 break;
             default:
                 break;

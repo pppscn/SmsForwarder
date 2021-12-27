@@ -38,7 +38,7 @@ public class SmsVo implements Serializable {
         String versionName = SettingUtil.getVersionName();
         String titleForSend = titleTemplate.replace("{{来源号码}}", mobile).replace("{{APP包名}}", mobile)
                 .replace("{{短信内容}}", content).replace("{{通知内容}}", content)
-                .replace("{{卡槽信息}}", simInfo)
+                .replace("{{卡槽信息}}", simInfo).replace("{{通知标题}}", simInfo)
                 .replace("{{接收时间}}", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date))
                 .replace("{{设备名称}}", deviceMark)
                 .replace("{{当前应用版本号}}", versionName)
@@ -66,7 +66,7 @@ public class SmsVo implements Serializable {
         String versionName = SettingUtil.getVersionName();
         String smsVoForSend = customSmsTemplate.replace("{{来源号码}}", mobile).replace("{{APP包名}}", mobile)
                 .replace("{{短信内容}}", content).replace("{{通知内容}}", content)
-                .replace("{{卡槽信息}}", simInfo)
+                .replace("{{卡槽信息}}", simInfo).replace("{{通知标题}}", simInfo)
                 .replace("{{接收时间}}", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date))
                 .replace("{{设备名称}}", deviceMark)
                 .replace("{{当前应用版本号}}", versionName)

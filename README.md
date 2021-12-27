@@ -68,7 +68,7 @@
 - [x] 转发到其他手机短信【注意：非免费的，转发短信运营商有收费的，建议没有网络时启用，并设置好内容过滤规则】
 - [x] 在线检测新版本、升级
 - [x] 清理缓存
-- [x] 兼容 Android 5.xx 6.xx、7.xx、8.xx、9.xx、10.xx
+- [x] 兼容 Android 5.xx、6.xx、7.xx、8.xx、9.xx、10.xx、11.xx
 - [x] 支持双卡手机，增加卡槽标识/运营商/手机号(如果能获取的话)
 - [x] 支持多重匹配规则
 - [x] 支持标注卡槽号码(优先使用)、设备信息；自定义转发信息模版
@@ -124,6 +124,7 @@
 + https://github.com/xuexiangjys/XUpdateAPI （在线升级）
 + https://github.com/mailhu/emailkit （邮件发送）
 + https://github.com/alibaba/fastjson (Json解析)
++ https://github.com/getActivity/XXPermissions (权限请求框架)
 + [![GitHub license](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg?_ga=2.126618957.1361252949.1638261367-1417196221.1635638144&_gl=1*1pfl3dq*_ga*MTQxNzE5NjIyMS4xNjM1NjM4MTQ0*_ga_V0XZL7QHEB*MTYzODMzMjA4OC43LjAuMTYzODMzMjA5Ny4w)](https://jb.gg/OpenSourceSupport)  (License Certificate for JetBrains All Products Pack)
 
 --------
@@ -196,7 +197,7 @@ Benefit by simplicity:
 
 ### Workflow:
 
-![工作流程](pic/working_principle.png "工作流程")
+![Workflow](pic/working_principle_en.png "Workflow")
 
 ### Features:
 
@@ -268,6 +269,7 @@ Benefit by simplicity:
 + https://github.com/xuexiangjys/XUpdateAPI (online update)
 + https://github.com/mailhu/emailkit (email sending)
 + https://github.com/alibaba/fastjson (json parsing)
++ https://github.com/getActivity/XXPermissions (Permissions)
 + [![GitHub license](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg?_ga=2.126618957.1361252949.1638261367-1417196221.1635638144&_gl=1*1pfl3dq*_ga*MTQxNzE5NjIyMS4xNjM1NjM4MTQ0*_ga_V0XZL7QHEB*MTYzODMzMjA4OC43LjAuMTYzODMzMjA5Ny4w)](https://jb.gg/OpenSourceSupport)  (License Certificate for JetBrains All Products Pack)
 
 --------

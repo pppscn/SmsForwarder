@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.idormy.sms.forwarder.MainActivity">
     <item
+        android:id="@+id/to_setting"
+        android:orderInCategory="100"
+        android:title="@string/setting"
+        android:icon="@drawable/ic_settings"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/to_app_list"
         android:orderInCategory="100"
         android:title="@string/app_list"
@@ -14,12 +20,6 @@
         android:orderInCategory="100"
         android:title="@string/clone"
         android:icon="@drawable/ic_clone"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/to_setting"
-        android:orderInCategory="100"
-        android:title="@string/setting"
-        android:icon="@drawable/ic_settings"
         app:showAsAction="never" />
     <item
         android:id="@+id/to_about"

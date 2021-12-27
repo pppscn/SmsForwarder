@@ -81,6 +81,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         }
 
         String name = callInfo.getName();
+        Log.d(TAG, "getSubscriptionId = " + callInfo.getSubscriptionId());
         int simId = SimUtil.getSimIdBySubscriptionId(callInfo.getSubscriptionId());
         String simInfo = simId == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1(); //自定义备注优先
         if (!simInfo.isEmpty()) {
@@ -97,7 +98,6 @@ public class PhoneStateReceiver extends BroadcastReceiver {
             }
             if (TextUtils.isEmpty(name)) name = context.getString(R.string.unknown_number);
         }
-
 
         //TODO:同一卡槽同一秒的重复未接来电广播不再重复处理（部分机型会收到两条广播？）
         String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE).format(new Date());
