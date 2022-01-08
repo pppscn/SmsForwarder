@@ -75,7 +75,8 @@ public class SettingActivity extends AppCompatActivity {
         switchEnablePhone(switch_enable_phone);
 
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_enable_app_notify = findViewById(R.id.switch_enable_app_notify);
-        switchEnableAppNotify(switch_enable_app_notify);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_cancel_app_notify = findViewById(R.id.switch_cancel_app_notify);
+        switchEnableAppNotify(switch_enable_app_notify, switch_cancel_app_notify);
 
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_exclude_from_recents = findViewById(R.id.switch_exclude_from_recents);
         switchExcludeFromRecents(switch_exclude_from_recents);
@@ -121,10 +122,14 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     //设置转发APP通知
-    private void switchEnableAppNotify(@SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_enable_app_notify) {
-        switch_enable_app_notify.setChecked(SettingUtil.getSwitchEnableAppNotify());
+    private void switchEnableAppNotify(@SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_enable_app_notify, @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_cancel_app_notify) {
+        final LinearLayout layout_cancel_app_notify = findViewById(R.id.layout_cancel_app_notify);
+        boolean isEnable = SettingUtil.getSwitchEnableAppNotify();
+        switch_enable_app_notify.setChecked(isEnable);
+        layout_cancel_app_notify.setVisibility(isEnable ? View.VISIBLE : View.GONE);
 
         switch_enable_app_notify.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            layout_cancel_app_notify.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             //TODO:校验使用APP通知转发必备的权限
             if (isChecked) {
                 if (!CommonUtil.isNotificationListenerServiceEnabled(this)) {
@@ -138,6 +143,12 @@ public class SettingActivity extends AppCompatActivity {
             }
             SettingUtil.switchEnableAppNotify(isChecked);
             Log.d(TAG, "switchEnableAppNotify:" + isChecked);
+        });
+
+        switch_cancel_app_notify.setChecked(SettingUtil.getSwitchCancelAppNotify());
+        switch_cancel_app_notify.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingUtil.switchCancelAppNotify(isChecked);
+            Log.d(TAG, "switchCancelAppNotify:" + isChecked);
         });
     }
 
