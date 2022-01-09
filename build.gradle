@@ -2,21 +2,25 @@
 
 buildscript {
     repositories {
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
         google()
-        jcenter()
         maven { url "https://jitpack.io" }
         maven { url 'https://repo1.maven.org/maven2/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.3'
+        classpath 'com.android.tools.build:gradle:7.0.4'
         classpath 'com.chenenyu:img-optimizer:1.2.0'
     }
 }
 
 allprojects {
     repositories {
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
         google()
-        jcenter()
         maven { url "https://jitpack.io" }
         maven { url 'https://repo1.maven.org/maven2/' }
     }

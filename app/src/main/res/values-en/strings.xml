@@ -265,4 +265,8 @@
     <string name="proxy_authenticator">Proxy Authenticator</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="agree">Agree</string>
+    <string name="disagree">Disagree</string>
+    <string name="privacy_policy_text">SmsForwarder, this software is 100% free, open source, Github online compiled and release, will not collect any of your privacy data!\n\n The software version information will be reported in the following situations: \n 1. When starting the software, the version information will be sent to "Umeng +· U-APP Mobile Statistics" for analyzing the statistics of user version retention and software crash;\n 2. When manually checking the update, send the version number to check the new version;\n Other than that, there is no data!!\n\n The software will collect and use version information in accordance with the Privacy Policy, but will not collect bundled information because you have agreed to the Privacy Policy.</string>
 </resources>

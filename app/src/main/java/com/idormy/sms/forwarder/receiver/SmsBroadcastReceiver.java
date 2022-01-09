@@ -3,9 +3,12 @@ package com.idormy.sms.forwarder.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
@@ -21,6 +24,7 @@ import java.util.Objects;
 
 public class SmsBroadcastReceiver extends BroadcastReceiver {
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onReceive(Context context, Intent intent) {
 

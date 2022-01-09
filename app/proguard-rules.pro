@@ -21,6 +21,10 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.idormy.sms.forwarder.model.**{*;}
+-keep public class com.idormy.sms.forwarder.R$*{
+public static final int *;
+}
+
 -keep class com.umeng.** {*;}
 -keepclassmembers class * {
    public <init> (org.json.JSONObject);

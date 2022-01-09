@@ -702,7 +702,7 @@
                     android:gravity="end"
                     android:text="@string/enable_exclude_from_recents_tips"
                     android:textSize="9sp"
-                    tools:ignore="SmallSp" />
+                    tools:ignore="SmallSp,TooManyViews" />
             </LinearLayout>
 
             <Switch

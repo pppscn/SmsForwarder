@@ -15,7 +15,7 @@ if (versionPropsFile.exists()) {
 
 android {
     buildToolsVersion '30.0.3'
-    compileSdkVersion 30
+    compileSdkVersion 31
     compileOptions {
         sourceCompatibility 11
         targetCompatibility 11
@@ -23,7 +23,7 @@ android {
     defaultConfig {
         applicationId "com.idormy.sms.forwarder"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode versionProps['versionCode'].toInteger()
         versionName versionProps['versionName']
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -127,24 +127,26 @@ void cmdExecute(String cmd) {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
-    implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.5.2'
-    testImplementation 'junit:junit:4.+'
+    implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.8.1'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     //okhttp
-    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
-    implementation 'com.squareup.okio:okio:2.10.0'
+    //noinspection GradleDependency
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    implementation 'com.squareup.okio:okio:3.0.0'
 
     //fastjson
-    implementation "com.alibaba:fastjson:1.2.78"
+    implementation "com.alibaba:fastjson:1.2.79"
 
     //友盟统计SDK
-    implementation 'com.umeng.umsdk:common:9.4.4'// 必选
-    implementation 'com.umeng.umsdk:asms:1.4.1'// 必选
-    //implementation 'com.umeng.umsdk:apm:1.4.2' // 错误分析升级为独立SDK，看crash数据请一定集成，可选
+    implementation 'com.umeng.umsdk:common:9.4.4'// (必选)
+    implementation 'com.umeng.umsdk:asms:1.5.0'// asms包依赖必选
+    //implementation 'com.umeng.umsdk:abtest:1.0.0'//使用U-App中ABTest能力，可选
+    implementation 'com.umeng.umsdk:apm:1.5.2'// U-APM产品包依赖(必选)
 
     //XUpdate
     implementation 'com.github.xuexiangjys:XUpdate:2.1.1'
@@ -156,11 +158,11 @@ dependencies {
 
     //Lombok
     //noinspection AnnotationProcessorOnCompilePath
-    compileOnly 'org.projectlombok:lombok:1.18.20'
-    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
     //RxJava
-    implementation 'io.reactivex.rxjava3:rxjava:3.1.1'
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.3'
 
     //AndroidAsync
     implementation 'com.koushikdutta.async:androidasync:3.1.0'

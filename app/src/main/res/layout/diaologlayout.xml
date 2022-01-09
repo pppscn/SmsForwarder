@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:background="#fff"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="Overdraw">
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/privacy_policy"
+        android:textColor="#000"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/textlike"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="wrap_content"
+        android:textColor="#000"
+        android:layout_height="wrap_content"
+        android:text="@string/privacy_policy_text"
+        android:textSize="17sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#514E4E" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="50dp">
+
+            <TextView
+                android:textColor="#000"
+                android:id="@+id/succsebtn"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/agree"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="#5F6063" />
+
+            <TextView
+                android:textColor="#000"
+                android:id="@+id/caclebtn"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/disagree" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

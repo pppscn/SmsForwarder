@@ -329,7 +329,7 @@ public class PhoneUtils {
      *
      * @return 多Sim卡的具体信息
      */
-    @SuppressLint("ObsoleteSdkInt")
+    @SuppressLint({"ObsoleteSdkInt", "Range"})
     public static List<SimInfo> getSimMultiInfo() {
         List<SimInfo> infos = new ArrayList<>();
         Log.d(TAG, "Build.VERSION.SDK_INT = " + Build.VERSION.SDK_INT);
@@ -533,6 +533,7 @@ public class PhoneUtils {
     /**
      * 获取后一条通话记录
      */
+    @SuppressLint("Range")
     public static CallInfo getLastCallInfo(String phoneNumber) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
             return null;

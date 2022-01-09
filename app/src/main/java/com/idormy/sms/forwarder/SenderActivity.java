@@ -1476,12 +1476,14 @@ public class SenderActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart(TAG);
         MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        MobclickAgent.onPageEnd(TAG);
         MobclickAgent.onPause(this);
     }
 
