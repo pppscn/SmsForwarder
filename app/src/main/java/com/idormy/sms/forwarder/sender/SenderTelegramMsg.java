@@ -102,7 +102,7 @@ public class SenderTelegramMsg extends SenderBaseMsg {
                         }
 
                         final Request request = new Request.Builder()
-                                .url(requestUrl+"?chat_id="+chatId+"&text="+ finalText)
+                                .url(requestUrl + "?chat_id=" + chatId + "&text=" + finalText)
                                 .build();
 
                         client.newCall(request).enqueue(new Callback() {
