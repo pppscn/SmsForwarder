@@ -54,14 +54,8 @@ public class SenderTelegramMsg extends SenderBaseMsg {
         }
         final String requestUrl = apiToken;
         Log.i(TAG, "requestUrl:" + requestUrl);
-
-        Map bodyMap = new HashMap();
-        bodyMap.put("chat_id", chatId);
-        bodyMap.put("text", text);
-        bodyMap.put("parse_mode", "HTML");
-
-        final String requestMsg = JSON.toJSONString(bodyMap);
-        Log.i(TAG, "requestMsg:" + requestMsg);
+        String finalText = text;
+        Log.i(TAG, "requestMsg:" + finalText);
 
         //代理相关
         final Proxy.Type proxyType = telegramSettingVo.getProxyType();
@@ -107,12 +101,8 @@ public class SenderTelegramMsg extends SenderBaseMsg {
                                     .connectionPool(new ConnectionPool(5, 1, TimeUnit.SECONDS)).build();
                         }
 
-                        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), requestMsg);
-
                         final Request request = new Request.Builder()
-                                .url(requestUrl)
-                                .addHeader("Content-Type", "application/json; charset=utf-8")
-                                .post(requestBody)
+                                .url(requestUrl + "?chat_id=" + chatId + "&text=" + finalText)
                                 .build();
 
                         client.newCall(request).enqueue(new Callback() {
