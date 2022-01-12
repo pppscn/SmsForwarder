@@ -132,7 +132,7 @@
     <string name="email_password">Password/Auth Code</string>
     <string name="email_nickname">Nickname</string>
     <string name="email_to">Send To</string>
-    <string name="email_to_tips">Tip：Separate multiple recipients with a semicolon comma</string>
+    <string name="email_to_tips">Tip：Separate multiple recipients with a ","</string>
     <string name="email_title">Email Title</string>
     <string name="feishu_webhook">Webhook</string>
     <string name="feishu_secret">Secret (optional)</string>
@@ -168,10 +168,10 @@
     <string name="forward_sms_tips">Main switch, requires permissions to read and sned SMS messages, especially verification SMS texts.</string>
     <string name="forward_missed_calls">Forward missed calls</string>
     <string name="forward_missed_calls_tips">Main switch, requires permissions to read call log and contacts.</string>
-    <string name="forward_app_notify">Forward app notify</string>
+    <string name="forward_app_notify">Forward app Ntf.</string>
     <string name="forward_app_notify_tips">Main switch, requires permission to read notification.</string>
-    <string name="cancel_app_notify">Auto cancel app notify</string>
-    <string name="cancel_app_notify_tips">After a single notification is processed, it is automatically disabled to avoid multiple notification stacking</string>
+    <string name="cancel_app_notify">Auto close Ntf.</string>
+    <string name="cancel_app_notify_tips">Automatically close a single notification after forwarding, to avoid stacking of multiple notifications.</string>
     <string name="enable_custom_templates">Global custom template</string>
     <string name="enable_custom_templates_tips">Priority: custom template for forwarding rules > Global custom template > System default</string>
     <string name="enable_regex_replace">Enable regular replacement content</string>
@@ -269,5 +269,5 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="agree">Agree</string>
     <string name="disagree">Disagree</string>
-    <string name="privacy_policy_text">SmsForwarder, this software is 100% free, open source, Github online compiled and release, will not collect any of your privacy data!\n\n The software version information will be reported in the following situations: \n 1. When starting the software, the version information will be sent to "Umeng +· U-APP Mobile Statistics" for analyzing the statistics of user version retention and software crash;\n 2. When manually checking the update, send the version number to check the new version;\n Other than that, there is no data!!\n\n The software will collect and use version information in accordance with the Privacy Policy, but will not collect bundled information because you have agreed to the Privacy Policy.</string>
+    <string name="privacy_policy_text">SmsForwarder (the "Application/App"), is 100% free and open source, and is compliled and released basing on repository hosted on GitHub. The App will not collect any of your privacy data!\n\n Version information of the App will be sent in the following situations: \n 1. As startup, version information will be sent to "Umeng +· U-APP Mobile Statistics" for user retention analyze and crash stats;\n 2. Manual update check triggered by user;\n The App collects no any other data!!\n\n The App collects and uses version information only in accordance with the Privacy Policy, and will not collect any other information as an abuse of users\' consent to the Privacy Policy;</string>
 </resources>
