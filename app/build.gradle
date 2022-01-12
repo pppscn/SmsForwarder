@@ -167,4 +167,7 @@ dependencies {
 
     // 权限请求框架：https://github.com/getActivity/XXPermissions
     implementation 'com.github.getActivity:XXPermissions:13.2'
+    //jetty
+    implementation "org.eclipse.jetty:jetty-server:$jetty_version"
+    implementation "org.eclipse.jetty:jetty-servlet:$jetty_version"
 }
