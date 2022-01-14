@@ -166,7 +166,7 @@
     <string name="retry_interval_tips">接口请求失败后将重试5次</string>
     <string name="forward_sms">转发短信广播</string>
     <string name="forward_sms_tips">总开关，请授予读取短信、通知类短信、发送短信等权限</string>
-    <string name="forward_missed_calls">转发未接来电</string>
+    <string name="forward_missed_calls">转发通话记录</string>
     <string name="forward_missed_calls_tips">总开关，请授予读取通话记录、联系人等权限</string>
     <string name="forward_app_notify">转发应用通知</string>
     <string name="forward_app_notify_tips">总开关，请先授予通知使用权</string>
@@ -210,7 +210,7 @@
     <string name="local_ip">本机IP：</string>
     <string name="operating_instruction">操作说明：\n1.新旧手机连接同一个WiFi网络(禁用AP隔离)\n2.旧手机直接点【发送】按钮，获取到【服务端IP】\n3.新手机填写【服务端IP】后，点【接收】按钮\n【注意】新手机接收后，发送通道、转发规则将完全被覆盖，清空历史记录！</string>
     <string name="send">启动服务</string>
-    <string name="stop">停止</string>
+    <string name="stop">停止服务</string>
     <string name="old_mobile_phone">我是旧手机</string>
     <string name="receive">接收</string>
     <string name="new_mobile_phone">我是新手机</string>

@@ -12,6 +12,7 @@ public class Lamda {
         }
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public interface Func<T, R> {
         R execute(T t) throws Exception;
 

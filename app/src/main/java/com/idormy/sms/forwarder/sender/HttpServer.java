@@ -8,7 +8,9 @@ import android.widget.Toast;
 import com.idormy.sms.forwarder.R;
 import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 import com.idormy.sms.forwarder.receiver.BaseServlet;
-import com.idormy.sms.forwarder.utils.*;
+import com.idormy.sms.forwarder.utils.NetUtil;
+import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.SmsHubActionHandler;
 
 import org.eclipse.jetty.server.Server;
 
@@ -16,7 +18,7 @@ import org.eclipse.jetty.server.Server;
 public class HttpServer {
     private static Boolean hasInit = false;
     private static Server jettyServer;
-    private static int port = 5000;
+    private static final int port = 5000;
     @SuppressLint("StaticFieldLeak")
     private static Context context;
     private static long ts = 0L;

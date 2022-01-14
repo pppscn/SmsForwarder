@@ -2,12 +2,14 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:ignore="TooManyViews">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -250,56 +252,100 @@
         </LinearLayout>
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:background="@android:color/white"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="15dp">
+            android:id="@+id/layout_cancel_app_notify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="15dp"
+            android:visibility="gone">
 
             <LinearLayout
-                    android:layout_width="0dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:orientation="vertical">
+                    android:text="@string/cancel_app_notify"
+                    android:textStyle="bold"
+                    tools:ignore="RelativeOverlap" />
 
                 <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/send_sms_config_title"
-                        android:textStyle="bold"
-                        tools:ignore="RelativeOverlap" />
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:text="@string/send_sms_config_title2"
-                        android:textSize="9sp"
-                        tools:ignore="SmallSp" />
-
-                <EditText
-                        android:id="@+id/editText_text_sms_hub_url"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:autofillHints=""
-                        android:ems="16"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:text=""
-                        tools:ignore="LabelFor" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/cancel_app_notify_tips"
+                    android:textSize="9sp"
+                    tools:ignore="SmallSp" />
             </LinearLayout>
 
             <Switch
-                    android:id="@+id/switch_enable_sms_hub"
-                    android:layout_width="0dp"
+                android:id="@+id/switch_cancel_app_notify"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textSize="18sp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:text="@string/send_sms_config_title"
+                    android:textStyle="bold"
+                    tools:ignore="RelativeOverlap" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:textSize="18sp"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    android:text="@string/send_sms_config_title2"
+                    android:textSize="9sp"
+                    tools:ignore="SmallSp" />
+
+                <EditText
+                    android:id="@+id/editText_text_sms_hub_url"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:autofillHints=""
+                    android:ems="16"
+                    android:inputType="textUri"
+                    android:maxLines="1"
+                    android:text=""
+                    tools:ignore="LabelFor" />
+            </LinearLayout>
+
+            <Switch
+                android:id="@+id/switch_enable_sms_hub"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textSize="18sp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 
         <LinearLayout
@@ -710,7 +756,7 @@
                     android:gravity="end"
                     android:text="@string/enable_exclude_from_recents_tips"
                     android:textSize="9sp"
-                    tools:ignore="SmallSp,TooManyViews" />
+                    tools:ignore="SmallSp" />
             </LinearLayout>
 
             <Switch
@@ -760,7 +806,7 @@
                 android:background="@color/colorBlueGreyDark"
                 android:onClick="initSetting"
                 android:text="@string/init_setting"
-                tools:ignore="ButtonStyle,NestedWeights,TooManyViews,UsingOnClickInXml" />
+                tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
         </LinearLayout>
 
     </LinearLayout>

@@ -4,14 +4,21 @@ import androidx.annotation.NonNull;
 
 import com.alibaba.fastjson.JSON;
 import com.idormy.sms.forwarder.sender.SmsHubApiTask;
-import com.idormy.sms.forwarder.utils.*;
+import com.idormy.sms.forwarder.utils.PhoneUtils;
+import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.SimUtil;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import lombok.Data;
 
+@SuppressWarnings("unchecked")
 @Data
 public class SmsHubVo implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -84,7 +91,7 @@ public class SmsHubVo implements Serializable {
             cache.put(key, deviInfoMap);
             return deviInfoMap;
         }
-        return (HashMap<String, String>) cache.get(key);
+        return (HashMap<String, String>) Objects.requireNonNull(cache.get(key));
     }
 
     public enum Action {

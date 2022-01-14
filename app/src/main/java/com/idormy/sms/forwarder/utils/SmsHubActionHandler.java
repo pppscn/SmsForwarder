@@ -7,7 +7,10 @@ import android.util.Log;
 import com.idormy.sms.forwarder.model.LogModel;
 import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SmsHubActionHandler {
@@ -44,6 +47,7 @@ public class SmsHubActionHandler {
 
     public static synchronized List<SmsHubVo> getData(SmsHubMode smsHubMode) {
         List<SmsHubVo> smsHubVoList = cache.get(smsHubMode);
+        assert smsHubVoList != null;
         if (smsHubVoList.size() > 0) {
             cache.put(smsHubMode, new ArrayList<>());
             return smsHubVoList;

@@ -2,7 +2,6 @@ package com.idormy.sms.forwarder.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.*;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,18 +15,22 @@ import java.net.URLEncoder;
 import java.util.Map;
 import java.util.Objects;
 
-import okhttp3.*;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
+@SuppressWarnings("unchecked")
 public class HttpUtil {
     private static final OkHttpClient client = new OkHttpClient();
     private static final String TAG = "HttpUtil";
     private static Boolean hasInit = false;
     @SuppressLint("StaticFieldLeak")
     private static Context context;
-    //    @SuppressLint("StaticFieldLeak")
-//    private static Handler handError;
     private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json;charset=utf-8");
-
 
     @SuppressLint("HandlerLeak")
     public static void init(Context context) {
@@ -95,6 +98,7 @@ public class HttpUtil {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @NonNull
     public static StringBuilder appendQueryStr(String tag, String url, Object param) {
         StringBuilder resUrl = new StringBuilder(url);

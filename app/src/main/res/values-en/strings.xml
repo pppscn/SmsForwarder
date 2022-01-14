@@ -166,7 +166,7 @@
     <string name="retry_interval_tips">Retry five times after it fails</string>
     <string name="forward_sms">Forward sms</string>
     <string name="forward_sms_tips">Main switch, requires permissions to read and sned SMS messages, especially verification SMS texts.</string>
-    <string name="forward_missed_calls">Forward missed calls</string>
+    <string name="forward_missed_calls">Forward calls log</string>
     <string name="forward_missed_calls_tips">Main switch, requires permissions to read call log and contacts.</string>
     <string name="forward_app_notify">Forward app Ntf.</string>
     <string name="forward_app_notify_tips">Main switch, requires permission to read notification.</string>
@@ -211,7 +211,7 @@
     <string name="local_ip">Local IP：</string>
     <string name="operating_instruction">Instructions: \n1. Please keep the SOURCE and DESTINATION phones in the same Wi-Fi network, and do not turn on isolation. \n2. Tap "Send" on SOURCE mobile phone, and get "server IP" \n3. After filling in "Server IP" on DESTINATION phone, tap "Receive". \n [NOTE:] sender(s), forwarding rule(s) and log(s) will be overwritten after cloning!</string> <!-- 原文是“新旧手机”，英文翻译中处理为“源”手机和“目标”手机，因为担心“新旧”的表述引起混淆（有没一种可能就是用户就是用从新手机的设备复制到旧手机上去呢？）。 -->
     <string name="send">Start Server</string>
-    <string name="stop">Stop</string>
+    <string name="stop">Stop Server</string>
     <string name="old_mobile_phone">I\'m the SCOURCE phone</string>
     <string name="receive">Receive</string>
     <string name="new_mobile_phone">I\'m the DESTINATION phone</string>
@@ -271,5 +271,5 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="agree">Agree</string>
     <string name="disagree">Disagree</string>
-    <string name="privacy_policy_text">SmsForwarder (the "Application/App"), is 100% free and open source, and is compliled and released basing on repository hosted on GitHub. The App will not collect any of your privacy data!\n\n Version information of the App will be sent in the following situations: \n 1. As startup, version information will be sent to "Umeng +· U-APP Mobile Statistics" for user retention analyze and crash stats;\n 2. Manual update check triggered by user;\n The App collects no any other data!!\n\n The App collects and uses version information only in accordance with the Privacy Policy, and will not collect any other information as an abuse of users\' consent to the Privacy Policy;</string>
+    <string name="privacy_policy_text">SmsForwarder (the "Application/App"), is 100\% free and open source, and is compliled and released basing on repository hosted on GitHub. The App will not collect any of your privacy data!\n\n Version information of the App will be sent in the following situations: \n 1. As startup, version information will be sent to "Umeng +· U-APP Mobile Statistics" for user retention analyze and crash stats;\n 2. Manual update check triggered by user;\n The App collects no any other data!!\n\n The App collects and uses version information only in accordance with the Privacy Policy, and will not collect any other information as an abuse of users\' consent to the Privacy Policy;</string>
 </resources>
