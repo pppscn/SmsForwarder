@@ -356,22 +356,28 @@ public class SettingActivity extends AppCompatActivity {
         textSmsTemplate.requestFocus();
         switch (v.getId()) {
             case R.id.bt_insert_sender:
-                textSmsTemplate.append("{{来源号码}}");
+                insertOrReplaceText2Cursor(textSmsTemplate, "{{来源号码}}");
                 return;
             case R.id.bt_insert_content:
-                textSmsTemplate.append("{{短信内容}}");
+                insertOrReplaceText2Cursor(textSmsTemplate, "{{短信内容}}");
                 return;
             case R.id.bt_insert_extra:
-                textSmsTemplate.append("{{卡槽信息}}");
+                insertOrReplaceText2Cursor(textSmsTemplate, "{{卡槽信息}}");
                 return;
             case R.id.bt_insert_time:
-                textSmsTemplate.append("{{接收时间}}");
+                insertOrReplaceText2Cursor(textSmsTemplate, "{{接收时间}}");
                 return;
             case R.id.bt_insert_device_name:
-                textSmsTemplate.append("{{设备名称}}");
+                insertOrReplaceText2Cursor(textSmsTemplate, "{{设备名称}}");
                 return;
             default:
         }
+    }
+
+    private void insertOrReplaceText2Cursor(EditText editText, String str) {
+        int start = Math.max(editText.getSelectionStart(), 0);
+        int end = Math.max(editText.getSelectionEnd(), 0);
+        editText.getText().replace(Math.min(start, end), Math.max(start, end), str, 0, str.length());
     }
 
     //恢复初始化配置
