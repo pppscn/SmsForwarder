@@ -209,7 +209,7 @@
     <string name="get">GET</string>
     <string name="local_ip">本机IP：</string>
     <string name="operating_instruction">操作说明：\n1.新旧手机连接同一个WiFi网络(禁用AP隔离)\n2.旧手机直接点【发送】按钮，获取到【服务端IP】\n3.新手机填写【服务端IP】后，点【接收】按钮\n【注意】新手机接收后，发送通道、转发规则将完全被覆盖，清空历史记录！</string>
-    <string name="send">发送</string>
+    <string name="send">启动服务</string>
     <string name="stop">停止</string>
     <string name="old_mobile_phone">我是旧手机</string>
     <string name="receive">接收</string>
@@ -265,6 +265,8 @@
     <string name="proxy_authenticator">代理身份验证</string>
     <string name="username">用户</string>
     <string name="password">密码</string>
+    <string name="send_sms_config_title">SmsHub client 模式</string>
+    <string name="send_sms_config_title2">执行接口返回的操作</string>
     <string name="privacy_policy">隐私政策</string>
     <string name="agree">同意</string>
     <string name="disagree">不同意</string>

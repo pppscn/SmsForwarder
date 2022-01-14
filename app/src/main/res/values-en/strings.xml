@@ -210,7 +210,7 @@
     <!--CloneActivity-->
     <string name="local_ip">Local IP：</string>
     <string name="operating_instruction">Instructions: \n1. Please keep the SOURCE and DESTINATION phones in the same Wi-Fi network, and do not turn on isolation. \n2. Tap "Send" on SOURCE mobile phone, and get "server IP" \n3. After filling in "Server IP" on DESTINATION phone, tap "Receive". \n [NOTE:] sender(s), forwarding rule(s) and log(s) will be overwritten after cloning!</string> <!-- 原文是“新旧手机”，英文翻译中处理为“源”手机和“目标”手机，因为担心“新旧”的表述引起混淆（有没一种可能就是用户就是用从新手机的设备复制到旧手机上去呢？）。 -->
-    <string name="send">Send</string>
+    <string name="send">Start Server</string>
     <string name="stop">Stop</string>
     <string name="old_mobile_phone">I\'m the SCOURCE phone</string>
     <string name="receive">Receive</string>
@@ -266,6 +266,8 @@
     <string name="proxy_authenticator">Proxy Authenticator</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="send_sms_config_title">SmsHub client Mode</string>
+    <string name="send_sms_config_title2">Execute the operation returned by the interface</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="agree">Agree</string>
     <string name="disagree">Disagree</string>

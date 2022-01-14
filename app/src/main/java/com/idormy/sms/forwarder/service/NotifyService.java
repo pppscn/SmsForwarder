@@ -8,10 +8,10 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
-import com.idormy.sms.forwarder.utils.CommonUtil;
-import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -85,6 +85,7 @@ public class NotifyService extends NotificationListenerService {
             SmsVo smsVo = new SmsVo(packageName, text, new Date(), title);
             Log.d(TAG, "send_msg" + smsVo.toString());
             SendUtil.send_msg(this, smsVo, 1, "app");
+            SmsHubActionHandler.putData(new SmsHubVo(SmsHubVo.Type.app, null, text, packageName));
         } catch (Exception e) {
             Log.e(TAG, "onNotificationPosted:", e);
         }

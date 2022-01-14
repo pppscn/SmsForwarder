@@ -23,10 +23,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.idormy.sms.forwarder.utils.CommonUtil;
-import com.idormy.sms.forwarder.utils.DbHelper;
-import com.idormy.sms.forwarder.utils.KeepAliveUtils;
-import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.sender.SmsHubApiTask;
+import com.idormy.sms.forwarder.utils.*;
 
 import java.util.List;
 
@@ -86,6 +84,38 @@ public class SettingActivity extends AppCompatActivity {
 
         EditText textSmsTemplate = findViewById(R.id.text_sms_template);
         editSmsTemplate(textSmsTemplate);
+
+        editSmsHubConfig(findViewById(R.id.switch_enable_sms_hub),findViewById(R.id.editText_text_sms_hub_url));
+    }
+
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    private void editSmsHubConfig(Switch switch_enable_send_sms, EditText editText_text_send_sms) {
+        switch_enable_send_sms.setChecked(SettingUtil.getSwitchEnableSmsHubApi());
+        switch_enable_send_sms.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked && editText_text_send_sms.getText() != null && editText_text_send_sms.getText().length() < 1) {
+                HttpUtil.Toast(TAG, "url为空无法启用");
+                switch_enable_send_sms.setChecked(false);
+                return;
+            }
+            SettingUtil.switchEnableSmsHubApi(isChecked);
+            Log.d(TAG, "switchEnableSendApi:" + isChecked);
+            SmsHubApiTask.updateTimer();
+        });
+        editText_text_send_sms.setText(SettingUtil.getSmsHubApiUrl());
+        editText_text_send_sms.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                SettingUtil.smsHubApiUrl(editText_text_send_sms.getText().toString().trim());
+            }
+        });
     }
 
     //设置转发短信

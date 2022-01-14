@@ -12,11 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.idormy.sms.forwarder.receiver.RebootBroadcastReceiver;
+import com.idormy.sms.forwarder.sender.HttpServer;
 import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.NetUtil;
+import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.idormy.sms.forwarder.view.IPEditText;
-import com.koushikdutta.async.http.WebSocket;
-import com.koushikdutta.async.http.server.AsyncHttpServer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,8 +25,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import okhttp3.Call;
@@ -38,9 +36,8 @@ import okhttp3.Response;
 public class CloneActivity extends AppCompatActivity {
     private final String TAG = "CloneActivity";
     private Context context;
-    private boolean isRunning = false;
     private String serverIp;
-    private final String DATABASE_NAME = "sms_forwarder.db";
+    public static final String DATABASE_NAME = "sms_forwarder.db";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,47 +59,46 @@ public class CloneActivity extends AppCompatActivity {
 
         IPEditText textServerIp = findViewById(R.id.textServerIp);
 
-        List<WebSocket> _sockets = new ArrayList<>();
-        AsyncHttpServer server = new AsyncHttpServer();
 
         TextView sendTxt = findViewById(R.id.sendTxt);
         TextView receiveTxt = findViewById(R.id.receiveTxt);
 
         Button sendBtn = findViewById(R.id.sendBtn);
+        serverIp = NetUtil.getLocalIp(CloneActivity.this);
+        TextView ipText = findViewById(R.id.ipText);
+        ipText.setText(serverIp);
+        if (HttpServer.asRunning()) {
+            sendBtn.setText(R.string.stop);
+            sendTxt.setText(R.string.server_has_started);
+            textServerIp.setIP(serverIp);
+        } else {
+            sendBtn.setText(R.string.send);
+            sendTxt.setText(R.string.server_has_stopped);
+        }
         sendBtn.setOnClickListener(v -> {
-            if (NetUtil.NETWORK_WIFI != NetUtil.getNetWorkStatus()) {
+            if (!HttpServer.asRunning() && NetUtil.NETWORK_WIFI != NetUtil.getNetWorkStatus()) {
                 Toast.makeText(CloneActivity.this, R.string.no_wifi_network, Toast.LENGTH_SHORT).show();
                 return;
-            } else {
-                serverIp = NetUtil.getLocalIp(CloneActivity.this);
-                TextView ipText = findViewById(R.id.ipText);
-                ipText.setText(getString(R.string.local_ip) + serverIp);
             }
-            if (!isRunning) {
-                isRunning = true;
-                server.get("/", (request, response) -> {
-                    File file = context.getDatabasePath(DATABASE_NAME);
-                    response.getHeaders().add("Content-Disposition", "attachment;filename=" + DATABASE_NAME);
-                    response.sendFile(file);
-                });
-                server.listen(5000);
-                Toast.makeText(CloneActivity.this, R.string.server_has_started, Toast.LENGTH_SHORT).show();
-                sendTxt.setText(R.string.server_has_started);
-                textServerIp.setIP(serverIp);
-                sendBtn.setText(R.string.stop);
-            } else {
-                isRunning = false;
-                server.stop();
-                Toast.makeText(CloneActivity.this, R.string.server_has_stopped, Toast.LENGTH_SHORT).show();
+            SettingUtil.switchEnableHttpServer(!SettingUtil.getSwitchEnableHttpServer());
+            if (!HttpServer.update()) {
+                SettingUtil.switchEnableHttpServer(!SettingUtil.getSwitchEnableHttpServer());
+                return;
+            }
+            if (!HttpServer.asRunning()) {
                 sendTxt.setText(R.string.server_has_stopped);
                 textServerIp.setIP("");
                 sendBtn.setText(R.string.send);
+            } else {
+                sendTxt.setText(R.string.server_has_started);
+                textServerIp.setIP(serverIp);
+                sendBtn.setText(R.string.stop);
             }
         });
 
         Button receiveBtn = findViewById(R.id.receiveBtn);
         receiveBtn.setOnClickListener(v -> {
-            if (isRunning) {
+            if (HttpServer.asRunning()) {
                 receiveTxt.setText(R.string.sender_cannot_receive);
                 Toast.makeText(CloneActivity.this, R.string.sender_cannot_receive, Toast.LENGTH_SHORT).show();
                 return;

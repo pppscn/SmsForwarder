@@ -5,9 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
+import android.os.*;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,23 +24,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.idormy.sms.forwarder.adapter.LogAdapter;
 import com.idormy.sms.forwarder.model.vo.LogVo;
+import com.idormy.sms.forwarder.sender.HttpServer;
+import com.idormy.sms.forwarder.sender.SmsHubApiTask;
 import com.idormy.sms.forwarder.service.BatteryService;
 import com.idormy.sms.forwarder.service.FrontService;
-import com.idormy.sms.forwarder.utils.CommonUtil;
-import com.idormy.sms.forwarder.utils.KeepAliveUtils;
-import com.idormy.sms.forwarder.utils.LogUtil;
-import com.idormy.sms.forwarder.utils.NetUtil;
-import com.idormy.sms.forwarder.utils.PhoneUtils;
-import com.idormy.sms.forwarder.utils.SettingUtil;
-import com.idormy.sms.forwarder.utils.SharedPreferencesHelper;
-import com.idormy.sms.forwarder.utils.SmsUtil;
-import com.idormy.sms.forwarder.utils.TimeUtil;
+import com.idormy.sms.forwarder.utils.*;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class MainActivity extends AppCompatActivity implements RefreshListView.IRefreshListener {
 
@@ -78,6 +69,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         SmsUtil.init(this);
         NetUtil.init(this);
 
+        HttpUtil.init(this);
+        SmsHubApiTask.init(this);
+        HttpServer.init(this);
+
         //前台服务
         try {
             serviceIntent = new Intent(MainActivity.this, FrontService.class);
@@ -94,6 +89,12 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
             startService(batteryServiceIntent);
         } catch (Exception e) {
             Log.e(TAG, "BatteryService:", e);
+        }
+        try {
+            SmsHubApiTask.updateTimer();
+            HttpServer.update();
+        } catch (Exception e) {
+            Log.e(TAG, "SmsHubApiTask:", e);
         }
     }
 
