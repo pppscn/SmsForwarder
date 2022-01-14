@@ -242,27 +242,42 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/email_to" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/email_to" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/email_to_tips"
+                    android:textSize="11sp" />
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/editTextEmailToAdd"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
                 android:autofillHints=""
-                android:ems="14"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
+                android:inputType="text"
+                android:gravity="start|top"
+                android:minLines="1"
                 android:text=""
-                tools:ignore="LabelFor" />
+                tools:ignore="LabelFor,TextFields" />
         </LinearLayout>
 
         <LinearLayout

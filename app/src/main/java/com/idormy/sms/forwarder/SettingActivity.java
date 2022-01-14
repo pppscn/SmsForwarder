@@ -73,7 +73,8 @@ public class SettingActivity extends AppCompatActivity {
         switchEnablePhone(switch_enable_phone);
 
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_enable_app_notify = findViewById(R.id.switch_enable_app_notify);
-        switchEnableAppNotify(switch_enable_app_notify);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_cancel_app_notify = findViewById(R.id.switch_cancel_app_notify);
+        switchEnableAppNotify(switch_enable_app_notify, switch_cancel_app_notify);
 
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_exclude_from_recents = findViewById(R.id.switch_exclude_from_recents);
         switchExcludeFromRecents(switch_exclude_from_recents);
@@ -151,10 +152,14 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     //设置转发APP通知
-    private void switchEnableAppNotify(@SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_enable_app_notify) {
-        switch_enable_app_notify.setChecked(SettingUtil.getSwitchEnableAppNotify());
+    private void switchEnableAppNotify(@SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_enable_app_notify, @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_cancel_app_notify) {
+        final LinearLayout layout_cancel_app_notify = findViewById(R.id.layout_cancel_app_notify);
+        boolean isEnable = SettingUtil.getSwitchEnableAppNotify();
+        switch_enable_app_notify.setChecked(isEnable);
+        layout_cancel_app_notify.setVisibility(isEnable ? View.VISIBLE : View.GONE);
 
         switch_enable_app_notify.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            layout_cancel_app_notify.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             //TODO:校验使用APP通知转发必备的权限
             if (isChecked) {
                 if (!CommonUtil.isNotificationListenerServiceEnabled(this)) {
@@ -168,6 +173,12 @@ public class SettingActivity extends AppCompatActivity {
             }
             SettingUtil.switchEnableAppNotify(isChecked);
             Log.d(TAG, "switchEnableAppNotify:" + isChecked);
+        });
+
+        switch_cancel_app_notify.setChecked(SettingUtil.getSwitchCancelAppNotify());
+        switch_cancel_app_notify.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingUtil.switchCancelAppNotify(isChecked);
+            Log.d(TAG, "switchCancelAppNotify:" + isChecked);
         });
     }
 
@@ -375,22 +386,28 @@ public class SettingActivity extends AppCompatActivity {
         textSmsTemplate.requestFocus();
         switch (v.getId()) {
             case R.id.bt_insert_sender:
-                textSmsTemplate.append("{{来源号码}}");
+                insertOrReplaceText2Cursor(textSmsTemplate, "{{来源号码}}");
                 return;
             case R.id.bt_insert_content:
-                textSmsTemplate.append("{{短信内容}}");
+                insertOrReplaceText2Cursor(textSmsTemplate, "{{短信内容}}");
                 return;
             case R.id.bt_insert_extra:
-                textSmsTemplate.append("{{卡槽信息}}");
+                insertOrReplaceText2Cursor(textSmsTemplate, "{{卡槽信息}}");
                 return;
             case R.id.bt_insert_time:
-                textSmsTemplate.append("{{接收时间}}");
+                insertOrReplaceText2Cursor(textSmsTemplate, "{{接收时间}}");
                 return;
             case R.id.bt_insert_device_name:
-                textSmsTemplate.append("{{设备名称}}");
+                insertOrReplaceText2Cursor(textSmsTemplate, "{{设备名称}}");
                 return;
             default:
         }
+    }
+
+    private void insertOrReplaceText2Cursor(EditText editText, String str) {
+        int start = Math.max(editText.getSelectionStart(), 0);
+        int end = Math.max(editText.getSelectionEnd(), 0);
+        editText.getText().replace(Math.min(start, end), Math.max(start, end), str, 0, str.length());
     }
 
     //恢复初始化配置

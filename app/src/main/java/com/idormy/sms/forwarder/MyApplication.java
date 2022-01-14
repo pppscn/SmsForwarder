@@ -11,12 +11,11 @@ import android.util.Log;
 import com.idormy.sms.forwarder.sender.SendHistory;
 import com.idormy.sms.forwarder.service.BatteryService;
 import com.idormy.sms.forwarder.service.FrontService;
-import com.idormy.sms.forwarder.utils.CommonUtil;
 import com.idormy.sms.forwarder.utils.Define;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.SharedPreferencesHelper;
 import com.smailnet.emailkit.EmailKit;
-import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 
 import java.util.ArrayList;
@@ -28,6 +27,7 @@ public class MyApplication extends Application {
     public static List<PhoneUtils.SimInfo> SimInfoList = new ArrayList<>();
     //是否关闭页面提示
     public static boolean showHelpTip = true;
+    SharedPreferencesHelper sharedPreferencesHelper;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -40,14 +40,6 @@ public class MyApplication extends Application {
         super.onCreate();
 
         try {
-            //初始化组件化基础库, 所有友盟业务SDK都必须调用此初始化接口。
-            //建议在宿主App的Application.onCreate函数中调用基础组件库初始化函数。
-            UMConfigure.init(this, "60254fc7425ec25f10f4293e", CommonUtil.getChannelName(this), UMConfigure.DEVICE_TYPE_PHONE, "");
-            // 选用LEGACY_AUTO页面采集模式
-            MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.LEGACY_MANUAL);
-            //pro close log
-            UMConfigure.setLogEnabled(true);
-
             //前台服务
             Intent intent = new Intent(this, FrontService.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -77,6 +69,20 @@ public class MyApplication extends Application {
             //电池状态监听
             Intent batteryServiceIntent = new Intent(this, BatteryService.class);
             startService(batteryServiceIntent);
+
+            //友盟统计
+            sharedPreferencesHelper = new SharedPreferencesHelper(this, "umeng");
+            //设置LOG开关，默认为false
+            //UMConfigure.setLogEnabled(true);
+            //友盟预初始化
+            UMConfigure.preInit(getApplicationContext(), "60254fc7425ec25f10f4293e", "Umeng");
+
+            //判断是否同意隐私协议，uminit为1时为已经同意，直接初始化umsdk
+            if (sharedPreferencesHelper.getSharedPreference("uminit", "").equals("1")) {
+                //友盟正式初始化
+                UmInitConfig umInitConfig = new UmInitConfig();
+                umInitConfig.UMinit(getApplicationContext());
+            }
         } catch (Exception e) {
             Log.e(TAG, "onCreate:", e);
         }

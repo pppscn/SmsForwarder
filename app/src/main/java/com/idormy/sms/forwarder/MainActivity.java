@@ -1,11 +1,14 @@
 package com.idormy.sms.forwarder;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.*;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +30,7 @@ import com.idormy.sms.forwarder.service.BatteryService;
 import com.idormy.sms.forwarder.service.FrontService;
 import com.idormy.sms.forwarder.utils.*;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -40,6 +44,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     private RefreshListView listView;
     private Intent serviceIntent;
     private String currentType = "sms";
+
+    View inflate;
+    Dialog dialog;
+    SharedPreferencesHelper sharedPreferencesHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +102,14 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart");
+
+        /* sp中uminit为1已经同意隐私协议*/
+        sharedPreferencesHelper = new SharedPreferencesHelper(this, "umeng");
+        String isAllowed = String.valueOf(sharedPreferencesHelper.getSharedPreference("uminit", ""));
+        if (isAllowed.equals("") || isAllowed.equals("0")) {
+            dialog();
+            return;
+        }
 
         //是否关闭页面提示
         TextView help_tip = findViewById(R.id.help_tip);
@@ -165,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart(TAG);
         MobclickAgent.onResume(this);
 
         //第一次打开，未授权无法获取SIM信息，尝试在此重新获取
@@ -208,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     @Override
     protected void onPause() {
         super.onPause();
+        MobclickAgent.onPageEnd(TAG);
         MobclickAgent.onPause(this);
         try {
             if (serviceIntent != null) startService(serviceIntent);
@@ -398,4 +416,49 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         return super.onMenuOpened(featureId, menu);
     }
 
+    /*** 隐私协议授权弹窗*/
+    @SuppressLint({"ResourceType", "InflateParams"})
+    public void dialog() {
+        dialog = new Dialog(this, R.style.dialog);
+        inflate = LayoutInflater.from(MainActivity.this).inflate(R.layout.diaologlayout, null);
+        TextView succsebtn = (TextView) inflate.findViewById(R.id.succsebtn);
+        TextView canclebtn = (TextView) inflate.findViewById(R.id.caclebtn);
+
+        succsebtn.setOnClickListener(v -> {
+            /* uminit为1时代表已经同意隐私协议，sp记录当前状态*/
+            sharedPreferencesHelper.put("uminit", "1");
+            UMConfigure.submitPolicyGrantResult(getApplicationContext(), true);
+            /* 友盟sdk正式初始化*/
+            UmInitConfig umInitConfig = new UmInitConfig();
+            umInitConfig.UMinit(getApplicationContext());
+            //关闭弹窗
+            dialog.dismiss();
+
+            //跳转到HomeActivity
+            final Intent intent = getPackageManager().getLaunchIntentForPackage(getPackageName());
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+
+            //杀掉以前进程
+            android.os.Process.killProcess(android.os.Process.myPid());
+
+            finish();
+        });
+
+        canclebtn.setOnClickListener(v -> {
+            dialog.dismiss();
+
+            UMConfigure.submitPolicyGrantResult(getApplicationContext(), false);
+            //不同意隐私协议，退出app
+            android.os.Process.killProcess(android.os.Process.myPid());
+
+        });
+
+        dialog.setContentView(inflate);
+        Window dialogWindow = dialog.getWindow();
+        dialogWindow.setGravity(Gravity.CENTER);
+
+        dialog.setCancelable(false);
+        dialog.show();
+    }
 }

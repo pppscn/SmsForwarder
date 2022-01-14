@@ -1022,6 +1022,7 @@ public class SenderActivity extends AppCompatActivity {
 
         final EditText editTextTelegramApiToken = view1.findViewById(R.id.editTextTelegramApiToken);
         final EditText editTextTelegramChatId = view1.findViewById(R.id.editTextTelegramChatId);
+        final RadioGroup radioGroupTelegramMethod = view1.findViewById(R.id.radioGroupTelegramMethod);
 
         final RadioGroup radioGroupProxyType = view1.findViewById(R.id.radioGroupProxyType);
         final EditText editTextProxyHost = view1.findViewById(R.id.editTextProxyHost);
@@ -1058,6 +1059,7 @@ public class SenderActivity extends AppCompatActivity {
         if (telegramSettingVo != null) {
             editTextTelegramApiToken.setText(telegramSettingVo.getApiToken());
             editTextTelegramChatId.setText(telegramSettingVo.getChatId());
+            radioGroupTelegramMethod.check(telegramSettingVo.getMethodCheckId());
 
             radioGroupProxyType.check(telegramSettingVo.getProxyTypeCheckId());
             layoutProxyAuthenticator.setVisibility(telegramSettingVo.getProxyAuthenticator() ? View.VISIBLE : View.GONE);
@@ -1102,7 +1104,8 @@ public class SenderActivity extends AppCompatActivity {
                         editTextProxyPort.getText().toString().trim(),
                         switchProxyAuthenticator.isChecked(),
                         editTextProxyUsername.getText().toString().trim(),
-                        editTextProxyPassword.getText().toString().trim()
+                        editTextProxyPassword.getText().toString().trim(),
+                        (radioGroupTelegramMethod.getCheckedRadioButtonId() == R.id.radioTelegramMethodGet ? "GET" : "POST")
 
                 );
                 newSenderModel.setJsonSetting(JSON.toJSONString(telegramSettingVoNew));
@@ -1121,7 +1124,8 @@ public class SenderActivity extends AppCompatActivity {
                         editTextProxyPort.getText().toString().trim(),
                         switchProxyAuthenticator.isChecked(),
                         editTextProxyUsername.getText().toString().trim(),
-                        editTextProxyPassword.getText().toString().trim()
+                        editTextProxyPassword.getText().toString().trim(),
+                        (radioGroupTelegramMethod.getCheckedRadioButtonId() == R.id.radioTelegramMethodGet ? "GET" : "POST")
                 );
                 senderModel.setJsonSetting(JSON.toJSONString(telegramSettingVoNew));
                 SenderUtil.updateSender(senderModel);
@@ -1153,9 +1157,10 @@ public class SenderActivity extends AppCompatActivity {
                             editTextProxyPort.getText().toString().trim(),
                             switchProxyAuthenticator.isChecked(),
                             editTextProxyUsername.getText().toString().trim(),
-                            editTextProxyPassword.getText().toString().trim()
+                            editTextProxyPassword.getText().toString().trim(),
+                            (radioGroupTelegramMethod.getCheckedRadioButtonId() == R.id.radioTelegramMethodGet ? "GET" : "POST")
                     );
-                    SenderTelegramMsg.sendMsg(0, handler, telegramSettingVoNew, getString(R.string.test_phone_num), getString(R.string.test_sms));
+                    SenderTelegramMsg.sendMsg(0, handler, telegramSettingVoNew, getString(R.string.test_phone_num), getString(R.string.test_sms), telegramSettingVoNew.getMethod());
                 } catch (Exception e) {
                     Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
@@ -1476,12 +1481,14 @@ public class SenderActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart(TAG);
         MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        MobclickAgent.onPageEnd(TAG);
         MobclickAgent.onPause(this);
     }
 

@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.sender;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.util.Log;
 
@@ -11,6 +12,7 @@ public class SenderSmsMsg extends SenderBaseMsg {
 
     static final String TAG = "SenderSmsMsg";
 
+    @SuppressLint("NewApi")
     public static void sendMsg(final long logId, final Handler handError, int simSlot, String mobiles, Boolean onlyNoNetwork, String from, String text) throws Exception {
         Log.i(TAG, "sendMsg simSlot:" + simSlot + " mobiles:" + mobiles + " onlyNoNetwork:" + onlyNoNetwork + " from:" + from + " text:" + text);
 

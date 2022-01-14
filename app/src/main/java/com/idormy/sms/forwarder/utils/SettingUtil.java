@@ -78,6 +78,16 @@ public class SettingUtil {
         return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_APP_NOTIFY, false);
     }
 
+    public static void switchCancelAppNotify(Boolean enable) {
+        sp_setting.edit()
+                .putBoolean(Define.SP_MSG_KEY_STRING_CANCEL_APP_NOTIFY, enable)
+                .apply();
+    }
+
+    public static boolean getSwitchCancelAppNotify() {
+        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_CANCEL_APP_NOTIFY, true);
+    }
+
     public static void switchEnableBatteryReceiver(Boolean enable) {
         sp_setting.edit()
                 .putBoolean(Define.SP_MSG_KEY_STRING_BATTERY_RECEIVER, enable)

@@ -132,6 +132,7 @@
     <string name="email_password">Password/Auth Code</string>
     <string name="email_nickname">Nickname</string>
     <string name="email_to">Send To</string>
+    <string name="email_to_tips">Tip：Separate multiple recipients with a ","</string>
     <string name="email_title">Email Title</string>
     <string name="feishu_webhook">Webhook</string>
     <string name="feishu_secret">Secret (optional)</string>
@@ -146,7 +147,7 @@
     <string name="ServerChanSendKey">ServerChan\'s SendKey</string>
     <string name="TelegramApiToken">ApiToken or Custom address</string>
     <string name="TelegramChatId">ChatId</string>
-    <string name="WebNotifyMethod">Method</string>
+    <string name="Method">Method</string>
     <string name="WebNotifyWebServer">WebServer e.g. https://a.b.com/msg?token=xyz</string>
     <string name="WebNotifyWebParams">WebParams e.g. payload=%7B%22text%22%3A%22[msg]%22%7D [msg] will be replaced with text message content. \nSupport Json format, for example: {"text":[MSG]}.\n Note: MSG is automatically utF-8 encoded in addition to JSON format</string>
     <string name="WebNotifySecret">Secret (sign is not counted if left blank)</string>
@@ -167,8 +168,10 @@
     <string name="forward_sms_tips">Main switch, requires permissions to read and sned SMS messages, especially verification SMS texts.</string>
     <string name="forward_missed_calls">Forward missed calls</string>
     <string name="forward_missed_calls_tips">Main switch, requires permissions to read call log and contacts.</string>
-    <string name="forward_app_notify">Forward app notify</string>
+    <string name="forward_app_notify">Forward app Ntf.</string>
     <string name="forward_app_notify_tips">Main switch, requires permission to read notification.</string>
+    <string name="cancel_app_notify">Auto close Ntf.</string>
+    <string name="cancel_app_notify_tips">Automatically close a single notification after forwarding, to avoid stacking of multiple notifications.</string>
     <string name="enable_custom_templates">Global custom template</string>
     <string name="enable_custom_templates_tips">Priority: custom template for forwarding rules > Global custom template > System default</string>
     <string name="enable_regex_replace">Enable regular replacement content</string>
@@ -265,4 +268,8 @@
     <string name="password">Password</string>
     <string name="send_sms_config_title">SmsHub client Mode</string>
     <string name="send_sms_config_title2">Execute the operation returned by the interface</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="agree">Agree</string>
+    <string name="disagree">Disagree</string>
+    <string name="privacy_policy_text">SmsForwarder (the "Application/App"), is 100% free and open source, and is compliled and released basing on repository hosted on GitHub. The App will not collect any of your privacy data!\n\n Version information of the App will be sent in the following situations: \n 1. As startup, version information will be sent to "Umeng +· U-APP Mobile Statistics" for user retention analyze and crash stats;\n 2. Manual update check triggered by user;\n The App collects no any other data!!\n\n The App collects and uses version information only in accordance with the Privacy Policy, and will not collect any other information as an abuse of users\' consent to the Privacy Policy;</string>
 </resources>

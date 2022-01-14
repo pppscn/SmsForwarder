@@ -52,7 +52,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m">
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
         <meta-data
             android:name="UPDATE_APP_KEY"
@@ -66,6 +71,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:exported="true"
             tools:ignore="IntentFilterExportedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -74,6 +80,7 @@
         </activity>
         <activity
             android:name=".AboutActivity"
+            android:exported="true"
             android:label="@string/about"
             tools:ignore="IntentFilterExportedReceiver">
             <intent-filter>
@@ -89,22 +96,28 @@
         </activity>
         <activity
             android:name=".SettingActivity"
+            android:exported="true"
             android:label="@string/setting" />
         <activity
             android:name=".CloneActivity"
+            android:exported="true"
             android:label="@string/clone" />
         <activity
             android:name=".RuleActivity"
+            android:exported="true"
             android:label="@string/rule_setting" />
         <activity
             android:name=".SenderActivity"
+            android:exported="true"
             android:label="@string/sender_setting" />
         <activity
             android:name=".AppListActivity"
+            android:exported="true"
             android:label="@string/app_list" />
 
         <receiver
             android:name=".receiver.RebootBroadcastReceiver"
+            android:exported="true"
             tools:ignore="IntentFilterExportedReceiver">
             <intent-filter android:priority="2147483647">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -114,6 +127,7 @@
         </receiver>
         <receiver
             android:name=".receiver.SmsBroadcastReceiver"
+            android:exported="true"
             android:permission="android.permission.BROADCAST_SMS"
             tools:ignore="IntentFilterExportedReceiver">
             <intent-filter android:priority="2147483647">
@@ -123,6 +137,7 @@
         </receiver>
         <receiver
             android:name=".receiver.PhoneStateReceiver"
+            android:exported="true"
             tools:ignore="IntentFilterExportedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
@@ -139,7 +154,8 @@
             android:name=".service.NotifyService"
             android:enabled="true"
             android:label="@string/app_name"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
