@@ -53,11 +53,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
 
                         //自定义备注优先
                         simInfo = simId == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1();
-                        if (!simInfo.isEmpty()) {
-                            simInfo = "SIM" + simId + "_" + simInfo;
-                        } else {
-                            simInfo = SimUtil.getSimInfo(simId);
-                        }
+                        simInfo = "SIM" + simId + "_" + simInfo;
                     } catch (Exception e) {
                         Log.e(TAG, "获取接收手机号失败：" + e.getMessage());
                     }

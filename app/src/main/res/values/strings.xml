@@ -43,6 +43,7 @@
     <string name="delete_log_title">日志删除确认</string>
     <string name="delete_log_tips">确定删除该条日志记录?</string>
     <string name="delete_log_toast">该条日志记录已经删除！</string>
+    <string name="resend_toast">正在重发</string>
     <string name="details">详情</string>
     <string name="clear_logs_tips">确定要清空转发记录吗？</string>
     <string name="pull_tips">下拉可以刷新！</string>

@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class LogVo {
     private Long id;
+    private String type;
     private String from;
     private String content;
     private String simInfo;
@@ -19,8 +20,9 @@ public class LogVo {
     public LogVo() {
     }
 
-    public LogVo(Long id, String from, String content, String simInfo, String time, String rule, int senderImageId, int forwardStatus, String forwardResponse) {
+    public LogVo(Long id, String type, String from, String content, String simInfo, String time, String rule, int senderImageId, int forwardStatus, String forwardResponse) {
         this.id = id;
+        this.type = type;
         this.from = from;
         this.content = content;
         this.simInfo = simInfo;

@@ -30,11 +30,7 @@ public class SmsHubVo implements Serializable {
         this.msgId = UUID.randomUUID().toString();
         if (channel != null) {
             String simInfo = simId == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1(); //自定义备注优先
-            if (!simInfo.isEmpty()) {
-                simInfo = "SIM" + simId + ":" + simInfo;
-            } else {
-                simInfo = SimUtil.getSimInfo(simId);
-            }
+            simInfo = "SIM" + simId + ":" + simInfo;
             this.channel = simInfo;
         }
         this.content = content;
