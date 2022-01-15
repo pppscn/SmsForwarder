@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.idormy.sms.forwarder.adapter.LogAdapter;
 import com.idormy.sms.forwarder.model.vo.LogVo;
 import com.idormy.sms.forwarder.sender.HttpServer;
+import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.sender.SmsHubApiTask;
 import com.idormy.sms.forwarder.service.BatteryService;
 import com.idormy.sms.forwarder.service.FrontService;
@@ -304,6 +305,21 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
             Toast.makeText(MainActivity.this, R.string.delete_log_toast, Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });
+
+        //重发消息回调，重发失败也会触发
+        Handler handler = new Handler(Looper.myLooper(), msg -> {
+            initTLogs();
+            showList(logVos);
+            return true;
+        });
+        //对于发送失败的消息添加重发按钮
+        if (logVo.getForwardStatus() == 0) {
+            builder.setPositiveButton("重发消息", (dialog, which) -> {
+                Toast.makeText(MainActivity.this, R.string.resend_toast, Toast.LENGTH_SHORT).show();
+                SendUtil.resendMsgByLog(MainActivity.this, handler, logVo);
+                dialog.dismiss();
+            });
+        }
         builder.show();
     }
 

@@ -43,6 +43,7 @@
     <string name="delete_log_title">Delete confirmation</string>
     <string name="delete_log_tips">Are you sure to delete this log entry?</string>
     <string name="delete_log_toast">The log entry is deleted.</string>
+    <string name="resend_toast">Resending</string>
     <string name="details">Details</string>
     <string name="clear_logs_tips">Are you sure to clear all forwarding logs?</string>
     <string name="pull_tips">Pull to refresh.</string>

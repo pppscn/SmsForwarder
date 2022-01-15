@@ -24,6 +24,7 @@ import com.idormy.sms.forwarder.model.vo.BarkSettingVo;
 import com.idormy.sms.forwarder.model.vo.DingDingSettingVo;
 import com.idormy.sms.forwarder.model.vo.EmailSettingVo;
 import com.idormy.sms.forwarder.model.vo.FeiShuSettingVo;
+import com.idormy.sms.forwarder.model.vo.LogVo;
 import com.idormy.sms.forwarder.model.vo.PushPlusSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXAppSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXGroupRobotSettingVo;
@@ -36,6 +37,9 @@ import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.NetUtil;
 import com.idormy.sms.forwarder.utils.RuleUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class SendUtil {
@@ -72,6 +76,57 @@ public class SendUtil {
                     }
                 } catch (Exception e) {
                     Log.e(TAG, "send_msg: fail checkMsg:", e);
+                }
+            }
+        }
+    }
+
+    /**
+     * 从日志获取消息内容并尝试重发
+     * 根据当前rule和sender来重发，而不是失败时设置的规则
+     *
+     * @param context
+     * @param handler 回调，用于刷新日志列表
+     * @param logVo   日志
+     */
+    public static void resendMsgByLog(Context context, Handler handler, LogVo logVo) {
+        Log.d(TAG, logVo.toString());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        try {
+            date = sdf.parse(logVo.getTime());
+        } catch (ParseException e) {
+            Log.e(TAG, "SimpleDateFormat parse error", e);
+        }
+        SmsVo smsVo = new SmsVo(logVo.getFrom(), logVo.getContent(), date, logVo.getSimInfo());
+        Log.d(TAG, "resendMsgByLog smsVo:" + smsVo);
+
+        //从simInfo判断接收的是SIM1还是SIM2，获取不到时默认走ALL
+        String simInfo = smsVo.getSimInfo();
+        String key = null;
+        if (simInfo.startsWith("SIM1")) {
+            key = "SIM1";
+        } else if (simInfo.startsWith("SIM2")) {
+            key = "SIM2";
+        }
+
+        RuleUtil.init(context);
+        List<RuleModel> ruleList = RuleUtil.getRule(null, key, logVo.getType());
+        if (!ruleList.isEmpty()) {
+            SenderUtil.init(context);
+            for (RuleModel ruleModel : ruleList) {
+                //规则匹配发现需要发送
+                try {
+                    if (ruleModel.checkMsg(smsVo)) {
+                        List<SenderModel> senderModels = SenderUtil.getSender(ruleModel.getSenderId(), null);
+                        for (SenderModel senderModel : senderModels) {
+                            String smsTemplate = ruleModel.getSwitchSmsTemplate() ? ruleModel.getSmsTemplate() : "";
+                            String regexReplace = ruleModel.getSwitchRegexReplace() ? ruleModel.getRegexReplace() : "";
+                            SendUtil.senderSendMsg(handler, smsVo, senderModel, logVo.getId(), smsTemplate, regexReplace);
+                        }
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "resendMsgByLog: fail checkMsg:", e);
                 }
             }
         }
