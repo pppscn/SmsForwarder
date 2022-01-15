@@ -4,10 +4,12 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 
+import com.idormy.sms.forwarder.receiver.SimStateReceiver;
 import com.idormy.sms.forwarder.sender.SendHistory;
 import com.idormy.sms.forwarder.service.BatteryService;
 import com.idormy.sms.forwarder.service.FrontService;
@@ -69,6 +71,10 @@ public class MyApplication extends Application {
             //电池状态监听
             Intent batteryServiceIntent = new Intent(this, BatteryService.class);
             startService(batteryServiceIntent);
+
+            //SIM卡插拔状态广播监听
+            IntentFilter simStateFilter = new IntentFilter(SimStateReceiver.ACTION_SIM_STATE_CHANGED);
+            registerReceiver(new SimStateReceiver(), simStateFilter);
 
             //友盟统计
             sharedPreferencesHelper = new SharedPreferencesHelper(this, "umeng");
