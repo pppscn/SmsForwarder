@@ -81,11 +81,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         Log.d(TAG, "getSubscriptionId = " + callInfo.getSubscriptionId());
         int simId = SimUtil.getSimIdBySubscriptionId(callInfo.getSubscriptionId());
         String simInfo = simId == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1(); //自定义备注优先
-        if (!simInfo.isEmpty()) {
-            simInfo = "SIM" + simId + "_" + simInfo;
-        } else {
-            simInfo = SimUtil.getSimInfo(simId);
-        }
+        simInfo = "SIM" + simId + "_" + simInfo;
 
         if (TextUtils.isEmpty(name)) {
             List<PhoneBookEntity> contacts = ContactHelper.getInstance().getContactByNumber(context, phoneNumber);
