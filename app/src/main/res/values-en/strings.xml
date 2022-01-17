@@ -101,6 +101,7 @@
     <string name="setsmstitle">SMS Settings</string>
     <string name="setfeishutitle">FeiShu Bot Settings</string>
     <string name="setpushplustitle">PushPlus Settings</string>
+    <string name="setgotifytitle">Gotify Settings</string>
     <string name="test_phone_num">19999999999</string>
     <string name="test_content">Test content @</string>
     <string name="test_sms">【JD】code 387481, ihelp.jd.com</string>
@@ -273,4 +274,5 @@
     <string name="agree">Agree</string>
     <string name="disagree">Disagree</string>
     <string name="privacy_policy_text">SmsForwarder (the "Application/App"), is 100\% free and open source, and is compliled and released basing on repository hosted on GitHub. The App will not collect any of your privacy data!\n\n Version information of the App will be sent in the following situations: \n 1. As startup, version information will be sent to "Umeng +· U-APP Mobile Statistics" for user retention analyze and crash stats;\n 2. Manual update check triggered by user;\n The App collects no any other data!!\n\n The App collects and uses version information only in accordance with the Privacy Policy, and will not collect any other information as an abuse of users\' consent to the Privacy Policy;</string>
+    <string name="GotifyWebServer"><![CDATA[设置WebServer：例如：https://push.example.de/message?token=<apptoken>]]></string>
 </resources>

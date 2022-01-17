@@ -5,6 +5,7 @@ import static com.idormy.sms.forwarder.model.SenderModel.TYPE_BARK;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_DINGDING;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_FEISHU;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_GOTIFY;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_PUSHPLUS;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
@@ -38,6 +39,7 @@ import com.idormy.sms.forwarder.model.vo.BarkSettingVo;
 import com.idormy.sms.forwarder.model.vo.DingDingSettingVo;
 import com.idormy.sms.forwarder.model.vo.EmailSettingVo;
 import com.idormy.sms.forwarder.model.vo.FeiShuSettingVo;
+import com.idormy.sms.forwarder.model.vo.GotifySettingVo;
 import com.idormy.sms.forwarder.model.vo.PushPlusSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXAppSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXGroupRobotSettingVo;
@@ -48,6 +50,7 @@ import com.idormy.sms.forwarder.model.vo.WebNotifySettingVo;
 import com.idormy.sms.forwarder.sender.SenderBarkMsg;
 import com.idormy.sms.forwarder.sender.SenderDingdingMsg;
 import com.idormy.sms.forwarder.sender.SenderFeishuMsg;
+import com.idormy.sms.forwarder.sender.SenderGotifyMsg;
 import com.idormy.sms.forwarder.sender.SenderMailMsg;
 import com.idormy.sms.forwarder.sender.SenderPushPlusMsg;
 import com.idormy.sms.forwarder.sender.SenderQyWxAppMsg;
@@ -149,6 +152,9 @@ public class SenderActivity extends AppCompatActivity {
                 case TYPE_PUSHPLUS:
                     setPushPlus(senderModel, false);
                     break;
+                case TYPE_GOTIFY:
+                    setGotify(senderModel, false);
+                    break;
                 default:
                     Toast.makeText(SenderActivity.this, R.string.invalid_sender, Toast.LENGTH_LONG).show();
                     SenderUtil.delSender(senderModel.getId());
@@ -208,6 +214,9 @@ public class SenderActivity extends AppCompatActivity {
                         break;
                     case TYPE_PUSHPLUS:
                         setPushPlus(senderModel, true);
+                        break;
+                    case TYPE_GOTIFY:
+                        setGotify(senderModel, true);
                         break;
                     default:
                         Toast.makeText(SenderActivity.this, R.string.invalid_sender, Toast.LENGTH_LONG).show();
@@ -271,6 +280,9 @@ public class SenderActivity extends AppCompatActivity {
                     break;
                 case TYPE_PUSHPLUS:
                     setPushPlus(null, false);
+                    break;
+                case TYPE_GOTIFY:
+                    setGotify(null, false);
                     break;
                 default:
                     Toast.makeText(SenderActivity.this, R.string.not_supported, Toast.LENGTH_LONG).show();
@@ -1470,6 +1482,140 @@ public class SenderActivity extends AppCompatActivity {
                 Toast.makeText(SenderActivity.this, R.string.invalid_token, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    //Gotify
+    @SuppressLint("SimpleDateFormat")
+    private void setGotify(final SenderModel senderModel, final boolean isClone) {
+        GotifySettingVo gotifySettingVo = null;
+        //try phrase json setting
+        if (senderModel != null) {
+            String jsonSettingStr = senderModel.getJsonSetting();
+            if (jsonSettingStr != null) {
+                gotifySettingVo = JSON.parseObject(jsonSettingStr, GotifySettingVo.class);
+            }
+        }
+
+        final AlertDialog.Builder alertDialog71 = new AlertDialog.Builder(SenderActivity.this);
+        View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_gotify, null);
+
+        final EditText editTextGotifyName = view1.findViewById(R.id.editTextGotifyName);
+        if (senderModel != null) editTextGotifyName.setText(senderModel.getName());
+
+        final EditText editTextGotifyWebServer = view1.findViewById(R.id.editTextGotifyWebServer);
+        final EditText editTextGotifyTitle = view1.findViewById(R.id.editTextGotifyTitle);
+        final EditText editTextGotifyPriority = view1.findViewById(R.id.editTextGotifyPriority);
+        if (gotifySettingVo != null) {
+            editTextGotifyWebServer.setText(gotifySettingVo.getWebServer());
+            editTextGotifyTitle.setText(gotifySettingVo.getTitle());
+            editTextGotifyPriority.setText(gotifySettingVo.getPriority());
+        }
+
+        Button buttonGotifyOk = view1.findViewById(R.id.buttonGotifyOk);
+        Button buttonGotifyDel = view1.findViewById(R.id.buttonGotifyDel);
+        Button buttonGotifyTest = view1.findViewById(R.id.buttonGotifyTest);
+        alertDialog71
+                .setTitle(R.string.setgotifytitle)
+                .setIcon(R.mipmap.gotify)
+                .setView(view1)
+                .create();
+        final AlertDialog show = alertDialog71.show();
+
+        buttonGotifyOk.setOnClickListener(view -> {
+            String webServer = editTextGotifyWebServer.getText().toString().trim();
+            if (webServer.isEmpty()) {
+                Toast.makeText(SenderActivity.this, R.string.invalid_webserver, Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            String title = editTextGotifyTitle.getText().toString().trim();
+            if (title.isEmpty()) title = "SmsForwarder Title";
+
+            String priority = editTextGotifyPriority.getText().toString().trim();
+
+            GotifySettingVo gotifySettingVoNew = new GotifySettingVo(webServer, title, priority);
+
+            if (isClone || senderModel == null) {
+                SenderModel newSenderModel = new SenderModel();
+                newSenderModel.setName(editTextGotifyName.getText().toString().trim());
+                newSenderModel.setType(TYPE_GOTIFY);
+                newSenderModel.setStatus(STATUS_ON);
+                newSenderModel.setJsonSetting(JSON.toJSONString(gotifySettingVoNew));
+                SenderUtil.addSender(newSenderModel);
+                initSenders();
+                adapter.add(senderModels);
+            } else {
+                senderModel.setName(editTextGotifyName.getText().toString().trim());
+                senderModel.setType(TYPE_GOTIFY);
+                senderModel.setStatus(STATUS_ON);
+                senderModel.setJsonSetting(JSON.toJSONString(gotifySettingVoNew));
+                SenderUtil.updateSender(senderModel);
+                initSenders();
+                adapter.update(senderModels);
+            }
+
+            show.dismiss();
+        });
+        buttonGotifyDel.setOnClickListener(view -> {
+            if (senderModel != null) {
+                SenderUtil.delSender(senderModel.getId());
+                initSenders();
+                adapter.del(senderModels);
+            }
+            show.dismiss();
+        });
+        buttonGotifyTest.setOnClickListener(view -> {
+            String webServer = editTextGotifyWebServer.getText().toString().trim();
+            if (webServer.isEmpty()) {
+                Toast.makeText(SenderActivity.this, R.string.invalid_webserver, Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            String title = editTextGotifyTitle.getText().toString().trim();
+            if (title.isEmpty()) title = "SmsForwarder Title";
+
+            String priority = editTextGotifyPriority.getText().toString().trim();
+
+            GotifySettingVo gotifySettingVoNew = new GotifySettingVo(webServer, title, priority);
+
+            try {
+                SenderGotifyMsg.sendMsg(0, handler, gotifySettingVoNew, title, R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+            } catch (Exception e) {
+                Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
+
+        });
+
+
+        Button buttonInsertSender = view1.findViewById(R.id.bt_insert_sender);
+        buttonInsertSender.setOnClickListener(view -> {
+            editTextGotifyTitle.setFocusable(true);
+            editTextGotifyTitle.requestFocus();
+            editTextGotifyTitle.append("{{来源号码}}");
+        });
+
+        Button buttonInsertExtra = view1.findViewById(R.id.bt_insert_extra);
+        buttonInsertExtra.setOnClickListener(view -> {
+            editTextGotifyTitle.setFocusable(true);
+            editTextGotifyTitle.requestFocus();
+            editTextGotifyTitle.append("{{卡槽信息}}");
+        });
+
+        Button buttonInsertTime = view1.findViewById(R.id.bt_insert_time);
+        buttonInsertTime.setOnClickListener(view -> {
+            editTextGotifyTitle.setFocusable(true);
+            editTextGotifyTitle.requestFocus();
+            editTextGotifyTitle.append("{{接收时间}}");
+        });
+
+        Button buttonInsertDeviceName = view1.findViewById(R.id.bt_insert_device_name);
+        buttonInsertDeviceName.setOnClickListener(view -> {
+            editTextGotifyTitle.setFocusable(true);
+            editTextGotifyTitle.requestFocus();
+            editTextGotifyTitle.append("{{设备名称}}");
+        });
+
     }
 
     @Override
