@@ -274,4 +274,8 @@
     <string name="disagree">不同意</string>
     <string name="privacy_policy_text">SmsForwarder-短信转发器(下称本软件) 100% 免费开源，Github 在线编译发版，绝不会收集您的任何隐私数据！ \n\n以下情形会上报本软件版本信息： \n 1、启动本软件时，发送版本信息发送到《友盟+·U-App移动统计》，用于分析本软件的用户版本留存与软件奔溃统计； \n 2、手动检查更新时，发送版本号用于检查新版本； \n除此之外，没有任何数据！！！ \n\n本软件会遵循《隐私政策》收集、使用版本信息，但不会因为您同意了《隐私政策》而进行强制捆绑式的信息收集。</string>
     <string name="GotifyWebServer"><![CDATA[设置WebServer：例如：https://push.example.de/message?token=<apptoken>]]></string>
+    <string name="title_template">标题模板</string>
+    <string name="priority">优先级（1 - 9）</string>
+    <string name="_5">5</string>
+    <string name="enter_webserver_tips">请输入WebServer</string>
 </resources>

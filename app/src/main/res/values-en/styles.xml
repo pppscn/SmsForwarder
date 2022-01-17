@@ -49,4 +49,26 @@
         <item name="android:windowBackground">@android:color/transparent</item><!--背景透明-->
         <item name="android:backgroundDimEnabled">true</item><!--模糊-->
     </style>
+
+    <declare-styleable name="ClearEditText">
+        <attr name="showClean" format="boolean" />
+        <attr name="drawableClean" format="reference" />
+        <attr name="cleanPadding" format="dimension" />
+        <attr name="showEye" format="boolean" />
+        <attr name="drawableEyeOpen" format="reference" />
+        <attr name="drawableEyeClose" format="reference" />
+        <attr name="drawableLeft" format="reference" />
+        <attr name="hint" format="string" />
+        <attr name="text" format="string" />
+        <attr name="textColorHint" format="reference|color" />
+        <attr name="textColor" format="reference|color" />
+        <attr name="textSize" format="dimension" />
+        <attr name="maxLength" format="integer" />
+        <attr name="maxLines" format="integer" />
+        <attr name="inputType">
+            <enum name="none" value="0" />
+            <enum name="number" value="1" />
+            <enum name="textPassword" value="2" />
+        </attr>
+    </declare-styleable>
 </resources>

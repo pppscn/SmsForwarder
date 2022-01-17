@@ -60,6 +60,7 @@ import com.idormy.sms.forwarder.sender.SenderSmsMsg;
 import com.idormy.sms.forwarder.sender.SenderTelegramMsg;
 import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.sender.SenderWebNotifyMsg;
+import com.idormy.sms.forwarder.view.ClearEditText;
 import com.umeng.analytics.MobclickAgent;
 
 import java.net.Proxy;
@@ -310,10 +311,10 @@ public class SenderActivity extends AppCompatActivity {
         final EditText editTextDingdingName = view1.findViewById(R.id.editTextDingdingName);
         if (senderModel != null)
             editTextDingdingName.setText(senderModel.getName());
-        final EditText editTextDingdingToken = view1.findViewById(R.id.editTextDingdingToken);
+        final ClearEditText editTextDingdingToken = view1.findViewById(R.id.editTextDingdingToken);
         if (dingDingSettingVo != null)
             editTextDingdingToken.setText(dingDingSettingVo.getToken());
-        final EditText editTextDingdingSecret = view1.findViewById(R.id.editTextDingdingSecret);
+        final ClearEditText editTextDingdingSecret = view1.findViewById(R.id.editTextDingdingSecret);
         if (dingDingSettingVo != null)
             editTextDingdingSecret.setText(dingDingSettingVo.getSecret());
         final EditText editTextDingdingAtMobiles = view1.findViewById(R.id.editTextDingdingAtMobiles);
@@ -417,7 +418,7 @@ public class SenderActivity extends AppCompatActivity {
         @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchEmailSSl = view1.findViewById(R.id.switchEmailSSl);
         final EditText editTextEmailFromAdd = view1.findViewById(R.id.editTextEmailFromAdd);
         final EditText editTextEmailNickname = view1.findViewById(R.id.editTextEmailNickname);
-        final EditText editTextEmailPsw = view1.findViewById(R.id.editTextEmailPsw);
+        final ClearEditText editTextEmailPsw = view1.findViewById(R.id.editTextEmailPsw);
         final EditText editTextEmailToAdd = view1.findViewById(R.id.editTextEmailToAdd);
         final EditText editTextEmailTitle = view1.findViewById(R.id.editTextEmailTitle);
         final RadioGroup radioGroupEmailProtocol = view1.findViewById(R.id.radioGroupEmailProtocol);
@@ -567,7 +568,7 @@ public class SenderActivity extends AppCompatActivity {
 
         final EditText editTextBarkName = view1.findViewById(R.id.editTextBarkName);
         if (senderModel != null) editTextBarkName.setText(senderModel.getName());
-        final EditText editTextBarkServer = view1.findViewById(R.id.editTextBarkServer);
+        final ClearEditText editTextBarkServer = view1.findViewById(R.id.editTextBarkServer);
         if (barkSettingVo != null) editTextBarkServer.setText(barkSettingVo.getServer());
         final EditText editTextBarkIcon = view1.findViewById(R.id.editTextBarkIcon);
         if (barkSettingVo != null) editTextBarkIcon.setText(barkSettingVo.getIcon());
@@ -654,7 +655,7 @@ public class SenderActivity extends AppCompatActivity {
 
         final EditText editTextServerChanName = view1.findViewById(R.id.editTextServerChanName);
         if (senderModel != null) editTextServerChanName.setText(senderModel.getName());
-        final EditText editTextServerChanSendKey = view1.findViewById(R.id.editTextServerChanSendKey);
+        final ClearEditText editTextServerChanSendKey = view1.findViewById(R.id.editTextServerChanSendKey);
         if (serverchanSettingVo != null)
             editTextServerChanSendKey.setText(serverchanSettingVo.getSendKey());
 
@@ -742,7 +743,7 @@ public class SenderActivity extends AppCompatActivity {
         if (webNotifySettingVo != null) editTextWebNotifyWebServer.setText(webNotifySettingVo.getWebServer());
         final EditText editTextWebNotifyWebParams = view1.findViewById(R.id.editTextWebNotifyWebParams);
         if (webNotifySettingVo != null) editTextWebNotifyWebParams.setText(webNotifySettingVo.getWebParams());
-        final EditText editTextWebNotifySecret = view1.findViewById(R.id.editTextWebNotifySecret);
+        final ClearEditText editTextWebNotifySecret = view1.findViewById(R.id.editTextWebNotifySecret);
         if (webNotifySettingVo != null) editTextWebNotifySecret.setText(webNotifySettingVo.getSecret());
         final RadioGroup radioGroupWebNotifyMethod = view1.findViewById(R.id.radioGroupWebNotifyMethod);
         if (webNotifySettingVo != null) radioGroupWebNotifyMethod.check(webNotifySettingVo.getWebNotifyMethodCheckId());
@@ -825,7 +826,7 @@ public class SenderActivity extends AppCompatActivity {
 
         final EditText editTextQYWXGroupRobotName = view1.findViewById(R.id.editTextQYWXGroupRobotName);
         if (senderModel != null) editTextQYWXGroupRobotName.setText(senderModel.getName());
-        final EditText editTextQYWXGroupRobotWebHook = view1.findViewById(R.id.editTextQYWXGroupRobotWebHook);
+        final ClearEditText editTextQYWXGroupRobotWebHook = view1.findViewById(R.id.editTextQYWXGroupRobotWebHook);
         if (qywxGroupRobotSettingVo != null)
             editTextQYWXGroupRobotWebHook.setText(qywxGroupRobotSettingVo.getWebHook());
 
@@ -911,7 +912,7 @@ public class SenderActivity extends AppCompatActivity {
             editTextQYWXAppName.setText(senderModel.getName());
         final EditText editTextQYWXAppCorpID = view1.findViewById(R.id.editTextQYWXAppCorpID);
         final EditText editTextQYWXAppAgentID = view1.findViewById(R.id.editTextQYWXAppAgentID);
-        final EditText editTextQYWXAppSecret = view1.findViewById(R.id.editTextQYWXAppSecret);
+        final ClearEditText editTextQYWXAppSecret = view1.findViewById(R.id.editTextQYWXAppSecret);
         final LinearLayout linearLayoutQYWXAppToUser = view1.findViewById(R.id.linearLayoutQYWXAppToUser);
         final EditText editTextQYWXAppToUser = view1.findViewById(R.id.editTextQYWXAppToUser);
         @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchQYWXAppAtAll = view1.findViewById(R.id.switchQYWXAppAtAll);
@@ -1032,7 +1033,7 @@ public class SenderActivity extends AppCompatActivity {
         final EditText editTextTelegramName = view1.findViewById(R.id.editTextTelegramName);
         if (senderModel != null) editTextTelegramName.setText(senderModel.getName());
 
-        final EditText editTextTelegramApiToken = view1.findViewById(R.id.editTextTelegramApiToken);
+        final ClearEditText editTextTelegramApiToken = view1.findViewById(R.id.editTextTelegramApiToken);
         final EditText editTextTelegramChatId = view1.findViewById(R.id.editTextTelegramChatId);
         final RadioGroup radioGroupTelegramMethod = view1.findViewById(R.id.radioGroupTelegramMethod);
 
@@ -1042,7 +1043,7 @@ public class SenderActivity extends AppCompatActivity {
 
         @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchProxyAuthenticator = view1.findViewById(R.id.switchProxyAuthenticator);
         final EditText editTextProxyUsername = view1.findViewById(R.id.editTextProxyUsername);
-        final EditText editTextProxyPassword = view1.findViewById(R.id.editTextProxyPassword);
+        final ClearEditText editTextProxyPassword = view1.findViewById(R.id.editTextProxyPassword);
 
         final LinearLayout layoutProxyHost = view1.findViewById(R.id.layoutProxyHost);
         final LinearLayout layoutProxyPort = view1.findViewById(R.id.layoutProxyPort);
@@ -1299,7 +1300,7 @@ public class SenderActivity extends AppCompatActivity {
         final EditText editTextFeishuWebhook = view1.findViewById(R.id.editTextFeishuWebhook);
         if (feiShuSettingVo != null)
             editTextFeishuWebhook.setText(feiShuSettingVo.getWebhook());
-        final EditText editTextFeishuSecret = view1.findViewById(R.id.editTextFeishuSecret);
+        final ClearEditText editTextFeishuSecret = view1.findViewById(R.id.editTextFeishuSecret);
         if (feiShuSettingVo != null)
             editTextFeishuSecret.setText(feiShuSettingVo.getSecret());
 
@@ -1381,7 +1382,7 @@ public class SenderActivity extends AppCompatActivity {
         View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_pushplus, null);
 
         final EditText editTextPushPlusName = view1.findViewById(R.id.editTextPushPlusName);
-        final EditText editTextPushPlusToken = view1.findViewById(R.id.editTextPushPlusToken);
+        final ClearEditText editTextPushPlusToken = view1.findViewById(R.id.editTextPushPlusToken);
         final EditText editTextPushPlusTopic = view1.findViewById(R.id.editTextPushPlusTopic);
         final EditText editTextPushPlusTemplate = view1.findViewById(R.id.editTextPushPlusTemplate);
         final EditText editTextPushPlusChannel = view1.findViewById(R.id.editTextPushPlusChannel);
@@ -1502,7 +1503,7 @@ public class SenderActivity extends AppCompatActivity {
         final EditText editTextGotifyName = view1.findViewById(R.id.editTextGotifyName);
         if (senderModel != null) editTextGotifyName.setText(senderModel.getName());
 
-        final EditText editTextGotifyWebServer = view1.findViewById(R.id.editTextGotifyWebServer);
+        final ClearEditText editTextGotifyWebServer = view1.findViewById(R.id.editTextGotifyWebServer);
         final EditText editTextGotifyTitle = view1.findViewById(R.id.editTextGotifyTitle);
         final EditText editTextGotifyPriority = view1.findViewById(R.id.editTextGotifyPriority);
         if (gotifySettingVo != null) {

@@ -19,7 +19,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Set;
 
 /**
- * 权限相关工具类
+ * 常用工具类
  */
 public class CommonUtil {
     public static final int NOTIFICATION_REQUEST_CODE = 9527;
@@ -130,5 +130,14 @@ public class CommonUtil {
         }
 
         return null;
+    }
+
+    /**
+     * @date 2020/12/28 9:52
+     * @description 屏幕像素转换
+     */
+    public static int dp2px(Context context, float dipValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
     }
 }

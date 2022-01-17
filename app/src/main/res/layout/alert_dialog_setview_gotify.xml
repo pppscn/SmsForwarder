@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -46,7 +47,17 @@
                 android:layout_height="wrap_content"
                 android:text="@string/GotifyWebServer" />
 
-            <EditText
+            <com.idormy.sms.forwarder.view.ClearEditText
+                android:id="@+id/editTextGotifyWebServer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/line_bg_white_only_bottom_d8"
+                app:showEye="true"
+                app:textColor="@color/tv_black_333333"
+                app:textColorHint="@color/tv_gray_999999"
+                app:textSize="15sp" />
+
+            <!--<EditText
                 android:id="@+id/editTextGotifyWebServer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,7 +65,7 @@
                 android:ems="14"
                 android:inputType="textUri"
                 android:text=""
-                tools:ignore="LabelFor" />
+                tools:ignore="LabelFor" />-->
         </LinearLayout>
 
         <LinearLayout
@@ -76,7 +87,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="标题模板" />
+                    android:text="@string/title_template" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -163,7 +174,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="优先级" />
+                android:text="@string/priority" />
 
             <EditText
                 android:id="@+id/editTextGotifyPriority"
@@ -174,9 +185,9 @@
                 android:ems="14"
                 android:inputType="number"
                 android:digits="123456789"
-                android:maxLength="3"
+                android:maxLength="1"
                 android:maxLines="1"
-                android:text="5"
+                android:text="@string/_5"
                 tools:ignore="LabelFor,TextFields" />
         </LinearLayout>
 
