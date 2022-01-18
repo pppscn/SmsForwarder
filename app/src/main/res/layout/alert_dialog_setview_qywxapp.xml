@@ -26,13 +26,24 @@
 
             <EditText
                 android:id="@+id/editTextQYWXAppName"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:ems="9"
                 android:autofillHints=""
                 android:inputType="text"
                 android:text=""
                 tools:ignore="LabelFor" />
+
+            <Switch
+                android:id="@+id/switchQYWXAppEnable"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:checked="false"
+                android:ems="14"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 
         <LinearLayout

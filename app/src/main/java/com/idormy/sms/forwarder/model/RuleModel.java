@@ -85,6 +85,7 @@ public class RuleModel {
     private String smsTemplate;
     private boolean switchRegexReplace;
     private String regexReplace;
+    private int status;
 
     public static String getRuleMatch(String filed, String check, String value, String simSlot) {
         String SimStr = SIM_SLOT_MAP.get(simSlot) + "卡 ";

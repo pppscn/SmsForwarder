@@ -117,10 +117,10 @@
     <string name="invalid_at_mobiles">指定成员 不能为空 或者 选择@all</string>
     <string name="invalid_phone_num">接收手机号不能为空</string>
     <string name="new_sender">添加发送通道</string>
-    <string name="set_bark_name">设置分组名称</string>
+    <string name="set_bark_name">分组名称/状态</string>
     <string name="set_bark_server">设置Bark-Server地址，示例：https://bark.bms.ink/XXXXXXXX/</string>
     <string name="set_bark_icon">设置推送消息图标(可选)，示例：http://day.app/assets/images/avatar.jpg</string>
-    <string name="set_name">设置名称</string>
+    <string name="set_name">名称/状态</string>
     <string name="dingding_token">设置Token 例如 https://oapi.dingtalk.com/robot/send?access_token=XXXXXX 中的 XXXXXX</string>
     <string name="dingding_secret">加签 Secret (没有可不填)</string>
     <string name="dingding_at">转发时@某人 填写某人的手机号，多个用逗号分开 例如：18888888888,19999999999</string>
@@ -278,4 +278,5 @@
     <string name="priority">优先级（1 - 9）</string>
     <string name="_5">5</string>
     <string name="enter_webserver_tips">请输入WebServer</string>
+    <string name="is_enable">是否启用</string>
 </resources>

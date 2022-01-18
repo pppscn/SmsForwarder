@@ -20,5 +20,6 @@ public final class RuleTable {
         public static final String COLUMN_NAME_SIM_SLOT = "sim_slot";
         public static final String COLUMN_SMS_TEMPLATE = "sms_template";
         public static final String COLUMN_REGEX_REPLACE = "regex_replace";
+        public static final String COLUMN_NAME_STATUS = "status";
     }
 }

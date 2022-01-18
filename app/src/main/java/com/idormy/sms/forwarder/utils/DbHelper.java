@@ -16,7 +16,7 @@ import java.util.List;
 public class DbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
     public static final String TAG = "DbHelper";
-    public static final int DATABASE_VERSION = 8;
+    public static final int DATABASE_VERSION = 9;
     public static final String DATABASE_NAME = "sms_forwarder.db";
 
     private static final List<String> SQL_CREATE_ENTRIES =
@@ -41,12 +41,13 @@ public class DbHelper extends SQLiteOpenHelper {
                             RuleTable.RuleEntry.COLUMN_NAME_TIME + " TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP," +
                             RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE + " TEXT NOT NULL DEFAULT ''," +
                             RuleTable.RuleEntry.COLUMN_REGEX_REPLACE + " TEXT NOT NULL DEFAULT ''," +
+                            RuleTable.RuleEntry.COLUMN_NAME_STATUS + " INTEGER NOT NULL DEFAULT 1," +
                             RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT + " TEXT NOT NULL DEFAULT 'ALL')"
                     , "CREATE TABLE " + SenderTable.SenderEntry.TABLE_NAME + " (" +
                             SenderTable.SenderEntry._ID + " INTEGER PRIMARY KEY," +
                             SenderTable.SenderEntry.COLUMN_NAME_NAME + " TEXT," +
-                            SenderTable.SenderEntry.COLUMN_NAME_STATUS + " INTEGER," +
-                            SenderTable.SenderEntry.COLUMN_NAME_TYPE + " INTEGER," +
+                            SenderTable.SenderEntry.COLUMN_NAME_STATUS + " INTEGER NOT NULL DEFAULT 1," +
+                            SenderTable.SenderEntry.COLUMN_NAME_TYPE + " INTEGER NOT NULL DEFAULT 1," +
                             SenderTable.SenderEntry.COLUMN_NAME_JSON_SETTING + " TEXT," +
                             SenderTable.SenderEntry.COLUMN_NAME_TIME + " TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)"
             );
@@ -111,6 +112,12 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         if (oldVersion < 8) { //更新日志表状态：0=失败，1=待处理，2=成功
             String sql = "update " + LogTable.LogEntry.TABLE_NAME + " set " + LogTable.LogEntry.COLUMN_NAME_FORWARD_STATUS + " = 2 where " + LogTable.LogEntry.COLUMN_NAME_FORWARD_STATUS + " = 1 ";
+            db.execSQL(sql);
+        }
+        if (oldVersion < 9) { //规则/通道状态：0=禁用，1=启用
+            String sql = "Alter table " + RuleTable.RuleEntry.TABLE_NAME + " add column " + RuleTable.RuleEntry.COLUMN_NAME_STATUS + " INTEGER NOT NULL DEFAULT 1 ";
+            db.execSQL(sql);
+            sql = "update " + SenderTable.SenderEntry.TABLE_NAME + " set " + SenderTable.SenderEntry.COLUMN_NAME_STATUS + " = 1 ";
             db.execSQL(sql);
         }
     }

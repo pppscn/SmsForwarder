@@ -28,10 +28,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
                 android:autofillHints=""
-                android:ems="11"
+                android:ems="10"
                 android:inputType="text"
                 android:text=""
                 tools:ignore="LabelFor" />
+
+            <Switch
+                android:id="@+id/switchDingdingEnable"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:checked="false"
+                android:ems="14"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 
         <LinearLayout
@@ -39,6 +49,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -73,6 +84,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -106,6 +118,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -138,8 +151,10 @@
 
             <Switch
                 android:id="@+id/switchDingdingAtAll"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
                 android:checked="false"
                 android:ems="14"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />

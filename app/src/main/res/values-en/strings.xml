@@ -117,10 +117,10 @@
     <string name="invalid_at_mobiles">The specified member cannot be blank or select @all</string>  <!-- “指定成员 不能为空 或者 选择@all” 这句话是什么意思？“指定成员既不能为‘空’也不能为‘选择@all’”吗？还是“指定成员不能为空，或者可以@all”呢？ -->
     <string name="invalid_phone_num">Phone number cannot be blank</string>
     <string name="new_sender">New Sender</string>
-    <string name="set_bark_name">Bark Group Name</string>
+    <string name="set_bark_name">Bark Group Name/Status</string>
     <string name="set_bark_server">Bark-Server, e.g. https://bark.bms.ink/XXXXXXXX/</string>
     <string name="set_bark_icon">Bark-Icon (optional), e.g. http://day.app/assets/images/avatar.jpg</string>
-    <string name="set_name">Name</string>
+    <string name="set_name">Name/Staus</string>
     <string name="dingding_token">Token e.g. the XXXXXX part of https://oapi.dingtalk.com/robot/send?access_token=XXXXXX</string>
     <string name="dingding_secret">Secret (optional)</string>
     <string name="dingding_at">At Mobiles e.g. 18888888888,19999999999</string>
@@ -279,4 +279,5 @@
     <string name="priority">Priority（1 – 9）</string>
     <string name="_5">5</string>
     <string name="enter_webserver_tips">Please enter the WebServer</string>
+    <string name="is_enable">Is Enable</string>
 </resources>

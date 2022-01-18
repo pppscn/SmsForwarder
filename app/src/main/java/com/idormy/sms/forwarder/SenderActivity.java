@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder;
 
+import static com.idormy.sms.forwarder.model.SenderModel.STATUS_OFF;
 import static com.idormy.sms.forwarder.model.SenderModel.STATUS_ON;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_BARK;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_DINGDING;
@@ -309,8 +310,11 @@ public class SenderActivity extends AppCompatActivity {
         View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_dingding, null);
 
         final EditText editTextDingdingName = view1.findViewById(R.id.editTextDingdingName);
-        if (senderModel != null)
+        @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchDingdingEnable = view1.findViewById(R.id.switchDingdingEnable);
+        if (senderModel != null) {
             editTextDingdingName.setText(senderModel.getName());
+            switchDingdingEnable.setChecked(senderModel.getStatusChecked());
+        }
         final ClearEditText editTextDingdingToken = view1.findViewById(R.id.editTextDingdingToken);
         if (dingDingSettingVo != null)
             editTextDingdingToken.setText(dingDingSettingVo.getToken());
@@ -339,7 +343,7 @@ public class SenderActivity extends AppCompatActivity {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextDingdingName.getText().toString().trim());
                 newSenderModel.setType(TYPE_DINGDING);
-                newSenderModel.setStatus(STATUS_ON);
+                newSenderModel.setStatus(switchDingdingEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 DingDingSettingVo dingDingSettingVoNew = new DingDingSettingVo(
                         editTextDingdingToken.getText().toString().trim(),
                         editTextDingdingSecret.getText().toString().trim(),
@@ -352,7 +356,7 @@ public class SenderActivity extends AppCompatActivity {
             } else {
                 senderModel.setName(editTextDingdingName.getText().toString().trim());
                 senderModel.setType(TYPE_DINGDING);
-                senderModel.setStatus(STATUS_ON);
+                senderModel.setStatus(switchDingdingEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 DingDingSettingVo dingDingSettingVoNew = new DingDingSettingVo(
                         editTextDingdingToken.getText().toString().trim(),
                         editTextDingdingSecret.getText().toString().trim(),
@@ -411,7 +415,11 @@ public class SenderActivity extends AppCompatActivity {
         View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_email, null);
 
         final EditText editTextEmailName = view1.findViewById(R.id.editTextEmailName);
-        if (senderModel != null) editTextEmailName.setText(senderModel.getName());
+        @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchEmailEnable = view1.findViewById(R.id.switchEmailEnable);
+        if (senderModel != null) {
+            editTextEmailName.setText(senderModel.getName());
+            switchEmailEnable.setChecked(senderModel.getStatusChecked());
+        }
 
         final EditText editTextEmailHost = view1.findViewById(R.id.editTextEmailHost);
         final EditText editTextEmailPort = view1.findViewById(R.id.editTextEmailPort);
@@ -469,7 +477,7 @@ public class SenderActivity extends AppCompatActivity {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextEmailName.getText().toString().trim());
                 newSenderModel.setType(TYPE_EMAIL);
-                newSenderModel.setStatus(STATUS_ON);
+                newSenderModel.setStatus(switchEmailEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 newSenderModel.setJsonSetting(JSON.toJSONString(emailSettingVoNew));
                 SenderUtil.addSender(newSenderModel);
                 initSenders();
@@ -477,7 +485,7 @@ public class SenderActivity extends AppCompatActivity {
             } else {
                 senderModel.setName(editTextEmailName.getText().toString().trim());
                 senderModel.setType(TYPE_EMAIL);
-                senderModel.setStatus(STATUS_ON);
+                senderModel.setStatus(switchEmailEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 senderModel.setJsonSetting(JSON.toJSONString(emailSettingVoNew));
                 SenderUtil.updateSender(senderModel);
                 initSenders();
@@ -567,7 +575,12 @@ public class SenderActivity extends AppCompatActivity {
         View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_bark, null);
 
         final EditText editTextBarkName = view1.findViewById(R.id.editTextBarkName);
-        if (senderModel != null) editTextBarkName.setText(senderModel.getName());
+        @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchBarkEnable = view1.findViewById(R.id.switchBarkEnable);
+        if (senderModel != null) {
+            editTextBarkName.setText(senderModel.getName());
+            switchBarkEnable.setChecked(senderModel.getStatusChecked());
+        }
+
         final ClearEditText editTextBarkServer = view1.findViewById(R.id.editTextBarkServer);
         if (barkSettingVo != null) editTextBarkServer.setText(barkSettingVo.getServer());
         final EditText editTextBarkIcon = view1.findViewById(R.id.editTextBarkIcon);
@@ -589,7 +602,7 @@ public class SenderActivity extends AppCompatActivity {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextBarkName.getText().toString().trim());
                 newSenderModel.setType(TYPE_BARK);
-                newSenderModel.setStatus(STATUS_ON);
+                newSenderModel.setStatus(switchBarkEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 BarkSettingVo barkSettingVoNew = new BarkSettingVo(
                         editTextBarkServer.getText().toString().trim(),
                         editTextBarkIcon.getText().toString().trim()
@@ -601,7 +614,7 @@ public class SenderActivity extends AppCompatActivity {
             } else {
                 senderModel.setName(editTextBarkName.getText().toString().trim());
                 senderModel.setType(TYPE_BARK);
-                senderModel.setStatus(STATUS_ON);
+                senderModel.setStatus(switchBarkEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 BarkSettingVo barkSettingVoNew = new BarkSettingVo(
                         editTextBarkServer.getText().toString().trim(),
                         editTextBarkIcon.getText().toString().trim()
@@ -654,7 +667,12 @@ public class SenderActivity extends AppCompatActivity {
         View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_serverchan, null);
 
         final EditText editTextServerChanName = view1.findViewById(R.id.editTextServerChanName);
-        if (senderModel != null) editTextServerChanName.setText(senderModel.getName());
+        @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchServerChanEnable = view1.findViewById(R.id.switchServerChanEnable);
+        if (senderModel != null) {
+            editTextServerChanName.setText(senderModel.getName());
+            switchServerChanEnable.setChecked(senderModel.getStatusChecked());
+        }
+
         final ClearEditText editTextServerChanSendKey = view1.findViewById(R.id.editTextServerChanSendKey);
         if (serverchanSettingVo != null)
             editTextServerChanSendKey.setText(serverchanSettingVo.getSendKey());
@@ -675,7 +693,7 @@ public class SenderActivity extends AppCompatActivity {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextServerChanName.getText().toString().trim());
                 newSenderModel.setType(TYPE_SERVER_CHAN);
-                newSenderModel.setStatus(STATUS_ON);
+                newSenderModel.setStatus(switchServerChanEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 ServerChanSettingVo serverChanSettingVoNew = new ServerChanSettingVo(
                         editTextServerChanSendKey.getText().toString().trim()
                 );
@@ -686,7 +704,7 @@ public class SenderActivity extends AppCompatActivity {
             } else {
                 senderModel.setName(editTextServerChanName.getText().toString().trim());
                 senderModel.setType(TYPE_SERVER_CHAN);
-                senderModel.setStatus(STATUS_ON);
+                senderModel.setStatus(switchServerChanEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 ServerChanSettingVo serverChanSettingVoNew = new ServerChanSettingVo(
                         editTextServerChanSendKey.getText().toString().trim()
                 );
@@ -738,15 +756,22 @@ public class SenderActivity extends AppCompatActivity {
         View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_webnotify, null);
 
         final EditText editTextWebNotifyName = view1.findViewById(R.id.editTextWebNotifyName);
-        if (senderModel != null) editTextWebNotifyName.setText(senderModel.getName());
+        @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchWebNotifyEnable = view1.findViewById(R.id.switchWebNotifyEnable);
+        if (senderModel != null) {
+            editTextWebNotifyName.setText(senderModel.getName());
+            switchWebNotifyEnable.setChecked(senderModel.getStatusChecked());
+        }
+
         final EditText editTextWebNotifyWebServer = view1.findViewById(R.id.editTextWebNotifyWebServer);
-        if (webNotifySettingVo != null) editTextWebNotifyWebServer.setText(webNotifySettingVo.getWebServer());
         final EditText editTextWebNotifyWebParams = view1.findViewById(R.id.editTextWebNotifyWebParams);
-        if (webNotifySettingVo != null) editTextWebNotifyWebParams.setText(webNotifySettingVo.getWebParams());
         final ClearEditText editTextWebNotifySecret = view1.findViewById(R.id.editTextWebNotifySecret);
-        if (webNotifySettingVo != null) editTextWebNotifySecret.setText(webNotifySettingVo.getSecret());
         final RadioGroup radioGroupWebNotifyMethod = view1.findViewById(R.id.radioGroupWebNotifyMethod);
-        if (webNotifySettingVo != null) radioGroupWebNotifyMethod.check(webNotifySettingVo.getWebNotifyMethodCheckId());
+        if (webNotifySettingVo != null) {
+            editTextWebNotifyWebServer.setText(webNotifySettingVo.getWebServer());
+            editTextWebNotifyWebParams.setText(webNotifySettingVo.getWebParams());
+            editTextWebNotifySecret.setText(webNotifySettingVo.getSecret());
+            radioGroupWebNotifyMethod.check(webNotifySettingVo.getWebNotifyMethodCheckId());
+        }
 
         Button buttonWebNotifyOk = view1.findViewById(R.id.buttonWebNotifyOk);
         Button buttonWebNotifyDel = view1.findViewById(R.id.buttonWebNotifyDel);
@@ -769,13 +794,13 @@ public class SenderActivity extends AppCompatActivity {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextWebNotifyName.getText().toString().trim());
                 newSenderModel.setType(TYPE_WEB_NOTIFY);
-                newSenderModel.setStatus(STATUS_ON);
+                newSenderModel.setStatus(switchWebNotifyEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 newSenderModel.setJsonSetting(JSON.toJSONString(webNotifySettingVoNew));
                 SenderUtil.addSender(newSenderModel);
             } else {
                 senderModel.setName(editTextWebNotifyName.getText().toString().trim());
                 senderModel.setType(TYPE_WEB_NOTIFY);
-                senderModel.setStatus(STATUS_ON);
+                senderModel.setStatus(switchWebNotifyEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 senderModel.setJsonSetting(JSON.toJSONString(webNotifySettingVoNew));
                 SenderUtil.updateSender(senderModel);
             }
@@ -825,10 +850,16 @@ public class SenderActivity extends AppCompatActivity {
         View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_qywxgrouprobot, null);
 
         final EditText editTextQYWXGroupRobotName = view1.findViewById(R.id.editTextQYWXGroupRobotName);
-        if (senderModel != null) editTextQYWXGroupRobotName.setText(senderModel.getName());
+        @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchQYWXGroupRobotEnable = view1.findViewById(R.id.switchQYWXGroupRobotEnable);
+        if (senderModel != null) {
+            editTextQYWXGroupRobotName.setText(senderModel.getName());
+            switchQYWXGroupRobotEnable.setChecked(senderModel.getStatusChecked());
+        }
+
         final ClearEditText editTextQYWXGroupRobotWebHook = view1.findViewById(R.id.editTextQYWXGroupRobotWebHook);
-        if (qywxGroupRobotSettingVo != null)
+        if (qywxGroupRobotSettingVo != null) {
             editTextQYWXGroupRobotWebHook.setText(qywxGroupRobotSettingVo.getWebHook());
+        }
 
         Button buttonQyWxGroupRobotOk = view1.findViewById(R.id.buttonQyWxGroupRobotOk);
         Button buttonQyWxGroupRobotDel = view1.findViewById(R.id.buttonQyWxGroupRobotDel);
@@ -846,7 +877,7 @@ public class SenderActivity extends AppCompatActivity {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextQYWXGroupRobotName.getText().toString().trim());
                 newSenderModel.setType(TYPE_QYWX_GROUP_ROBOT);
-                newSenderModel.setStatus(STATUS_ON);
+                newSenderModel.setStatus(switchQYWXGroupRobotEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 QYWXGroupRobotSettingVo qywxGroupRobotSettingVoNew = new QYWXGroupRobotSettingVo(
                         editTextQYWXGroupRobotWebHook.getText().toString().trim()
                 );
@@ -857,7 +888,7 @@ public class SenderActivity extends AppCompatActivity {
             } else {
                 senderModel.setName(editTextQYWXGroupRobotName.getText().toString().trim());
                 senderModel.setType(TYPE_QYWX_GROUP_ROBOT);
-                senderModel.setStatus(STATUS_ON);
+                senderModel.setStatus(switchQYWXGroupRobotEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 QYWXGroupRobotSettingVo qywxGroupRobotSettingVoNew = new QYWXGroupRobotSettingVo(
                         editTextQYWXGroupRobotWebHook.getText().toString().trim()
                 );
@@ -908,8 +939,12 @@ public class SenderActivity extends AppCompatActivity {
         View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_qywxapp, null);
 
         final EditText editTextQYWXAppName = view1.findViewById(R.id.editTextQYWXAppName);
-        if (senderModel != null)
+        @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchQYWXAppEnable = view1.findViewById(R.id.switchQYWXAppEnable);
+        if (senderModel != null) {
             editTextQYWXAppName.setText(senderModel.getName());
+            switchQYWXAppEnable.setChecked(senderModel.getStatusChecked());
+        }
+
         final EditText editTextQYWXAppCorpID = view1.findViewById(R.id.editTextQYWXAppCorpID);
         final EditText editTextQYWXAppAgentID = view1.findViewById(R.id.editTextQYWXAppAgentID);
         final ClearEditText editTextQYWXAppSecret = view1.findViewById(R.id.editTextQYWXAppSecret);
@@ -957,7 +992,7 @@ public class SenderActivity extends AppCompatActivity {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextQYWXAppName.getText().toString().trim());
                 newSenderModel.setType(TYPE_QYWX_APP);
-                newSenderModel.setStatus(STATUS_ON);
+                newSenderModel.setStatus(switchQYWXAppEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 QYWXAppSettingVo QYWXAppSettingVoNew = new QYWXAppSettingVo(
                         editTextQYWXAppCorpID.getText().toString().trim(),
                         editTextQYWXAppAgentID.getText().toString().trim(),
@@ -971,7 +1006,7 @@ public class SenderActivity extends AppCompatActivity {
             } else {
                 senderModel.setName(editTextQYWXAppName.getText().toString().trim());
                 senderModel.setType(TYPE_QYWX_APP);
-                senderModel.setStatus(STATUS_ON);
+                senderModel.setStatus(switchQYWXAppEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 QYWXAppSettingVo QYWXAppSettingVoNew = new QYWXAppSettingVo(
                         editTextQYWXAppCorpID.getText().toString().trim(),
                         editTextQYWXAppAgentID.getText().toString().trim(),
@@ -1031,7 +1066,11 @@ public class SenderActivity extends AppCompatActivity {
         View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_telegram, null);
 
         final EditText editTextTelegramName = view1.findViewById(R.id.editTextTelegramName);
-        if (senderModel != null) editTextTelegramName.setText(senderModel.getName());
+        @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchTelegramEnable = view1.findViewById(R.id.switchTelegramEnable);
+        if (senderModel != null) {
+            editTextTelegramName.setText(senderModel.getName());
+            switchTelegramEnable.setChecked(senderModel.getStatusChecked());
+        }
 
         final ClearEditText editTextTelegramApiToken = view1.findViewById(R.id.editTextTelegramApiToken);
         final EditText editTextTelegramChatId = view1.findViewById(R.id.editTextTelegramChatId);
@@ -1108,7 +1147,7 @@ public class SenderActivity extends AppCompatActivity {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextTelegramName.getText().toString().trim());
                 newSenderModel.setType(TYPE_TELEGRAM);
-                newSenderModel.setStatus(STATUS_ON);
+                newSenderModel.setStatus(switchTelegramEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 TelegramSettingVo telegramSettingVoNew = new TelegramSettingVo(
                         editTextTelegramApiToken.getText().toString().trim(),
                         editTextTelegramChatId.getText().toString().trim(),
@@ -1128,7 +1167,7 @@ public class SenderActivity extends AppCompatActivity {
             } else {
                 senderModel.setName(editTextTelegramName.getText().toString().trim());
                 senderModel.setType(TYPE_TELEGRAM);
-                senderModel.setStatus(STATUS_ON);
+                senderModel.setStatus(switchTelegramEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 TelegramSettingVo telegramSettingVoNew = new TelegramSettingVo(
                         editTextTelegramApiToken.getText().toString().trim(),
                         editTextTelegramChatId.getText().toString().trim(),
@@ -1200,13 +1239,20 @@ public class SenderActivity extends AppCompatActivity {
         View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_sms, null);
 
         final EditText editTextSmsName = view1.findViewById(R.id.editTextSmsName);
-        if (senderModel != null) editTextSmsName.setText(senderModel.getName());
+        @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchSmsEnable = view1.findViewById(R.id.switchSmsEnable);
+        if (senderModel != null) {
+            editTextSmsName.setText(senderModel.getName());
+            switchSmsEnable.setChecked(senderModel.getStatusChecked());
+        }
+
         final RadioGroup radioGroupSmsSimSlot = view1.findViewById(R.id.radioGroupSmsSimSlot);
-        if (smsSettingVo != null) radioGroupSmsSimSlot.check(smsSettingVo.getSmsSimSlotCheckId());
         final EditText editTextSmsMobiles = view1.findViewById(R.id.editTextSmsMobiles);
-        if (smsSettingVo != null) editTextSmsMobiles.setText(smsSettingVo.getMobiles());
         @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchSmsOnlyNoNetwork = view1.findViewById(R.id.switchSmsOnlyNoNetwork);
-        if (smsSettingVo != null) switchSmsOnlyNoNetwork.setChecked(smsSettingVo.getOnlyNoNetwork());
+        if (smsSettingVo != null) {
+            radioGroupSmsSimSlot.check(smsSettingVo.getSmsSimSlotCheckId());
+            editTextSmsMobiles.setText(smsSettingVo.getMobiles());
+            switchSmsOnlyNoNetwork.setChecked(smsSettingVo.getOnlyNoNetwork());
+        }
 
         Button buttonSmsOk = view1.findViewById(R.id.buttonSmsOk);
         Button buttonSmsDel = view1.findViewById(R.id.buttonSmsDel);
@@ -1224,7 +1270,7 @@ public class SenderActivity extends AppCompatActivity {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextSmsName.getText().toString().trim());
                 newSenderModel.setType(TYPE_SMS);
-                newSenderModel.setStatus(STATUS_ON);
+                newSenderModel.setStatus(switchSmsEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 SmsSettingVo smsSettingVoNew = new SmsSettingVo(
                         newSenderModel.getSmsSimSlotId(radioGroupSmsSimSlot.getCheckedRadioButtonId()),
                         editTextSmsMobiles.getText().toString().trim(),
@@ -1237,7 +1283,7 @@ public class SenderActivity extends AppCompatActivity {
             } else {
                 senderModel.setName(editTextSmsName.getText().toString().trim());
                 senderModel.setType(TYPE_SMS);
-                senderModel.setStatus(STATUS_ON);
+                senderModel.setStatus(switchSmsEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 SmsSettingVo smsSettingVoNew = new SmsSettingVo(
                         senderModel.getSmsSimSlotId(radioGroupSmsSimSlot.getCheckedRadioButtonId()),
                         editTextSmsMobiles.getText().toString().trim(),
@@ -1295,14 +1341,18 @@ public class SenderActivity extends AppCompatActivity {
         View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_feishu, null);
 
         final EditText editTextFeishuName = view1.findViewById(R.id.editTextFeishuName);
-        if (senderModel != null)
+        @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchFeishuEnable = view1.findViewById(R.id.switchFeishuEnable);
+        if (senderModel != null) {
             editTextFeishuName.setText(senderModel.getName());
+            switchFeishuEnable.setChecked(senderModel.getStatusChecked());
+        }
+
         final EditText editTextFeishuWebhook = view1.findViewById(R.id.editTextFeishuWebhook);
-        if (feiShuSettingVo != null)
-            editTextFeishuWebhook.setText(feiShuSettingVo.getWebhook());
         final ClearEditText editTextFeishuSecret = view1.findViewById(R.id.editTextFeishuSecret);
-        if (feiShuSettingVo != null)
+        if (feiShuSettingVo != null) {
+            editTextFeishuWebhook.setText(feiShuSettingVo.getWebhook());
             editTextFeishuSecret.setText(feiShuSettingVo.getSecret());
+        }
 
         Button buttonFeishuOk = view1.findViewById(R.id.buttonFeishuOk);
         Button buttonFeishuDel = view1.findViewById(R.id.buttonFeishuDel);
@@ -1319,7 +1369,7 @@ public class SenderActivity extends AppCompatActivity {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextFeishuName.getText().toString().trim());
                 newSenderModel.setType(TYPE_FEISHU);
-                newSenderModel.setStatus(STATUS_ON);
+                newSenderModel.setStatus(switchFeishuEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 FeiShuSettingVo feiShuSettingVoNew = new FeiShuSettingVo(
                         editTextFeishuWebhook.getText().toString().trim(),
                         editTextFeishuSecret.getText().toString().trim());
@@ -1330,7 +1380,7 @@ public class SenderActivity extends AppCompatActivity {
             } else {
                 senderModel.setName(editTextFeishuName.getText().toString().trim());
                 senderModel.setType(TYPE_FEISHU);
-                senderModel.setStatus(STATUS_ON);
+                senderModel.setStatus(switchFeishuEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 FeiShuSettingVo feiShuSettingVoNew = new FeiShuSettingVo(
                         editTextFeishuWebhook.getText().toString().trim(),
                         editTextFeishuSecret.getText().toString().trim());
@@ -1382,6 +1432,12 @@ public class SenderActivity extends AppCompatActivity {
         View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_pushplus, null);
 
         final EditText editTextPushPlusName = view1.findViewById(R.id.editTextPushPlusName);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchPushPlusEnable = view1.findViewById(R.id.switchPushPlusEnable);
+        if (senderModel != null) {
+            editTextPushPlusName.setText(senderModel.getName());
+            switchPushPlusEnable.setChecked(senderModel.getStatusChecked());
+        }
+
         final ClearEditText editTextPushPlusToken = view1.findViewById(R.id.editTextPushPlusToken);
         final EditText editTextPushPlusTopic = view1.findViewById(R.id.editTextPushPlusTopic);
         final EditText editTextPushPlusTemplate = view1.findViewById(R.id.editTextPushPlusTemplate);
@@ -1391,7 +1447,6 @@ public class SenderActivity extends AppCompatActivity {
         final EditText editTextPushPlusValidTime = view1.findViewById(R.id.editTextPushPlusValidTime);
 
         if (pushPlusSettingVo != null) {
-            editTextPushPlusName.setText(senderModel.getName());
             editTextPushPlusToken.setText(pushPlusSettingVo.getToken());
             editTextPushPlusTopic.setText(pushPlusSettingVo.getTopic());
             editTextPushPlusTemplate.setText(pushPlusSettingVo.getTemplate());
@@ -1416,7 +1471,7 @@ public class SenderActivity extends AppCompatActivity {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextPushPlusName.getText().toString().trim());
                 newSenderModel.setType(TYPE_PUSHPLUS);
-                newSenderModel.setStatus(STATUS_ON);
+                newSenderModel.setStatus(switchPushPlusEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 PushPlusSettingVo pushPlusSettingVoNew = new PushPlusSettingVo(
                         editTextPushPlusToken.getText().toString().trim(),
                         editTextPushPlusTopic.getText().toString().trim(),
@@ -1433,7 +1488,7 @@ public class SenderActivity extends AppCompatActivity {
             } else {
                 senderModel.setName(editTextPushPlusName.getText().toString());
                 senderModel.setType(TYPE_PUSHPLUS);
-                senderModel.setStatus(STATUS_ON);
+                senderModel.setStatus(switchPushPlusEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 PushPlusSettingVo pushPlusSettingVoNew = new PushPlusSettingVo(
                         editTextPushPlusToken.getText().toString().trim(),
                         editTextPushPlusTopic.getText().toString().trim(),
@@ -1501,7 +1556,11 @@ public class SenderActivity extends AppCompatActivity {
         View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_gotify, null);
 
         final EditText editTextGotifyName = view1.findViewById(R.id.editTextGotifyName);
-        if (senderModel != null) editTextGotifyName.setText(senderModel.getName());
+        @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchGotifyEnable = view1.findViewById(R.id.switchGotifyEnable);
+        if (senderModel != null) {
+            editTextGotifyName.setText(senderModel.getName());
+            switchGotifyEnable.setChecked(senderModel.getStatusChecked());
+        }
 
         final ClearEditText editTextGotifyWebServer = view1.findViewById(R.id.editTextGotifyWebServer);
         final EditText editTextGotifyTitle = view1.findViewById(R.id.editTextGotifyTitle);
@@ -1540,7 +1599,7 @@ public class SenderActivity extends AppCompatActivity {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(editTextGotifyName.getText().toString().trim());
                 newSenderModel.setType(TYPE_GOTIFY);
-                newSenderModel.setStatus(STATUS_ON);
+                newSenderModel.setStatus(switchGotifyEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 newSenderModel.setJsonSetting(JSON.toJSONString(gotifySettingVoNew));
                 SenderUtil.addSender(newSenderModel);
                 initSenders();
@@ -1548,7 +1607,7 @@ public class SenderActivity extends AppCompatActivity {
             } else {
                 senderModel.setName(editTextGotifyName.getText().toString().trim());
                 senderModel.setType(TYPE_GOTIFY);
-                senderModel.setStatus(STATUS_ON);
+                senderModel.setStatus(switchGotifyEnable.isChecked() ? STATUS_ON : STATUS_OFF);
                 senderModel.setJsonSetting(JSON.toJSONString(gotifySettingVoNew));
                 SenderUtil.updateSender(senderModel);
                 initSenders();

@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.sender;
 
+import static com.idormy.sms.forwarder.model.SenderModel.STATUS_OFF;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_BARK;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_DINGDING;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
@@ -166,7 +167,14 @@ public class SendUtil {
 
     public static void senderSendMsg(Handler handError, SmsVo smsVo, SenderModel senderModel, long logId, String smsTemplate, String regexReplace) {
 
-        Log.i(TAG, "senderSendMsg smsVo:" + smsVo + "senderModel:" + senderModel);
+        Log.i(TAG, "senderSendMsg smsVo:" + smsVo.toString() + "senderModel:" + senderModel.toString());
+
+        if (senderModel.getStatus() == STATUS_OFF) {
+            LogUtil.updateLog(logId, 0, "发送通道已被禁用！");
+            Log.i(TAG, "发送通道已被禁用！");
+            return;
+        }
+
         switch (senderModel.getType()) {
             case TYPE_DINGDING:
                 //try phrase json setting
