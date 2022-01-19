@@ -107,23 +107,31 @@
     <string name="test_sms">【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服</string>
     <string name="test_group_name">测试分组</string>
     <string name="failed_to_fwd">发送失败：</string>
-    <string name="invalid_token">token 不能为空</string>
+    <string name="invalid_name">通道名称不能为空</string>
+    <string name="invalid_token">token不合法</string>
     <string name="invalid_email">邮箱参数不完整</string>
-    <string name="invalid_bark_server">bark-server 不能为空</string>
+    <string name="invalid_bark_server">bark-server为空 或 不是有效URL</string>
     <string name="invalid_apiToken_or_chatId">机器人的ApiToken 和 被通知人的ChatId 都不能为空</string>
+    <string name="invalid_host_or_port">已开启代理，主机名和端口号都不能为空</string>
+    <string name="invalid_username_or_password">已开启身份验证，用户和密码不能同时为空</string>
     <string name="invalid_sendkey">Server酱·Turbo版的 SendKey 不能为空</string>
-    <string name="invalid_webserver">WebServer 不能为空</string>
-    <string name="invalid_webhook">webHook 不能为空</string>
+    <string name="invalid_webserver">WebServer为空 或 不是有效URL</string>
+    <string name="invalid_webhook">WebHook为空 或 不是有效URL</string>
     <string name="invalid_at_mobiles">指定成员 不能为空 或者 选择@all</string>
+    <string name="invalid_webcom_app_parm">企业ID、AgentID、Secret都不能为空</string>
     <string name="invalid_phone_num">接收手机号不能为空</string>
     <string name="new_sender">添加发送通道</string>
     <string name="set_bark_name">分组名称/状态</string>
-    <string name="set_bark_server">设置Bark-Server地址，示例：https://bark.bms.ink/XXXXXXXX/</string>
-    <string name="set_bark_icon">设置推送消息图标(可选)，示例：http://day.app/assets/images/avatar.jpg</string>
+    <string name="set_bark_server">设置Bark-Server地址</string>
+    <string name="set_bark_server_tips">示例：https://day.app/XXXXXXXX/</string>
+    <string name="set_bark_icon">设置推送消息图标(可选)</string>
+    <string name="set_bark_icon_tips">示例：http://day.app/assets/images/avatar.jpg</string>
     <string name="set_name">名称/状态</string>
-    <string name="dingding_token">设置Token 例如 https://oapi.dingtalk.com/robot/send?access_token=XXXXXX 中的 XXXXXX</string>
+    <string name="dingding_token">Token（不含链接）</string>
+    <string name="dingding_token_tips">例：https://oapi.dingtalk.com/robot/send?access_token=XXX 中的 XXX</string>
     <string name="dingding_secret">加签 Secret (没有可不填)</string>
-    <string name="dingding_at">转发时@某人 填写某人的手机号，多个用逗号分开 例如：18888888888,19999999999</string>
+    <string name="dingding_at">转发时@某人</string>
+    <string name="dingding_at_tips">Tips：多个手机号用逗号分开，例如：18888888888,19999999999</string>
     <string name="email_protocol">协议类型</string>
     <string name="email_smtp">SMTP</string>
     <string name="email_imap">IMAP</string>
@@ -144,18 +152,22 @@
     <string name="is_at_all">是否@all</string>
     <string name="specified_member">指定成员</string>
     <string name="at_all">\@all</string>
-    <string name="specified_member_tips">Tip：指定接收消息的成员，成员ID列表（多个接收者用‘|’分隔，最多支持1000个）</string>
-    <string name="QYWXGroupRobotWebHook">设置WebHook地址:示例：https://qyapi.weixin.qq.com/cgixx?key=xxx</string>
-    <string name="ServerChanSendKey">设置Server酱·Turbo版的SendKey</string>
-    <string name="TelegramApiToken">设置Telegram机器人的ApiToken 或 自定义地址(http开头)</string>
-    <string name="TelegramChatId">设置被通知人(或群组)的ChatId</string>
+    <string name="specified_member_tips">Tip：指定接收消息的成员ID列表（多个接收者用‘|’分隔，最多支持1000个）</string>
+    <string name="QYWXGroupRobotWebHook">WebHook地址</string>
+    <string name="QYWXGroupRobotWebHookTips">示例：https://qyapi.weixin.qq.com/cgixx?key=xxx</string>
+    <string name="ServerChanSendKey">Server酱·Turbo版的SendKey</string>
+    <string name="TelegramApiToken">Telegram机器人的ApiToken 或 自定义地址(http开头)</string>
+    <string name="TelegramChatId">被通知人(或群组)的ChatId</string>
     <string name="Method">请求方式</string>
-    <string name="WebNotifyWebServer">设置WebServer：例如：https://a.b.com/msg?token=xyz</string>
-    <string name="WebNotifyWebParams">设置WebParams：例如：payload=%7B%22text%22%3A%22[msg]%22%7D [msg]将被替换成短信内容。\n支持Json格式，例如：{"text":[msg]}。\n注意：除JSON格式外，msg会自动进行UTF-8编码</string>
-    <string name="WebNotifySecret">设置Secret:置空则不计算sign</string>
+    <string name="WebNotifyWebServer">WebServer</string>
+    <string name="WebNotifyWebServerTips">例如：https://a.b.com/msg?token=xyz</string>
+    <string name="WebNotifyWebParams">WebParams</string>
+    <string name="WebNotifyWebParamsTips">例如：payload=%7B%22text%22%3A%22[msg]%22%7D [msg]将被替换成短信内容。\n支持Json格式，例如：{"text":[msg]}。\n注意：除JSON格式外，msg会自动进行UTF-8编码</string>
+    <string name="WebNotifySecret">Secret：置空则不计算sign</string>
     <string name="SmsSimSlot">发送卡槽</string>
     <string name="same_source">原进原出</string>
-    <string name="SmsMobiles">接收手机，多个号码以半角分号分隔，例如：15888888888;19999999999</string>
+    <string name="SmsMobiles">接收手机</string>
+    <string name="SmsMobilesTips">多个号码以半角分号分隔，例如：15888888888;19999999999</string>
     <string name="OnlyNoNetwork">仅当无网络时启用</string>
     <!--SettingActivity-->
     <string name="device_name">设备名称</string>
@@ -241,6 +253,7 @@
     <string name="notification_listener_service_enabled">通知服务已开启</string>
     <string name="notification_listener_service_disabled">通知服务未开启</string>
     <string name="pushplus_token">用户令牌</string>
+    <string name="pushplus_token_tips">提示：前往官网 https://www.pushplus.plus 获取</string>
     <string name="pushplus_topic">群组编码</string>
     <string name="pushplus_template">发送模板</string>
     <string name="html">html</string>
@@ -251,7 +264,7 @@
     <string name="wechat">wechat</string>
     <string name="account">✱帐户管理</string>
     <string name="servers">✱服务器信息</string>
-    <string name="email">✱邮件设置</string>
+    <string name="email_settings">✱邮件设置</string>
     <string name="below">低于</string>
     <string name="percent">%</string>
     <string name="above">高于</string>
@@ -273,10 +286,24 @@
     <string name="agree">同意</string>
     <string name="disagree">不同意</string>
     <string name="privacy_policy_text">SmsForwarder-短信转发器(下称本软件) 100% 免费开源，Github 在线编译发版，绝不会收集您的任何隐私数据！ \n\n以下情形会上报本软件版本信息： \n 1、启动本软件时，发送版本信息发送到《友盟+·U-App移动统计》，用于分析本软件的用户版本留存与软件奔溃统计； \n 2、手动检查更新时，发送版本号用于检查新版本； \n除此之外，没有任何数据！！！ \n\n本软件会遵循《隐私政策》收集、使用版本信息，但不会因为您同意了《隐私政策》而进行强制捆绑式的信息收集。</string>
-    <string name="GotifyWebServer"><![CDATA[设置WebServer：例如：https://push.example.de/message?token=<apptoken>]]></string>
+    <string name="GotifyWebServer">WebServer</string>
+    <string name="GotifyWebServerTips"><![CDATA[例：https://push.ppps.cn/message?token=<apptoken>]]></string>
     <string name="title_template">标题模板</string>
     <string name="priority">优先级（1 - 9）</string>
     <string name="_5">5</string>
     <string name="enter_webserver_tips">请输入WebServer</string>
-    <string name="is_enable">是否启用</string>
+    <string name="switch_rule_status">启用该条转发规则</string>
+    <string name="dingding">钉钉机器人</string>
+    <string name="email">电子邮箱</string>
+    <string name="bark">Bark</string>
+    <string name="webhook">Webhook</string>
+    <string name="qywx">企微群机器人</string>
+    <string name="qywxapp">企微应用消息</string>
+    <string name="serverchan">Server酱·Turbo版</string>
+    <string name="telegram">Telegram机器人</string>
+    <string name="sms_menu">手机短信</string>
+    <string name="feishu">飞书机器人</string>
+    <string name="pushplus">PushPlus</string>
+    <string name="gotify">Gotify</string>
+    <string name="add">添加</string>
 </resources>

@@ -20,7 +20,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/set_name" />
+                android:text="@string/set_name"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextQYWXGroupRobotName"
@@ -39,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:checked="false"
+                android:checked="true"
                 android:ems="14"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
@@ -51,20 +52,25 @@
             android:layout_marginRight="10dp"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/QYWXGroupRobotWebHook" />
+                android:orientation="horizontal">
 
-            <!--<EditText
-                android:id="@+id/editTextQYWXGroupRobotWebHook"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="14"
-                android:inputType="text"
-                android:text=""
-                tools:ignore="LabelFor" />-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/QYWXGroupRobotWebHook"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/QYWXGroupRobotWebHookTips"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
 
             <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextQYWXGroupRobotWebHook"

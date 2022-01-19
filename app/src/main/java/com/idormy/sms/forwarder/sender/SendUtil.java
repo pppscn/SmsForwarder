@@ -13,6 +13,7 @@ import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SMS;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_TELEGRAM;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_WEB_NOTIFY;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
@@ -86,13 +87,13 @@ public class SendUtil {
      * 从日志获取消息内容并尝试重发
      * 根据当前rule和sender来重发，而不是失败时设置的规则
      *
-     * @param context
+     * @param context 上下文
      * @param handler 回调，用于刷新日志列表
      * @param logVo   日志
      */
     public static void resendMsgByLog(Context context, Handler handler, LogVo logVo) {
         Log.d(TAG, logVo.toString());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         try {
             date = sdf.parse(logVo.getTime());

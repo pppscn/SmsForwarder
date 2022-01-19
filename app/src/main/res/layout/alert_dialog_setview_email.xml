@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:checked="false"
+                android:checked="true"
                 android:ems="14"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
@@ -91,18 +91,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/email_password" />
-
-            <!--<EditText
-                android:id="@+id/editTextEmailPsw"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:autofillHints=""
-                android:ems="14"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:text=""
-                tools:ignore="LabelFor,TextFields" />-->
 
             <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextEmailPsw"
@@ -257,7 +245,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
-            android:text="@string/email"
+            android:text="@string/email_settings"
             android:textSize="14sp"
             android:textColor="@color/colorBlueGreyDark"
             tools:ignore="HardcodedText" />

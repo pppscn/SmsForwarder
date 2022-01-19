@@ -20,7 +20,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/set_name" />
+                android:text="@string/set_name"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextDingdingName"
@@ -39,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:checked="false"
+                android:checked="true"
                 android:ems="14"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
@@ -55,17 +56,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/dingding_token" />
+                android:text="@string/dingding_token"
+                android:textStyle="bold" />
 
-            <!--<EditText
-                android:id="@+id/editTextDingdingToken"
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="14"
-                android:inputType="textPassword"
-                android:text=""
-                tools:ignore="LabelFor" />-->
+                android:text="@string/dingding_token_tips"
+                android:textSize="10sp"
+                tools:ignore="SmallSp" />
 
             <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextDingdingToken"
@@ -88,23 +87,14 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/dingding_secret" />
-
-            <!--<EditText
-                android:id="@+id/editTextDingdingSecret"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="14"
-                android:inputType="textPassword"
-                android:text=""
-                tools:ignore="LabelFor" />-->
+                android:text="@string/dingding_secret"
+                android:textStyle="bold" />
 
             <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextDingdingSecret"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/line_bg_white_only_bottom_d8"
                 app:showEye="true"
@@ -119,35 +109,13 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dingding_at" />
-
-            <EditText
-                android:id="@+id/editTextDingdingAtMobiles"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="14"
-                android:inputType="text"
-                android:text=""
-                tools:ignore="LabelFor" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/is_at_all" />
+                android:text="@string/is_at_all"
+                android:textStyle="bold" />
 
             <Switch
                 android:id="@+id/switchDingdingAtAll"
@@ -155,9 +123,44 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:checked="false"
+                android:checked="true"
                 android:ems="14"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayoutDingdingAtMobiles"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dingding_at"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dingding_at_tips"
+                android:textSize="10sp"
+                android:maxLines="1"
+                tools:ignore="SmallSp" />
+
+            <EditText
+                android:id="@+id/editTextDingdingAtMobiles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="14"
+                android:inputType="text"
+                android:text=""
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <LinearLayout

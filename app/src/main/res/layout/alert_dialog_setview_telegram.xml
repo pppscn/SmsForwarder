@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
                 android:autofillHints=""
-                android:ems="11"
+                android:ems="10"
                 android:inputType="text"
                 android:text=""
                 tools:ignore="LabelFor" />
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:checked="false"
+                android:checked="true"
                 android:ems="14"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
@@ -57,16 +57,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/TelegramApiToken"
                 android:textStyle="bold" />
-
-            <!--<EditText
-                android:id="@+id/editTextTelegramApiToken"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="14"
-                android:inputType="textPassword"
-                android:text=""
-                tools:ignore="LabelFor" />-->
 
             <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextTelegramApiToken"
@@ -85,6 +75,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -123,6 +114,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -133,7 +125,7 @@
 
             <EditText
                 android:id="@+id/editTextTelegramChatId"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
                 android:ems="14"
@@ -286,17 +278,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/password" />
-
-                <!--<EditText
-                    android:id="@+id/editTextProxyPassword"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:autofillHints=""
-                    android:ems="7"
-                    android:inputType="textPassword"
-                    android:text=""
-                    tools:ignore="LabelFor,TextFields" />-->
 
                 <com.idormy.sms.forwarder.view.ClearEditText
                     android:id="@+id/editTextProxyPassword"

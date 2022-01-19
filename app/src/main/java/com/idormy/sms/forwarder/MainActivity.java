@@ -5,7 +5,10 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.*;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,12 +32,22 @@ import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.sender.SmsHubApiTask;
 import com.idormy.sms.forwarder.service.BatteryService;
 import com.idormy.sms.forwarder.service.FrontService;
-import com.idormy.sms.forwarder.utils.*;
+import com.idormy.sms.forwarder.utils.CommonUtil;
+import com.idormy.sms.forwarder.utils.HttpUtil;
+import com.idormy.sms.forwarder.utils.KeepAliveUtils;
+import com.idormy.sms.forwarder.utils.LogUtil;
+import com.idormy.sms.forwarder.utils.NetUtil;
+import com.idormy.sms.forwarder.utils.PhoneUtils;
+import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.SharedPreferencesHelper;
+import com.idormy.sms.forwarder.utils.SmsUtil;
+import com.idormy.sms.forwarder.utils.TimeUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements RefreshListView.IRefreshListener {
 
@@ -436,7 +449,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     @SuppressLint({"ResourceType", "InflateParams"})
     public void dialog() {
         dialog = new Dialog(this, R.style.dialog);
-        inflate = LayoutInflater.from(MainActivity.this).inflate(R.layout.diaologlayout, null);
+        inflate = LayoutInflater.from(MainActivity.this).inflate(R.layout.diaolog_privacy_policy, null);
         TextView succsebtn = (TextView) inflate.findViewById(R.id.succsebtn);
         TextView canclebtn = (TextView) inflate.findViewById(R.id.caclebtn);
 

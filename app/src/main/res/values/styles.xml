@@ -74,4 +74,9 @@
             <enum name="textPassword" value="2" />
         </attr>
     </declare-styleable>
+
+    <style name="dialog_menu" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>

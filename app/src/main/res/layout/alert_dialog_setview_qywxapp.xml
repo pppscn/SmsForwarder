@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:checked="false"
+                android:checked="true"
                 android:ems="14"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
@@ -111,21 +111,11 @@
                 android:text="@string/App_Secret"
                 android:textStyle="bold" />
 
-            <!--<EditText
-                android:id="@+id/editTextQYWXAppSecret"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:autofillHints=""
-                android:inputType="textPassword"
-                android:text=""
-                tools:ignore="LabelFor" />-->
-
             <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextQYWXAppSecret"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="10dp"
                 android:background="@drawable/line_bg_white_only_bottom_d8"
                 app:showEye="true"
                 app:textColor="@color/tv_black_333333"
@@ -138,6 +128,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -192,7 +183,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="@string/specified_member_tips" />
+                android:text="@string/specified_member_tips"
+                android:textSize="10sp"
+                tools:ignore="SmallSp" />
         </LinearLayout>
 
         <LinearLayout

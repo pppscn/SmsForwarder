@@ -94,7 +94,7 @@
     <string name="setemailtitle">Email Settings</string>
     <string name="setwebnotifytitle">Webhook Settings</string>
     <string name="setqywxgrouprobottitle">WeCom Group Bot Settings</string>
-    <string name="setqywxapptitle">WeCom Settings</string>
+    <string name="setqywxapptitle">WeCom App Settings</string>
     <string name="setbarktitle">Bark Settings</string>
     <string name="setserverchantitle">ServerChan·Turbo Settings</string>
     <string name="settelegramtitle">Telegram Bot Settings</string>
@@ -107,23 +107,31 @@
     <string name="test_sms">【JD】code 387481, ihelp.jd.com</string>
     <string name="test_group_name">Test Group Name</string>
     <string name="failed_to_fwd">Failed to fwd：</string>
-    <string name="invalid_token">Token cannot be blank</string>
+    <string name="invalid_name">Sender name cannot be blank</string>
+    <string name="invalid_token">Token is invalid</string>
     <string name="invalid_email">Invalid email settings</string>
-    <string name="invalid_bark_server">Bark-server cannot be blank</string>
+    <string name="invalid_bark_server">Bark-server cannot be blank or not a valid url</string>
     <string name="invalid_apiToken_or_chatId">Neither ApiToken nor ChatId can be blank</string>
+    <string name="invalid_host_or_port">The proxy is enabled. The host name and port number cannot be blank</string>
+    <string name="invalid_username_or_password">Authentication is enabled. The user and password cannot be empty at the same time</string>
     <string name="invalid_sendkey">SendKey cannot be blank</string>
     <string name="invalid_webserver">WebServer cannot be blank</string>
     <string name="invalid_webhook">Webhook cannot be blank</string>
-    <string name="invalid_at_mobiles">The specified member cannot be blank or select @all</string>  <!-- “指定成员 不能为空 或者 选择@all” 这句话是什么意思？“指定成员既不能为‘空’也不能为‘选择@all’”吗？还是“指定成员不能为空，或者可以@all”呢？ -->
+    <string name="invalid_at_mobiles">The specified member cannot be blank or select @all</string>
+    <string name="invalid_webcom_app_parm">CronID, AgentID and Secret cannot be blank</string>
     <string name="invalid_phone_num">Phone number cannot be blank</string>
     <string name="new_sender">New Sender</string>
     <string name="set_bark_name">Bark Group Name/Status</string>
-    <string name="set_bark_server">Bark-Server, e.g. https://bark.bms.ink/XXXXXXXX/</string>
-    <string name="set_bark_icon">Bark-Icon (optional), e.g. http://day.app/assets/images/avatar.jpg</string>
+    <string name="set_bark_server">Bark-Server</string>
+    <string name="set_bark_server_tips"> e.g. https://day.app/XXXXXXXX/</string>
+    <string name="set_bark_icon">Bark-Icon (optional)</string>
+    <string name="set_bark_icon_tips">e.g. http://day.app/assets/images/avatar.jpg</string>
     <string name="set_name">Name/Staus</string>
-    <string name="dingding_token">Token e.g. the XXXXXX part of https://oapi.dingtalk.com/robot/send?access_token=XXXXXX</string>
+    <string name="dingding_token">Token（Not contain links）</string>
+    <string name="dingding_token_tips">e.g. the XXX part of https://oapi.dingtalk.com/robot/send?access_token=XXX</string>
     <string name="dingding_secret">Secret (optional)</string>
-    <string name="dingding_at">At Mobiles e.g. 18888888888,19999999999</string>
+    <string name="dingding_at">At Mobiles</string>
+    <string name="dingding_at_tips">e.g. 18888888888,19999999999</string>
     <string name="email_protocol">Protocol</string>
     <string name="email_smtp">SMTP</string>
     <string name="email_imap">IMAP </string>
@@ -145,17 +153,21 @@
     <string name="specified_member">Specified Member</string>
     <string name="at_all">\@all</string>
     <string name="specified_member_tips">Tip：Specify members receive messages, member ID list (multiple recipients with \'|\' space, maximum 1000)</string>
-    <string name="QYWXGroupRobotWebHook">WebHook, e.g. https://qyapi.weixin.qq.com/cgixx?key=xxx</string>
+    <string name="QYWXGroupRobotWebHook">WebHook</string>
+    <string name="QYWXGroupRobotWebHookTips">e.g. https://qyapi.weixin.qq.com/cgixx?key=xxx</string>
     <string name="ServerChanSendKey">ServerChan\'s SendKey</string>
     <string name="TelegramApiToken">ApiToken or Custom address</string>
     <string name="TelegramChatId">ChatId</string>
     <string name="Method">Method</string>
-    <string name="WebNotifyWebServer">WebServer e.g. https://a.b.com/msg?token=xyz</string>
-    <string name="WebNotifyWebParams">WebParams e.g. payload=%7B%22text%22%3A%22[msg]%22%7D [msg] will be replaced with text message content. \nSupport Json format, for example: {"text":[MSG]}.\n Note: MSG is automatically utF-8 encoded in addition to JSON format</string>
+    <string name="WebNotifyWebServer">WebServer</string>
+    <string name="WebNotifyWebServerTips">e.g. https://a.b.com/msg?token=xyz</string>
+    <string name="WebNotifyWebParams">WebParams</string>
+    <string name="WebNotifyWebParamsTips">e.g. payload=%7B%22text%22%3A%22[msg]%22%7D [msg] will be replaced with text message content. \nSupport Json format, for example: {"text":[MSG]}.\n Note: MSG is automatically utF-8 encoded in addition to JSON format</string>
     <string name="WebNotifySecret">Secret (sign is not counted if left blank)</string>
     <string name="SmsSimSlot">SIM Slot</string>
     <string name="same_source">Same source</string>
-    <string name="SmsMobiles">Receive mobile phone numbers separated by, e.g. 15888888888;19999999999</string>
+    <string name="SmsMobiles">Receive mobile phone numbers</string>
+    <string name="SmsMobilesTips">Separated by, e.g. 15888888888;19999999999</string>
     <string name="OnlyNoNetwork">Enable when no network is available</string>
     <!--SettingActivity-->
     <string name="device_name">Device name</string>
@@ -242,6 +254,7 @@
     <string name="notification_listener_service_enabled">The notification service is enabled</string>
     <string name="notification_listener_service_disabled">The notification service is disabled</string>
     <string name="pushplus_token">Token</string>
+    <string name="pushplus_token_tips">Tips: Go to https://www.pushplus.plus</string>
     <string name="pushplus_topic">Topic</string>
     <string name="pushplus_template">Template</string>
     <string name="html">html</string>
@@ -252,7 +265,7 @@
     <string name="wechat">wechat</string>
     <string name="account">✱Account</string>
     <string name="servers">✱Servers</string>
-    <string name="email">✱Email</string>
+    <string name="email_settings">✱Email</string>
     <string name="below">below</string>
     <string name="percent">%</string>
     <string name="above">above</string>
@@ -274,10 +287,24 @@
     <string name="agree">Agree</string>
     <string name="disagree">Disagree</string>
     <string name="privacy_policy_text">SmsForwarder (the "Application/App"), is 100\% free and open source, and is compliled and released basing on repository hosted on GitHub. The App will not collect any of your privacy data!\n\n Version information of the App will be sent in the following situations: \n 1. As startup, version information will be sent to "Umeng +· U-APP Mobile Statistics" for user retention analyze and crash stats;\n 2. Manual update check triggered by user;\n The App collects no any other data!!\n\n The App collects and uses version information only in accordance with the Privacy Policy, and will not collect any other information as an abuse of users\' consent to the Privacy Policy;</string>
-    <string name="GotifyWebServer"><![CDATA[Setting the WebServer, eg.: https://push.example.de/message?token=<apptoken>]]></string>
+    <string name="GotifyWebServer">Setting the WebServer</string>
+    <string name="GotifyWebServerTips"><![CDATA[eg.: https://push.ppps.cn/message?token=<apptoken>]]></string>
     <string name="title_template">Title Template</string>
     <string name="priority">Priority（1 – 9）</string>
     <string name="_5">5</string>
     <string name="enter_webserver_tips">Please enter the WebServer</string>
-    <string name="is_enable">Is Enable</string>
+    <string name="switch_rule_status">Enable this rule</string>
+    <string name="dingding">Dingtalk Bot</string>
+    <string name="email">Email</string>
+    <string name="bark">Bark</string>
+    <string name="webhook">Webhook</string>
+    <string name="qywx">WeCom Group Bot</string>
+    <string name="qywxapp">WeCom App</string>
+    <string name="serverchan">ServerChan·Turbo</string>
+    <string name="telegram">Telegram Bot</string>
+    <string name="sms_menu">SMS</string>
+    <string name="feishu">FeiShu Bot</string>
+    <string name="pushplus">PushPlus</string>
+    <string name="gotify">Gotify</string>
+    <string name="add">Add</string>
 </resources>

@@ -63,6 +63,7 @@ public class RuleAdapter extends ArrayAdapter<RuleModel> {
             viewHolder.ruleMatch = view.findViewById(R.id.rule_match);
             viewHolder.ruleSender = view.findViewById(R.id.rule_sender);
             viewHolder.ruleSenderImage = view.findViewById(R.id.rule_sender_image);
+            viewHolder.ruleSenderStatus = view.findViewById(R.id.rule_sender_status);
 
             // 将ViewHolder存储在View中（即将控件的实例存储在其中）
             view.setTag(viewHolder);
@@ -78,6 +79,7 @@ public class RuleAdapter extends ArrayAdapter<RuleModel> {
             if (!senderModel.isEmpty()) {
                 viewHolder.ruleSender.setText(senderModel.get(0).getName());
                 viewHolder.ruleSenderImage.setImageResource(senderModel.get(0).getImageId());
+                viewHolder.ruleSenderStatus.setImageResource(senderModel.get(0).getStatusImageId());
             } else {
                 viewHolder.ruleSender.setText("");
             }
@@ -112,6 +114,7 @@ public class RuleAdapter extends ArrayAdapter<RuleModel> {
         TextView ruleMatch;
         TextView ruleSender;
         ImageView ruleSenderImage;
+        ImageView ruleSenderStatus;
     }
 
 }

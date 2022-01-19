@@ -20,6 +20,8 @@ import lombok.Data;
 @SuppressWarnings({"unused"})
 @Data
 public class RuleModel {
+    public static final int STATUS_ON = 1;
+    public static final int STATUS_OFF = 0;
     public static final String FILED_TRANSPOND_ALL = "transpond_all";
     public static final String FILED_PHONE_NUM = "phone_num";
     public static final String FILED_PACKAGE_NAME = "package_name";
@@ -305,6 +307,11 @@ public class RuleModel {
         return switchRegexReplace;
     }
 
+
+    public boolean getStatusChecked() {
+        return !(status == STATUS_OFF);
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -315,6 +322,7 @@ public class RuleModel {
                 ", value='" + value + '\'' +
                 ", senderId=" + senderId +
                 ", time=" + time +
+                ", status=" + status +
                 '}';
     }
 }

@@ -1,6 +1,8 @@
+
 ![SmsForwarder](pic/SmsForwarder.png)
 
 # SmsForwarder
+[中文版](README.md)
 
 [![GitHub release](https://img.shields.io/github/release/pppscn/SmsForwarder.svg)](https://github.com/pppscn/SmsForwarder/releases) [![GitHub stars](https://img.shields.io/github/stars/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/stargazers) [![GitHub forks](https://img.shields.io/github/forks/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/network/members) [![GitHub issues](https://img.shields.io/github/issues/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/issues) [![GitHub license](https://img.shields.io/github/license/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/blob/main/LICENSE)
 
@@ -53,7 +55,7 @@ Benefit by simplicity:
 
 ### Workflow:
 
-![工作流程](pic/working_principle.png "工作流程")
+![Workflow](pic/working_principle_en.png "Workflow")
 
 ### Features:
 
@@ -95,7 +97,7 @@ Benefit by simplicity:
 |  ----  | ----  |  ----  | ----  |
 | ![Docking in Ntf. screen](pic/taskbar.jpg "Docking in Ntf. screen") | ![Main screen](pic/main.png "Main screen") | ![Forwarding rules](pic/rule.jpg "Forwarding rules") | ![Fwding details](pic/maindetail.jpg "Fwding details") |
 | Test of a Fw. rule | Multiple filters | Supported senders | Add/Edit DingTalk sender |
-| ![Test of a Fw. rule](pic/ruleset.png "Test of a Fw. rule") | ![Multiple filters](pic/multimatch.png "Multiple filters") | ![Supported senders](pic/sender.jpg "Supported senders") | ![Add/Edit DingTalk sender](pic/sendersetdingding.jpg "Add/Edit DingTalk sender") |
+| ![Test of a Fw. rule](pic/ruleset.png "Test of a Fw. rule") | ![Multiple filters](pic/multimatch.png "Multiple filters") | ![Supported senders](pic/sender.png "Supported senders") | ![Add/Edit DingTalk sender](pic/sendersetdingding.jpg "Add/Edit DingTalk sender") |
 | Add/Edit E-mail sender | Add/Edit Bark sender | Add/Edit Webhook | Add/Edit WeCom Group Bot sender |
 | ![Add/Edit E-mail sender](pic/sendersetemail.jpg "Add/Edit E-mail sender") | ![Add/Edit Bark sender](pic/sendersetbark.png "Add/Edit Bark sender") | ![Add/Edit Webhook sender](pic/sendersetwebnotify.jpg "Add/Edit Webhook sender") | ![Add/Edit WeCom group bot](pic/sendersetqywechat.jpg "Add/Edit WeCom group bot") |
 | Add/Edit Telegram Bot sender | Add/Edit ServerChan Turbo sender | Add/Edit WeCom Group sender | Settings |

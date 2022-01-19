@@ -46,6 +46,7 @@ public class RuleUtil {
         values.put(RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT, ruleModel.getSimSlot());
         values.put(RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE, ruleModel.getSmsTemplate());
         values.put(RuleTable.RuleEntry.COLUMN_REGEX_REPLACE, ruleModel.getRegexReplace());
+        values.put(RuleTable.RuleEntry.COLUMN_NAME_STATUS, ruleModel.getStatus());
 
         // Insert the new row, returning the primary key value of the new row
 
@@ -64,6 +65,7 @@ public class RuleUtil {
         values.put(RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT, ruleModel.getSimSlot());
         values.put(RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE, ruleModel.getSmsTemplate());
         values.put(RuleTable.RuleEntry.COLUMN_REGEX_REPLACE, ruleModel.getRegexReplace());
+        values.put(RuleTable.RuleEntry.COLUMN_NAME_STATUS, ruleModel.getStatus());
 
         String selection = RuleTable.RuleEntry._ID + " = ? ";
         String[] whereArgs = {String.valueOf(ruleModel.getId())};
@@ -103,6 +105,7 @@ public class RuleUtil {
                 RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT,
                 RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE,
                 RuleTable.RuleEntry.COLUMN_REGEX_REPLACE,
+                RuleTable.RuleEntry.COLUMN_NAME_STATUS,
         };
         // Define 'where' part of query.
         String selection = " 1 = 1 ";
@@ -168,6 +171,8 @@ public class RuleUtil {
                     cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE));
             String regexReplace = cursor.getString(
                     cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_REGEX_REPLACE));
+            int itemStatus = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_NAME_STATUS));
 
             Log.d(TAG, "getRule: itemId" + itemId);
             RuleModel ruleModel = new RuleModel();
@@ -183,6 +188,7 @@ public class RuleUtil {
             ruleModel.setSmsTemplate(smsTemplate);
             ruleModel.setSwitchRegexReplace(!regexReplace.trim().isEmpty());
             ruleModel.setRegexReplace(regexReplace);
+            ruleModel.setStatus(itemStatus);
 
             tRules.add(ruleModel);
         }

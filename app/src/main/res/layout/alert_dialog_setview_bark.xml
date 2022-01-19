@@ -20,7 +20,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/set_bark_name" />
+                android:text="@string/set_bark_name"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextBarkName"
@@ -38,9 +39,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="end"
-                android:checked="false"
+                android:checked="true"
                 android:ems="14"
+                android:gravity="end"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 
@@ -48,27 +49,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/set_bark_server" />
+                android:text="@string/set_bark_server"
+                android:textStyle="bold" />
 
-            <!--<EditText
-                android:id="@+id/editTextBarkServer"
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="14"
-                android:inputType="text"
-                android:text=""
-                tools:ignore="LabelFor" />-->
+                android:text="@string/set_bark_server_tips"
+                android:textSize="10sp"
+                tools:ignore="SmallSp" />
 
             <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextBarkServer"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/line_bg_white_only_bottom_d8"
                 app:showEye="true"
@@ -81,17 +81,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/set_bark_icon" />
+                android:text="@string/set_bark_icon"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/set_bark_icon_tips"
+                android:textSize="10sp"
+                tools:ignore="SmallSp" />
 
             <EditText
                 android:id="@+id/editTextBarkIcon"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
                 android:ems="14"
