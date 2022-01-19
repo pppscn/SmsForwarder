@@ -307,4 +307,12 @@
     <string name="pushplus">PushPlus</string>
     <string name="gotify">Gotify</string>
     <string name="add">Add</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="_4">4</string>
+    <string name="step_1">Settings</string>
+    <string name="step_2">Senders</string>
+    <string name="step_3">Rules</string>
+    <string name="step_4">Logs</string>
+    <string name="clean_log">Clean Log</string>
 </resources>

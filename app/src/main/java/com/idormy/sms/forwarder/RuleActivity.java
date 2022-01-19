@@ -23,6 +23,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.idormy.sms.forwarder.adapter.RuleAdapter;
 import com.idormy.sms.forwarder.model.RuleModel;
 import com.idormy.sms.forwarder.model.SenderModel;
@@ -130,6 +131,9 @@ public class RuleActivity extends AppCompatActivity {
         //切换日志类别
         int typeCheckId = getTypeCheckId(currentType);
         final RadioGroup radioGroupTypeCheck = findViewById(R.id.radioGroupTypeCheck);
+        final FloatingActionButton addSmsRule = findViewById(R.id.addSmsRule);
+        final FloatingActionButton addCallRule = findViewById(R.id.addCallRule);
+        final FloatingActionButton addAppRule = findViewById(R.id.addAppRule);
         radioGroupTypeCheck.check(typeCheckId);
         radioGroupTypeCheck.setOnCheckedChangeListener((group, checkedId) -> {
             RadioButton rb = findViewById(checkedId);
@@ -137,6 +141,10 @@ public class RuleActivity extends AppCompatActivity {
             initRules(); //初始化数据
             adapter = new RuleAdapter(RuleActivity.this, R.layout.item_rule, ruleModels);
             listView.setAdapter(adapter);
+
+            addSmsRule.setVisibility("sms".equals(currentType) ? View.VISIBLE : View.GONE);
+            addCallRule.setVisibility("call".equals(currentType) ? View.VISIBLE : View.GONE);
+            addAppRule.setVisibility("app".equals(currentType) ? View.VISIBLE : View.GONE);
         });
     }
 

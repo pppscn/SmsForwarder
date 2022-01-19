@@ -107,7 +107,6 @@
                         android:layout_height="wrap_content"
                         android:text="未接来电"
                         android:id="@+id/chb_music"
-                        android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true" />
 
                     <CheckBox

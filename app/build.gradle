@@ -177,4 +177,7 @@ dependencies {
     //jetty
     implementation "org.eclipse.jetty:jetty-server:9.2.30.v20200428"
     implementation "org.eclipse.jetty:jetty-servlet:9.2.30.v20200428"
+
+    //StepView
+    //implementation 'com.shuhart.stepview:stepview:1.5.1'
 }

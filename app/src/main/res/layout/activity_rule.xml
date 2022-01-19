@@ -1,28 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addSmsRule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/colorPrimary"
+        android:onClick="addRule"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_add"
+        android:tag="sms"
+        app:elevation="8dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addCallRule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/colorPrimary"
+        android:onClick="addRule"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_add"
+        android:tag="call"
+        app:elevation="8dp"
+        android:visibility="gone" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addAppRule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/colorPrimary"
+        android:onClick="addRule"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_add"
+        android:tag="app"
+        app:elevation="8dp"
+        android:visibility="gone" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dip"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
         android:orientation="horizontal">
 
         <RadioGroup
             android:id="@+id/radioGroupTypeCheck"
+            android:layout_width="match_parent"
             style="@style/rg_style"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center">
 
             <RadioButton
                 android:id="@+id/btnTypeSms"
                 style="@style/select_style"
+                android:checked="true"
                 android:tag="sms"
-                android:text="@string/sms"
-                android:checked="true" />
+                android:text="@string/sms" />
 
             <RadioButton
                 android:id="@+id/btnTypeCall"
@@ -40,85 +91,34 @@
     </LinearLayout>
 
     <View
-        android:layout_width="fill_parent"
-        android:layout_marginTop="5dp"
+        android:id="@+id/radioGroupLine"
+        android:layout_below="@+id/radioGroup"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
         android:background="#aadcdcdc" />
 
     <ListView
         android:id="@+id/list_view_rule"
+        android:layout_below="@+id/radioGroupLine"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginStart="5dp"
         android:layout_weight="1" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/help_tip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:text="@string/rule_tips"
+        android:textColor="@color/colorPrimary" />
 
-        <TextView
-            android:id="@+id/help_tip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/rule_tips"
-            android:textColor="@color/colorPrimary" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dip"
-            android:orientation="horizontal">
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimary"
-                android:onClick="addRule"
-                android:tag="sms"
-                android:padding="0dp"
-                android:text="@string/new_sms_rule"
-                tools:ignore="ButtonStyle,UsingOnClickInXml" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimary"
-                android:onClick="addRule"
-                android:tag="call"
-                android:padding="0dp"
-                android:text="@string/new_call_rule"
-                tools:ignore="ButtonStyle,UsingOnClickInXml" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimary"
-                android:onClick="addRule"
-                android:tag="app"
-                android:padding="0dp"
-                android:text="@string/new_app_rule"
-                tools:ignore="ButtonStyle,UsingOnClickInXml" />
-        </LinearLayout>
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

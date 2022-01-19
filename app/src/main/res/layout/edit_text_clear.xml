@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,8 +12,8 @@
         android:id="@+id/iv_edit_left_icon"
         android:layout_width="30dp"
         android:layout_height="45dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:layout_centerVertical="true"
         android:scaleType="centerInside"
         android:src="@drawable/icon_login"
@@ -36,7 +35,7 @@
         android:layout_width="90dp"
         android:layout_height="45dp"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:gravity="right">
 
         <ImageView

@@ -16,7 +16,7 @@
     <string name="rule_setting">转发规则</string>
     <string name="sender_setting">发送通道</string>
     <string name="app_list">应用列表</string>
-    <string name="log_tips">提示：置顶下拉刷新，长按删除单条，选项卡切换日志类型</string>
+    <string name="log_tips">提示：置顶下拉刷新，长按删除单条，选项卡切换日志类型\n首次使用按以下步骤设置，该步骤点亮表示已设置！</string>
     <string name="rule_tips">提示：新建规则点击“添加”，长按删除/克隆，点击编辑已有</string>
     <string name="sender_tips">提示：新建发送通道点击“添加”，长按删除/克隆，点击编辑已有</string>
     <string name="app_tips">提示：点击复制APP的包名，长按则启动并跳转该APP</string>
@@ -306,4 +306,13 @@
     <string name="pushplus">PushPlus</string>
     <string name="gotify">Gotify</string>
     <string name="add">添加</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="_4">4</string>
+    <string name="step_1">选择功能</string>
+    <string name="step_2">发送通道</string>
+    <string name="step_3">转发规则</string>
+    <string name="step_4">转发日志</string>
+    <string name="clean_log">清理日志</string>
 </resources>

@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.idormy.sms.forwarder.adapter.LogAdapter;
 import com.idormy.sms.forwarder.model.vo.LogVo;
 import com.idormy.sms.forwarder.sender.HttpServer;
@@ -110,6 +112,20 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         } catch (Exception e) {
             Log.e(TAG, "SmsHubApiTask:", e);
         }
+
+        /*final StepView stepView = findViewById(R.id.step_view);
+        stepView.setOnStepClickListener(new StepView.OnStepClickListener() {
+            @Override
+            public void onStepClick(int step) {
+                Toast.makeText(MainActivity.this, "Step " + step, Toast.LENGTH_SHORT).show();
+            }
+        });
+        List<String> steps = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            steps.add("Step " + (i + 1));
+        }
+        //steps.set(steps.size() - 1, steps.get(steps.size() - 1) + " last one");
+        stepView.setSteps(steps);*/
     }
 
     @Override
@@ -127,7 +143,17 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
 
         //是否关闭页面提示
         TextView help_tip = findViewById(R.id.help_tip);
-        help_tip.setVisibility(MyApplication.showHelpTip ? View.VISIBLE : View.GONE);
+        FloatingActionButton btnCleanLog = findViewById(R.id.btnCleanLog);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) btnCleanLog.getLayoutParams();
+        if (MyApplication.showHelpTip) {
+            layoutParams.bottomMargin = CommonUtil.dp2px(this, 120);//距离底部120dp
+            btnCleanLog.setLayoutParams(layoutParams);
+            help_tip.setVisibility(View.VISIBLE);
+        } else {
+            layoutParams.bottomMargin = CommonUtil.dp2px(this, 80);
+            btnCleanLog.setLayoutParams(layoutParams);
+            help_tip.setVisibility(View.GONE);
+        }
 
         // 先拿到数据并放在适配器上
         initTLogs(); //初始化数据
