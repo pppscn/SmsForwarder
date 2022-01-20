@@ -21,6 +21,7 @@ public class Define {
     public static final String SP_MSG_KEY_STRING_BATTERY_LEVEL_CURRENT = "tsms_msg_key_string_battery_level_current";
     public static final String SP_MSG_KEY_STRING_BATTERY_LEVEL_ALARM = "tsms_msg_key_string_battery_level_alarm";
     public static final String SP_MSG_KEY_STRING_BATTERY_LEVEL_MAX = "tsms_msg_key_string_battery_level_max";
+    public static final String SP_MSG_KEY_STRING_ENABLE_RETRY_DELAY = "tsms_msg_key_switch_retry_delay";
     public static final String SP_MSG_KEY_STRING_RETRY_DELAY_TIME1 = "tsms_msg_key_string_retry_delay_time1";
     public static final String SP_MSG_KEY_STRING_RETRY_DELAY_TIME2 = "tsms_msg_key_string_retry_delay_time2";
     public static final String SP_MSG_KEY_STRING_RETRY_DELAY_TIME3 = "tsms_msg_key_string_retry_delay_time3";
@@ -29,6 +30,9 @@ public class Define {
     public static final String SP_MSG_KEY_STRING_ENABLE_SMSHUB_API = "tsms_msg_key_string_enable_smshub_api";
     public static final String SP_MSG_KEY_STRING_SMSHUB_API_URL = "tsms_msg_key_string_smshub_api_url";
     public static final String SP_MSG_KEY_STRING_ENABLE_HTTP_SERVER = "tsms_msg_key_string_enable_http_server";
+    public static final String SP_MSG_KEY_STRING_ENABLE_CALL_TYPE_1 = "tsms_msg_key_string_enable_call_type_1";
+    public static final String SP_MSG_KEY_STRING_ENABLE_CALL_TYPE_2 = "tsms_msg_key_string_enable_call_type_2";
+    public static final String SP_MSG_KEY_STRING_ENABLE_CALL_TYPE_3 = "tsms_msg_key_string_enable_call_type_3";
 
     public static final String SP_MSG = "forwarder_msg";
     public static final String SP_MSG_SET_KEY = "forwarder_msg_set_key";

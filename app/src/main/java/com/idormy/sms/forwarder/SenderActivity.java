@@ -39,6 +39,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.fastjson.JSON;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.idormy.sms.forwarder.adapter.SenderAdapter;
 import com.idormy.sms.forwarder.model.SenderModel;
 import com.idormy.sms.forwarder.model.vo.BarkSettingVo;
@@ -108,10 +109,6 @@ public class SenderActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart");
-
-        //是否关闭页面提示
-        TextView help_tip = findViewById(R.id.help_tip);
-        help_tip.setVisibility(MyApplication.showHelpTip ? View.VISIBLE : View.GONE);
 
         // 先拿到数据并放在适配器上
         initSenders(); //初始化数据
@@ -244,6 +241,74 @@ public class SenderActivity extends AppCompatActivity {
             builder.create().show();
             return true;
         });
+
+
+        //是否关闭页面提示
+        TextView help_tip = findViewById(R.id.help_tip);
+        FloatingActionButton btnFloat = findViewById(R.id.btnAddSender);
+        CommonUtil.calcMarginBottom(this, help_tip, btnFloat, listView, null);
+        //添加发送通道
+        btnFloat.setOnClickListener(v -> {
+
+            @SuppressLint("InflateParams") View dialog_menu = LayoutInflater.from(SenderActivity.this).inflate(R.layout.alert_dialog_menu, null);
+            // 设置style 控制默认dialog带来的边距问题
+            final Dialog dialog = new Dialog(this, R.style.dialog_menu);
+            dialog.setContentView(dialog_menu);
+            dialog.show();
+
+            GridView gridview = dialog.findViewById(R.id.MemuGridView);
+            final List<HashMap<String, Object>> item = getMenuData();
+            SimpleAdapter simpleAdapter = new SimpleAdapter(this, item, R.layout.item_menu, new String[]{"ItemImageView", "ItemTextView"}, new int[]{R.id.ItemImageView, R.id.ItemTextView});
+            gridview.setAdapter(simpleAdapter);
+
+            // 添加点击事件
+            gridview.setOnItemClickListener((arg0, arg1, position, arg3) -> {
+                dialog.dismiss();
+
+                switch (position) {
+                    case TYPE_DINGDING:
+                        setDingDing(null, false);
+                        break;
+                    case TYPE_EMAIL:
+                        setEmail(null, false);
+                        break;
+                    case TYPE_BARK:
+                        setBark(null, false);
+                        break;
+                    case TYPE_WEB_NOTIFY:
+                        setWebNotify(null, false);
+                        break;
+                    case TYPE_QYWX_GROUP_ROBOT:
+                        setQYWXGroupRobot(null, false);
+                        break;
+                    case TYPE_QYWX_APP:
+                        setQYWXApp(null, false);
+                        break;
+                    case TYPE_SERVER_CHAN:
+                        setServerChan(null, false);
+                        break;
+                    case TYPE_TELEGRAM:
+                        setTelegram(null, false);
+                        break;
+                    case TYPE_SMS:
+                        setSms(null, false);
+                        break;
+                    case TYPE_FEISHU:
+                        setFeiShu(null, false);
+                        break;
+                    case TYPE_PUSHPLUS:
+                        setPushPlus(null, false);
+                        break;
+                    case TYPE_GOTIFY:
+                        setGotify(null, false);
+                        break;
+                    default:
+                        Toast.makeText(SenderActivity.this, R.string.not_supported, Toast.LENGTH_LONG).show();
+                        break;
+                }
+            });
+        });
+
     }
 
     @Override
@@ -314,67 +379,6 @@ public class SenderActivity extends AppCompatActivity {
         return data;
     }
 
-    // 添加发送通道
-    public void addSender(View view) {
-        @SuppressLint("InflateParams") View dialog_menu = LayoutInflater.from(SenderActivity.this).inflate(R.layout.alert_dialog_menu, null);
-        // 设置style 控制默认dialog带来的边距问题
-        final Dialog dialog = new Dialog(this, R.style.dialog_menu);
-        dialog.setContentView(dialog_menu);
-        dialog.show();
-
-        GridView gridview = dialog.findViewById(R.id.MemuGridView);
-        final List<HashMap<String, Object>> item = getMenuData();
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this, item, R.layout.item_menu, new String[]{"ItemImageView", "ItemTextView"}, new int[]{R.id.ItemImageView, R.id.ItemTextView});
-        gridview.setAdapter(simpleAdapter);
-
-        // 添加点击事件
-        gridview.setOnItemClickListener((arg0, arg1, position, arg3) -> {
-            dialog.dismiss();
-
-            switch (position) {
-                case TYPE_DINGDING:
-                    setDingDing(null, false);
-                    break;
-                case TYPE_EMAIL:
-                    setEmail(null, false);
-                    break;
-                case TYPE_BARK:
-                    setBark(null, false);
-                    break;
-                case TYPE_WEB_NOTIFY:
-                    setWebNotify(null, false);
-                    break;
-                case TYPE_QYWX_GROUP_ROBOT:
-                    setQYWXGroupRobot(null, false);
-                    break;
-                case TYPE_QYWX_APP:
-                    setQYWXApp(null, false);
-                    break;
-                case TYPE_SERVER_CHAN:
-                    setServerChan(null, false);
-                    break;
-                case TYPE_TELEGRAM:
-                    setTelegram(null, false);
-                    break;
-                case TYPE_SMS:
-                    setSms(null, false);
-                    break;
-                case TYPE_FEISHU:
-                    setFeiShu(null, false);
-                    break;
-                case TYPE_PUSHPLUS:
-                    setPushPlus(null, false);
-                    break;
-                case TYPE_GOTIFY:
-                    setGotify(null, false);
-                    break;
-                default:
-                    Toast.makeText(SenderActivity.this, R.string.not_supported, Toast.LENGTH_LONG).show();
-                    break;
-            }
-        });
-    }
-
     //钉钉机器人
     @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
     private void setDingDing(final SenderModel senderModel, final boolean isClone) {
@@ -433,8 +437,8 @@ public class SenderActivity extends AppCompatActivity {
         buttonDingdingOk.setOnClickListener(view -> {
             String senderName = editTextDingdingName.getText().toString().trim();
             int senderStatus = switchDingdingEnable.isChecked() ? STATUS_ON : STATUS_OFF;
-            String token = editTextDingdingToken.getText().toString().trim();
-            String secret = editTextDingdingSecret.getText().toString().trim();
+            String token = editTextDingdingToken.getText().trim();
+            String secret = editTextDingdingSecret.getText().trim();
             String atMobiles = editTextDingdingAtMobiles.getText().toString().trim();
             Boolean atAll = switchDingdingAtAll.isChecked();
 
@@ -479,13 +483,13 @@ public class SenderActivity extends AppCompatActivity {
         });
 
         buttonDingdingTest.setOnClickListener(view -> {
-            String token = editTextDingdingToken.getText().toString().trim();
+            String token = editTextDingdingToken.getText().trim();
             if (CommonUtil.checkUrl(token, true)) {
                 Toast.makeText(SenderActivity.this, R.string.invalid_token, Toast.LENGTH_LONG).show();
                 return;
             }
 
-            String secret = editTextDingdingSecret.getText().toString().trim();
+            String secret = editTextDingdingSecret.getText().trim();
             String atMobiles = editTextDingdingAtMobiles.getText().toString().trim();
             Boolean atAll = switchDingdingAtAll.isChecked();
             try {
@@ -563,7 +567,7 @@ public class SenderActivity extends AppCompatActivity {
             String port = editTextEmailPort.getText().toString().trim();
             boolean ssl = switchEmailSSl.isChecked();
             String fromEmail = editTextEmailFromAdd.getText().toString().trim();
-            String pwd = editTextEmailPsw.getText().toString().trim();
+            String pwd = editTextEmailPsw.getText().trim();
             String toEmail = editTextEmailToAdd.getText().toString().trim();
 
             String title = editTextEmailTitle.getText().toString().trim();
@@ -613,7 +617,7 @@ public class SenderActivity extends AppCompatActivity {
             String port = editTextEmailPort.getText().toString().trim();
             boolean ssl = switchEmailSSl.isChecked();
             String fromEmail = editTextEmailFromAdd.getText().toString().trim();
-            String pwd = editTextEmailPsw.getText().toString().trim();
+            String pwd = editTextEmailPsw.getText().trim();
             String toEmail = editTextEmailToAdd.getText().toString().trim();
 
             String title = editTextEmailTitle.getText().toString().trim();
@@ -710,7 +714,7 @@ public class SenderActivity extends AppCompatActivity {
                 return;
             }
 
-            String barkServer = editTextBarkServer.getText().toString().trim();
+            String barkServer = editTextBarkServer.getText().trim();
             if (!CommonUtil.checkUrl(barkServer, false)) {
                 Toast.makeText(SenderActivity.this, R.string.invalid_bark_server, Toast.LENGTH_LONG).show();
                 return;
@@ -749,7 +753,7 @@ public class SenderActivity extends AppCompatActivity {
         });
 
         buttonBarkTest.setOnClickListener(view -> {
-            String barkServer = editTextBarkServer.getText().toString().trim();
+            String barkServer = editTextBarkServer.getText().trim();
             String barkIcon = editTextBarkIcon.getText().toString().trim();
             if (CommonUtil.checkUrl(barkServer, false)) {
                 try {
@@ -816,7 +820,7 @@ public class SenderActivity extends AppCompatActivity {
             }
 
             String webServer = editTextWebNotifyWebServer.getText().toString().trim();
-            String secret = editTextWebNotifySecret.getText().toString().trim();
+            String secret = editTextWebNotifySecret.getText().trim();
             String method = radioGroupWebNotifyMethod.getCheckedRadioButtonId() == R.id.radioWebNotifyMethodGet ? "GET" : "POST";
             String webParams = editTextWebNotifyWebParams.getText().toString().trim();
 
@@ -856,7 +860,7 @@ public class SenderActivity extends AppCompatActivity {
 
         buttonWebNotifyTest.setOnClickListener(view -> {
             String webServer = editTextWebNotifyWebServer.getText().toString().trim();
-            String secret = editTextWebNotifySecret.getText().toString().trim();
+            String secret = editTextWebNotifySecret.getText().trim();
             String method = radioGroupWebNotifyMethod.getCheckedRadioButtonId() == R.id.radioWebNotifyMethodGet ? "GET" : "POST";
             String webParams = editTextWebNotifyWebParams.getText().toString().trim();
 
@@ -919,7 +923,7 @@ public class SenderActivity extends AppCompatActivity {
                 return;
             }
 
-            String webHook = editTextQYWXGroupRobotWebHook.getText().toString().trim();
+            String webHook = editTextQYWXGroupRobotWebHook.getText().trim();
             if (!CommonUtil.checkUrl(webHook, false)) {
                 Toast.makeText(SenderActivity.this, R.string.invalid_webhook, Toast.LENGTH_LONG).show();
                 return;
@@ -957,7 +961,7 @@ public class SenderActivity extends AppCompatActivity {
         });
 
         buttonQyWxGroupRobotTest.setOnClickListener(view -> {
-            String webHook = editTextQYWXGroupRobotWebHook.getText().toString().trim();
+            String webHook = editTextQYWXGroupRobotWebHook.getText().trim();
             if (!CommonUtil.checkUrl(webHook, false)) {
                 Toast.makeText(SenderActivity.this, R.string.invalid_webhook, Toast.LENGTH_LONG).show();
                 return;
@@ -1046,7 +1050,7 @@ public class SenderActivity extends AppCompatActivity {
             QYWXAppSettingVo QYWXAppSettingVoNew = new QYWXAppSettingVo(
                     editTextQYWXAppCorpID.getText().toString().trim(),
                     editTextQYWXAppAgentID.getText().toString().trim(),
-                    editTextQYWXAppSecret.getText().toString().trim(),
+                    editTextQYWXAppSecret.getText().trim(),
                     editTextQYWXAppToUser.getText().toString().trim(),
                     switchQYWXAppAtAll.isChecked());
             if (!QYWXAppSettingVoNew.checkParms()) {
@@ -1088,7 +1092,7 @@ public class SenderActivity extends AppCompatActivity {
             QYWXAppSettingVo QYWXAppSettingVoNew = new QYWXAppSettingVo(
                     editTextQYWXAppCorpID.getText().toString().trim(),
                     editTextQYWXAppAgentID.getText().toString().trim(),
-                    editTextQYWXAppSecret.getText().toString().trim(),
+                    editTextQYWXAppSecret.getText().trim(),
                     editTextQYWXAppToUser.getText().toString().trim(),
                     switchQYWXAppAtAll.isChecked());
             if (!QYWXAppSettingVoNew.checkParms()) {
@@ -1152,7 +1156,7 @@ public class SenderActivity extends AppCompatActivity {
                 return;
             }
 
-            String serverChanServer = editTextServerChanSendKey.getText().toString().trim();
+            String serverChanServer = editTextServerChanSendKey.getText().trim();
             if (TextUtils.isEmpty(serverChanServer)) {
                 Toast.makeText(SenderActivity.this, R.string.invalid_sendkey, Toast.LENGTH_LONG).show();
                 return;
@@ -1190,7 +1194,7 @@ public class SenderActivity extends AppCompatActivity {
         });
 
         buttonServerChanTest.setOnClickListener(view -> {
-            String serverChanServer = editTextServerChanSendKey.getText().toString().trim();
+            String serverChanServer = editTextServerChanSendKey.getText().trim();
             if (TextUtils.isEmpty(serverChanServer)) {
                 Toast.makeText(SenderActivity.this, R.string.invalid_sendkey, Toast.LENGTH_LONG).show();
                 return;
@@ -1303,7 +1307,7 @@ public class SenderActivity extends AppCompatActivity {
                 return;
             }
 
-            String apiToken = editTextTelegramApiToken.getText().toString().trim();
+            String apiToken = editTextTelegramApiToken.getText().trim();
             String chatId = editTextTelegramChatId.getText().toString().trim();
             if (apiToken.isEmpty() || chatId.isEmpty()) {
                 Toast.makeText(SenderActivity.this, R.string.invalid_apiToken_or_chatId, Toast.LENGTH_LONG).show();
@@ -1320,7 +1324,7 @@ public class SenderActivity extends AppCompatActivity {
 
             boolean proxyAuthenticator = switchProxyAuthenticator.isChecked();
             String proxyUsername = editTextProxyUsername.getText().toString().trim();
-            String proxyPassword = editTextProxyPassword.getText().toString().trim();
+            String proxyPassword = editTextProxyPassword.getText().trim();
             if (proxyAuthenticator && TextUtils.isEmpty(proxyUsername) && TextUtils.isEmpty(proxyPassword)) {
                 Toast.makeText(SenderActivity.this, R.string.invalid_username_or_password, Toast.LENGTH_LONG).show();
                 return;
@@ -1360,7 +1364,7 @@ public class SenderActivity extends AppCompatActivity {
         });
 
         buttonTelegramTest.setOnClickListener(view -> {
-            String apiToken = editTextTelegramApiToken.getText().toString().trim();
+            String apiToken = editTextTelegramApiToken.getText().trim();
             String chatId = editTextTelegramChatId.getText().toString().trim();
             if (apiToken.isEmpty() || chatId.isEmpty()) {
                 Toast.makeText(SenderActivity.this, R.string.invalid_apiToken_or_chatId, Toast.LENGTH_LONG).show();
@@ -1377,7 +1381,7 @@ public class SenderActivity extends AppCompatActivity {
 
             boolean proxyAuthenticator = switchProxyAuthenticator.isChecked();
             String proxyUsername = editTextProxyUsername.getText().toString().trim();
-            String proxyPassword = editTextProxyPassword.getText().toString().trim();
+            String proxyPassword = editTextProxyPassword.getText().trim();
             if (proxyAuthenticator && TextUtils.isEmpty(proxyUsername) && TextUtils.isEmpty(proxyPassword)) {
                 Toast.makeText(SenderActivity.this, R.string.invalid_username_or_password, Toast.LENGTH_LONG).show();
                 return;
@@ -1555,7 +1559,7 @@ public class SenderActivity extends AppCompatActivity {
             }
 
             String webHook = editTextFeishuWebhook.getText().toString().trim();
-            String secret = editTextFeishuSecret.getText().toString().trim();
+            String secret = editTextFeishuSecret.getText().trim();
             if (!CommonUtil.checkUrl(webHook, false)) {
                 Toast.makeText(SenderActivity.this, R.string.invalid_webhook, Toast.LENGTH_LONG).show();
                 return;
@@ -1594,7 +1598,7 @@ public class SenderActivity extends AppCompatActivity {
 
         buttonFeishuTest.setOnClickListener(view -> {
             String webHook = editTextFeishuWebhook.getText().toString().trim();
-            String secret = editTextFeishuSecret.getText().toString().trim();
+            String secret = editTextFeishuSecret.getText().trim();
             if (!CommonUtil.checkUrl(webHook, false)) {
                 Toast.makeText(SenderActivity.this, R.string.invalid_webhook, Toast.LENGTH_LONG).show();
                 return;
@@ -1666,7 +1670,7 @@ public class SenderActivity extends AppCompatActivity {
             }
 
             PushPlusSettingVo pushPlusSettingVoNew = new PushPlusSettingVo(
-                    editTextPushPlusToken.getText().toString().trim(),
+                    editTextPushPlusToken.getText().trim(),
                     editTextPushPlusTopic.getText().toString().trim(),
                     editTextPushPlusTemplate.getText().toString().trim(),
                     editTextPushPlusChannel.getText().toString().trim(),
@@ -1712,7 +1716,7 @@ public class SenderActivity extends AppCompatActivity {
 
         buttonPushPlusTest.setOnClickListener(view -> {
             PushPlusSettingVo pushPlusSettingVoNew = new PushPlusSettingVo(
-                    editTextPushPlusToken.getText().toString().trim(),
+                    editTextPushPlusToken.getText().trim(),
                     editTextPushPlusTopic.getText().toString().trim(),
                     editTextPushPlusTemplate.getText().toString().trim(),
                     editTextPushPlusChannel.getText().toString().trim(),
@@ -1784,7 +1788,7 @@ public class SenderActivity extends AppCompatActivity {
                 return;
             }
 
-            String webServer = editTextGotifyWebServer.getText().toString().trim();
+            String webServer = editTextGotifyWebServer.getText().trim();
             if (!CommonUtil.checkUrl(webServer, false)) {
                 Toast.makeText(SenderActivity.this, R.string.invalid_webserver, Toast.LENGTH_LONG).show();
                 return;
@@ -1828,7 +1832,7 @@ public class SenderActivity extends AppCompatActivity {
         });
 
         buttonGotifyTest.setOnClickListener(view -> {
-            String webServer = editTextGotifyWebServer.getText().toString().trim();
+            String webServer = editTextGotifyWebServer.getText().trim();
             if (!CommonUtil.checkUrl(webServer, false)) {
                 Toast.makeText(SenderActivity.this, R.string.invalid_webserver, Toast.LENGTH_LONG).show();
                 return;

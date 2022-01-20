@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -15,11 +14,11 @@
         android:layout_marginBottom="90dp"
         android:background="@color/colorPrimary"
         android:contentDescription="@string/clean_log"
-        android:onClick="cleanLog"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_delete"
-        app:elevation="8dp"
-        tools:ignore="UsingOnClickInXml" />
+        app:borderWidth="0dp"
+        app:elevation="5dp"
+        app:fabSize="mini" />
 
     <LinearLayout
         android:id="@+id/radioGroup"
@@ -68,7 +67,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="25dp" />
+        android:layout_marginBottom="85dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -81,254 +80,16 @@
             android:id="@+id/help_tip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#10000000"
             android:gravity="center"
+            android:padding="2dp"
             android:text="@string/log_tips"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp" />
 
-        <View
-            android:id="@+id/radioGroupLine"
+        <com.idormy.sms.forwarder.view.StepBar
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:background="#aadcdcdc" />
-
-        <!--<com.shuhart.stepview.StepView
-            android:id="@+id/step_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            app:sv_selectedCircleColor="@color/colorPrimary"
-            app:sv_selectedTextColor="@color/colorPrimary"
-            app:sv_stepLineWidth="2dp"
-            app:sv_stepPadding="2dp"
-            app:sv_nextTextColor="@color/gray"
-            app:sv_nextStepLineColor="@color/gray"
-            app:sv_nextStepCircleEnabled="true"
-            app:sv_nextStepCircleColor="@color/gray"
-            app:sv_doneCircleColor="@color/colorPrimary"
-            app:sv_doneStepLineColor="@color/colorPrimary"
-            app:sv_doneCircleRadius="15dp"
-            app:sv_selectedCircleRadius="15dp"
-            app:sv_selectedStepNumberColor="@color/white"
-            app:sv_stepViewStyle="@style/StepView"
-            app:sv_doneStepMarkColor="@color/colorPrimaryDark"
-            app:sv_stepNumberTextSize="15sp"
-            app:sv_animationType="Line" />-->
-
-        <!--<LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimary"
-                android:onClick="cleanLog"
-                android:text="@string/bt_refresh_log"
-                tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimary"
-                android:onClick="toRuleSetting"
-                android:text="@string/rule_setting"
-                tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimary"
-                android:onClick="toSendSetting"
-                android:text="@string/sender_setting"
-                tools:ignore="ButtonStyle,UsingOnClickInXml" />
-        </LinearLayout>-->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:gravity="center_vertical">
-
-            <View
-                android:layout_width="15dp"
-                android:layout_height="match_parent" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/step_circle_current"
-                android:gravity="center"
-                android:text="@string/_1"
-                android:textColor="#fff"
-                android:textSize="18sp" />
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="4dp"
-                android:layout_gravity="center"
-                android:src="@drawable/step_rectangle_current"
-                tools:ignore="ContentDescription" />
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="4dp"
-                android:layout_weight="1"
-                android:src="@drawable/step_rectangle_current"
-                tools:ignore="ContentDescription" />
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="4dp"
-                android:layout_gravity="center"
-                android:src="@drawable/step_rectangle_current"
-                tools:ignore="ContentDescription" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/step_circle_current"
-                android:gravity="center"
-                android:text="@string/_2"
-                android:textColor="#fff"
-                android:textSize="18sp" />
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="4dp"
-                android:layout_gravity="center"
-                android:src="@drawable/step_rectangle_normal"
-                tools:ignore="ContentDescription" />
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="4dp"
-                android:layout_weight="1"
-                android:src="@drawable/step_rectangle_normal"
-                tools:ignore="ContentDescription" />
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="4dp"
-                android:layout_gravity="center"
-                android:src="@drawable/step_rectangle_normal"
-                tools:ignore="ContentDescription" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/step_circle_normal"
-                android:gravity="center"
-                android:text="@string/_3"
-                android:textColor="#fff"
-                android:textSize="18sp" />
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="4dp"
-                android:layout_gravity="center"
-                android:src="@drawable/step_rectangle_normal"
-                tools:ignore="ContentDescription" />
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="4dp"
-                android:layout_weight="1"
-                android:src="@drawable/step_rectangle_normal"
-                tools:ignore="ContentDescription" />
-
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="4dp"
-                android:layout_gravity="center"
-                android:src="@drawable/step_rectangle_normal"
-                tools:ignore="ContentDescription" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/step_circle_normal"
-                android:gravity="center"
-                android:text="@string/_4"
-                android:textColor="#fff"
-                android:textSize="18sp" />
-
-            <View
-                android:layout_width="15dp"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp">
-
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/step_1"
-                android:textSize="12sp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/step_2"
-                android:textSize="12sp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/step_3"
-                android:textSize="12sp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/step_4"
-                android:textSize="12sp" />
-        </LinearLayout>
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </RelativeLayout>

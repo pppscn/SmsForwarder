@@ -74,10 +74,6 @@ public class RuleActivity extends AppCompatActivity {
         super.onStart();
         Log.d(TAG, "onStart");
 
-        //是否关闭页面提示
-        TextView help_tip = findViewById(R.id.help_tip);
-        help_tip.setVisibility(MyApplication.showHelpTip ? View.VISIBLE : View.GONE);
-
         // 先拿到数据并放在适配器上
         initRules(); //初始化数据
         adapter = new RuleAdapter(RuleActivity.this, R.layout.item_rule, ruleModels);
@@ -100,7 +96,6 @@ public class RuleActivity extends AppCompatActivity {
             builder.setTitle(R.string.delete_rule_title);
             builder.setMessage(R.string.delete_rule_tips);
 
-            //添加AlertDialog.Builder对象的setPositiveButton()方法
             builder.setPositiveButton(R.string.confirm, (dialog, which) -> {
                 RuleUtil.delRule(ruleModels.get(position).getId());
                 initRules();
@@ -108,18 +103,11 @@ public class RuleActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), R.string.delete_rule_toast, Toast.LENGTH_SHORT).show();
             });
 
-            //添加AlertDialog.Builder对象的setNegativeButton()方法
             builder.setNeutralButton(R.string.clone, (dialog, which) -> {
                 RuleModel ruleModel = ruleModels.get(position);
-                //TODO:直接复制
-                //RuleUtil.addRule(ruleModel);
-                //initRules();
-                //adapter.add(ruleModels);
-                //TODO:只复制到编辑对话框
                 setRule(ruleModel, true);
             });
 
-            //添加AlertDialog.Builder对象的setNegativeButton()方法
             builder.setNegativeButton(R.string.cancel, (dialog, which) -> {
 
             });
@@ -131,9 +119,6 @@ public class RuleActivity extends AppCompatActivity {
         //切换日志类别
         int typeCheckId = getTypeCheckId(currentType);
         final RadioGroup radioGroupTypeCheck = findViewById(R.id.radioGroupTypeCheck);
-        final FloatingActionButton addSmsRule = findViewById(R.id.addSmsRule);
-        final FloatingActionButton addCallRule = findViewById(R.id.addCallRule);
-        final FloatingActionButton addAppRule = findViewById(R.id.addAppRule);
         radioGroupTypeCheck.check(typeCheckId);
         radioGroupTypeCheck.setOnCheckedChangeListener((group, checkedId) -> {
             RadioButton rb = findViewById(checkedId);
@@ -141,15 +126,19 @@ public class RuleActivity extends AppCompatActivity {
             initRules(); //初始化数据
             adapter = new RuleAdapter(RuleActivity.this, R.layout.item_rule, ruleModels);
             listView.setAdapter(adapter);
-
-            addSmsRule.setVisibility("sms".equals(currentType) ? View.VISIBLE : View.GONE);
-            addCallRule.setVisibility("call".equals(currentType) ? View.VISIBLE : View.GONE);
-            addAppRule.setVisibility("app".equals(currentType) ? View.VISIBLE : View.GONE);
         });
+
+
+        //是否关闭页面提示
+        TextView help_tip = findViewById(R.id.help_tip);
+        FloatingActionButton btnFloat = findViewById(R.id.btnFloat);
+        CommonUtil.calcMarginBottom(this, help_tip, btnFloat, listView, null);
+        //添加规则
+        btnFloat.setOnClickListener(v -> setRule(null, false));
     }
 
-    private int getTypeCheckId(String currentType) {
-        switch (currentType) {
+    private int getTypeCheckId(String curType) {
+        switch (curType) {
             case "call":
                 return R.id.btnTypeCall;
             case "app":
@@ -159,8 +148,8 @@ public class RuleActivity extends AppCompatActivity {
         }
     }
 
-    private int getDialogView(String currentType) {
-        switch (currentType) {
+    private int getDialogView(String curType) {
+        switch (curType) {
             case "call":
                 return R.layout.alert_dialog_setview_rule_call;
             case "app":
@@ -170,8 +159,8 @@ public class RuleActivity extends AppCompatActivity {
         }
     }
 
-    private int getDialogTitle(String currentType) {
-        switch (currentType) {
+    private int getDialogTitle(String curType) {
+        switch (curType) {
             case "call":
                 return R.string.setrule_call;
             case "app":
@@ -184,15 +173,6 @@ public class RuleActivity extends AppCompatActivity {
     // 初始化数据
     private void initRules() {
         ruleModels = RuleUtil.getRule(null, null, currentType);
-    }
-
-    public void addRule(View view) {
-        currentType = (String) view.getTag();
-        int typeCheckId = getTypeCheckId(currentType);
-        final RadioGroup radioGroupTypeCheck = findViewById(R.id.radioGroupTypeCheck);
-        radioGroupTypeCheck.check(typeCheckId);
-
-        setRule(null, false);
     }
 
     private void setRule(final RuleModel ruleModel, final boolean isClone) {

@@ -1,33 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:tools="http://schemas.android.com/tools"
-    android:background="#fff"
-    android:layout_marginStart="20dp"
-    android:layout_marginEnd="20dp"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    android:background="#fff"
+    android:orientation="vertical"
     tools:ignore="Overdraw">
 
     <TextView
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:text="@string/privacy_policy"
         android:textColor="#000"
         android:textSize="17sp" />
 
     <TextView
-        android:id="@+id/textlike"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginBottom="10dp"
         android:layout_width="wrap_content"
-        android:textColor="#000"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
         android:text="@string/privacy_policy_text"
+        android:textColor="#000"
         android:textSize="17sp" />
 
     <LinearLayout
@@ -42,17 +41,17 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="50dp">
+            android:layout_height="50dp"
+            android:orientation="horizontal">
 
             <TextView
-                android:textColor="#000"
                 android:id="@+id/succsebtn"
-                android:gravity="center"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:text="@string/agree"
+                android:textColor="#000"
                 android:textSize="20sp" />
 
             <View
@@ -61,14 +60,14 @@
                 android:background="#5F6063" />
 
             <TextView
-                android:textColor="#000"
                 android:id="@+id/caclebtn"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="@string/disagree" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/disagree"
+                android:textColor="#000"
+                android:textSize="20sp" />
 
         </LinearLayout>
     </LinearLayout>

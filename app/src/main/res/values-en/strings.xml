@@ -16,6 +16,7 @@
     <string name="rule_setting">Rule Setting</string>
     <string name="sender_setting">Sender Setting</string>
     <string name="app_list">App List</string>
+    <string name="setting_tips">Tips: For the first time, click the following steps to set it up.</string>
     <string name="log_tips">Tips: Pull to refresh; Long press to delete one log entry.</string>
     <string name="rule_tips">Tips: Tap "NEW SMS/Call Fw. RULE" to add a new rule; Long press a rule to delete; Tap an existing rule to edit.</string>
     <string name="sender_tips">Tips: Tap "NEW SENDER" to add a new sender; Long press a sender to delete; Tap an existing sender to edit.</string>
@@ -39,7 +40,6 @@
     <string name="cache_purged">Cache purged</string>
     <string name="unknown_qq_version">No mobile QQ is installed or not supported by recent version!</string>
     <!--MainActivity-->
-    <string name="bt_refresh_log">Clear Logs</string>
     <string name="delete_log_title">Delete confirmation</string>
     <string name="delete_log_tips">Are you sure to delete this log entry?</string>
     <string name="delete_log_toast">The log entry is deleted.</string>
@@ -60,9 +60,6 @@
     <string name="add_sender_first">Please add a sender first.</string>
     <string name="select_sender">Select Sender</string>
     <string name="rule_tester">Rule tester:</string>
-    <string name="new_sms_rule">New SMS Fw. Rule</string>
-    <string name="new_call_rule">New Call Fw. Rule</string>
-    <string name="new_app_rule">New App Fw. Rule</string>
     <string name="test_sim_slot">Test SIM Slot</string>
     <string name="test_phone_number">Test Phone Number</string>
     <string name="test_msg_content">Test Msg Content</string>
@@ -185,7 +182,6 @@
     <string name="forward_app_notify">Forward app Ntf.</string>
     <string name="forward_app_notify_tips">Main switch, requires permission to read notification.</string>
     <string name="cancel_app_notify">Auto close Ntf.</string>
-    <string name="cancel_app_notify_tips">Automatically close a single notification after forwarding, to avoid stacking of multiple notifications.</string>
     <string name="enable_custom_templates">Global custom template</string>
     <string name="enable_custom_templates_tips">Priority: custom template for forwarding rules > Global custom template > System default</string>
     <string name="enable_regex_replace">Enable regular replacement content</string>
@@ -205,11 +201,12 @@
     <string name="init_setting">Restore initial Setting</string>
     <string name="init_setting_tips">Are you sure you want to restore the initial configuration? \n\n[Warning] This operation will reset settings, and delete senders, rules, and logs!</string>
     <string name="battery_setting">Battery Optimization</string>
-    <string name="request_permission">Request Ntf. Permission</string>
+    <string name="battery_setting_tips">Set it to manual management, including automatic startup, associated startup, and background running</string>
     <string name="unknown_number">Unknown Number</string>
     <string name="calling">Incoming telegram</string>
     <string name="unsupport">Your phone does not support this setting</string>
     <string name="isIgnored">Set successfully!</string>
+    <string name="isIgnored2">Can not directly operate the system power saving optimization Settings</string>
     <!--Other-->
     <string name="version_now">v1.0</string>
     <string name="linkweb">https://github.com/pppscn/SmsForwarder</string>
@@ -235,7 +232,7 @@
     <string name="server_has_started">The server is started successfully</string>
     <string name="server_has_stopped">The server has been stopped</string>
     <string name="sender_cannot_receive">This mobile phone is the SOURCE and cannot receive files.</string>
-    <string name="no_wifi_network">One-tap cloning function does NOT work without Wi-Fi connection.</string>
+    <string name="no_wifi_network">Http Server does NOT work without Wi-Fi connection.</string>
     <string name="invalid_server_ip">Please enter a valid server IP address</string>
     <string name="download_success">Download Success</string>
     <string name="on_wireless_network">A Wireless network connected.</string>
@@ -292,7 +289,6 @@
     <string name="title_template">Title Template</string>
     <string name="priority">Priority（1 – 9）</string>
     <string name="_5">5</string>
-    <string name="enter_webserver_tips">Please enter the WebServer</string>
     <string name="switch_rule_status">Enable this rule</string>
     <string name="dingding">Dingtalk Bot</string>
     <string name="email">Email</string>
@@ -306,7 +302,7 @@
     <string name="feishu">FeiShu Bot</string>
     <string name="pushplus">PushPlus</string>
     <string name="gotify">Gotify</string>
-    <string name="add">Add</string>
+    <string name="_1">1</string>
     <string name="_2">2</string>
     <string name="_3">3</string>
     <string name="_4">4</string>
@@ -315,4 +311,5 @@
     <string name="step_3">Rules</string>
     <string name="step_4">Logs</string>
     <string name="clean_log">Clean Log</string>
+    <string name="todo">TODO</string>
 </resources>

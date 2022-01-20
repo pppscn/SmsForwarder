@@ -15,16 +15,16 @@
         android:textColor="#ffffff"
         android:textSize="18sp" />
 
-    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    <GridView
         android:id="@+id/MemuGridView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_marginTop="20dp"
         android:columnWidth="90dp"
         android:gravity="center"
         android:horizontalSpacing="10dp"
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="10dp"></GridView>
+        android:verticalSpacing="10dp" />
+
 </LinearLayout>

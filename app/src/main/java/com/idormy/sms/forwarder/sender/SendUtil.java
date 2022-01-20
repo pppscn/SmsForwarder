@@ -43,6 +43,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class SendUtil {
     private static final String TAG = "SendUtil";
@@ -93,7 +94,7 @@ public class SendUtil {
      */
     public static void resendMsgByLog(Context context, Handler handler, LogVo logVo) {
         Log.d(TAG, logVo.toString());
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date date = new Date();
         try {
             date = sdf.parse(logVo.getTime());

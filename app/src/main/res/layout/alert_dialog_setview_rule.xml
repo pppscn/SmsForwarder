@@ -185,8 +185,8 @@
                 android:layout_marginStart="5dp"
                 android:autofillHints=""
                 android:ems="14"
-                android:inputType="textMultiLine"
                 android:gravity="start|top"
+                android:inputType="textMultiLine"
                 android:minLines="1"
                 android:text=""
                 tools:ignore="LabelFor" />
@@ -239,8 +239,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:background="@android:color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -268,8 +268,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:background="@android:color/white"
             android:gravity="center_vertical"
             android:orientation="vertical"
@@ -286,8 +286,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
-                android:inputType="textMultiLine"
                 android:gravity="start|top"
+                android:inputType="textMultiLine"
                 android:minLines="1"
                 android:text=""
                 tools:ignore="LabelFor" />
@@ -341,8 +341,8 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:text="@string/insert_sender_app"
-                    tools:ignore="ButtonStyle,NestedWeights"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    tools:ignore="ButtonStyle,NestedWeights" />
 
                 <Button
                     android:id="@+id/bt_insert_content_app"
@@ -354,8 +354,8 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:text="@string/insert_content_app"
-                    tools:ignore="ButtonStyle,NestedWeights"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    tools:ignore="ButtonStyle,NestedWeights" />
 
                 <Button
                     android:id="@+id/bt_insert_time"
@@ -389,8 +389,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:background="@android:color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -418,8 +418,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:background="@android:color/white"
             android:gravity="center_vertical"
             android:orientation="vertical"
@@ -436,8 +436,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
-                android:inputType="textMultiLine"
                 android:gravity="start|top"
+                android:inputType="textMultiLine"
                 android:minLines="1"
                 android:text=""
                 tools:ignore="LabelFor" />
@@ -448,8 +448,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:background="@android:color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal">

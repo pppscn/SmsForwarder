@@ -13,7 +13,12 @@ import com.idormy.sms.forwarder.model.PhoneBookEntity;
 import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
-import com.idormy.sms.forwarder.utils.*;
+import com.idormy.sms.forwarder.utils.CommonUtil;
+import com.idormy.sms.forwarder.utils.ContactHelper;
+import com.idormy.sms.forwarder.utils.PhoneUtils;
+import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.SimUtil;
+import com.idormy.sms.forwarder.utils.SmsHubActionHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -72,8 +77,10 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         CallInfo callInfo = PhoneUtils.getLastCallInfo(phoneNumber);
         if (callInfo == null) return;
 
-        if (callInfo.getType() != 3) {
-            Log.d(TAG, "非未接来电不处理！");
+        if ((callInfo.getType() == 1 && !SettingUtil.getSwitchCallType1())
+                || (callInfo.getType() == 2 && !SettingUtil.getSwitchCallType2())
+                || (callInfo.getType() == 3 && !SettingUtil.getSwitchCallType3())) {
+            Log.d(TAG, "未启用该类型的通话记录转发，不做处理！");
             return;
         }
 

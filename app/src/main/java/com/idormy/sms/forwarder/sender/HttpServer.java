@@ -50,8 +50,10 @@ public class HttpServer {
     }
 
     public synchronized static boolean update() {
-        if (!asRunning() && NetUtil.NETWORK_WIFI != NetUtil.getNetWorkStatus()) {
+        //非WiFi网络下不可启用
+        if (NetUtil.NETWORK_WIFI != NetUtil.getNetWorkStatus()) {
             Toast.makeText(context, R.string.no_wifi_network, Toast.LENGTH_SHORT).show();
+            if (asRunning()) stop();
             return false;
         }
         long l = System.currentTimeMillis();
@@ -67,12 +69,11 @@ public class HttpServer {
             start();
             ts = System.currentTimeMillis();
             Toast.makeText(context, R.string.server_has_started, Toast.LENGTH_SHORT).show();
-            return true;
         } else {
             stop();
             Toast.makeText(context, R.string.server_has_stopped, Toast.LENGTH_SHORT).show();
-            return true;
         }
+        return true;
     }
 
     /**

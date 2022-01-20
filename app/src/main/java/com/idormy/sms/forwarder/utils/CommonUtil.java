@@ -9,11 +9,18 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.service.NotifyService;
 
 import java.security.MessageDigest;
@@ -136,10 +143,7 @@ public class CommonUtil {
         return null;
     }
 
-    /**
-     * @date 2020/12/28 9:52
-     * @description 屏幕像素转换
-     */
+    //屏幕像素转换
     public static int dp2px(Context context, float dipValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
@@ -152,8 +156,7 @@ public class CommonUtil {
         String regex = "(ht|f)tp(s?)\\:\\/\\/[0-9a-zA-Z]([-.\\w]*[0-9a-zA-Z])*(:(0-9)*)*(\\/?)([a-zA-Z0-9\\-\\.\\?\\,\\'\\/\\\\&%\\+\\$#_=]*)?";
         Pattern pat = Pattern.compile(regex);
         Matcher mat = pat.matcher(urls.trim());
-        boolean result = mat.matches();
-        return result;
+        return mat.matches();
     }
 
     //焦点位置插入文本
@@ -161,5 +164,32 @@ public class CommonUtil {
         int start = Math.max(editText.getSelectionStart(), 0);
         int end = Math.max(editText.getSelectionEnd(), 0);
         editText.getText().replace(Math.min(start, end), Math.max(start, end), str, 0, str.length());
+    }
+
+    //计算浮动按钮位置
+    public static void calcMarginBottom(Context context, TextView help_tip, FloatingActionButton btnFloat, ListView viewList, ScrollView scrollView) {
+
+        if (help_tip != null) {
+            help_tip.setVisibility(MyApplication.showHelpTip ? View.VISIBLE : View.GONE);
+        }
+
+        int marginBottom = MyApplication.showHelpTip ? 85 : 65;
+        if (btnFloat != null) {
+            RelativeLayout.LayoutParams btnLayoutParams = (RelativeLayout.LayoutParams) btnFloat.getLayoutParams();
+            btnLayoutParams.bottomMargin = dp2px(context, marginBottom + 10);
+            btnFloat.setLayoutParams(btnLayoutParams);
+        }
+
+        if (viewList != null) {
+            RelativeLayout.LayoutParams listLayoutParams = (RelativeLayout.LayoutParams) viewList.getLayoutParams();
+            listLayoutParams.bottomMargin = dp2px(context, marginBottom);
+            viewList.setLayoutParams(listLayoutParams);
+        }
+
+        if (scrollView != null) {
+            RelativeLayout.LayoutParams listLayoutParams = (RelativeLayout.LayoutParams) scrollView.getLayoutParams();
+            listLayoutParams.bottomMargin = dp2px(context, marginBottom);
+            scrollView.setLayoutParams(listLayoutParams);
+        }
     }
 }

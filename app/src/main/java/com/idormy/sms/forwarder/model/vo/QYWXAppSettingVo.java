@@ -37,9 +37,7 @@ public class QYWXAppSettingVo implements Serializable {
     public boolean checkParms() {
         if (TextUtils.isEmpty(corpID)) return false;
         if (TextUtils.isEmpty(agentID)) return false;
-        if (TextUtils.isEmpty(secret)) return false;
-
-        return true;
+        return !TextUtils.isEmpty(secret);
     }
 
 }

@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,20 +73,12 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //检查权限是否获取
-        PackageManager pm = getPackageManager();
-        CommonUtil.CheckPermission(pm, this);
-
         //获取SIM信息
         PhoneUtils.init(this);
 
         //短信&网络组件初始化
         SmsUtil.init(this);
         NetUtil.init(this);
-
-        HttpUtil.init(this);
-        SmsHubApiTask.init(this);
-        HttpServer.init(this);
 
         //前台服务
         try {
@@ -106,26 +97,29 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         } catch (Exception e) {
             Log.e(TAG, "BatteryService:", e);
         }
-        try {
-            SmsHubApiTask.updateTimer();
-            HttpServer.update();
-        } catch (Exception e) {
-            Log.e(TAG, "SmsHubApiTask:", e);
+
+
+        HttpUtil.init(this);
+        //启用HttpServer
+        if (SettingUtil.getSwitchEnableHttpServer()) {
+            HttpServer.init(this);
+            try {
+                HttpServer.update();
+            } catch (Exception e) {
+                Log.e(TAG, "启用HttpServer:", e);
+            }
         }
 
-        /*final StepView stepView = findViewById(R.id.step_view);
-        stepView.setOnStepClickListener(new StepView.OnStepClickListener() {
-            @Override
-            public void onStepClick(int step) {
-                Toast.makeText(MainActivity.this, "Step " + step, Toast.LENGTH_SHORT).show();
+        //启用SmsHubApiTask
+        if (SettingUtil.getSwitchEnableSmsHubApi()) {
+            SmsHubApiTask.init(this);
+            try {
+                SmsHubApiTask.updateTimer();
+            } catch (Exception e) {
+                Log.e(TAG, "SmsHubApiTask:", e);
             }
-        });
-        List<String> steps = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            steps.add("Step " + (i + 1));
         }
-        //steps.set(steps.size() - 1, steps.get(steps.size() - 1) + " last one");
-        stepView.setSteps(steps);*/
+
     }
 
     @Override
@@ -141,19 +135,28 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
             return;
         }
 
-        //是否关闭页面提示
+        //检查权限是否获取
+        PackageManager pm = getPackageManager();
+        CommonUtil.CheckPermission(pm, this);
+
+        //是否关闭页面提示 & 计算浮动按钮位置
         TextView help_tip = findViewById(R.id.help_tip);
-        FloatingActionButton btnCleanLog = findViewById(R.id.btnCleanLog);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) btnCleanLog.getLayoutParams();
-        if (MyApplication.showHelpTip) {
-            layoutParams.bottomMargin = CommonUtil.dp2px(this, 120);//距离底部120dp
-            btnCleanLog.setLayoutParams(layoutParams);
-            help_tip.setVisibility(View.VISIBLE);
-        } else {
-            layoutParams.bottomMargin = CommonUtil.dp2px(this, 80);
-            btnCleanLog.setLayoutParams(layoutParams);
-            help_tip.setVisibility(View.GONE);
-        }
+        FloatingActionButton btnFloat = findViewById(R.id.btnCleanLog);
+        RefreshListView viewList = findViewById(R.id.list_view_log);
+        CommonUtil.calcMarginBottom(this, help_tip, btnFloat, viewList, null);
+
+        //清空日志
+        btnFloat.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle(R.string.clear_logs_tips)
+                    .setPositiveButton(R.string.confirm, (dialog, which) -> {
+                        // TODO Auto-generated method stub
+                        LogUtil.delLog(null, null);
+                        initTLogs();
+                        adapter.add(logVos);
+                    });
+            builder.show();
+        });
 
         // 先拿到数据并放在适配器上
         initTLogs(); //初始化数据
@@ -362,54 +365,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         builder.show();
     }
 
-    public void toAppList() {
-        Intent intent = new Intent(this, AppListActivity.class);
-        startActivity(intent);
-    }
-
-    public void toClone() {
-        Intent intent = new Intent(this, CloneActivity.class);
-        startActivity(intent);
-    }
-
-    public void toSetting() {
-        Intent intent = new Intent(this, SettingActivity.class);
-        startActivity(intent);
-    }
-
-    public void toAbout() {
-        Intent intent = new Intent(this, AboutActivity.class);
-        startActivity(intent);
-    }
-
-    public void toHelp() {
-        Uri uri = Uri.parse("https://gitee.com/pp/SmsForwarder/wikis/pages");
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        startActivity(intent);
-    }
-
-    public void toRuleSetting(View view) {
-        Intent intent = new Intent(this, RuleActivity.class);
-        startActivity(intent);
-    }
-
-    public void toSendSetting(View view) {
-        Intent intent = new Intent(this, SenderActivity.class);
-        startActivity(intent);
-    }
-
-    public void cleanLog(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle(R.string.clear_logs_tips)
-                .setPositiveButton(R.string.confirm, (dialog, which) -> {
-                    // TODO Auto-generated method stub
-                    LogUtil.delLog(null, null);
-                    initTLogs();
-                    adapter.add(logVos);
-                });
-        builder.show();
-    }
-
     //按返回键不退出回到桌面
     @Override
     public void onBackPressed() {
@@ -427,29 +382,34 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     }
 
     //menu点击事件
+    @SuppressWarnings("CommentedOutCode")
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
+        Intent intent;
         switch (item.getItemId()) {
+            //case R.id.to_setting:
+            //    intent = new Intent(this, SettingActivity.class);
+            //    break;
             case R.id.to_app_list:
-                toAppList();
-                return true;
+                intent = new Intent(this, AppListActivity.class);
+                break;
             case R.id.to_clone:
-                toClone();
-                return true;
-            case R.id.to_setting:
-                toSetting();
-                return true;
+                intent = new Intent(this, CloneActivity.class);
+                break;
             case R.id.to_about:
-                toAbout();
-                return true;
+                intent = new Intent(this, AboutActivity.class);
+                break;
             case R.id.to_help:
-                toHelp();
-                return true;
+                Uri uri = Uri.parse("https://gitee.com/pp/SmsForwarder/wikis/pages");
+                intent = new Intent(Intent.ACTION_VIEW, uri);
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
+
+        startActivity(intent);
+        return true;
     }
 
     //设置menu图标显示
@@ -476,8 +436,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     public void dialog() {
         dialog = new Dialog(this, R.style.dialog);
         inflate = LayoutInflater.from(MainActivity.this).inflate(R.layout.diaolog_privacy_policy, null);
-        TextView succsebtn = (TextView) inflate.findViewById(R.id.succsebtn);
-        TextView canclebtn = (TextView) inflate.findViewById(R.id.caclebtn);
+        TextView succsebtn = inflate.findViewById(R.id.succsebtn);
+        TextView canclebtn = inflate.findViewById(R.id.caclebtn);
 
         succsebtn.setOnClickListener(v -> {
             /* uminit为1时代表已经同意隐私协议，sp记录当前状态*/
@@ -496,7 +456,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
 
             //杀掉以前进程
             android.os.Process.killProcess(android.os.Process.myPid());
-
             finish();
         });
 
@@ -506,7 +465,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
             UMConfigure.submitPolicyGrantResult(getApplicationContext(), false);
             //不同意隐私协议，退出app
             android.os.Process.killProcess(android.os.Process.myPid());
-
         });
 
         dialog.setContentView(inflate);

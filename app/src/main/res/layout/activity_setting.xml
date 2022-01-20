@@ -1,857 +1,1099 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:ignore="TooManyViews">
 
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="85dp"
+        android:background="@color/colorBackground">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="转发功能"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="总开关，请根据实际需要，启用对应的转发功能"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/forward_sms"
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/forward_sms_tips"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/switch_enable_sms"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textSize="16sp"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/forward_missed_calls"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/forward_missed_calls_tips"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="必选类型:"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            tools:ignore="SmallSp" />
+
+                        <CheckBox
+                            android:id="@+id/cbCallType3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="-5dp"
+                            android:scaleX="0.7"
+                            android:scaleY="0.7"
+                            android:text="未接来电" />
+
+                        <CheckBox
+                            android:id="@+id/cbCallType1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="-15dp"
+                            android:scaleX="0.7"
+                            android:scaleY="0.7"
+                            android:text="已接来电" />
+
+                        <CheckBox
+                            android:id="@+id/cbCallType2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="-15dp"
+                            android:scaleX="0.7"
+                            android:scaleY="0.7"
+                            android:text="本机去电" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/switch_enable_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textSize="16sp"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/forward_app_notify"
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/forward_app_notify_tips"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_cancel_app_notify"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="可选操作:"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            tools:ignore="SmallSp" />
+
+                        <CheckBox
+                            android:id="@+id/checkbox_cancel_app_notify"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="-5dp"
+                            android:scaleX="0.7"
+                            android:scaleY="0.7"
+                            android:text="@string/cancel_app_notify" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/switch_enable_app_notify"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textSize="16sp"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="主动请求"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="通过 被动接收 或者 主动轮询 获取指令，从而操作本机"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="被动接收本地 HttpServer"
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="WiFi网络下可用，启动后局域网内其他机器可直接调用本机接口"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/switch_enable_http_server"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textSize="16sp"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/send_sms_config_title"
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/send_sms_config_title2"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+
+                    <com.idormy.sms.forwarder.view.ClearEditText
+                        android:id="@+id/editText_text_sms_hub_url"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:background="@drawable/line_bg_white_only_bottom_d8"
+                        app:showEye="true"
+                        app:textColor="@color/tv_black_333333"
+                        app:textColorHint="@color/tv_gray_999999"
+                        app:textSize="14sp" />
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/switch_enable_sms_hub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textSize="16sp"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="电池监控"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="电池状态变化与电量预警互不干扰"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/monitor_battery_status_changes"
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/battery_status_changes_tips"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/switch_battery_receiver"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textSize="16sp"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/low_power_alarm_threshold"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/low_power_alarm_threshold_tips"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/below"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_battery_level_alarm_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=""
+                    android:ems="2"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textAlignment="center"
+                    tools:ignore="LabelFor" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/percent"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/above"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_battery_level_alarm_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=""
+                    android:ems="2"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:text="@string/zero"
+                    android:textAlignment="center"
+                    tools:ignore="LabelFor" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/percent"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="保活措施"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="建议开启每一项授权或设置，不要禁用通知栏，避免APP服务被杀"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:text="@string/auto_startup"
+                    android:textStyle="bold" />
+
+                <Switch
+                    android:id="@+id/switch_with_reboot"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textSize="16sp"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/battery_setting"
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/battery_setting_tips"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/switch_battery_setting"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textSize="16sp"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/enable_exclude_from_recents"
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/enable_exclude_from_recents_tips"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/switch_exclude_from_recents"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textSize="16sp"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/retry_interval"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/retry_interval_tips"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_retry_delay_time1"
+                        android:layout_width="30dp"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="3dp"
+                        android:autofillHints=""
+                        android:digits="0123456789"
+                        android:inputType="number"
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textSize="12sp"
+                        tools:ignore="LabelFor" />
+
+                    <EditText
+                        android:id="@+id/et_retry_delay_time2"
+                        android:layout_width="30dp"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="3dp"
+                        android:autofillHints=""
+                        android:digits="0123456789"
+                        android:inputType="number"
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textSize="12sp"
+                        tools:ignore="LabelFor" />
+
+                    <EditText
+                        android:id="@+id/et_retry_delay_time3"
+                        android:layout_width="30dp"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="3dp"
+                        android:autofillHints=""
+                        android:digits="0123456789"
+                        android:inputType="number"
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textSize="12sp"
+                        tools:ignore="LabelFor" />
+
+                    <EditText
+                        android:id="@+id/et_retry_delay_time4"
+                        android:layout_width="30dp"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="3dp"
+                        android:autofillHints=""
+                        android:digits="0123456789"
+                        android:inputType="number"
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textSize="12sp"
+                        tools:ignore="LabelFor" />
+
+                    <EditText
+                        android:id="@+id/et_retry_delay_time5"
+                        android:layout_width="30dp"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="3dp"
+                        android:autofillHints=""
+                        android:digits="0123456789"
+                        android:inputType="number"
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textSize="12sp"
+                        tools:ignore="LabelFor" />
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/switch_retry_delay"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textSize="16sp"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="个性设置"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="如果自动获取失败，请手动填写备注信息；清空后将再次自动获取！"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/device_name"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_add_extra_device_mark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:autofillHints=""
+                    android:ems="16"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:text=""
+                    tools:ignore="LabelFor" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sim1_remark"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/carrier_mobile"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/et_add_extra_sim1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:autofillHints=""
+                    android:ems="16"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:text=""
+                    tools:ignore="LabelFor" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sim2_remark"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/carrier_mobile"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/et_add_extra_sim2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:autofillHints=""
+                    android:ems="16"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:text=""
+                    tools:ignore="LabelFor" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/enable_custom_templates"
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/enable_custom_templates_tips"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/switch_sms_template"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textSize="16sp"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_sms_template"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/custom_templates"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/custom_templates_tips"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/text_sms_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=""
+                    android:gravity="left|top"
+                    android:inputType="textMultiLine"
+                    android:minLines="1"
+                    android:text=""
+                    tools:ignore="LabelFor,RtlHardcoded" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/bt_insert_sender"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorPrimary"
+                        android:onClick="toInsertLabel"
+                        android:text="@string/insert_sender"
+                        tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
+
+                    <Button
+                        android:id="@+id/bt_insert_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorPrimary"
+                        android:onClick="toInsertLabel"
+                        android:text="@string/insert_content"
+                        tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
+
+                    <Button
+                        android:id="@+id/bt_insert_extra"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorPrimary"
+                        android:onClick="toInsertLabel"
+                        android:text="@string/insert_extra"
+                        tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
+
+                    <Button
+                        android:id="@+id/bt_insert_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorPrimary"
+                        android:onClick="toInsertLabel"
+                        android:text="@string/insert_time"
+                        tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
+
+                    <Button
+                        android:id="@+id/bt_insert_device_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorPrimary"
+                        android:onClick="toInsertLabel"
+                        android:text="@string/insert_device_name"
+                        tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:text="@string/show_tips"
+                    android:textStyle="bold" />
+
+                <Switch
+                    android:id="@+id/switch_help_tip"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textSize="16sp"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/help_tip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:orientation="vertical">
+            android:background="#10000000"
+            android:gravity="center"
+            android:padding="2dp"
+            android:text="@string/setting_tips"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:text="功能开关"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
+        <com.idormy.sms.forwarder.view.StepBar
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/forward_sms"
-                    android:textStyle="bold"
-                    tools:ignore="RelativeOverlap" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/forward_sms_tips"
-                    android:textSize="9sp"
-                    tools:ignore="SmallSp" />
-            </LinearLayout>
-
-            <Switch
-                android:id="@+id/switch_enable_sms"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:textSize="18sp"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/forward_missed_calls"
-                    android:textStyle="bold"
-                    tools:ignore="RelativeOverlap" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/forward_missed_calls_tips"
-                    android:textSize="9sp"
-                    tools:ignore="SmallSp" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="未接来电"
-                        android:id="@+id/chb_music"
-                        android:layout_alignParentStart="true" />
-
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="已接来电"
-                        android:id="@+id/chb_game"
-                        android:layout_toRightOf="@id/chb_music" />
-
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="去电"
-                        android:id="@+id/chb_trip"
-                        android:layout_toRightOf="@id/chb_game" />
-
-                </RelativeLayout>
-            </LinearLayout>
-
-            <Switch
-                android:id="@+id/switch_enable_phone"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:textSize="18sp"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/forward_app_notify"
-                    android:textStyle="bold"
-                    tools:ignore="RelativeOverlap" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/forward_app_notify_tips"
-                    android:textSize="9sp"
-                    tools:ignore="SmallSp" />
-            </LinearLayout>
-
-            <Switch
-                android:id="@+id/switch_enable_app_notify"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:textSize="18sp"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_cancel_app_notify"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/cancel_app_notify"
-                    android:textStyle="bold"
-                    tools:ignore="RelativeOverlap" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/cancel_app_notify_tips"
-                    android:textSize="9sp"
-                    tools:ignore="SmallSp" />
-            </LinearLayout>
-
-            <Switch
-                android:id="@+id/switch_cancel_app_notify"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:textSize="18sp"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/send_sms_config_title"
-                    android:textStyle="bold"
-                    tools:ignore="RelativeOverlap" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/send_sms_config_title2"
-                    android:textSize="9sp"
-                    tools:ignore="SmallSp" />
-
-                <EditText
-                    android:id="@+id/editText_text_sms_hub_url"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:autofillHints=""
-                    android:ems="16"
-                    android:inputType="textUri"
-                    android:maxLines="1"
-                    android:text=""
-                    tools:ignore="LabelFor" />
-            </LinearLayout>
-
-            <Switch
-                android:id="@+id/switch_enable_sms_hub"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:textSize="18sp"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/enable_custom_templates"
-                    android:textStyle="bold"
-                    tools:ignore="RelativeOverlap" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/enable_custom_templates_tips"
-                    android:textSize="9sp"
-                    tools:ignore="SmallSp" />
-            </LinearLayout>
-
-            <Switch
-                android:id="@+id/switch_sms_template"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:textSize="18sp"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_sms_template"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:padding="15dp"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/custom_templates"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/custom_templates_tips"
-                    android:textSize="11sp" />
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/text_sms_template"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:inputType="textMultiLine"
-                android:gravity="left|top"
-                android:minLines="1"
-                android:text=""
-                tools:ignore="LabelFor,RtlHardcoded" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/bt_insert_sender"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimary"
-                    android:onClick="toInsertLabel"
-                    android:text="@string/insert_sender"
-                    tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
-
-                <Button
-                    android:id="@+id/bt_insert_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimary"
-                    android:onClick="toInsertLabel"
-                    android:text="@string/insert_content"
-                    tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
-
-                <Button
-                    android:id="@+id/bt_insert_extra"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimary"
-                    android:onClick="toInsertLabel"
-                    android:text="@string/insert_extra"
-                    tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
-
-                <Button
-                    android:id="@+id/bt_insert_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimary"
-                    android:onClick="toInsertLabel"
-                    android:text="@string/insert_time"
-                    tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
-
-                <Button
-                    android:id="@+id/bt_insert_device_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimary"
-                    android:onClick="toInsertLabel"
-                    android:text="@string/insert_device_name"
-                    tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/retry_interval"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/retry_interval_tips"
-                    android:textSize="9sp"
-                    tools:ignore="SmallSp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/et_retry_delay_time1"
-                    android:layout_width="40dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="5dp"
-                    android:autofillHints=""
-                    android:ems="16"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:text=""
-                    android:textAlignment="center"
-                    tools:ignore="LabelFor" />
-
-                <EditText
-                    android:id="@+id/et_retry_delay_time2"
-                    android:layout_width="40dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="5dp"
-                    android:autofillHints=""
-                    android:ems="16"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:text=""
-                    android:textAlignment="center"
-                    tools:ignore="LabelFor" />
-
-                <EditText
-                    android:id="@+id/et_retry_delay_time3"
-                    android:layout_width="40dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="5dp"
-                    android:autofillHints=""
-                    android:ems="16"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:text=""
-                    android:textAlignment="center"
-                    tools:ignore="LabelFor" />
-
-                <EditText
-                    android:id="@+id/et_retry_delay_time4"
-                    android:layout_width="40dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="5dp"
-                    android:autofillHints=""
-                    android:ems="16"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:text=""
-                    android:textAlignment="center"
-                    tools:ignore="LabelFor" />
-
-                <EditText
-                    android:id="@+id/et_retry_delay_time5"
-                    android:layout_width="40dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="5dp"
-                    android:autofillHints=""
-                    android:ems="16"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:text=""
-                    android:textAlignment="center"
-                    tools:ignore="LabelFor" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/low_power_alarm_threshold"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/low_power_alarm_threshold_tips"
-                    android:textSize="9sp"
-                    tools:ignore="SmallSp" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="@string/below"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/et_battery_level_alarm_min"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="2"
-                android:inputType="number"
-                android:maxLines="1"
-                android:text=""
-                android:textAlignment="center"
-                tools:ignore="LabelFor" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/percent"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="@string/above"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/et_battery_level_alarm_max"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="2"
-                android:inputType="number"
-                android:maxLines="1"
-                android:text="@string/zero"
-                android:textAlignment="center"
-                tools:ignore="LabelFor" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/percent"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/monitor_battery_status_changes"
-                    android:textStyle="bold"
-                    tools:ignore="RelativeOverlap" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/battery_status_changes_tips"
-                    android:textSize="9sp"
-                    tools:ignore="SmallSp" />
-            </LinearLayout>
-
-            <Switch
-                android:id="@+id/switch_battery_receiver"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:textSize="18sp"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/device_name"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/et_add_extra_device_mark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:autofillHints=""
-                android:ems="16"
-                android:inputType="text"
-                android:maxLines="1"
-                android:text=""
-                tools:ignore="LabelFor" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sim1_remark"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/carrier_mobile"
-                    android:textSize="9sp"
-                    tools:ignore="SmallSp" />
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/et_add_extra_sim1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:autofillHints=""
-                android:ems="16"
-                android:inputType="text"
-                android:maxLines="1"
-                android:text=""
-                tools:ignore="LabelFor" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sim2_remark"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/carrier_mobile"
-                    android:textSize="9sp"
-                    tools:ignore="SmallSp" />
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/et_add_extra_sim2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:autofillHints=""
-                android:ems="16"
-                android:inputType="text"
-                android:maxLines="1"
-                android:text=""
-                tools:ignore="LabelFor" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/enable_exclude_from_recents"
-                    android:textStyle="bold"
-                    tools:ignore="RelativeOverlap" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/enable_exclude_from_recents_tips"
-                    android:textSize="9sp"
-                    tools:ignore="SmallSp" />
-            </LinearLayout>
-
-            <Switch
-                android:id="@+id/switch_exclude_from_recents"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:textSize="18sp"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimary"
-                android:onClick="batterySetting"
-                android:text="@string/battery_setting"
-                tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimary"
-                android:onClick="requestNotificationPermission"
-                android:text="@string/request_permission"
-                tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:background="@color/colorBlueGreyDark"
-                android:onClick="initSetting"
-                android:text="@string/init_setting"
-                tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
-        </LinearLayout>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
-</ScrollView>
+</RelativeLayout>

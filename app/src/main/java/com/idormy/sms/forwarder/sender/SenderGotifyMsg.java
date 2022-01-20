@@ -23,7 +23,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-@SuppressWarnings({"ResultOfMethodCallIgnored", "rawtypes", "unchecked", "deprecation"})
+@SuppressWarnings({"ResultOfMethodCallIgnored"})
 public class SenderGotifyMsg extends SenderBaseMsg {
 
     static final String TAG = "SenderGotifyMsg";
@@ -68,7 +68,7 @@ public class SenderGotifyMsg extends SenderBaseMsg {
                             Toast(handError, TAG, "发送状态：" + responseStr);
 
                             //TODO:粗略解析是否发送成功
-                            if ("200".equals(response.code())) {
+                            if (response.code() == 200) {
                                 LogUtil.updateLog(logId, 2, responseStr);
                             } else {
                                 LogUtil.updateLog(logId, 0, responseStr);

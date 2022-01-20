@@ -39,20 +39,20 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="end"
                 android:checked="true"
                 android:ems="14"
+                android:gravity="end"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:text="@string/account"
-            android:textSize="14sp"
             android:textColor="@color/colorBlueGreyDark"
+            android:textSize="14sp"
             tools:ignore="HardcodedText" />
 
         <LinearLayout
@@ -132,19 +132,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:text="@string/servers"
-            android:textSize="14sp"
             android:textColor="@color/colorBlueGreyDark"
+            android:textSize="14sp"
             tools:ignore="HardcodedText" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal"
             android:visibility="gone">
 
@@ -221,8 +221,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
                 android:autofillHints=""
+                android:digits="0123456789"
                 android:ems="5"
                 android:inputType="number"
+                android:maxLength="5"
                 android:maxLines="1"
                 android:text=""
                 tools:ignore="LabelFor,TextFields" />
@@ -243,19 +245,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:text="@string/email_settings"
-            android:textSize="14sp"
             android:textColor="@color/colorBlueGreyDark"
+            android:textSize="14sp"
             tools:ignore="HardcodedText" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:background="@android:color/white"
             android:gravity="center_vertical"
             android:orientation="vertical">
@@ -283,8 +285,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
-                android:inputType="text"
                 android:gravity="start|top"
+                android:inputType="text"
                 android:minLines="1"
                 android:text=""
                 tools:ignore="LabelFor,TextFields" />
@@ -295,8 +297,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:background="@android:color/white"
             android:gravity="center_vertical"
             android:orientation="vertical">
@@ -324,8 +326,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
-                android:inputType="text"
                 android:gravity="start|top"
+                android:inputType="text"
                 android:minLines="1"
                 android:text=""
                 tools:ignore="LabelFor,TextFields" />

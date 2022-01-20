@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -32,7 +33,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-@SuppressWarnings("ALL")
 public class SenderFeishuMsg extends SenderBaseMsg {
 
     static final String TAG = "SenderFeishuMsg";
@@ -90,6 +90,7 @@ public class SenderFeishuMsg extends SenderBaseMsg {
             "  }\n" +
             "}";
 
+    @SuppressWarnings("rawtypes")
     public static void sendMsg(final long logId, final Handler handError, String webhook, String secret, String from, Date date, String content) throws Exception {
         Log.i(TAG, "sendMsg webhook:" + webhook + " secret:" + secret + " content:" + content);
 
@@ -130,7 +131,7 @@ public class SenderFeishuMsg extends SenderBaseMsg {
                     Toast(handError, TAG, "开始请求接口...");
 
                     OkHttpClient client = new OkHttpClient();
-                    RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), requestMsg);
+                    @SuppressWarnings("deprecation") RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), requestMsg);
 
                     final Request request = new Request.Builder()
                             .url(requestUrl)
@@ -178,7 +179,7 @@ public class SenderFeishuMsg extends SenderBaseMsg {
 
     private static String buildMsg(String from, Date date, String content) {
         String msgTitle = jsonInnerStr("【" + SettingUtil.getAddExtraDeviceMark().trim() + "】来自" + from + "的通知");
-        String msgTime = jsonInnerStr(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
+        String msgTime = jsonInnerStr(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(date));
         String msgFrom = jsonInnerStr(from);
         String msgContent = jsonInnerStr(content);
         return MSG_TEMPLATE.replace("${MSG_TITLE}", msgTitle)

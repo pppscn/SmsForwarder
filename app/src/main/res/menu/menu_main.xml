@@ -3,34 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.idormy.sms.forwarder.MainActivity">
-    <item
+    <!--<item
         android:id="@+id/to_setting"
+        android:icon="@drawable/ic_settings"
         android:orderInCategory="100"
         android:title="@string/setting"
-        android:icon="@drawable/ic_settings"
-        app:showAsAction="never" />
+        app:showAsAction="never" />-->
     <item
         android:id="@+id/to_app_list"
+        android:icon="@drawable/ic_app"
         android:orderInCategory="100"
         android:title="@string/app_list"
-        android:icon="@drawable/ic_app"
         app:showAsAction="never" />
     <item
         android:id="@+id/to_clone"
+        android:icon="@drawable/ic_clone"
         android:orderInCategory="100"
         android:title="@string/clone"
-        android:icon="@drawable/ic_clone"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/to_about"
-        android:orderInCategory="100"
-        android:title="@string/about"
-        android:icon="@drawable/ic_forwarder"
         app:showAsAction="never" />
     <item
         android:id="@+id/to_help"
+        android:icon="@drawable/ic_help"
         android:orderInCategory="100"
         android:title="@string/help"
-        android:icon="@drawable/ic_help"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/to_about"
+        android:icon="@drawable/ic_forwarder"
+        android:orderInCategory="100"
+        android:title="@string/about"
         app:showAsAction="never" />
 </menu>

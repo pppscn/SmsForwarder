@@ -16,7 +16,8 @@
     <string name="rule_setting">转发规则</string>
     <string name="sender_setting">发送通道</string>
     <string name="app_list">应用列表</string>
-    <string name="log_tips">提示：置顶下拉刷新，长按删除单条，选项卡切换日志类型\n首次使用按以下步骤设置，该步骤点亮表示已设置！</string>
+    <string name="setting_tips">提示：首次使用请按照以下步骤顺序设置，该步骤点亮表示已设置！</string>
+    <string name="log_tips">提示：置顶下拉刷新，长按删除单条，选项卡切换日志类型</string>
     <string name="rule_tips">提示：新建规则点击“添加”，长按删除/克隆，点击编辑已有</string>
     <string name="sender_tips">提示：新建发送通道点击“添加”，长按删除/克隆，点击编辑已有</string>
     <string name="app_tips">提示：点击复制APP的包名，长按则启动并跳转该APP</string>
@@ -39,13 +40,12 @@
     <string name="cache_purged">缓存清理完成</string>
     <string name="unknown_qq_version">未安装手Q或安装的版本不支持！</string>
     <!--MainActivity-->
-    <string name="bt_refresh_log">清空记录</string>
     <string name="delete_log_title">日志删除确认</string>
     <string name="delete_log_tips">确定删除该条日志记录?</string>
     <string name="delete_log_toast">该条日志记录已经删除！</string>
     <string name="resend_toast">正在重发</string>
     <string name="details">详情</string>
-    <string name="clear_logs_tips">确定要清空转发记录吗？</string>
+    <string name="clear_logs_tips">确定要清空所有转发记录吗？</string>
     <string name="pull_tips">下拉可以刷新！</string>
     <string name="release_tips">松开可以刷新！</string>
     <string name="reflashing_tips">正在刷新…</string>
@@ -60,9 +60,6 @@
     <string name="add_sender_first">请先去设置发送通道页面添加</string>
     <string name="select_sender">选择发送通道</string>
     <string name="rule_tester">规则测试</string>
-    <string name="new_sms_rule">添加短信转发</string>
-    <string name="new_call_rule">添加来电转发</string>
-    <string name="new_app_rule">添加应用转发</string>
     <string name="test_sim_slot">测试模拟的接收卡槽</string>
     <string name="test_phone_number">测试模拟的来源号码</string>
     <string name="test_msg_content">测试模拟的短信内容</string>
@@ -176,16 +173,15 @@
     <string name="carrier_mobile">运营商_手机号</string>
     <string name="low_power_alarm_threshold">电量预警阈值(%)</string>
     <string name="low_power_alarm_threshold_tips">取值范围：0–100，0禁用</string>
-    <string name="retry_interval">每次重试间隔(秒)</string>
+    <string name="retry_interval">失败重试间隔(秒)</string>
     <string name="retry_interval_tips">接口请求失败后将重试5次</string>
     <string name="forward_sms">转发短信广播</string>
     <string name="forward_sms_tips">总开关，请授予读取短信、通知类短信、发送短信等权限</string>
     <string name="forward_missed_calls">转发通话记录</string>
-    <string name="forward_missed_calls_tips">总开关，请授予读取通话记录、联系人等权限</string>
+    <string name="forward_missed_calls_tips">请先授予读取通话记录、联系人等权限，并选择转发类型，再开启</string>
     <string name="forward_app_notify">转发应用通知</string>
-    <string name="forward_app_notify_tips">总开关，请先授予通知使用权</string>
-    <string name="cancel_app_notify">自动关闭通知</string>
-    <string name="cancel_app_notify_tips">单条通知处理完毕后，自动关闭，避免多条通知堆叠</string>
+    <string name="forward_app_notify_tips">请先授予通知使用权，再开启；开启自动消除，以避免多条通知堆叠</string>
+    <string name="cancel_app_notify">自动消除通知</string>
     <string name="enable_custom_templates">启用自定义模版</string>
     <string name="enable_custom_templates_tips">优先级：转发规则的自定义模板 > 全局自定义模版 > 默认</string>
     <string name="enable_regex_replace">启用正则替换内容</string>
@@ -204,12 +200,13 @@
     <string name="insert_device_name">设备名称</string>
     <string name="init_setting">恢复初始配置</string>
     <string name="init_setting_tips">确定需要恢复初始配置吗？\n\n【警告】此操作将重置设置、删除发送通道、规则、日志！</string>
-    <string name="battery_setting">设置电池优化</string>
-    <string name="request_permission">请求通知权限</string>
+    <string name="battery_setting">忽略电池优化设置</string>
+    <string name="battery_setting_tips">请设置为手动管理：允许自启动、允许关联启动、允许后台运行</string>
     <string name="unknown_number">未知号码</string>
     <string name="calling">的来电未接</string>
     <string name="unsupport">您的手机不支持此设置</string>
     <string name="isIgnored">已将省电优化设置为无限制(不优化)！</string>
+    <string name="isIgnored2">本界面无法直接操作系统的省电优化设置</string>
     <!--Other-->
     <string name="version_now">v1.0</string>
     <string name="linkweb">https://github.com/pppscn/SmsForwarder</string>
@@ -234,7 +231,7 @@
     <string name="server_has_started">服务端已启动</string>
     <string name="server_has_stopped">服务端已停止</string>
     <string name="sender_cannot_receive">本手机是发送端，不可接收文件，请先停止服务端！</string>
-    <string name="no_wifi_network">未接入Wifi网络，不可使用一键克隆功能!</string>
+    <string name="no_wifi_network">未接入Wifi网络，不可使用 HttpServer!</string>
     <string name="invalid_server_ip">请输入服务端IP</string>
     <string name="download_success">下载成功</string>
     <string name="on_wireless_network">当前处于无线网络</string>
@@ -280,8 +277,8 @@
     <string name="proxy_authenticator">代理身份验证</string>
     <string name="username">用户</string>
     <string name="password">密码</string>
-    <string name="send_sms_config_title">SmsHub client 模式</string>
-    <string name="send_sms_config_title2">执行接口返回的操作</string>
+    <string name="send_sms_config_title">主动轮询远程 SmsHubApi</string>
+    <string name="send_sms_config_title2">请先填写服务端地址，再启动服务，APP轮询执行接口返回的操作</string>
     <string name="privacy_policy">隐私政策</string>
     <string name="agree">同意</string>
     <string name="disagree">不同意</string>
@@ -289,9 +286,8 @@
     <string name="GotifyWebServer">WebServer</string>
     <string name="GotifyWebServerTips"><![CDATA[例：https://push.ppps.cn/message?token=<apptoken>]]></string>
     <string name="title_template">标题模板</string>
-    <string name="priority">优先级（1 - 9）</string>
+    <string name="priority">优先级（1 – 9）</string>
     <string name="_5">5</string>
-    <string name="enter_webserver_tips">请输入WebServer</string>
     <string name="switch_rule_status">启用该条转发规则</string>
     <string name="dingding">钉钉机器人</string>
     <string name="email">电子邮箱</string>
@@ -305,14 +301,14 @@
     <string name="feishu">飞书机器人</string>
     <string name="pushplus">PushPlus</string>
     <string name="gotify">Gotify</string>
-    <string name="add">添加</string>
     <string name="_1">1</string>
     <string name="_2">2</string>
     <string name="_3">3</string>
     <string name="_4">4</string>
-    <string name="step_1">选择功能</string>
+    <string name="step_1">通用设置</string>
     <string name="step_2">发送通道</string>
     <string name="step_3">转发规则</string>
     <string name="step_4">转发日志</string>
     <string name="clean_log">清理日志</string>
+    <string name="todo">TODO</string>
 </resources>

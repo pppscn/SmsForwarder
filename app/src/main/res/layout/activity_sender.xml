@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnAddSender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -12,29 +13,43 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="20dp"
         android:background="@color/colorPrimary"
-        android:onClick="addSender"
+        android:contentDescription="@string/new_sender"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_add"
-        app:elevation="8dp" />
-
-    <TextView
-        android:id="@+id/help_tip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:text="@string/sender_tips"
-        android:textColor="@color/colorPrimary" />
+        app:borderWidth="0dp"
+        app:elevation="5dp"
+        app:fabSize="mini" />
 
     <ListView
         android:id="@+id/list_view_sender"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="25dp"
-        android:layout_marginStart="5dp"
-        android:layout_weight="1" />
+        android:layout_marginBottom="85dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/help_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#10000000"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="@string/sender_tips"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp" />
+
+        <com.idormy.sms.forwarder.view.StepBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </RelativeLayout>

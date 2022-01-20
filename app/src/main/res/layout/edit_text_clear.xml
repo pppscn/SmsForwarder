@@ -12,9 +12,10 @@
         android:id="@+id/iv_edit_left_icon"
         android:layout_width="30dp"
         android:layout_height="45dp"
+        android:layout_centerVertical="true"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_centerVertical="true"
+        android:contentDescription="@string/todo"
         android:scaleType="centerInside"
         android:src="@drawable/icon_login"
         android:visibility="gone"
@@ -25,23 +26,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:gravity="center|left"
-        android:hint="请输入手机号"
+        android:gravity="center|start"
+        android:importantForAutofill="no"
+        android:inputType="text"
         android:minHeight="45dp"
-        android:paddingRight="45dp"
-        android:textSize="14sp" />
+        android:paddingEnd="45dp"
+        android:textSize="14sp"
+        tools:ignore="LabelFor,RtlSymmetry" />
 
     <RelativeLayout
         android:layout_width="90dp"
         android:layout_height="45dp"
-        android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
-        android:gravity="right">
+        android:layout_centerVertical="true"
+        android:gravity="end">
 
         <ImageView
             android:id="@+id/iv_edit_eye"
             android:layout_width="45dp"
             android:layout_height="match_parent"
+            android:contentDescription="@string/todo"
             android:scaleType="centerInside"
             android:src="@drawable/clear_icon_eye_close"
             android:visibility="gone" />
@@ -50,6 +54,7 @@
             android:id="@+id/iv_edit_clean"
             android:layout_width="45dp"
             android:layout_height="match_parent"
+            android:contentDescription="@string/todo"
             android:scaleType="centerInside"
             android:src="@drawable/clear_icon_close"
             android:visibility="gone"
