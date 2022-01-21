@@ -5,6 +5,7 @@ import static com.idormy.sms.forwarder.model.SenderModel.TYPE_BARK;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_DINGDING;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_FEISHU;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_GOTIFY;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_PUSHPLUS;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
@@ -26,6 +27,7 @@ import com.idormy.sms.forwarder.model.vo.BarkSettingVo;
 import com.idormy.sms.forwarder.model.vo.DingDingSettingVo;
 import com.idormy.sms.forwarder.model.vo.EmailSettingVo;
 import com.idormy.sms.forwarder.model.vo.FeiShuSettingVo;
+import com.idormy.sms.forwarder.model.vo.GotifySettingVo;
 import com.idormy.sms.forwarder.model.vo.LogVo;
 import com.idormy.sms.forwarder.model.vo.PushPlusSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXAppSettingVo;
@@ -63,6 +65,7 @@ public class SendUtil {
         String key = "SIM" + simId;
         List<RuleModel> ruleList = RuleUtil.getRule(null, key, type);
         if (!ruleList.isEmpty()) {
+            Log.d(TAG, ruleList.toString());
             SenderUtil.init(context);
             for (RuleModel ruleModel : ruleList) {
                 //规则匹配发现需要发送
@@ -351,6 +354,21 @@ public class SendUtil {
                         } catch (Exception e) {
                             LogUtil.updateLog(logId, 0, e.getMessage());
                             Log.e(TAG, "senderSendMsg: feishu error " + e.getMessage());
+                        }
+                    }
+                }
+                break;
+
+            case TYPE_GOTIFY:
+                //try phrase json setting
+                if (senderModel.getJsonSetting() != null) {
+                    GotifySettingVo gotifySettingVo = JSON.parseObject(senderModel.getJsonSetting(), GotifySettingVo.class);
+                    if (gotifySettingVo != null) {
+                        try {
+                            SenderGotifyMsg.sendMsg(logId, handError, gotifySettingVo, smsVo.getMobile(), smsVo.getSmsVoForSend(smsTemplate, regexReplace));
+                        } catch (Exception e) {
+                            LogUtil.updateLog(logId, 0, e.getMessage());
+                            Log.e(TAG, "senderSendMsg: gotify error " + e.getMessage());
                         }
                     }
                 }
