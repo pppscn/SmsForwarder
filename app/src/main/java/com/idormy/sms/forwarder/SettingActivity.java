@@ -31,14 +31,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.idormy.sms.forwarder.receiver.RebootBroadcastReceiver;
 import com.idormy.sms.forwarder.sender.HttpServer;
+import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.sender.SmsHubApiTask;
 import com.idormy.sms.forwarder.utils.CommonUtil;
 import com.idormy.sms.forwarder.utils.DbHelper;
 import com.idormy.sms.forwarder.utils.Define;
 import com.idormy.sms.forwarder.utils.HttpUtil;
 import com.idormy.sms.forwarder.utils.KeepAliveUtils;
+import com.idormy.sms.forwarder.utils.LogUtil;
+import com.idormy.sms.forwarder.utils.RuleUtil;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.idormy.sms.forwarder.view.ClearEditText;
+import com.idormy.sms.forwarder.view.StepBar;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -57,6 +61,10 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         context = SettingActivity.this;
         setContentView(R.layout.activity_setting);
+
+        LogUtil.init(this);
+        RuleUtil.init(this);
+        SenderUtil.init(this);
     }
 
     @SuppressLint("NewApi")
@@ -117,6 +125,20 @@ public class SettingActivity extends AppCompatActivity {
 
         //帮助提示
         SwitchHelpTip(findViewById(R.id.switch_help_tip));
+
+        //步骤完成状态校验
+        boolean checkStep1 = SettingUtil.getSwitchEnableSms() || SettingUtil.getSwitchEnablePhone() || SettingUtil.getSwitchEnableAppNotify();
+        boolean checkStep2 = SenderUtil.countSender("1", null) > 0;
+        boolean checkStep3 = RuleUtil.countRule("1", null, null) > 0;
+        boolean checkStep4 = LogUtil.countLog("2", null, null) > 0;
+        StepBar stepBar = findViewById(R.id.stepBar);
+        stepBar.setHighlight(checkStep1, checkStep2, checkStep3, checkStep4);
+    }
+
+    @Override
+    protected void onPause() {
+        overridePendingTransition(0, 0);
+        super.onPause();
     }
 
     //设置转发短信

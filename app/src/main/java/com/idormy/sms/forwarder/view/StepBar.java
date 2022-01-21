@@ -1,10 +1,13 @@
 package com.idormy.sms.forwarder.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,72 +17,163 @@ import com.idormy.sms.forwarder.RuleActivity;
 import com.idormy.sms.forwarder.SenderActivity;
 import com.idormy.sms.forwarder.SettingActivity;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class StepBar extends LinearLayout {
+    private final Context mContext;
+    private TypedArray mTypedArray;
+    //自定义参数
+    private String current_step;
     //控件
-    private final TextView txStep1;
-    private final TextView txStep2;
-    private final TextView txStep3;
-    private final TextView txStep4;
-    private final TextView tvStep1;
-    private final TextView tvStep2;
-    private final TextView tvStep3;
-    private final TextView tvStep4;
+    private TextView txStep1;
+    private TextView txStep2;
+    private TextView txStep3;
+    private TextView txStep4;
+    private TextView tvStep1;
+    private TextView tvStep2;
+    private TextView tvStep3;
+    private TextView tvStep4;
+    private ImageView ivStep_12_1;
+    private ImageView ivStep_12_2;
+    private ImageView ivStep_12_3;
+    private ImageView ivStep_23_1;
+    private ImageView ivStep_23_2;
+    private ImageView ivStep_23_3;
+    private ImageView ivStep_34_1;
+    private ImageView ivStep_34_2;
+    private ImageView ivStep_34_3;
+
+    public StepBar(Context context) {
+        super(context);
+        mContext = context;
+        initView();
+    }
 
     public StepBar(final Context context, AttributeSet attrs) {
         super(context, attrs);
-        //初始化界面
-        View view = LayoutInflater.from(context).inflate(R.layout.step_bar, this);
-        //绑定
-        txStep1 = findViewById(R.id.txStep1);
-        txStep2 = findViewById(R.id.txStep2);
-        txStep3 = findViewById(R.id.txStep3);
-        txStep4 = findViewById(R.id.txStep4);
-        tvStep1 = findViewById(R.id.tvStep1);
-        tvStep2 = findViewById(R.id.tvStep2);
-        tvStep3 = findViewById(R.id.tvStep3);
-        tvStep4 = findViewById(R.id.tvStep4);
-        //初始化函数
-        init(context);
+        mContext = context;
+        initParams(context, attrs);
+        initView();
     }
 
-    private void init(final Context context) {
+    public StepBar(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        mContext = context;
+        initParams(context, attrs);
+        initView();
+    }
 
-        tvStep1.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), SettingActivity.class);
-            v.getContext().startActivity(intent);
-        });
-        txStep1.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), SettingActivity.class);
-            v.getContext().startActivity(intent);
-        });
+    private void initParams(Context context, AttributeSet attrs) {
+        mTypedArray = mContext.obtainStyledAttributes(attrs, R.styleable.StepBar);
+        if (mTypedArray != null) {
+            current_step = mTypedArray.getString(R.styleable.StepBar_current_step);
+            System.out.println("current_step = " + current_step);
+            mTypedArray.recycle();
+        }
+    }
 
-        tvStep2.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), SenderActivity.class);
-            v.getContext().startActivity(intent);
-        });
-        txStep2.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), SenderActivity.class);
-            v.getContext().startActivity(intent);
-        });
+    private void initView() {
+        //初始化界面
+        View view = LayoutInflater.from(mContext).inflate(R.layout.step_bar, this);
 
-        tvStep3.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), RuleActivity.class);
-            v.getContext().startActivity(intent);
-        });
-        txStep3.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), RuleActivity.class);
-            v.getContext().startActivity(intent);
-        });
+        //步骤1
+        txStep1 = findViewById(R.id.txStep1);
+        tvStep1 = findViewById(R.id.tvStep1);
+        if (!current_step.equalsIgnoreCase("setting")) {
+            tvStep1.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), SettingActivity.class);
+                v.getContext().startActivity(intent);
+            });
+            txStep1.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), SettingActivity.class);
+                v.getContext().startActivity(intent);
+            });
+        } else {
+            tvStep1.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
+        }
 
-        tvStep4.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), MainActivity.class);
-            v.getContext().startActivity(intent);
-        });
-        txStep4.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), MainActivity.class);
-            v.getContext().startActivity(intent);
-        });
+        //步骤2
+        txStep2 = findViewById(R.id.txStep2);
+        tvStep2 = findViewById(R.id.tvStep2);
+        if (!current_step.equalsIgnoreCase("sender")) {
+            tvStep2.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), SenderActivity.class);
+                v.getContext().startActivity(intent);
+            });
+            txStep2.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), SenderActivity.class);
+                v.getContext().startActivity(intent);
+            });
+        } else {
+            tvStep2.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
+        }
 
+        //步骤3
+        txStep3 = findViewById(R.id.txStep3);
+        tvStep3 = findViewById(R.id.tvStep3);
+        if (!current_step.equalsIgnoreCase("rule")) {
+            tvStep3.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), RuleActivity.class);
+                v.getContext().startActivity(intent);
+            });
+            txStep3.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), RuleActivity.class);
+                v.getContext().startActivity(intent);
+            });
+        } else {
+            tvStep3.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
+        }
+
+        //步骤4
+        txStep4 = findViewById(R.id.txStep4);
+        tvStep4 = findViewById(R.id.tvStep4);
+        if (!current_step.equalsIgnoreCase("main")) {
+            tvStep4.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                v.getContext().startActivity(intent);
+            });
+            txStep4.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                v.getContext().startActivity(intent);
+            });
+        } else {
+            tvStep4.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
+        }
+
+        ivStep_12_1 = findViewById(R.id.ivStep_12_1);
+        ivStep_12_2 = findViewById(R.id.ivStep_12_2);
+        ivStep_12_3 = findViewById(R.id.ivStep_12_3);
+        ivStep_23_1 = findViewById(R.id.ivStep_23_1);
+        ivStep_23_2 = findViewById(R.id.ivStep_23_2);
+        ivStep_23_3 = findViewById(R.id.ivStep_23_3);
+        ivStep_34_1 = findViewById(R.id.ivStep_34_1);
+        ivStep_34_2 = findViewById(R.id.ivStep_34_2);
+        ivStep_34_3 = findViewById(R.id.ivStep_34_3);
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public void setHighlight(boolean Step1, boolean Step2, boolean Step3, boolean Step4) {
+        if (Step1) txStep1.setBackground(mContext.getResources().getDrawable(R.drawable.step_circle_current));
+        if (Step2) txStep2.setBackground(mContext.getResources().getDrawable(R.drawable.step_circle_current));
+        if (Step3) txStep3.setBackground(mContext.getResources().getDrawable(R.drawable.step_circle_current));
+        if (Step4) txStep4.setBackground(mContext.getResources().getDrawable(R.drawable.step_circle_current));
+
+        if (Step1 && Step2) {
+            ivStep_12_1.setImageResource(R.drawable.step_rectangle_current);
+            ivStep_12_2.setImageResource(R.drawable.step_rectangle_current);
+            ivStep_12_3.setImageResource(R.drawable.step_rectangle_current);
+        }
+
+        if (Step2 && Step3) {
+            ivStep_23_1.setImageResource(R.drawable.step_rectangle_current);
+            ivStep_23_2.setImageResource(R.drawable.step_rectangle_current);
+            ivStep_23_3.setImageResource(R.drawable.step_rectangle_current);
+        }
+
+        if (Step3 && Step4) {
+            ivStep_34_1.setImageResource(R.drawable.step_rectangle_current);
+            ivStep_34_2.setImageResource(R.drawable.step_rectangle_current);
+            ivStep_34_3.setImageResource(R.drawable.step_rectangle_current);
+        }
     }
 
 }

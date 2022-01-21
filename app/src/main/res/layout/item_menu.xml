@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:ignore="UseCompoundDrawables">
 
@@ -15,11 +17,12 @@
 
     <TextView
         android:id="@+id/ItemTextView"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dip"
+        android:ellipsize="end"
         android:gravity="center"
-        android:maxEms="6"
+        android:maxEms="5"
         android:maxLines="1"
         android:textColor="#ffffff"
         android:textSize="12sp" />

@@ -312,4 +312,21 @@
     <string name="step_4">Logs</string>
     <string name="clean_log">Clean Log</string>
     <string name="todo">TODO</string>
+    <string name="forwarding_function">Forwarding Function</string>
+    <string name="forwarding_function_tips">Main switch: Enable the forwarding function as required</string>
+    <string name="mandatory_type">Mandatory type:</string>
+    <string name="missed_call">Missed call</string>
+    <string name="received_call">Received call</string>
+    <string name="local_outgoing_call">Local outgoing call</string>
+    <string name="optional_action">Optional action:</string>
+    <string name="active_request">Active request</string>
+    <string name="active_request_tips">Obtain instructions through passive reception or active polling to operate the machine</string>
+    <string name="httpserver">Local HttpServer</string>
+    <string name="httpserver_tips">Available under WiFi network, after startup, other machines in the LAN can directly call the local interface</string>
+    <string name="battery_monitor">Battery monitor</string>
+    <string name="battery_monitor_tips">[Note] You need to manually create APP forwarding rules, package name: 88888888</string>
+    <string name="keep_alive">Keep alive measures</string>
+    <string name="keep_alive_tips">It is recommended to open each authorization or setting, do not disable the notification bar, to avoid the APP service being killed</string>
+    <string name="custom_settings">Custom settings</string>
+    <string name="custom_settings_tips">If the automatic acquisition fails, please fill in the remarks manually; after clearing, it will be automatically acquired again!</string>
 </resources>

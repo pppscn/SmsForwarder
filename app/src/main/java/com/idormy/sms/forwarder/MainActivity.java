@@ -30,6 +30,7 @@ import com.idormy.sms.forwarder.adapter.LogAdapter;
 import com.idormy.sms.forwarder.model.vo.LogVo;
 import com.idormy.sms.forwarder.sender.HttpServer;
 import com.idormy.sms.forwarder.sender.SendUtil;
+import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.sender.SmsHubApiTask;
 import com.idormy.sms.forwarder.service.BatteryService;
 import com.idormy.sms.forwarder.service.FrontService;
@@ -39,10 +40,12 @@ import com.idormy.sms.forwarder.utils.KeepAliveUtils;
 import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.NetUtil;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
+import com.idormy.sms.forwarder.utils.RuleUtil;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.idormy.sms.forwarder.utils.SharedPreferencesHelper;
 import com.idormy.sms.forwarder.utils.SmsUtil;
 import com.idormy.sms.forwarder.utils.TimeUtil;
+import com.idormy.sms.forwarder.view.StepBar;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 
@@ -66,8 +69,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        LogUtil.init(this);
         Log.d(TAG, "onCreate");
 
         super.onCreate(savedInstanceState);
@@ -79,6 +80,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         //短信&网络组件初始化
         SmsUtil.init(this);
         NetUtil.init(this);
+
+        LogUtil.init(this);
+        RuleUtil.init(this);
+        SenderUtil.init(this);
 
         //前台服务
         try {
@@ -207,6 +212,14 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
             builder.create().show();
             return true;
         });
+
+        //步骤完成状态校验
+        boolean checkStep1 = SettingUtil.getSwitchEnableSms() || SettingUtil.getSwitchEnablePhone() || SettingUtil.getSwitchEnableAppNotify();
+        boolean checkStep2 = SenderUtil.countSender("1", null) > 0;
+        boolean checkStep3 = RuleUtil.countRule("1", null, null) > 0;
+        boolean checkStep4 = LogUtil.countLog("2", null, null) > 0;
+        StepBar stepBar = findViewById(R.id.stepBar);
+        stepBar.setHighlight(checkStep1, checkStep2, checkStep3, checkStep4);
     }
 
     private int getTypeCheckId(String currentType) {
@@ -267,6 +280,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
 
     @Override
     protected void onPause() {
+        overridePendingTransition(0, 0);
         super.onPause();
         MobclickAgent.onPageEnd(TAG);
         MobclickAgent.onPause(this);
@@ -355,7 +369,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
             return true;
         });
         //对于发送失败的消息添加重发按钮
-        if (logVo.getForwardStatus() == 0) {
+        if (logVo.getForwardStatus() != 2) {
             builder.setPositiveButton("重发消息", (dialog, which) -> {
                 Toast.makeText(MainActivity.this, R.string.resend_toast, Toast.LENGTH_SHORT).show();
                 SendUtil.resendMsgByLog(MainActivity.this, handler, logVo);

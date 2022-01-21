@@ -311,4 +311,21 @@
     <string name="step_4">转发日志</string>
     <string name="clean_log">清理日志</string>
     <string name="todo">TODO</string>
+    <string name="forwarding_function">转发功能</string>
+    <string name="forwarding_function_tips">总开关，请根据实际需要，启用对应的转发功能</string>
+    <string name="mandatory_type">必选类型:</string>
+    <string name="missed_call">未接来电</string>
+    <string name="received_call">已接来电</string>
+    <string name="local_outgoing_call">本机去电</string>
+    <string name="optional_action">可选操作:</string>
+    <string name="active_request">主动请求</string>
+    <string name="active_request_tips">通过 被动接收 或者 主动轮询 获取指令，从而操作本机</string>
+    <string name="httpserver">被动接收本地 HttpServer</string>
+    <string name="httpserver_tips">WiFi网络下可用，启动后局域网内其他机器可直接调用本机接口</string>
+    <string name="battery_monitor">电池监控</string>
+    <string name="battery_monitor_tips">【注意】需要手动创建APP转发规则，包名：88888888</string>
+    <string name="keep_alive">保活措施</string>
+    <string name="keep_alive_tips">建议开启每一项授权或设置，不要禁用通知栏，避免APP服务被杀</string>
+    <string name="custom_settings">个性设置</string>
+    <string name="custom_settings_tips">如果自动获取失败，请手动填写备注信息；清空后将再次自动获取！</string>
 </resources>

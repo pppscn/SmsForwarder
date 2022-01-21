@@ -76,4 +76,8 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+
+    <declare-styleable name="StepBar">
+        <attr name="current_step" format="string" />
+    </declare-styleable>
 </resources>

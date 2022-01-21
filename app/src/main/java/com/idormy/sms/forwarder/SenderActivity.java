@@ -68,7 +68,11 @@ import com.idormy.sms.forwarder.sender.SenderTelegramMsg;
 import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.sender.SenderWebNotifyMsg;
 import com.idormy.sms.forwarder.utils.CommonUtil;
+import com.idormy.sms.forwarder.utils.LogUtil;
+import com.idormy.sms.forwarder.utils.RuleUtil;
+import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.idormy.sms.forwarder.view.ClearEditText;
+import com.idormy.sms.forwarder.view.StepBar;
 import com.umeng.analytics.MobclickAgent;
 
 import java.net.Proxy;
@@ -102,7 +106,10 @@ public class SenderActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sender);
-        SenderUtil.init(SenderActivity.this);
+
+        LogUtil.init(this);
+        RuleUtil.init(this);
+        SenderUtil.init(this);
     }
 
     @Override
@@ -309,6 +316,13 @@ public class SenderActivity extends AppCompatActivity {
             });
         });
 
+        //步骤完成状态校验
+        boolean checkStep1 = SettingUtil.getSwitchEnableSms() || SettingUtil.getSwitchEnablePhone() || SettingUtil.getSwitchEnableAppNotify();
+        boolean checkStep2 = SenderUtil.countSender("1", null) > 0;
+        boolean checkStep3 = RuleUtil.countRule("1", null, null) > 0;
+        boolean checkStep4 = LogUtil.countLog("2", null, null) > 0;
+        StepBar stepBar = findViewById(R.id.stepBar);
+        stepBar.setHighlight(checkStep1, checkStep2, checkStep3, checkStep4);
     }
 
     @Override
@@ -326,6 +340,7 @@ public class SenderActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        overridePendingTransition(0, 0);
         super.onPause();
         MobclickAgent.onPageEnd(TAG);
         MobclickAgent.onPause(this);

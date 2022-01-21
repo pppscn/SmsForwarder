@@ -31,8 +31,10 @@ import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.utils.CommonUtil;
+import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.RuleUtil;
 import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.view.StepBar;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -65,8 +67,10 @@ public class RuleActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rule);
-        RuleUtil.init(RuleActivity.this);
-        SenderUtil.init(RuleActivity.this);
+
+        LogUtil.init(this);
+        RuleUtil.init(this);
+        SenderUtil.init(this);
     }
 
     @Override
@@ -135,6 +139,14 @@ public class RuleActivity extends AppCompatActivity {
         CommonUtil.calcMarginBottom(this, help_tip, btnFloat, listView, null);
         //添加规则
         btnFloat.setOnClickListener(v -> setRule(null, false));
+
+        //步骤完成状态校验
+        boolean checkStep1 = SettingUtil.getSwitchEnableSms() || SettingUtil.getSwitchEnablePhone() || SettingUtil.getSwitchEnableAppNotify();
+        boolean checkStep2 = SenderUtil.countSender("1", null) > 0;
+        boolean checkStep3 = RuleUtil.countRule("1", null, null) > 0;
+        boolean checkStep4 = LogUtil.countLog("2", null, null) > 0;
+        StepBar stepBar = findViewById(R.id.stepBar);
+        stepBar.setHighlight(checkStep1, checkStep2, checkStep3, checkStep4);
     }
 
     private int getTypeCheckId(String curType) {
@@ -597,6 +609,7 @@ public class RuleActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        overridePendingTransition(0, 0);
         super.onPause();
         MobclickAgent.onPageEnd(TAG);
         MobclickAgent.onPause(this);

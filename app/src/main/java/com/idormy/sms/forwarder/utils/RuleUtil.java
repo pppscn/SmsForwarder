@@ -196,4 +196,40 @@ public class RuleUtil {
         return tRules;
     }
 
+    public static int countRule(String status, String type, String value) {
+        String[] projection = {};
+        String selection = " 1 ";
+        List<String> selectionArgList = new ArrayList<>();
+
+        if (status != null && !status.isEmpty()) {
+            selection += " and " + RuleTable.RuleEntry.COLUMN_NAME_STATUS + " = ? ";
+            selectionArgList.add(status);
+        }
+
+        if (type != null && !type.isEmpty()) {
+            selection += " and " + RuleTable.RuleEntry.COLUMN_NAME_TYPE + " = ? ";
+            selectionArgList.add(status);
+        }
+
+        if (value != null && !value.isEmpty()) {
+            selection += " and " + RuleTable.RuleEntry.COLUMN_NAME_VALUE + " LIKE ? ";
+            selectionArgList.add(value);
+        }
+
+        String[] selectionArgs = selectionArgList.toArray(new String[0]);
+        Cursor cursor = db.query(
+                RuleTable.RuleEntry.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+                selectionArgs,          // The values for the WHERE clause
+                null,           // don't group the rows
+                null,            // don't filter by row groups
+                null            // The sort order
+        );
+
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
 }

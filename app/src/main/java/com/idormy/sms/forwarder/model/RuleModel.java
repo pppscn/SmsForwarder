@@ -307,9 +307,31 @@ public class RuleModel {
         return switchRegexReplace;
     }
 
-
     public boolean getStatusChecked() {
         return !(status == STATUS_OFF);
+    }
+
+
+    public int getImageId() {
+        switch (simSlot) {
+            case (CHECK_SIM_SLOT_1):
+                return R.drawable.sim1;
+            case (CHECK_SIM_SLOT_2):
+                return R.drawable.sim2;
+            case (CHECK_SIM_SLOT_ALL):
+            default:
+                return type.equals("app") ? R.drawable.ic_app : R.drawable.ic_sim;
+        }
+    }
+
+    public int getStatusImageId() {
+        switch (status) {
+            case (STATUS_OFF):
+                return R.drawable.ic_round_pause;
+            case (STATUS_ON):
+            default:
+                return R.drawable.ic_round_play;
+        }
     }
 
     @NonNull

@@ -48,8 +48,10 @@
             android:textSize="12sp" />
 
         <com.idormy.sms.forwarder.view.StepBar
+            android:id="@+id/stepBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:current_step="sender" />
     </LinearLayout>
 
 </RelativeLayout>

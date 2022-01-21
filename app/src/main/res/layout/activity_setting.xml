@@ -33,14 +33,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="转发功能"
+                    android:text="@string/forwarding_function"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="总开关，请根据实际需要，启用对应的转发功能"
+                    android:text="@string/forwarding_function_tips"
                     android:textSize="10sp"
                     tools:ignore="SmallSp" />
             </LinearLayout>
@@ -123,7 +123,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="必选类型:"
+                            android:text="@string/mandatory_type"
                             android:textSize="11sp"
                             android:textStyle="bold"
                             tools:ignore="SmallSp" />
@@ -135,7 +135,7 @@
                             android:layout_marginStart="-5dp"
                             android:scaleX="0.7"
                             android:scaleY="0.7"
-                            android:text="未接来电" />
+                            android:text="@string/missed_call" />
 
                         <CheckBox
                             android:id="@+id/cbCallType1"
@@ -144,7 +144,7 @@
                             android:layout_marginStart="-15dp"
                             android:scaleX="0.7"
                             android:scaleY="0.7"
-                            android:text="已接来电" />
+                            android:text="@string/received_call" />
 
                         <CheckBox
                             android:id="@+id/cbCallType2"
@@ -153,7 +153,7 @@
                             android:layout_marginStart="-15dp"
                             android:scaleX="0.7"
                             android:scaleY="0.7"
-                            android:text="本机去电" />
+                            android:text="@string/local_outgoing_call" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -208,7 +208,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="可选操作:"
+                            android:text="@string/optional_action"
                             android:textSize="11sp"
                             android:textStyle="bold"
                             tools:ignore="SmallSp" />
@@ -248,14 +248,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="主动请求"
+                    android:text="@string/active_request"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="通过 被动接收 或者 主动轮询 获取指令，从而操作本机"
+                    android:text="@string/active_request_tips"
                     android:textSize="10sp"
                     tools:ignore="SmallSp" />
             </LinearLayout>
@@ -278,14 +278,14 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="被动接收本地 HttpServer"
+                        android:text="@string/httpserver"
                         android:textStyle="bold"
                         tools:ignore="RelativeOverlap" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="WiFi网络下可用，启动后局域网内其他机器可直接调用本机接口"
+                        android:text="@string/httpserver_tips"
                         android:textSize="9sp"
                         tools:ignore="SmallSp" />
                 </LinearLayout>
@@ -363,14 +363,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="电池监控"
+                    android:text="@string/battery_monitor"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="电池状态变化与电量预警互不干扰"
+                    android:text="@string/battery_monitor_tips"
                     android:textSize="10sp"
                     tools:ignore="SmallSp" />
             </LinearLayout>
@@ -508,14 +508,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="保活措施"
+                    android:text="@string/keep_alive"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="建议开启每一项授权或设置，不要禁用通知栏，避免APP服务被杀"
+                    android:text="@string/keep_alive_tips"
                     android:textSize="10sp"
                     tools:ignore="SmallSp" />
             </LinearLayout>
@@ -760,14 +760,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="个性设置"
+                    android:text="@string/custom_settings"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="如果自动获取失败，请手动填写备注信息；清空后将再次自动获取！"
+                    android:text="@string/custom_settings_tips"
                     android:textSize="10sp"
                     tools:ignore="SmallSp" />
             </LinearLayout>
@@ -1091,8 +1091,10 @@
             android:textSize="12sp" />
 
         <com.idormy.sms.forwarder.view.StepBar
+            android:id="@+id/stepBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:current_step="setting" />
 
     </LinearLayout>
 
