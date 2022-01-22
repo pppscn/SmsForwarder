@@ -31,6 +31,17 @@ public class SmsVo implements Serializable {
     }
 
     @SuppressLint("SimpleDateFormat")
+    public String getTitleForSend() {
+        return getTitleForSend("", "");
+    }
+
+
+    @SuppressLint("SimpleDateFormat")
+    public String getTitleForSend(String titleTemplate) {
+        return getTitleForSend(titleTemplate, "");
+    }
+
+    @SuppressLint("SimpleDateFormat")
     public String getTitleForSend(String titleTemplate, String regexReplace) {
         if (titleTemplate == null || titleTemplate.isEmpty()) titleTemplate = "{{来源号码}}";
 
@@ -45,6 +56,16 @@ public class SmsVo implements Serializable {
                 .trim();
 
         return RegexReplace(regexReplace, titleForSend);
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public String getSmsVoForSend() {
+        return getSmsVoForSend("", "");
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public String getSmsVoForSend(String ruleSmsTemplate) {
+        return getSmsVoForSend(ruleSmsTemplate, "");
     }
 
     @SuppressLint("SimpleDateFormat")

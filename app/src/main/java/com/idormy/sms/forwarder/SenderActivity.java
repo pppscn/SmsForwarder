@@ -52,6 +52,7 @@ import com.idormy.sms.forwarder.model.vo.QYWXAppSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXGroupRobotSettingVo;
 import com.idormy.sms.forwarder.model.vo.ServerChanSettingVo;
 import com.idormy.sms.forwarder.model.vo.SmsSettingVo;
+import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.model.vo.TelegramSettingVo;
 import com.idormy.sms.forwarder.model.vo.WebNotifySettingVo;
 import com.idormy.sms.forwarder.sender.SenderBarkMsg;
@@ -76,7 +77,6 @@ import com.idormy.sms.forwarder.view.StepBar;
 import com.umeng.analytics.MobclickAgent;
 
 import java.net.Proxy;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -508,7 +508,8 @@ public class SenderActivity extends AppCompatActivity {
             String atMobiles = editTextDingdingAtMobiles.getText().toString().trim();
             Boolean atAll = switchDingdingAtAll.isChecked();
             try {
-                SenderDingdingMsg.sendMsg(0, handler, token, secret, atMobiles, atAll, R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
+                SenderDingdingMsg.sendMsg(0, handler, null, token, secret, atMobiles, atAll, smsVo.getSmsVoForSend());
             } catch (Exception e) {
                 Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
@@ -647,7 +648,8 @@ public class SenderActivity extends AppCompatActivity {
             }
 
             try {
-                SenderMailMsg.sendEmail(0, handler, protocol, host, port, ssl, fromEmail, nickname, pwd, toEmail, title, R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
+                SenderMailMsg.sendEmail(0, handler, null, protocol, host, port, ssl, fromEmail, nickname, pwd, toEmail, smsVo.getTitleForSend(title), smsVo.getSmsVoForSend());
             } catch (Exception e) {
                 Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
@@ -772,7 +774,8 @@ public class SenderActivity extends AppCompatActivity {
             String barkIcon = editTextBarkIcon.getText().toString().trim();
             if (CommonUtil.checkUrl(barkServer, false)) {
                 try {
-                    SenderBarkMsg.sendMsg(0, handler, barkServer, barkIcon, getString(R.string.test_phone_num), getString(R.string.test_sms), getString(R.string.test_group_name));
+                    SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
+                    SenderBarkMsg.sendMsg(0, handler, null, barkServer, barkIcon, getString(R.string.test_phone_num), smsVo.getSmsVoForSend(), getString(R.string.test_group_name));
                 } catch (Exception e) {
                     Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
@@ -885,7 +888,8 @@ public class SenderActivity extends AppCompatActivity {
             }
 
             try {
-                SenderWebNotifyMsg.sendMsg(0, handler, webServer, webParams, secret, method, "SmsForwarder Title", R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
+                SenderWebNotifyMsg.sendMsg(0, handler, null, webServer, webParams, secret, method, smsVo.getMobile(), smsVo.getSmsVoForSend());
             } catch (Exception e) {
                 Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
@@ -983,7 +987,8 @@ public class SenderActivity extends AppCompatActivity {
             }
 
             try {
-                SenderQyWxGroupRobotMsg.sendMsg(0, handler, webHook, "SmsForwarder Title", R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
+                SenderQyWxGroupRobotMsg.sendMsg(0, handler, null, webHook, smsVo.getMobile(), smsVo.getSmsVoForSend());
             } catch (Exception e) {
                 Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
@@ -1120,7 +1125,8 @@ public class SenderActivity extends AppCompatActivity {
             }
 
             try {
-                SenderQyWxAppMsg.sendMsg(0, handler, senderModel, QYWXAppSettingVoNew, R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
+                SenderQyWxAppMsg.sendMsg(0, handler, null, senderModel, QYWXAppSettingVoNew, smsVo.getSmsVoForSend());
             } catch (Exception e) {
                 Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
@@ -1216,7 +1222,8 @@ public class SenderActivity extends AppCompatActivity {
             }
 
             try {
-                SenderServerChanMsg.sendMsg(0, handler, serverChanServer, getString(R.string.test_phone_num), getString(R.string.test_sms));
+                SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
+                SenderServerChanMsg.sendMsg(0, handler, null, serverChanServer, smsVo.getMobile(), smsVo.getSmsVoForSend());
             } catch (Exception e) {
                 Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
@@ -1405,8 +1412,9 @@ public class SenderActivity extends AppCompatActivity {
             String method = radioGroupTelegramMethod.getCheckedRadioButtonId() == R.id.radioTelegramMethodGet ? "GET" : "POST";
 
             try {
+                SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
                 TelegramSettingVo telegramSettingVoNew = new TelegramSettingVo(apiToken, chatId, proxyTypeId, proxyHost, proxyPort, proxyAuthenticator, proxyUsername, proxyPassword, method);
-                SenderTelegramMsg.sendMsg(0, handler, telegramSettingVoNew, getString(R.string.test_phone_num), getString(R.string.test_sms), telegramSettingVoNew.getMethod());
+                SenderTelegramMsg.sendMsg(0, handler, null, telegramSettingVoNew, smsVo.getMobile(), smsVo.getSmsVoForSend(), telegramSettingVoNew.getMethod());
             } catch (Exception e) {
                 Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
@@ -1520,7 +1528,8 @@ public class SenderActivity extends AppCompatActivity {
             }
 
             try {
-                SenderSmsMsg.sendMsg(0, handler, simSlot, mobiles, onlyNoNetwork, getString(R.string.test_phone_num), getString(R.string.test_sms));
+                SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
+                SenderSmsMsg.sendMsg(0, handler, simSlot, mobiles, onlyNoNetwork, smsVo.getMobile(), smsVo.getSmsVoForSend());
             } catch (Exception e) {
                 Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
@@ -1620,7 +1629,8 @@ public class SenderActivity extends AppCompatActivity {
             }
 
             try {
-                SenderFeishuMsg.sendMsg(0, handler, webHook, secret, getString(R.string.test_phone_num), new Date(), getString(R.string.test_sms));
+                SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
+                SenderFeishuMsg.sendMsg(0, handler, null, webHook, secret, smsVo.getMobile(), new Date(), smsVo.getSmsVoForSend());
             } catch (Exception e) {
                 Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
@@ -1656,6 +1666,7 @@ public class SenderActivity extends AppCompatActivity {
         final EditText editTextPushPlusWebhook = view1.findViewById(R.id.editTextPushPlusWebhook);
         final EditText editTextPushPlusCallbackUrl = view1.findViewById(R.id.editTextPushPlusCallbackUrl);
         final EditText editTextPushPlusValidTime = view1.findViewById(R.id.editTextPushPlusValidTime);
+        final EditText editTextPushPlusTitle = view1.findViewById(R.id.editTextPushPlusTitle);
 
         if (pushPlusSettingVo != null) {
             editTextPushPlusToken.setText(pushPlusSettingVo.getToken());
@@ -1665,6 +1676,7 @@ public class SenderActivity extends AppCompatActivity {
             editTextPushPlusWebhook.setText(pushPlusSettingVo.getWebhook());
             editTextPushPlusCallbackUrl.setText(pushPlusSettingVo.getCallbackUrl());
             editTextPushPlusValidTime.setText(pushPlusSettingVo.getValidTime());
+            editTextPushPlusTitle.setText(pushPlusSettingVo.getTitleTemplate());
         }
 
         Button buttonPushPlusOk = view1.findViewById(R.id.buttonPushPlusOk);
@@ -1691,7 +1703,8 @@ public class SenderActivity extends AppCompatActivity {
                     editTextPushPlusChannel.getText().toString().trim(),
                     editTextPushPlusWebhook.getText().toString().trim(),
                     editTextPushPlusCallbackUrl.getText().toString().trim(),
-                    editTextPushPlusValidTime.getText().toString().trim()
+                    editTextPushPlusValidTime.getText().toString().trim(),
+                    editTextPushPlusTitle.getText().toString().trim()
             );
             if (TextUtils.isEmpty(pushPlusSettingVoNew.getToken())) {
                 Toast.makeText(SenderActivity.this, R.string.invalid_token, Toast.LENGTH_LONG).show();
@@ -1730,6 +1743,10 @@ public class SenderActivity extends AppCompatActivity {
         });
 
         buttonPushPlusTest.setOnClickListener(view -> {
+
+            String title = editTextPushPlusTitle.getText().toString().trim();
+            if (title.isEmpty()) title = "SmsForwarder Title";
+
             PushPlusSettingVo pushPlusSettingVoNew = new PushPlusSettingVo(
                     editTextPushPlusToken.getText().trim(),
                     editTextPushPlusTopic.getText().toString().trim(),
@@ -1737,7 +1754,8 @@ public class SenderActivity extends AppCompatActivity {
                     editTextPushPlusChannel.getText().toString().trim(),
                     editTextPushPlusWebhook.getText().toString().trim(),
                     editTextPushPlusCallbackUrl.getText().toString().trim(),
-                    editTextPushPlusValidTime.getText().toString().trim()
+                    editTextPushPlusValidTime.getText().toString().trim(),
+                    title
             );
 
             if (TextUtils.isEmpty(pushPlusSettingVoNew.getToken())) {
@@ -1746,11 +1764,40 @@ public class SenderActivity extends AppCompatActivity {
             }
 
             try {
-                SenderPushPlusMsg.sendMsg(0, handler, pushPlusSettingVoNew, "SmsForwarder", getString(R.string.test_content) + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
+                SenderPushPlusMsg.sendMsg(0, handler, null, pushPlusSettingVoNew, smsVo.getTitleForSend(title), smsVo.getSmsVoForSend());
             } catch (Exception e) {
                 Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
+        });
+
+        Button buttonInsertSender = view1.findViewById(R.id.bt_insert_sender);
+        buttonInsertSender.setOnClickListener(view -> {
+            editTextPushPlusTitle.setFocusable(true);
+            editTextPushPlusTitle.requestFocus();
+            CommonUtil.insertOrReplaceText2Cursor(editTextPushPlusTitle, "{{来源号码}}");
+        });
+
+        Button buttonInsertExtra = view1.findViewById(R.id.bt_insert_extra);
+        buttonInsertExtra.setOnClickListener(view -> {
+            editTextPushPlusTitle.setFocusable(true);
+            editTextPushPlusTitle.requestFocus();
+            CommonUtil.insertOrReplaceText2Cursor(editTextPushPlusTitle, "{{卡槽信息}}");
+        });
+
+        Button buttonInsertTime = view1.findViewById(R.id.bt_insert_time);
+        buttonInsertTime.setOnClickListener(view -> {
+            editTextPushPlusTitle.setFocusable(true);
+            editTextPushPlusTitle.requestFocus();
+            CommonUtil.insertOrReplaceText2Cursor(editTextPushPlusTitle, "{{接收时间}}");
+        });
+
+        Button buttonInsertDeviceName = view1.findViewById(R.id.bt_insert_device_name);
+        buttonInsertDeviceName.setOnClickListener(view -> {
+            editTextPushPlusTitle.setFocusable(true);
+            editTextPushPlusTitle.requestFocus();
+            CommonUtil.insertOrReplaceText2Cursor(editTextPushPlusTitle, "{{设备名称}}");
         });
     }
 
@@ -1861,7 +1908,8 @@ public class SenderActivity extends AppCompatActivity {
             GotifySettingVo gotifySettingVoNew = new GotifySettingVo(webServer, title, priority);
 
             try {
-                SenderGotifyMsg.sendMsg(0, handler, gotifySettingVoNew, title, R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
+                SenderGotifyMsg.sendMsg(0, handler, null, gotifySettingVoNew, smsVo.getTitleForSend(title), smsVo.getSmsVoForSend());
             } catch (Exception e) {
                 Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
