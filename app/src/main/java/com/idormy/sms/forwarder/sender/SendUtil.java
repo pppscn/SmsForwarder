@@ -68,7 +68,7 @@ public class SendUtil {
         LogUtil.init(context);
 
         String key = "SIM" + simId;
-        List<RuleModel> ruleList = RuleUtil.getRule(null, key, type);
+        List<RuleModel> ruleList = RuleUtil.getRule(null, key, type, "1"); //只取已启用的规则
         if (!ruleList.isEmpty()) {
             Log.d(TAG, ruleList.toString());
             SenderUtil.init(context);

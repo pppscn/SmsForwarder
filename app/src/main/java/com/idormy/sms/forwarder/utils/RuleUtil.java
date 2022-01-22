@@ -92,6 +92,10 @@ public class RuleUtil {
     }
 
     public static List<RuleModel> getRule(Long id, String key, String type) {
+        return getRule(id, key, type, null);
+    }
+
+    public static List<RuleModel> getRule(Long id, String key, String type, String status) {
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
         String[] projection = {
@@ -121,6 +125,11 @@ public class RuleUtil {
         if (type != null) {
             selection += " and " + RuleTable.RuleEntry.COLUMN_NAME_TYPE + " = ? ";
             selectionArgList.add(type);
+        }
+
+        if (status != null) {
+            selection += " and " + RuleTable.RuleEntry.COLUMN_NAME_STATUS + " = ? ";
+            selectionArgList.add(status);
         }
 
         if (key != null) {
