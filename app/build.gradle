@@ -147,8 +147,8 @@ dependencies {
     implementation "com.alibaba:fastjson:1.2.79"
 
     //友盟统计SDK
-    implementation 'com.umeng.umsdk:common:9.4.5'// 必选
-    implementation 'com.umeng.umsdk:asms:1.5.0'// asms包依赖必选
+    implementation 'com.umeng.umsdk:common:9.4.6'// 必选
+    implementation 'com.umeng.umsdk:asms:1.6.0'// asms包依赖必选
     //implementation 'com.umeng.umsdk:abtest:1.0.0'//使用U-App中ABTest能力，可选
     implementation 'com.umeng.umsdk:apm:1.5.2'// U-APM产品包依赖(必选)
 
@@ -178,6 +178,4 @@ dependencies {
     implementation "org.eclipse.jetty:jetty-server:9.2.30.v20200428"
     implementation "org.eclipse.jetty:jetty-servlet:9.2.30.v20200428"
 
-    //StepView
-    //implementation 'com.shuhart.stepview:stepview:1.5.1'
 }
