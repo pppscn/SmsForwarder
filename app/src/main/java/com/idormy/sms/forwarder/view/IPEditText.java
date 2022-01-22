@@ -31,7 +31,7 @@ public class IPEditText extends LinearLayout {
     public IPEditText(final Context context, AttributeSet attrs) {
         super(context, attrs);
         //初始化界面
-        View view = LayoutInflater.from(context).inflate(R.layout.iptext, this);
+        View view = LayoutInflater.from(context).inflate(R.layout.edit_text_ip, this);
         //绑定
         Edit1 = findViewById(R.id.edit1);
         Edit2 = findViewById(R.id.edit2);

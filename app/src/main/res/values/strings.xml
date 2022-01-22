@@ -43,6 +43,7 @@
     <string name="delete_log_title">日志删除确认</string>
     <string name="delete_log_tips">确定删除该条日志记录?</string>
     <string name="delete_log_toast">该条日志记录已经删除！</string>
+    <string name="resend_toast">正在重发</string>
     <string name="details">详情</string>
     <string name="clear_logs_tips">确定要清空转发记录吗？</string>
     <string name="pull_tips">下拉可以刷新！</string>
@@ -100,6 +101,7 @@
     <string name="setsmstitle">设置SMS</string>
     <string name="setfeishutitle">设置飞书机器人</string>
     <string name="setpushplustitle">设置PushPlus</string>
+    <string name="setgotifytitle">设置Gotify</string>
     <string name="test_phone_num">19999999999</string>
     <string name="test_content">测试内容(content)@</string>
     <string name="test_sms">【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服</string>
@@ -132,6 +134,7 @@
     <string name="email_password">登录密码/授权码</string>
     <string name="email_nickname">发件人昵称</string>
     <string name="email_to">收件地址</string>
+    <string name="email_to_tips">Tip：多个收件人以半角逗号,分隔</string>
     <string name="email_title">邮件主题</string>
     <string name="feishu_webhook">Webhook 地址</string>
     <string name="feishu_secret">加签 Secret (没有可不填)</string>
@@ -146,7 +149,7 @@
     <string name="ServerChanSendKey">设置Server酱·Turbo版的SendKey</string>
     <string name="TelegramApiToken">设置Telegram机器人的ApiToken 或 自定义地址(http开头)</string>
     <string name="TelegramChatId">设置被通知人(或群组)的ChatId</string>
-    <string name="WebNotifyMethod">请求方式</string>
+    <string name="Method">请求方式</string>
     <string name="WebNotifyWebServer">设置WebServer：例如：https://a.b.com/msg?token=xyz</string>
     <string name="WebNotifyWebParams">设置WebParams：例如：payload=%7B%22text%22%3A%22[msg]%22%7D [msg]将被替换成短信内容。\n支持Json格式，例如：{"text":[msg]}。\n注意：除JSON格式外，msg会自动进行UTF-8编码</string>
     <string name="WebNotifySecret">设置Secret:置空则不计算sign</string>
@@ -165,10 +168,12 @@
     <string name="retry_interval_tips">接口请求失败后将重试5次</string>
     <string name="forward_sms">转发短信广播</string>
     <string name="forward_sms_tips">总开关，请授予读取短信、通知类短信、发送短信等权限</string>
-    <string name="forward_missed_calls">转发未接来电</string>
+    <string name="forward_missed_calls">转发通话记录</string>
     <string name="forward_missed_calls_tips">总开关，请授予读取通话记录、联系人等权限</string>
     <string name="forward_app_notify">转发应用通知</string>
     <string name="forward_app_notify_tips">总开关，请先授予通知使用权</string>
+    <string name="cancel_app_notify">自动关闭通知</string>
+    <string name="cancel_app_notify_tips">单条通知处理完毕后，自动关闭，避免多条通知堆叠</string>
     <string name="enable_custom_templates">启用自定义模版</string>
     <string name="enable_custom_templates_tips">优先级：转发规则的自定义模板 > 全局自定义模版 > 默认</string>
     <string name="enable_regex_replace">启用正则替换内容</string>
@@ -206,8 +211,8 @@
     <string name="get">GET</string>
     <string name="local_ip">本机IP：</string>
     <string name="operating_instruction">操作说明：\n1.新旧手机连接同一个WiFi网络(禁用AP隔离)\n2.旧手机直接点【发送】按钮，获取到【服务端IP】\n3.新手机填写【服务端IP】后，点【接收】按钮\n【注意】新手机接收后，发送通道、转发规则将完全被覆盖，清空历史记录！</string>
-    <string name="send">发送</string>
-    <string name="stop">停止</string>
+    <string name="send">启动服务</string>
+    <string name="stop">停止服务</string>
     <string name="old_mobile_phone">我是旧手机</string>
     <string name="receive">接收</string>
     <string name="new_mobile_phone">我是新手机</string>
@@ -262,4 +267,15 @@
     <string name="proxy_authenticator">代理身份验证</string>
     <string name="username">用户</string>
     <string name="password">密码</string>
+    <string name="send_sms_config_title">SmsHub client 模式</string>
+    <string name="send_sms_config_title2">执行接口返回的操作</string>
+    <string name="privacy_policy">隐私政策</string>
+    <string name="agree">同意</string>
+    <string name="disagree">不同意</string>
+    <string name="privacy_policy_text">SmsForwarder-短信转发器(下称本软件) 100% 免费开源，Github 在线编译发版，绝不会收集您的任何隐私数据！ \n\n以下情形会上报本软件版本信息： \n 1、启动本软件时，发送版本信息发送到《友盟+·U-App移动统计》，用于分析本软件的用户版本留存与软件奔溃统计； \n 2、手动检查更新时，发送版本号用于检查新版本； \n除此之外，没有任何数据！！！ \n\n本软件会遵循《隐私政策》收集、使用版本信息，但不会因为您同意了《隐私政策》而进行强制捆绑式的信息收集。</string>
+    <string name="GotifyWebServer"><![CDATA[设置WebServer：例如：https://push.example.de/message?token=<apptoken>]]></string>
+    <string name="title_template">标题模板</string>
+    <string name="priority">优先级（1 - 9）</string>
+    <string name="_5">5</string>
+    <string name="enter_webserver_tips">请输入WebServer</string>
 </resources>

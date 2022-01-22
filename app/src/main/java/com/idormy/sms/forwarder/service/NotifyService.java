@@ -8,10 +8,10 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
-import com.idormy.sms.forwarder.utils.CommonUtil;
-import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -66,6 +66,12 @@ public class NotifyService extends NotificationListenerService {
                     packageName, title, text, time)
             );
 
+            //自动关闭通知
+            if (SettingUtil.getSwitchCancelAppNotify()) {
+                String key = sbn.getKey();
+                cancelNotification(key);
+            }
+
             //重复通知不再处理
             String prevHash = SettingUtil.getPrevNoticeHash(packageName);
             String currHash = CommonUtil.MD5(packageName + title + text + time);
@@ -79,10 +85,11 @@ public class NotifyService extends NotificationListenerService {
             SmsVo smsVo = new SmsVo(packageName, text, new Date(), title);
             Log.d(TAG, "send_msg" + smsVo.toString());
             SendUtil.send_msg(this, smsVo, 1, "app");
+            SmsHubActionHandler.putData(new SmsHubVo(SmsHubVo.Type.app, null, text, packageName));
         } catch (Exception e) {
             Log.e(TAG, "onNotificationPosted:", e);
         }
-        //NotifyHelper.getInstance().onReceive(sbn);
+
     }
 
     /**
@@ -98,8 +105,6 @@ public class NotifyService extends NotificationListenerService {
         if (sbn.getNotification() == null) return;
 
         Log.d(TAG, sbn.getPackageName());
-
-        //NotifyHelper.getInstance().onRemoved(sbn);
     }
 
     /**

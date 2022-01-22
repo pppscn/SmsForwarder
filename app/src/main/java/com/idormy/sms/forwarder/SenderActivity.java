@@ -5,6 +5,7 @@ import static com.idormy.sms.forwarder.model.SenderModel.TYPE_BARK;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_DINGDING;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_FEISHU;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_GOTIFY;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_PUSHPLUS;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
@@ -38,6 +39,7 @@ import com.idormy.sms.forwarder.model.vo.BarkSettingVo;
 import com.idormy.sms.forwarder.model.vo.DingDingSettingVo;
 import com.idormy.sms.forwarder.model.vo.EmailSettingVo;
 import com.idormy.sms.forwarder.model.vo.FeiShuSettingVo;
+import com.idormy.sms.forwarder.model.vo.GotifySettingVo;
 import com.idormy.sms.forwarder.model.vo.PushPlusSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXAppSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXGroupRobotSettingVo;
@@ -48,6 +50,7 @@ import com.idormy.sms.forwarder.model.vo.WebNotifySettingVo;
 import com.idormy.sms.forwarder.sender.SenderBarkMsg;
 import com.idormy.sms.forwarder.sender.SenderDingdingMsg;
 import com.idormy.sms.forwarder.sender.SenderFeishuMsg;
+import com.idormy.sms.forwarder.sender.SenderGotifyMsg;
 import com.idormy.sms.forwarder.sender.SenderMailMsg;
 import com.idormy.sms.forwarder.sender.SenderPushPlusMsg;
 import com.idormy.sms.forwarder.sender.SenderQyWxAppMsg;
@@ -57,6 +60,7 @@ import com.idormy.sms.forwarder.sender.SenderSmsMsg;
 import com.idormy.sms.forwarder.sender.SenderTelegramMsg;
 import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.sender.SenderWebNotifyMsg;
+import com.idormy.sms.forwarder.view.ClearEditText;
 import com.umeng.analytics.MobclickAgent;
 
 import java.net.Proxy;
@@ -149,6 +153,9 @@ public class SenderActivity extends AppCompatActivity {
                 case TYPE_PUSHPLUS:
                     setPushPlus(senderModel, false);
                     break;
+                case TYPE_GOTIFY:
+                    setGotify(senderModel, false);
+                    break;
                 default:
                     Toast.makeText(SenderActivity.this, R.string.invalid_sender, Toast.LENGTH_LONG).show();
                     SenderUtil.delSender(senderModel.getId());
@@ -208,6 +215,9 @@ public class SenderActivity extends AppCompatActivity {
                         break;
                     case TYPE_PUSHPLUS:
                         setPushPlus(senderModel, true);
+                        break;
+                    case TYPE_GOTIFY:
+                        setGotify(senderModel, true);
                         break;
                     default:
                         Toast.makeText(SenderActivity.this, R.string.invalid_sender, Toast.LENGTH_LONG).show();
@@ -272,6 +282,9 @@ public class SenderActivity extends AppCompatActivity {
                 case TYPE_PUSHPLUS:
                     setPushPlus(null, false);
                     break;
+                case TYPE_GOTIFY:
+                    setGotify(null, false);
+                    break;
                 default:
                     Toast.makeText(SenderActivity.this, R.string.not_supported, Toast.LENGTH_LONG).show();
                     break;
@@ -298,10 +311,10 @@ public class SenderActivity extends AppCompatActivity {
         final EditText editTextDingdingName = view1.findViewById(R.id.editTextDingdingName);
         if (senderModel != null)
             editTextDingdingName.setText(senderModel.getName());
-        final EditText editTextDingdingToken = view1.findViewById(R.id.editTextDingdingToken);
+        final ClearEditText editTextDingdingToken = view1.findViewById(R.id.editTextDingdingToken);
         if (dingDingSettingVo != null)
             editTextDingdingToken.setText(dingDingSettingVo.getToken());
-        final EditText editTextDingdingSecret = view1.findViewById(R.id.editTextDingdingSecret);
+        final ClearEditText editTextDingdingSecret = view1.findViewById(R.id.editTextDingdingSecret);
         if (dingDingSettingVo != null)
             editTextDingdingSecret.setText(dingDingSettingVo.getSecret());
         final EditText editTextDingdingAtMobiles = view1.findViewById(R.id.editTextDingdingAtMobiles);
@@ -405,7 +418,7 @@ public class SenderActivity extends AppCompatActivity {
         @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchEmailSSl = view1.findViewById(R.id.switchEmailSSl);
         final EditText editTextEmailFromAdd = view1.findViewById(R.id.editTextEmailFromAdd);
         final EditText editTextEmailNickname = view1.findViewById(R.id.editTextEmailNickname);
-        final EditText editTextEmailPsw = view1.findViewById(R.id.editTextEmailPsw);
+        final ClearEditText editTextEmailPsw = view1.findViewById(R.id.editTextEmailPsw);
         final EditText editTextEmailToAdd = view1.findViewById(R.id.editTextEmailToAdd);
         final EditText editTextEmailTitle = view1.findViewById(R.id.editTextEmailTitle);
         final RadioGroup radioGroupEmailProtocol = view1.findViewById(R.id.radioGroupEmailProtocol);
@@ -555,7 +568,7 @@ public class SenderActivity extends AppCompatActivity {
 
         final EditText editTextBarkName = view1.findViewById(R.id.editTextBarkName);
         if (senderModel != null) editTextBarkName.setText(senderModel.getName());
-        final EditText editTextBarkServer = view1.findViewById(R.id.editTextBarkServer);
+        final ClearEditText editTextBarkServer = view1.findViewById(R.id.editTextBarkServer);
         if (barkSettingVo != null) editTextBarkServer.setText(barkSettingVo.getServer());
         final EditText editTextBarkIcon = view1.findViewById(R.id.editTextBarkIcon);
         if (barkSettingVo != null) editTextBarkIcon.setText(barkSettingVo.getIcon());
@@ -642,7 +655,7 @@ public class SenderActivity extends AppCompatActivity {
 
         final EditText editTextServerChanName = view1.findViewById(R.id.editTextServerChanName);
         if (senderModel != null) editTextServerChanName.setText(senderModel.getName());
-        final EditText editTextServerChanSendKey = view1.findViewById(R.id.editTextServerChanSendKey);
+        final ClearEditText editTextServerChanSendKey = view1.findViewById(R.id.editTextServerChanSendKey);
         if (serverchanSettingVo != null)
             editTextServerChanSendKey.setText(serverchanSettingVo.getSendKey());
 
@@ -730,7 +743,7 @@ public class SenderActivity extends AppCompatActivity {
         if (webNotifySettingVo != null) editTextWebNotifyWebServer.setText(webNotifySettingVo.getWebServer());
         final EditText editTextWebNotifyWebParams = view1.findViewById(R.id.editTextWebNotifyWebParams);
         if (webNotifySettingVo != null) editTextWebNotifyWebParams.setText(webNotifySettingVo.getWebParams());
-        final EditText editTextWebNotifySecret = view1.findViewById(R.id.editTextWebNotifySecret);
+        final ClearEditText editTextWebNotifySecret = view1.findViewById(R.id.editTextWebNotifySecret);
         if (webNotifySettingVo != null) editTextWebNotifySecret.setText(webNotifySettingVo.getSecret());
         final RadioGroup radioGroupWebNotifyMethod = view1.findViewById(R.id.radioGroupWebNotifyMethod);
         if (webNotifySettingVo != null) radioGroupWebNotifyMethod.check(webNotifySettingVo.getWebNotifyMethodCheckId());
@@ -813,7 +826,7 @@ public class SenderActivity extends AppCompatActivity {
 
         final EditText editTextQYWXGroupRobotName = view1.findViewById(R.id.editTextQYWXGroupRobotName);
         if (senderModel != null) editTextQYWXGroupRobotName.setText(senderModel.getName());
-        final EditText editTextQYWXGroupRobotWebHook = view1.findViewById(R.id.editTextQYWXGroupRobotWebHook);
+        final ClearEditText editTextQYWXGroupRobotWebHook = view1.findViewById(R.id.editTextQYWXGroupRobotWebHook);
         if (qywxGroupRobotSettingVo != null)
             editTextQYWXGroupRobotWebHook.setText(qywxGroupRobotSettingVo.getWebHook());
 
@@ -899,7 +912,7 @@ public class SenderActivity extends AppCompatActivity {
             editTextQYWXAppName.setText(senderModel.getName());
         final EditText editTextQYWXAppCorpID = view1.findViewById(R.id.editTextQYWXAppCorpID);
         final EditText editTextQYWXAppAgentID = view1.findViewById(R.id.editTextQYWXAppAgentID);
-        final EditText editTextQYWXAppSecret = view1.findViewById(R.id.editTextQYWXAppSecret);
+        final ClearEditText editTextQYWXAppSecret = view1.findViewById(R.id.editTextQYWXAppSecret);
         final LinearLayout linearLayoutQYWXAppToUser = view1.findViewById(R.id.linearLayoutQYWXAppToUser);
         final EditText editTextQYWXAppToUser = view1.findViewById(R.id.editTextQYWXAppToUser);
         @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchQYWXAppAtAll = view1.findViewById(R.id.switchQYWXAppAtAll);
@@ -1020,8 +1033,9 @@ public class SenderActivity extends AppCompatActivity {
         final EditText editTextTelegramName = view1.findViewById(R.id.editTextTelegramName);
         if (senderModel != null) editTextTelegramName.setText(senderModel.getName());
 
-        final EditText editTextTelegramApiToken = view1.findViewById(R.id.editTextTelegramApiToken);
+        final ClearEditText editTextTelegramApiToken = view1.findViewById(R.id.editTextTelegramApiToken);
         final EditText editTextTelegramChatId = view1.findViewById(R.id.editTextTelegramChatId);
+        final RadioGroup radioGroupTelegramMethod = view1.findViewById(R.id.radioGroupTelegramMethod);
 
         final RadioGroup radioGroupProxyType = view1.findViewById(R.id.radioGroupProxyType);
         final EditText editTextProxyHost = view1.findViewById(R.id.editTextProxyHost);
@@ -1029,7 +1043,7 @@ public class SenderActivity extends AppCompatActivity {
 
         @SuppressLint("UseSwitchCompatOrMaterialCode") final Switch switchProxyAuthenticator = view1.findViewById(R.id.switchProxyAuthenticator);
         final EditText editTextProxyUsername = view1.findViewById(R.id.editTextProxyUsername);
-        final EditText editTextProxyPassword = view1.findViewById(R.id.editTextProxyPassword);
+        final ClearEditText editTextProxyPassword = view1.findViewById(R.id.editTextProxyPassword);
 
         final LinearLayout layoutProxyHost = view1.findViewById(R.id.layoutProxyHost);
         final LinearLayout layoutProxyPort = view1.findViewById(R.id.layoutProxyPort);
@@ -1058,6 +1072,7 @@ public class SenderActivity extends AppCompatActivity {
         if (telegramSettingVo != null) {
             editTextTelegramApiToken.setText(telegramSettingVo.getApiToken());
             editTextTelegramChatId.setText(telegramSettingVo.getChatId());
+            radioGroupTelegramMethod.check(telegramSettingVo.getMethodCheckId());
 
             radioGroupProxyType.check(telegramSettingVo.getProxyTypeCheckId());
             layoutProxyAuthenticator.setVisibility(telegramSettingVo.getProxyAuthenticator() ? View.VISIBLE : View.GONE);
@@ -1102,7 +1117,8 @@ public class SenderActivity extends AppCompatActivity {
                         editTextProxyPort.getText().toString().trim(),
                         switchProxyAuthenticator.isChecked(),
                         editTextProxyUsername.getText().toString().trim(),
-                        editTextProxyPassword.getText().toString().trim()
+                        editTextProxyPassword.getText().toString().trim(),
+                        (radioGroupTelegramMethod.getCheckedRadioButtonId() == R.id.radioTelegramMethodGet ? "GET" : "POST")
 
                 );
                 newSenderModel.setJsonSetting(JSON.toJSONString(telegramSettingVoNew));
@@ -1121,7 +1137,8 @@ public class SenderActivity extends AppCompatActivity {
                         editTextProxyPort.getText().toString().trim(),
                         switchProxyAuthenticator.isChecked(),
                         editTextProxyUsername.getText().toString().trim(),
-                        editTextProxyPassword.getText().toString().trim()
+                        editTextProxyPassword.getText().toString().trim(),
+                        (radioGroupTelegramMethod.getCheckedRadioButtonId() == R.id.radioTelegramMethodGet ? "GET" : "POST")
                 );
                 senderModel.setJsonSetting(JSON.toJSONString(telegramSettingVoNew));
                 SenderUtil.updateSender(senderModel);
@@ -1153,9 +1170,10 @@ public class SenderActivity extends AppCompatActivity {
                             editTextProxyPort.getText().toString().trim(),
                             switchProxyAuthenticator.isChecked(),
                             editTextProxyUsername.getText().toString().trim(),
-                            editTextProxyPassword.getText().toString().trim()
+                            editTextProxyPassword.getText().toString().trim(),
+                            (radioGroupTelegramMethod.getCheckedRadioButtonId() == R.id.radioTelegramMethodGet ? "GET" : "POST")
                     );
-                    SenderTelegramMsg.sendMsg(0, handler, telegramSettingVoNew, getString(R.string.test_phone_num), getString(R.string.test_sms));
+                    SenderTelegramMsg.sendMsg(0, handler, telegramSettingVoNew, getString(R.string.test_phone_num), getString(R.string.test_sms), telegramSettingVoNew.getMethod());
                 } catch (Exception e) {
                     Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
@@ -1282,7 +1300,7 @@ public class SenderActivity extends AppCompatActivity {
         final EditText editTextFeishuWebhook = view1.findViewById(R.id.editTextFeishuWebhook);
         if (feiShuSettingVo != null)
             editTextFeishuWebhook.setText(feiShuSettingVo.getWebhook());
-        final EditText editTextFeishuSecret = view1.findViewById(R.id.editTextFeishuSecret);
+        final ClearEditText editTextFeishuSecret = view1.findViewById(R.id.editTextFeishuSecret);
         if (feiShuSettingVo != null)
             editTextFeishuSecret.setText(feiShuSettingVo.getSecret());
 
@@ -1364,7 +1382,7 @@ public class SenderActivity extends AppCompatActivity {
         View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_pushplus, null);
 
         final EditText editTextPushPlusName = view1.findViewById(R.id.editTextPushPlusName);
-        final EditText editTextPushPlusToken = view1.findViewById(R.id.editTextPushPlusToken);
+        final ClearEditText editTextPushPlusToken = view1.findViewById(R.id.editTextPushPlusToken);
         final EditText editTextPushPlusTopic = view1.findViewById(R.id.editTextPushPlusTopic);
         final EditText editTextPushPlusTemplate = view1.findViewById(R.id.editTextPushPlusTemplate);
         final EditText editTextPushPlusChannel = view1.findViewById(R.id.editTextPushPlusChannel);
@@ -1467,6 +1485,140 @@ public class SenderActivity extends AppCompatActivity {
         });
     }
 
+    //Gotify
+    @SuppressLint("SimpleDateFormat")
+    private void setGotify(final SenderModel senderModel, final boolean isClone) {
+        GotifySettingVo gotifySettingVo = null;
+        //try phrase json setting
+        if (senderModel != null) {
+            String jsonSettingStr = senderModel.getJsonSetting();
+            if (jsonSettingStr != null) {
+                gotifySettingVo = JSON.parseObject(jsonSettingStr, GotifySettingVo.class);
+            }
+        }
+
+        final AlertDialog.Builder alertDialog71 = new AlertDialog.Builder(SenderActivity.this);
+        View view1 = View.inflate(SenderActivity.this, R.layout.alert_dialog_setview_gotify, null);
+
+        final EditText editTextGotifyName = view1.findViewById(R.id.editTextGotifyName);
+        if (senderModel != null) editTextGotifyName.setText(senderModel.getName());
+
+        final ClearEditText editTextGotifyWebServer = view1.findViewById(R.id.editTextGotifyWebServer);
+        final EditText editTextGotifyTitle = view1.findViewById(R.id.editTextGotifyTitle);
+        final EditText editTextGotifyPriority = view1.findViewById(R.id.editTextGotifyPriority);
+        if (gotifySettingVo != null) {
+            editTextGotifyWebServer.setText(gotifySettingVo.getWebServer());
+            editTextGotifyTitle.setText(gotifySettingVo.getTitle());
+            editTextGotifyPriority.setText(gotifySettingVo.getPriority());
+        }
+
+        Button buttonGotifyOk = view1.findViewById(R.id.buttonGotifyOk);
+        Button buttonGotifyDel = view1.findViewById(R.id.buttonGotifyDel);
+        Button buttonGotifyTest = view1.findViewById(R.id.buttonGotifyTest);
+        alertDialog71
+                .setTitle(R.string.setgotifytitle)
+                .setIcon(R.mipmap.gotify)
+                .setView(view1)
+                .create();
+        final AlertDialog show = alertDialog71.show();
+
+        buttonGotifyOk.setOnClickListener(view -> {
+            String webServer = editTextGotifyWebServer.getText().toString().trim();
+            if (webServer.isEmpty()) {
+                Toast.makeText(SenderActivity.this, R.string.invalid_webserver, Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            String title = editTextGotifyTitle.getText().toString().trim();
+            if (title.isEmpty()) title = "SmsForwarder Title";
+
+            String priority = editTextGotifyPriority.getText().toString().trim();
+
+            GotifySettingVo gotifySettingVoNew = new GotifySettingVo(webServer, title, priority);
+
+            if (isClone || senderModel == null) {
+                SenderModel newSenderModel = new SenderModel();
+                newSenderModel.setName(editTextGotifyName.getText().toString().trim());
+                newSenderModel.setType(TYPE_GOTIFY);
+                newSenderModel.setStatus(STATUS_ON);
+                newSenderModel.setJsonSetting(JSON.toJSONString(gotifySettingVoNew));
+                SenderUtil.addSender(newSenderModel);
+                initSenders();
+                adapter.add(senderModels);
+            } else {
+                senderModel.setName(editTextGotifyName.getText().toString().trim());
+                senderModel.setType(TYPE_GOTIFY);
+                senderModel.setStatus(STATUS_ON);
+                senderModel.setJsonSetting(JSON.toJSONString(gotifySettingVoNew));
+                SenderUtil.updateSender(senderModel);
+                initSenders();
+                adapter.update(senderModels);
+            }
+
+            show.dismiss();
+        });
+        buttonGotifyDel.setOnClickListener(view -> {
+            if (senderModel != null) {
+                SenderUtil.delSender(senderModel.getId());
+                initSenders();
+                adapter.del(senderModels);
+            }
+            show.dismiss();
+        });
+        buttonGotifyTest.setOnClickListener(view -> {
+            String webServer = editTextGotifyWebServer.getText().toString().trim();
+            if (webServer.isEmpty()) {
+                Toast.makeText(SenderActivity.this, R.string.invalid_webserver, Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            String title = editTextGotifyTitle.getText().toString().trim();
+            if (title.isEmpty()) title = "SmsForwarder Title";
+
+            String priority = editTextGotifyPriority.getText().toString().trim();
+
+            GotifySettingVo gotifySettingVoNew = new GotifySettingVo(webServer, title, priority);
+
+            try {
+                SenderGotifyMsg.sendMsg(0, handler, gotifySettingVoNew, title, R.string.test_content + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+            } catch (Exception e) {
+                Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
+
+        });
+
+
+        Button buttonInsertSender = view1.findViewById(R.id.bt_insert_sender);
+        buttonInsertSender.setOnClickListener(view -> {
+            editTextGotifyTitle.setFocusable(true);
+            editTextGotifyTitle.requestFocus();
+            editTextGotifyTitle.append("{{来源号码}}");
+        });
+
+        Button buttonInsertExtra = view1.findViewById(R.id.bt_insert_extra);
+        buttonInsertExtra.setOnClickListener(view -> {
+            editTextGotifyTitle.setFocusable(true);
+            editTextGotifyTitle.requestFocus();
+            editTextGotifyTitle.append("{{卡槽信息}}");
+        });
+
+        Button buttonInsertTime = view1.findViewById(R.id.bt_insert_time);
+        buttonInsertTime.setOnClickListener(view -> {
+            editTextGotifyTitle.setFocusable(true);
+            editTextGotifyTitle.requestFocus();
+            editTextGotifyTitle.append("{{接收时间}}");
+        });
+
+        Button buttonInsertDeviceName = view1.findViewById(R.id.bt_insert_device_name);
+        buttonInsertDeviceName.setOnClickListener(view -> {
+            editTextGotifyTitle.setFocusable(true);
+            editTextGotifyTitle.requestFocus();
+            editTextGotifyTitle.append("{{设备名称}}");
+        });
+
+    }
+
     @Override
     protected void onDestroy() {
         Log.d(TAG, "onDestroy");
@@ -1476,12 +1628,14 @@ public class SenderActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart(TAG);
         MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        MobclickAgent.onPageEnd(TAG);
         MobclickAgent.onPause(this);
     }
 

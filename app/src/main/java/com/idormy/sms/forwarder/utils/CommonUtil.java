@@ -6,10 +6,8 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.text.TextUtils;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -21,45 +19,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Set;
 
 /**
- * 权限相关工具类
+ * 常用工具类
  */
 public class CommonUtil {
     public static final int NOTIFICATION_REQUEST_CODE = 9527;
     private static final String ACTION_NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
-
-    /**
-     * <meta-data
-     * android:name="UMENG_CHANNEL"
-     * android:value="Umeng">
-     * </meta-data>
-     *
-     * @param ctx 上下文
-     * @return 渠道名称
-     */
-    // 获取渠道工具函数
-    public static String getChannelName(Context ctx) {
-        if (ctx == null) {
-            return null;
-        }
-        String channelName = null;
-        try {
-            PackageManager packageManager = ctx.getPackageManager();
-            if (packageManager != null) {
-                //注意此处为ApplicationInfo 而不是 ActivityInfo,因为友盟设置的meta-data是在application标签中，而不是activity标签中，所以用ApplicationInfo
-                ApplicationInfo applicationInfo = packageManager.getApplicationInfo(ctx.getPackageName(), PackageManager.GET_META_DATA);
-                if (applicationInfo.metaData != null) {
-                    channelName = applicationInfo.metaData.get("UMENG_CHANNEL") + "";
-                }
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        if (TextUtils.isEmpty(channelName)) {
-            channelName = "Unknown";
-        }
-
-        return channelName;
-    }
 
     //是否启用通知监听服务
     public static boolean isNotificationListenerServiceEnabled(Context context) {
@@ -166,5 +130,14 @@ public class CommonUtil {
         }
 
         return null;
+    }
+
+    /**
+     * @date 2020/12/28 9:52
+     * @description 屏幕像素转换
+     */
+    public static int dp2px(Context context, float dipValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
     }
 }

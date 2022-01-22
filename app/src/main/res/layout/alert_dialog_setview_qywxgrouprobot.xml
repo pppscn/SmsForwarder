@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -45,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/QYWXGroupRobotWebHook" />
 
-            <EditText
+            <!--<EditText
                 android:id="@+id/editTextQYWXGroupRobotWebHook"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -53,7 +54,17 @@
                 android:ems="14"
                 android:inputType="text"
                 android:text=""
-                tools:ignore="LabelFor" />
+                tools:ignore="LabelFor" />-->
+
+            <com.idormy.sms.forwarder.view.ClearEditText
+                android:id="@+id/editTextQYWXGroupRobotWebHook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/line_bg_white_only_bottom_d8"
+                app:showEye="true"
+                app:textColor="@color/tv_black_333333"
+                app:textColorHint="@color/tv_gray_999999"
+                app:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout

@@ -37,7 +37,7 @@ public class SenderTelegramMsg extends SenderBaseMsg {
 
     static final String TAG = "SenderTelegramMsg";
 
-    public static void sendMsg(final long logId, final Handler handError, TelegramSettingVo telegramSettingVo, String from, String text) throws Exception {
+    public static void sendMsg(final long logId, final Handler handError, TelegramSettingVo telegramSettingVo, final String from, final String text, final String method) throws Exception {
         Log.i(TAG, "sendMsg telegramSettingVo:" + telegramSettingVo.toString() + " text:" + text);
 
         String apiToken = telegramSettingVo.getApiToken();
@@ -47,21 +47,14 @@ public class SenderTelegramMsg extends SenderBaseMsg {
         }
 
         //特殊处理避免标题重复
-        text = text.replaceAll("#", "井").trim();
+        final String finalText = text.replaceAll("#", "井").trim();
 
         if (!apiToken.startsWith("http")) {
             apiToken = "https://api.telegram.org/bot" + apiToken + "/sendMessage";
         }
+
         final String requestUrl = apiToken;
         Log.i(TAG, "requestUrl:" + requestUrl);
-
-        Map bodyMap = new HashMap();
-        bodyMap.put("chat_id", chatId);
-        bodyMap.put("text", text);
-        bodyMap.put("parse_mode", "HTML");
-
-        final String requestMsg = JSON.toJSONString(bodyMap);
-        Log.i(TAG, "requestMsg:" + requestMsg);
 
         //代理相关
         final Proxy.Type proxyType = telegramSettingVo.getProxyType();
@@ -107,13 +100,27 @@ public class SenderTelegramMsg extends SenderBaseMsg {
                                     .connectionPool(new ConnectionPool(5, 1, TimeUnit.SECONDS)).build();
                         }
 
-                        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), requestMsg);
+                        final Request request;
+                        if (method.equals("GET")) {
+                            request = new Request.Builder()
+                                    .url(requestUrl + "?chat_id=" + chatId + "&text=" + finalText)
+                                    .build();
+                        } else {
+                            Map bodyMap = new HashMap();
+                            bodyMap.put("chat_id", chatId);
+                            bodyMap.put("text", finalText);
+                            bodyMap.put("parse_mode", "HTML");
 
-                        final Request request = new Request.Builder()
-                                .url(requestUrl)
-                                .addHeader("Content-Type", "application/json; charset=utf-8")
-                                .post(requestBody)
-                                .build();
+                            String requestMsg = JSON.toJSONString(bodyMap);
+                            Log.i(TAG, "requestMsg:" + requestMsg);
+
+                            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), requestMsg);
+                            request = new Request.Builder()
+                                    .url(requestUrl)
+                                    .addHeader("Content-Type", "application/json; charset=utf-8")
+                                    .post(requestBody)
+                                    .build();
+                        }
 
                         client.newCall(request).enqueue(new Callback() {
                             @Override
@@ -137,7 +144,7 @@ public class SenderTelegramMsg extends SenderBaseMsg {
                                 }
                             }
                         });
-                    
+
                     } catch (Exception e) {
                         LogUtil.updateLog(logId, 0, e.getMessage());
                         Log.e(TAG, e.getMessage(), e);

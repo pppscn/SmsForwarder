@@ -78,6 +78,16 @@ public class SettingUtil {
         return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_APP_NOTIFY, false);
     }
 
+    public static void switchCancelAppNotify(Boolean enable) {
+        sp_setting.edit()
+                .putBoolean(Define.SP_MSG_KEY_STRING_CANCEL_APP_NOTIFY, enable)
+                .apply();
+    }
+
+    public static boolean getSwitchCancelAppNotify() {
+        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_CANCEL_APP_NOTIFY, true);
+    }
+
     public static void switchEnableBatteryReceiver(Boolean enable) {
         sp_setting.edit()
                 .putBoolean(Define.SP_MSG_KEY_STRING_BATTERY_RECEIVER, enable)
@@ -247,6 +257,36 @@ public class SettingUtil {
 
     public static void setPrevNoticeHash(String key, String value) {
         sp_setting.edit().putString(key, value).apply();
+    }
+
+    public static void switchEnableSmsHubApi(Boolean enable) {
+        sp_setting.edit()
+                .putBoolean(Define.SP_MSG_KEY_STRING_ENABLE_SMSHUB_API, enable)
+                .apply();
+    }
+
+    public static boolean getSwitchEnableSmsHubApi() {
+        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_SMSHUB_API, false);
+    }
+
+    public static void switchEnableHttpServer(Boolean enable) {
+        sp_setting.edit()
+                .putBoolean(Define.SP_MSG_KEY_STRING_ENABLE_HTTP_SERVER, enable)
+                .apply();
+    }
+
+    public static boolean getSwitchEnableHttpServer() {
+        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_HTTP_SERVER, false);
+    }
+
+    public static void smsHubApiUrl(String url) {
+        sp_setting.edit()
+                .putString(Define.SP_MSG_KEY_STRING_SMSHUB_API_URL, url)
+                .apply();
+    }
+
+    public static String getSmsHubApiUrl() {
+        return sp_setting.getString(Define.SP_MSG_KEY_STRING_SMSHUB_API_URL, "http://xxx.com/send_api");
     }
 
     //获取当前版本名称

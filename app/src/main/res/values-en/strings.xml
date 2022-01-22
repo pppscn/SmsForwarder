@@ -43,6 +43,7 @@
     <string name="delete_log_title">Delete confirmation</string>
     <string name="delete_log_tips">Are you sure to delete this log entry?</string>
     <string name="delete_log_toast">The log entry is deleted.</string>
+    <string name="resend_toast">Resending</string>
     <string name="details">Details</string>
     <string name="clear_logs_tips">Are you sure to clear all forwarding logs?</string>
     <string name="pull_tips">Pull to refresh.</string>
@@ -100,6 +101,7 @@
     <string name="setsmstitle">SMS Settings</string>
     <string name="setfeishutitle">FeiShu Bot Settings</string>
     <string name="setpushplustitle">PushPlus Settings</string>
+    <string name="setgotifytitle">Gotify Settings</string>
     <string name="test_phone_num">19999999999</string>
     <string name="test_content">Test content @</string>
     <string name="test_sms">【JD】code 387481, ihelp.jd.com</string>
@@ -132,6 +134,7 @@
     <string name="email_password">Password/Auth Code</string>
     <string name="email_nickname">Nickname</string>
     <string name="email_to">Send To</string>
+    <string name="email_to_tips">Tip：Separate multiple recipients with a ","</string>
     <string name="email_title">Email Title</string>
     <string name="feishu_webhook">Webhook</string>
     <string name="feishu_secret">Secret (optional)</string>
@@ -146,7 +149,7 @@
     <string name="ServerChanSendKey">ServerChan\'s SendKey</string>
     <string name="TelegramApiToken">ApiToken or Custom address</string>
     <string name="TelegramChatId">ChatId</string>
-    <string name="WebNotifyMethod">Method</string>
+    <string name="Method">Method</string>
     <string name="WebNotifyWebServer">WebServer e.g. https://a.b.com/msg?token=xyz</string>
     <string name="WebNotifyWebParams">WebParams e.g. payload=%7B%22text%22%3A%22[msg]%22%7D [msg] will be replaced with text message content. \nSupport Json format, for example: {"text":[MSG]}.\n Note: MSG is automatically utF-8 encoded in addition to JSON format</string>
     <string name="WebNotifySecret">Secret (sign is not counted if left blank)</string>
@@ -165,10 +168,12 @@
     <string name="retry_interval_tips">Retry five times after it fails</string>
     <string name="forward_sms">Forward sms</string>
     <string name="forward_sms_tips">Main switch, requires permissions to read and sned SMS messages, especially verification SMS texts.</string>
-    <string name="forward_missed_calls">Forward missed calls</string>
+    <string name="forward_missed_calls">Forward calls log</string>
     <string name="forward_missed_calls_tips">Main switch, requires permissions to read call log and contacts.</string>
-    <string name="forward_app_notify">Forward app notify</string>
+    <string name="forward_app_notify">Forward app Ntf.</string>
     <string name="forward_app_notify_tips">Main switch, requires permission to read notification.</string>
+    <string name="cancel_app_notify">Auto close Ntf.</string>
+    <string name="cancel_app_notify_tips">Automatically close a single notification after forwarding, to avoid stacking of multiple notifications.</string>
     <string name="enable_custom_templates">Global custom template</string>
     <string name="enable_custom_templates_tips">Priority: custom template for forwarding rules > Global custom template > System default</string>
     <string name="enable_regex_replace">Enable regular replacement content</string>
@@ -207,8 +212,8 @@
     <!--CloneActivity-->
     <string name="local_ip">Local IP：</string>
     <string name="operating_instruction">Instructions: \n1. Please keep the SOURCE and DESTINATION phones in the same Wi-Fi network, and do not turn on isolation. \n2. Tap "Send" on SOURCE mobile phone, and get "server IP" \n3. After filling in "Server IP" on DESTINATION phone, tap "Receive". \n [NOTE:] sender(s), forwarding rule(s) and log(s) will be overwritten after cloning!</string> <!-- 原文是“新旧手机”，英文翻译中处理为“源”手机和“目标”手机，因为担心“新旧”的表述引起混淆（有没一种可能就是用户就是用从新手机的设备复制到旧手机上去呢？）。 -->
-    <string name="send">Send</string>
-    <string name="stop">Stop</string>
+    <string name="send">Start Server</string>
+    <string name="stop">Stop Server</string>
     <string name="old_mobile_phone">I\'m the SCOURCE phone</string>
     <string name="receive">Receive</string>
     <string name="new_mobile_phone">I\'m the DESTINATION phone</string>
@@ -263,4 +268,15 @@
     <string name="proxy_authenticator">Proxy Authenticator</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="send_sms_config_title">SmsHub client Mode</string>
+    <string name="send_sms_config_title2">Execute the operation returned by the interface</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="agree">Agree</string>
+    <string name="disagree">Disagree</string>
+    <string name="privacy_policy_text">SmsForwarder (the "Application/App"), is 100\% free and open source, and is compliled and released basing on repository hosted on GitHub. The App will not collect any of your privacy data!\n\n Version information of the App will be sent in the following situations: \n 1. As startup, version information will be sent to "Umeng +· U-APP Mobile Statistics" for user retention analyze and crash stats;\n 2. Manual update check triggered by user;\n The App collects no any other data!!\n\n The App collects and uses version information only in accordance with the Privacy Policy, and will not collect any other information as an abuse of users\' consent to the Privacy Policy;</string>
+    <string name="GotifyWebServer"><![CDATA[Setting the WebServer, eg.: https://push.example.de/message?token=<apptoken>]]></string>
+    <string name="title_template">Title Template</string>
+    <string name="priority">Priority（1 – 9）</string>
+    <string name="_5">5</string>
+    <string name="enter_webserver_tips">Please enter the WebServer</string>
 </resources>

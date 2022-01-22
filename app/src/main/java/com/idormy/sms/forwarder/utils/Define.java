@@ -9,6 +9,7 @@ public class Define {
     public static final String SP_MSG_KEY_STRING_ENABLE_SMS = "tsms_msg_key_switch_enable_sms";
     public static final String SP_MSG_KEY_STRING_ENABLE_PHONE = "tsms_msg_key_switch_enable_phone";
     public static final String SP_MSG_KEY_STRING_ENABLE_APP_NOTIFY = "tsms_msg_key_switch_enable_app_notify";
+    public static final String SP_MSG_KEY_STRING_CANCEL_APP_NOTIFY = "tsms_msg_key_switch_cancel_app_notify";
     public static final String SP_MSG_KEY_STRING_ENABLE_EXCLUDE_FROM_RECENTS = "tsms_msg_key_switch_enable_exclude_from_recents";
     public static final String SP_MSG_KEY_STRING_ADD_EXTRA_DEVICE_MARK = "tsms_msg_key_string_add_extra_device_mark";
     public static final String SP_MSG_KEY_STRING_ADD_EXTRA_SIM1 = "tsms_msg_key_string_add_extra_sim1";
@@ -25,6 +26,9 @@ public class Define {
     public static final String SP_MSG_KEY_STRING_RETRY_DELAY_TIME3 = "tsms_msg_key_string_retry_delay_time3";
     public static final String SP_MSG_KEY_STRING_RETRY_DELAY_TIME4 = "tsms_msg_key_string_retry_delay_time4";
     public static final String SP_MSG_KEY_STRING_RETRY_DELAY_TIME5 = "tsms_msg_key_string_retry_delay_time5";
+    public static final String SP_MSG_KEY_STRING_ENABLE_SMSHUB_API = "tsms_msg_key_string_enable_smshub_api";
+    public static final String SP_MSG_KEY_STRING_SMSHUB_API_URL = "tsms_msg_key_string_smshub_api_url";
+    public static final String SP_MSG_KEY_STRING_ENABLE_HTTP_SERVER = "tsms_msg_key_string_enable_http_server";
 
     public static final String SP_MSG = "forwarder_msg";
     public static final String SP_MSG_SET_KEY = "forwarder_msg_set_key";

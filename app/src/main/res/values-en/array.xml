@@ -12,5 +12,6 @@
         <item>SMS</item>
         <item>FeiShu Bot</item>
         <item>PushPlus</item>
+        <item>Gotify</item>
     </string-array>
 </resources>

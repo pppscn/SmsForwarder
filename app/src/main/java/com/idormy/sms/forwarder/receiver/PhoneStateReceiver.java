@@ -10,13 +10,10 @@ import android.util.Log;
 import com.idormy.sms.forwarder.R;
 import com.idormy.sms.forwarder.model.CallInfo;
 import com.idormy.sms.forwarder.model.PhoneBookEntity;
+import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
-import com.idormy.sms.forwarder.utils.CommonUtil;
-import com.idormy.sms.forwarder.utils.ContactHelper;
-import com.idormy.sms.forwarder.utils.PhoneUtils;
-import com.idormy.sms.forwarder.utils.SettingUtil;
-import com.idormy.sms.forwarder.utils.SimUtil;
+import com.idormy.sms.forwarder.utils.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -84,11 +81,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         Log.d(TAG, "getSubscriptionId = " + callInfo.getSubscriptionId());
         int simId = SimUtil.getSimIdBySubscriptionId(callInfo.getSubscriptionId());
         String simInfo = simId == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1(); //自定义备注优先
-        if (!simInfo.isEmpty()) {
-            simInfo = "SIM" + simId + "_" + simInfo;
-        } else {
-            simInfo = SimUtil.getSimInfo(simId);
-        }
+        simInfo = "SIM" + simId + "_" + simInfo;
 
         if (TextUtils.isEmpty(name)) {
             List<PhoneBookEntity> contacts = ContactHelper.getInstance().getContactByNumber(context, phoneNumber);
@@ -113,5 +106,6 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         SmsVo smsVo = new SmsVo(phoneNumber, name + context.getString(R.string.calling), new Date(), simInfo);
         Log.d(TAG, "send_msg" + smsVo.toString());
         SendUtil.send_msg(context, smsVo, simId, "call");
+        SmsHubActionHandler.putData(new SmsHubVo(SmsHubVo.Type.phone, simId, name + context.getString(R.string.calling), phoneNumber));
     }
 }

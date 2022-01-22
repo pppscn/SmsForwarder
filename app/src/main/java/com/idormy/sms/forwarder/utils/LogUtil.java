@@ -198,7 +198,7 @@ public class LogUtil {
                 if (senderName != null) rule += senderName.trim();
 
                 int senderImageId = SenderModel.getImageId(senderType);
-                LogVo logVo = new LogVo(itemId, itemFrom, content, simInfo, time, rule, senderImageId, forwardStatus, forwardResponse);
+                LogVo logVo = new LogVo(itemId, type, itemFrom, content, simInfo, time, rule, senderImageId, forwardStatus, forwardResponse);
                 LogVos.add(logVo);
             } catch (Exception e) {
                 Log.e(TAG, "getLog e:" + e.getMessage());

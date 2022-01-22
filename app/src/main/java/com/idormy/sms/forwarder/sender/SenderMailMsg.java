@@ -8,6 +8,9 @@ import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.smailnet.emailkit.Draft;
 import com.smailnet.emailkit.EmailKit;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -35,12 +38,15 @@ public class SenderMailMsg extends SenderBaseMsg {
                                 .setAccount(fromEmail)             //发件人邮箱
                                 .setPassword(pwd);                 //密码或授权码
 
+                        //多个收件人邮箱
+                        Set<String> toSet = new HashSet<>(Arrays.asList(toAdd.replace("，", ",").split(",")));
+
                         //设置一封草稿邮件
                         Draft draft = new Draft()
                                 .setNickname(nickname)   //发件人昵称
-                                .setTo(toAdd)                  //收件人邮箱
-                                .setSubject(title)             //邮件主题
-                                .setText(content);             //邮件正文
+                                .setTo(toSet)            //收件人邮箱
+                                .setSubject(title)       //邮件主题
+                                .setText(content);       //邮件正文
 
                         //使用SMTP服务发送邮件
                         EmailKit.useSMTPService(config)

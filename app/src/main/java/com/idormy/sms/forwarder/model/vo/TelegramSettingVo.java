@@ -17,6 +17,7 @@ public class TelegramSettingVo implements Serializable {
     private Boolean proxyAuthenticator = false;
     private String proxyUsername;
     private String proxyPassword;
+    private String method;
 
     public TelegramSettingVo() {
     }
@@ -25,9 +26,10 @@ public class TelegramSettingVo implements Serializable {
         this.apiToken = apiToken;
         this.chatId = chatId;
         this.proxyType = Proxy.Type.DIRECT;
+        this.method = "POST";
     }
 
-    public TelegramSettingVo(String apiToken, String chatId, int proxyTypeId, String proxyHost, String proxyPort, boolean proxyAuthenticator, String proxyUsername, String proxyPassword) {
+    public TelegramSettingVo(String apiToken, String chatId, int proxyTypeId, String proxyHost, String proxyPort, boolean proxyAuthenticator, String proxyUsername, String proxyPassword, String method) {
         this.apiToken = apiToken;
         this.chatId = chatId;
         if (proxyTypeId == R.id.btnProxyHttp) {
@@ -42,6 +44,7 @@ public class TelegramSettingVo implements Serializable {
         this.proxyAuthenticator = proxyAuthenticator;
         this.proxyUsername = proxyUsername;
         this.proxyPassword = proxyPassword;
+        this.method = method;
     }
 
     public int getProxyTypeCheckId() {
@@ -51,6 +54,14 @@ public class TelegramSettingVo implements Serializable {
             return R.id.btnProxySocks;
         } else {
             return R.id.btnProxyNone;
+        }
+    }
+
+    public int getMethodCheckId() {
+        if (method == null || method.equals("POST")) {
+            return R.id.radioTelegramMethodPost;
+        } else {
+            return R.id.radioTelegramMethodGet;
         }
     }
 }

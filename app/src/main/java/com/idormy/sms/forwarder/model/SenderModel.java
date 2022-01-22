@@ -22,6 +22,7 @@ public class SenderModel {
     public static final int TYPE_SMS = 8;
     public static final int TYPE_FEISHU = 9;
     public static final int TYPE_PUSHPLUS = 10;
+    public static final int TYPE_GOTIFY = 11;
     private Long id;
     private String name;
     private int status;
@@ -61,6 +62,8 @@ public class SenderModel {
                 return R.mipmap.feishu;
             case (TYPE_PUSHPLUS):
                 return R.mipmap.pushplus;
+            case (TYPE_GOTIFY):
+                return R.mipmap.gotify;
             case (TYPE_SMS):
             default:
                 return R.mipmap.sms;
@@ -89,6 +92,8 @@ public class SenderModel {
                 return R.mipmap.feishu;
             case (TYPE_PUSHPLUS):
                 return R.mipmap.pushplus;
+            case (TYPE_GOTIFY):
+                return R.mipmap.gotify;
             case (TYPE_SMS):
             default:
                 return R.mipmap.sms;

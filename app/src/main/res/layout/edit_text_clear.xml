@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:minHeight="45dp"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/iv_edit_left_icon"
+        android:layout_width="30dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_centerVertical="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/icon_login"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <EditText
+        android:id="@+id/view_edit_show"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:gravity="center|left"
+        android:hint="请输入手机号"
+        android:minHeight="45dp"
+        android:paddingRight="45dp"
+        android:textSize="14sp" />
+
+    <RelativeLayout
+        android:layout_width="90dp"
+        android:layout_height="45dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:gravity="right">
+
+        <ImageView
+            android:id="@+id/iv_edit_eye"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:src="@drawable/clear_icon_eye_close"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_edit_clean"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:src="@drawable/clear_icon_close"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </RelativeLayout>
+
+</RelativeLayout>
