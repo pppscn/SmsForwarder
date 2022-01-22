@@ -100,8 +100,6 @@
     <string name="setpushplustitle">设置PushPlus</string>
     <string name="setgotifytitle">设置Gotify</string>
     <string name="test_phone_num">19999999999</string>
-    <string name="test_content">测试内容(content)@</string>
-    <string name="test_sms">【京东】验证码为387481（切勿将验证码告知他人），请在页面中输入完成验证，如有问题请点击 ihelp.jd.com 联系京东客服</string>
     <string name="test_group_name">测试分组</string>
     <string name="failed_to_fwd">发送失败：</string>
     <string name="invalid_name">通道名称不能为空</string>
@@ -173,8 +171,8 @@
     <string name="carrier_mobile">运营商_手机号</string>
     <string name="low_power_alarm_threshold">电量预警阈值(%)</string>
     <string name="low_power_alarm_threshold_tips">取值范围：0–100，0禁用</string>
-    <string name="retry_interval">失败重试间隔(秒)</string>
-    <string name="retry_interval_tips">接口请求失败后将重试5次</string>
+    <string name="retry_interval">请求接口失败重试</string>
+    <string name="retry_interval_tips">次数=0时禁用，间隔逐次递增</string>
     <string name="forward_sms">转发短信广播</string>
     <string name="forward_sms_tips">总开关，请授予读取短信、通知类短信、发送短信等权限</string>
     <string name="forward_missed_calls">转发通话记录</string>
@@ -301,6 +299,7 @@
     <string name="feishu">飞书机器人</string>
     <string name="pushplus">PushPlus</string>
     <string name="gotify">Gotify</string>
+    <string name="_0">0</string>
     <string name="_1">1</string>
     <string name="_2">2</string>
     <string name="_3">3</string>
@@ -328,4 +327,10 @@
     <string name="keep_alive_tips">建议开启每一项授权或设置，不要禁用通知栏，避免APP服务被杀</string>
     <string name="custom_settings">个性设置</string>
     <string name="custom_settings_tips">如果自动获取失败，请手动填写备注信息；清空后将再次自动获取！</string>
+    <string name="times">次</string>
+    <string name="interval">间隔</string>
+    <string name="seconds">秒</string>
+    <string name="retry">重试</string>
+    <string name="test_sender_sms">【测试通道】恭喜您，该发送通道测试成功，请继续添加转发规则！</string>
+    <string name="test_sim_info" tools:ignore="Typos">SIM1_测试运营商_18888888888</string>
 </resources>

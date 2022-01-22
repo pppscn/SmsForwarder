@@ -657,95 +657,56 @@
                         tools:ignore="SmallSp" />
                 </LinearLayout>
 
-                <LinearLayout
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginStart="20dp"
+                    android:text="@string/retry"
+                    android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/et_retry_delay_time1"
-                        android:layout_width="30dp"
-                        android:layout_height="36dp"
-                        android:layout_marginStart="3dp"
-                        android:autofillHints=""
-                        android:digits="0123456789"
-                        android:inputType="number"
-                        android:maxLength="3"
-                        android:maxLines="1"
-                        android:text=""
-                        android:textAlignment="center"
-                        android:textSize="12sp"
-                        tools:ignore="LabelFor" />
-
-                    <EditText
-                        android:id="@+id/et_retry_delay_time2"
-                        android:layout_width="30dp"
-                        android:layout_height="36dp"
-                        android:layout_marginStart="3dp"
-                        android:autofillHints=""
-                        android:digits="0123456789"
-                        android:inputType="number"
-                        android:maxLength="3"
-                        android:maxLines="1"
-                        android:text=""
-                        android:textAlignment="center"
-                        android:textSize="12sp"
-                        tools:ignore="LabelFor" />
-
-                    <EditText
-                        android:id="@+id/et_retry_delay_time3"
-                        android:layout_width="30dp"
-                        android:layout_height="36dp"
-                        android:layout_marginStart="3dp"
-                        android:autofillHints=""
-                        android:digits="0123456789"
-                        android:inputType="number"
-                        android:maxLength="3"
-                        android:maxLines="1"
-                        android:text=""
-                        android:textAlignment="center"
-                        android:textSize="12sp"
-                        tools:ignore="LabelFor" />
-
-                    <EditText
-                        android:id="@+id/et_retry_delay_time4"
-                        android:layout_width="30dp"
-                        android:layout_height="36dp"
-                        android:layout_marginStart="3dp"
-                        android:autofillHints=""
-                        android:digits="0123456789"
-                        android:inputType="number"
-                        android:maxLength="3"
-                        android:maxLines="1"
-                        android:text=""
-                        android:textAlignment="center"
-                        android:textSize="12sp"
-                        tools:ignore="LabelFor" />
-
-                    <EditText
-                        android:id="@+id/et_retry_delay_time5"
-                        android:layout_width="30dp"
-                        android:layout_height="36dp"
-                        android:layout_marginStart="3dp"
-                        android:autofillHints=""
-                        android:digits="0123456789"
-                        android:inputType="number"
-                        android:maxLength="3"
-                        android:maxLines="1"
-                        android:text=""
-                        android:textAlignment="center"
-                        android:textSize="12sp"
-                        tools:ignore="LabelFor" />
-                </LinearLayout>
-
-                <Switch
-                    android:id="@+id/switch_retry_delay"
-                    android:layout_width="0dp"
+                <EditText
+                    android:id="@+id/et_retry_times"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:textSize="16sp"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    android:autofillHints=""
+                    android:ems="2"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:text="@string/_0"
+                    android:textAlignment="center"
+                    tools:ignore="LabelFor" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/times"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text="@string/interval"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_delay_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=""
+                    android:ems="2"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:text="@string/_1"
+                    android:textAlignment="center"
+                    tools:ignore="LabelFor" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/seconds"
+                    android:textStyle="bold" />
+
             </LinearLayout>
 
             <LinearLayout

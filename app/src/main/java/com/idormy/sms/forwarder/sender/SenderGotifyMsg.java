@@ -11,6 +11,7 @@ import com.idormy.sms.forwarder.utils.LogUtil;
 import java.io.IOException;
 import java.util.Objects;
 
+import io.reactivex.rxjava3.core.ObservableEmitter;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -23,7 +24,7 @@ public class SenderGotifyMsg extends SenderBaseMsg {
 
     static final String TAG = "SenderGotifyMsg";
 
-    public static void sendMsg(final long logId, final Handler handError, GotifySettingVo gotifySettingVo, String title, String message) throws Exception {
+    public static void sendMsg(final long logId, final Handler handError, final ObservableEmitter<Object> emitter, GotifySettingVo gotifySettingVo, String title, String message) throws Exception {
 
         //具体消息内容
         if (message == null || message.isEmpty()) return;
@@ -45,6 +46,7 @@ public class SenderGotifyMsg extends SenderBaseMsg {
             public void onFailure(@NonNull Call call, @NonNull final IOException e) {
                 LogUtil.updateLog(logId, 0, e.getMessage());
                 Toast(handError, TAG, "发送失败：" + e.getMessage());
+                if (emitter != null) emitter.onError(new RuntimeException("RxJava 请求接口异常..."));
             }
 
             @Override

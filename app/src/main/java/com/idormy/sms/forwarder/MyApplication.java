@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
@@ -29,6 +30,7 @@ public class MyApplication extends Application {
     //是否关闭页面提示
     public static boolean showHelpTip = true;
     SharedPreferencesHelper sharedPreferencesHelper;
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
 
     @Override

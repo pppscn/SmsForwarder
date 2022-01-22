@@ -100,8 +100,6 @@
     <string name="setpushplustitle">PushPlus Settings</string>
     <string name="setgotifytitle">Gotify Settings</string>
     <string name="test_phone_num">19999999999</string>
-    <string name="test_content">Test content @</string>
-    <string name="test_sms">【JD】code 387481, ihelp.jd.com</string>
     <string name="test_group_name">Test Group Name</string>
     <string name="failed_to_fwd">Failed to fwd：</string>
     <string name="invalid_name">Sender name cannot be blank</string>
@@ -174,7 +172,7 @@
     <string name="low_power_alarm_threshold">Low power alarm threshold</string>
     <string name="low_power_alarm_threshold_tips">Value range: 0–100. Left blank or 0 is disabled</string>
     <string name="retry_interval">Retry interval (seconds)</string>
-    <string name="retry_interval_tips">Retry five times after it fails</string>
+    <string name="retry_interval_tips">Disabled when times = 0, the interval is incremented</string>
     <string name="forward_sms">Forward sms</string>
     <string name="forward_sms_tips">Main switch, requires permissions to read and sned SMS messages, especially verification SMS texts.</string>
     <string name="forward_missed_calls">Forward calls log</string>
@@ -302,6 +300,7 @@
     <string name="feishu">FeiShu Bot</string>
     <string name="pushplus">PushPlus</string>
     <string name="gotify">Gotify</string>
+    <string name="_0">0</string>
     <string name="_1">1</string>
     <string name="_2">2</string>
     <string name="_3">3</string>
@@ -329,4 +328,10 @@
     <string name="keep_alive_tips">It is recommended to open each authorization or setting, do not disable the notification bar, to avoid the APP service being killed</string>
     <string name="custom_settings">Custom settings</string>
     <string name="custom_settings_tips">If the automatic acquisition fails, please fill in the remarks manually; after clearing, it will be automatically acquired again!</string>
+    <string name="times">times</string>
+    <string name="interval">Interval</string>
+    <string name="seconds">seconds</string>
+    <string name="retry">Retry</string>
+    <string name="test_sender_sms">[Test Channel] Congratulations, the sending channel test is successful, please continue to add forwarding rules!</string>
+    <string name="test_sim_info" tools:ignore="Typos">SIM1_TestOperator_18888888888</string>
 </resources>

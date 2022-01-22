@@ -102,15 +102,8 @@ public class SettingActivity extends AppCompatActivity {
         batterySetting(findViewById(R.id.switch_battery_setting));
         //不在最近任务列表中显示
         switchExcludeFromRecents(findViewById(R.id.switch_exclude_from_recents));
-
-        //是否开启失败重试
-        switchRetryDelay(findViewById(R.id.switch_retry_delay));
         //接口请求失败重试时间间隔
-        editRetryDelayTime(findViewById(R.id.et_retry_delay_time1), 1);
-        editRetryDelayTime(findViewById(R.id.et_retry_delay_time2), 2);
-        editRetryDelayTime(findViewById(R.id.et_retry_delay_time3), 3);
-        editRetryDelayTime(findViewById(R.id.et_retry_delay_time4), 4);
-        editRetryDelayTime(findViewById(R.id.et_retry_delay_time5), 5);
+        editRetryDelayTime(findViewById(R.id.et_retry_times), findViewById(R.id.et_delay_time));
 
         //设备备注
         editAddExtraDeviceMark(findViewById(R.id.et_add_extra_device_mark));
@@ -589,32 +582,10 @@ public class SettingActivity extends AppCompatActivity {
         });
     }
 
-    //是否开启失败重试
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
-    private void switchRetryDelay(Switch switch_retry_delay) {
-        switch_retry_delay.setChecked(SettingUtil.getSwitchRetryDelay());
-
-        switch_retry_delay.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked
-                    && SettingUtil.getRetryDelayTime(1) == 0
-                    && SettingUtil.getRetryDelayTime(2) == 0
-                    && SettingUtil.getRetryDelayTime(3) == 0
-                    && SettingUtil.getRetryDelayTime(4) == 0
-                    && SettingUtil.getRetryDelayTime(5) == 0) {
-                Toast.makeText(context, "所有间隔时间都为0，无法启用", Toast.LENGTH_SHORT).show();
-                SettingUtil.switchRetryDelay(false);
-                return;
-            }
-            SettingUtil.switchRetryDelay(isChecked);
-            Log.d(TAG, "switchRetryDelay:" + isChecked);
-        });
-    }
-
     //接口请求失败重试时间间隔
-    private void editRetryDelayTime(final EditText et_retry_delay_time, final int index) {
-        et_retry_delay_time.setText(String.valueOf(SettingUtil.getRetryDelayTime(index)));
-
-        et_retry_delay_time.addTextChangedListener(new TextWatcher() {
+    private void editRetryDelayTime(final EditText et_retry_times, final EditText et_delay_time) {
+        et_retry_times.setText(String.valueOf(SettingUtil.getRetryTimes()));
+        et_retry_times.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -625,20 +596,32 @@ public class SettingActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String delayTime = et_retry_delay_time.getText().toString().trim();
-                if (!delayTime.isEmpty()) {
-                    SettingUtil.setRetryDelayTime(index, Integer.parseInt(delayTime));
+                String retryTimes = et_retry_times.getText().toString().trim();
+                if (!retryTimes.isEmpty()) {
+                    SettingUtil.setRetryTimes(Integer.parseInt(retryTimes));
                 } else {
-                    SettingUtil.setRetryDelayTime(index, 0);
+                    SettingUtil.setRetryTimes(0);
                 }
+            }
+        });
 
-                if (SettingUtil.getRetryDelayTime(1) == 0
-                        && SettingUtil.getRetryDelayTime(2) == 0
-                        && SettingUtil.getRetryDelayTime(3) == 0
-                        && SettingUtil.getRetryDelayTime(4) == 0
-                        && SettingUtil.getRetryDelayTime(5) == 0) {
-                    Toast.makeText(context, "所有间隔时间都为0，自动禁用失败重试", Toast.LENGTH_SHORT).show();
-                    SettingUtil.switchRetryDelay(false);
+        et_delay_time.setText(String.valueOf(SettingUtil.getDelayTime()));
+        et_delay_time.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String delayTime = et_delay_time.getText().toString().trim();
+                if (!delayTime.isEmpty()) {
+                    SettingUtil.setDelayTime(Integer.parseInt(delayTime));
+                } else {
+                    SettingUtil.setDelayTime(1);
                 }
             }
         });

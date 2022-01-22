@@ -178,34 +178,6 @@ public class SettingUtil {
         return !sp_setting.getBoolean("option_save_history_on", false);
     }
 
-    //接口请求失败重试
-    private static String getRetryDelayTimeKey(int index) {
-        switch (index) {
-            case 1:
-                return Define.SP_MSG_KEY_STRING_RETRY_DELAY_TIME1;
-            case 2:
-                return Define.SP_MSG_KEY_STRING_RETRY_DELAY_TIME2;
-            case 3:
-                return Define.SP_MSG_KEY_STRING_RETRY_DELAY_TIME3;
-            case 4:
-                return Define.SP_MSG_KEY_STRING_RETRY_DELAY_TIME4;
-            case 5:
-            default:
-                return Define.SP_MSG_KEY_STRING_RETRY_DELAY_TIME5;
-        }
-    }
-
-    public static int getRetryDelayTime(int index) {
-        String key = getRetryDelayTimeKey(index);
-        return sp_setting.getInt(key, (int) Math.pow(2, (index - 1)));
-    }
-
-    public static void setRetryDelayTime(int index, int retry_delay_time) {
-        String key = getRetryDelayTimeKey(index);
-        Log.d(TAG, "retry_delay_time_" + index + " :" + retry_delay_time);
-        sp_setting.edit().putInt(key, retry_delay_time).apply();
-    }
-
     public static String getPrevNoticeHash(String key) {
         return sp_setting.getString(key, "");
     }
@@ -238,14 +210,6 @@ public class SettingUtil {
         return sp_setting.getString(Define.SP_MSG_KEY_STRING_SMSHUB_API_URL, "http://xxx.com/send_api");
     }
 
-    public static void switchRetryDelay(Boolean switchSmsTemplate) {
-        sp_setting.edit().putBoolean(Define.SP_MSG_KEY_STRING_ENABLE_RETRY_DELAY, switchSmsTemplate).apply();
-    }
-
-    public static boolean getSwitchRetryDelay() {
-        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_RETRY_DELAY, false);
-    }
-
     public static void switchCallType1(Boolean switchCallType) {
         sp_setting.edit().putBoolean(Define.SP_MSG_KEY_STRING_ENABLE_CALL_TYPE_1, switchCallType).apply();
     }
@@ -268,6 +232,22 @@ public class SettingUtil {
 
     public static boolean getSwitchCallType3() {
         return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_CALL_TYPE_3, true);
+    }
+
+    public static int getRetryTimes() {
+        return sp_setting.getInt(Define.SP_MSG_KEY_STRING_RETRY_TIMES, 0);
+    }
+
+    public static void setRetryTimes(int retry_times) {
+        sp_setting.edit().putInt(Define.SP_MSG_KEY_STRING_RETRY_TIMES, retry_times).apply();
+    }
+
+    public static int getDelayTime() {
+        return sp_setting.getInt(Define.SP_MSG_KEY_STRING_DELAY_TIME, 1);
+    }
+
+    public static void setDelayTime(int delay_time) {
+        sp_setting.edit().putInt(Define.SP_MSG_KEY_STRING_DELAY_TIME, delay_time).apply();
     }
 
     //获取当前版本名称
