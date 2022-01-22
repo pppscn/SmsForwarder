@@ -17,7 +17,6 @@ import com.idormy.sms.forwarder.utils.Define;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.idormy.sms.forwarder.utils.SharedPreferencesHelper;
-import com.smailnet.emailkit.EmailKit;
 import com.umeng.commonsdk.UMConfigure;
 
 import java.util.ArrayList;
@@ -30,6 +29,7 @@ public class MyApplication extends Application {
     //是否关闭页面提示
     public static boolean showHelpTip = true;
     SharedPreferencesHelper sharedPreferencesHelper;
+    private static Context context;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -40,6 +40,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         Log.d(TAG, "onCreate");
         super.onCreate();
+        context = getApplicationContext();
 
         try {
             //前台服务
@@ -52,8 +53,7 @@ public class MyApplication extends Application {
 
             SendHistory.init(this);
             SettingUtil.init(this);
-
-            EmailKit.initialize(this);
+            //EmailKit.initialize(this);
 
             SharedPreferences sp = MyApplication.this.getSharedPreferences(Define.SP_CONFIG, Context.MODE_PRIVATE);
             showHelpTip = sp.getBoolean(Define.SP_CONFIG_SWITCH_HELP_TIP, true);
@@ -92,5 +92,12 @@ public class MyApplication extends Application {
         } catch (Exception e) {
             Log.e(TAG, "onCreate:", e);
         }
+    }
+
+    /**
+     * 获取全局上下文
+     */
+    public static Context getContext() {
+        return context;
     }
 }
