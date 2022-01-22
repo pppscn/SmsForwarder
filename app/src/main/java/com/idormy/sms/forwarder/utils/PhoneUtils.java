@@ -332,8 +332,8 @@ public class PhoneUtils {
     @SuppressLint({"ObsoleteSdkInt", "Range"})
     public static List<SimInfo> getSimMultiInfo() {
         List<SimInfo> infos = new ArrayList<>();
-        Log.d(TAG, "Build.VERSION.SDK_INT = " + Build.VERSION.SDK_INT);
-        Log.d(TAG, "Build.VERSION_CODES.LOLLIPOP_MR1 = " + Build.VERSION_CODES.LOLLIPOP_MR1);
+        //Log.d(TAG, "Build.VERSION.SDK_INT = " + Build.VERSION.SDK_INT);
+        //Log.d(TAG, "Build.VERSION_CODES.LOLLIPOP_MR1 = " + Build.VERSION_CODES.LOLLIPOP_MR1);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             Log.d(TAG, "1.版本超过5.1，调用系统方法");
             //1.版本超过5.1，调用系统方法

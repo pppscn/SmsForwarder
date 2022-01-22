@@ -316,7 +316,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     }
 
     private void showList(List<LogVo> logVosN) {
-        Log.d(TAG, "showList: " + logVosN);
+        //Log.d(TAG, "showList: " + logVosN);
         if (adapter == null) {
             // 将适配器上的数据传递给listView
             listView = findViewById(R.id.list_view_log);
