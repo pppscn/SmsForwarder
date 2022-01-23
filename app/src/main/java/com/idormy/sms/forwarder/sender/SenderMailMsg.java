@@ -12,13 +12,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import io.reactivex.rxjava3.core.ObservableEmitter;
-
 
 public class SenderMailMsg extends SenderBaseMsg {
     private static final String TAG = "SenderMailMsg";
 
-    public static void sendEmail(final long logId, final Handler handError, final ObservableEmitter<Object> emitter, final String protocol, final String host, final String port, final boolean ssl, final String fromEmail, final String nickname, final String pwd, final String toAdd, final String title, final String content) {
+    public static void sendEmail(final long logId, final Handler handError, final String protocol, final String host, final String port, final boolean ssl, final String fromEmail, final String nickname, final String pwd, final String toAdd, final String title, final String content) {
 
         Log.d(TAG, "sendEmail: protocol:" + protocol + " host:" + host + " port:" + port + " ssl:" + ssl + " fromEmail:" + fromEmail + " nickname:" + nickname + " pwd:" + pwd + " toAdd:" + toAdd);
 
@@ -65,7 +63,7 @@ public class SenderMailMsg extends SenderBaseMsg {
             LogUtil.updateLog(logId, 0, e.getMessage());
             Log.e(TAG, e.getMessage(), e);
             Toast(handError, TAG, "发送失败：" + e.getMessage());
-            if (emitter != null) emitter.onError(new Exception("RxJava 请求接口异常..."));
         }
+
     }
 }

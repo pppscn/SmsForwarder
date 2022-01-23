@@ -649,7 +649,7 @@ public class SenderActivity extends AppCompatActivity {
 
             try {
                 SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
-                SenderMailMsg.sendEmail(0, handler, null, protocol, host, port, ssl, fromEmail, nickname, pwd, toEmail, smsVo.getTitleForSend(title), smsVo.getSmsVoForSend());
+                SenderMailMsg.sendEmail(0, handler, protocol, host, port, ssl, fromEmail, nickname, pwd, toEmail, smsVo.getTitleForSend(title), smsVo.getSmsVoForSend());
             } catch (Exception e) {
                 Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                 e.printStackTrace();

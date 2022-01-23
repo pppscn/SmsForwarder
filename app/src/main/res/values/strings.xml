@@ -174,11 +174,11 @@
     <string name="retry_interval">请求接口失败重试</string>
     <string name="retry_interval_tips">次数=0时禁用，间隔逐次递增</string>
     <string name="forward_sms">转发短信广播</string>
-    <string name="forward_sms_tips">总开关，请授予读取短信、通知类短信、发送短信等权限</string>
+    <string name="forward_sms_tips">请先授予读取短信、通知类短信、发送短信等权限，关闭验证码保护</string>
     <string name="forward_missed_calls">转发通话记录</string>
     <string name="forward_missed_calls_tips">请先授予读取通话记录、联系人等权限，并选择转发类型，再开启</string>
     <string name="forward_app_notify">转发应用通知</string>
-    <string name="forward_app_notify_tips">请先授予通知使用权，再开启；开启自动消除，以避免多条通知堆叠</string>
+    <string name="forward_app_notify_tips">请先授予通知使用权，再开启；开启“自动消除”可避免多条通知堆叠</string>
     <string name="cancel_app_notify">自动消除通知</string>
     <string name="enable_custom_templates">启用自定义模版</string>
     <string name="enable_custom_templates_tips">优先级：转发规则的自定义模板 > 全局自定义模版 > 默认</string>

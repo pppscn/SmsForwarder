@@ -3,17 +3,14 @@ package com.idormy.sms.forwarder.sender;
 import android.os.Handler;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.idormy.sms.forwarder.model.vo.GotifySettingVo;
+import com.idormy.sms.forwarder.utils.Define;
 import com.idormy.sms.forwarder.utils.LogUtil;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
-import io.reactivex.rxjava3.core.ObservableEmitter;
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -24,7 +21,7 @@ public class SenderGotifyMsg extends SenderBaseMsg {
 
     static final String TAG = "SenderGotifyMsg";
 
-    public static void sendMsg(final long logId, final Handler handError, final ObservableEmitter<Object> emitter, GotifySettingVo gotifySettingVo, String title, String message) throws Exception {
+    public static void sendMsg(final long logId, final Handler handError, final RetryIntercepter retryInterceptor, GotifySettingVo gotifySettingVo, String title, String message) throws Exception {
 
         //具体消息内容
         if (message == null || message.isEmpty()) return;
@@ -38,31 +35,31 @@ public class SenderGotifyMsg extends SenderBaseMsg {
         String requestUrl = gotifySettingVo.getWebServer();
         Log.i(TAG, "requestUrl:" + requestUrl);
 
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        //设置重试拦截器
+        if (retryInterceptor != null) builder.addInterceptor(retryInterceptor);
+        //设置读取超时时间
+        OkHttpClient client = builder
+                .readTimeout(Define.REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .writeTimeout(Define.REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .connectTimeout(Define.REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .build();
+
         Request request = new Request.Builder().url(requestUrl).post(formBody).build();
-        OkHttpClient client = new OkHttpClient();
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull final IOException e) {
-                LogUtil.updateLog(logId, 0, e.getMessage());
-                Toast(handError, TAG, "发送失败：" + e.getMessage());
-                if (emitter != null) emitter.onError(new RuntimeException("RxJava 请求接口异常..."));
-            }
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                final String responseStr = Objects.requireNonNull(response.body()).string();
-                Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
-                Toast(handError, TAG, "发送状态：" + responseStr);
+            final String responseStr = Objects.requireNonNull(response.body()).string();
+            Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
+            Toast(handError, TAG, "发送状态：" + responseStr);
 
-                //TODO:粗略解析是否发送成功
-                if (response.code() == 200) {
-                    LogUtil.updateLog(logId, 2, responseStr);
-                } else {
-                    LogUtil.updateLog(logId, 1, responseStr);
-                }
+            //TODO:粗略解析是否发送成功
+            if (response.isSuccessful()) {
+                LogUtil.updateLog(logId, 2, responseStr);
+            } else {
+                LogUtil.updateLog(logId, 1, responseStr);
             }
-        });
+        }
 
     }
 

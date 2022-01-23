@@ -36,7 +36,7 @@
         <ImageView
             android:id="@+id/ivStep_12_1"
             android:layout_width="15dp"
-            android:layout_height="4dp"
+            android:layout_height="2dp"
             android:layout_gravity="center"
             android:src="@drawable/step_rectangle_normal"
             tools:ignore="ContentDescription" />
@@ -44,7 +44,7 @@
         <ImageView
             android:id="@+id/ivStep_12_2"
             android:layout_width="0dp"
-            android:layout_height="4dp"
+            android:layout_height="2dp"
             android:layout_weight="1"
             android:src="@drawable/step_rectangle_normal"
             tools:ignore="ContentDescription" />
@@ -52,7 +52,7 @@
         <ImageView
             android:id="@+id/ivStep_12_3"
             android:layout_width="15dp"
-            android:layout_height="4dp"
+            android:layout_height="2dp"
             android:layout_gravity="center"
             android:src="@drawable/step_rectangle_normal"
             tools:ignore="ContentDescription" />
@@ -70,7 +70,7 @@
         <ImageView
             android:id="@+id/ivStep_23_1"
             android:layout_width="15dp"
-            android:layout_height="4dp"
+            android:layout_height="2dp"
             android:layout_gravity="center"
             android:src="@drawable/step_rectangle_normal"
             tools:ignore="ContentDescription" />
@@ -78,7 +78,7 @@
         <ImageView
             android:id="@+id/ivStep_23_2"
             android:layout_width="0dp"
-            android:layout_height="4dp"
+            android:layout_height="2dp"
             android:layout_weight="1"
             android:src="@drawable/step_rectangle_normal"
             tools:ignore="ContentDescription" />
@@ -86,7 +86,7 @@
         <ImageView
             android:id="@+id/ivStep_23_3"
             android:layout_width="15dp"
-            android:layout_height="4dp"
+            android:layout_height="2dp"
             android:layout_gravity="center"
             android:src="@drawable/step_rectangle_normal"
             tools:ignore="ContentDescription" />
@@ -104,7 +104,7 @@
         <ImageView
             android:id="@+id/ivStep_34_1"
             android:layout_width="15dp"
-            android:layout_height="4dp"
+            android:layout_height="2dp"
             android:layout_gravity="center"
             android:src="@drawable/step_rectangle_normal"
             tools:ignore="ContentDescription" />
@@ -112,7 +112,7 @@
         <ImageView
             android:id="@+id/ivStep_34_2"
             android:layout_width="0dp"
-            android:layout_height="4dp"
+            android:layout_height="2dp"
             android:layout_weight="1"
             android:src="@drawable/step_rectangle_normal"
             tools:ignore="ContentDescription" />
@@ -121,7 +121,7 @@
         <ImageView
             android:id="@+id/ivStep_34_3"
             android:layout_width="15dp"
-            android:layout_height="4dp"
+            android:layout_height="2dp"
             android:layout_gravity="center"
             android:src="@drawable/step_rectangle_normal"
             tools:ignore="ContentDescription" />

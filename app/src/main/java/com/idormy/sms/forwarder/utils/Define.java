@@ -32,4 +32,7 @@ public class Define {
 
     public static final String SP_MSG = "forwarder_msg";
     public static final String SP_MSG_SET_KEY = "forwarder_msg_set_key";
+
+    //OkHttp 请求超时时间
+    public static final int REQUEST_TIMEOUT_SECONDS = 5;
 }

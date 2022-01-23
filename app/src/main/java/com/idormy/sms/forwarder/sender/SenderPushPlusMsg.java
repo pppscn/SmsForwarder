@@ -3,20 +3,17 @@ package com.idormy.sms.forwarder.sender;
 import android.os.Handler;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.alibaba.fastjson.JSON;
 import com.idormy.sms.forwarder.model.vo.PushPlusSettingVo;
+import com.idormy.sms.forwarder.utils.Define;
 import com.idormy.sms.forwarder.utils.LogUtil;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
-import io.reactivex.rxjava3.core.ObservableEmitter;
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -28,7 +25,7 @@ public class SenderPushPlusMsg extends SenderBaseMsg {
 
     static final String TAG = "SenderPushPlusMsg";
 
-    public static void sendMsg(final long logId, final Handler handError, final ObservableEmitter<Object> emitter, PushPlusSettingVo pushPlusSettingVo, String title, String content) throws Exception {
+    public static void sendMsg(final long logId, final Handler handError, final RetryIntercepter retryInterceptor, PushPlusSettingVo pushPlusSettingVo, String title, String content) throws Exception {
 
         //用户令牌
         String token = pushPlusSettingVo.getToken();
@@ -74,7 +71,16 @@ public class SenderPushPlusMsg extends SenderBaseMsg {
         final String requestMsg = JSON.toJSONString(textMsgMap);
         Log.i(TAG, "requestMsg:" + requestMsg);
 
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        //设置重试拦截器
+        if (retryInterceptor != null) builder.addInterceptor(retryInterceptor);
+        //设置读取超时时间
+        OkHttpClient client = builder
+                .readTimeout(Define.REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .writeTimeout(Define.REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .connectTimeout(Define.REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .build();
+
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), requestMsg);
 
         final Request request = new Request.Builder()
@@ -82,29 +88,21 @@ public class SenderPushPlusMsg extends SenderBaseMsg {
                 .addHeader("Content-Type", "application/json; charset=utf-8")
                 .post(requestBody)
                 .build();
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull final IOException e) {
-                LogUtil.updateLog(logId, 0, e.getMessage());
-                Toast(handError, TAG, "发送失败：" + e.getMessage());
-                if (emitter != null) emitter.onError(new Exception("RxJava 请求接口异常..."));
-            }
 
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                final String responseStr = Objects.requireNonNull(response.body()).string();
-                Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
-                Toast(handError, TAG, "发送状态：" + responseStr);
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-                //TODO:粗略解析是否发送成功
-                if (responseStr.contains("\"code\":200")) {
-                    LogUtil.updateLog(logId, 2, responseStr);
-                } else {
-                    LogUtil.updateLog(logId, 0, responseStr);
-                }
+            final String responseStr = Objects.requireNonNull(response.body()).string();
+            Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
+            Toast(handError, TAG, "发送状态：" + responseStr);
+
+            //TODO:粗略解析是否发送成功
+            if (responseStr.contains("\"code\":200")) {
+                LogUtil.updateLog(logId, 2, responseStr);
+            } else {
+                LogUtil.updateLog(logId, 0, responseStr);
             }
-        });
+        }
 
     }
 

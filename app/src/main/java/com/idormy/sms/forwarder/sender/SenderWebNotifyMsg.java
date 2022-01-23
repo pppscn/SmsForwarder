@@ -4,22 +4,19 @@ import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.idormy.sms.forwarder.utils.CertUtils;
+import com.idormy.sms.forwarder.utils.Define;
 import com.idormy.sms.forwarder.utils.LogUtil;
 
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import io.reactivex.rxjava3.core.ObservableEmitter;
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -32,7 +29,7 @@ public class SenderWebNotifyMsg extends SenderBaseMsg {
 
     static final String TAG = "SenderWebNotifyMsg";
 
-    public static void sendMsg(final long logId, final Handler handError, final ObservableEmitter<Object> emitter, String webServer, String webParams, String secret, String method, String from, String content) throws Exception {
+    public static void sendMsg(final long logId, final Handler handError, final RetryIntercepter retryInterceptor, String webServer, String webParams, String secret, String method, String from, String content) throws Exception {
         Log.i(TAG, "sendMsg webServer:" + webServer + " webParams:" + webParams + " from:" + from + " content:" + content);
 
         if (webServer == null || webServer.isEmpty()) {
@@ -92,34 +89,32 @@ public class SenderWebNotifyMsg extends SenderBaseMsg {
             request = new Request.Builder().url(webServer).method("POST", body).build();
         }
 
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                //忽略https证书
-                .sslSocketFactory(CertUtils.getSSLSocketFactory(), CertUtils.getX509TrustManager())
-                .hostnameVerifier(CertUtils.getHostnameVerifier())
+        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+        //设置重试拦截器
+        if (retryInterceptor != null) clientBuilder.addInterceptor(retryInterceptor);
+        //忽略https证书
+        clientBuilder.sslSocketFactory(CertUtils.getSSLSocketFactory(), CertUtils.getX509TrustManager()).hostnameVerifier(CertUtils.getHostnameVerifier());
+        //设置读取超时时间
+        OkHttpClient client = clientBuilder
+                .readTimeout(Define.REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .writeTimeout(Define.REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .connectTimeout(Define.REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)
                 .build();
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull final IOException e) {
-                LogUtil.updateLog(logId, 0, e.getMessage());
-                Toast(handError, TAG, "发送失败：" + e.getMessage());
-                if (emitter != null) emitter.onError(new Exception("RxJava 请求接口异常..."));
-            }
 
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                final String responseStr = Objects.requireNonNull(response.body()).string();
-                Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
-                Toast(handError, TAG, "发送状态：" + responseStr);
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-                //返回http状态200即为成功
-                if (200 == response.code()) {
-                    LogUtil.updateLog(logId, 2, responseStr);
-                } else {
-                    LogUtil.updateLog(logId, 0, responseStr);
-                }
+            final String responseStr = Objects.requireNonNull(response.body()).string();
+            Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
+            Toast(handError, TAG, "发送状态：" + responseStr);
+
+            //返回http状态200即为成功
+            if (response.isSuccessful()) {
+                LogUtil.updateLog(logId, 2, responseStr);
+            } else {
+                LogUtil.updateLog(logId, 0, responseStr);
             }
-        });
+        }
 
     }
 

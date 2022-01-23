@@ -88,11 +88,13 @@ public class LogUtil {
 
     public static void updateLog(Long id, int forward_status, String forward_response) {
         if (id == null || id <= 0) return;
+        if (forward_response == null) forward_response = "";
 
         @SuppressWarnings("StringBufferReplaceableByString") String sql = new StringBuilder().append("UPDATE ").append(LogTable.LogEntry.TABLE_NAME)
                 .append(" SET ").append(LogTable.LogEntry.COLUMN_NAME_FORWARD_STATUS).append(" = ? , ")
                 .append(LogTable.LogEntry.COLUMN_NAME_FORWARD_RESPONSE)
-                .append(" = CASE WHEN ").append(LogTable.LogEntry.COLUMN_NAME_FORWARD_STATUS).append(" = 1 THEN ? ELSE ")
+                .append(" = CASE WHEN (trim(").append(LogTable.LogEntry.COLUMN_NAME_FORWARD_RESPONSE)
+                .append(") = '' or trim(").append(LogTable.LogEntry.COLUMN_NAME_FORWARD_RESPONSE).append(") = 'ok') THEN ? ELSE ")
                 .append(LogTable.LogEntry.COLUMN_NAME_FORWARD_RESPONSE).append(" || '\n ---------- \n' || ? END ")
                 .append(" WHERE ").append(LogTable.LogEntry._ID).append(" = ? ")
                 .toString();
