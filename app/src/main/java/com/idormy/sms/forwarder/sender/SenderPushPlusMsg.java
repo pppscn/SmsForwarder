@@ -3,6 +3,8 @@ package com.idormy.sms.forwarder.sender;
 import android.os.Handler;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.alibaba.fastjson.JSON;
 import com.idormy.sms.forwarder.model.vo.PushPlusSettingVo;
 import com.idormy.sms.forwarder.utils.Define;
@@ -14,6 +16,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -89,20 +93,27 @@ public class SenderPushPlusMsg extends SenderBaseMsg {
                 .post(requestBody)
                 .build();
 
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-            final String responseStr = Objects.requireNonNull(response.body()).string();
-            Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
-            Toast(handError, TAG, "发送状态：" + responseStr);
-
-            //TODO:粗略解析是否发送成功
-            if (responseStr.contains("\"code\":200")) {
-                LogUtil.updateLog(logId, 2, responseStr);
-            } else {
-                LogUtil.updateLog(logId, 0, responseStr);
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull final IOException e) {
+                LogUtil.updateLog(logId, 0, e.getMessage());
+                Toast(handError, TAG, "发送失败：" + e.getMessage());
             }
-        }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                final String responseStr = Objects.requireNonNull(response.body()).string();
+                Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
+                Toast(handError, TAG, "发送状态：" + responseStr);
+
+                //TODO:粗略解析是否发送成功
+                if (responseStr.contains("\"code\":200")) {
+                    LogUtil.updateLog(logId, 2, responseStr);
+                } else {
+                    LogUtil.updateLog(logId, 0, responseStr);
+                }
+            }
+        });
 
     }
 

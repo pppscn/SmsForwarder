@@ -15,9 +15,9 @@ import okhttp3.Response;
 
 public class RetryIntercepter implements Interceptor {
     static final String TAG = "RetryIntercepter";
-    public int executionCount;//最大重试次数
     private final long retryInterval;//重试的间隔
     private final long logId;//更新记录ID
+    public final int executionCount;//最大重试次数
 
     RetryIntercepter(Builder builder) {
         this.executionCount = builder.executionCount;
@@ -28,37 +28,38 @@ public class RetryIntercepter implements Interceptor {
     @NonNull
     @Override
     public Response intercept(Chain chain) throws IOException {
+        int retryTimes = 0;
         Request request = chain.request();
-        Response response = doRequest(chain, request);
-        int retryNum = 0;
-        while ((response == null || !response.isSuccessful()) && retryNum <= executionCount) {
-            Log.w(TAG, "第 " + retryNum + " 次请求");
-            if (retryNum > 0) {
-                final long nextInterval = retryNum * getRetryInterval();
+        Response response;
+        do {
+            if (retryTimes > 0 && getRetryInterval() > 0) {
+                final long delayTime = retryTimes * getRetryInterval();
                 try {
-                    Log.w(TAG, "等待 " + nextInterval + " 秒后重试！");
+                    Log.w(TAG, "第 " + retryTimes + " 次重试，休眠 " + delayTime + " 秒");
                     //noinspection BusyWait
-                    Thread.sleep(nextInterval * 1000);
+                    Thread.sleep(delayTime * 1000);
                 } catch (final InterruptedException e) {
                     Thread.currentThread().interrupt();
                     throw new InterruptedIOException(e.getMessage());
                 }
             }
-            retryNum++;
-            response = doRequest(chain, request);
-        }
 
-        if (response == null) throw new InterruptedIOException("服务端无应答");
+            response = doRequest(chain, request, retryTimes);
+            retryTimes++;
+        } while ((response == null || !response.isSuccessful()) && retryTimes <= executionCount);
+
+        if (response == null) throw new InterruptedIOException("服务端无应答，结束重试");
         return response;
     }
 
-    private Response doRequest(Chain chain, Request request) {
+    private Response doRequest(Chain chain, Request request, int retryTimes) {
         Response response = null;
         try {
             response = chain.proceed(request);
         } catch (Exception e) {
-            LogUtil.updateLog(logId, 1, e.getMessage());
-            Log.w(TAG, e.getMessage());
+            String resp = retryTimes > 0 ? "第" + retryTimes + "次重试：" + e.getMessage() : e.getMessage();
+            LogUtil.updateLog(logId, 1, resp);
+            Log.w(TAG, resp);
         }
         return response;
     }

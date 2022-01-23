@@ -347,9 +347,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         builder.setTitle(R.string.details);
         String simInfo = logVo.getSimInfo();
         if (simInfo != null) {
-            builder.setMessage(logVo.getFrom() + "\n\n" + logVo.getContent() + "\n\n" + logVo.getSimInfo() + "\n\n" + logVo.getRule() + "\n\n" + TimeUtil.utc2Local(logVo.getTime()) + "\n\nResponse：" + logVo.getForwardResponse());
+            builder.setMessage("来源：" + logVo.getFrom() + "\n\n" + "消息：" + logVo.getContent() + "\n\n" + "卡槽：" + logVo.getSimInfo() + "\n\n" + "规则：" + logVo.getRule() + "\n\n" + "时间：" + TimeUtil.utc2Local(logVo.getTime()) + "\n\n转发结果：\n" + logVo.getForwardResponse());
         } else {
-            builder.setMessage(logVo.getFrom() + "\n\n" + logVo.getContent() + "\n\n" + logVo.getRule() + "\n\n" + TimeUtil.utc2Local(logVo.getTime()) + "\n\nResponse：" + logVo.getForwardResponse());
+            builder.setMessage("来源：" + logVo.getFrom() + "\n\n" + "消息：" + logVo.getContent() + "\n\n" + "规则：" + logVo.getRule() + "\n\n" + "时间：" + TimeUtil.utc2Local(logVo.getTime()) + "\n\n转发结果：\n" + logVo.getForwardResponse());
         }
         //删除
         builder.setNegativeButton(R.string.del, (dialog, which) -> {

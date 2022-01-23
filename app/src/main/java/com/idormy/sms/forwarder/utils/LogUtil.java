@@ -16,9 +16,12 @@ import com.idormy.sms.forwarder.model.SenderModel;
 import com.idormy.sms.forwarder.model.SenderTable;
 import com.idormy.sms.forwarder.model.vo.LogVo;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @SuppressWarnings("UnusedReturnValue")
 public class LogUtil {
@@ -89,6 +92,10 @@ public class LogUtil {
     public static void updateLog(Long id, int forward_status, String forward_response) {
         if (id == null || id <= 0) return;
         if (forward_response == null) forward_response = "";
+
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE);
+        forward_response = forward_response + "\nAt " + dateFormat.format(date);
 
         @SuppressWarnings("StringBufferReplaceableByString") String sql = new StringBuilder().append("UPDATE ").append(LogTable.LogEntry.TABLE_NAME)
                 .append(" SET ").append(LogTable.LogEntry.COLUMN_NAME_FORWARD_STATUS).append(" = ? , ")

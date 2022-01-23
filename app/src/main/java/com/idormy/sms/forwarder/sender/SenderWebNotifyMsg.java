@@ -4,6 +4,8 @@ import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.idormy.sms.forwarder.utils.CertUtils;
 import com.idormy.sms.forwarder.utils.Define;
 import com.idormy.sms.forwarder.utils.LogUtil;
@@ -17,6 +19,8 @@ import java.util.concurrent.TimeUnit;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -101,20 +105,27 @@ public class SenderWebNotifyMsg extends SenderBaseMsg {
                 .connectTimeout(Define.REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)
                 .build();
 
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-            final String responseStr = Objects.requireNonNull(response.body()).string();
-            Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
-            Toast(handError, TAG, "发送状态：" + responseStr);
-
-            //返回http状态200即为成功
-            if (response.isSuccessful()) {
-                LogUtil.updateLog(logId, 2, responseStr);
-            } else {
-                LogUtil.updateLog(logId, 0, responseStr);
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull final IOException e) {
+                LogUtil.updateLog(logId, 0, e.getMessage());
+                Toast(handError, TAG, "发送失败：" + e.getMessage());
             }
-        }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                final String responseStr = Objects.requireNonNull(response.body()).string();
+                Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
+                Toast(handError, TAG, "发送状态：" + responseStr);
+
+                //返回http状态200即为成功
+                if (200 == response.code()) {
+                    LogUtil.updateLog(logId, 2, responseStr);
+                } else {
+                    LogUtil.updateLog(logId, 0, responseStr);
+                }
+            }
+        });
 
     }
 

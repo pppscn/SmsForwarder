@@ -16,9 +16,9 @@ import org.eclipse.jetty.server.Server;
 
 
 public class HttpServer {
+    private static final int port = 5000;
     private static Boolean hasInit = false;
     private static Server jettyServer;
-    private static final int port = 5000;
     @SuppressLint("StaticFieldLeak")
     private static Context context;
     private static long ts = 0L;

@@ -3,6 +3,8 @@ package com.idormy.sms.forwarder.sender;
 import android.os.Handler;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.idormy.sms.forwarder.utils.Define;
 import com.idormy.sms.forwarder.utils.LogUtil;
 
@@ -13,6 +15,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -64,20 +68,27 @@ public class SenderBarkMsg extends SenderBaseMsg {
 
         final Request request = new Request.Builder().url(requestUrl).get().build();
 
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-            final String responseStr = Objects.requireNonNull(response.body()).string();
-            Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
-            Toast(handError, TAG, "发送状态：" + responseStr);
-
-            //TODO:粗略解析是否发送成功
-            if (responseStr.contains("\"message\":\"success\"")) {
-                LogUtil.updateLog(logId, 2, responseStr);
-            } else {
-                LogUtil.updateLog(logId, 0, responseStr);
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull final IOException e) {
+                LogUtil.updateLog(logId, 0, e.getMessage());
+                Toast(handError, TAG, "发送失败：" + e.getMessage());
             }
-        }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                final String responseStr = Objects.requireNonNull(response.body()).string();
+                Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
+                Toast(handError, TAG, "发送状态：" + responseStr);
+
+                //TODO:粗略解析是否发送成功
+                if (responseStr.contains("\"message\":\"success\"")) {
+                    LogUtil.updateLog(logId, 2, responseStr);
+                } else {
+                    LogUtil.updateLog(logId, 0, responseStr);
+                }
+            }
+        });
 
     }
 

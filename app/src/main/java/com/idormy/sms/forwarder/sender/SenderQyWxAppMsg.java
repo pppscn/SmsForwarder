@@ -3,6 +3,8 @@ package com.idormy.sms.forwarder.sender;
 import android.os.Handler;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.idormy.sms.forwarder.model.SenderModel;
@@ -16,6 +18,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -66,47 +70,50 @@ public class SenderQyWxAppMsg extends SenderBaseMsg {
                     .build();
 
             final Request request = new Request.Builder().url(getTokenUrl).get().build();
-            try (Response response = client.newCall(request).execute()) {
-                //异常处理
-                if (!response.isSuccessful()) {
-                    String resp = "Unexpected code " + response;
-                    Log.d(TAG, "onFailure：" + resp);
-                    Toast(handError, TAG, "获取access_token失败：" + resp);
 
-                    LogUtil.updateLog(logId, 0, resp);
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull final IOException e) {
+                    LogUtil.updateLog(logId, 0, e.getMessage());
                     qYWXAppSettingVo.setAccessToken("");
                     qYWXAppSettingVo.setExpiresIn(0L);
                     if (senderModel != null) {
                         senderModel.setJsonSetting(JSON.toJSONString(qYWXAppSettingVo));
                         SenderUtil.updateSender(senderModel);
                     }
+                    Log.d(TAG, "onFailure：" + e.getMessage());
+                    Toast(handError, TAG, "获取access_token失败：" + e.getMessage());
                 }
 
-                final String json = Objects.requireNonNull(response.body()).string();
-                Log.d(TAG, "Code：" + response.code() + " Response: " + json);
-                JSONObject jsonObject = JSON.parseObject(json);
-                int errcode = jsonObject.getInteger("errcode");
-                if (errcode == 0) {
-                    String access_token = jsonObject.getString("access_token");
-                    long expires_in = System.currentTimeMillis() + (jsonObject.getInteger("expires_in") - 120) * 1000L; //提前2分钟过期
-                    Log.d(TAG, "access_token：" + access_token);
-                    Log.d(TAG, "expires_in：" + expires_in);
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    final String json = Objects.requireNonNull(response.body()).string();
+                    Log.d(TAG, "Code：" + response.code() + " Response: " + json);
+                    JSONObject jsonObject = JSON.parseObject(json);
+                    int errcode = jsonObject.getInteger("errcode");
+                    if (errcode == 0) {
+                        String access_token = jsonObject.getString("access_token");
+                        long expires_in = System.currentTimeMillis() + (jsonObject.getInteger("expires_in") - 120) * 1000L; //提前2分钟过期
+                        Log.d(TAG, "access_token：" + access_token);
+                        Log.d(TAG, "expires_in：" + expires_in);
 
-                    qYWXAppSettingVo.setAccessToken(access_token);
-                    qYWXAppSettingVo.setExpiresIn(expires_in);
-                    if (senderModel != null) {
-                        senderModel.setJsonSetting(JSON.toJSONString(qYWXAppSettingVo));
-                        SenderUtil.updateSender(senderModel);
+                        qYWXAppSettingVo.setAccessToken(access_token);
+                        qYWXAppSettingVo.setExpiresIn(expires_in);
+                        if (senderModel != null) {
+                            senderModel.setJsonSetting(JSON.toJSONString(qYWXAppSettingVo));
+                            SenderUtil.updateSender(senderModel);
+                        }
+
+                        sendTextMsg(retryInterceptor, logId, handError, agentID, toUser, content, access_token);
+                    } else {
+                        String errmsg = jsonObject.getString("errmsg");
+                        LogUtil.updateLog(logId, 0, errmsg);
+                        Log.d(TAG, "onFailure：" + errmsg);
+                        Toast(handError, TAG, "获取access_token失败：" + errmsg);
                     }
-
-                    sendTextMsg(retryInterceptor, logId, handError, agentID, toUser, content, access_token);
-                } else {
-                    String errmsg = jsonObject.getString("errmsg");
-                    LogUtil.updateLog(logId, 0, errmsg);
-                    Log.d(TAG, "onFailure：" + errmsg);
-                    Toast(handError, TAG, "获取access_token失败：" + errmsg);
                 }
-            }
+
+            });
 
         } else {
             sendTextMsg(retryInterceptor, logId, handError, agentID, toUser, content, accessToken);
@@ -115,7 +122,7 @@ public class SenderQyWxAppMsg extends SenderBaseMsg {
     }
 
     //发送文本消息
-    public static void sendTextMsg(RetryIntercepter retryInterceptor, final long logId, final Handler handError, String agentID, String toUser, String content, String accessToken) throws Exception {
+    public static void sendTextMsg(RetryIntercepter retryInterceptor, final long logId, final Handler handError, String agentID, String toUser, String content, String accessToken) {
 
         Map textMsgMap = new HashMap();
         textMsgMap.put("touser", toUser);
@@ -149,20 +156,28 @@ public class SenderQyWxAppMsg extends SenderBaseMsg {
                 .post(requestBody)
                 .build();
 
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-            final String responseStr = Objects.requireNonNull(response.body()).string();
-            Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
-            Toast(handError, TAG, "发送状态：" + responseStr);
-
-            //TODO:粗略解析是否发送成功
-            if (responseStr.contains("\"errcode\":0")) {
-                LogUtil.updateLog(logId, 2, responseStr);
-            } else {
-                LogUtil.updateLog(logId, 0, responseStr);
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull final IOException e) {
+                LogUtil.updateLog(logId, 0, e.getMessage());
+                Toast(handError, TAG, "发送失败：" + e.getMessage());
             }
-        }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                final String responseStr = Objects.requireNonNull(response.body()).string();
+                Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
+                Toast(handError, TAG, "发送状态：" + responseStr);
+
+                //TODO:粗略解析是否发送成功
+                if (responseStr.contains("\"errcode\":0")) {
+                    LogUtil.updateLog(logId, 2, responseStr);
+                } else {
+                    LogUtil.updateLog(logId, 0, responseStr);
+                }
+            }
+        });
+
 
     }
 

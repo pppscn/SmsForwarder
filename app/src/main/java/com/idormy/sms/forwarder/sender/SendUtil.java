@@ -118,7 +118,7 @@ public class SendUtil {
         }
 
         RuleUtil.init(context);
-        List<RuleModel> ruleList = RuleUtil.getRule(null, key, logVo.getType());
+        List<RuleModel> ruleList = RuleUtil.getRule(null, key, logVo.getType(), "1"); //只取已启用的规则
         if (!ruleList.isEmpty()) {
             SenderUtil.init(context);
             for (RuleModel ruleModel : ruleList) {
@@ -167,24 +167,14 @@ public class SendUtil {
         }
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void senderSendMsgNoHandError(SmsVo smsVo, SenderModel senderModel, long logId, String smsTemplate, String regexReplace) {
-        //网络请求+重试比较耗时，创建子线程处理
+        //网络请求+延时重试比较耗时，创建子线程处理
         new Thread(() -> {
             try {
-                //是否需要失败重试
                 int retryTimes = SettingUtil.getRetryTimes();
-                if (retryTimes < 1) {
-                    SendUtil.senderSendMsg(null, null, smsVo, senderModel, logId, smsTemplate, regexReplace);
-                } else {
-                    int delayTime = SettingUtil.getDelayTime();
-                    RetryIntercepter retryInterceptor = new RetryIntercepter.Builder()
-                            .executionCount(retryTimes)
-                            .retryInterval(delayTime)
-                            .logId(logId)
-                            .build();
-                    SendUtil.senderSendMsg(null, retryInterceptor, smsVo, senderModel, logId, smsTemplate, regexReplace);
-                }
+                int delayTime = SettingUtil.getDelayTime();
+                RetryIntercepter retryInterceptor = retryTimes < 1 ? null : new RetryIntercepter.Builder().executionCount(retryTimes).retryInterval(delayTime).logId(logId).build();
+                SendUtil.senderSendMsg(null, retryInterceptor, smsVo, senderModel, logId, smsTemplate, regexReplace);
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage());
             }
