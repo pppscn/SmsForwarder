@@ -449,6 +449,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:text="@string/below"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <EditText
@@ -456,17 +457,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:autofillHints=""
+                    android:digits="0123456789"
                     android:ems="2"
                     android:inputType="number"
+                    android:maxLength="2"
                     android:maxLines="1"
                     android:text=""
                     android:textAlignment="center"
+                    android:textSize="12sp"
                     tools:ignore="LabelFor" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/percent"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -474,6 +479,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:text="@string/above"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <EditText
@@ -481,18 +487,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:autofillHints=""
+                    android:digits="0123456789"
                     android:ems="2"
                     android:inputType="number"
+                    android:maxLength="2"
                     android:maxLines="1"
                     android:text="@string/zero"
                     android:textAlignment="center"
+                    android:textSize="12sp"
                     tools:ignore="LabelFor" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/percent"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
+
+                <CheckBox
+                    android:id="@+id/cb_battery_level_alarm_once"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:text="@string/keep_reminding" />
 
             </LinearLayout>
 

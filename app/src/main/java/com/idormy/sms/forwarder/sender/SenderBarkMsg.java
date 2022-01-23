@@ -58,7 +58,7 @@ public class SenderBarkMsg extends SenderBaseMsg {
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         //设置重试拦截器
-        //if (retryInterceptor != null) builder.addInterceptor(retryInterceptor);
+        if (retryInterceptor != null) builder.addInterceptor(retryInterceptor);
         //设置读取超时时间
         OkHttpClient client = builder
                 .readTimeout(Define.REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)

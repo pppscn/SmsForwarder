@@ -154,6 +154,14 @@ public class SettingUtil {
         return sp_setting.getInt(Define.SP_MSG_KEY_STRING_BATTERY_LEVEL_MAX, 0);
     }
 
+    public static void switchBatteryLevelAlarmOnce(Boolean enable) {
+        sp_setting.edit().putBoolean(Define.SP_MSG_KEY_STRING_BATTERY_LEVEL_ONCE, enable).apply();
+    }
+
+    public static boolean getBatteryLevelAlarmOnce() {
+        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_BATTERY_LEVEL_ONCE, false);
+    }
+
     public static void setBatteryLevelAlarmMax(int battery_level) {
         sp_setting.edit().putInt(Define.SP_MSG_KEY_STRING_BATTERY_LEVEL_MAX, battery_level).apply();
     }

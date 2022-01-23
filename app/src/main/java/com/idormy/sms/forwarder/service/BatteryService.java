@@ -109,11 +109,19 @@ public class BatteryService extends Service {
 
                 int levelMin = SettingUtil.getBatteryLevelAlarmMin();
                 int levelMax = SettingUtil.getBatteryLevelAlarmMax();
-                if (levelMin > 0 && levelPre > levelCur && levelCur <= levelMin) { //电量下降到下限
+                if (SettingUtil.getBatteryLevelAlarmOnce() && levelMin > 0 && levelPre > levelCur && levelCur <= levelMin) { //电量下降到下限
+                    msg = "【电量预警】已低于电量预警下限，请及时充电！" + msg;
+                    sendMessage(context, msg);
+                    return;
+                } else if (SettingUtil.getBatteryLevelAlarmOnce() && levelMax > 0 && levelPre < levelCur && levelCur >= levelMax) { //电量上升到上限
+                    msg = "【电量预警】已高于电量预警上限，请拔掉充电器！" + msg;
+                    sendMessage(context, msg);
+                    return;
+                } else if (!SettingUtil.getBatteryLevelAlarmOnce() && levelMin > 0 && levelPre > levelCur && levelCur == levelMin) { //电量下降到下限
                     msg = "【电量预警】已到达电量预警下限，请及时充电！" + msg;
                     sendMessage(context, msg);
                     return;
-                } else if (levelMax > 0 && levelPre < levelCur && levelCur >= levelMax) { //电量上升到上限
+                } else if (!SettingUtil.getBatteryLevelAlarmOnce() && levelMax > 0 && levelPre < levelCur && levelCur == levelMax) { //电量上升到上限
                     msg = "【电量预警】已到达电量预警上限，请拔掉充电器！" + msg;
                     sendMessage(context, msg);
                     return;

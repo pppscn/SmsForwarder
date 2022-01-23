@@ -334,4 +334,5 @@
     <string name="retry">Retry</string>
     <string name="test_sender_sms">[Test Channel] Congratulations, the sending channel test is successful, please continue to add forwarding rules!</string>
     <string name="test_sim_info" tools:ignore="Typos">SIM1_TestOperator_18888888888</string>
+    <string name="keep_reminding">Keep reminding</string>
 </resources>

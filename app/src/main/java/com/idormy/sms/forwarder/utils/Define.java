@@ -21,6 +21,7 @@ public class Define {
     public static final String SP_MSG_KEY_STRING_BATTERY_LEVEL_CURRENT = "tsms_msg_key_string_battery_level_current";
     public static final String SP_MSG_KEY_STRING_BATTERY_LEVEL_ALARM = "tsms_msg_key_string_battery_level_alarm";
     public static final String SP_MSG_KEY_STRING_BATTERY_LEVEL_MAX = "tsms_msg_key_string_battery_level_max";
+    public static final String SP_MSG_KEY_STRING_BATTERY_LEVEL_ONCE = "tsms_msg_key_string_battery_level_once";
     public static final String SP_MSG_KEY_STRING_RETRY_TIMES = "tsms_msg_key_retry_times";
     public static final String SP_MSG_KEY_STRING_DELAY_TIME = "tsms_msg_key_delay_time";
     public static final String SP_MSG_KEY_STRING_ENABLE_SMSHUB_API = "tsms_msg_key_string_enable_smshub_api";
