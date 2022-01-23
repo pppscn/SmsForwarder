@@ -44,6 +44,10 @@ public class MyApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
 
+        //异常捕获类
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(getApplicationContext());
+
         try {
             //前台服务
             Intent intent = new Intent(this, FrontService.class);
