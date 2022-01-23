@@ -1,6 +1,7 @@
 package com.idormy.sms.forwarder.sender;
 
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
@@ -52,13 +53,25 @@ public class SenderWebNotifyMsg extends SenderBaseMsg {
         }
 
         Request request;
-        if (method.equals("GET")) {
+        if (method.equals("GET") && TextUtils.isEmpty(webParams)) {
             webServer += (webServer.contains("?") ? "&" : "?") + "from=" + URLEncoder.encode(from, "UTF-8");
             webServer += "&content=" + URLEncoder.encode(content, "UTF-8");
             if (secret != null && !secret.isEmpty()) {
                 webServer += "&timestamp=" + timestamp;
                 webServer += "&sign=" + sign;
             }
+
+            Log.d(TAG, "method = GET, Url = " + webServer);
+            request = new Request.Builder().url(webServer).get().build();
+        } else if (method.equals("GET") && !TextUtils.isEmpty(webParams)) {
+            webParams = webParams.replace("\n", "%0A")
+                    .replace("[from]", URLEncoder.encode(from, "UTF-8"))
+                    .replace("[msg]", URLEncoder.encode(content, "UTF-8"));
+            if (secret != null && !secret.isEmpty()) {
+                webParams = webParams.replace("[timestamp]", String.valueOf(timestamp))
+                        .replace("[sign]", URLEncoder.encode(sign, "UTF-8"));
+            }
+            webServer += (webServer.contains("?") ? "&" : "?") + webParams;
 
             Log.d(TAG, "method = GET, Url = " + webServer);
             request = new Request.Builder().url(webServer).get().build();

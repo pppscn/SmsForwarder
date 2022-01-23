@@ -1,7 +1,30 @@
 # 1、请求方式： GET
 
-- `webParams` 参数无需填写（填写了也无效）
-- 在 `WebServer` 的基础上，追加 `3、post form 参数列表` 所列的节点经过`urlEncode`的值
+## 1.1 `webParams` 为空
+
+将在 `WebServer` 的基础上，追加 `3、post form 参数列表` 所列的节点经过 `urlEncode` 的值
+
+例如：
+
+`WebServer`： `https://ppps.cn/demo`
+
+`最终请求地址`：`https://ppps.cn/demo?from=15888888888&content=123456`
+
+## 1.2 `webParams` 非空
+
+将在 `WebServer` 的基础上，追加经过处理后的 `webParams`
+
+处理方式： 替换 `3、post form 参数列表` 所列的节点经过 `urlEncode` 的值（例如：将 `短信内容(content)` 替换报文中的 `[msg]` 标签）
+
+注意事项： `webParams` 中如果有特殊字符自行 `urlEncode`，程序只会替换列表中的key对应的标签
+
+例如：
+
+`WebServer`： `https://api2.pushdeer.com/message/push?pushkey=1234567890`
+
+`webParams`： `text=[msg]`
+
+`最终请求地址`：`https://api2.pushdeer.com/message/push?pushkey=1234567890&text=123456`
 
 ***
 
@@ -30,6 +53,7 @@
 | timestamp  | string |  当前时间戳，单位是毫秒，（建议验证与请求调用时间误差不能超过1小时，防止重放欺骗） |
 | sign  | string  | 当设置`secret`时，生成的`sign`签名，用于发送端校验，规则见下方`sign`校验规则 |
 
+* 节点对应的标签就是 `key` 的值加上中括号（例如： `[msg]` ）
 * `sign` 部分参考借鉴了 [阿里钉钉群机器人的sign生成](https://developers.dingtalk.com/document/app/custom-robot-access)
 * `sign` 校验规则：
 
@@ -40,20 +64,17 @@
 | timestamp | 当前时间戳，单位是毫秒，（建议验证与请求调用时间误差不能超过1小时，防止重放欺骗） |
 | secret | 密钥，web通知设置页面，secret |
 
-
 ***
-
 
 # 附录：
 
-## 1、一个现成的 `webhook` 服务端站点：可以在线查看 [消息通知](https://msg.allmything.com) 
+## 1、一个现成的 `webhook` 服务端站点：可以在线查看 [消息通知](https://msg.allmything.com)
 
 来自：[TSMS](https://github.com/xiaoyuanhost/TranspondSms)
 
 登录之后，可以获取到一个带token的链接（类似：https://api.sl.willanddo.com/api/msg/pushMsg?token=123456）
 
 此链接填写到 `WebServer` ， `webParams` 留空 ，即可通过该站点直接查看提交的消息列表
-
 
 ## 2、`sign` 签名计算示例：
 
