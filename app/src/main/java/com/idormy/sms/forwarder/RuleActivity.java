@@ -133,20 +133,16 @@ public class RuleActivity extends AppCompatActivity {
         });
 
 
-        //是否关闭页面提示
-        TextView help_tip = findViewById(R.id.help_tip);
+        //计算浮动按钮位置
         FloatingActionButton btnFloat = findViewById(R.id.btnFloat);
-        CommonUtil.calcMarginBottom(this, help_tip, btnFloat, listView, null);
+        CommonUtil.calcMarginBottom(this, btnFloat, listView, null);
+
         //添加规则
         btnFloat.setOnClickListener(v -> setRule(null, false));
 
         //步骤完成状态校验
-        boolean checkStep1 = SettingUtil.getSwitchEnableSms() || SettingUtil.getSwitchEnablePhone() || SettingUtil.getSwitchEnableAppNotify();
-        boolean checkStep2 = SenderUtil.countSender("1", null) > 0;
-        boolean checkStep3 = RuleUtil.countRule("1", null, null) > 0;
-        boolean checkStep4 = LogUtil.countLog("2", null, null) > 0;
         StepBar stepBar = findViewById(R.id.stepBar);
-        stepBar.setHighlight(checkStep1, checkStep2, checkStep3, checkStep4);
+        stepBar.setHighlight();
     }
 
     private int getTypeCheckId(String curType) {

@@ -63,16 +63,15 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     private Intent serviceIntent;
     private String currentType = "sms";
 
-    View inflate;
-    Dialog dialog;
-    SharedPreferencesHelper sharedPreferencesHelper;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //是否同意隐私协议
+        if (!MyApplication.allowPrivacyPolicy) return;
 
         //获取SIM信息
         PhoneUtils.init(this);
@@ -132,10 +131,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         super.onStart();
         Log.d(TAG, "onStart");
 
-        /* sp中uminit为1已经同意隐私协议*/
-        sharedPreferencesHelper = new SharedPreferencesHelper(this, "umeng");
-        String isAllowed = String.valueOf(sharedPreferencesHelper.getSharedPreference("uminit", ""));
-        if (isAllowed.equals("") || isAllowed.equals("0")) {
+        //是否同意隐私协议
+        if (!MyApplication.allowPrivacyPolicy) {
             dialog();
             return;
         }
@@ -144,11 +141,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         PackageManager pm = getPackageManager();
         CommonUtil.CheckPermission(pm, this);
 
-        //是否关闭页面提示 & 计算浮动按钮位置
-        TextView help_tip = findViewById(R.id.help_tip);
+        //计算浮动按钮位置
         FloatingActionButton btnFloat = findViewById(R.id.btnCleanLog);
         RefreshListView viewList = findViewById(R.id.list_view_log);
-        CommonUtil.calcMarginBottom(this, help_tip, btnFloat, viewList, null);
+        CommonUtil.calcMarginBottom(this, btnFloat, viewList, null);
 
         //清空日志
         btnFloat.setOnClickListener(v -> {
@@ -214,12 +210,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         });
 
         //步骤完成状态校验
-        boolean checkStep1 = SettingUtil.getSwitchEnableSms() || SettingUtil.getSwitchEnablePhone() || SettingUtil.getSwitchEnableAppNotify();
-        boolean checkStep2 = SenderUtil.countSender("1", null) > 0;
-        boolean checkStep3 = RuleUtil.countRule("1", null, null) > 0;
-        boolean checkStep4 = LogUtil.countLog("2", null, null) > 0;
         StepBar stepBar = findViewById(R.id.stepBar);
-        stepBar.setHighlight(checkStep1, checkStep2, checkStep3, checkStep4);
+        stepBar.setHighlight();
     }
 
     private int getTypeCheckId(String currentType) {
@@ -239,6 +231,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         super.onResume();
         MobclickAgent.onPageStart(TAG);
         MobclickAgent.onResume(this);
+
+        //是否同意隐私协议
+        if (!MyApplication.allowPrivacyPolicy) return;
 
         //第一次打开，未授权无法获取SIM信息，尝试在此重新获取
         if (MyApplication.SimInfoList.isEmpty()) {
@@ -271,6 +266,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        //是否同意隐私协议
+        if (!MyApplication.allowPrivacyPolicy) return;
+
         try {
             if (serviceIntent != null) startService(serviceIntent);
         } catch (Exception e) {
@@ -282,6 +281,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     protected void onPause() {
         overridePendingTransition(0, 0);
         super.onPause();
+
+        //是否同意隐私协议
+        if (!MyApplication.allowPrivacyPolicy) return;
+
         MobclickAgent.onPageEnd(TAG);
         MobclickAgent.onPause(this);
         try {
@@ -294,6 +297,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        //是否同意隐私协议
+        if (!MyApplication.allowPrivacyPolicy) return;
+
         if (requestCode == CommonUtil.NOTIFICATION_REQUEST_CODE) {
             if (CommonUtil.isNotificationListenerServiceEnabled(this)) {
                 Toast.makeText(this, R.string.notification_listener_service_enabled, Toast.LENGTH_SHORT).show();
@@ -448,13 +455,14 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     /*** 隐私协议授权弹窗*/
     @SuppressLint({"ResourceType", "InflateParams"})
     public void dialog() {
-        dialog = new Dialog(this, R.style.dialog);
-        inflate = LayoutInflater.from(MainActivity.this).inflate(R.layout.diaolog_privacy_policy, null);
+        Dialog dialog = new Dialog(this, R.style.dialog);
+        View inflate = LayoutInflater.from(MainActivity.this).inflate(R.layout.diaolog_privacy_policy, null);
         TextView succsebtn = inflate.findViewById(R.id.succsebtn);
         TextView canclebtn = inflate.findViewById(R.id.caclebtn);
 
         succsebtn.setOnClickListener(v -> {
             /* uminit为1时代表已经同意隐私协议，sp记录当前状态*/
+            SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(this, "umeng");
             sharedPreferencesHelper.put("uminit", "1");
             UMConfigure.submitPolicyGrantResult(getApplicationContext(), true);
             /* 友盟sdk正式初始化*/
@@ -479,6 +487,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
             UMConfigure.submitPolicyGrantResult(getApplicationContext(), false);
             //不同意隐私协议，退出app
             android.os.Process.killProcess(android.os.Process.myPid());
+            finish();
         });
 
         dialog.setContentView(inflate);

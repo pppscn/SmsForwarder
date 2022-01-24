@@ -6,6 +6,17 @@
     android:background="#ffffff"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/txHelpTip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#10000000"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="@string/log_tips"
+        android:textColor="@color/colorPrimary"
+        android:textSize="12sp" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

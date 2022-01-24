@@ -8,6 +8,7 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
@@ -32,6 +33,9 @@ public class NotifyService extends NotificationListenerService {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
+        //是否同意隐私协议
+        if (!MyApplication.allowPrivacyPolicy) return;
+
         //未开启转发
         if (!SettingUtil.getSwitchEnableAppNotify()) return;
         //异常通知跳过

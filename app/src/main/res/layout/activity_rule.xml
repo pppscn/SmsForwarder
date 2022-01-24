@@ -79,30 +79,13 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="85dp" />
 
-    <LinearLayout
+    <com.idormy.sms.forwarder.view.StepBar
+        android:id="@+id/stepBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/help_tip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#10000000"
-            android:gravity="center"
-            android:padding="3dp"
-            android:text="@string/rule_tips"
-            android:textColor="@color/colorPrimary"
-            android:textSize="12sp" />
-
-        <com.idormy.sms.forwarder.view.StepBar
-            android:id="@+id/stepBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:current_step="rule" />
-
-    </LinearLayout>
+        app:current_step="rule"
+        app:help_tip="@string/log_tips" />
 
 </RelativeLayout>

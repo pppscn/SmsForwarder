@@ -30,6 +30,8 @@ public class MyApplication extends Application {
     //是否关闭页面提示
     public static boolean showHelpTip = true;
     SharedPreferencesHelper sharedPreferencesHelper;
+    //是否同意隐私协议
+    public static boolean allowPrivacyPolicy = false;
     @SuppressLint("StaticFieldLeak")
     private static Context context;
 
@@ -44,11 +46,29 @@ public class MyApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
 
-        //异常捕获类
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(getApplicationContext());
-
         try {
+            //异常捕获类
+            CrashHandler crashHandler = CrashHandler.getInstance();
+            crashHandler.init(getApplicationContext());
+
+            //友盟统计
+            sharedPreferencesHelper = new SharedPreferencesHelper(this, "umeng");
+            //设置LOG开关，默认为false
+            //UMConfigure.setLogEnabled(true);
+            //友盟预初始化
+            UMConfigure.preInit(getApplicationContext(), "60254fc7425ec25f10f4293e", "Umeng");
+
+            //判断是否同意隐私协议，uminit为1时为已经同意，直接初始化umsdk
+            if (sharedPreferencesHelper.getSharedPreference("uminit", "").equals("1")) {
+                allowPrivacyPolicy = true;
+                //友盟正式初始化
+                UmInitConfig umInitConfig = new UmInitConfig();
+                umInitConfig.UMinit(getApplicationContext());
+            }
+
+            //是否同意隐私协议
+            if (!MyApplication.allowPrivacyPolicy) return;
+
             //前台服务
             Intent intent = new Intent(this, FrontService.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -82,19 +102,6 @@ public class MyApplication extends Application {
             IntentFilter simStateFilter = new IntentFilter(SimStateReceiver.ACTION_SIM_STATE_CHANGED);
             registerReceiver(new SimStateReceiver(), simStateFilter);
 
-            //友盟统计
-            sharedPreferencesHelper = new SharedPreferencesHelper(this, "umeng");
-            //设置LOG开关，默认为false
-            //UMConfigure.setLogEnabled(true);
-            //友盟预初始化
-            UMConfigure.preInit(getApplicationContext(), "60254fc7425ec25f10f4293e", "Umeng");
-
-            //判断是否同意隐私协议，uminit为1时为已经同意，直接初始化umsdk
-            if (sharedPreferencesHelper.getSharedPreference("uminit", "").equals("1")) {
-                //友盟正式初始化
-                UmInitConfig umInitConfig = new UmInitConfig();
-                umInitConfig.UMinit(getApplicationContext());
-            }
         } catch (Exception e) {
             Log.e(TAG, "onCreate:", e);
         }

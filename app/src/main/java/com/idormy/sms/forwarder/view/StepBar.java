@@ -12,10 +12,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.idormy.sms.forwarder.MainActivity;
+import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.R;
 import com.idormy.sms.forwarder.RuleActivity;
 import com.idormy.sms.forwarder.SenderActivity;
 import com.idormy.sms.forwarder.SettingActivity;
+import com.idormy.sms.forwarder.sender.SenderUtil;
+import com.idormy.sms.forwarder.utils.LogUtil;
+import com.idormy.sms.forwarder.utils.RuleUtil;
+import com.idormy.sms.forwarder.utils.SettingUtil;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class StepBar extends LinearLayout {
@@ -23,7 +28,9 @@ public class StepBar extends LinearLayout {
     private TypedArray mTypedArray;
     //自定义参数
     private String current_step;
+    private String help_tip;
     //控件
+    private TextView txHelpTip;
     private TextView txStep1;
     private TextView txStep2;
     private TextView txStep3;
@@ -67,6 +74,8 @@ public class StepBar extends LinearLayout {
         if (mTypedArray != null) {
             current_step = mTypedArray.getString(R.styleable.StepBar_current_step);
             System.out.println("current_step = " + current_step);
+            help_tip = mTypedArray.getString(R.styleable.StepBar_help_tip);
+            System.out.println("help_tip = " + help_tip);
             mTypedArray.recycle();
         }
     }
@@ -74,6 +83,12 @@ public class StepBar extends LinearLayout {
     private void initView() {
         //初始化界面
         View view = LayoutInflater.from(mContext).inflate(R.layout.step_bar, this);
+
+        txHelpTip = findViewById(R.id.txHelpTip);
+        if (txHelpTip != null) {
+            txHelpTip.setText(help_tip);
+            txHelpTip.setVisibility(MyApplication.showHelpTip ? View.VISIBLE : View.GONE);
+        }
 
         //步骤1
         txStep1 = findViewById(R.id.txStep1);
@@ -151,7 +166,22 @@ public class StepBar extends LinearLayout {
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    public void setHighlight(boolean Step1, boolean Step2, boolean Step3, boolean Step4) {
+    public void setHighlight() {
+        SettingUtil.init(mContext);
+        SenderUtil.init(mContext);
+        RuleUtil.init(mContext);
+        LogUtil.init(mContext);
+
+        boolean Step1 = SettingUtil.getSwitchEnableSms() || SettingUtil.getSwitchEnablePhone() || SettingUtil.getSwitchEnableAppNotify();
+        boolean Step2 = SenderUtil.countSender("1", null) > 0;
+        boolean Step3 = RuleUtil.countRule("1", null, null) > 0;
+        boolean Step4 = LogUtil.countLog("2", null, null) > 0;
+
+        //页面提示文本
+        if (MyApplication.showHelpTip && current_step.equals("main") && txHelpTip != null) {
+            txHelpTip.setText(Step1 ? R.string.log_tips : R.string.setting_tips);
+        }
+
         if (Step1) txStep1.setBackground(mContext.getResources().getDrawable(R.drawable.step_circle_current));
         if (Step2) txStep2.setBackground(mContext.getResources().getDrawable(R.drawable.step_circle_current));
         if (Step3) txStep3.setBackground(mContext.getResources().getDrawable(R.drawable.step_circle_current));

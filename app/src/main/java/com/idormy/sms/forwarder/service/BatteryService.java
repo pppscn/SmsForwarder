@@ -10,6 +10,7 @@ import android.os.BatteryManager;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
@@ -32,6 +33,10 @@ public class BatteryService extends Service {
     public void onCreate() {
         super.onCreate();
         Log.i(TAG, "onCreate--------------");
+
+        //是否同意隐私协议
+        if (!MyApplication.allowPrivacyPolicy) return;
+
         IntentFilter batteryfilter = new IntentFilter();
         batteryfilter.addAction(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(batteryReceiver, batteryfilter);
@@ -52,6 +57,10 @@ public class BatteryService extends Service {
     public void onDestroy() {
         Log.i(TAG, "onDestroy--------------");
         super.onDestroy();
+
+        //是否同意隐私协议
+        if (!MyApplication.allowPrivacyPolicy) return;
+
         this.unregisterReceiver(batteryReceiver);
     }
 

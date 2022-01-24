@@ -82,5 +82,6 @@
 
     <declare-styleable name="StepBar">
         <attr name="current_step" format="string" />
+        <attr name="help_tip" format="string" />
     </declare-styleable>
 </resources>

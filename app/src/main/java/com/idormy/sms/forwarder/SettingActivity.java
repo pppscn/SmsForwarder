@@ -74,9 +74,8 @@ public class SettingActivity extends AppCompatActivity {
         Log.d(TAG, "onStart");
 
         //是否关闭页面提示
-        TextView help_tip = findViewById(R.id.help_tip);
         ScrollView scrollView = findViewById(R.id.scrollView);
-        CommonUtil.calcMarginBottom(this, help_tip, null, null, scrollView);
+        CommonUtil.calcMarginBottom(this, null, null, scrollView);
 
         //转发短信广播
         switchEnableSms(findViewById(R.id.switch_enable_sms));
@@ -119,12 +118,8 @@ public class SettingActivity extends AppCompatActivity {
         SwitchHelpTip(findViewById(R.id.switch_help_tip));
 
         //步骤完成状态校验
-        boolean checkStep1 = SettingUtil.getSwitchEnableSms() || SettingUtil.getSwitchEnablePhone() || SettingUtil.getSwitchEnableAppNotify();
-        boolean checkStep2 = SenderUtil.countSender("1", null) > 0;
-        boolean checkStep3 = RuleUtil.countRule("1", null, null) > 0;
-        boolean checkStep4 = LogUtil.countLog("2", null, null) > 0;
         StepBar stepBar = findViewById(R.id.stepBar);
-        stepBar.setHighlight(checkStep1, checkStep2, checkStep3, checkStep4);
+        stepBar.setHighlight();
     }
 
     @Override
@@ -769,8 +764,9 @@ public class SettingActivity extends AppCompatActivity {
             Log.d(TAG, "onCheckedChanged:" + isChecked);
 
             TextView help_tip = findViewById(R.id.help_tip);
+            help_tip.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             ScrollView scrollView = findViewById(R.id.scrollView);
-            CommonUtil.calcMarginBottom(this, help_tip, null, null, scrollView);
+            CommonUtil.calcMarginBottom(this, null, null, scrollView);
         });
     }
 

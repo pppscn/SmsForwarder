@@ -36,6 +36,10 @@ public class FrontService extends Service {
     public void onCreate() {
         super.onCreate();
         Log.i(TAG, "onCreate");
+
+        //是否同意隐私协议
+        if (!MyApplication.allowPrivacyPolicy) return;
+
         Notification.Builder builder = new Notification.Builder(this);
         builder.setSmallIcon(R.drawable.ic_forwarder);
         builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
@@ -44,7 +48,8 @@ public class FrontService extends Service {
         }
         builder.setContentText(getString(R.string.notification_content));
         Intent intent = new Intent(this, MainActivity.class);
-        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        int flags = Build.VERSION.SDK_INT >= 30 ? PendingIntent.FLAG_IMMUTABLE : PendingIntent.FLAG_UPDATE_CURRENT;
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, flags);
         builder.setContentIntent(pendingIntent);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -83,12 +88,16 @@ public class FrontService extends Service {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
+
+        //是否同意隐私协议
+        if (!MyApplication.allowPrivacyPolicy) return;
+
         //进行自动重启
         Intent intent = new Intent(FrontService.this, FrontService.class);
         //重新开启服务
         startService(intent);
         stopForeground(true);
-        super.onDestroy();
     }
 
     @Override

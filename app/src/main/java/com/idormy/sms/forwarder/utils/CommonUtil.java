@@ -9,12 +9,10 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -167,11 +165,7 @@ public class CommonUtil {
     }
 
     //计算浮动按钮位置
-    public static void calcMarginBottom(Context context, TextView help_tip, FloatingActionButton btnFloat, ListView viewList, ScrollView scrollView) {
-
-        if (help_tip != null) {
-            help_tip.setVisibility(MyApplication.showHelpTip ? View.VISIBLE : View.GONE);
-        }
+    public static void calcMarginBottom(Context context, FloatingActionButton btnFloat, ListView viewList, ScrollView scrollView) {
 
         int marginBottom = MyApplication.showHelpTip ? 85 : 65;
         if (btnFloat != null) {
