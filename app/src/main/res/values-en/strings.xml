@@ -116,7 +116,7 @@
     <string name="invalid_webcom_app_parm">CronID, AgentID and Secret cannot be blank</string>
     <string name="invalid_phone_num">Phone number cannot be blank</string>
     <string name="new_sender">New Sender</string>
-    <string name="set_bark_name">Bark Group Name/Status</string>
+    <string name="set_bark_name">GroupName/Status</string>
     <string name="set_bark_server">Bark-Server</string>
     <string name="set_bark_server_tips"> e.g. https://day.app/XXXXXXXX/</string>
     <string name="set_bark_icon">Bark-Icon (optional)</string>
@@ -168,11 +168,11 @@
     <string name="device_name">Device name</string>
     <string name="sim1_remark" tools:ignore="Typos">SIM1 Label</string>
     <string name="sim2_remark" tools:ignore="Typos">SIM2 Label</string>
-    <string name="carrier_mobile">Label of SIM, eg.: "CMCC", "13800138000", etc.</string>
-    <string name="low_power_alarm_threshold">Low power alarm threshold</string>
-    <string name="low_power_alarm_threshold_tips">Value range: 0–100. Left blank or 0 is disabled</string>
-    <string name="retry_interval">Retry interval (seconds)</string>
-    <string name="retry_interval_tips">Disabled when times = 0, the interval is incremented</string>
+    <string name="carrier_mobile" tools:ignore="Typos">Label of SIM,\neg. SIM1_AT&amp;T_88888888</string>
+    <string name="low_power_alarm_threshold">Low power alarm</string>
+    <string name="low_power_alarm_threshold_tips">Value range: 0–100.\nLeft blank or 0 is disabled</string>
+    <string name="retry_interval">Retry interval</string>
+    <string name="retry_interval_tips">Disabled when times = 0,\nthe interval is incremented</string>
     <string name="forward_sms">Forward sms</string>
     <string name="forward_sms_tips">Main switch, requires permissions to read and sned SMS messages, especially verification SMS texts.</string>
     <string name="forward_missed_calls">Forward calls log</string>
@@ -180,7 +180,7 @@
     <string name="forward_app_notify">Forward app Ntf.</string>
     <string name="forward_app_notify_tips">Main switch, requires permission to read notification.</string>
     <string name="cancel_app_notify">Auto close Ntf.</string>
-    <string name="enable_custom_templates">Global custom template</string>
+    <string name="enable_custom_templates">Global Custom Template</string>
     <string name="enable_custom_templates_tips">Priority: custom template for forwarding rules > Global custom template > System default</string>
     <string name="enable_regex_replace">Enable regular replacement content</string>
     <string name="enable_regex_replace_tips">Format: RegularExpression===ReplacementResult,One rule per line.\ne.g. (\\d{3})\\d+(\\d{4})===$1****$2</string>
@@ -261,9 +261,9 @@
     <string name="account">✱Account</string>
     <string name="servers">✱Servers</string>
     <string name="email_settings">✱Email</string>
-    <string name="below">below</string>
+    <string name="below"><![CDATA[≤]]></string>
     <string name="percent">%</string>
-    <string name="above">above</string>
+    <string name="above"><![CDATA[≥]]></string>
     <string name="zero">0</string>
     <string name="monitor_battery_status_changes">Monitor battery status changes</string>
     <string name="battery_status_changes_tips">Notify when charging status changes (charging/discharging/uncharged/fully charged)</string>
@@ -282,7 +282,7 @@
     <string name="agree">Agree</string>
     <string name="disagree">Disagree</string>
     <string name="privacy_policy_text">SmsForwarder (the "Application/App"), is 100\% free and open source, and is compliled and released basing on repository hosted on GitHub. The App will not collect any of your privacy data!\n\n Version information of the App will be sent in the following situations: \n 1. As startup, version information will be sent to "Umeng +· U-APP Mobile Statistics" for user retention analyze and crash stats;\n 2. Manual update check triggered by user;\n The App collects no any other data!!\n\n The App collects and uses version information only in accordance with the Privacy Policy, and will not collect any other information as an abuse of users\' consent to the Privacy Policy;</string>
-    <string name="GotifyWebServer">Setting the WebServer</string>
+    <string name="GotifyWebServer">WebServer</string>
     <string name="GotifyWebServerTips"><![CDATA[eg.: https://push.ppps.cn/message?token=<apptoken>]]></string>
     <string name="title_template">Title Template</string>
     <string name="priority">Priority（1 – 9）</string>
@@ -313,10 +313,10 @@
     <string name="todo">TODO</string>
     <string name="forwarding_function">Forwarding Function</string>
     <string name="forwarding_function_tips">Main switch: Enable the forwarding function as required</string>
-    <string name="mandatory_type">Mandatory type:</string>
-    <string name="missed_call">Missed call</string>
-    <string name="received_call">Received call</string>
-    <string name="local_outgoing_call">Local outgoing call</string>
+    <string name="mandatory_type">Call type:</string>
+    <string name="missed_call">Missed</string>
+    <string name="received_call">Received</string>
+    <string name="local_outgoing_call">Call out</string>
     <string name="optional_action">Optional action:</string>
     <string name="active_request">Active request</string>
     <string name="active_request_tips">Obtain instructions through passive reception or active polling to operate the machine</string>
@@ -328,11 +328,58 @@
     <string name="keep_alive_tips">It is recommended to open each authorization or setting, do not disable the notification bar, to avoid the APP service being killed</string>
     <string name="custom_settings">Custom settings</string>
     <string name="custom_settings_tips">If the automatic acquisition fails, please fill in the remarks manually; after clearing, it will be automatically acquired again!</string>
-    <string name="times">times</string>
+    <string name="times">,</string>
     <string name="interval">Interval</string>
-    <string name="seconds">seconds</string>
+    <string name="seconds">sec</string>
     <string name="retry">Retry</string>
     <string name="test_sender_sms">[Test Channel] Congratulations, the sending channel test is successful, please continue to add forwarding rules!</string>
     <string name="test_sim_info" tools:ignore="Typos">SIM1_TestOperator_18888888888</string>
-    <string name="keep_reminding">Keep reminding</string>
+    <string name="keep_reminding">Continued</string>
+    <string name="resend">RESEND</string>
+    <string name="from">From: </string>
+    <string name="msg">Msg: </string>
+    <string name="slot">Slot: </string>
+    <string name="rule">Rule: </string>
+    <string name="time">Time: </string>
+    <string name="result">\n\nResult: \n</string>
+    <string name="processing">In the processing…</string>
+    <string name="tag_from">{{FROM}}</string>
+    <string name="tag_sms">{{SMS}}</string>
+    <string name="tag_package_name">{{PACKAGE_NAME}}</string>
+    <string name="tag_msg">{{MSG}}</string>
+    <string name="tag_card_slot">{{CARD_SLOT}}</string>
+    <string name="tag_receive_time">{{RECEIVE_TIME}}</string>
+    <string name="tag_device_name">{{DEVICE_NAME}}</string>
+    <string name="tag_app_version">{{APP_VERSION}}</string>
+    <string name="tag_title">{{TITLE}}</string>
+    <string name="rule_sms">SMS</string>
+    <string name="rule_call">CALL</string>
+    <string name="rule_app">APP</string>
+    <string name="rule_all">ALL</string>
+    <string name="rule_transpond_all">Transpond All</string>
+    <string name="rule_phone_num">Phone Num</string>
+    <string name="rule_msg_content">Msg Content</string>
+    <string name="rule_multi_match">Multi Match</string>
+    <string name="rule_package_name">Package Name</string>
+    <string name="rule_inform_content">Inform Content</string>
+    <string name="rule_card">&#160;Card&#160;</string>
+    <string name="rule_when">&#160;When&#160;</string>
+    <string name="rule_fw_to">&#160;Fw.&#160;To&#160;</string>
+    <string name="rule_all_fw_to">&#160;All&#160;Fw.&#160;To&#160;</string>
+    <string name="rule_is">IS</string>
+    <string name="rule_notis">NOTIS</string>
+    <string name="rule_contain">CONTAIN</string>
+    <string name="rule_startwith">STARTWITH</string>
+    <string name="rule_endwith">ENDWITH</string>
+    <string name="rule_notcontain">NOTCONTAIN</string>
+    <string name="rule_regex">REGEX</string>
+    <string name="package_name_copied">Package name copied:</string>
+    <string name="loading_user_app">Loading user app, please wait…</string>
+    <string name="loading_system_app">Loading system app, please wait…</string>
+    <string name="crash_tip">Very sorry! The program has an exception and is about to exit…</string>
+    <string name="enable_phone_fw_tips">A call type must be selected to enable call log forwarding!</string>
+    <string name="notification_service_is_on">Notification service is on</string>
+    <string name="tips_battery_level_alarm_once">[Note] The upper and lower limits of the battery warning threshold are 0, and the continuous warning does not work.</string>
+    <string name="tips_compatible_solution">Compatible solution</string>
+    <string name="tips_wait_3_seconds">Please wait 3 seconds after clicking start</string>
 </resources>

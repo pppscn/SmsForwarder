@@ -44,7 +44,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                         (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             }
             int state = mTelephonyManager.getCallState();
-            Log.d(TAG, "来电信息：state=" + state + " phoneNumber = " + phoneNumber);
+            Log.d(TAG, "Caller information: state=" + state + " phoneNumber = " + phoneNumber);
             switch (state) {
                 //包括响铃、第三方来电等待
                 case TelephonyManager.CALL_STATE_RINGING:
@@ -80,7 +80,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         if ((callInfo.getType() == 1 && !SettingUtil.getSwitchCallType1())
                 || (callInfo.getType() == 2 && !SettingUtil.getSwitchCallType2())
                 || (callInfo.getType() == 3 && !SettingUtil.getSwitchCallType3())) {
-            Log.d(TAG, "未启用该类型的通话记录转发，不做处理！");
+            Log.w(TAG, "Call record forwarding of this type is not enabled, no processing will be done!");
             return;
         }
 
@@ -105,7 +105,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         String currHash = CommonUtil.MD5(phoneNumber + simInfo + time);
         Log.d(TAG, "prevHash=" + prevHash + " currHash=" + currHash);
         if (prevHash != null && prevHash.equals(currHash)) {
-            Log.w(TAG, "同一卡槽同一秒的重复未接来电广播不再重复处理（部分机型会收到两条广播）");
+            Log.w(TAG, "Repeated missed call broadcasts of the same card slot in the same second are no longer processed repeatedly (some models will receive two broadcasts)");
             return;
         }
         SettingUtil.setPrevNoticeHash(phoneNumber, currHash);

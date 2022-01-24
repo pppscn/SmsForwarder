@@ -14,6 +14,7 @@ import com.idormy.sms.forwarder.utils.LogUtil;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -89,7 +90,7 @@ public class SenderTelegramMsg extends SenderBaseMsg {
         final Request request;
         if (method.equals("GET")) {
             request = new Request.Builder()
-                    .url(requestUrl + "?chat_id=" + chatId + "&text=" + finalText)
+                    .url(requestUrl + "?chat_id=" + chatId + "&text=" + URLEncoder.encode(finalText, "UTF-8"))
                     .build();
         } else {
             Map bodyMap = new HashMap();

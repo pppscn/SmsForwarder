@@ -8,6 +8,9 @@ import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.idormy.sms.forwarder.MyApplication;
+import com.idormy.sms.forwarder.R;
+
 @SuppressWarnings({"SynchronizeOnNonFinalField", "unused"})
 public class SettingUtil {
     static Boolean hasInit = false;
@@ -111,7 +114,12 @@ public class SettingUtil {
     }
 
     public static String getSmsTemplate() {
-        return sp_setting.getString(Define.SP_MSG_KEY_STRING_SMS_TEMPLATE, "{{来源号码}}\n{{短信内容}}\n{{卡槽信息}}\n{{接收时间}}\n{{设备名称}}");
+        return sp_setting.getString(Define.SP_MSG_KEY_STRING_SMS_TEMPLATE,
+                getString(R.string.tag_from) + "\n" +
+                        getString(R.string.tag_sms) + "\n" +
+                        getString(R.string.tag_card_slot) + "\n" +
+                        getString(R.string.tag_receive_time) + "\n" +
+                        getString(R.string.tag_device_name));
     }
 
     public static void setSmsTemplate(String textSmsTemplate) {
@@ -271,5 +279,9 @@ public class SettingUtil {
             e.printStackTrace();
             return "";
         }
+    }
+
+    private static String getString(int resId) {
+        return MyApplication.getContext().getString(resId);
     }
 }

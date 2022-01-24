@@ -58,7 +58,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                         simInfo = simId == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1();
                         simInfo = "SIM" + simId + "_" + simInfo;
                     } catch (Exception e) {
-                        Log.e(TAG, "获取接收手机号失败：" + e.getMessage());
+                        Log.e(TAG, "Failed to get the receiving phone number:" + e.getMessage());
                     }
 
                     List<SmsVo> smsVoList = new ArrayList<>();
@@ -87,7 +87,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                         smsVoList.add(new SmsVo(mobile, mobileToContent.get(mobile), date, simInfo));
                     }
 
-                    Log.d(TAG, "短信：" + smsVoList);
+                    Log.d(TAG, "SMS: " + smsVoList);
                     SendUtil.send_msg_list(context, smsVoList, simId, "sms");
 
                     //SmsHubApi
@@ -101,7 +101,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 }
 
             } catch (Throwable throwable) {
-                Log.e(TAG, "解析短信失败：" + throwable.getMessage());
+                Log.e(TAG, "Parsing SMS failed: " + throwable.getMessage());
             }
 
         }

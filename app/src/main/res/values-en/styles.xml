@@ -32,12 +32,15 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">5dip</item>
         <item name="android:layout_marginRight">5dip</item>
+        <item name="android:paddingLeft">10dip</item>
+        <item name="android:paddingRight">10dip</item>
         <item name="android:paddingTop">5dip</item>
         <item name="android:paddingBottom">5dip</item>
         <item name="android:background">@drawable/select_selector</item>
         <item name="android:button">@null</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">13sp</item>
+        <item name="android:letterSpacing">0.1</item>
         <item name="android:textColor">@drawable/txt_select_selector</item>
     </style>
 

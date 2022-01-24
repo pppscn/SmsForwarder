@@ -150,7 +150,7 @@ public class SettingActivity extends AppCompatActivity {
 
         switch_enable_phone.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked && !SettingUtil.getSwitchCallType1() && !SettingUtil.getSwitchCallType2() && !SettingUtil.getSwitchCallType3()) {
-                Toast.makeText(context, "必选选择一个通话类型，才能开启通话记录转发！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.enable_phone_fw_tips, Toast.LENGTH_SHORT).show();
                 SettingUtil.switchEnablePhone(false);
                 return;
             }
@@ -163,7 +163,7 @@ public class SettingActivity extends AppCompatActivity {
         check_box_call_type_1.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingUtil.switchCallType1(isChecked);
             if (!isChecked && !SettingUtil.getSwitchCallType1() && !SettingUtil.getSwitchCallType2() && !SettingUtil.getSwitchCallType3()) {
-                Toast.makeText(context, "必选选择一个通话类型，才能开启通话记录转发！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.enable_phone_fw_tips, Toast.LENGTH_SHORT).show();
                 SettingUtil.switchEnablePhone(false);
             }
         });
@@ -171,7 +171,7 @@ public class SettingActivity extends AppCompatActivity {
         check_box_call_type_2.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingUtil.switchCallType2(isChecked);
             if (!isChecked && !SettingUtil.getSwitchCallType1() && !SettingUtil.getSwitchCallType2() && !SettingUtil.getSwitchCallType3()) {
-                Toast.makeText(context, "必选选择一个通话类型，才能开启通话记录转发！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.enable_phone_fw_tips, Toast.LENGTH_SHORT).show();
                 SettingUtil.switchEnablePhone(false);
             }
         });
@@ -179,7 +179,7 @@ public class SettingActivity extends AppCompatActivity {
         check_box_call_type_3.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingUtil.switchCallType3(isChecked);
             if (!isChecked && !SettingUtil.getSwitchCallType1() && !SettingUtil.getSwitchCallType2() && !SettingUtil.getSwitchCallType3()) {
-                Toast.makeText(context, "必选选择一个通话类型，才能开启通话记录转发！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.enable_phone_fw_tips, Toast.LENGTH_SHORT).show();
                 SettingUtil.switchEnablePhone(false);
             }
         });
@@ -199,10 +199,10 @@ public class SettingActivity extends AppCompatActivity {
             if (isChecked) {
                 if (!CommonUtil.isNotificationListenerServiceEnabled(this)) {
                     CommonUtil.openNotificationAccess(this);
-                    Toast.makeText(this, "请先授予《短信转发器》通知使用权，否则无法转发APP通知，开启失败!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.tips_notification_listener, Toast.LENGTH_LONG).show();
                     return;
                 } else {
-                    Toast.makeText(this, "通知服务已开启", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.notification_service_is_on, Toast.LENGTH_LONG).show();
                     CommonUtil.toggleNotificationListenerService(this);
                 }
             }
@@ -252,7 +252,7 @@ public class SettingActivity extends AppCompatActivity {
         switch_enable_send_sms.setOnCheckedChangeListener((buttonView, isChecked) -> {
             String webServer = editText_text_send_sms.getText().trim();
             if (isChecked && !CommonUtil.checkUrl(webServer, false)) {
-                HttpUtil.Toast(TAG, "url为空或不正确无法启用");
+                HttpUtil.Toast(TAG, getString(R.string.invalid_webserver));
                 switch_enable_send_sms.setChecked(false);
                 return;
             }
@@ -340,7 +340,7 @@ public class SettingActivity extends AppCompatActivity {
         cb_battery_level_alarm_once.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingUtil.switchBatteryLevelAlarmOnce(isChecked);
             if (isChecked && 0 == SettingUtil.getBatteryLevelAlarmMin() && 0 == SettingUtil.getBatteryLevelAlarmMax()) {
-                Toast.makeText(context, "【注意】电量预警阈值上下限都是0，持续提醒不起作用", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.tips_battery_level_alarm_once, Toast.LENGTH_SHORT).show();
                 SettingUtil.switchEnablePhone(false);
             }
         });
@@ -493,7 +493,7 @@ public class SettingActivity extends AppCompatActivity {
 
     //跳转自启动页面
     public static void startToAutoStartSetting(Context context) {
-        Log.e("Util", "******************当前手机型号为：" + Build.MANUFACTURER);
+        Log.e("Util", "******************The current phone model is:" + Build.MANUFACTURER);
 
         Set<Map.Entry<String, List<String>>> entries = hashMap.entrySet();
         boolean has = false;
@@ -524,7 +524,7 @@ public class SettingActivity extends AppCompatActivity {
             }
         }
         if (!has) {
-            Toast.makeText(context, "兼容方案", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.tips_compatible_solution, Toast.LENGTH_SHORT).show();
             try {
                 Intent intent = new Intent();
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -686,7 +686,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     //设置转发时启用自定义模版
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    @SuppressLint({"UseSwitchCompatOrMaterialCode", "SetTextI18n"})
     private void switchSmsTemplate(Switch switch_sms_template) {
         boolean isOn = SettingUtil.getSwitchSmsTemplate();
         switch_sms_template.setChecked(isOn);
@@ -700,7 +700,11 @@ public class SettingActivity extends AppCompatActivity {
             layout_sms_template.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             SettingUtil.switchSmsTemplate(isChecked);
             if (!isChecked) {
-                textSmsTemplate.setText("{{来源号码}}\n{{短信内容}}\n{{卡槽信息}}\n{{接收时间}}\n{{设备名称}}");
+                textSmsTemplate.setText(getString(R.string.tag_from) + "\n" +
+                        getString(R.string.tag_sms) + "\n" +
+                        getString(R.string.tag_card_slot) + "\n" +
+                        getString(R.string.tag_receive_time) + "\n" +
+                        getString(R.string.tag_device_name));
             }
         });
     }
@@ -735,19 +739,19 @@ public class SettingActivity extends AppCompatActivity {
         textSmsTemplate.requestFocus();
         switch (v.getId()) {
             case R.id.bt_insert_sender:
-                CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, "{{来源号码}}");
+                CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_from));
                 return;
             case R.id.bt_insert_content:
-                CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, "{{短信内容}}");
+                CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_sms));
                 return;
             case R.id.bt_insert_extra:
-                CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, "{{卡槽信息}}");
+                CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_card_slot));
                 return;
             case R.id.bt_insert_time:
-                CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, "{{接收时间}}");
+                CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_receive_time));
                 return;
             case R.id.bt_insert_device_name:
-                CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, "{{设备名称}}");
+                CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_device_name));
                 return;
             default:
         }

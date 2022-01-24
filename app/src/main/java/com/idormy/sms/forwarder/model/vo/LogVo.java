@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.model.vo;
 
+import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.R;
 
 import lombok.Data;
@@ -56,8 +57,12 @@ public class LogVo {
     }
 
     public String getForwardResponse() {
-        if (this.forwardStatus == 1) return "处理中...";
+        if (this.forwardStatus == 1) return getString(R.string.processing);
 
         return forwardResponse;
+    }
+
+    private static String getString(int resId) {
+        return MyApplication.getContext().getString(resId);
     }
 }

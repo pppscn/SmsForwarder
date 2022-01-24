@@ -25,24 +25,20 @@
 
             <EditText
                 android:id="@+id/editTextGotifyName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:autofillHints=""
-                android:ems="10"
-                android:inputType="text"
-                android:maxLines="1"
-                android:text=""
-                tools:ignore="LabelFor,TextFields" />
-
-            <Switch
-                android:id="@+id/switchGotifyEnable"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:singleLine="true"
+                tools:ignore="LabelFor" />
+
+            <Switch
+                android:id="@+id/switchGotifyEnable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:checked="true"
-                android:ems="14"
-                android:gravity="end"
+                android:textSize="14sp"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 

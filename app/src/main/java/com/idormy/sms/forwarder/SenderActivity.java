@@ -655,28 +655,28 @@ public class SenderActivity extends AppCompatActivity {
         buttonInsertSender.setOnClickListener(view -> {
             editTextEmailTitle.setFocusable(true);
             editTextEmailTitle.requestFocus();
-            CommonUtil.insertOrReplaceText2Cursor(editTextEmailTitle, "{{来源号码}}");
+            CommonUtil.insertOrReplaceText2Cursor(editTextEmailTitle, getString(R.string.tag_from));
         });
 
         Button buttonInsertExtra = view1.findViewById(R.id.bt_insert_extra);
         buttonInsertExtra.setOnClickListener(view -> {
             editTextEmailTitle.setFocusable(true);
             editTextEmailTitle.requestFocus();
-            CommonUtil.insertOrReplaceText2Cursor(editTextEmailTitle, "{{卡槽信息}}");
+            CommonUtil.insertOrReplaceText2Cursor(editTextEmailTitle, getString(R.string.tag_card_slot));
         });
 
         Button buttonInsertTime = view1.findViewById(R.id.bt_insert_time);
         buttonInsertTime.setOnClickListener(view -> {
             editTextEmailTitle.setFocusable(true);
             editTextEmailTitle.requestFocus();
-            CommonUtil.insertOrReplaceText2Cursor(editTextEmailTitle, "{{接收时间}}");
+            CommonUtil.insertOrReplaceText2Cursor(editTextEmailTitle, getString(R.string.tag_receive_time));
         });
 
         Button buttonInsertDeviceName = view1.findViewById(R.id.bt_insert_device_name);
         buttonInsertDeviceName.setOnClickListener(view -> {
             editTextEmailTitle.setFocusable(true);
             editTextEmailTitle.requestFocus();
-            CommonUtil.insertOrReplaceText2Cursor(editTextEmailTitle, "{{设备名称}}");
+            CommonUtil.insertOrReplaceText2Cursor(editTextEmailTitle, getString(R.string.tag_device_name));
         });
 
     }
@@ -1770,28 +1770,28 @@ public class SenderActivity extends AppCompatActivity {
         buttonInsertSender.setOnClickListener(view -> {
             editTextPushPlusTitle.setFocusable(true);
             editTextPushPlusTitle.requestFocus();
-            CommonUtil.insertOrReplaceText2Cursor(editTextPushPlusTitle, "{{来源号码}}");
+            CommonUtil.insertOrReplaceText2Cursor(editTextPushPlusTitle, getString(R.string.tag_from));
         });
 
         Button buttonInsertExtra = view1.findViewById(R.id.bt_insert_extra);
         buttonInsertExtra.setOnClickListener(view -> {
             editTextPushPlusTitle.setFocusable(true);
             editTextPushPlusTitle.requestFocus();
-            CommonUtil.insertOrReplaceText2Cursor(editTextPushPlusTitle, "{{卡槽信息}}");
+            CommonUtil.insertOrReplaceText2Cursor(editTextPushPlusTitle, getString(R.string.tag_card_slot));
         });
 
         Button buttonInsertTime = view1.findViewById(R.id.bt_insert_time);
         buttonInsertTime.setOnClickListener(view -> {
             editTextPushPlusTitle.setFocusable(true);
             editTextPushPlusTitle.requestFocus();
-            CommonUtil.insertOrReplaceText2Cursor(editTextPushPlusTitle, "{{接收时间}}");
+            CommonUtil.insertOrReplaceText2Cursor(editTextPushPlusTitle, getString(R.string.tag_receive_time));
         });
 
         Button buttonInsertDeviceName = view1.findViewById(R.id.bt_insert_device_name);
         buttonInsertDeviceName.setOnClickListener(view -> {
             editTextPushPlusTitle.setFocusable(true);
             editTextPushPlusTitle.requestFocus();
-            CommonUtil.insertOrReplaceText2Cursor(editTextPushPlusTitle, "{{设备名称}}");
+            CommonUtil.insertOrReplaceText2Cursor(editTextPushPlusTitle, getString(R.string.tag_device_name));
         });
     }
 
@@ -1915,28 +1915,28 @@ public class SenderActivity extends AppCompatActivity {
         buttonInsertSender.setOnClickListener(view -> {
             editTextGotifyTitle.setFocusable(true);
             editTextGotifyTitle.requestFocus();
-            CommonUtil.insertOrReplaceText2Cursor(editTextGotifyTitle, "{{来源号码}}");
+            CommonUtil.insertOrReplaceText2Cursor(editTextGotifyTitle, getString(R.string.tag_from));
         });
 
         Button buttonInsertExtra = view1.findViewById(R.id.bt_insert_extra);
         buttonInsertExtra.setOnClickListener(view -> {
             editTextGotifyTitle.setFocusable(true);
             editTextGotifyTitle.requestFocus();
-            CommonUtil.insertOrReplaceText2Cursor(editTextGotifyTitle, "{{卡槽信息}}");
+            CommonUtil.insertOrReplaceText2Cursor(editTextGotifyTitle, getString(R.string.tag_card_slot));
         });
 
         Button buttonInsertTime = view1.findViewById(R.id.bt_insert_time);
         buttonInsertTime.setOnClickListener(view -> {
             editTextGotifyTitle.setFocusable(true);
             editTextGotifyTitle.requestFocus();
-            CommonUtil.insertOrReplaceText2Cursor(editTextGotifyTitle, "{{接收时间}}");
+            CommonUtil.insertOrReplaceText2Cursor(editTextGotifyTitle, getString(R.string.tag_receive_time));
         });
 
         Button buttonInsertDeviceName = view1.findViewById(R.id.bt_insert_device_name);
         buttonInsertDeviceName.setOnClickListener(view -> {
             editTextGotifyTitle.setFocusable(true);
             editTextGotifyTitle.requestFocus();
-            CommonUtil.insertOrReplaceText2Cursor(editTextGotifyTitle, "{{设备名称}}");
+            CommonUtil.insertOrReplaceText2Cursor(editTextGotifyTitle, getString(R.string.tag_device_name));
         });
 
     }

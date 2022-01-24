@@ -25,23 +25,20 @@
 
             <EditText
                 android:id="@+id/editTextDingdingName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:autofillHints=""
-                android:ems="10"
+                android:layout_weight="1"
+                android:importantForAutofill="no"
                 android:inputType="text"
-                android:text=""
+                android:singleLine="true"
                 tools:ignore="LabelFor" />
 
             <Switch
                 android:id="@+id/switchDingdingEnable"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:checked="true"
-                android:ems="14"
-                android:gravity="end"
+                android:textSize="14sp"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 
@@ -76,7 +73,6 @@
                 app:textColorHint="@color/tv_gray_999999"
                 app:textSize="15sp" />
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"

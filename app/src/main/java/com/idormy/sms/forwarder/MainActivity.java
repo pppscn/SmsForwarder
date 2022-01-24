@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
             try {
                 HttpServer.update();
             } catch (Exception e) {
-                Log.e(TAG, "启用HttpServer:", e);
+                Log.e(TAG, "Start HttpServer:", e);
             }
         }
 
@@ -354,9 +354,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         builder.setTitle(R.string.details);
         String simInfo = logVo.getSimInfo();
         if (simInfo != null) {
-            builder.setMessage("来源：" + logVo.getFrom() + "\n\n" + "消息：" + logVo.getContent() + "\n\n" + "卡槽：" + logVo.getSimInfo() + "\n\n" + "规则：" + logVo.getRule() + "\n\n" + "时间：" + TimeUtil.utc2Local(logVo.getTime()) + "\n\n转发结果：\n" + logVo.getForwardResponse());
+            builder.setMessage(getString(R.string.from) + logVo.getFrom() + "\n\n" + getString(R.string.msg) + logVo.getContent() + "\n\n" + getString(R.string.slot) + logVo.getSimInfo() + "\n\n" + getString(R.string.rule) + logVo.getRule() + "\n\n" + getString(R.string.time) + TimeUtil.utc2Local(logVo.getTime()) + getString(R.string.result) + logVo.getForwardResponse());
         } else {
-            builder.setMessage("来源：" + logVo.getFrom() + "\n\n" + "消息：" + logVo.getContent() + "\n\n" + "规则：" + logVo.getRule() + "\n\n" + "时间：" + TimeUtil.utc2Local(logVo.getTime()) + "\n\n转发结果：\n" + logVo.getForwardResponse());
+            builder.setMessage(getString(R.string.from) + logVo.getFrom() + "\n\n" + getString(R.string.msg) + logVo.getContent() + "\n\n" + getString(R.string.rule) + logVo.getRule() + "\n\n" + getString(R.string.time) + TimeUtil.utc2Local(logVo.getTime()) + getString(R.string.result) + logVo.getForwardResponse());
         }
         //删除
         builder.setNegativeButton(R.string.del, (dialog, which) -> {
@@ -377,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         });
         //对于发送失败的消息添加重发按钮
         if (logVo.getForwardStatus() != 2) {
-            builder.setPositiveButton("重发消息", (dialog, which) -> {
+            builder.setPositiveButton(R.string.resend, (dialog, which) -> {
                 Toast.makeText(MainActivity.this, R.string.resend_toast, Toast.LENGTH_SHORT).show();
                 SendUtil.resendMsgByLog(MainActivity.this, handler, logVo);
                 dialog.dismiss();

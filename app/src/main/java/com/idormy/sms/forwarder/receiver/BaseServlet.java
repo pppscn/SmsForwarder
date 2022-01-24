@@ -14,14 +14,22 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.Reader;
 import java.util.List;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @WebServlet
 @MultipartConfig
@@ -107,7 +115,7 @@ public class BaseServlet extends HttpServlet {
         BufferedReader reader = req.getReader();
         try {
             String read = read(reader);
-            Log.i(TAG, "请求内容:" + read);
+            Log.i(TAG, "Request message:" + read);
             List<SmsHubVo> smsHubVos = JSON.parseArray(read, SmsHubVo.class);
             if (smsHubVos.size() == 1 && SmsHubVo.Action.heartbeat.code().equals(smsHubVos.get(0).getAction())) {
                 smsHubVos.clear();
@@ -141,7 +149,7 @@ public class BaseServlet extends HttpServlet {
     }
 
     private void printErrMsg(HttpServletResponse resp, PrintWriter writer, Exception e) {
-        String text = "服务器内部错误:" + e.getMessage();
+        String text = "Internal server error: " + e.getMessage();
         Log.e(TAG, text);
         resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         writer.println(text);
@@ -160,7 +168,7 @@ public class BaseServlet extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            String text = "服务器内部错误:" + e.getMessage();
+            String text = "Internal server error: " + e.getMessage();
             Log.e(TAG, text);
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } finally {

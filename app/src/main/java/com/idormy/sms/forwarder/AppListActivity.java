@@ -92,7 +92,7 @@ public class AppListActivity extends AppCompatActivity {
             ClipData mClipData = ClipData.newPlainText("pkgName", appInfo.getPkgName());
             cm.setPrimaryClip(mClipData);
 
-            Toast.makeText(AppListActivity.this, "已复制包名：" + appInfo.getPkgName(), Toast.LENGTH_LONG).show();
+            Toast.makeText(AppListActivity.this, getString(R.string.package_name_copied) + appInfo.getPkgName(), Toast.LENGTH_LONG).show();
         });
         listView.setOnItemLongClickListener((parent, view, position, id) -> {
             AppInfo appInfo = appInfoList.get(position);
@@ -112,7 +112,7 @@ public class AppListActivity extends AppCompatActivity {
             Message msg = new Message();
             msg.what = NOTIFY;
             Bundle bundle = new Bundle();
-            bundle.putString("DATA", "user".equals(currentType) ? "正在加载用户应用，请稍候..." : "正在加载系统应用，请稍候...");
+            bundle.putString("DATA", "user".equals(currentType) ? getString(R.string.loading_user_app) : getString(R.string.loading_system_app));
             msg.setData(bundle);
             handler.sendMessage(msg);
 

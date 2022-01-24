@@ -58,7 +58,7 @@ public class HttpServer {
         }
         long l = System.currentTimeMillis();
         if (l - ts < 3000 && asRunning()) {
-            Toast.makeText(context, "点击启动后请等待3秒", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.tips_wait_3_seconds, Toast.LENGTH_SHORT).show();
             return false;
         }
         if (asRunning().equals(SettingUtil.getSwitchEnableHttpServer())) {
