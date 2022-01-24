@@ -22,7 +22,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -767,10 +766,9 @@ public class SettingActivity extends AppCompatActivity {
             sp.edit().putBoolean(Define.SP_CONFIG_SWITCH_HELP_TIP, isChecked).apply();
             Log.d(TAG, "onCheckedChanged:" + isChecked);
 
-            TextView help_tip = findViewById(R.id.help_tip);
-            help_tip.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-            ScrollView scrollView = findViewById(R.id.scrollView);
-            CommonUtil.calcMarginBottom(this, null, null, scrollView);
+            StepBar stepBar = findViewById(R.id.stepBar);
+            stepBar.setHighlight();
+            CommonUtil.calcMarginBottom(this, null, null, findViewById(R.id.scrollView));
         });
     }
 
