@@ -178,8 +178,11 @@ public class StepBar extends LinearLayout {
         boolean Step4 = LogUtil.countLog("2", null, null) > 0;
 
         //页面提示文本
-        if (MyApplication.showHelpTip && current_step.equals("main") && txHelpTip != null) {
-            txHelpTip.setText(Step1 ? R.string.log_tips : R.string.setting_tips);
+        if (txHelpTip != null) {
+            txHelpTip.setVisibility(MyApplication.showHelpTip ? View.VISIBLE : View.GONE);
+            if (MyApplication.showHelpTip && current_step.equals("main")) {
+                txHelpTip.setText(Step1 ? R.string.log_tips : R.string.setting_tips);
+            }
         }
 
         if (Step1) txStep1.setBackground(mContext.getResources().getDrawable(R.drawable.step_circle_current));

@@ -426,7 +426,7 @@
                 android:padding="15dp">
 
                 <LinearLayout
-                    android:layout_width="110dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 

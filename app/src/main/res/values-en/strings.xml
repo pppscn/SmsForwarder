@@ -168,7 +168,7 @@
     <string name="device_name">Device name</string>
     <string name="sim1_remark" tools:ignore="Typos">SIM1 Label</string>
     <string name="sim2_remark" tools:ignore="Typos">SIM2 Label</string>
-    <string name="carrier_mobile" tools:ignore="Typos">Label of SIM,\neg. SIM1_AT&amp;T_88888888</string>
+    <string name="carrier_mobile" tools:ignore="Typos">Label of SIM,\neg. AT&amp;T_88888888</string>
     <string name="low_power_alarm_threshold">Low power alarm</string>
     <string name="low_power_alarm_threshold_tips">Value range: 0–100.\nLeft blank or 0 is disabled</string>
     <string name="retry_interval">Retry interval</string>
