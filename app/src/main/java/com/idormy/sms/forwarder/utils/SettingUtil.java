@@ -281,6 +281,19 @@ public class SettingUtil {
         }
     }
 
+    //获取应用的版本号
+    public static int getVersionCode() {
+        PackageManager manager = context.getPackageManager();
+        int code = 0;
+        try {
+            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+            code = info.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return code;
+    }
+
     private static String getString(int resId) {
         return MyApplication.getContext().getString(resId);
     }

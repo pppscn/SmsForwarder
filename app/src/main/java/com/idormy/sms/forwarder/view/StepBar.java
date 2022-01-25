@@ -73,9 +73,7 @@ public class StepBar extends LinearLayout {
         mTypedArray = mContext.obtainStyledAttributes(attrs, R.styleable.StepBar);
         if (mTypedArray != null) {
             current_step = mTypedArray.getString(R.styleable.StepBar_current_step);
-            System.out.println("current_step = " + current_step);
             help_tip = mTypedArray.getString(R.styleable.StepBar_help_tip);
-            System.out.println("help_tip = " + help_tip);
             mTypedArray.recycle();
         }
     }

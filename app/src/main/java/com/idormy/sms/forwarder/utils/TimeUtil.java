@@ -77,4 +77,13 @@ public class TimeUtil {
         return localFormatter.format(utcDate.getTime());
     }
 
+    public static String getTimeString(String pattern) {
+        return new SimpleDateFormat(pattern, Locale.CHINESE).format(new Date());
+    }
+
+    public static String getTimeString(long time, String pattern) {
+        SimpleDateFormat df = new SimpleDateFormat(pattern, Locale.CHINESE);
+        return df.format(new Date(time));
+    }
+
 }

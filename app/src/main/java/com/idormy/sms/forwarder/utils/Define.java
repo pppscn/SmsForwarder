@@ -36,4 +36,6 @@ public class Define {
 
     //OkHttp 请求超时时间
     public static final int REQUEST_TIMEOUT_SECONDS = 5;
+    //HttpServer 服务端口
+    public static final int HTTP_SERVER_PORT = 5000;
 }

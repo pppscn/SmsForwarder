@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.idormy.sms.forwarder.R;
 import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 import com.idormy.sms.forwarder.receiver.BaseServlet;
+import com.idormy.sms.forwarder.utils.Define;
 import com.idormy.sms.forwarder.utils.NetUtil;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.idormy.sms.forwarder.utils.SmsHubActionHandler;
@@ -16,7 +17,6 @@ import org.eclipse.jetty.server.Server;
 
 
 public class HttpServer {
-    private static final int port = 5000;
     private static Boolean hasInit = false;
     private static Server jettyServer;
     @SuppressLint("StaticFieldLeak")
@@ -33,7 +33,7 @@ public class HttpServer {
             hasInit = true;
             HttpServer.context = context;
             SmsHubActionHandler.init(context);
-            jettyServer = new Server(port);
+            jettyServer = new Server(Define.HTTP_SERVER_PORT);
             BaseServlet.addServlet(jettyServer, context);
         }
     }
@@ -102,13 +102,12 @@ public class HttpServer {
         //}).start();
     }
 
-
     private static void stop() {
         if (Boolean.FALSE.equals(asStopp())) {
             try {
                 if (jettyServer != null) {
                     jettyServer.stop();
-                    //                    jettyServer = new Server(port);
+                    //jettyServer = new Server(port);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

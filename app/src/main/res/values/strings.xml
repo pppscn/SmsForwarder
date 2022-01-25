@@ -16,7 +16,7 @@
     <string name="rule_setting">转发规则</string>
     <string name="sender_setting">发送通道</string>
     <string name="app_list">应用列表</string>
-    <string name="setting_tips">提示：首次使用请按照以下步骤顺序设置，该步骤点亮表示已设置！</string>
+    <string name="setting_tips">提示：首次使用按照1234步骤顺序设置，数字点亮即步骤已设置</string>
     <string name="log_tips">提示：置顶下拉刷新，长按删除单条，选项卡切换日志类型</string>
     <string name="rule_tips">提示：新建规则点击“添加”，长按删除/克隆，点击编辑已有</string>
     <string name="sender_tips">提示：新建发送通道点击“添加”，长按删除/克隆，点击编辑已有</string>
@@ -217,9 +217,9 @@
     <string name="post">POST</string>
     <string name="get">GET</string>
     <string name="local_ip">本机IP：</string>
-    <string name="operating_instruction">操作说明：\n1.新旧手机连接同一个WiFi网络(禁用AP隔离)\n2.旧手机直接点【发送】按钮，获取到【服务端IP】\n3.新手机填写【服务端IP】后，点【接收】按钮\n【注意】新手机接收后，发送通道、转发规则将完全被覆盖，清空历史记录！</string>
-    <string name="send">启动服务</string>
-    <string name="stop">停止服务</string>
+    <string name="operating_instruction">操作说明：\n【注意】发送方与接收方的APP版本号必须一致!\n1.新旧手机连接同一个WiFi网络(禁用AP隔离)\n2.旧手机直接点【发送】按钮，获取到【服务端IP】\n3.新手机填写【服务端IP】后，点【接收】按钮\n【注意】新手机接收后，发送通道、转发规则将完全被覆盖，清空历史记录！</string>
+    <string name="send">启动</string>
+    <string name="stop">停止</string>
     <string name="old_mobile_phone">我是旧手机</string>
     <string name="receive">接收</string>
     <string name="new_mobile_phone">我是新手机</string>
@@ -229,7 +229,7 @@
     <string name="server_has_started">服务端已启动</string>
     <string name="server_has_stopped">服务端已停止</string>
     <string name="sender_cannot_receive">本手机是发送端，不可接收文件，请先停止服务端！</string>
-    <string name="no_wifi_network">未接入Wifi网络，不可使用 HttpServer!</string>
+    <string name="no_wifi_network">未接入Wifi网络，不可使用 HttpServer 功能!</string>
     <string name="invalid_server_ip">请输入服务端IP</string>
     <string name="download_success">下载成功</string>
     <string name="on_wireless_network">当前处于无线网络</string>
@@ -280,7 +280,7 @@
     <string name="privacy_policy">隐私政策</string>
     <string name="agree">同意</string>
     <string name="disagree">不同意</string>
-    <string name="privacy_policy_text">&#12288;&#12288;SmsForwarder-短信转发器(下称本软件) 100% 免费开源，Github 在线编译发版，绝不会收集您的任何隐私数据！ \n\n以下情形会上报本软件的版本信息： \n&#12288;&#12288;1、启动本软件时，发送版本信息发送到《友盟+·U-App移动统计》，用于分析本软件的用户版本留存与软件奔溃统计； \n&#12288;&#12288;2、手动检查更新时，发送版本号用于检查新版本； \n&#12288;&#12288;除此之外，没有任何数据！！！ \n\n&#12288;&#12288;本软件会遵循《隐私政策》收集、使用版本信息，但不会因为您同意了《隐私政策》而进行强制捆绑式的信息收集。</string>
+    <string name="privacy_policy_text">&#160;&#160;&#160;&#160;SmsForwarder-短信转发器(下称本软件) 100% 免费开源，Github 在线编译发版，绝不会收集您的任何隐私数据！ \n\n以下情形会上报本软件的版本信息： \n&#160;&#160;&#160;&#160;1、启动本软件时，发送版本信息发送到《友盟+·U-App移动统计》，用于分析本软件的用户版本留存与软件奔溃统计； \n&#160;&#160;&#160;&#160;2、手动检查更新时，发送版本号用于检查新版本； \n&#160;&#160;&#160;&#160;除此之外，没有任何数据！！！ \n\n&#160;&#160;&#160;&#160;本软件会遵循《隐私政策》收集、使用版本信息，但不会因为您同意了《隐私政策》而进行强制捆绑式的信息收集。\n\n&#160;&#160;&#160;&#160;提示：首次使用请按照1234步骤顺序设置，数字点亮表示该步骤已设置！</string>
     <string name="GotifyWebServer">WebServer</string>
     <string name="GotifyWebServerTips"><![CDATA[例：https://push.ppps.cn/message?token=<apptoken>]]></string>
     <string name="title_template">标题模板</string>

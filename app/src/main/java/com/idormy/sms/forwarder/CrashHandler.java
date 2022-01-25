@@ -29,7 +29,7 @@ import java.util.Objects;
  * UncaughtException处理类,当程序发生Uncaught异常的时候,有该类来接管程序,并记录发送错误报告
  */
 public class CrashHandler implements UncaughtExceptionHandler {
-    public static final String TAG = "CrashHandler";
+    private static final String TAG = "CrashHandler";
     //系统默认的UncaughtException处理类
     private Thread.UncaughtExceptionHandler mDefaultHandler;
     //CrashHandler实例

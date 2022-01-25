@@ -22,7 +22,6 @@ public class NetUtil {
     @SuppressLint("StaticFieldLeak")
     static Context context;
 
-
     public static void init(Context context1) {
         //noinspection SynchronizeOnNonFinalField
         synchronized (hasInit) {
