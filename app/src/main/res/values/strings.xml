@@ -312,7 +312,7 @@
     <string name="todo">TODO</string>
     <string name="forwarding_function">转发功能</string>
     <string name="forwarding_function_tips">总开关，请根据实际需要，启用对应的转发功能</string>
-    <string name="mandatory_type">通话类型:</string>
+    <string name="mandatory_type">通话类型：</string>
     <string name="missed_call">未接来电</string>
     <string name="received_call">已接来电</string>
     <string name="local_outgoing_call">本机去电</string>
@@ -389,4 +389,5 @@
     <string name="tips_clone_failed">一键克隆失败：</string>
     <string name="tips_versions_inconsistent">发送端与接收端的APP版本不一致，无法一键克隆！</string>
     <string name="tips_get_info_failed">从发送端获取一键克隆信息失败</string>
+    <string name="linkman">联 系 人：</string>
 </resources>

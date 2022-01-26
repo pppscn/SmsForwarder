@@ -110,13 +110,21 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         }
         SettingUtil.setPrevNoticeHash(phoneNumber, currHash);
 
-        SmsVo smsVo = new SmsVo(phoneNumber, name + context.getString(R.string.calling), new Date(), simInfo);
+        SmsVo smsVo = new SmsVo(phoneNumber, getTypeText(context, callInfo.getType(), name), new Date(), simInfo);
         Log.d(TAG, "send_msg" + smsVo.toString());
         SendUtil.send_msg(context, smsVo, simId, "call");
 
         //SmsHubApi
         if (SettingUtil.getSwitchEnableSmsHubApi()) {
-            SmsHubActionHandler.putData(new SmsHubVo(SmsHubVo.Type.phone, simId, name + context.getString(R.string.calling), phoneNumber));
+            SmsHubActionHandler.putData(new SmsHubVo(SmsHubVo.Type.phone, simId, getTypeText(context, callInfo.getType(), name), phoneNumber));
         }
+    }
+
+    //获取通话类型：1.呼入 2.呼出 3.未接
+    private String getTypeText(Context context, int type, String name) {
+        String str = context.getString(R.string.linkman) + name + "\n" + context.getString(R.string.mandatory_type);
+        if (type == 3) return str + context.getString(R.string.received_call);
+        if (type == 2) return str + context.getString(R.string.local_outgoing_call);
+        return str + context.getString(R.string.missed_call);
     }
 }
