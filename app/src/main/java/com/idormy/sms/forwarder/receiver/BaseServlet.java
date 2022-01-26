@@ -48,6 +48,7 @@ public class BaseServlet extends HttpServlet {
     public BaseServlet(String path, Context context) {
         this.path = path;
         this.context = context;
+        SettingUtil.init(context);
     }
 
     private final String path;

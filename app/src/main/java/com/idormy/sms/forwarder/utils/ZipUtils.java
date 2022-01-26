@@ -44,10 +44,10 @@ public class ZipUtils {
                 File folder = new File(outPathString + File.separator + szName);
                 folder.mkdirs();
             } else {
-                Log.e(TAG, outPathString + File.separator + szName);
+                Log.d(TAG, outPathString + File.separator + szName);
                 File file = new File(outPathString + File.separator + szName);
                 if (!file.exists()) {
-                    Log.e(TAG, "Create the file:" + outPathString + File.separator + szName);
+                    Log.d(TAG, "Create the file:" + outPathString + File.separator + szName);
                     Objects.requireNonNull(file.getParentFile()).mkdirs();
                     file.createNewFile();
                 }
@@ -78,10 +78,10 @@ public class ZipUtils {
                 File folder = new File(outPathString + File.separator + szName);
                 folder.mkdirs();
             } else {
-                Log.e(TAG, outPathString + File.separator + szName);
+                Log.d(TAG, outPathString + File.separator + szName);
                 File file = new File(outPathString + File.separator + szName);
                 if (!file.exists()) {
-                    Log.e(TAG, "Create the file:" + outPathString + File.separator + szName);
+                    Log.d(TAG, "Create the file:" + outPathString + File.separator + szName);
                     Objects.requireNonNull(file.getParentFile()).mkdirs();
                     file.createNewFile();
                 }

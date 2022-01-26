@@ -1,10 +1,14 @@
 package com.idormy.sms.forwarder.model.vo;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 public class CloneInfoVo implements Serializable {
 
     private int versionCode;
@@ -25,4 +29,27 @@ public class CloneInfoVo implements Serializable {
     private boolean enableSmsTemplate;
     private String smsTemplate;
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "CloneInfoVo{" +
+                "versionCode='" + versionCode + '\'' +
+                ", versionName='" + versionName + '\'' +
+                ", enableSms=" + enableSms +
+                ", enablePhone=" + enablePhone +
+                ", callType1=" + callType1 +
+                ", callType2=" + callType2 +
+                ", callType3=" + callType3 +
+                ", enableAppNotify=" + enableAppNotify +
+                ", cancelAppNotify=" + cancelAppNotify +
+                ", smsHubApiUrl=" + smsHubApiUrl +
+                ", batteryLevelAlarmMin=" + batteryLevelAlarmMin +
+                ", batteryLevelAlarmMax=" + batteryLevelAlarmMax +
+                ", batteryLevelAlarmOnce=" + batteryLevelAlarmOnce +
+                ", retryTimes=" + retryTimes +
+                ", delayTime=" + delayTime +
+                ", enableSmsTemplate=" + enableSmsTemplate +
+                ", smsTemplate=" + smsTemplate +
+                '}';
+    }
 }

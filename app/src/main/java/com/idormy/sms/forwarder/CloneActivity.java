@@ -66,7 +66,7 @@ public class CloneActivity extends AppCompatActivity {
             } else if (msg.what == DOWNLOAD) {
                 String savePath = context.getCacheDir().getPath() + File.separator + BackupDbTask.BACKUP_FILE;
                 Log.d(TAG, savePath);
-                downloadFile(msg.getData().getString("URL"), context.getCacheDir().getPath(), BackupDbTask.BACKUP_FILE);
+                downloadFile(msg.getData().getString("URL"), context.getCacheDir().getPath(), BackupDbTask.BACKUP_FILE, msg.getData().getString("INFO"));
             }
         }
     };
@@ -186,7 +186,7 @@ public class CloneActivity extends AppCompatActivity {
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull final IOException e) {
-                    Toast(handError, TAG, "从发送端获取一键克隆信息失败");
+                    Toast(handError, TAG, getString(R.string.tips_get_info_failed));
                 }
 
                 @Override
@@ -195,44 +195,28 @@ public class CloneActivity extends AppCompatActivity {
                     Log.d(TAG, "Response：" + response.code() + "，" + responseStr);
 
                     if (TextUtils.isEmpty(responseStr)) {
-                        Toast(handError, TAG, "从发送端获取一键克隆信息失败");
+                        Toast(handError, TAG, getString(R.string.tips_get_info_failed));
                         return;
                     }
 
                     try {
                         CloneInfoVo cloneInfoVo = JSON.parseObject(responseStr, CloneInfoVo.class);
                         if (SettingUtil.getVersionCode() != cloneInfoVo.getVersionCode()) {
-                            Toast(handError, TAG, "发送端与接收端的APP版本不一致，无法一键克隆！");
+                            Toast(handError, TAG, getString(R.string.tips_versions_inconsistent));
                             return;
                         }
-
-                        //应用配置
-                        SettingUtil.switchEnableSms(cloneInfoVo.isEnableSms());
-                        SettingUtil.switchEnablePhone(cloneInfoVo.isEnablePhone());
-                        SettingUtil.switchCallType1(cloneInfoVo.isCallType1());
-                        SettingUtil.switchCallType2(cloneInfoVo.isCallType2());
-                        SettingUtil.switchCallType3(cloneInfoVo.isCallType3());
-                        SettingUtil.switchEnableAppNotify(cloneInfoVo.isEnableAppNotify());
-                        SettingUtil.switchCancelAppNotify(cloneInfoVo.isCancelAppNotify());
-                        SettingUtil.smsHubApiUrl(cloneInfoVo.getSmsHubApiUrl());
-                        SettingUtil.setBatteryLevelAlarmMin(cloneInfoVo.getBatteryLevelAlarmMin());
-                        SettingUtil.setBatteryLevelAlarmMax(cloneInfoVo.getBatteryLevelAlarmMax());
-                        SettingUtil.switchBatteryLevelAlarmOnce(cloneInfoVo.isBatteryLevelAlarmOnce());
-                        SettingUtil.setRetryTimes(cloneInfoVo.getRetryTimes());
-                        SettingUtil.setDelayTime(cloneInfoVo.getDelayTime());
-                        SettingUtil.switchSmsTemplate(cloneInfoVo.isEnableSmsTemplate());
-                        SettingUtil.setSmsTemplate(cloneInfoVo.getSmsTemplate());
 
                         //下载备份文件
                         Message msg = new Message();
                         msg.what = DOWNLOAD;
                         Bundle bundle = new Bundle();
                         bundle.putString("URL", requestUrl);
+                        bundle.putString("INFO", responseStr);
                         msg.setData(bundle);
                         handError.sendMessage(msg);
 
                     } catch (Exception e) {
-                        Toast(handError, TAG, "一键克隆失败：" + e.getMessage());
+                        Toast(handError, TAG, getString(R.string.tips_clone_failed) + e.getMessage());
                     }
                 }
             });
@@ -256,11 +240,11 @@ public class CloneActivity extends AppCompatActivity {
      *
      * @param url 下载链接
      */
-    public void downloadFile(String url, final String destFileDir, final String destFileName) {
+    public void downloadFile(String url, final String destFileDir, final String destFileName, final String cloneInfo) {
         ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setTitle("正在下载");
-        progressDialog.setMessage("请稍后...");
+        progressDialog.setTitle(getString(R.string.tips_downloading));
+        progressDialog.setMessage(getString(R.string.tips_please_wait));
         progressDialog.setProgress(0);
         progressDialog.setMax(100);
         progressDialog.show();
@@ -269,7 +253,7 @@ public class CloneActivity extends AppCompatActivity {
             @Override
             public void onDownloadSuccess(File file) {
                 if (progressDialog.isShowing()) {
-                    Toast(handError, TAG, "下载完成，正准备还原数据...");
+                    Toast(handError, TAG, getString(R.string.tips_download_done));
                     progressDialog.dismiss();
                 }
                 //下载完成进行相关逻辑操作
@@ -280,7 +264,27 @@ public class CloneActivity extends AppCompatActivity {
                 String backup_version = task.doInBackground(BackupDbTask.COMMAND_RESTORE);
                 Log.d(TAG, "backup_version = " + backup_version);
 
-                Toast(handError, TAG, "一键克隆操作成功！请进入通用设置检查各项开关是否已开启！");
+                //应用配置
+                CloneInfoVo cloneInfoVo = JSON.parseObject(cloneInfo, CloneInfoVo.class);
+                System.out.println(cloneInfoVo.toString());
+                SettingUtil.init(context);
+                SettingUtil.switchEnableSms(cloneInfoVo.isEnableSms());
+                SettingUtil.switchEnablePhone(cloneInfoVo.isEnablePhone());
+                SettingUtil.switchCallType1(cloneInfoVo.isCallType1());
+                SettingUtil.switchCallType2(cloneInfoVo.isCallType2());
+                SettingUtil.switchCallType3(cloneInfoVo.isCallType3());
+                SettingUtil.switchEnableAppNotify(cloneInfoVo.isEnableAppNotify());
+                SettingUtil.switchCancelAppNotify(cloneInfoVo.isCancelAppNotify());
+                SettingUtil.smsHubApiUrl(cloneInfoVo.getSmsHubApiUrl());
+                SettingUtil.setBatteryLevelAlarmMin(cloneInfoVo.getBatteryLevelAlarmMin());
+                SettingUtil.setBatteryLevelAlarmMax(cloneInfoVo.getBatteryLevelAlarmMax());
+                SettingUtil.switchBatteryLevelAlarmOnce(cloneInfoVo.isBatteryLevelAlarmOnce());
+                SettingUtil.setRetryTimes(cloneInfoVo.getRetryTimes());
+                SettingUtil.setDelayTime(cloneInfoVo.getDelayTime());
+                SettingUtil.switchSmsTemplate(cloneInfoVo.isEnableSmsTemplate());
+                SettingUtil.setSmsTemplate(cloneInfoVo.getSmsTemplate());
+
+                Toast(handError, TAG, getString(R.string.tips_clone_done));
             }
 
             @Override
@@ -292,8 +296,8 @@ public class CloneActivity extends AppCompatActivity {
             @Override
             public void onDownloadFailed(Exception e) {
                 //下载异常进行相关提示操作
-                Log.e(TAG, "下载失败：" + e.getMessage());
-                Toast(handError, TAG, "下载失败：" + e.getMessage());
+                Log.e(TAG, getString(R.string.tips_download_failed) + e.getMessage());
+                Toast(handError, TAG, getString(R.string.tips_download_failed) + e.getMessage());
             }
         });
     }
