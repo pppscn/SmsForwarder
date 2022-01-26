@@ -1,3 +1,5 @@
+
+
 ![SmsForwarder](pic/SmsForwarder.png)
 
 # SmsForwarder-短信转发器
@@ -64,11 +66,12 @@
 - [x] 转发到企业微信群机器人
 - [x] 转发到企业微信应用消息
 - [x] 转发到ServerChan(Server酱·Turbo版)
-- [x] 转发到Telegram机器人（支持设置代理）
+  - [x] 转发到Telegram机器人（支持设置Socks5/Http代理、POST/GET）
+
 - [x] 转发到其他手机短信【注意：非免费的，转发短信运营商有收费的，建议没有网络时启用，并设置好内容过滤规则】
 - [x] 在线检测新版本、升级
 - [x] 清理缓存
-- [x] 兼容 Android 5.xx、6.xx、7.xx、8.xx、9.xx、10.xx、11.xx
+- [x] 兼容 Android 5.xx、6.xx、7.xx、8.xx、9.xx、10.xx、11.xx、12.xx
 - [x] 支持双卡手机，增加卡槽标识/运营商/手机号(如果能获取的话)
 - [x] 支持多重匹配规则
 - [x] 支持标注卡槽号码(优先使用)、设备信息；自定义转发信息模版
@@ -81,28 +84,28 @@
 - [x] 电池电量、状态变化预警
 - [x] 多语言支持（目前：中文、英文）
 - [x] 增加配置导出导入功能（一键克隆）
-- [x] 监听其他APP通知信息并转发
+- [x] 监听其他APP通知信息并转发（可自动消除）
 - [x] 转发到PushPlus
 - [x] 转发规则上允许自定义模板（留空则取全局设置）
 - [x] 转发规则上支持配置正则替换内容
+- [x] 转发到 Gotify发送通道（自主推送通知服务）
+- [x] 被动接收本地 HttpServer
+- [x] 主动轮询远程 SmsHub Api
 
 --------
 
 ### 应用截图：
 
-| 前台服务常驻状态栏 | 应用主界面 | 转发规则 | 转发详情 |
-|  ----  | ----  |  ----  | ----  |
-| ![前台服务常驻状态栏](pic/taskbar.jpg "前台服务常驻状态栏") | ![应用主界面](pic/main.png "应用主界面") | ![转发规则](pic/rule.jpg "转发规则") | ![转发详情](pic/maindetail.jpg "转发详情") |
-| 添加/编辑转发规则测试 | 多重匹配规则 | 支持以下转发方式（发送通道） | 添加/编辑发送通道钉钉 |
-| ![添加/编辑转发规则](pic/ruleset.png "添加/编辑转发规则") | ![多重匹配规则](pic/multimatch.png "多重匹配规则") | ![发送通道](pic/sender.png "发送通道") | ![添加/编辑发送通道钉钉](pic/sendersetdingding.jpg "添加/编辑发送通道钉钉") |
-| 添加/编辑发送通道邮箱 | 添加/编辑发送通道Bark | 添加/编辑发送通道网页通知 | 添加/编辑发送通道企业微信群机器人 |
-| ![添加/编辑发送通道邮箱](pic/sendersetemail.jpg "添加/编辑发送通道邮箱") | ![添加/编辑发送通道Bark](pic/sendersetbark.png "添加/编辑发送通道Bark") | ![添加/编辑发送通道网页通知](pic/sendersetwebnotify.jpg "添加/编辑发送通道网页通知") | ![添加/编辑发送通道企业微信群机器人](pic/sendersetqywechat.jpg "添加/编辑发送通道企业微信群机器人") |
+| 前台服务常驻状态栏 | 应用主界面 | 发送通道 |                           转发规则                           |
+|  :--:  | :--:  |  :--:  | :--:  |
+| ![前台服务常驻状态栏](pic/taskbar.jpg "前台服务常驻状态栏") | ![应用主界面](pic/main.jpg "应用主界面") | ![发送通道](pic/sender.png "发送通道") | ![转发规则](pic/rule.jpg "转发规则") |
+| 转发规则--短信转发 | 转发规则--通话记录 | 转发规则--APP通知 | 转发日志详情 |
+| ![短信转发](pic/rule_sms.jpg "短信转发") | ![通话转发](pic/rule_call.jpg "通话转发") | ![通知转发](pic/rule_app.jpg "通知转发") | ![转发日志详情](pic/maindetail.jpg "转发日志详情") |
+| 设置界面--总开关 | 设置界面--电量监控&保活措施 | 设置界面--个性设置 | 一键克隆（配置导出导入） |
+| ![设置界面--总开关](pic/setting_1.jpg "设置界面--总开关") | ![设置界面--电量监控&保活措施](pic/setting_2.jpg "设置界面--电量监控&保活措施") | ![设置界面--个性设置](pic/setting_3.jpg "设置界面--个性设置") | ![配置导出导入功能（一键克隆）](pic/clone.jpg "配置导出导入功能（一键克隆）") |
 | 添加/编辑发送通道Telegram机器人 | 添加/编辑发送通道Server酱·Turbo版 | 添加/编辑发送通道企业微信应用 | 应用设置 |
-| ![添加/编辑发送通道Telegram机器人](pic/sendertelegram.jpg "添加/编辑发送通道Telegram机器人") | ![添加/编辑发送通道Server酱·Turbo版](pic/senderserverchan.jpg "添加/编辑发送通道Server酱·Turbo版") | ![添加/编辑发送通道企业微信应用](pic/sendersetqywxapp.jpg "添加/编辑发送通道企业微信应用") | ![应用设置](pic/setting.jpg "应用设置") |
-| 关于/在线升级 | 支持正则匹配规则 & 支持卡槽匹配规则 | 转发短信模板增加卡槽标识 | 添加/编辑发送通道其他手机短信 |
-| ![在线升级](pic/update.jpg "在线升级") | ![支持正则匹配规则 & 支持卡槽匹配规则](pic/regex.jpg "支持正则匹配规则 & 支持卡槽匹配规则") | ![转发短信模板增加卡槽标识](pic/siminfo.jpg "转发短信模板增加卡槽标识") | ![添加/编辑发送通道其他手机短信](pic/sendersetsms.jpg "添加/编辑发送通道其他手机短信") |
-| 添加/编辑发送通道飞书机器人 | 增加配置导出导入功能（一键克隆） | 监听其他APP通知信息并转发 | 获取所有应用列表（方便复制APP包名）|
-| ![添加/编辑发送通道飞书](pic/senderfeishu.png "添加/编辑发送通道飞书") | ![增加配置导出导入功能（一键克隆）](pic/clone.png "增加配置导出导入功能（一键克隆）") | ![监听其他APP通知信息并转发](pic/app_notify.png "监听其他APP通知信息并转发") | ![获取所有应用列表（方便复制APP包名）](pic/app_list.png "获取所有应用列表（方便复制APP包名）") |
+
+更多截图参见 https://github.com/pppscn/SmsForwarder/wiki
 
 --------
 
@@ -125,11 +128,13 @@
 + https://github.com/mailhu/emailkit （邮件发送）
 + https://github.com/alibaba/fastjson (Json解析)
 + https://github.com/getActivity/XXPermissions (权限请求框架)
-+ [![GitHub license](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg?_ga=2.126618957.1361252949.1638261367-1417196221.1635638144&_gl=1*1pfl3dq*_ga*MTQxNzE5NjIyMS4xNjM1NjM4MTQ0*_ga_V0XZL7QHEB*MTYzODMzMjA4OC43LjAuMTYzODMzMjA5Ny4w)](https://jb.gg/OpenSourceSupport)  (License Certificate for JetBrains All Products Pack)
++ https://github.com/Xcreen/RestSMS（被动接收本地API方案）
++ https://github.com/juancrescente/SMSHub（主动轮询远程API方案）
++ [<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg?_ga=2.126618957.1361252949.1638261367-1417196221.1635638144&_gl=1*1pfl3dq*_ga*MTQxNzE5NjIyMS4xNjM1NjM4MTQ0*_ga_V0XZL7QHEB*MTYzODMzMjA4OC43LjAuMTYzODMzMjA5Ny4w" alt="GitHub license" style="zoom:50%;" />](https://jb.gg/OpenSourceSupport)  (License Certificate for JetBrains All Products Pack)
 
 --------
 
-## 如果觉得本工具对您有所帮助，给个小星星鼓励一下！
+## 如果觉得本工具对您有所帮助，右上角给个小星星鼓励一下！
 
 [![starcharts stargazers over time](https://starchart.cc/pppscn/SmsForwarder.svg)](https://github.com/pppscn/SmsForwarder)
 
