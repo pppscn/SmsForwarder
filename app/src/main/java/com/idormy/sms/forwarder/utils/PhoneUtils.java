@@ -356,11 +356,11 @@ public class PhoneUtils {
                     simInfo.mNumber = subscriptionInfo.getNumber();
                     simInfo.mCountryIso = subscriptionInfo.getCountryIso();
                     simInfo.mSubscriptionId = subscriptionInfo.getSubscriptionId();
-                    try {
+                    /*try {
                         simInfo.mImei = getReflexMethodWithId(context, "getDeviceId", String.valueOf(simInfo.mSimSlotIndex));
                         simInfo.mImsi = getReflexMethodWithId(context, "getSubscriberId", String.valueOf(subscriptionInfo.getSubscriptionId()));
                     } catch (MethodNotFoundException ignored) {
-                    }
+                    }*/
                     Log.d(TAG, String.valueOf(simInfo));
                     infos.add(simInfo);
                 }
@@ -380,12 +380,11 @@ public class PhoneUtils {
                     simInfo.mNumber = cursor.getString(cursor.getColumnIndex("number"));
                     simInfo.mCountryIso = cursor.getString(cursor.getColumnIndex("mcc"));
                     String id = cursor.getString(cursor.getColumnIndex("_id"));
-
-                    try {
+                    /*try {
                         simInfo.mImei = getReflexMethodWithId(context, "getDeviceId", String.valueOf(simInfo.mSimSlotIndex));
                         simInfo.mImsi = getReflexMethodWithId(context, "getSubscriberId", String.valueOf(id));
                     } catch (MethodNotFoundException ignored) {
-                    }
+                    }*/
                     Log.d(TAG, String.valueOf(simInfo));
                     infos.add(simInfo);
                 } while (cursor.moveToNext());
