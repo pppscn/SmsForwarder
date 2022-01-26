@@ -46,7 +46,6 @@ import com.idormy.sms.forwarder.utils.SharedPreferencesHelper;
 import com.idormy.sms.forwarder.utils.SmsUtil;
 import com.idormy.sms.forwarder.utils.TimeUtil;
 import com.idormy.sms.forwarder.view.StepBar;
-import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 
 import java.lang.reflect.Method;
@@ -229,8 +228,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart(TAG);
-        MobclickAgent.onResume(this);
 
         //是否同意隐私协议
         if (!MyApplication.allowPrivacyPolicy) return;
@@ -285,8 +282,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         //是否同意隐私协议
         if (!MyApplication.allowPrivacyPolicy) return;
 
-        MobclickAgent.onPageEnd(TAG);
-        MobclickAgent.onPause(this);
         try {
             if (serviceIntent != null) startService(serviceIntent);
         } catch (Exception e) {

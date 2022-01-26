@@ -26,7 +26,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.idormy.sms.forwarder.adapter.AppAdapter;
 import com.idormy.sms.forwarder.model.AppInfo;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -149,24 +148,6 @@ public class AppListActivity extends AppCompatActivity {
     // 通过packName得到PackageInfo，作为参数传入即可
     private boolean isSystemApp(PackageInfo pi) {
         return (pi.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1;
-    }
-
-    @Override
-    protected void onDestroy() {
-        Log.d(TAG, "onDestroy");
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
     }
 
 }

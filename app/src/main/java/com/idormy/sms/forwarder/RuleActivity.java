@@ -35,7 +35,6 @@ import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.RuleUtil;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.idormy.sms.forwarder.view.StepBar;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -597,18 +596,9 @@ public class RuleActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(TAG);
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
     protected void onPause() {
         overridePendingTransition(0, 0);
         super.onPause();
-        MobclickAgent.onPageEnd(TAG);
-        MobclickAgent.onPause(this);
     }
 
     private int checkRegexReplace(String regexReplace) {
