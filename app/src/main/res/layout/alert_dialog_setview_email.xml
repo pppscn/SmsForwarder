@@ -30,7 +30,7 @@
                 android:importantForAutofill="no"
                 android:inputType="text"
                 android:singleLine="true"
-                tools:ignore="LabelFor" />
+                tools:ignore="LabelFor,TextFields" />
 
             <Switch
                 android:id="@+id/switchEmailEnable"

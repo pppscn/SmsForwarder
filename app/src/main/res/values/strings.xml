@@ -201,7 +201,6 @@
     <string name="battery_setting">忽略电池优化设置</string>
     <string name="battery_setting_tips">请设置为手动管理：允许自启动、允许关联启动、允许后台运行</string>
     <string name="unknown_number">未知号码</string>
-    <string name="calling">的来电未接</string>
     <string name="unsupport">您的手机不支持此设置</string>
     <string name="isIgnored">已将省电优化设置为无限制(不优化)！</string>
     <string name="isIgnored2">本界面无法直接操作系统的省电优化设置</string>
@@ -231,7 +230,6 @@
     <string name="sender_cannot_receive">本手机是发送端，不可接收文件，请先停止服务端！</string>
     <string name="no_wifi_network">未接入Wifi网络，不可使用 HttpServer 功能!</string>
     <string name="invalid_server_ip">请输入服务端IP</string>
-    <string name="download_success">下载成功</string>
     <string name="on_wireless_network">当前处于无线网络</string>
     <string name="on_mobile_network">当前处于移动网络</string>
     <string name="no_network">当前没有网络</string>
@@ -382,10 +380,10 @@
     <string name="tips_compatible_solution">兼容方案</string>
     <string name="tips_wait_3_seconds">点击启动后请等待3秒</string>
     <string name="tips_clone_done">一键克隆操作完成！\n请检查·通用设置·各项开关是否已开启！</string>
-    <string name="tips_download_done">下载完成，正准备还原数据...</string>
+    <string name="tips_download_done">下载完成，正准备还原数据…</string>
     <string name="tips_download_failed">下载失败：</string>
     <string name="tips_downloading">正在下载</string>
-    <string name="tips_please_wait">请稍后...</string>
+    <string name="tips_please_wait">请稍后…</string>
     <string name="tips_clone_failed">一键克隆失败：</string>
     <string name="tips_versions_inconsistent">发送端与接收端的APP版本不一致，无法一键克隆！</string>
     <string name="tips_get_info_failed">从发送端获取一键克隆信息失败</string>

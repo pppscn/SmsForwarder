@@ -201,7 +201,6 @@
     <string name="battery_setting">Battery Optimization</string>
     <string name="battery_setting_tips">Set it to manual management, including automatic startup, associated startup, and background running</string>
     <string name="unknown_number">Unknown Number</string>
-    <string name="calling">Incoming telegram</string>
     <string name="unsupport">Your phone does not support this setting</string>
     <string name="isIgnored">Set successfully!</string>
     <string name="isIgnored2">Can not directly operate the system power saving optimization Settings</string>
@@ -232,7 +231,6 @@
     <string name="sender_cannot_receive">This mobile phone is the SOURCE and cannot receive files.</string>
     <string name="no_wifi_network">Http Server does NOT work without Wi-Fi connection.</string>
     <string name="invalid_server_ip">Please enter a valid server IP address</string>
-    <string name="download_success">Download Success</string>
     <string name="on_wireless_network">A Wireless network connected.</string>
     <string name="on_mobile_network">A Mobile network connected.</string>
     <string name="no_network">Not connected to a network.</string>

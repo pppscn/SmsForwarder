@@ -55,7 +55,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:targetApi="m">
+        tools:ignore="UnusedAttribute">
 
         <activity
             android:name=".MainActivity"

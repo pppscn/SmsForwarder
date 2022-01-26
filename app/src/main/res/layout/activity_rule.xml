@@ -85,6 +85,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         app:current_step="rule"
-        app:help_tip="@string/log_tips" />
+        app:help_tip="@string/rule_tips" />
 
 </RelativeLayout>

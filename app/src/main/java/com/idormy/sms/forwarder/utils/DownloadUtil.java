@@ -1,9 +1,12 @@
 package com.idormy.sms.forwarder.utils;
 
+import androidx.annotation.NonNull;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -37,16 +40,17 @@ public class DownloadUtil {
         Request request = new Request.Builder().url(url).addHeader("Connection", "close").build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 // 下载失败监听回调
                 listener.onDownloadFailed(e);
             }
 
+            @SuppressWarnings("ResultOfMethodCallIgnored")
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 InputStream is = null;
                 byte[] buf = new byte[2048];
-                int len = 0;
+                int len;
                 FileOutputStream fos = null;
 
                 // 储存下载文件的目录
@@ -57,8 +61,8 @@ public class DownloadUtil {
                 if (file.exists()) file.delete();
 
                 try {
-                    is = response.body().byteStream();
-                    long total = response.body().contentLength();
+                    is = Objects.requireNonNull(response.body()).byteStream();
+                    long total = Objects.requireNonNull(response.body()).contentLength();
                     fos = new FileOutputStream(file);
                     long sum = 0;
                     while ((len = is.read(buf)) != -1) {
@@ -78,6 +82,7 @@ public class DownloadUtil {
                         if (is != null) is.close();
                         if (fos != null) fos.close();
                     } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
             }

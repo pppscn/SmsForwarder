@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.nio.channels.FileChannel;
 
-@SuppressWarnings("ResultOfMethodCallIgnored")
+@SuppressWarnings({"ResultOfMethodCallIgnored", "CommentedOutCode"})
 public class BackupDbTask {
     private static final String TAG = "BackupDbTask";
     public static final String COMMAND_BACKUP = "backupDatabase";
@@ -88,7 +88,6 @@ public class BackupDbTask {
                 Log.d(TAG, "restore success! 数据库文件名：" + dbFile.getName() + "\t" + backup_version);
 
                 try {
-                    //noinspection BusyWait
                     Thread.sleep(1000);
                 } catch (final InterruptedException e) {
                     Thread.currentThread().interrupt();
