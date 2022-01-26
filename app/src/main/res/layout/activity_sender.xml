@@ -12,7 +12,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="20dp"
-        android:background="@color/colorPrimary"
         android:contentDescription="@string/new_sender"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_add"

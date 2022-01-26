@@ -12,7 +12,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="90dp"
-        android:background="@color/colorPrimary"
         android:contentDescription="@string/clean_log"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_delete"
