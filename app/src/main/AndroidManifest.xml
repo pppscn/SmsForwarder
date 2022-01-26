@@ -41,13 +41,14 @@
         android:name="android.permission.INSTALL_PACKAGES"
         tools:ignore="ProtectedPermissions" />
 
-
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -55,27 +56,20 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
 
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
-
-        <meta-data
-            android:name="UPDATE_APP_KEY"
-            android:value="SVSfseesfsf" />
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="60254fc7425ec25f10f4293e" />
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="Umeng" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:label="@string/app_name"
             tools:ignore="IntentFilterExportedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="um.60254fc7425ec25f10f4293e" />
             </intent-filter>
         </activity>
         <activity
@@ -153,9 +147,9 @@
         <service
             android:name=".service.NotifyService"
             android:enabled="true"
+            android:exported="false"
             android:label="@string/app_name"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
-            android:exported="false">
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
