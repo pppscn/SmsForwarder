@@ -103,7 +103,6 @@ Benefit by simplicity:
 | ![短信转发](pic/rule_sms.jpg "短信转发") | ![通话转发](pic/rule_call.jpg "通话转发") | ![通知转发](pic/rule_app.jpg "通知转发") | ![转发日志详情](pic/maindetail.jpg "转发日志详情") |
 | 设置界面--总开关 | 设置界面--电量监控&保活措施 | 设置界面--个性设置 | 一键克隆（配置导出导入） |
 | ![设置界面--总开关](pic/setting_1.jpg "设置界面--总开关") | ![设置界面--电量监控&保活措施](pic/setting_2.jpg "设置界面--电量监控&保活措施") | ![设置界面--个性设置](pic/setting_3.jpg "设置界面--个性设置") | ![配置导出导入功能（一键克隆）](pic/clone.jpg "配置导出导入功能（一键克隆）") |
-| 添加/编辑发送通道Telegram机器人 | 添加/编辑发送通道Server酱·Turbo版 | 添加/编辑发送通道企业微信应用 | 应用设置 |
 
 更多截图参见 https://github.com/pppscn/SmsForwarder/wiki
 
