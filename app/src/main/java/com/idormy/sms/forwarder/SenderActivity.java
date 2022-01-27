@@ -693,9 +693,21 @@ public class SenderActivity extends AppCompatActivity {
         }
 
         final ClearEditText editTextBarkServer = view1.findViewById(R.id.editTextBarkServer);
-        if (barkSettingVo != null) editTextBarkServer.setText(barkSettingVo.getServer());
+        final EditText editTextBarkTitle = view1.findViewById(R.id.editTextBarkTitle);
         final EditText editTextBarkIcon = view1.findViewById(R.id.editTextBarkIcon);
-        if (barkSettingVo != null) editTextBarkIcon.setText(barkSettingVo.getIcon());
+        final EditText editTextBarkSound = view1.findViewById(R.id.editTextBarkSound);
+        final EditText editTextBarkBadge = view1.findViewById(R.id.editTextBarkBadge);
+        final EditText editTextBarkUrl = view1.findViewById(R.id.editTextBarkUrl);
+        final RadioGroup radioGroupBarkLevel = view1.findViewById(R.id.radioGroupBarkLevel);
+        if (barkSettingVo != null) {
+            editTextBarkServer.setText(barkSettingVo.getServer());
+            editTextBarkTitle.setText(barkSettingVo.getTitle());
+            editTextBarkIcon.setText(barkSettingVo.getIcon());
+            editTextBarkSound.setText(barkSettingVo.getSound());
+            editTextBarkBadge.setText(barkSettingVo.getBadge());
+            editTextBarkUrl.setText(barkSettingVo.getUrl());
+            radioGroupBarkLevel.check(barkSettingVo.getLevelId());
+        }
 
         Button buttonBarkOk = view1.findViewById(R.id.buttonBarkOk);
         Button buttonBarkDel = view1.findViewById(R.id.buttonBarkDel);
@@ -715,14 +727,20 @@ public class SenderActivity extends AppCompatActivity {
                 return;
             }
 
+            //推送地址
             String barkServer = editTextBarkServer.getText().trim();
             if (!CommonUtil.checkUrl(barkServer, false)) {
                 Toast.makeText(SenderActivity.this, R.string.invalid_bark_server, Toast.LENGTH_LONG).show();
                 return;
             }
 
-            String barkIcon = editTextBarkIcon.getText().toString().trim();
-            BarkSettingVo barkSettingVoNew = new BarkSettingVo(barkServer, barkIcon);
+            String icon = editTextBarkIcon.getText().toString().trim(); //消息图标
+            String title = editTextBarkTitle.getText().toString().trim(); //标题模板
+            int levelId = radioGroupBarkLevel.getCheckedRadioButtonId(); //时效性
+            String sound = editTextBarkSound.getText().toString().trim(); //声音
+            String badge = editTextBarkBadge.getText().toString().trim(); //角标
+            String url = editTextBarkUrl.getText().toString().trim(); //链接
+            BarkSettingVo barkSettingVoNew = new BarkSettingVo(barkServer, icon, title, levelId, sound, badge, url);
             if (isClone || senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(senderName);
@@ -755,11 +773,17 @@ public class SenderActivity extends AppCompatActivity {
 
         buttonBarkTest.setOnClickListener(view -> {
             String barkServer = editTextBarkServer.getText().trim();
-            String barkIcon = editTextBarkIcon.getText().toString().trim();
+            String icon = editTextBarkIcon.getText().toString().trim(); //消息图标
+            String title = editTextBarkTitle.getText().toString().trim(); //标题模板
+            int levelId = radioGroupBarkLevel.getCheckedRadioButtonId(); //时效性
+            String sound = editTextBarkSound.getText().toString().trim(); //声音
+            String badge = editTextBarkBadge.getText().toString().trim(); //角标
+            String url = editTextBarkUrl.getText().toString().trim(); //链接
+            BarkSettingVo barkSettingVoNew = new BarkSettingVo(barkServer, icon, title, levelId, sound, badge, url);
             if (CommonUtil.checkUrl(barkServer, false)) {
                 try {
                     SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
-                    SenderBarkMsg.sendMsg(0, handler, null, barkServer, barkIcon, getString(R.string.test_phone_num), smsVo.getSmsVoForSend(), getString(R.string.test_group_name));
+                    SenderBarkMsg.sendMsg(0, handler, null, barkSettingVoNew, smsVo.getTitleForSend(title), smsVo.getSmsVoForSend(), getString(R.string.test_group_name));
                 } catch (Exception e) {
                     Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
@@ -768,6 +792,36 @@ public class SenderActivity extends AppCompatActivity {
                 Toast.makeText(SenderActivity.this, R.string.invalid_bark_server, Toast.LENGTH_LONG).show();
             }
         });
+
+
+        Button buttonInsertSender = view1.findViewById(R.id.bt_insert_sender);
+        buttonInsertSender.setOnClickListener(view -> {
+            editTextBarkTitle.setFocusable(true);
+            editTextBarkTitle.requestFocus();
+            CommonUtil.insertOrReplaceText2Cursor(editTextBarkTitle, getString(R.string.tag_from));
+        });
+
+        Button buttonInsertExtra = view1.findViewById(R.id.bt_insert_extra);
+        buttonInsertExtra.setOnClickListener(view -> {
+            editTextBarkTitle.setFocusable(true);
+            editTextBarkTitle.requestFocus();
+            CommonUtil.insertOrReplaceText2Cursor(editTextBarkTitle, getString(R.string.tag_card_slot));
+        });
+
+        Button buttonInsertTime = view1.findViewById(R.id.bt_insert_time);
+        buttonInsertTime.setOnClickListener(view -> {
+            editTextBarkTitle.setFocusable(true);
+            editTextBarkTitle.requestFocus();
+            CommonUtil.insertOrReplaceText2Cursor(editTextBarkTitle, getString(R.string.tag_receive_time));
+        });
+
+        Button buttonInsertDeviceName = view1.findViewById(R.id.bt_insert_device_name);
+        buttonInsertDeviceName.setOnClickListener(view -> {
+            editTextBarkTitle.setFocusable(true);
+            editTextBarkTitle.requestFocus();
+            CommonUtil.insertOrReplaceText2Cursor(editTextBarkTitle, getString(R.string.tag_device_name));
+        });
+
     }
 
     //webhook

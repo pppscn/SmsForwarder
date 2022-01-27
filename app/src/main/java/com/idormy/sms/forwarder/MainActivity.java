@@ -2,6 +2,7 @@ package com.idormy.sms.forwarder;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
 
         //是否同意隐私协议
         if (!MyApplication.allowPrivacyPolicy) {
-            dialog();
+            dialog(this);
             return;
         }
 
@@ -448,10 +449,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     }
 
     /*** 隐私协议授权弹窗*/
-    @SuppressLint({"ResourceType", "InflateParams"})
-    public void dialog() {
-        Dialog dialog = new Dialog(this, R.style.dialog);
-        View inflate = LayoutInflater.from(MainActivity.this).inflate(R.layout.diaolog_privacy_policy, null);
+    public void dialog(Context context) {
+        Dialog dialog = new Dialog(context, R.style.dialog);
+        @SuppressLint("InflateParams") View inflate = LayoutInflater.from(context).inflate(R.layout.diaolog_privacy_policy, null);
         TextView succsebtn = inflate.findViewById(R.id.succsebtn);
         TextView canclebtn = inflate.findViewById(R.id.caclebtn);
 
@@ -467,7 +467,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
             dialog.dismiss();
 
             //跳转到HomeActivity
-            final Intent intent = getPackageManager().getLaunchIntentForPackage(getPackageName());
+            final Intent intent = context.getPackageManager().getLaunchIntentForPackage(getPackageName());
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
 

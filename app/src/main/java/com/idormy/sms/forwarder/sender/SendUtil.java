@@ -229,7 +229,7 @@ public class SendUtil {
                     BarkSettingVo barkSettingVo = JSON.parseObject(senderModel.getJsonSetting(), BarkSettingVo.class);
                     if (barkSettingVo != null) {
                         try {
-                            SenderBarkMsg.sendMsg(logId, handError, retryInterceptor, barkSettingVo.getServer(), barkSettingVo.getIcon(), smsVo.getMobile(), smsVo.getSmsVoForSend(smsTemplate, regexReplace), senderModel.getName());
+                            SenderBarkMsg.sendMsg(logId, handError, retryInterceptor, barkSettingVo, smsVo.getTitleForSend(barkSettingVo.getTitle(), regexReplace), smsVo.getSmsVoForSend(smsTemplate, regexReplace), senderModel.getName());
                         } catch (Exception e) {
                             LogUtil.updateLog(logId, 0, e.getMessage());
                             Log.e(TAG, "senderSendMsg: SenderBarkMsg error " + e.getMessage());

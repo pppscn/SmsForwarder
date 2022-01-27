@@ -117,10 +117,10 @@
     <string name="invalid_phone_num">接收手机号不能为空</string>
     <string name="new_sender">添加发送通道</string>
     <string name="set_bark_name">分组名称/状态</string>
-    <string name="set_bark_server">设置Bark-Server地址</string>
-    <string name="set_bark_server_tips">示例：https://day.app/XXXXXXXX/</string>
-    <string name="set_bark_icon">设置推送消息图标(可选)</string>
-    <string name="set_bark_icon_tips">示例：http://day.app/assets/images/avatar.jpg</string>
+    <string name="set_bark_server">Bark-Server</string>
+    <string name="set_bark_server_tips">例：https://day.app/XXXXXXXX/</string>
+    <string name="set_bark_icon">消息图标(可选)</string>
+    <string name="set_bark_icon_tips">例：http://day.app/assets/images/avatar.jpg</string>
     <string name="set_name">名称/状态</string>
     <string name="dingding_token">Token（不含链接）</string>
     <string name="dingding_token_tips">例：https://oapi.dingtalk.com/robot/send?access_token=XXX 中的 XXX</string>
@@ -389,4 +389,14 @@
     <string name="tips_get_info_failed">从发送端获取一键克隆信息失败</string>
     <string name="linkman">联 系 人：</string>
     <string name="via_number">来源号码：</string>
+    <string name="bark_sound">消息声音(可选)</string>
+    <string name="bark_sound_tips">例：minuet.caf</string>
+    <string name="bark_badge">消息角标(可选)</string>
+    <string name="bark_badge_tips">例：888</string>
+    <string name="bark_url">消息链接(可选)</string>
+    <string name="bark_url_tips">例：https://github.com/pppscn/SmsForwarder</string>
+    <string name="bark_level">通知级别</string>
+    <string name="bark_level_active">立即亮屏</string>
+    <string name="bark_level_timeSensitive">时效性</string>
+    <string name="bark_level_passive">仅加列表</string>
 </resources>

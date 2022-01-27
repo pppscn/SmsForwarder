@@ -390,4 +390,14 @@
     <string name="tips_get_info_failed">Failed to get one-click clone information from sender</string>
     <string name="linkman">Linkman:</string>
     <string name="via_number">Via Number:</string>
+    <string name="bark_sound">Sound (optional)</string>
+    <string name="bark_sound_tips">e.g. minuet.caf</string>
+    <string name="bark_badge">Badge (optional)</string>
+    <string name="bark_badge_tips">e.g. 888</string>
+    <string name="bark_url">Url (optional)</string>
+    <string name="bark_url_tips">e.g. https://github.com/pppscn/SmsForwarder</string>
+    <string name="bark_level">Level</string>
+    <string name="bark_level_active">active</string>
+    <string name="bark_level_timeSensitive">timeSensitive</string>
+    <string name="bark_level_passive">passive</string>
 </resources>
