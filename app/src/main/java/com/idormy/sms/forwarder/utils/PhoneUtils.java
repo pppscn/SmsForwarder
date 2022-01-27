@@ -33,10 +33,10 @@ import java.util.UUID;
 
 @SuppressWarnings({"deprecation", "rawtypes", "unchecked", "CommentedOutCode", "SynchronizeOnNonFinalField", "unused", "SameReturnValue"})
 public class PhoneUtils {
+    private static final String TAG = "PhoneUtils";
     static Boolean hasInit = false;
     @SuppressLint("StaticFieldLeak")
     static Context context;
-    private static final String TAG = "PhoneUtils";
 
     /**
      * 构造类
@@ -539,16 +539,17 @@ public class PhoneUtils {
         }
 
         try {
-            String[] columns = {CallLog.Calls.CACHED_NAME// 通话记录的联系人
-                    , CallLog.Calls.NUMBER// 通话记录的电话号码
-                    , CallLog.Calls.DATE// 通话记录的日期
-                    , CallLog.Calls.DURATION// 通话时长
-                    , CallLog.Calls.TYPE// 通话类型
-                    , CallLog.Calls.PHONE_ACCOUNT_ID
+            String[] columns = {CallLog.Calls.CACHED_NAME, //通话记录的联系人
+                    CallLog.Calls.NUMBER, //通话记录的电话号码
+                    CallLog.Calls.DATE, //通话记录的日期
+                    CallLog.Calls.DURATION, //通话时长
+                    CallLog.Calls.TYPE, //通话类型
+                    (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N ? CallLog.Calls.VIA_NUMBER : ""), //来源号码
+                    "simid" //卡槽ID
             };
 
             CallInfo callInfo;
-            Cursor cursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, null,
+            Cursor cursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, columns,
                     CallLog.Calls.NUMBER + " like ?",
                     new String[]{phoneNumber + "%"}, CallLog.Calls.DEFAULT_SORT_ORDER);
             Log.i(TAG, "cursor count:" + cursor.getCount());
@@ -561,7 +562,8 @@ public class PhoneUtils {
                         cursor.getLong(cursor.getColumnIndex(CallLog.Calls.DATE)), //获取通话日期
                         cursor.getInt(cursor.getColumnIndex(CallLog.Calls.DURATION)),//获取通话时长，值为多少秒
                         cursor.getInt(cursor.getColumnIndex(CallLog.Calls.TYPE)), //获取通话类型：1.呼入2.呼出3.未接
-                        cursor.getInt(cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID))
+                        (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N ? cursor.getString(cursor.getColumnIndex(CallLog.Calls.VIA_NUMBER)) : null), //来源号码
+                        cursor.getInt(cursor.getColumnIndex("simid")) //卡槽id
                 );
                 Log.d(TAG, callInfo.toString());
                 cursor.close();

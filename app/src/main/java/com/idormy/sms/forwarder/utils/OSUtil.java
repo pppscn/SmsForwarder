@@ -3,6 +3,8 @@ package com.idormy.sms.forwarder.utils;
 import android.os.Environment;
 import android.text.TextUtils;
 
+import com.alibaba.fastjson.util.IOUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,18 +29,23 @@ public class OSUtil {
      */
     @SuppressWarnings("unused")
     public static boolean isMIUI() {
+        File file = new File(Environment.getRootDirectory(), "build.prop");
+        FileInputStream fis = null;
         try {
+            fis = new FileInputStream(file);
             String KEY_MIUI_VERSION_CODE = "ro.miui.ui.version.code";
             String KEY_MIUI_VERSION_NAME = "ro.miui.ui.version.name";
             String KEY_MIUI_INTERNAL_STORAGE = "ro.miui.internal.storage";
             Properties prop = new Properties();
-            prop.load(new FileInputStream(new File(Environment.getRootDirectory(), "build.prop")));
+            prop.load(fis);
 
             return prop.getProperty(KEY_MIUI_VERSION_CODE, null) != null
                     || prop.getProperty(KEY_MIUI_VERSION_NAME, null) != null
                     || prop.getProperty(KEY_MIUI_INTERNAL_STORAGE, null) != null;
         } catch (final IOException e) {
             return false;
+        } finally {
+            IOUtils.close(fis);
         }
     }
 

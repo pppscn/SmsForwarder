@@ -41,7 +41,9 @@ public class SimUtil {
     //通过SubscriptionId获取卡槽信息ID
     public static int getSimIdBySubscriptionId(int subscriptionId) {
         try {
+            Log.d(TAG, MyApplication.SimInfoList.toString());
             for (PhoneUtils.SimInfo simInfo : MyApplication.SimInfoList) {
+                Log.d(TAG, simInfo.toString());
                 if (simInfo.mSubscriptionId == subscriptionId) {
                     return simInfo.mSimSlotIndex + 1;
                 }

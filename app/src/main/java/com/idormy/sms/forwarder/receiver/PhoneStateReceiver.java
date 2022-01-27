@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+@SuppressWarnings("CommentedOutCode")
 public class PhoneStateReceiver extends BroadcastReceiver {
     private static final String TAG = "PhoneStateReceiver";
     private TelephonyManager mTelephonyManager;
@@ -36,6 +37,13 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         }
 
         String action = intent.getAction();
+        //Bundle bundle = intent.getExtras();
+        //if (bundle != null) {
+        //    for (String key : bundle.keySet()) {
+        //        Log.e(TAG, key + " : " + (bundle.get(key) != null ? bundle.get(key) : "NULL"));
+        //    }
+        //}
+
         if (TelephonyManager.ACTION_PHONE_STATE_CHANGED.equals(action)) {
             //获取来电号码
             String phoneNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
@@ -77,15 +85,18 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         CallInfo callInfo = PhoneUtils.getLastCallInfo(phoneNumber);
         if (callInfo == null) return;
 
-        if ((callInfo.getType() == 1 && !SettingUtil.getSwitchCallType1())
-                || (callInfo.getType() == 2 && !SettingUtil.getSwitchCallType2())
-                || (callInfo.getType() == 3 && !SettingUtil.getSwitchCallType3())) {
+        int type = callInfo.getType();
+        if ((type == 1 && !SettingUtil.getSwitchCallType1())
+                || (type == 2 && !SettingUtil.getSwitchCallType2())
+                || (type == 3 && !SettingUtil.getSwitchCallType3())) {
             Log.w(TAG, "Call record forwarding of this type is not enabled, no processing will be done!");
             return;
         }
 
+        Log.d(TAG, callInfo.toString());
         String name = callInfo.getName();
-        Log.d(TAG, "getSubscriptionId = " + callInfo.getSubscriptionId());
+        String viaNumber = callInfo.getViaNumber(); //来源号码
+        Log.d(TAG, "getSubscriptionId = " + callInfo.getSubscriptionId()); //TODO:这里的SubscriptionId跟短信的不一样
         int simId = SimUtil.getSimIdBySubscriptionId(callInfo.getSubscriptionId());
         String simInfo = simId == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1(); //自定义备注优先
         simInfo = "SIM" + simId + "_" + simInfo;
@@ -110,19 +121,21 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         }
         SettingUtil.setPrevNoticeHash(phoneNumber, currHash);
 
-        SmsVo smsVo = new SmsVo(phoneNumber, getTypeText(context, callInfo.getType(), name), new Date(), simInfo);
+        SmsVo smsVo = new SmsVo(phoneNumber, getTypeText(context, type, name, viaNumber), new Date(), simInfo);
         Log.d(TAG, "send_msg" + smsVo.toString());
         SendUtil.send_msg(context, smsVo, simId, "call");
 
         //SmsHubApi
         if (SettingUtil.getSwitchEnableSmsHubApi()) {
-            SmsHubActionHandler.putData(new SmsHubVo(SmsHubVo.Type.phone, simId, getTypeText(context, callInfo.getType(), name), phoneNumber));
+            SmsHubActionHandler.putData(new SmsHubVo(SmsHubVo.Type.phone, simId, getTypeText(context, type, name, viaNumber), phoneNumber));
         }
     }
 
     //获取通话类型：1.呼入 2.呼出 3.未接
-    private String getTypeText(Context context, int type, String name) {
-        String str = context.getString(R.string.linkman) + name + "\n" + context.getString(R.string.mandatory_type);
+    private String getTypeText(Context context, int type, String name, String viaNumber) {
+        String str = context.getString(R.string.linkman) + name + "\n";
+        if (!TextUtils.isEmpty(viaNumber)) str += context.getString(R.string.via_number) + viaNumber + "\n";
+        str += context.getString(R.string.mandatory_type);
         if (type == 3) return str + context.getString(R.string.received_call);
         if (type == 2) return str + context.getString(R.string.local_outgoing_call);
         return str + context.getString(R.string.missed_call);
