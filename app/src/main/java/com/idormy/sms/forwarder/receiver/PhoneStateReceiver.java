@@ -96,9 +96,15 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         Log.d(TAG, callInfo.toString());
         String name = callInfo.getName();
         String viaNumber = callInfo.getViaNumber(); //来源号码
+
+        //卡槽判断：获取卡槽失败时，默认为卡槽1
+        String simInfo = "";
+        int simId = 1;
         Log.d(TAG, "getSubscriptionId = " + callInfo.getSubscriptionId()); //TODO:这里的SubscriptionId跟短信的不一样
-        int simId = SimUtil.getSimIdBySubscriptionId(callInfo.getSubscriptionId());
-        String simInfo = simId == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1(); //自定义备注优先
+        if (callInfo.getSubscriptionId() != -1) {
+            simId = SimUtil.getSimIdBySubscriptionId(callInfo.getSubscriptionId());
+        }
+        simInfo = simId == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1(); //自定义备注优先
         simInfo = "SIM" + simId + "_" + simInfo;
 
         if (TextUtils.isEmpty(name)) {
@@ -136,7 +142,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         String str = context.getString(R.string.linkman) + name + "\n";
         if (!TextUtils.isEmpty(viaNumber)) str += context.getString(R.string.via_number) + viaNumber + "\n";
         str += context.getString(R.string.mandatory_type);
-        if (type == 3) return str + context.getString(R.string.received_call);
+        if (type == 1) return str + context.getString(R.string.received_call);
         if (type == 2) return str + context.getString(R.string.local_outgoing_call);
         return str + context.getString(R.string.missed_call);
     }
