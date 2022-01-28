@@ -399,10 +399,6 @@
     <string name="bark_level_active">立即亮屏</string>
     <string name="bark_level_timeSensitive">时效性</string>
     <string name="bark_level_passive">仅加列表</string>
-    <string name="common_permission_hint">授权提示</string>
-    <string name="common_permission_message">使用此功能需要先授予权限</string>
-    <string name="common_permission_granted">授予</string>
-    <string name="common_permission_denied">取消</string>
     <string name="common_permission_alert">授权提醒</string>
     <string name="common_permission_fail_1">授权失败，请正确授予权限</string>
     <string name="common_permission_fail_2">获取权限失败，请手动授予权限</string>
