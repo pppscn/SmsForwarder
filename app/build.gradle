@@ -27,6 +27,9 @@ android {
         versionCode versionProps['versionCode'].toInteger()
         versionName versionProps['versionName']
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        //ndk {
+        //    abiFilters 'armeabi-v7a', 'x86_64'
+        //}
     }
     lintOptions {
         checkReleaseBuilds false
@@ -47,31 +50,40 @@ android {
     }
     buildTypes {
         release {
-            //minifyEnabled true
+            minifyEnabled false
             //shrinkResources true
             //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
         debug {
-            //minifyEnabled true
+            minifyEnabled false
             //shrinkResources true
             //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
         }
     }
-    //apk file name
-    android.applicationVariants.all { variant ->
-        variant.outputs.all {
-            //def date = new Date().format("yyyyMMdd" , TimeZone.getTimeZone("Asia/Shanghai"))
-            def date = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08"))
-            if (variant.buildType.name == 'debug') {
-                outputFileName = "SmsForwarder_debug_${date}_${versionName}.apk"
-            }
-            if (variant.buildType.name == 'release') {
-                outputFileName = "SmsForwarder_release_${date}_${versionName}.apk"
-            }
+    //ABI配置——按CPU架构分别打包
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+            universalApk true
         }
     }
+    def abiCodes = ['armeabi-v7a': 1, 'arm64-v8a': 2, 'x86': 3, 'x86_64': 4, 'universal': 5]
+    android.applicationVariants.all { variant ->
+        // Assigns a different version code for each output APK.
+        variant.outputs.each {
+            output ->
+                def date = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08"))
+                def abiName = output.getFilter(com.android.build.OutputFile.ABI)
+                if (abiName == null) abiName = "universal"
+                output.versionCodeOverride = abiCodes.get(abiName, 0) * 10000 + variant.versionCode
+                output.outputFileName = "SmsForwarder_${variant.name}_${versionName}_${output.versionCodeOverride}_${date}_${abiName}.apk"
+        }
+    }
+
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -151,7 +163,7 @@ dependencies {
     //友盟统计SDK
     implementation 'com.umeng.umsdk:common:9.4.6'// 必选
     implementation 'com.umeng.umsdk:asms:1.6.0'// asms包依赖必选
-    //implementation 'com.umeng.umsdk:apm:1.5.2'// 错误分析升级为独立SDK，看crash数据请一定集成，可选
+    implementation 'com.umeng.umsdk:apm:1.5.2'// 错误分析升级为独立SDK，看crash数据请一定集成，可选
     //implementation 'com.umeng.umsdk:abtest:1.0.0'//使用U-App中ABTest能力，可选
 
     //XUpdate
@@ -173,8 +185,10 @@ dependencies {
     //AndroidAsync
     implementation 'com.koushikdutta.async:androidasync:3.1.0'
 
+    //吐司框架：https://github.com/getActivity/ToastUtils
+    implementation 'com.github.getActivity:ToastUtils:10.3'
     //权限请求框架：https://github.com/getActivity/XXPermissions
-    //implementation 'com.github.getActivity:XXPermissions:13.2'
+    implementation 'com.github.getActivity:XXPermissions:13.2'
 
     //jetty
     implementation "org.eclipse.jetty:jetty-server:9.2.30.v20200428"
