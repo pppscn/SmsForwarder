@@ -28,6 +28,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.hjq.permissions.OnPermissionCallback;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.idormy.sms.forwarder.receiver.RebootBroadcastReceiver;
 import com.idormy.sms.forwarder.sender.HttpServer;
 import com.idormy.sms.forwarder.sender.SenderUtil;
@@ -133,9 +136,45 @@ public class SettingActivity extends AppCompatActivity {
         switch_enable_sms.setChecked(SettingUtil.getSwitchEnableSms());
 
         switch_enable_sms.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            //TODO:校验使用短信转发必备的权限
-            SettingUtil.switchEnableSms(isChecked);
             Log.d(TAG, "switchEnableSms:" + isChecked);
+            if (isChecked) {
+                //检查权限是否获取
+                PackageManager pm = getPackageManager();
+                CommonUtil.CheckPermission(pm, this);
+                XXPermissions.with(this)
+                        // 接收短信
+                        .permission(Permission.RECEIVE_SMS)
+                        // 发送短信
+                        .permission(Permission.SEND_SMS)
+                        // 读取短信
+                        .permission(Permission.READ_SMS)
+                        .request(new OnPermissionCallback() {
+
+                            @Override
+                            public void onGranted(List<String> permissions, boolean all) {
+                                if (all) {
+                                    Toast.makeText(getBaseContext(), R.string.toast_granted_all, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getBaseContext(), R.string.toast_granted_part, Toast.LENGTH_SHORT).show();
+                                }
+                                SettingUtil.switchEnableSms(true);
+                            }
+
+                            @Override
+                            public void onDenied(List<String> permissions, boolean never) {
+                                if (never) {
+                                    Toast.makeText(getBaseContext(), R.string.toast_denied_never, Toast.LENGTH_SHORT).show();
+                                    // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                    XXPermissions.startPermissionActivity(SettingActivity.this, permissions);
+                                } else {
+                                    Toast.makeText(getBaseContext(), R.string.toast_denied, Toast.LENGTH_SHORT).show();
+                                }
+                                SettingUtil.switchEnableSms(false);
+                            }
+                        });
+            } else {
+                SettingUtil.switchEnableSms(false);
+            }
         });
     }
 
@@ -154,9 +193,47 @@ public class SettingActivity extends AppCompatActivity {
                 return;
             }
 
-            //TODO:校验使用来电转发必备的权限
-            SettingUtil.switchEnablePhone(isChecked);
             Log.d(TAG, "switchEnablePhone:" + isChecked);
+            if (isChecked) {
+                //检查权限是否获取
+                PackageManager pm = getPackageManager();
+                CommonUtil.CheckPermission(pm, this);
+                XXPermissions.with(this)
+                        // 读取电话状态
+                        .permission(Permission.READ_PHONE_STATE)
+                        // 读取手机号码
+                        .permission(Permission.READ_PHONE_NUMBERS)
+                        // 读取通话记录
+                        .permission(Permission.READ_CALL_LOG)
+                        // 读取联系人
+                        .permission(Permission.READ_CONTACTS)
+                        .request(new OnPermissionCallback() {
+
+                            @Override
+                            public void onGranted(List<String> permissions, boolean all) {
+                                if (all) {
+                                    Toast.makeText(getBaseContext(), R.string.toast_granted_all, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getBaseContext(), R.string.toast_granted_part, Toast.LENGTH_SHORT).show();
+                                }
+                                SettingUtil.switchEnableSms(true);
+                            }
+
+                            @Override
+                            public void onDenied(List<String> permissions, boolean never) {
+                                if (never) {
+                                    Toast.makeText(getBaseContext(), R.string.toast_denied_never, Toast.LENGTH_SHORT).show();
+                                    // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                    XXPermissions.startPermissionActivity(SettingActivity.this, permissions);
+                                } else {
+                                    Toast.makeText(getBaseContext(), R.string.toast_denied, Toast.LENGTH_SHORT).show();
+                                }
+                                SettingUtil.switchEnableSms(false);
+                            }
+                        });
+            } else {
+                SettingUtil.switchEnablePhone(false);
+            }
         });
 
         check_box_call_type_1.setOnCheckedChangeListener((buttonView, isChecked) -> {

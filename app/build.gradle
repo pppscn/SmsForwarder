@@ -27,9 +27,9 @@ android {
         versionCode versionProps['versionCode'].toInteger()
         versionName versionProps['versionName']
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-        //ndk {
-        //    abiFilters 'armeabi-v7a', 'x86_64'
-        //}
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86'//, 'x86_64'
+        }
     }
     lintOptions {
         checkReleaseBuilds false
@@ -67,11 +67,11 @@ android {
         abi {
             enable true
             reset()
-            include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+            include 'armeabi-v7a', 'arm64-v8a', 'x86'//, 'x86_64'
             universalApk true
         }
     }
-    def abiCodes = ['armeabi-v7a': 1, 'arm64-v8a': 2, 'x86': 3, 'x86_64': 4, 'universal': 5]
+    def abiCodes = ['universal': 1, 'armeabi-v7a': 2, 'arm64-v8a': 3, 'x86': 4, 'x86_64': 5]
     android.applicationVariants.all { variant ->
         // Assigns a different version code for each output APK.
         variant.outputs.each {
@@ -79,7 +79,7 @@ android {
                 def date = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08"))
                 def abiName = output.getFilter(com.android.build.OutputFile.ABI)
                 if (abiName == null) abiName = "universal"
-                output.versionCodeOverride = abiCodes.get(abiName, 0) * 10000 + variant.versionCode
+                output.versionCodeOverride = abiCodes.get(abiName, 0) * 100000 + variant.versionCode
                 output.outputFileName = "SmsForwarder_${variant.name}_${versionName}_${output.versionCodeOverride}_${date}_${abiName}.apk"
         }
     }

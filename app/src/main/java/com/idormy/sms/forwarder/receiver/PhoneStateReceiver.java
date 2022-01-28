@@ -98,7 +98,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         String viaNumber = callInfo.getViaNumber(); //来源号码
 
         //卡槽判断：获取卡槽失败时，默认为卡槽1
-        String simInfo = "";
+        String simInfo;
         int simId = 1;
         Log.d(TAG, "getSubscriptionId = " + callInfo.getSubscriptionId()); //TODO:这里的SubscriptionId跟短信的不一样
         if (callInfo.getSubscriptionId() != -1) {

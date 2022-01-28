@@ -10,11 +10,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.hjq.permissions.OnPermissionCallback;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.idormy.sms.forwarder.receiver.RebootBroadcastReceiver;
 import com.idormy.sms.forwarder.utils.CacheUtil;
 import com.idormy.sms.forwarder.utils.CommonUtil;
+import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.xuexiang.xupdate.easy.EasyUpdate;
 import com.xuexiang.xupdate.proxy.impl.DefaultUpdateChecker;
+
+import java.util.List;
 
 
 public class AboutActivity extends AppCompatActivity {
@@ -29,6 +35,36 @@ public class AboutActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_about);
         Log.d(TAG, "onCreate: " + RebootBroadcastReceiver.class.getName());
+
+        XXPermissions.with(this)
+                // 申请安装包权限
+                .permission(Permission.REQUEST_INSTALL_PACKAGES)
+                // 申请通知栏权限
+                .permission(Permission.NOTIFICATION_SERVICE)
+                .request(new OnPermissionCallback() {
+
+                    @Override
+                    public void onGranted(List<String> permissions, boolean all) {
+                        if (all) {
+                            Toast.makeText(getBaseContext(), R.string.toast_granted_all, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getBaseContext(), R.string.toast_granted_part, Toast.LENGTH_SHORT).show();
+                        }
+                        SettingUtil.switchEnableSms(true);
+                    }
+
+                    @Override
+                    public void onDenied(List<String> permissions, boolean never) {
+                        if (never) {
+                            Toast.makeText(getBaseContext(), R.string.toast_denied_never, Toast.LENGTH_SHORT).show();
+                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            XXPermissions.startPermissionActivity(AboutActivity.this, permissions);
+                        } else {
+                            Toast.makeText(getBaseContext(), R.string.toast_denied, Toast.LENGTH_SHORT).show();
+                        }
+                        SettingUtil.switchEnableSms(false);
+                    }
+                });
 
         final TextView version_now = findViewById(R.id.version_now);
         Button check_version_now = findViewById(R.id.check_version_now);

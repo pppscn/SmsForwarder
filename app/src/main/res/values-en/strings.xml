@@ -424,4 +424,8 @@
     <string name="common_permission_setting">系统设置权限</string>
     <string name="common_permission_notification">通知栏权限</string>
     <string name="common_permission_task">查看使用情况权限</string>
+    <string name="toast_granted_all">获取所有必需的权限成功！</string>
+    <string name="toast_granted_part">获取部分权限成功，但部分权限未正常授予，APP部分功能可能受限！</string>
+    <string name="toast_denied_never">被永久拒绝授权，请前往系统设置手动授予权限！</string>
+    <string name="toast_denied">获取必需的权限失败，APP功能可能受限！</string>
 </resources>

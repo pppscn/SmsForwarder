@@ -27,6 +27,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.hjq.permissions.OnPermissionCallback;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.idormy.sms.forwarder.adapter.LogAdapter;
 import com.idormy.sms.forwarder.model.vo.LogVo;
 import com.idormy.sms.forwarder.sender.HttpServer;
@@ -140,6 +143,53 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         //检查权限是否获取
         PackageManager pm = getPackageManager();
         CommonUtil.CheckPermission(pm, this);
+        XXPermissions.with(this)
+                // 接收短信
+                .permission(Permission.RECEIVE_SMS)
+                // 发送短信
+                .permission(Permission.SEND_SMS)
+                // 读取短信
+                .permission(Permission.READ_SMS)
+                // 读取电话状态
+                .permission(Permission.READ_PHONE_STATE)
+                // 读取手机号码
+                .permission(Permission.READ_PHONE_NUMBERS)
+                // 读取通话记录
+                .permission(Permission.READ_CALL_LOG)
+                // 读取联系人
+                .permission(Permission.READ_CONTACTS)
+                // 储存权限
+                .permission(Permission.Group.STORAGE)
+                // 申请安装包权限
+                //.permission(Permission.REQUEST_INSTALL_PACKAGES)
+                // 申请通知栏权限
+                .permission(Permission.NOTIFICATION_SERVICE)
+                // 申请系统设置权限
+                //.permission(Permission.WRITE_SETTINGS)
+                .request(new OnPermissionCallback() {
+
+                    @Override
+                    public void onGranted(List<String> permissions, boolean all) {
+                        if (all) {
+                            Toast.makeText(getBaseContext(), R.string.toast_granted_all, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getBaseContext(), R.string.toast_granted_part, Toast.LENGTH_SHORT).show();
+                        }
+                        SettingUtil.switchEnableSms(true);
+                    }
+
+                    @Override
+                    public void onDenied(List<String> permissions, boolean never) {
+                        if (never) {
+                            Toast.makeText(getBaseContext(), R.string.toast_denied_never, Toast.LENGTH_SHORT).show();
+                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            XXPermissions.startPermissionActivity(MainActivity.this, permissions);
+                        } else {
+                            Toast.makeText(getBaseContext(), R.string.toast_denied, Toast.LENGTH_SHORT).show();
+                        }
+                        SettingUtil.switchEnableSms(false);
+                    }
+                });
 
         //计算浮动按钮位置
         FloatingActionButton btnFloat = findViewById(R.id.btnCleanLog);
