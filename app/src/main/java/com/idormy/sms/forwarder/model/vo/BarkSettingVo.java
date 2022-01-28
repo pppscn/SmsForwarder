@@ -30,9 +30,9 @@ public class BarkSettingVo implements Serializable {
     }
 
     public int getLevelId() {
-        if (level.equals("timeSensitive")) {
+        if (level != null && level.equals("timeSensitive")) {
             return R.id.btnBarkLevelTimeSensitive;
-        } else if (level.equals("passive")) {
+        } else if (level != null && level.equals("passive")) {
             return R.id.btnBarkLevelPassive;
         } else {
             return R.id.btnBarkLevelActive;
