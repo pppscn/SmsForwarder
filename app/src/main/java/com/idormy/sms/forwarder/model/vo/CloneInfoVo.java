@@ -28,6 +28,7 @@ public class CloneInfoVo implements Serializable {
     private int delayTime;
     private boolean enableSmsTemplate;
     private String smsTemplate;
+    private String backupVersion;
 
     @NonNull
     @Override
@@ -50,6 +51,7 @@ public class CloneInfoVo implements Serializable {
                 ", delayTime=" + delayTime +
                 ", enableSmsTemplate=" + enableSmsTemplate +
                 ", smsTemplate=" + smsTemplate +
+                ", backupVersion=" + backupVersion +
                 '}';
     }
 }

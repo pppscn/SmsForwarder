@@ -181,6 +181,11 @@ public class BaseServlet extends HttpServlet {
         PrintWriter writer = resp.getWriter();
         BufferedReader reader = req.getReader();
         try {
+            //备份文件
+            BackupDbTask task = new BackupDbTask(context);
+            String backup_version = task.doInBackground(BackupDbTask.COMMAND_BACKUP);
+            Log.d(TAG, "backup_version = " + backup_version);
+
             Map msgMap = new HashMap();
             msgMap.put("versionCode", SettingUtil.getVersionCode());
             msgMap.put("versionName", SettingUtil.getVersionName());
@@ -199,6 +204,7 @@ public class BaseServlet extends HttpServlet {
             msgMap.put("delayTime", SettingUtil.getDelayTime());
             msgMap.put("enableSmsTemplate", SettingUtil.getSwitchSmsTemplate());
             msgMap.put("smsTemplate", SettingUtil.getSmsTemplate());
+            msgMap.put("backupVersion", backup_version);
 
             resp.setContentType("application/json;charset=utf-8");
             String text = JSON.toJSONString(msgMap);

@@ -216,7 +216,7 @@
     <string name="post">POST</string>
     <string name="get">GET</string>
     <string name="local_ip">本机IP：</string>
-    <string name="operating_instruction">操作说明：\n1.新旧手机连接同一个WiFi网络(禁用AP隔离)\n2.旧手机直接点【发送】按钮，获取到【服务端IP】\n3.新手机填写【服务端IP】后，点【接收】按钮\n\n注意事项：\n1.发送方与接收方的APP版本号必须一致，才能克隆!\n2.新手机接收后，发送通道、转发规则将完全被覆盖，清空历史记录！\n3.主动请求、保活措施、个性设置不在克隆范围</string>
+    <string name="operating_instruction">操作说明：\n1.新旧手机连接同一个WiFi网络(禁用AP隔离)\n2.旧手机直接点【发送】按钮，获取到【服务端IP】\n3.新手机填写【服务端IP】后，点【接收】按钮\n\n注意事项：\n1.发送方与接收方的APP版本必须一致，才能克隆!\n2.新手机接收后，发送通道、转发规则将完全被覆盖，清空历史记录！\n3.主动请求、保活措施、个性设置不在克隆范围</string>
     <string name="send">启动</string>
     <string name="stop">停止</string>
     <string name="old_mobile_phone">我是旧手机</string>

@@ -117,9 +117,9 @@ public class CloneActivity extends AppCompatActivity {
             }
 
             //备份文件
-            BackupDbTask task = new BackupDbTask(this);
-            String backup_version = task.doInBackground(BackupDbTask.COMMAND_BACKUP);
-            Log.d(TAG, "backup_version = " + backup_version);
+            //BackupDbTask task = new BackupDbTask(this);
+            //String backup_version = task.doInBackground(BackupDbTask.COMMAND_BACKUP);
+            //Log.d(TAG, "backup_version = " + backup_version);
 
             SettingUtil.switchEnableHttpServer(!SettingUtil.getSwitchEnableHttpServer());
             if (!HttpServer.update()) {
@@ -201,7 +201,9 @@ public class CloneActivity extends AppCompatActivity {
 
                     try {
                         CloneInfoVo cloneInfoVo = JSON.parseObject(responseStr, CloneInfoVo.class);
-                        if (SettingUtil.getVersionCode() != cloneInfoVo.getVersionCode()) {
+                        Log.d(TAG, cloneInfoVo.toString());
+
+                        if (!SettingUtil.getVersionName().equals(cloneInfoVo.getVersionName())) {
                             Toast(handError, TAG, getString(R.string.tips_versions_inconsistent));
                             return;
                         }
