@@ -3,8 +3,8 @@ package com.idormy.sms.forwarder.sender;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.hjq.toast.ToastUtils;
 import com.idormy.sms.forwarder.R;
 import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 import com.idormy.sms.forwarder.receiver.BaseServlet;
@@ -52,13 +52,13 @@ public class HttpServer {
     public synchronized static boolean update() {
         //非WiFi网络下不可启用
         if (NetUtil.NETWORK_WIFI != NetUtil.getNetWorkStatus()) {
-            Toast.makeText(context, R.string.no_wifi_network, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(R.string.no_wifi_network);
             if (asRunning()) stop();
             return false;
         }
         long l = System.currentTimeMillis();
         if (l - ts < 3000 && asRunning()) {
-            Toast.makeText(context, R.string.tips_wait_3_seconds, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(R.string.tips_wait_3_seconds);
             return false;
         }
         if (asRunning().equals(SettingUtil.getSwitchEnableHttpServer())) {
@@ -68,10 +68,10 @@ public class HttpServer {
             SmsHubVo.getDevInfoMap(true);
             start();
             ts = System.currentTimeMillis();
-            Toast.makeText(context, R.string.server_has_started, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(R.string.server_has_started);
         } else {
             stop();
-            Toast.makeText(context, R.string.server_has_stopped, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(R.string.server_has_stopped);
         }
         return true;
     }

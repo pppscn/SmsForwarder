@@ -18,11 +18,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.hjq.toast.ToastUtils;
 import com.idormy.sms.forwarder.adapter.RuleAdapter;
 import com.idormy.sms.forwarder.model.RuleModel;
 import com.idormy.sms.forwarder.model.SenderModel;
@@ -56,7 +56,7 @@ public class RuleActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == NOTIFY) {
-                Toast.makeText(RuleActivity.this, msg.getData().getString("DATA"), Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(msg.getData().getString("DATA"), 3000);
             }
         }
     };
@@ -103,7 +103,7 @@ public class RuleActivity extends AppCompatActivity {
                 RuleUtil.delRule(ruleModels.get(position).getId());
                 initRules();
                 adapter.del(ruleModels);
-                Toast.makeText(getBaseContext(), R.string.delete_rule_toast, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(R.string.delete_rule_toast);
             });
 
             builder.setNeutralButton(R.string.clone, (dialog, which) -> {
@@ -216,7 +216,7 @@ public class RuleActivity extends AppCompatActivity {
         }
         final Button btSetRuleSender = view1.findViewById(R.id.btSetRuleSender);
         btSetRuleSender.setOnClickListener(view -> {
-            //Toast.makeText(RuleActivity.this, "selectSender", Toast.LENGTH_LONG).show();
+            //ToastUtils.show("selectSender", 3000);
             selectSender(ruleSenderTv);
         });
 
@@ -261,7 +261,7 @@ public class RuleActivity extends AppCompatActivity {
         buttonRuleOk.setOnClickListener(view -> {
             Object senderId = ruleSenderTv.getTag();
             if (senderId == null) {
-                Toast.makeText(RuleActivity.this, R.string.new_sender_first, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.new_sender_first, 3000);
                 return;
             }
 
@@ -269,7 +269,7 @@ public class RuleActivity extends AppCompatActivity {
             String regexReplace = textRegexReplace.getText().toString().trim();
             int lineNum = checkRegexReplace(regexReplace);
             if (lineNum > 0) {
-                Toast.makeText(getBaseContext(), String.format(RuleActivity.this.getString(R.string.regex_check_tips), lineNum), Toast.LENGTH_SHORT).show();
+                ToastUtils.show("lineNum=" + lineNum);
                 return;
             }
 
@@ -321,7 +321,7 @@ public class RuleActivity extends AppCompatActivity {
         buttonRuleTest.setOnClickListener(view -> {
             Object senderId = ruleSenderTv.getTag();
             if (senderId == null) {
-                Toast.makeText(RuleActivity.this, R.string.new_sender_first, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.new_sender_first, 3000);
                 return;
             }
 
@@ -329,7 +329,7 @@ public class RuleActivity extends AppCompatActivity {
             String regexReplace = textRegexReplace.getText().toString().trim();
             int lineNum = checkRegexReplace(regexReplace);
             if (lineNum > 0) {
-                Toast.makeText(getBaseContext(), String.format(RuleActivity.this.getString(R.string.regex_check_tips), lineNum), Toast.LENGTH_SHORT).show();
+                ToastUtils.show("lineNum=" + lineNum);
                 return;
             }
 
@@ -525,7 +525,7 @@ public class RuleActivity extends AppCompatActivity {
     public void selectSender(final TextView showTv) {
         final List<SenderModel> senderModels = SenderUtil.getSender(null, null);
         if (senderModels.isEmpty()) {
-            Toast.makeText(RuleActivity.this, R.string.add_sender_first, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(R.string.add_sender_first);
             return;
         }
         final CharSequence[] senderNames = new CharSequence[senderModels.size()];
@@ -536,7 +536,7 @@ public class RuleActivity extends AppCompatActivity {
         builder.setTitle(R.string.select_sender);
         //添加列表
         builder.setItems(senderNames, (dialogInterface, which) -> {
-            Toast.makeText(RuleActivity.this, senderNames[which], Toast.LENGTH_LONG).show();
+            ToastUtils.delayedShow(senderNames[which], 3000);
             showTv.setText(senderNames[which]);
             showTv.setTag(senderModels.get(which).getId());
         });
@@ -583,7 +583,7 @@ public class RuleActivity extends AppCompatActivity {
                 SmsVo testSmsVo = new SmsVo(editTextTestPhone.getText().toString().trim(), editTextTestMsgContent.getText().toString().trim(), new Date(), simInfo);
                 SendUtil.sendMsgByRuleModelSenderId(handler, ruleModel, testSmsVo, senderId);
             } catch (Exception e) {
-                Toast.makeText(RuleActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(e.getMessage(), 3000);
             }
         });
         ad1.show();// 显示对话框

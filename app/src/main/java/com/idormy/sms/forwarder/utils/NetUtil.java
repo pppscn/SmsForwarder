@@ -6,8 +6,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.widget.Toast;
 
+import com.hjq.toast.ToastUtils;
 import com.idormy.sms.forwarder.R;
 
 public class NetUtil {
@@ -42,17 +42,17 @@ public class NetUtil {
             //判断是否是wifi
             if (activeNetworkInfo.getType() == (ConnectivityManager.TYPE_WIFI)) {
                 //返回无线网络
-                Toast.makeText(context, R.string.on_wireless_network, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(R.string.on_wireless_network);
                 return NETWORK_WIFI;
                 //判断是否移动网络
             } else if (activeNetworkInfo.getType() == (ConnectivityManager.TYPE_MOBILE)) {
-                Toast.makeText(context, R.string.on_mobile_network, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(R.string.on_mobile_network);
                 //返回移动网络
                 return NETWORK_MOBILE;
             }
         } else {
             //没有网络
-            Toast.makeText(context, R.string.no_network, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(R.string.no_network);
             return NETWORK_NONE;
         }
         //默认返回  没有网络

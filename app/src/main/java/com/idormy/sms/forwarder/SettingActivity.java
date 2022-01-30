@@ -22,7 +22,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
@@ -31,6 +30,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
+import com.hjq.toast.ToastUtils;
 import com.idormy.sms.forwarder.receiver.RebootBroadcastReceiver;
 import com.idormy.sms.forwarder.sender.HttpServer;
 import com.idormy.sms.forwarder.sender.SenderUtil;
@@ -153,9 +153,9 @@ public class SettingActivity extends AppCompatActivity {
                             @Override
                             public void onGranted(List<String> permissions, boolean all) {
                                 if (all) {
-                                    Toast.makeText(getBaseContext(), R.string.toast_granted_all, Toast.LENGTH_SHORT).show();
+                                    ToastUtils.show(R.string.toast_granted_all);
                                 } else {
-                                    Toast.makeText(getBaseContext(), R.string.toast_granted_part, Toast.LENGTH_SHORT).show();
+                                    ToastUtils.show(R.string.toast_granted_part);
                                 }
                                 SettingUtil.switchEnableSms(true);
                             }
@@ -163,11 +163,11 @@ public class SettingActivity extends AppCompatActivity {
                             @Override
                             public void onDenied(List<String> permissions, boolean never) {
                                 if (never) {
-                                    Toast.makeText(getBaseContext(), R.string.toast_denied_never, Toast.LENGTH_SHORT).show();
+                                    ToastUtils.show(R.string.toast_denied_never);
                                     // 如果是被永久拒绝就跳转到应用权限系统设置页面
                                     XXPermissions.startPermissionActivity(SettingActivity.this, permissions);
                                 } else {
-                                    Toast.makeText(getBaseContext(), R.string.toast_denied, Toast.LENGTH_SHORT).show();
+                                    ToastUtils.show(R.string.toast_denied);
                                 }
                                 SettingUtil.switchEnableSms(false);
                             }
@@ -188,7 +188,7 @@ public class SettingActivity extends AppCompatActivity {
 
         switch_enable_phone.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked && !SettingUtil.getSwitchCallType1() && !SettingUtil.getSwitchCallType2() && !SettingUtil.getSwitchCallType3()) {
-                Toast.makeText(context, R.string.enable_phone_fw_tips, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(R.string.enable_phone_fw_tips);
                 SettingUtil.switchEnablePhone(false);
                 return;
             }
@@ -212,9 +212,9 @@ public class SettingActivity extends AppCompatActivity {
                             @Override
                             public void onGranted(List<String> permissions, boolean all) {
                                 if (all) {
-                                    Toast.makeText(getBaseContext(), R.string.toast_granted_all, Toast.LENGTH_SHORT).show();
+                                    ToastUtils.show(R.string.toast_granted_all);
                                 } else {
-                                    Toast.makeText(getBaseContext(), R.string.toast_granted_part, Toast.LENGTH_SHORT).show();
+                                    ToastUtils.show(R.string.toast_granted_part);
                                 }
                                 SettingUtil.switchEnableSms(true);
                             }
@@ -222,11 +222,11 @@ public class SettingActivity extends AppCompatActivity {
                             @Override
                             public void onDenied(List<String> permissions, boolean never) {
                                 if (never) {
-                                    Toast.makeText(getBaseContext(), R.string.toast_denied_never, Toast.LENGTH_SHORT).show();
+                                    ToastUtils.show(R.string.toast_denied_never);
                                     // 如果是被永久拒绝就跳转到应用权限系统设置页面
                                     XXPermissions.startPermissionActivity(SettingActivity.this, permissions);
                                 } else {
-                                    Toast.makeText(getBaseContext(), R.string.toast_denied, Toast.LENGTH_SHORT).show();
+                                    ToastUtils.show(R.string.toast_denied);
                                 }
                                 SettingUtil.switchEnableSms(false);
                             }
@@ -239,7 +239,7 @@ public class SettingActivity extends AppCompatActivity {
         check_box_call_type_1.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingUtil.switchCallType1(isChecked);
             if (!isChecked && !SettingUtil.getSwitchCallType1() && !SettingUtil.getSwitchCallType2() && !SettingUtil.getSwitchCallType3()) {
-                Toast.makeText(context, R.string.enable_phone_fw_tips, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(R.string.enable_phone_fw_tips);
                 SettingUtil.switchEnablePhone(false);
             }
         });
@@ -247,7 +247,7 @@ public class SettingActivity extends AppCompatActivity {
         check_box_call_type_2.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingUtil.switchCallType2(isChecked);
             if (!isChecked && !SettingUtil.getSwitchCallType1() && !SettingUtil.getSwitchCallType2() && !SettingUtil.getSwitchCallType3()) {
-                Toast.makeText(context, R.string.enable_phone_fw_tips, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(R.string.enable_phone_fw_tips);
                 SettingUtil.switchEnablePhone(false);
             }
         });
@@ -255,7 +255,7 @@ public class SettingActivity extends AppCompatActivity {
         check_box_call_type_3.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingUtil.switchCallType3(isChecked);
             if (!isChecked && !SettingUtil.getSwitchCallType1() && !SettingUtil.getSwitchCallType2() && !SettingUtil.getSwitchCallType3()) {
-                Toast.makeText(context, R.string.enable_phone_fw_tips, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(R.string.enable_phone_fw_tips);
                 SettingUtil.switchEnablePhone(false);
             }
         });
@@ -275,10 +275,10 @@ public class SettingActivity extends AppCompatActivity {
             if (isChecked) {
                 if (!CommonUtil.isNotificationListenerServiceEnabled(this)) {
                     CommonUtil.openNotificationAccess(this);
-                    Toast.makeText(this, R.string.tips_notification_listener, Toast.LENGTH_LONG).show();
+                    ToastUtils.delayedShow(R.string.tips_notification_listener, 3000);
                     return;
                 } else {
-                    Toast.makeText(this, R.string.notification_service_is_on, Toast.LENGTH_LONG).show();
+                    ToastUtils.delayedShow(R.string.notification_service_is_on, 3000);
                     CommonUtil.toggleNotificationListenerService(this);
                 }
             }
@@ -298,7 +298,7 @@ public class SettingActivity extends AppCompatActivity {
         if (!CommonUtil.isNotificationListenerServiceEnabled(this)) {
             CommonUtil.openNotificationAccess(this);
         } else {
-            Toast.makeText(this, R.string.notification_listener_service_enabled, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(R.string.notification_listener_service_enabled);
             CommonUtil.toggleNotificationListenerService(this);
         }
     }
@@ -308,11 +308,11 @@ public class SettingActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CommonUtil.NOTIFICATION_REQUEST_CODE) {
             if (CommonUtil.isNotificationListenerServiceEnabled(this)) {
-                Toast.makeText(this, R.string.notification_listener_service_enabled, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(R.string.notification_listener_service_enabled);
                 CommonUtil.toggleNotificationListenerService(this);
                 SettingUtil.switchEnableAppNotify(true);
             } else {
-                Toast.makeText(this, R.string.notification_listener_service_disabled, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(R.string.notification_listener_service_disabled);
                 SettingUtil.switchEnableAppNotify(false);
             }
 
@@ -416,7 +416,7 @@ public class SettingActivity extends AppCompatActivity {
         cb_battery_level_alarm_once.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingUtil.switchBatteryLevelAlarmOnce(isChecked);
             if (isChecked && 0 == SettingUtil.getBatteryLevelAlarmMin() && 0 == SettingUtil.getBatteryLevelAlarmMax()) {
-                Toast.makeText(context, R.string.tips_battery_level_alarm_once, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(R.string.tips_battery_level_alarm_once);
                 SettingUtil.switchEnablePhone(false);
             }
         });
@@ -600,7 +600,7 @@ public class SettingActivity extends AppCompatActivity {
             }
         }
         if (!has) {
-            Toast.makeText(context, R.string.tips_compatible_solution, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(R.string.tips_compatible_solution);
             try {
                 Intent intent = new Intent();
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -627,10 +627,10 @@ public class SettingActivity extends AppCompatActivity {
             if (isChecked && !isIgnoreBatteryOptimization) {
                 KeepAliveUtils.ignoreBatteryOptimization(this);
             } else if (isChecked) {
-                Toast.makeText(this, R.string.isIgnored, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(R.string.isIgnored);
                 switch_battery_setting.setChecked(isIgnoreBatteryOptimization);
             } else {
-                Toast.makeText(this, R.string.isIgnored2, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(R.string.isIgnored2);
                 switch_battery_setting.setChecked(isIgnoreBatteryOptimization);
             }
         });

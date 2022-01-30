@@ -20,10 +20,10 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.hjq.toast.ToastUtils;
 import com.idormy.sms.forwarder.adapter.AppAdapter;
 import com.idormy.sms.forwarder.model.AppInfo;
 
@@ -45,7 +45,7 @@ public class AppListActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == NOTIFY) {
-                Toast.makeText(AppListActivity.this, msg.getData().getString("DATA"), Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(msg.getData().getString("DATA"), 3000);
             } else if (msg.what == APP_LIST) {
                 AppAdapter adapter = new AppAdapter(AppListActivity.this, R.layout.item_app, appInfoList);
                 listView.setAdapter(adapter);
@@ -91,7 +91,7 @@ public class AppListActivity extends AppCompatActivity {
             ClipData mClipData = ClipData.newPlainText("pkgName", appInfo.getPkgName());
             cm.setPrimaryClip(mClipData);
 
-            Toast.makeText(AppListActivity.this, getString(R.string.package_name_copied) + appInfo.getPkgName(), Toast.LENGTH_LONG).show();
+            ToastUtils.delayedShow(getString(R.string.package_name_copied) + appInfo.getPkgName(), 3000);
         });
         listView.setOnItemLongClickListener((parent, view, position, id) -> {
             AppInfo appInfo = appInfoList.get(position);

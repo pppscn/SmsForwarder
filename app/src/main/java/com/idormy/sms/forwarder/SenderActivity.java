@@ -32,12 +32,12 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.fastjson.JSON;
+import com.hjq.toast.ToastUtils;
 import com.idormy.sms.forwarder.adapter.SenderAdapter;
 import com.idormy.sms.forwarder.model.SenderModel;
 import com.idormy.sms.forwarder.model.vo.BarkSettingVo;
@@ -93,7 +93,7 @@ public class SenderActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == NOTIFY) {
-                Toast.makeText(SenderActivity.this, msg.getData().getString("DATA"), Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(msg.getData().getString("DATA"), 3000);
             }
         }
     };
@@ -166,7 +166,7 @@ public class SenderActivity extends AppCompatActivity {
                     setGotify(senderModel, false);
                     break;
                 default:
-                    Toast.makeText(SenderActivity.this, R.string.invalid_sender, Toast.LENGTH_LONG).show();
+                    ToastUtils.delayedShow(R.string.invalid_sender, 3000);
                     SenderUtil.delSender(senderModel.getId());
                     initSenders();
                     adapter.del(senderModels);
@@ -186,7 +186,7 @@ public class SenderActivity extends AppCompatActivity {
                 SenderUtil.delSender(senderModels.get(position).getId());
                 initSenders();
                 adapter.del(senderModels);
-                Toast.makeText(getBaseContext(), R.string.delete_sender_toast, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(R.string.delete_sender_toast);
             });
 
             builder.setNeutralButton(R.string.clone, (dialog, which) -> {
@@ -229,7 +229,7 @@ public class SenderActivity extends AppCompatActivity {
                         setGotify(senderModel, true);
                         break;
                     default:
-                        Toast.makeText(SenderActivity.this, R.string.invalid_sender, Toast.LENGTH_LONG).show();
+                        ToastUtils.delayedShow(R.string.invalid_sender, 3000);
                         SenderUtil.delSender(senderModel.getId());
                         initSenders();
                         adapter.del(senderModels);
@@ -307,7 +307,7 @@ public class SenderActivity extends AppCompatActivity {
                         setGotify(null, false);
                         break;
                     default:
-                        Toast.makeText(SenderActivity.this, R.string.not_supported, Toast.LENGTH_LONG).show();
+                        ToastUtils.delayedShow(R.string.not_supported, 3000);
                         break;
                 }
             });
@@ -442,11 +442,11 @@ public class SenderActivity extends AppCompatActivity {
             Boolean atAll = switchDingdingAtAll.isChecked();
 
             if (TextUtils.isEmpty(senderName)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_name, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_name, 3000);
                 return;
             }
             if (CommonUtil.checkUrl(token, true)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_token, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_token, 3000);
                 return;
             }
 
@@ -484,7 +484,7 @@ public class SenderActivity extends AppCompatActivity {
         buttonDingdingTest.setOnClickListener(view -> {
             String token = editTextDingdingToken.getText().trim();
             if (CommonUtil.checkUrl(token, true)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_token, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_token, 3000);
                 return;
             }
 
@@ -495,7 +495,7 @@ public class SenderActivity extends AppCompatActivity {
                 SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
                 SenderDingdingMsg.sendMsg(0, handler, null, token, secret, atMobiles, atAll, smsVo.getSmsVoForSend());
             } catch (Exception e) {
-                Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(getString(R.string.failed_to_fwd) + e.getMessage(), 3000);
                 e.printStackTrace();
             }
         });
@@ -558,7 +558,7 @@ public class SenderActivity extends AppCompatActivity {
             String senderName = editTextEmailName.getText().toString().trim();
             int senderStatus = switchEmailEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_name, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_name, 3000);
                 return;
             }
 
@@ -576,7 +576,7 @@ public class SenderActivity extends AppCompatActivity {
             String nickname = editTextEmailNickname.getText().toString().trim();
             if (nickname.isEmpty()) nickname = "SmsForwarder";
             if (host.isEmpty() || port.isEmpty() || fromEmail.isEmpty() || pwd.isEmpty() || toEmail.isEmpty()) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_email, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_email, 3000);
                 return;
             }
 
@@ -627,7 +627,7 @@ public class SenderActivity extends AppCompatActivity {
             if (nickname.isEmpty()) nickname = "SmsForwarder";
 
             if (host.isEmpty() || port.isEmpty() || fromEmail.isEmpty() || pwd.isEmpty() || toEmail.isEmpty()) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_email, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_email, 3000);
                 return;
             }
 
@@ -635,7 +635,7 @@ public class SenderActivity extends AppCompatActivity {
                 SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
                 SenderMailMsg.sendEmail(0, handler, protocol, host, port, ssl, fromEmail, nickname, pwd, toEmail, smsVo.getTitleForSend(title), smsVo.getSmsVoForSend());
             } catch (Exception e) {
-                Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(getString(R.string.failed_to_fwd) + e.getMessage(), 3000);
                 e.printStackTrace();
             }
         });
@@ -723,14 +723,14 @@ public class SenderActivity extends AppCompatActivity {
             String senderName = editTextBarkName.getText().toString().trim();
             int senderStatus = switchBarkEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_name, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_name, 3000);
                 return;
             }
 
             //推送地址
             String barkServer = editTextBarkServer.getText().trim();
             if (!CommonUtil.checkUrl(barkServer, false)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_bark_server, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_bark_server, 3000);
                 return;
             }
 
@@ -785,11 +785,11 @@ public class SenderActivity extends AppCompatActivity {
                     SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
                     SenderBarkMsg.sendMsg(0, handler, null, barkSettingVoNew, smsVo.getTitleForSend(title), smsVo.getSmsVoForSend(), getString(R.string.test_group_name));
                 } catch (Exception e) {
-                    Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
+                    ToastUtils.delayedShow(getString(R.string.failed_to_fwd) + e.getMessage(), 3000);
                     e.printStackTrace();
                 }
             } else {
-                Toast.makeText(SenderActivity.this, R.string.invalid_bark_server, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_bark_server, 3000);
             }
         });
 
@@ -871,7 +871,7 @@ public class SenderActivity extends AppCompatActivity {
             String senderName = editTextWebNotifyName.getText().toString().trim();
             int senderStatus = switchWebNotifyEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_name, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_name, 3000);
                 return;
             }
 
@@ -881,7 +881,7 @@ public class SenderActivity extends AppCompatActivity {
             String webParams = editTextWebNotifyWebParams.getText().toString().trim();
 
             if (!CommonUtil.checkUrl(webServer, false)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_webserver, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_webserver, 3000);
                 return;
             }
 
@@ -921,7 +921,7 @@ public class SenderActivity extends AppCompatActivity {
             String webParams = editTextWebNotifyWebParams.getText().toString().trim();
 
             if (!CommonUtil.checkUrl(webServer, false)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_webserver, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_webserver, 3000);
                 return;
             }
 
@@ -929,7 +929,7 @@ public class SenderActivity extends AppCompatActivity {
                 SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
                 SenderWebNotifyMsg.sendMsg(0, handler, null, webServer, webParams, secret, method, smsVo.getMobile(), smsVo.getSmsVoForSend());
             } catch (Exception e) {
-                Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(getString(R.string.failed_to_fwd) + e.getMessage(), 3000);
                 e.printStackTrace();
             }
         });
@@ -976,13 +976,13 @@ public class SenderActivity extends AppCompatActivity {
             String senderName = editTextQYWXGroupRobotName.getText().toString().trim();
             int senderStatus = switchQYWXGroupRobotEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_name, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_name, 3000);
                 return;
             }
 
             String webHook = editTextQYWXGroupRobotWebHook.getText().trim();
             if (!CommonUtil.checkUrl(webHook, false)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_webhook, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_webhook, 3000);
                 return;
             }
 
@@ -1020,7 +1020,7 @@ public class SenderActivity extends AppCompatActivity {
         buttonQyWxGroupRobotTest.setOnClickListener(view -> {
             String webHook = editTextQYWXGroupRobotWebHook.getText().trim();
             if (!CommonUtil.checkUrl(webHook, false)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_webhook, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_webhook, 3000);
                 return;
             }
 
@@ -1028,7 +1028,7 @@ public class SenderActivity extends AppCompatActivity {
                 SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
                 SenderQyWxGroupRobotMsg.sendMsg(0, handler, null, webHook, smsVo.getMobile(), smsVo.getSmsVoForSend());
             } catch (Exception e) {
-                Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(getString(R.string.failed_to_fwd) + e.getMessage(), 3000);
                 e.printStackTrace();
             }
         });
@@ -1093,13 +1093,13 @@ public class SenderActivity extends AppCompatActivity {
             String senderName = editTextQYWXAppName.getText().toString().trim();
             int senderStatus = switchQYWXAppEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_name, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_name, 3000);
                 return;
             }
 
             String toUser = editTextQYWXAppToUser.getText().toString().trim();
             if (toUser.isEmpty()) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_at_mobiles, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_at_mobiles, 3000);
                 editTextQYWXAppToUser.setFocusable(true);
                 editTextQYWXAppToUser.requestFocus();
                 return;
@@ -1112,7 +1112,7 @@ public class SenderActivity extends AppCompatActivity {
                     editTextQYWXAppToUser.getText().toString().trim(),
                     switchQYWXAppAtAll.isChecked());
             if (!QYWXAppSettingVoNew.checkParms()) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_webcom_app_parm, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_webcom_app_parm, 3000);
                 return;
             }
 
@@ -1154,11 +1154,11 @@ public class SenderActivity extends AppCompatActivity {
                     editTextQYWXAppToUser.getText().toString().trim(),
                     switchQYWXAppAtAll.isChecked());
             if (!QYWXAppSettingVoNew.checkParms()) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_webcom_app_parm, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_webcom_app_parm, 3000);
                 return;
             }
             if (QYWXAppSettingVoNew.getToUser().isEmpty()) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_at_mobiles, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_at_mobiles, 3000);
                 return;
             }
 
@@ -1166,7 +1166,7 @@ public class SenderActivity extends AppCompatActivity {
                 SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
                 SenderQyWxAppMsg.sendMsg(0, handler, null, senderModel, QYWXAppSettingVoNew, smsVo.getSmsVoForSend());
             } catch (Exception e) {
-                Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(getString(R.string.failed_to_fwd) + e.getMessage(), 3000);
                 e.printStackTrace();
             }
         });
@@ -1211,13 +1211,13 @@ public class SenderActivity extends AppCompatActivity {
             String senderName = editTextServerChanName.getText().toString().trim();
             int senderStatus = switchServerChanEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_name, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_name, 3000);
                 return;
             }
 
             String serverChanServer = editTextServerChanSendKey.getText().trim();
             if (TextUtils.isEmpty(serverChanServer)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_sendkey, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_sendkey, 3000);
                 return;
             }
             ServerChanSettingVo serverChanSettingVoNew = new ServerChanSettingVo(serverChanServer);
@@ -1255,7 +1255,7 @@ public class SenderActivity extends AppCompatActivity {
         buttonServerChanTest.setOnClickListener(view -> {
             String serverChanServer = editTextServerChanSendKey.getText().trim();
             if (TextUtils.isEmpty(serverChanServer)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_sendkey, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_sendkey, 3000);
                 return;
             }
 
@@ -1263,7 +1263,7 @@ public class SenderActivity extends AppCompatActivity {
                 SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
                 SenderServerChanMsg.sendMsg(0, handler, null, serverChanServer, smsVo.getMobile(), smsVo.getSmsVoForSend());
             } catch (Exception e) {
-                Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(getString(R.string.failed_to_fwd) + e.getMessage(), 3000);
                 e.printStackTrace();
             }
         });
@@ -1363,14 +1363,14 @@ public class SenderActivity extends AppCompatActivity {
             String senderName = editTextTelegramName.getText().toString().trim();
             int senderStatus = switchTelegramEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_name, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_name, 3000);
                 return;
             }
 
             String apiToken = editTextTelegramApiToken.getText().trim();
             String chatId = editTextTelegramChatId.getText().toString().trim();
             if (apiToken.isEmpty() || chatId.isEmpty()) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_apiToken_or_chatId, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_apiToken_or_chatId, 3000);
                 return;
             }
 
@@ -1378,7 +1378,7 @@ public class SenderActivity extends AppCompatActivity {
             String proxyHost = editTextProxyHost.getText().toString().trim();
             String proxyPort = editTextProxyPort.getText().toString().trim();
             if (proxyTypeId != R.id.btnProxyNone && (TextUtils.isEmpty(proxyHost) || TextUtils.isEmpty(proxyPort))) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_host_or_port, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_host_or_port, 3000);
                 return;
             }
 
@@ -1386,7 +1386,7 @@ public class SenderActivity extends AppCompatActivity {
             String proxyUsername = editTextProxyUsername.getText().toString().trim();
             String proxyPassword = editTextProxyPassword.getText().trim();
             if (proxyAuthenticator && TextUtils.isEmpty(proxyUsername) && TextUtils.isEmpty(proxyPassword)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_username_or_password, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_username_or_password, 3000);
                 return;
             }
 
@@ -1427,7 +1427,7 @@ public class SenderActivity extends AppCompatActivity {
             String apiToken = editTextTelegramApiToken.getText().trim();
             String chatId = editTextTelegramChatId.getText().toString().trim();
             if (apiToken.isEmpty() || chatId.isEmpty()) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_apiToken_or_chatId, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_apiToken_or_chatId, 3000);
                 return;
             }
 
@@ -1435,7 +1435,7 @@ public class SenderActivity extends AppCompatActivity {
             String proxyHost = editTextProxyHost.getText().toString().trim();
             String proxyPort = editTextProxyPort.getText().toString().trim();
             if (proxyTypeId != R.id.btnProxyNone && (TextUtils.isEmpty(proxyHost) || TextUtils.isEmpty(proxyPort))) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_host_or_port, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_host_or_port, 3000);
                 return;
             }
 
@@ -1443,7 +1443,7 @@ public class SenderActivity extends AppCompatActivity {
             String proxyUsername = editTextProxyUsername.getText().toString().trim();
             String proxyPassword = editTextProxyPassword.getText().trim();
             if (proxyAuthenticator && TextUtils.isEmpty(proxyUsername) && TextUtils.isEmpty(proxyPassword)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_username_or_password, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_username_or_password, 3000);
                 return;
             }
 
@@ -1454,7 +1454,7 @@ public class SenderActivity extends AppCompatActivity {
                 TelegramSettingVo telegramSettingVoNew = new TelegramSettingVo(apiToken, chatId, proxyTypeId, proxyHost, proxyPort, proxyAuthenticator, proxyUsername, proxyPassword, method);
                 SenderTelegramMsg.sendMsg(0, handler, null, telegramSettingVoNew, smsVo.getMobile(), smsVo.getSmsVoForSend(), telegramSettingVoNew.getMethod());
             } catch (Exception e) {
-                Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(getString(R.string.failed_to_fwd) + e.getMessage(), 3000);
                 e.printStackTrace();
             }
         });
@@ -1505,14 +1505,14 @@ public class SenderActivity extends AppCompatActivity {
             String senderName = editTextSmsName.getText().toString().trim();
             int senderStatus = switchSmsEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_name, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_name, 3000);
                 return;
             }
 
             Boolean onlyNoNetwork = switchSmsOnlyNoNetwork.isChecked();
             String mobiles = editTextSmsMobiles.getText().toString().trim();
             if (TextUtils.isEmpty(mobiles)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_phone_num, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_phone_num, 3000);
                 return;
             }
 
@@ -1561,7 +1561,7 @@ public class SenderActivity extends AppCompatActivity {
             Boolean onlyNoNetwork = switchSmsOnlyNoNetwork.isChecked();
             String mobiles = editTextSmsMobiles.getText().toString().trim();
             if (TextUtils.isEmpty(mobiles)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_phone_num, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_phone_num, 3000);
                 return;
             }
 
@@ -1569,7 +1569,7 @@ public class SenderActivity extends AppCompatActivity {
                 SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
                 SenderSmsMsg.sendMsg(0, handler, simSlot, mobiles, onlyNoNetwork, smsVo.getMobile(), smsVo.getSmsVoForSend());
             } catch (Exception e) {
-                Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(getString(R.string.failed_to_fwd) + e.getMessage(), 3000);
                 e.printStackTrace();
             }
         });
@@ -1616,14 +1616,14 @@ public class SenderActivity extends AppCompatActivity {
             String senderName = editTextFeishuName.getText().toString().trim();
             int senderStatus = switchFeishuEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_name, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_name, 3000);
                 return;
             }
 
             String webHook = editTextFeishuWebhook.getText().toString().trim();
             String secret = editTextFeishuSecret.getText().trim();
             if (!CommonUtil.checkUrl(webHook, false)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_webhook, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_webhook, 3000);
                 return;
             }
 
@@ -1662,7 +1662,7 @@ public class SenderActivity extends AppCompatActivity {
             String webHook = editTextFeishuWebhook.getText().toString().trim();
             String secret = editTextFeishuSecret.getText().trim();
             if (!CommonUtil.checkUrl(webHook, false)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_webhook, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_webhook, 3000);
                 return;
             }
 
@@ -1670,7 +1670,7 @@ public class SenderActivity extends AppCompatActivity {
                 SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
                 SenderFeishuMsg.sendMsg(0, handler, null, webHook, secret, smsVo.getMobile(), new Date(), smsVo.getSmsVoForSend());
             } catch (Exception e) {
-                Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(getString(R.string.failed_to_fwd) + e.getMessage(), 3000);
                 e.printStackTrace();
             }
         });
@@ -1730,7 +1730,7 @@ public class SenderActivity extends AppCompatActivity {
             String senderName = editTextPushPlusName.getText().toString().trim();
             int senderStatus = switchPushPlusEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_name, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_name, 3000);
                 return;
             }
 
@@ -1745,7 +1745,7 @@ public class SenderActivity extends AppCompatActivity {
                     editTextPushPlusTitle.getText().toString().trim()
             );
             if (TextUtils.isEmpty(pushPlusSettingVoNew.getToken())) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_token, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_token, 3000);
                 return;
             }
 
@@ -1797,7 +1797,7 @@ public class SenderActivity extends AppCompatActivity {
             );
 
             if (TextUtils.isEmpty(pushPlusSettingVoNew.getToken())) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_token, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_token, 3000);
                 return;
             }
 
@@ -1805,7 +1805,7 @@ public class SenderActivity extends AppCompatActivity {
                 SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
                 SenderPushPlusMsg.sendMsg(0, handler, null, pushPlusSettingVoNew, smsVo.getTitleForSend(title), smsVo.getSmsVoForSend());
             } catch (Exception e) {
-                Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(getString(R.string.failed_to_fwd) + e.getMessage(), 3000);
                 e.printStackTrace();
             }
         });
@@ -1884,13 +1884,13 @@ public class SenderActivity extends AppCompatActivity {
             String senderName = editTextGotifyName.getText().toString().trim();
             int senderStatus = switchGotifyEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_name, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_name, 3000);
                 return;
             }
 
             String webServer = editTextGotifyWebServer.getText().trim();
             if (!CommonUtil.checkUrl(webServer, false)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_webserver, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_webserver, 3000);
                 return;
             }
 
@@ -1934,7 +1934,7 @@ public class SenderActivity extends AppCompatActivity {
         buttonGotifyTest.setOnClickListener(view -> {
             String webServer = editTextGotifyWebServer.getText().trim();
             if (!CommonUtil.checkUrl(webServer, false)) {
-                Toast.makeText(SenderActivity.this, R.string.invalid_webserver, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.invalid_webserver, 3000);
                 return;
             }
 
@@ -1949,7 +1949,7 @@ public class SenderActivity extends AppCompatActivity {
                 SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
                 SenderGotifyMsg.sendMsg(0, handler, null, gotifySettingVoNew, smsVo.getTitleForSend(title), smsVo.getSmsVoForSend());
             } catch (Exception e) {
-                Toast.makeText(SenderActivity.this, getString(R.string.failed_to_fwd) + e.getMessage(), Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(getString(R.string.failed_to_fwd) + e.getMessage(), 3000);
                 e.printStackTrace();
             }
 

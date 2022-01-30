@@ -9,10 +9,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
+import com.hjq.toast.ToastUtils;
 import com.idormy.sms.forwarder.R;
 
 public class KeepAliveUtils {
@@ -38,7 +38,7 @@ public class KeepAliveUtils {
         if (resolveInfo != null) {
             activity.startActivity(intent);
         } else {
-            Toast.makeText(activity, R.string.unsupport, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(R.string.unsupport);
         }
     }
 }

@@ -20,7 +20,6 @@ import android.view.Window;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -29,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
+import com.hjq.toast.ToastUtils;
 import com.idormy.sms.forwarder.adapter.LogAdapter;
 import com.idormy.sms.forwarder.model.vo.LogVo;
 import com.idormy.sms.forwarder.sender.HttpServer;
@@ -171,9 +171,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
                     @Override
                     public void onGranted(List<String> permissions, boolean all) {
                         if (all) {
-                            Toast.makeText(getBaseContext(), R.string.toast_granted_all, Toast.LENGTH_SHORT).show();
+                            ToastUtils.show(R.string.toast_granted_all);
                         } else {
-                            Toast.makeText(getBaseContext(), R.string.toast_granted_part, Toast.LENGTH_SHORT).show();
+                            ToastUtils.show(R.string.toast_granted_part);
                         }
                         SettingUtil.switchEnableSms(true);
                     }
@@ -181,11 +181,11 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
                     @Override
                     public void onDenied(List<String> permissions, boolean never) {
                         if (never) {
-                            Toast.makeText(getBaseContext(), R.string.toast_denied_never, Toast.LENGTH_SHORT).show();
+                            ToastUtils.show(R.string.toast_denied_never);
                             // 如果是被永久拒绝就跳转到应用权限系统设置页面
                             XXPermissions.startPermissionActivity(MainActivity.this, permissions);
                         } else {
-                            Toast.makeText(getBaseContext(), R.string.toast_denied, Toast.LENGTH_SHORT).show();
+                            ToastUtils.show(R.string.toast_denied);
                         }
                         SettingUtil.switchEnableSms(false);
                     }
@@ -248,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
                 LogUtil.delLog(id1, null);
                 initTLogs(); //初始化数据
                 showList(logVos);
-                Toast.makeText(getBaseContext(), R.string.delete_log_toast, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(R.string.delete_log_toast);
             });
 
             //添加AlertDialog.Builder对象的setNegativeButton()方法
@@ -293,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
             //省电优化设置为无限制
             if (MyApplication.showHelpTip && Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                 if (!KeepAliveUtils.isIgnoreBatteryOptimization(this)) {
-                    Toast.makeText(this, R.string.tips_battery_optimization, Toast.LENGTH_LONG).show();
+                    ToastUtils.delayedShow(R.string.tips_battery_optimization, 3000);
                 }
             }
 
@@ -301,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
             if (SettingUtil.getSwitchEnableAppNotify() && !CommonUtil.isNotificationListenerServiceEnabled(this)) {
                 CommonUtil.toggleNotificationListenerService(this);
                 SettingUtil.switchEnableAppNotify(false);
-                Toast.makeText(this, R.string.tips_notification_listener, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.tips_notification_listener, 3000);
                 return;
             }
 
@@ -349,10 +349,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
 
         if (requestCode == CommonUtil.NOTIFICATION_REQUEST_CODE) {
             if (CommonUtil.isNotificationListenerServiceEnabled(this)) {
-                Toast.makeText(this, R.string.notification_listener_service_enabled, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(R.string.notification_listener_service_enabled);
                 CommonUtil.toggleNotificationListenerService(this);
             } else {
-                Toast.makeText(this, R.string.notification_listener_service_disabled, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(R.string.notification_listener_service_disabled);
             }
         }
     }
@@ -411,7 +411,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
             LogUtil.delLog(id, null);
             initTLogs(); //初始化数据
             showList(logVos);
-            Toast.makeText(MainActivity.this, R.string.delete_log_toast, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(R.string.delete_log_toast);
             dialog.dismiss();
         });
 
@@ -424,7 +424,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         //对于发送失败的消息添加重发按钮
         if (logVo.getForwardStatus() != 2) {
             builder.setPositiveButton(R.string.resend, (dialog, which) -> {
-                Toast.makeText(MainActivity.this, R.string.resend_toast, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(R.string.resend_toast);
                 SendUtil.resendMsgByLog(MainActivity.this, handler, logVo);
                 dialog.dismiss();
             });

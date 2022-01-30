@@ -3,12 +3,12 @@ package com.idormy.sms.forwarder.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.hjq.toast.ToastUtils;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -92,7 +92,7 @@ public class HttpUtil {
     public static void Toast(String Tag, String data) {
         Log.i(Tag, data);
         try {
-            Toast.makeText(HttpUtil.context, Tag + "-" + data, Toast.LENGTH_LONG).show();
+            ToastUtils.delayedShow(Tag + "-" + data, 3000);
         } catch (Exception e) {
             e.printStackTrace();
         }

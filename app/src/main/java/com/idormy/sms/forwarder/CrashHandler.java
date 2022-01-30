@@ -7,9 +7,10 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+
+import com.hjq.toast.ToastUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -99,7 +100,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             @Override
             public void run() {
                 Looper.prepare();
-                Toast.makeText(mContext, R.string.crash_tip, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.crash_tip, 3000);
                 Looper.loop();
             }
         }.start();

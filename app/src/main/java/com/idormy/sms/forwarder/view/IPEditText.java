@@ -10,8 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
+import com.hjq.toast.ToastUtils;
 import com.idormy.sms.forwarder.R;
 
 import java.util.regex.Pattern;
@@ -58,7 +58,7 @@ public class IPEditText extends LinearLayout {
                     ip1 = ip1.substring(0, lenIp1 - 1);
                     Edit1.setText(ip1);
                     Edit1.setSelection(ip1.length());
-                    Toast.makeText(context, R.string.invalid_ip, Toast.LENGTH_LONG).show();
+                    ToastUtils.delayedShow(R.string.invalid_ip, 3000);
                     return;
                 }
                 //非空输入 . 跳到下一个输入框
@@ -94,7 +94,7 @@ public class IPEditText extends LinearLayout {
                     ip2 = ip2.substring(0, lenIp2 - 1);
                     Edit2.setText(ip2);
                     Edit2.setSelection(ip2.length());
-                    Toast.makeText(context, R.string.invalid_ip, Toast.LENGTH_LONG).show();
+                    ToastUtils.delayedShow(R.string.invalid_ip, 3000);
                     return;
                 }
                 //非空输入 . 跳到下一个输入框
@@ -131,7 +131,7 @@ public class IPEditText extends LinearLayout {
                     ip3 = ip3.substring(0, lenIp3 - 1);
                     Edit3.setText(ip3);
                     Edit3.setSelection(ip3.length());
-                    Toast.makeText(context, R.string.invalid_ip, Toast.LENGTH_LONG).show();
+                    ToastUtils.delayedShow(R.string.invalid_ip, 3000);
                     return;
                 }
                 //非空输入 . 跳到下一个输入框
@@ -168,7 +168,7 @@ public class IPEditText extends LinearLayout {
                     ip4 = ip4.substring(0, lenIp4 - 1);
                     Edit4.setText(ip4);
                     Edit4.setSelection(ip4.length());
-                    Toast.makeText(context, R.string.invalid_ip, Toast.LENGTH_LONG).show();
+                    ToastUtils.delayedShow(R.string.invalid_ip, 3000);
                 }
             }
 

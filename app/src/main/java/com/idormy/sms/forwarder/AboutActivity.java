@@ -6,13 +6,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
+import com.hjq.toast.ToastUtils;
 import com.idormy.sms.forwarder.receiver.RebootBroadcastReceiver;
 import com.idormy.sms.forwarder.utils.CacheUtil;
 import com.idormy.sms.forwarder.utils.CommonUtil;
@@ -25,7 +25,6 @@ import java.util.List;
 
 public class AboutActivity extends AppCompatActivity {
 
-    @SuppressWarnings("FieldCanBeLocal")
     private final String TAG = "AboutActivity";
 
     @Override
@@ -46,9 +45,9 @@ public class AboutActivity extends AppCompatActivity {
                     @Override
                     public void onGranted(List<String> permissions, boolean all) {
                         if (all) {
-                            Toast.makeText(getBaseContext(), R.string.toast_granted_all, Toast.LENGTH_SHORT).show();
+                            ToastUtils.show(R.string.toast_granted_all);
                         } else {
-                            Toast.makeText(getBaseContext(), R.string.toast_granted_part, Toast.LENGTH_SHORT).show();
+                            ToastUtils.show(R.string.toast_granted_part);
                         }
                         SettingUtil.switchEnableSms(true);
                     }
@@ -56,11 +55,11 @@ public class AboutActivity extends AppCompatActivity {
                     @Override
                     public void onDenied(List<String> permissions, boolean never) {
                         if (never) {
-                            Toast.makeText(getBaseContext(), R.string.toast_denied_never, Toast.LENGTH_SHORT).show();
+                            ToastUtils.show(R.string.toast_denied_never);
                             // 如果是被永久拒绝就跳转到应用权限系统设置页面
                             XXPermissions.startPermissionActivity(AboutActivity.this, permissions);
                         } else {
-                            Toast.makeText(getBaseContext(), R.string.toast_denied, Toast.LENGTH_SHORT).show();
+                            ToastUtils.show(R.string.toast_denied);
                         }
                         SettingUtil.switchEnableSms(false);
                     }
@@ -78,20 +77,21 @@ public class AboutActivity extends AppCompatActivity {
             try {
                 String updateUrl = "https://xupdate.bms.ink/update/checkVersion?appKey=com.idormy.sms.forwarder&versionCode=";
                 updateUrl += CommonUtil.getVersionCode(AboutActivity.this);
+                Log.d(TAG, updateUrl);
 
                 EasyUpdate.create(AboutActivity.this, updateUrl)
                         .updateChecker(new DefaultUpdateChecker() {
                             @Override
                             public void onBeforeCheck() {
                                 super.onBeforeCheck();
-                                Toast.makeText(AboutActivity.this, R.string.checking, Toast.LENGTH_LONG).show();
+                                ToastUtils.delayedShow(R.string.checking, 3000);
                             }
 
                             @Override
                             public void noNewVersion(Throwable throwable) {
                                 super.noNewVersion(throwable);
                                 // 没有最新版本的处理
-                                Toast.makeText(AboutActivity.this, R.string.up_to_date, Toast.LENGTH_LONG).show();
+                                ToastUtils.delayedShow(R.string.up_to_date, 3000);
                             }
                         })
                         .update();
@@ -115,7 +115,7 @@ public class AboutActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            Toast.makeText(AboutActivity.this, R.string.cache_purged, Toast.LENGTH_LONG).show();
+            ToastUtils.delayedShow(R.string.cache_purged, 3000);
         });
 
         Button join_qq_group1 = findViewById(R.id.join_qq_group1);
@@ -142,7 +142,7 @@ public class AboutActivity extends AppCompatActivity {
             startActivity(intent);
         } catch (Exception e) {
             // 未安装手Q或安装的版本不支持
-            Toast.makeText(AboutActivity.this, R.string.unknown_qq_version, Toast.LENGTH_LONG).show();
+            ToastUtils.delayedShow(R.string.unknown_qq_version, 3000);
         }
     }
 
