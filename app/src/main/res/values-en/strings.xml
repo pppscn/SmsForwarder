@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SmsForwarder</string>
-    <string name="notification_content">Forward SMS (and others!) to another app/device, a must-have for anyones\' secondary smartphone. Free and open source, do NOT buy or sell this App.</string>
+    <string name="notification_content">Forward SMS (and others!) to another app/device, a must-have for anyones\' secondary smartphone. \nFree and open source, do NOT buy or sell this App.</string>
     <!--Common-->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
