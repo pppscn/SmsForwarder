@@ -31,9 +31,6 @@ android {
             abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86'//, 'x86_64'
         }
     }
-    lintOptions {
-        checkReleaseBuilds false
-    }
     signingConfigs {
         release {
             keyAlias keyProps['keyAlias']
@@ -52,13 +49,13 @@ android {
         release {
             minifyEnabled false
             //shrinkResources true
-            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
         debug {
             minifyEnabled false
             //shrinkResources true
-            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
         }
     }
@@ -72,6 +69,11 @@ android {
         }
     }
     def abiCodes = ['universal': 1, 'armeabi-v7a': 2, 'arm64-v8a': 3, 'x86': 4, 'x86_64': 5]
+    packagingOptions {
+        resources {
+            excludes += ['META-INF/DEPENDENCIES.txt', 'META-INF/LICENSE.txt', 'META-INF/NOTICE.txt', 'META-INF/NOTICE', 'META-INF/LICENSE', 'META-INF/DEPENDENCIES', 'META-INF/notice.txt', 'META-INF/license.txt', 'META-INF/dependencies.txt', 'META-INF/LGPL2.1']
+        }
+    }
     android.applicationVariants.all { variant ->
         // Assigns a different version code for each output APK.
         variant.outputs.each {
@@ -80,21 +82,12 @@ android {
                 def abiName = output.getFilter(com.android.build.OutputFile.ABI)
                 if (abiName == null) abiName = "universal"
                 output.versionCodeOverride = abiCodes.get(abiName, 0) * 100000 + variant.versionCode
-                output.outputFileName = "SmsForwarder_${variant.name}_${versionName}_${output.versionCodeOverride}_${date}_${abiName}.apk"
+                output.outputFileName = "SmsForwarder_${variant.name}_${versionName}_${output.versionCode}_${date}_${abiName}.apk"
         }
     }
 
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/dependencies.txt'
-        exclude 'META-INF/LGPL2.1'
+    lint {
+        checkReleaseBuilds false
     }
 }
 
@@ -138,7 +131,6 @@ void cmdExecute(String cmd) {
     println cmd.execute().text
 }
 
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleDependency
@@ -146,7 +138,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     //noinspection GradleDependency
     implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.5.2'
-    implementation 'com.google.android.material:material:1.5.0'
+    //implementation 'com.google.android.material:material:1.5.0'
     //noinspection GradleDynamicVersion
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
@@ -159,12 +151,6 @@ dependencies {
 
     //fastjson
     implementation "com.alibaba:fastjson:1.2.79"
-
-    //友盟统计SDK
-    implementation 'com.umeng.umsdk:common:9.4.6'// 必选
-    implementation 'com.umeng.umsdk:asms:1.6.0'// asms包依赖必选
-    implementation 'com.umeng.umsdk:apm:1.5.2'// 错误分析升级为独立SDK，看crash数据请一定集成，可选
-    //implementation 'com.umeng.umsdk:abtest:1.0.0'//使用U-App中ABTest能力，可选
 
     //XUpdate
     implementation 'com.github.xuexiangjys:XUpdate:2.1.1'
@@ -193,5 +179,12 @@ dependencies {
     //jetty
     implementation "org.eclipse.jetty:jetty-server:9.2.30.v20200428"
     implementation "org.eclipse.jetty:jetty-servlet:9.2.30.v20200428"
+
+    //FloatingActionButton
+    implementation 'com.melnykov:floatingactionbutton:1.3.0'
+
+    //友盟统计SDK
+    implementation 'com.umeng.umsdk:common:9.4.7'// (必选)
+    implementation 'com.umeng.umsdk:asms:1.6.0'// 必选
 
 }

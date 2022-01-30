@@ -38,7 +38,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.fastjson.JSON;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.idormy.sms.forwarder.adapter.SenderAdapter;
 import com.idormy.sms.forwarder.model.SenderModel;
 import com.idormy.sms.forwarder.model.vo.BarkSettingVo;
@@ -72,6 +71,7 @@ import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.RuleUtil;
 import com.idormy.sms.forwarder.view.ClearEditText;
 import com.idormy.sms.forwarder.view.StepBar;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.net.Proxy;
 import java.util.ArrayList;

@@ -153,7 +153,7 @@
     <string name="ServerChanSendKey">ServerChan\'s SendKey</string>
     <string name="TelegramApiToken">ApiToken or Custom address</string>
     <string name="TelegramChatId">ChatId</string>
-    <string name="Method">Method</string>
+    <string name="Method" formatted="false">Method</string>
     <string name="WebNotifyWebServer">WebServer</string>
     <string name="WebNotifyWebServerTips">e.g. https://a.b.com/msg?token=xyz</string>
     <string name="WebNotifyWebParams">WebParams</string>
@@ -170,7 +170,7 @@
     <string name="sim2_remark" tools:ignore="Typos">SIM2 Label</string>
     <string name="carrier_mobile" tools:ignore="Typos">Label of SIM,\neg. AT&amp;T_88888888</string>
     <string name="low_power_alarm_threshold">Low power alarm</string>
-    <string name="low_power_alarm_threshold_tips">Value range: 0–100.\nLeft blank or 0 is disabled</string>
+    <string name="low_power_alarm_threshold_tips">Value range: 0–99.\nLeft blank or 0 is disabled</string>
     <string name="retry_interval">Retry interval</string>
     <string name="retry_interval_tips">Disabled when times = 0,\nthe interval is incremented</string>
     <string name="forward_sms">Forward sms</string>

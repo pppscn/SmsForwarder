@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnCleanLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,7 +17,21 @@
         android:src="@drawable/ic_delete"
         app:borderWidth="0dp"
         app:elevation="5dp"
-        app:fabSize="mini" />
+        app:fabSize="mini" />-->
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/btnCleanLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="90dp"
+        android:src="@drawable/ic_delete"
+        app:fab_type="mini"
+        app:fab_colorNormal="@color/colorPrimary"
+        app:fab_colorPressed="@color/colorPrimaryDark"
+        app:fab_colorRipple="@color/colorAccent" />
 
     <LinearLayout
         android:id="@+id/radioGroup"

@@ -23,7 +23,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.idormy.sms.forwarder.adapter.RuleAdapter;
 import com.idormy.sms.forwarder.model.RuleModel;
 import com.idormy.sms.forwarder.model.SenderModel;
@@ -35,6 +34,7 @@ import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.RuleUtil;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.idormy.sms.forwarder.view.StepBar;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -133,11 +133,11 @@ public class RuleActivity extends AppCompatActivity {
 
 
         //计算浮动按钮位置
-        FloatingActionButton btnFloat = findViewById(R.id.btnFloat);
-        CommonUtil.calcMarginBottom(this, btnFloat, listView, null);
+        FloatingActionButton btnAddRule = findViewById(R.id.btnAddRule);
+        CommonUtil.calcMarginBottom(this, btnAddRule, listView, null);
 
         //添加规则
-        btnFloat.setOnClickListener(v -> setRule(null, false));
+        btnAddRule.setOnClickListener(v -> setRule(null, false));
 
         //步骤完成状态校验
         StepBar stepBar = findViewById(R.id.stepBar);

@@ -153,7 +153,7 @@
     <string name="ServerChanSendKey">Server酱·Turbo版的SendKey</string>
     <string name="TelegramApiToken">Telegram机器人的ApiToken 或 自定义地址(http开头)</string>
     <string name="TelegramChatId">被通知人(或群组)的ChatId</string>
-    <string name="Method">请求方式</string>
+    <string name="Method" formatted="false">请求方式</string>
     <string name="WebNotifyWebServer">WebServer</string>
     <string name="WebNotifyWebServerTips">例如：https://a.b.com/msg?token=xyz</string>
     <string name="WebNotifyWebParams">WebParams</string>
@@ -170,7 +170,7 @@
     <string name="sim2_remark" tools:ignore="Typos">SIM2备注</string>
     <string name="carrier_mobile">运营商_手机号</string>
     <string name="low_power_alarm_threshold">电量预警阈值(%)</string>
-    <string name="low_power_alarm_threshold_tips">取值范围：0–100，0禁用</string>
+    <string name="low_power_alarm_threshold_tips">取值范围：0–99，0禁用</string>
     <string name="retry_interval">请求接口失败重试</string>
     <string name="retry_interval_tips">次数=0时禁用，间隔逐次递增</string>
     <string name="forward_sms">转发短信广播</string>
