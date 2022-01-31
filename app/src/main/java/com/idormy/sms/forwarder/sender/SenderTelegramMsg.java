@@ -88,7 +88,7 @@ public class SenderTelegramMsg extends SenderBaseMsg {
                 .build();
 
         final Request request;
-        if (method.equals("GET")) {
+        if (method != null && method.equals("GET")) {
             request = new Request.Builder()
                     .url(requestUrl + "?chat_id=" + chatId + "&text=" + URLEncoder.encode(finalText, "UTF-8"))
                     .build();

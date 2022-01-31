@@ -1,5 +1,7 @@
 package com.idormy.sms.forwarder.model.vo;
 
+import android.text.TextUtils;
+
 import com.idormy.sms.forwarder.R;
 
 import java.io.Serializable;
@@ -44,7 +46,7 @@ public class TelegramSettingVo implements Serializable {
         this.proxyAuthenticator = proxyAuthenticator;
         this.proxyUsername = proxyUsername;
         this.proxyPassword = proxyPassword;
-        this.method = method;
+        this.method = TextUtils.isEmpty(method) ? "POST" : method;
     }
 
     public int getProxyTypeCheckId() {
