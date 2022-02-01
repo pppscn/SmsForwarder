@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -538,6 +539,12 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         dialog.setContentView(inflate);
         Window dialogWindow = dialog.getWindow();
         dialogWindow.setGravity(Gravity.CENTER);
+
+        //自适应大小
+        WindowManager.LayoutParams dialogParams = dialogWindow.getAttributes();
+        dialogParams.width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.85);
+        //dialogParams.height = (int) (context.getResources().getDisplayMetrics().heightPixels * 0.7);
+        dialogWindow.setAttributes(dialogParams);
 
         dialog.setCancelable(false);
         dialog.show();
