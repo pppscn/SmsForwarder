@@ -132,7 +132,8 @@
                             android:id="@+id/cbCallType3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="-6dp"
+                            android:layout_marginStart="-15dp"
+                            android:padding="0dp"
                             android:scaleX="0.7"
                             android:scaleY="0.7"
                             android:text="@string/missed_call" />
@@ -141,7 +142,7 @@
                             android:id="@+id/cbCallType1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="-16dp"
+                            android:layout_marginStart="-25dp"
                             android:scaleX="0.7"
                             android:scaleY="0.7"
                             android:text="@string/received_call" />
@@ -150,7 +151,7 @@
                             android:id="@+id/cbCallType2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="-16dp"
+                            android:layout_marginStart="-25dp"
                             android:scaleX="0.7"
                             android:scaleY="0.7"
                             android:text="@string/local_outgoing_call" />
@@ -447,7 +448,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:text="@string/below"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -477,7 +478,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:text="@string/above"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -678,7 +679,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:text="@string/retry"
                     android:textStyle="bold" />
 

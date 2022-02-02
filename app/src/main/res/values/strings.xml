@@ -169,16 +169,16 @@
     <string name="sim1_remark" tools:ignore="Typos">SIM1备注</string>
     <string name="sim2_remark" tools:ignore="Typos">SIM2备注</string>
     <string name="carrier_mobile">运营商_手机号</string>
-    <string name="low_power_alarm_threshold">电量预警阈值(%)</string>
-    <string name="low_power_alarm_threshold_tips">取值范围：0–99，0禁用</string>
+    <string name="low_power_alarm_threshold">电量预警(%)</string>
+    <string name="low_power_alarm_threshold_tips">取值：0–99，0禁用</string>
     <string name="retry_interval">请求接口失败重试</string>
     <string name="retry_interval_tips">次数=0时禁用，间隔逐次递增</string>
     <string name="forward_sms">转发短信广播</string>
-    <string name="forward_sms_tips">请先授予读取短信、通知类短信、发送短信等权限，关闭验证码保护</string>
+    <string name="forward_sms_tips">请授予读取短信、通知类短信、发送短信等权限，关闭验证码保护</string>
     <string name="forward_missed_calls">转发通话记录</string>
-    <string name="forward_missed_calls_tips">请先授予读取通话记录、联系人等权限，并选择转发类型，再开启</string>
+    <string name="forward_missed_calls_tips">请授予读取通话记录、联系人等权限，并选择转发类型，再开启</string>
     <string name="forward_app_notify">转发应用通知</string>
-    <string name="forward_app_notify_tips">请先授予通知使用权，再开启；开启“自动消除”可避免多条通知堆叠</string>
+    <string name="forward_app_notify_tips">请授予通知使用权再开启；开启“自动消除”可避免多条通知堆叠</string>
     <string name="cancel_app_notify">自动消除通知</string>
     <string name="enable_custom_templates">启用自定义模版</string>
     <string name="enable_custom_templates_tips">优先级：转发规则的自定义模板 > 全局自定义模版 > 默认</string>
@@ -322,9 +322,9 @@
     <string name="battery_monitor">电池监控</string>
     <string name="battery_monitor_tips">【注意】需要手动创建APP转发规则，包名：88888888</string>
     <string name="keep_alive">保活措施</string>
-    <string name="keep_alive_tips">建议开启每一项授权或设置，不要禁用通知栏，避免APP服务被杀</string>
+    <string name="keep_alive_tips">建议开启每一项授权或设置，不要禁用通知栏，避免APP被杀</string>
     <string name="custom_settings">个性设置</string>
-    <string name="custom_settings_tips">如果自动获取失败，请手动填写备注信息；清空后将再次自动获取！</string>
+    <string name="custom_settings_tips">如果自动获取失败，请手动填写备注 或 清空后再次自动获取</string>
     <string name="times">次</string>
     <string name="interval">间隔</string>
     <string name="seconds">秒</string>
