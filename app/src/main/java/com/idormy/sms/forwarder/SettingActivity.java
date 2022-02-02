@@ -216,7 +216,7 @@ public class SettingActivity extends AppCompatActivity {
                                 } else {
                                     ToastUtils.show(R.string.toast_granted_part);
                                 }
-                                SettingUtil.switchEnableSms(true);
+                                SettingUtil.switchEnablePhone(true);
                             }
 
                             @Override
@@ -228,7 +228,7 @@ public class SettingActivity extends AppCompatActivity {
                                 } else {
                                     ToastUtils.show(R.string.toast_denied);
                                 }
-                                SettingUtil.switchEnableSms(false);
+                                SettingUtil.switchEnablePhone(false);
                             }
                         });
             } else {
