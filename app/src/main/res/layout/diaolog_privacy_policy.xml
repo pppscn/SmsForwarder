@@ -47,12 +47,12 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/succsebtn"
+                    android:id="@+id/caclebtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/agree"
+                    android:text="@string/disagree"
                     android:textColor="#000"
                     android:textSize="20sp" />
 
@@ -62,12 +62,12 @@
                     android:background="#5F6063" />
 
                 <TextView
-                    android:id="@+id/caclebtn"
+                    android:id="@+id/succsebtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/disagree"
+                    android:text="@string/agree"
                     android:textColor="#000"
                     android:textSize="20sp" />
 
