@@ -3,7 +3,6 @@ package com.idormy.sms.forwarder.sender;
 import android.os.Handler;
 import android.util.Log;
 
-import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.utils.LogUtil;
 import com.smailnet.emailkit.Draft;
 import com.smailnet.emailkit.EmailKit;
@@ -22,7 +21,7 @@ public class SenderMailMsg extends SenderBaseMsg {
 
         try {
             //初始化框架
-            EmailKit.initialize(MyApplication.getContext());
+            //EmailKit.initialize(MyApplication.getContext());
 
             //配置发件人邮件服务器参数
             EmailKit.Config config = new EmailKit.Config()

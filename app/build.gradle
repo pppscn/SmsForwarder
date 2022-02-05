@@ -71,6 +71,8 @@ android {
     def abiCodes = ['universal': 1, 'armeabi-v7a': 2, 'arm64-v8a': 3, 'x86': 4, 'x86_64': 5]
     packagingOptions {
         resources {
+            pickFirst 'META-INF/LICENSE.md'
+            pickFirst 'META-INF/NOTICE.md'
             excludes += ['META-INF/DEPENDENCIES.txt', 'META-INF/LICENSE.txt', 'META-INF/NOTICE.txt', 'META-INF/NOTICE', 'META-INF/LICENSE', 'META-INF/DEPENDENCIES', 'META-INF/notice.txt', 'META-INF/license.txt', 'META-INF/dependencies.txt', 'META-INF/LGPL2.1']
         }
     }
@@ -159,6 +161,8 @@ dependencies {
 
     //EmailKit
     implementation 'com.github.mailhu:emailkit:4.2.2'
+    implementation 'com.sun.mail:android-mail:1.6.7'
+    implementation 'com.sun.mail:android-activation:1.6.7'
 
     //Lombok
     //noinspection AnnotationProcessorOnCompilePath

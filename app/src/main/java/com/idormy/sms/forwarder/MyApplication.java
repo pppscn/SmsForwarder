@@ -22,6 +22,7 @@ import com.idormy.sms.forwarder.utils.PermissionInterceptor;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.idormy.sms.forwarder.utils.SharedPreferencesHelper;
+import com.smailnet.emailkit.EmailKit;
 import com.umeng.commonsdk.UMConfigure;
 
 import java.util.ArrayList;
@@ -88,7 +89,7 @@ public class MyApplication extends Application {
 
             SendHistory.init(this);
             SettingUtil.init(this);
-            //EmailKit.initialize(this);
+            EmailKit.initialize(this);
 
             SharedPreferences sp = MyApplication.this.getSharedPreferences(Define.SP_CONFIG, Context.MODE_PRIVATE);
             showHelpTip = sp.getBoolean(Define.SP_CONFIG_SWITCH_HELP_TIP, true);
