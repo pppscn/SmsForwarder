@@ -145,7 +145,7 @@ public class SettingActivity extends AppCompatActivity {
                         // 接收短信
                         .permission(Permission.RECEIVE_SMS)
                         // 发送短信
-                        .permission(Permission.SEND_SMS)
+                        //.permission(Permission.SEND_SMS)
                         // 读取短信
                         .permission(Permission.READ_SMS)
                         .request(new OnPermissionCallback() {

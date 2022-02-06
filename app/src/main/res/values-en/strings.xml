@@ -26,6 +26,7 @@
     <string name="check_for_updates">Check for updates</string>
     <string name="auto_startup">Auto startup</string>
     <string name="show_tips">Show tips</string>
+    <string name="show_tips2">Suggest old bird close prompt, the page is more refreshing, reduce pop-up prompt</string>
     <string name="open_source">Repo URL</string>
     <string name="synchronize_mirror">Repo Mirror</string>
     <string name="qq_group">QQ Group</string>

@@ -26,6 +26,7 @@
     <string name="check_for_updates">检查新版本</string>
     <string name="auto_startup">开机启动</string>
     <string name="show_tips">帮助提示</string>
+    <string name="show_tips2">建议老鸟关闭提示，页面更清爽，减少弹窗提示</string>
     <string name="open_source">开源仓库</string>
     <string name="synchronize_mirror">同步镜像</string>
     <string name="qq_group">互帮互助QQ群</string>
