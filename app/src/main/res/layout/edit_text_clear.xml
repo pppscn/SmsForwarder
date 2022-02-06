@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:minHeight="45dp"
     android:orientation="horizontal">
 
     <ImageView
@@ -25,7 +24,6 @@
         android:id="@+id/view_edit_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@null"
         android:gravity="center|start"
         android:importantForAutofill="no"
         android:inputType="text"
