@@ -132,7 +132,7 @@
                             android:id="@+id/cbCallType3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="-15dp"
+                            android:layout_marginStart="-10dp"
                             android:padding="0dp"
                             android:scaleX="0.7"
                             android:scaleY="0.7"
@@ -218,7 +218,7 @@
                             android:id="@+id/checkbox_cancel_app_notify"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="-6dp"
+                            android:layout_marginStart="-10dp"
                             android:scaleX="0.7"
                             android:scaleY="0.7"
                             android:text="@string/cancel_app_notify" />
@@ -567,6 +567,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_battery_setting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"

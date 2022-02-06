@@ -99,7 +99,7 @@ public class SettingActivity extends AppCompatActivity {
         //开机启动
         checkWithReboot(findViewById(R.id.switch_with_reboot));
         //电池优化设置
-        batterySetting(findViewById(R.id.switch_battery_setting));
+        batterySetting(findViewById(R.id.layout_battery_setting), findViewById(R.id.switch_battery_setting));
         //不在最近任务列表中显示
         switchExcludeFromRecents(findViewById(R.id.switch_exclude_from_recents));
         //接口请求失败重试时间间隔
@@ -619,7 +619,13 @@ public class SettingActivity extends AppCompatActivity {
     //电池优化设置
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("UseSwitchCompatOrMaterialCode")
-    public void batterySetting(Switch switch_battery_setting) {
+    public void batterySetting(LinearLayout layout_battery_setting, Switch switch_battery_setting) {
+        //安卓6.0以下没有忽略电池优化
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.M) {
+            layout_battery_setting.setVisibility(View.GONE);
+            return;
+        }
+
         isIgnoreBatteryOptimization = KeepAliveUtils.isIgnoreBatteryOptimization(this);
         switch_battery_setting.setChecked(isIgnoreBatteryOptimization);
 
