@@ -37,6 +37,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.fastjson.JSON;
+import com.hjq.permissions.OnPermissionCallback;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.hjq.toast.ToastUtils;
 import com.idormy.sms.forwarder.adapter.SenderAdapter;
 import com.idormy.sms.forwarder.model.SenderModel;
@@ -1462,6 +1465,36 @@ public class SenderActivity extends AppCompatActivity {
 
     //短信
     private void setSms(final SenderModel senderModel, final boolean isClone) {
+        if (!isClone) {
+            XXPermissions.with(this)
+                    // 接收短信
+                    .permission(Permission.RECEIVE_SMS)
+                    // 发送短信
+                    .permission(Permission.SEND_SMS)
+                    // 读取短信
+                    .permission(Permission.READ_SMS)
+                    .request(new OnPermissionCallback() {
+
+                        @Override
+                        public void onGranted(List<String> permissions, boolean all) {
+                            if (!all) {
+                                ToastUtils.show(R.string.toast_granted_part);
+                            }
+                        }
+
+                        @Override
+                        public void onDenied(List<String> permissions, boolean never) {
+                            if (never) {
+                                ToastUtils.show(R.string.toast_denied_never);
+                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                XXPermissions.startPermissionActivity(SenderActivity.this, permissions);
+                            } else {
+                                ToastUtils.show(R.string.toast_denied);
+                            }
+                        }
+                    });
+        }
+
         SmsSettingVo smsSettingVo = null;
         //try phrase json setting
         if (senderModel != null) {
