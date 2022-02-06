@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.idormy.sms.forwarder.model.vo.GotifySettingVo;
+import com.idormy.sms.forwarder.utils.CertUtils;
 import com.idormy.sms.forwarder.utils.Define;
 import com.idormy.sms.forwarder.utils.LogUtil;
 
@@ -42,6 +43,8 @@ public class SenderGotifyMsg extends SenderBaseMsg {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         //设置重试拦截器
         if (retryInterceptor != null) builder.addInterceptor(retryInterceptor);
+        //忽略https证书
+        builder.sslSocketFactory(CertUtils.getSSLSocketFactory(), CertUtils.getX509TrustManager()).hostnameVerifier(CertUtils.getHostnameVerifier());
         //设置读取超时时间
         OkHttpClient client = builder
                 .readTimeout(Define.REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)
