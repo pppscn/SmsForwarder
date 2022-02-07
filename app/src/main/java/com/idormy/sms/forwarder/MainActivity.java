@@ -454,15 +454,11 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     }
 
     //menu点击事件
-    @SuppressWarnings("CommentedOutCode")
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
         switch (item.getItemId()) {
-            //case R.id.to_setting:
-            //    intent = new Intent(this, SettingActivity.class);
-            //    break;
             case R.id.to_app_list:
                 intent = new Intent(this, AppListActivity.class);
                 break;
@@ -487,7 +483,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     //设置menu图标显示
     @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
-        if (featureId == Window.FEATURE_ACTION_BAR && menu != null) {
+        Log.d(TAG, "onMenuOpened, featureId=" + featureId);
+        if (menu != null) {
             if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
                 try {
                     Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);

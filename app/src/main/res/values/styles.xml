@@ -7,12 +7,14 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="actionOverflowMenuStyle">@style/OverflowMenu</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="OverflowMenu" parent="Base.Widget.AppCompat.PopupMenu.Overflow">
         <item name="android:dropDownWidth">100dp</item>
         <!-- 是否覆盖锚点，默认为true，即盖住Toolbar -->
         <item name="overlapAnchor">false</item>
+        <item name="android:popupBackground">@color/colorPrimary</item>
     </style>
 
     <style name="rg_style">

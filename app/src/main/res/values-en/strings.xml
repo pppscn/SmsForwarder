@@ -116,7 +116,6 @@
     <string name="invalid_at_mobiles">The specified member cannot be blank or select @all</string>
     <string name="invalid_webcom_app_parm">CronID, AgentID and Secret cannot be blank</string>
     <string name="invalid_phone_num">Phone number cannot be blank</string>
-    <string name="new_sender">New Sender</string>
     <string name="set_bark_name">GroupName/Status</string>
     <string name="set_bark_server">Bark-Server</string>
     <string name="set_bark_server_tips"> e.g. https://day.app/XXXXXXXX/</string>
@@ -185,7 +184,6 @@
     <string name="enable_custom_templates_tips">Priority: custom template for forwarding rules > Global custom template > System default</string>
     <string name="enable_regex_replace">Enable regular replacement content</string>
     <string name="enable_regex_replace_tips">Format: RegularExpression===ReplacementResult,One rule per line.\ne.g. (\\d{3})\\d+(\\d{4})===$1****$2</string>
-    <string name="regex_check_tips">Format check: line %d is badly formatted! Format: RegularExpression===ReplacementResult</string>
     <string name="enable_exclude_from_recents">Hide from recent Apps</string>
     <string name="enable_exclude_from_recents_tips">Enable to hide SmsForwarder from recent Apps to keep it alive</string>
     <string name="custom_templates">Custom templates</string>
@@ -308,7 +306,6 @@
     <string name="step_2">Senders</string>
     <string name="step_3">Rules</string>
     <string name="step_4">Logs</string>
-    <string name="clean_log">Clean Log</string>
     <string name="todo">TODO</string>
     <string name="forwarding_function">Forwarding Function</string>
     <string name="forwarding_function_tips">Main switch: Enable the forwarding function as required</string>

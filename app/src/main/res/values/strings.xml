@@ -116,7 +116,6 @@
     <string name="invalid_at_mobiles">指定成员 不能为空 或者 选择@all</string>
     <string name="invalid_webcom_app_parm">企业ID、AgentID、Secret都不能为空</string>
     <string name="invalid_phone_num">接收手机号不能为空</string>
-    <string name="new_sender">添加发送通道</string>
     <string name="set_bark_name">分组名称/状态</string>
     <string name="set_bark_server">Bark-Server</string>
     <string name="set_bark_server_tips">例：https://day.app/XXXXXXXX/</string>
@@ -185,7 +184,6 @@
     <string name="enable_custom_templates_tips">优先级：转发规则的自定义模板 > 全局自定义模版 > 默认</string>
     <string name="enable_regex_replace">启用正则替换内容</string>
     <string name="enable_regex_replace_tips">格式：正则表达式===替换结果，每行一个规则.\n例如：(\\d{3})\\d{4}(\\d{4})===$1****$2</string>
-    <string name="regex_check_tips">正则替换检查：第 %d 行格式错误！格式：正则表达式===替换结果</string>
     <string name="enable_exclude_from_recents">不在最近任务列表中显示</string>
     <string name="enable_exclude_from_recents_tips">开启后，有效避免手动误杀进程，利于保活</string>
     <string name="custom_templates">转发信息模版</string>
@@ -307,7 +305,6 @@
     <string name="step_2">发送通道</string>
     <string name="step_3">转发规则</string>
     <string name="step_4">转发日志</string>
-    <string name="clean_log">清理日志</string>
     <string name="todo">TODO</string>
     <string name="forwarding_function">转发功能</string>
     <string name="forwarding_function_tips">总开关，请根据实际需要，启用对应的转发功能</string>
