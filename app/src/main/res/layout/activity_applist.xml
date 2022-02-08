@@ -19,9 +19,9 @@
             <RadioButton
                 android:id="@+id/btnTypeUser"
                 style="@style/select_style"
+                android:checked="true"
                 android:tag="user"
-                android:text="@string/user_app"
-                android:checked="true" />
+                android:text="@string/user_app" />
 
             <RadioButton
                 android:id="@+id/btnTypeSys"
@@ -35,19 +35,19 @@
 
     <View
         android:layout_width="fill_parent"
-        android:layout_marginTop="5dp"
         android:layout_height="1dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
         android:background="#aadcdcdc" />
 
     <ListView
         android:id="@+id/list_view_app"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="0dp"
+        android:layout_marginEnd="5dp"
         android:layout_weight="1" />
 
     <TextView

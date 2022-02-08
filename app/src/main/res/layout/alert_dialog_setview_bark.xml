@@ -13,52 +13,65 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/set_bark_name" />
+                android:text="@string/set_bark_name"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextBarkName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:singleLine="true"
+                tools:ignore="LabelFor" />
+
+            <Switch
+                android:id="@+id/switchBarkEnable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:autofillHints=""
-                android:ems="11"
-                android:inputType="text"
-                android:text=""
-                tools:ignore="LabelFor" />
+                android:checked="true"
+                android:textSize="14sp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/set_bark_server" />
+                android:orientation="horizontal">
 
-            <!--<EditText
-                android:id="@+id/editTextBarkServer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="14"
-                android:inputType="text"
-                android:text=""
-                tools:ignore="LabelFor" />-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/set_bark_server"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/set_bark_server_tips"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
 
             <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextBarkServer"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/line_bg_white_only_bottom_d8"
                 app:showEye="true"
@@ -70,24 +83,295 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/set_bark_icon" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/set_bark_icon"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/set_bark_icon_tips"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/editTextBarkIcon"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
                 android:ems="14"
                 android:inputType="text"
                 android:text=""
                 tools:ignore="LabelFor" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bark_sound"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/bark_sound_tips"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/editTextBarkSound"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="14"
+                android:inputType="text"
+                android:text=""
+                tools:ignore="LabelFor" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bark_badge"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/bark_badge_tips"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/editTextBarkBadge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="14"
+                android:inputType="text"
+                android:text=""
+                tools:ignore="LabelFor" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bark_url"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/bark_url_tips"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/editTextBarkUrl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="14"
+                android:inputType="textUri"
+                android:text=""
+                tools:ignore="LabelFor" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:text="@string/bark_level"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupBarkLevel"
+                style="@style/rg_style"
+                android:layout_marginStart="3dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/btnBarkLevelActive"
+                    style="@style/rg_rb_style"
+                    android:checked="true"
+                    android:text="@string/bark_level_active" />
+
+                <RadioButton
+                    android:id="@+id/btnBarkLevelTimeSensitive"
+                    style="@style/rg_rb_style"
+                    android:text="@string/bark_level_timeSensitive" />
+
+                <RadioButton
+                    android:id="@+id/btnBarkLevelPassive"
+                    style="@style/rg_rb_style"
+                    android:text="@string/bark_level_passive" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_sms_template"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_template"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/custom_templates_tips"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/editTextBarkTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:gravity="start|top"
+                android:inputType="text"
+                android:minLines="1"
+                android:text=""
+                tools:ignore="LabelFor,TextFields" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/bt_insert_sender"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorBlueGrey"
+                    android:text="@string/insert_sender"
+                    tools:ignore="ButtonStyle,NestedWeights" />
+
+                <Button
+                    android:id="@+id/bt_insert_extra"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorBlueGrey"
+                    android:text="@string/insert_extra"
+                    tools:ignore="ButtonStyle,NestedWeights" />
+
+                <Button
+                    android:id="@+id/bt_insert_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorBlueGrey"
+                    android:text="@string/insert_time"
+                    tools:ignore="ButtonStyle,NestedWeights" />
+
+                <Button
+                    android:id="@+id/bt_insert_device_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorBlueGrey"
+                    android:text="@string/insert_device_name"
+                    tools:ignore="ButtonStyle,NestedWeights" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout

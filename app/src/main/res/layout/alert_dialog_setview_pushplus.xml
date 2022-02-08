@@ -13,56 +13,68 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/set_name" />
+                android:text="@string/set_name"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextPushPlusName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:singleLine="true"
+                tools:ignore="LabelFor" />
+
+            <Switch
+                android:id="@+id/switchPushPlusEnable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:autofillHints=""
-                android:ems="14"
-                android:inputType="text"
-                android:text=""
-                tools:ignore="LabelFor,TextFields" />
+                android:checked="true"
+                android:textSize="14sp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/pushplus_token" />
+                android:orientation="horizontal">
 
-            <!--<EditText
-                android:id="@+id/editTextPushPlusToken"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:autofillHints=""
-                android:ems="14"
-                android:inputType="textPassword"
-                android:text=""
-                tools:ignore="LabelFor,TextFields" />-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pushplus_token"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/pushplus_token_tips"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
 
             <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextPushPlusToken"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/line_bg_white_only_bottom_d8"
                 android:layout_marginStart="5dp"
+                android:background="@drawable/line_bg_white_only_bottom_d8"
                 app:showEye="true"
                 app:textColor="@color/tv_black_333333"
                 app:textColorHint="@color/tv_gray_999999"
@@ -72,14 +84,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/pushplus_topic" />
+                android:text="@string/pushplus_topic"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextPushPlusTopic"
@@ -96,14 +109,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/pushplus_template" />
+                android:text="@string/pushplus_template"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextPushPlusTemplate"
@@ -120,14 +134,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/pushplus_channel" />
+                android:text="@string/pushplus_channel"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextPushPlusChannel"
@@ -144,14 +159,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/pushplus_webhook" />
+                android:text="@string/pushplus_webhook"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextPushPlusWebhook"
@@ -168,14 +184,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/pushplus_callback" />
+                android:text="@string/pushplus_callback"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextPushPlusCallbackUrl"
@@ -192,14 +209,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/pushplus_valid_time" />
+                android:text="@string/pushplus_valid_time"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextPushPlusValidTime"
@@ -211,6 +229,104 @@
                 android:inputType="number"
                 android:text=""
                 tools:ignore="LabelFor" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_sms_template"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_template"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/custom_templates_tips"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/editTextPushPlusTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:gravity="start|top"
+                android:inputType="text"
+                android:minLines="1"
+                android:text=""
+                tools:ignore="LabelFor,TextFields" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/bt_insert_sender"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorBlueGrey"
+                    android:text="@string/insert_sender"
+                    tools:ignore="ButtonStyle,NestedWeights" />
+
+                <Button
+                    android:id="@+id/bt_insert_extra"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorBlueGrey"
+                    android:text="@string/insert_extra"
+                    tools:ignore="ButtonStyle,NestedWeights" />
+
+                <Button
+                    android:id="@+id/bt_insert_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorBlueGrey"
+                    android:text="@string/insert_time"
+                    tools:ignore="ButtonStyle,NestedWeights" />
+
+                <Button
+                    android:id="@+id/bt_insert_device_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorBlueGrey"
+                    android:text="@string/insert_device_name"
+                    tools:ignore="ButtonStyle,NestedWeights" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout

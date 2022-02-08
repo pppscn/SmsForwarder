@@ -5,6 +5,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.idormy.sms.forwarder.MyApplication;
+import com.idormy.sms.forwarder.R;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 
 import java.io.Serializable;
@@ -31,26 +33,54 @@ public class SmsVo implements Serializable {
     }
 
     @SuppressLint("SimpleDateFormat")
+    public String getTitleForSend() {
+        return getTitleForSend("", "");
+    }
+
+
+    @SuppressLint("SimpleDateFormat")
+    public String getTitleForSend(String titleTemplate) {
+        return getTitleForSend(titleTemplate, "");
+    }
+
+    @SuppressLint("SimpleDateFormat")
     public String getTitleForSend(String titleTemplate, String regexReplace) {
-        if (titleTemplate == null || titleTemplate.isEmpty()) titleTemplate = "{{来源号码}}";
+        if (titleTemplate == null || titleTemplate.isEmpty()) titleTemplate = getString(R.string.tag_from);
 
         String deviceMark = SettingUtil.getAddExtraDeviceMark().trim();
         String versionName = SettingUtil.getVersionName();
-        String titleForSend = titleTemplate.replace("{{来源号码}}", mobile).replace("{{APP包名}}", mobile)
-                .replace("{{短信内容}}", content).replace("{{通知内容}}", content)
-                .replace("{{卡槽信息}}", simInfo).replace("{{通知标题}}", simInfo)
-                .replace("{{接收时间}}", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date))
-                .replace("{{设备名称}}", deviceMark)
-                .replace("{{当前应用版本号}}", versionName)
+        String titleForSend = titleTemplate.replace(getString(R.string.tag_from), mobile)
+                .replace(getString(R.string.tag_package_name), mobile)
+                .replace(getString(R.string.tag_sms), content)
+                .replace(getString(R.string.tag_msg), content)
+                .replace(getString(R.string.tag_card_slot), simInfo)
+                .replace(getString(R.string.tag_title), simInfo)
+                .replace(getString(R.string.tag_receive_time), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date))
+                .replace(getString(R.string.tag_device_name), deviceMark)
+                .replace(getString(R.string.tag_app_version), versionName)
                 .trim();
 
         return RegexReplace(regexReplace, titleForSend);
     }
 
     @SuppressLint("SimpleDateFormat")
+    public String getSmsVoForSend() {
+        return getSmsVoForSend("", "");
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public String getSmsVoForSend(String ruleSmsTemplate) {
+        return getSmsVoForSend(ruleSmsTemplate, "");
+    }
+
+    @SuppressLint("SimpleDateFormat")
     public String getSmsVoForSend(String ruleSmsTemplate, String regexReplace) {
         String deviceMark = SettingUtil.getAddExtraDeviceMark().trim();
-        String customSmsTemplate = "{{来源号码}}\n{{短信内容}}\n{{卡槽信息}}\n{{接收时间}}\n{{设备名称}}";
+        String customSmsTemplate = getString(R.string.tag_from) + "\n" +
+                getString(R.string.tag_sms) + "\n" +
+                getString(R.string.tag_card_slot) + "\n" +
+                getString(R.string.tag_receive_time) + "\n" +
+                getString(R.string.tag_device_name);
 
         //优先取转发规则的自定义模板，留空则取全局设置
         if (!ruleSmsTemplate.isEmpty()) {
@@ -64,12 +94,15 @@ public class SmsVo implements Serializable {
         }
 
         String versionName = SettingUtil.getVersionName();
-        String smsVoForSend = customSmsTemplate.replace("{{来源号码}}", mobile).replace("{{APP包名}}", mobile)
-                .replace("{{短信内容}}", content).replace("{{通知内容}}", content)
-                .replace("{{卡槽信息}}", simInfo).replace("{{通知标题}}", simInfo)
-                .replace("{{接收时间}}", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date))
-                .replace("{{设备名称}}", deviceMark)
-                .replace("{{当前应用版本号}}", versionName)
+        String smsVoForSend = customSmsTemplate.replace(getString(R.string.tag_from), mobile)
+                .replace(getString(R.string.tag_package_name), mobile)
+                .replace(getString(R.string.tag_sms), content)
+                .replace(getString(R.string.tag_msg), content)
+                .replace(getString(R.string.tag_card_slot), simInfo)
+                .replace(getString(R.string.tag_title), simInfo)
+                .replace(getString(R.string.tag_receive_time), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date))
+                .replace(getString(R.string.tag_device_name), deviceMark)
+                .replace(getString(R.string.tag_app_version), versionName)
                 .trim();
 
         return RegexReplace(regexReplace, smsVoForSend);
@@ -92,9 +125,13 @@ public class SmsVo implements Serializable {
             }
             return newContent;
         } catch (Exception e) {
-            Log.e("RegexReplace", "获取接收手机号失败：" + e.getMessage());
+            Log.e("RegexReplace", "Failed to get the receiving phone number:" + e.getMessage());
             return Content;
         }
+    }
+
+    private static String getString(int resId) {
+        return MyApplication.getContext().getString(resId);
     }
 
     @NonNull
@@ -107,4 +144,5 @@ public class SmsVo implements Serializable {
                 ", simInfo=" + simInfo +
                 '}';
     }
+
 }

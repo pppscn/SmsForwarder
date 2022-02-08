@@ -13,39 +13,48 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/set_name" />
+                android:text="@string/set_name"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextWebNotifyName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:singleLine="true"
+                tools:ignore="LabelFor" />
+
+            <Switch
+                android:id="@+id/switchWebNotifyEnable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:autofillHints=""
-                android:ems="11"
-                android:inputType="text"
-                android:text=""
-                tools:ignore="LabelFor" />
+                android:checked="true"
+                android:textSize="14sp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
-                android:text="@string/Method" />
+                android:text="@string/Method"
+                android:textStyle="bold" />
 
             <RadioGroup
                 android:id="@+id/radioGroupWebNotifyMethod"
@@ -74,18 +83,33 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/WebNotifyWebServer" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/WebNotifyWebServer"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/WebNotifyWebServerTips"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/editTextWebNotifyWebServer"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
                 android:ems="14"
@@ -97,18 +121,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='@string/WebNotifyWebParams' />
+                android:text='@string/WebNotifyWebParams'
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/WebNotifyWebParamsTips"
+                android:textSize="10sp"
+                tools:ignore="SmallSp" />
 
             <EditText
                 android:id="@+id/editTextWebNotifyWebParams"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
                 android:ems="14"
@@ -120,24 +152,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/WebNotifySecret" />
-
-            <!--<EditText
-                android:id="@+id/editTextWebNotifySecret"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="14"
-                android:inputType="textPassword"
-                android:text=""
-                tools:ignore="LabelFor" />-->
+                android:text="@string/WebNotifySecret"
+                android:textStyle="bold" />
 
             <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextWebNotifySecret"

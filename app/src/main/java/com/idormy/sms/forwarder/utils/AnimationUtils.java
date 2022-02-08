@@ -113,7 +113,7 @@ public class AnimationUtils {
             }
             viewGroup.setVisibility(View.GONE);
         }
-        Animation translateAnimation = null;
+        Animation translateAnimation;
         translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
                 Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
                 start, Animation.RELATIVE_TO_SELF, end);
@@ -150,7 +150,7 @@ public class AnimationUtils {
             end = -1.0f;
             viewGroup.setVisibility(View.GONE);
         }
-        Animation translateAnimation = null;
+        Animation translateAnimation;
         translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, start,
                 Animation.RELATIVE_TO_SELF, end, Animation.RELATIVE_TO_SELF,
                 0.0f, Animation.RELATIVE_TO_SELF, 0.0f);
@@ -177,13 +177,7 @@ public class AnimationUtils {
         translateAnimation.start();
     }
 
-    /**
-     * 礼物通知滚动
-     *
-     * @param viewGroup
-     * @param state
-     * @param duration
-     */
+    //通知滚动
     public static void liveLotteryAnimation(final TextView viewGroup, AnimationState state, long duration) {
 
         float start = 0.0f;
@@ -196,7 +190,7 @@ public class AnimationUtils {
             end = -1.0f;
             viewGroup.setVisibility(View.GONE);
         }
-        Animation translateAnimation = null;
+        Animation translateAnimation;
         translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, start,
                 Animation.RELATIVE_TO_PARENT, end, Animation.RELATIVE_TO_SELF,
                 0.0f, Animation.RELATIVE_TO_SELF, 0.0f);

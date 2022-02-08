@@ -46,6 +46,7 @@ public class RuleUtil {
         values.put(RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT, ruleModel.getSimSlot());
         values.put(RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE, ruleModel.getSmsTemplate());
         values.put(RuleTable.RuleEntry.COLUMN_REGEX_REPLACE, ruleModel.getRegexReplace());
+        values.put(RuleTable.RuleEntry.COLUMN_NAME_STATUS, ruleModel.getStatus());
 
         // Insert the new row, returning the primary key value of the new row
 
@@ -64,6 +65,7 @@ public class RuleUtil {
         values.put(RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT, ruleModel.getSimSlot());
         values.put(RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE, ruleModel.getSmsTemplate());
         values.put(RuleTable.RuleEntry.COLUMN_REGEX_REPLACE, ruleModel.getRegexReplace());
+        values.put(RuleTable.RuleEntry.COLUMN_NAME_STATUS, ruleModel.getStatus());
 
         String selection = RuleTable.RuleEntry._ID + " = ? ";
         String[] whereArgs = {String.valueOf(ruleModel.getId())};
@@ -90,6 +92,10 @@ public class RuleUtil {
     }
 
     public static List<RuleModel> getRule(Long id, String key, String type) {
+        return getRule(id, key, type, null);
+    }
+
+    public static List<RuleModel> getRule(Long id, String key, String type, String status) {
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
         String[] projection = {
@@ -103,6 +109,7 @@ public class RuleUtil {
                 RuleTable.RuleEntry.COLUMN_NAME_SIM_SLOT,
                 RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE,
                 RuleTable.RuleEntry.COLUMN_REGEX_REPLACE,
+                RuleTable.RuleEntry.COLUMN_NAME_STATUS,
         };
         // Define 'where' part of query.
         String selection = " 1 = 1 ";
@@ -118,6 +125,11 @@ public class RuleUtil {
         if (type != null) {
             selection += " and " + RuleTable.RuleEntry.COLUMN_NAME_TYPE + " = ? ";
             selectionArgList.add(type);
+        }
+
+        if (status != null) {
+            selection += " and " + RuleTable.RuleEntry.COLUMN_NAME_STATUS + " = ? ";
+            selectionArgList.add(status);
         }
 
         if (key != null) {
@@ -168,6 +180,8 @@ public class RuleUtil {
                     cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_SMS_TEMPLATE));
             String regexReplace = cursor.getString(
                     cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_REGEX_REPLACE));
+            int itemStatus = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(RuleTable.RuleEntry.COLUMN_NAME_STATUS));
 
             Log.d(TAG, "getRule: itemId" + itemId);
             RuleModel ruleModel = new RuleModel();
@@ -183,11 +197,48 @@ public class RuleUtil {
             ruleModel.setSmsTemplate(smsTemplate);
             ruleModel.setSwitchRegexReplace(!regexReplace.trim().isEmpty());
             ruleModel.setRegexReplace(regexReplace);
+            ruleModel.setStatus(itemStatus);
 
             tRules.add(ruleModel);
         }
         cursor.close();
         return tRules;
+    }
+
+    public static int countRule(String status, String type, String value) {
+        String[] projection = {};
+        String selection = " 1 ";
+        List<String> selectionArgList = new ArrayList<>();
+
+        if (status != null && !status.isEmpty()) {
+            selection += " and " + RuleTable.RuleEntry.COLUMN_NAME_STATUS + " = ? ";
+            selectionArgList.add(status);
+        }
+
+        if (type != null && !type.isEmpty()) {
+            selection += " and " + RuleTable.RuleEntry.COLUMN_NAME_TYPE + " = ? ";
+            selectionArgList.add(status);
+        }
+
+        if (value != null && !value.isEmpty()) {
+            selection += " and " + RuleTable.RuleEntry.COLUMN_NAME_VALUE + " LIKE ? ";
+            selectionArgList.add(value);
+        }
+
+        String[] selectionArgs = selectionArgList.toArray(new String[0]);
+        Cursor cursor = db.query(
+                RuleTable.RuleEntry.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+                selectionArgs,          // The values for the WHERE clause
+                null,           // don't group the rows
+                null,            // don't filter by row groups
+                null            // The sort order
+        );
+
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
     }
 
 }

@@ -1,12 +1,18 @@
 package com.idormy.sms.forwarder;
 
 import static com.idormy.sms.forwarder.SenderActivity.NOTIFY;
+import static com.idormy.sms.forwarder.model.RuleModel.STATUS_OFF;
+import static com.idormy.sms.forwarder.model.RuleModel.STATUS_ON;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,21 +22,25 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.hjq.toast.ToastUtils;
 import com.idormy.sms.forwarder.adapter.RuleAdapter;
 import com.idormy.sms.forwarder.model.RuleModel;
 import com.idormy.sms.forwarder.model.SenderModel;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.sender.SenderUtil;
+import com.idormy.sms.forwarder.utils.CommonUtil;
+import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.RuleUtil;
 import com.idormy.sms.forwarder.utils.SettingUtil;
-import com.umeng.analytics.MobclickAgent;
+import com.idormy.sms.forwarder.view.StepBar;
+import com.melnykov.fab.FloatingActionButton;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,7 +61,7 @@ public class RuleActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == NOTIFY) {
-                Toast.makeText(RuleActivity.this, msg.getData().getString("DATA"), Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(msg.getData().getString("DATA"), 3000);
             }
         }
     };
@@ -61,18 +71,16 @@ public class RuleActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rule);
-        RuleUtil.init(RuleActivity.this);
-        SenderUtil.init(RuleActivity.this);
+
+        LogUtil.init(this);
+        RuleUtil.init(this);
+        SenderUtil.init(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart");
-
-        //是否关闭页面提示
-        TextView help_tip = findViewById(R.id.help_tip);
-        help_tip.setVisibility(MyApplication.showHelpTip ? View.VISIBLE : View.GONE);
 
         // 先拿到数据并放在适配器上
         initRules(); //初始化数据
@@ -96,26 +104,18 @@ public class RuleActivity extends AppCompatActivity {
             builder.setTitle(R.string.delete_rule_title);
             builder.setMessage(R.string.delete_rule_tips);
 
-            //添加AlertDialog.Builder对象的setPositiveButton()方法
             builder.setPositiveButton(R.string.confirm, (dialog, which) -> {
                 RuleUtil.delRule(ruleModels.get(position).getId());
                 initRules();
                 adapter.del(ruleModels);
-                Toast.makeText(getBaseContext(), R.string.delete_rule_toast, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(R.string.delete_rule_toast);
             });
 
-            //添加AlertDialog.Builder对象的setNegativeButton()方法
             builder.setNeutralButton(R.string.clone, (dialog, which) -> {
                 RuleModel ruleModel = ruleModels.get(position);
-                //TODO:直接复制
-                //RuleUtil.addRule(ruleModel);
-                //initRules();
-                //adapter.add(ruleModels);
-                //TODO:只复制到编辑对话框
                 setRule(ruleModel, true);
             });
 
-            //添加AlertDialog.Builder对象的setNegativeButton()方法
             builder.setNegativeButton(R.string.cancel, (dialog, which) -> {
 
             });
@@ -135,10 +135,22 @@ public class RuleActivity extends AppCompatActivity {
             adapter = new RuleAdapter(RuleActivity.this, R.layout.item_rule, ruleModels);
             listView.setAdapter(adapter);
         });
+
+
+        //计算浮动按钮位置
+        FloatingActionButton btnAddRule = findViewById(R.id.btnAddRule);
+        CommonUtil.calcMarginBottom(this, btnAddRule, listView, null);
+
+        //添加规则
+        btnAddRule.setOnClickListener(v -> setRule(null, false));
+
+        //步骤完成状态校验
+        StepBar stepBar = findViewById(R.id.stepBar);
+        stepBar.setHighlight();
     }
 
-    private int getTypeCheckId(String currentType) {
-        switch (currentType) {
+    private int getTypeCheckId(String curType) {
+        switch (curType) {
             case "call":
                 return R.id.btnTypeCall;
             case "app":
@@ -148,8 +160,8 @@ public class RuleActivity extends AppCompatActivity {
         }
     }
 
-    private int getDialogView(String currentType) {
-        switch (currentType) {
+    private int getDialogView(String curType) {
+        switch (curType) {
             case "call":
                 return R.layout.alert_dialog_setview_rule_call;
             case "app":
@@ -159,8 +171,8 @@ public class RuleActivity extends AppCompatActivity {
         }
     }
 
-    private int getDialogTitle(String currentType) {
-        switch (currentType) {
+    private int getDialogTitle(String curType) {
+        switch (curType) {
             case "call":
                 return R.string.setrule_call;
             case "app":
@@ -173,15 +185,6 @@ public class RuleActivity extends AppCompatActivity {
     // 初始化数据
     private void initRules() {
         ruleModels = RuleUtil.getRule(null, null, currentType);
-    }
-
-    public void addRule(View view) {
-        currentType = (String) view.getTag();
-        int typeCheckId = getTypeCheckId(currentType);
-        final RadioGroup radioGroupTypeCheck = findViewById(R.id.radioGroupTypeCheck);
-        radioGroupTypeCheck.check(typeCheckId);
-
-        setRule(null, false);
     }
 
     private void setRule(final RuleModel ruleModel, final boolean isClone) {
@@ -218,7 +221,7 @@ public class RuleActivity extends AppCompatActivity {
         }
         final Button btSetRuleSender = view1.findViewById(R.id.btSetRuleSender);
         btSetRuleSender.setOnClickListener(view -> {
-            //Toast.makeText(RuleActivity.this, "selectSender", Toast.LENGTH_LONG).show();
+            //ToastUtils.show("selectSender", 3000);
             selectSender(ruleSenderTv);
         });
 
@@ -231,6 +234,11 @@ public class RuleActivity extends AppCompatActivity {
         final LinearLayout matchValueLayout = view1.findViewById(R.id.matchValueLayout);
         refreshSelectRadioGroupRuleFiled(radioGroupRuleFiled, radioGroupRuleCheck, radioGroupRuleCheck2, editTextRuleValue, tv_mu_rule_tips, matchTypeLayout, matchValueLayout);
 
+        //是否启用该规则
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switchRuleStatus = view1.findViewById(R.id.switch_rule_status);
+        if (ruleModel != null) {
+            switchRuleStatus.setChecked(ruleModel.getStatusChecked());
+        }
         //自定义模板
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switchSmsTemplate = view1.findViewById(R.id.switch_sms_template);
         EditText textSmsTemplate = view1.findViewById(R.id.text_sms_template);
@@ -258,7 +266,7 @@ public class RuleActivity extends AppCompatActivity {
         buttonRuleOk.setOnClickListener(view -> {
             Object senderId = ruleSenderTv.getTag();
             if (senderId == null) {
-                Toast.makeText(RuleActivity.this, R.string.new_sender_first, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.new_sender_first, 3000);
                 return;
             }
 
@@ -266,7 +274,7 @@ public class RuleActivity extends AppCompatActivity {
             String regexReplace = textRegexReplace.getText().toString().trim();
             int lineNum = checkRegexReplace(regexReplace);
             if (lineNum > 0) {
-                Toast.makeText(getBaseContext(), String.format(RuleActivity.this.getString(R.string.regex_check_tips), lineNum), Toast.LENGTH_SHORT).show();
+                ToastUtils.show("lineNum=" + lineNum);
                 return;
             }
 
@@ -284,6 +292,7 @@ public class RuleActivity extends AppCompatActivity {
                 newRuleModel.setSwitchRegexReplace(switchRegexReplace.isChecked());
                 newRuleModel.setRegexReplace(regexReplace);
                 newRuleModel.setSenderId(Long.valueOf(senderId.toString()));
+                newRuleModel.setStatus(switchRuleStatus.isChecked() ? STATUS_ON : STATUS_OFF);
                 RuleUtil.addRule(newRuleModel);
                 initRules();
                 adapter.add(ruleModels);
@@ -297,11 +306,11 @@ public class RuleActivity extends AppCompatActivity {
                 ruleModel.setSwitchRegexReplace(switchRegexReplace.isChecked());
                 ruleModel.setRegexReplace(regexReplace);
                 ruleModel.setSenderId(Long.valueOf(senderId.toString()));
+                ruleModel.setStatus(switchRuleStatus.isChecked() ? STATUS_ON : STATUS_OFF);
                 RuleUtil.updateRule(ruleModel);
                 initRules();
                 adapter.update(ruleModels);
             }
-
             show.dismiss();
         });
 
@@ -317,7 +326,7 @@ public class RuleActivity extends AppCompatActivity {
         buttonRuleTest.setOnClickListener(view -> {
             Object senderId = ruleSenderTv.getTag();
             if (senderId == null) {
-                Toast.makeText(RuleActivity.this, R.string.new_sender_first, Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(R.string.new_sender_first, 3000);
                 return;
             }
 
@@ -325,7 +334,7 @@ public class RuleActivity extends AppCompatActivity {
             String regexReplace = textRegexReplace.getText().toString().trim();
             int lineNum = checkRegexReplace(regexReplace);
             if (lineNum > 0) {
-                Toast.makeText(getBaseContext(), String.format(RuleActivity.this.getString(R.string.regex_check_tips), lineNum), Toast.LENGTH_SHORT).show();
+                ToastUtils.show("lineNum=" + lineNum);
                 return;
             }
 
@@ -341,6 +350,7 @@ public class RuleActivity extends AppCompatActivity {
                 newRuleModel.setSmsTemplate(textSmsTemplate.getText().toString().trim());
                 newRuleModel.setSwitchRegexReplace(switchRegexReplace.isChecked());
                 newRuleModel.setRegexReplace(regexReplace);
+                newRuleModel.setStatus(switchRuleStatus.isChecked() ? STATUS_ON : STATUS_OFF);
 
                 testRule(newRuleModel, Long.valueOf(senderId.toString()));
             } else {
@@ -353,6 +363,7 @@ public class RuleActivity extends AppCompatActivity {
                 ruleModel.setSmsTemplate(textSmsTemplate.getText().toString().trim());
                 ruleModel.setSwitchRegexReplace(switchRegexReplace.isChecked());
                 ruleModel.setRegexReplace(regexReplace);
+                ruleModel.setStatus(switchRuleStatus.isChecked() ? STATUS_ON : STATUS_OFF);
 
                 testRule(ruleModel, Long.valueOf(senderId.toString()));
             }
@@ -374,49 +385,49 @@ public class RuleActivity extends AppCompatActivity {
         buttonInsertSender.setOnClickListener(view -> {
             textSmsTemplate.setFocusable(true);
             textSmsTemplate.requestFocus();
-            insertOrReplaceText2Cursor(textSmsTemplate, "{{来源号码}}");
+            CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_from));
         });
 
         Button buttonInsertContent = view1.findViewById(R.id.bt_insert_content);
         buttonInsertContent.setOnClickListener(view -> {
             textSmsTemplate.setFocusable(true);
             textSmsTemplate.requestFocus();
-            insertOrReplaceText2Cursor(textSmsTemplate, "{{短信内容}}");
+            CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_sms));
         });
 
         Button buttonInsertSenderApp = view1.findViewById(R.id.bt_insert_sender_app);
         buttonInsertSenderApp.setOnClickListener(view -> {
             textSmsTemplate.setFocusable(true);
             textSmsTemplate.requestFocus();
-            insertOrReplaceText2Cursor(textSmsTemplate, "{{APP包名}}");
+            CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_package_name));
         });
 
         Button buttonInsertContentApp = view1.findViewById(R.id.bt_insert_content_app);
         buttonInsertContentApp.setOnClickListener(view -> {
             textSmsTemplate.setFocusable(true);
             textSmsTemplate.requestFocus();
-            insertOrReplaceText2Cursor(textSmsTemplate, "{{通知内容}}");
+            CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_msg));
         });
 
         Button buttonInsertExtra = view1.findViewById(R.id.bt_insert_extra);
         buttonInsertExtra.setOnClickListener(view -> {
             textSmsTemplate.setFocusable(true);
             textSmsTemplate.requestFocus();
-            insertOrReplaceText2Cursor(textSmsTemplate, "{{卡槽信息}}");
+            CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_card_slot));
         });
 
         Button buttonInsertTime = view1.findViewById(R.id.bt_insert_time);
         buttonInsertTime.setOnClickListener(view -> {
             textSmsTemplate.setFocusable(true);
             textSmsTemplate.requestFocus();
-            insertOrReplaceText2Cursor(textSmsTemplate, "{{接收时间}}");
+            CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_receive_time));
         });
 
         Button buttonInsertDeviceName = view1.findViewById(R.id.bt_insert_device_name);
         buttonInsertDeviceName.setOnClickListener(view -> {
             textSmsTemplate.setFocusable(true);
             textSmsTemplate.requestFocus();
-            insertOrReplaceText2Cursor(textSmsTemplate, "{{设备名称}}");
+            CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_device_name));
         });
 
         //正则替换
@@ -431,12 +442,6 @@ public class RuleActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void insertOrReplaceText2Cursor(EditText editText, String str) {
-        int start = Math.max(editText.getSelectionStart(), 0);
-        int end = Math.max(editText.getSelectionEnd(), 0);
-        editText.getText().replace(Math.min(start, end), Math.max(start, end), str, 0, str.length());
     }
 
     //当更新选择的字段的时候，更新之下各个选项的状态
@@ -525,7 +530,7 @@ public class RuleActivity extends AppCompatActivity {
     public void selectSender(final TextView showTv) {
         final List<SenderModel> senderModels = SenderUtil.getSender(null, null);
         if (senderModels.isEmpty()) {
-            Toast.makeText(RuleActivity.this, R.string.add_sender_first, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(R.string.add_sender_first);
             return;
         }
         final CharSequence[] senderNames = new CharSequence[senderModels.size()];
@@ -536,7 +541,7 @@ public class RuleActivity extends AppCompatActivity {
         builder.setTitle(R.string.select_sender);
         //添加列表
         builder.setItems(senderNames, (dialogInterface, which) -> {
-            Toast.makeText(RuleActivity.this, senderNames[which], Toast.LENGTH_LONG).show();
+            ToastUtils.delayedShow(senderNames[which], 3000);
             showTv.setText(senderNames[which]);
             showTv.setTag(senderModels.get(which).getId());
         });
@@ -583,7 +588,7 @@ public class RuleActivity extends AppCompatActivity {
                 SmsVo testSmsVo = new SmsVo(editTextTestPhone.getText().toString().trim(), editTextTestMsgContent.getText().toString().trim(), new Date(), simInfo);
                 SendUtil.sendMsgByRuleModelSenderId(handler, ruleModel, testSmsVo, senderId);
             } catch (Exception e) {
-                Toast.makeText(RuleActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(e.getMessage(), 3000);
             }
         });
         ad1.show();// 显示对话框
@@ -596,17 +601,9 @@ public class RuleActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(TAG);
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
     protected void onPause() {
+        overridePendingTransition(0, 0);
         super.onPause();
-        MobclickAgent.onPageEnd(TAG);
-        MobclickAgent.onPause(this);
     }
 
     private int checkRegexReplace(String regexReplace) {
@@ -622,4 +619,59 @@ public class RuleActivity extends AppCompatActivity {
 
         return 0;
     }
+
+    //启用menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    //menu点击事件
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.to_app_list:
+                intent = new Intent(this, AppListActivity.class);
+                break;
+            case R.id.to_clone:
+                intent = new Intent(this, CloneActivity.class);
+                break;
+            case R.id.to_about:
+                intent = new Intent(this, AboutActivity.class);
+                break;
+            case R.id.to_help:
+                Uri uri = Uri.parse("https://gitee.com/pp/SmsForwarder/wikis/pages");
+                intent = new Intent(Intent.ACTION_VIEW, uri);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+        startActivity(intent);
+        return true;
+    }
+
+    //设置menu图标显示
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        Log.d(TAG, "onMenuOpened, featureId=" + featureId);
+        if (menu != null) {
+            if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
+                try {
+                    Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                } catch (NoSuchMethodException e) {
+                    Log.e(TAG, "onMenuOpened", e);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return super.onMenuOpened(featureId, menu);
+    }
+
 }

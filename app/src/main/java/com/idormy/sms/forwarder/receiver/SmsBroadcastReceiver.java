@@ -8,11 +8,14 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
-import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 import androidx.annotation.RequiresApi;
+
+import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
-import com.idormy.sms.forwarder.utils.*;
+import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.SimUtil;
+import com.idormy.sms.forwarder.utils.SmsHubActionHandler;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,7 +58,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                         simInfo = simId == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1();
                         simInfo = "SIM" + simId + "_" + simInfo;
                     } catch (Exception e) {
-                        Log.e(TAG, "获取接收手机号失败：" + e.getMessage());
+                        Log.e(TAG, "Failed to get the receiving phone number:" + e.getMessage());
                     }
 
                     List<SmsVo> smsVoList = new ArrayList<>();
@@ -79,18 +82,26 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                         mobileToContent.put(mobile, content);
 
                     }
-                    List<SmsHubVo> smsHubVos = new ArrayList<>();
+
                     for (String mobile : mobileToContent.keySet()) {
                         smsVoList.add(new SmsVo(mobile, mobileToContent.get(mobile), date, simInfo));
-                        smsHubVos.add(new SmsHubVo(SmsHubVo.Type.sms, simId, mobileToContent.get(mobile), mobile));
                     }
-                    SmsHubActionHandler.putData(smsHubVos.toArray(new SmsHubVo[0]));
-                    Log.d(TAG, "短信：" + smsVoList);
+
+                    Log.d(TAG, "SMS: " + smsVoList);
                     SendUtil.send_msg_list(context, smsVoList, simId, "sms");
+
+                    //SmsHubApi
+                    if (SettingUtil.getSwitchEnableSmsHubApi()) {
+                        List<SmsHubVo> smsHubVos = new ArrayList<>();
+                        for (String mobile : mobileToContent.keySet()) {
+                            smsHubVos.add(new SmsHubVo(SmsHubVo.Type.sms, simId, mobileToContent.get(mobile), mobile));
+                        }
+                        SmsHubActionHandler.putData(smsHubVos.toArray(new SmsHubVo[0]));
+                    }
                 }
 
             } catch (Throwable throwable) {
-                Log.e(TAG, "解析短信失败：" + throwable.getMessage());
+                Log.e(TAG, "Parsing SMS failed: " + throwable.getMessage());
             }
 
         }

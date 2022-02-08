@@ -13,8 +13,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -25,21 +25,28 @@
 
             <EditText
                 android:id="@+id/editTextTelegramName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:singleLine="true"
+                tools:ignore="LabelFor" />
+
+            <Switch
+                android:id="@+id/switchTelegramEnable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:autofillHints=""
-                android:ems="11"
-                android:inputType="text"
-                android:text=""
-                tools:ignore="LabelFor" />
+                android:checked="true"
+                android:textSize="14sp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -48,22 +55,12 @@
                 android:text="@string/TelegramApiToken"
                 android:textStyle="bold" />
 
-            <!--<EditText
-                android:id="@+id/editTextTelegramApiToken"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="14"
-                android:inputType="textPassword"
-                android:text=""
-                tools:ignore="LabelFor" />-->
-
             <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextTelegramApiToken"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/line_bg_white_only_bottom_d8"
                 android:layout_marginStart="5dp"
+                android:background="@drawable/line_bg_white_only_bottom_d8"
                 app:showEye="true"
                 app:textColor="@color/tv_black_333333"
                 app:textColorHint="@color/tv_gray_999999"
@@ -73,8 +70,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -111,8 +109,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -123,7 +122,7 @@
 
             <EditText
                 android:id="@+id/editTextTelegramChatId"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
                 android:ems="14"
@@ -174,8 +173,8 @@
             android:id="@+id/layoutProxyHost"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal"
             android:visibility="gone">
 
@@ -200,8 +199,8 @@
             android:id="@+id/layoutProxyPort"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal"
             android:visibility="gone">
 
@@ -235,13 +234,12 @@
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 
-
         <LinearLayout
             android:id="@+id/layoutProxyAuthenticator"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="vertical"
             android:visibility="gone">
 
@@ -276,17 +274,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/password" />
-
-                <!--<EditText
-                    android:id="@+id/editTextProxyPassword"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:autofillHints=""
-                    android:ems="7"
-                    android:inputType="textPassword"
-                    android:text=""
-                    tools:ignore="LabelFor,TextFields" />-->
 
                 <com.idormy.sms.forwarder.view.ClearEditText
                     android:id="@+id/editTextProxyPassword"

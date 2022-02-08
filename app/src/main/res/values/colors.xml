@@ -5,11 +5,9 @@
     <color name="colorAccent">#63C2FA</color>
     <color name="colorBlueGrey">#78909C</color>
     <color name="colorBlueGreyDark">#546E7A</color>
+    <color name="colorBackground">#DCDCDC</color>
     <color name="gray_text_light">#979797</color>
 
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
     <color name="tv_black_333333">#333333</color>

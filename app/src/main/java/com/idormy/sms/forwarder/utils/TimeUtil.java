@@ -5,13 +5,14 @@ import android.annotation.SuppressLint;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class TimeUtil {
 
     //友好时间显示
     public static String friendlyTime(String utcTime) {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat utcFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat utcFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         utcFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));//时区定义并进行时间获取
         Date utcDate;
         try {
@@ -74,6 +75,15 @@ public class TimeUtil {
         localFormatter.setTimeZone(TimeZone.getDefault());
         assert utcDate != null;
         return localFormatter.format(utcDate.getTime());
+    }
+
+    public static String getTimeString(String pattern) {
+        return new SimpleDateFormat(pattern, Locale.CHINESE).format(new Date());
+    }
+
+    public static String getTimeString(long time, String pattern) {
+        SimpleDateFormat df = new SimpleDateFormat(pattern, Locale.CHINESE);
+        return df.format(new Date(time));
     }
 
 }

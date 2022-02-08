@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -43,59 +42,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/check_for_updates" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="@string/auto_startup" />
-
-            <Switch
-                android:id="@+id/switch_with_reboot"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:gravity="end"
-                android:textSize="18sp"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/help_tip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="@string/show_tips" />
-
-            <Switch
-                android:id="@+id/switch_help_tip"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:gravity="end"
-                android:textSize="18sp"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         </LinearLayout>
 

@@ -97,7 +97,6 @@ public class SenderModel {
             case (TYPE_SMS):
             default:
                 return R.mipmap.sms;
-
         }
     }
 
@@ -109,6 +108,20 @@ public class SenderModel {
         } else {
             return 0;
         }
+    }
+
+    public int getStatusImageId() {
+        switch (status) {
+            case (STATUS_OFF):
+                return R.drawable.ic_round_pause;
+            case (STATUS_ON):
+            default:
+                return R.drawable.ic_round_play;
+        }
+    }
+
+    public boolean getStatusChecked() {
+        return !(status == STATUS_OFF);
     }
 
     @NonNull

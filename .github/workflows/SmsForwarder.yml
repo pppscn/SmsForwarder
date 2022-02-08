@@ -57,19 +57,6 @@ jobs:
           release_name: SmsForwarder ${{ github.ref }}
           draft: false
           prerelease: false
-      # 获取当前日期
-      - name: Get Current Date
-        id: get-date
-        run: echo "::set-output name=date::$(date +'%Y%m%d')"
-      # 获取apk版本号
-      - name: Get Version Name
-        uses: actions/github-script@v3
-        id: get-version
-        with:
-          script: |
-            const str=process.env.GITHUB_REF;
-            return str.substring(str.indexOf("v")+1);
-          result-encoding: string
       # 存档打包的文件
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
@@ -77,13 +64,9 @@ jobs:
           name: build
           path: app/build/outputs #将打包之后的文件全部上传（里面会有混淆的map文件）
       # 上传至release的资源
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
+      - name: Upload release binaries
+        uses: alexellis/upload-assets@0.2.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # 上传网址，无需改动
-          asset_path: app/build/outputs/apk/release/SmsForwarder_release_${{steps.get-date.outputs.date}}_${{steps.get-version.outputs.result}}.apk # 上传路径
-          asset_name: SmsForwarder_release_${{steps.get-date.outputs.date}}_${{steps.get-version.outputs.result}}.apk # 资源名
-          asset_content_type: application/vnd.android.package-archiv #资源类型
+          asset_paths: '["./app/build/outputs/apk/release/SmsForwarder_release_*"]'

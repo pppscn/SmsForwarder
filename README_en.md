@@ -1,6 +1,8 @@
+
 ![SmsForwarder](pic/SmsForwarder.png)
 
 # SmsForwarder
+[中文版](README.md)
 
 [![GitHub release](https://img.shields.io/github/release/pppscn/SmsForwarder.svg)](https://github.com/pppscn/SmsForwarder/releases) [![GitHub stars](https://img.shields.io/github/stars/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/stargazers) [![GitHub forks](https://img.shields.io/github/forks/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/network/members) [![GitHub issues](https://img.shields.io/github/issues/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/issues) [![GitHub license](https://img.shields.io/github/license/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/blob/main/LICENSE)
 
@@ -53,7 +55,7 @@ Benefit by simplicity:
 
 ### Workflow:
 
-![工作流程](pic/working_principle.png "工作流程")
+![Workflow](pic/working_principle_en.png "Workflow")
 
 ### Features:
 
@@ -86,24 +88,23 @@ Benefit by simplicity:
 - [x] Forward to PushPlus;
 - [x] Support for customized template of forwarding rules (default template overrides if left blank);
 - [x] Support for variables in regular expression of forwarding rules;
+- [x] 转发到 Gotify发送通道（自主推送通知服务）
+- [x] 被动接收本地 HttpServer
+- [x] 主动轮询远程 SmsHub Api
 
 --------
 
 ### Screenshots :
 
-| Docking in Ntf. screen | Main screen | Fwding rules | Fwding details |
-|  ----  | ----  |  ----  | ----  |
-| ![Docking in Ntf. screen](pic/taskbar.jpg "Docking in Ntf. screen") | ![Main screen](pic/main.png "Main screen") | ![Forwarding rules](pic/rule.jpg "Forwarding rules") | ![Fwding details](pic/maindetail.jpg "Fwding details") |
-| Test of a Fw. rule | Multiple filters | Supported senders | Add/Edit DingTalk sender |
-| ![Test of a Fw. rule](pic/ruleset.png "Test of a Fw. rule") | ![Multiple filters](pic/multimatch.png "Multiple filters") | ![Supported senders](pic/sender.jpg "Supported senders") | ![Add/Edit DingTalk sender](pic/sendersetdingding.jpg "Add/Edit DingTalk sender") |
-| Add/Edit E-mail sender | Add/Edit Bark sender | Add/Edit Webhook | Add/Edit WeCom Group Bot sender |
-| ![Add/Edit E-mail sender](pic/sendersetemail.jpg "Add/Edit E-mail sender") | ![Add/Edit Bark sender](pic/sendersetbark.png "Add/Edit Bark sender") | ![Add/Edit Webhook sender](pic/sendersetwebnotify.jpg "Add/Edit Webhook sender") | ![Add/Edit WeCom group bot](pic/sendersetqywechat.jpg "Add/Edit WeCom group bot") |
-| Add/Edit Telegram Bot sender | Add/Edit ServerChan Turbo sender | Add/Edit WeCom Group sender | Settings |
-| ![Add/Edit Telegram bot](pic/sendertelegram.jpg "Add/Edit Telegram bot") | ![Add/Edit ServerChan Tubo sender](pic/senderserverchan.jpg "Add/Edit ServerChan Tubo sender") | ![Add/Edit WeCom Enterprise channel sender](pic/sendersetqywxapp.jpg "Add/Edit WeCom Enterprise channel sender") | ![Settings](pic/setting.jpg "Settings") |
-| About/Update | RegEx & SIM filters | SMS fwding template w/ SIM label | Add/Edit an SMS fwding rule |
-| ![Online update](pic/update.jpg "Online update") | ![RegEx & SIM filters](pic/regex.jpg "RegEx & SIM filters") | ![SMS fwding template w/ SIM label](pic/siminfo.jpg "SMS fwding template w/ SIM label") | ![Add/Edit SMS fwder.](pic/sendersetsms.jpg "Add/Edit SMS fwder.") |
-| Add/Edit FeiShu Bot sender | Import and export (One-key Cloning) | Listen to ntf. of other Apps and fw. | Get App pkg name(s) |
-| ![Add/Edit FeiShu sender](pic/senderfeishu.png "Add/Edit FeiShu sender") | ![New setting import & export function (One-key Clone)](pic/clone.png "New setting import & export function (One-key Cloning)") | ![Listen to notifications of other Apps and forward](pic/app_notify.png "Listen to notifications of other Apps and forward") | ![Getting list of all Apps (to get App package name)](pic/app_list.png "Getting list of all Apps (to get App package name)") |
+| 前台服务常驻状态栏 | 应用主界面 | 发送通道 |                           转发规则                           |
+|  :--:  | :--:  |  :--:  | :--:  |
+| ![前台服务常驻状态栏](pic/taskbar.jpg "前台服务常驻状态栏") | ![应用主界面](pic/main.jpg "应用主界面") | ![发送通道](pic/sender.png "发送通道") | ![转发规则](pic/rule.jpg "转发规则") |
+| 转发规则--短信转发 | 转发规则--通话记录 | 转发规则--APP通知 | 转发日志详情 |
+| ![短信转发](pic/rule_sms.jpg "短信转发") | ![通话转发](pic/rule_call.jpg "通话转发") | ![通知转发](pic/rule_app.jpg "通知转发") | ![转发日志详情](pic/maindetail.jpg "转发日志详情") |
+| 设置界面--总开关 | 设置界面--电量监控&保活措施 | 设置界面--个性设置 | 一键克隆（配置导出导入） |
+| ![设置界面--总开关](pic/setting_1.jpg "设置界面--总开关") | ![设置界面--电量监控&保活措施](pic/setting_2.jpg "设置界面--电量监控&保活措施") | ![设置界面--个性设置](pic/setting_3.jpg "设置界面--个性设置") | ![配置导出导入功能（一键克隆）](pic/clone.jpg "配置导出导入功能（一键克隆）") |
+
+更多截图参见 https://github.com/pppscn/SmsForwarder/wiki
 
 --------
 
@@ -126,7 +127,9 @@ Benefit by simplicity:
 + https://github.com/mailhu/emailkit (email sending)
 + https://github.com/alibaba/fastjson (json parsing)
 + https://github.com/getActivity/XXPermissions (permission requiring)
-+ [![GitHub license](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg?_ga=2.126618957.1361252949.1638261367-1417196221.1635638144&_gl=1*1pfl3dq*_ga*MTQxNzE5NjIyMS4xNjM1NjM4MTQ0*_ga_V0XZL7QHEB*MTYzODMzMjA4OC43LjAuMTYzODMzMjA5Ny4w)](https://jb.gg/OpenSourceSupport)  (License Certificate for JetBrains All Products Pack)
++ https://github.com/Xcreen/RestSMS（被动接收本地API方案）
++ https://github.com/juancrescente/SMSHub（主动轮询远程API方案）
++ [<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg?_ga=2.126618957.1361252949.1638261367-1417196221.1635638144&_gl=1*1pfl3dq*_ga*MTQxNzE5NjIyMS4xNjM1NjM4MTQ0*_ga_V0XZL7QHEB*MTYzODMzMjA4OC43LjAuMTYzODMzMjA5Ny4w" alt="GitHub license" style="zoom:50%;" />](https://jb.gg/OpenSourceSupport)  (License Certificate for JetBrains All Products Pack)
 
 --------
 

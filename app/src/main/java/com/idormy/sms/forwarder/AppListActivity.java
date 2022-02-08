@@ -20,13 +20,12 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.hjq.toast.ToastUtils;
 import com.idormy.sms.forwarder.adapter.AppAdapter;
 import com.idormy.sms.forwarder.model.AppInfo;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +45,7 @@ public class AppListActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == NOTIFY) {
-                Toast.makeText(AppListActivity.this, msg.getData().getString("DATA"), Toast.LENGTH_LONG).show();
+                ToastUtils.delayedShow(msg.getData().getString("DATA"), 3000);
             } else if (msg.what == APP_LIST) {
                 AppAdapter adapter = new AppAdapter(AppListActivity.this, R.layout.item_app, appInfoList);
                 listView.setAdapter(adapter);
@@ -92,7 +91,7 @@ public class AppListActivity extends AppCompatActivity {
             ClipData mClipData = ClipData.newPlainText("pkgName", appInfo.getPkgName());
             cm.setPrimaryClip(mClipData);
 
-            Toast.makeText(AppListActivity.this, "已复制包名：" + appInfo.getPkgName(), Toast.LENGTH_LONG).show();
+            ToastUtils.delayedShow(getString(R.string.package_name_copied) + appInfo.getPkgName(), 3000);
         });
         listView.setOnItemLongClickListener((parent, view, position, id) -> {
             AppInfo appInfo = appInfoList.get(position);
@@ -112,7 +111,7 @@ public class AppListActivity extends AppCompatActivity {
             Message msg = new Message();
             msg.what = NOTIFY;
             Bundle bundle = new Bundle();
-            bundle.putString("DATA", "user".equals(currentType) ? "正在加载用户应用，请稍候..." : "正在加载系统应用，请稍候...");
+            bundle.putString("DATA", "user".equals(currentType) ? getString(R.string.loading_user_app) : getString(R.string.loading_system_app));
             msg.setData(bundle);
             handler.sendMessage(msg);
 
@@ -149,24 +148,6 @@ public class AppListActivity extends AppCompatActivity {
     // 通过packName得到PackageInfo，作为参数传入即可
     private boolean isSystemApp(PackageInfo pi) {
         return (pi.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1;
-    }
-
-    @Override
-    protected void onDestroy() {
-        Log.d(TAG, "onDestroy");
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
     }
 
 }

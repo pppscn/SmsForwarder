@@ -10,6 +10,7 @@ import android.os.BatteryManager;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
@@ -32,6 +33,10 @@ public class BatteryService extends Service {
     public void onCreate() {
         super.onCreate();
         Log.i(TAG, "onCreate--------------");
+
+        //是否同意隐私协议
+        if (!MyApplication.allowPrivacyPolicy) return;
+
         IntentFilter batteryfilter = new IntentFilter();
         batteryfilter.addAction(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(batteryReceiver, batteryfilter);
@@ -52,6 +57,10 @@ public class BatteryService extends Service {
     public void onDestroy() {
         Log.i(TAG, "onDestroy--------------");
         super.onDestroy();
+
+        //是否同意隐私协议
+        if (!MyApplication.allowPrivacyPolicy) return;
+
         this.unregisterReceiver(batteryReceiver);
     }
 
@@ -60,71 +69,41 @@ public class BatteryService extends Service {
         @SuppressLint("DefaultLocale")
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i(TAG, "BatteryReceiver--------------");
-            String action = intent.getAction();
-            Log.i(TAG, " 0 action:" + action);
-            Log.i(TAG, "ACTION_BATTERY_CHANGED");
-            int status = intent.getIntExtra("status", 0);
-            int health = intent.getIntExtra("health", 0);
-            //boolean present = intent.getBooleanExtra("present", false);
-            int levelCur = intent.getIntExtra("level", 0);
-            int scale = intent.getIntExtra("scale", 0);
-            //int icon_small = intent.getIntExtra("icon-small", 0);
-            int plugged = intent.getIntExtra("plugged", 0);
-            int voltage = intent.getIntExtra("voltage", 0);
-            int temperature = intent.getIntExtra("temperature", 0);
-            //String technology = intent.getStringExtra("technology");
-
-            String msg = "";
-            msg += "\n剩余电量：" + levelCur + "%";
-
-            if (scale > 0) msg += "\n充满电量：" + scale + "%";
-
-            if (voltage > 0) msg += "\n当前电压：" + String.format("%.2f", voltage / 1000F) + "V";
-
-            if (temperature > 0) msg += "\n当前温度：" + String.format("%.2f", temperature / 10F) + "℃";
-
-            msg += "\n电池状态：" + getStatus(status);
-
-            if (health > 0) msg += "\n健康度：" + getHealth(health);
-
-            switch (plugged) {
-                case BatteryManager.BATTERY_PLUGGED_AC:
-                    msg += "\n充电器：AC";
-                    break;
-                case BatteryManager.BATTERY_PLUGGED_USB:
-                    msg += "\n充电器：USB";
-                    break;
-                case BatteryManager.BATTERY_PLUGGED_WIRELESS:
-                    msg += "\n充电器：无线";
-                    break;
-            }
-
-            Log.i(TAG, msg);
 
             //电量发生变化
+            int levelCur = intent.getIntExtra("level", 0);
             int levelPre = SettingUtil.getBatteryLevelCurrent();
             if (levelCur != levelPre) {
+                String msg = batteryReceiver(intent);
                 SettingUtil.setBatteryLevelCurrent(levelCur);
 
                 int levelMin = SettingUtil.getBatteryLevelAlarmMin();
                 int levelMax = SettingUtil.getBatteryLevelAlarmMax();
-                if (levelMin > 0 && levelPre > levelCur && levelCur <= levelMin) { //电量下降到下限
+                if (SettingUtil.getBatteryLevelAlarmOnce() && levelMin > 0 && levelPre > levelCur && levelCur <= levelMin) { //电量下降到下限
+                    msg = "【电量预警】已低于电量预警下限，请及时充电！" + msg;
+                    sendMessage(context, msg);
+                    return;
+                } else if (SettingUtil.getBatteryLevelAlarmOnce() && levelMax > 0 && levelPre < levelCur && levelCur >= levelMax) { //电量上升到上限
+                    msg = "【电量预警】已高于电量预警上限，请拔掉充电器！" + msg;
+                    sendMessage(context, msg);
+                    return;
+                } else if (!SettingUtil.getBatteryLevelAlarmOnce() && levelMin > 0 && levelPre > levelCur && levelCur == levelMin) { //电量下降到下限
                     msg = "【电量预警】已到达电量预警下限，请及时充电！" + msg;
                     sendMessage(context, msg);
                     return;
-                } else if (levelMax > 0 && levelPre < levelCur && levelCur >= levelMax) { //电量上升到上限
+                } else if (!SettingUtil.getBatteryLevelAlarmOnce() && levelMax > 0 && levelPre < levelCur && levelCur == levelMax) { //电量上升到上限
                     msg = "【电量预警】已到达电量预警上限，请拔掉充电器！" + msg;
                     sendMessage(context, msg);
                     return;
                 }
-
             }
 
             //充电状态改变
+            int status = intent.getIntExtra("status", 0);
             if (SettingUtil.getSwitchEnableBatteryReceiver()) {
                 int oldStatus = SettingUtil.getBatteryStatus();
                 if (status != oldStatus) {
+                    String msg = batteryReceiver(intent);
                     SettingUtil.setBatteryStatus(status);
                     msg = "【充电状态】发生变化：" + getStatus(oldStatus) + " → " + getStatus(status) + msg;
                     sendMessage(context, msg);
@@ -132,6 +111,52 @@ public class BatteryService extends Service {
             }
         }
     };
+
+    @SuppressLint("DefaultLocale")
+    private String batteryReceiver(Intent intent) {
+        Log.i(TAG, "BatteryReceiver--------------");
+        String action = intent.getAction();
+        Log.i(TAG, " 0 action:" + action);
+        Log.i(TAG, "ACTION_BATTERY_CHANGED");
+        int status = intent.getIntExtra("status", 0);
+        int health = intent.getIntExtra("health", 0);
+        //boolean present = intent.getBooleanExtra("present", false);
+        int levelCur = intent.getIntExtra("level", 0);
+        int scale = intent.getIntExtra("scale", 0);
+        //int icon_small = intent.getIntExtra("icon-small", 0);
+        int plugged = intent.getIntExtra("plugged", 0);
+        int voltage = intent.getIntExtra("voltage", 0);
+        int temperature = intent.getIntExtra("temperature", 0);
+        //String technology = intent.getStringExtra("technology");
+
+        String msg = "";
+        msg += "\n剩余电量：" + levelCur + "%";
+
+        if (scale > 0) msg += "\n充满电量：" + scale + "%";
+
+        if (voltage > 0) msg += "\n当前电压：" + String.format("%.2f", voltage / 1000F) + "V";
+
+        if (temperature > 0) msg += "\n当前温度：" + String.format("%.2f", temperature / 10F) + "℃";
+
+        msg += "\n电池状态：" + getStatus(status);
+
+        if (health > 0) msg += "\n健康度：" + getHealth(health);
+
+        switch (plugged) {
+            case BatteryManager.BATTERY_PLUGGED_AC:
+                msg += "\n充电器：AC";
+                break;
+            case BatteryManager.BATTERY_PLUGGED_USB:
+                msg += "\n充电器：USB";
+                break;
+            case BatteryManager.BATTERY_PLUGGED_WIRELESS:
+                msg += "\n充电器：无线";
+                break;
+        }
+
+        Log.i(TAG, msg);
+        return msg;
+    }
 
     //电池状态
     private String getStatus(int status) {
@@ -178,7 +203,11 @@ public class BatteryService extends Service {
             SmsVo smsVo = new SmsVo("88888888", msg, new Date(), "电池状态监听");
             Log.d(TAG, "send_msg" + smsVo.toString());
             SendUtil.send_msg(context, smsVo, 1, "app");
-            SmsHubActionHandler.putData(new SmsHubVo(SmsHubVo.Type.phone, null, msg, "电池状态监听"));
+
+            //SmsHubApi
+            if (SettingUtil.getSwitchEnableSmsHubApi()) {
+                SmsHubActionHandler.putData(new SmsHubVo(SmsHubVo.Type.phone, null, msg, "电池状态监听"));
+            }
         } catch (Exception e) {
             Log.e(TAG, "getLog e:" + e.getMessage());
         }

@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
@@ -9,11 +10,15 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 
+import com.hjq.permissions.XXPermissions;
+import com.hjq.toast.ToastUtils;
+import com.hjq.toast.style.WhiteToastStyle;
 import com.idormy.sms.forwarder.receiver.SimStateReceiver;
 import com.idormy.sms.forwarder.sender.SendHistory;
 import com.idormy.sms.forwarder.service.BatteryService;
 import com.idormy.sms.forwarder.service.FrontService;
 import com.idormy.sms.forwarder.utils.Define;
+import com.idormy.sms.forwarder.utils.PermissionInterceptor;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.idormy.sms.forwarder.utils.SharedPreferencesHelper;
@@ -30,6 +35,10 @@ public class MyApplication extends Application {
     //是否关闭页面提示
     public static boolean showHelpTip = true;
     SharedPreferencesHelper sharedPreferencesHelper;
+    //是否同意隐私协议
+    public static boolean allowPrivacyPolicy = false;
+    @SuppressLint("StaticFieldLeak")
+    private static Context context;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -40,8 +49,36 @@ public class MyApplication extends Application {
     public void onCreate() {
         Log.d(TAG, "onCreate");
         super.onCreate();
+        context = getApplicationContext();
 
         try {
+            //异常捕获类
+            CrashHandler crashHandler = CrashHandler.getInstance();
+            crashHandler.init(getApplicationContext());
+
+            // 初始化吐司工具类
+            ToastUtils.init(this, new WhiteToastStyle());
+            // 设置权限申请拦截器（全局设置）
+            XXPermissions.setInterceptor(new PermissionInterceptor());
+
+            //友盟统计
+            sharedPreferencesHelper = new SharedPreferencesHelper(this, "umeng");
+            //设置LOG开关，默认为false
+            //UMConfigure.setLogEnabled(true);
+            //友盟预初始化
+            UMConfigure.preInit(getApplicationContext(), "60254fc7425ec25f10f4293e", "Umeng");
+
+            //判断是否同意隐私协议，uminit为1时为已经同意，直接初始化umsdk
+            if (sharedPreferencesHelper.getSharedPreference("uminit", "").equals("1")) {
+                allowPrivacyPolicy = true;
+                //友盟正式初始化
+                UmInitConfig umInitConfig = new UmInitConfig();
+                umInitConfig.UMinit(getApplicationContext());
+            }
+
+            //是否同意隐私协议
+            if (!MyApplication.allowPrivacyPolicy) return;
+
             //前台服务
             Intent intent = new Intent(this, FrontService.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -52,7 +89,6 @@ public class MyApplication extends Application {
 
             SendHistory.init(this);
             SettingUtil.init(this);
-
             EmailKit.initialize(this);
 
             SharedPreferences sp = MyApplication.this.getSharedPreferences(Define.SP_CONFIG, Context.MODE_PRIVATE);
@@ -76,21 +112,15 @@ public class MyApplication extends Application {
             IntentFilter simStateFilter = new IntentFilter(SimStateReceiver.ACTION_SIM_STATE_CHANGED);
             registerReceiver(new SimStateReceiver(), simStateFilter);
 
-            //友盟统计
-            sharedPreferencesHelper = new SharedPreferencesHelper(this, "umeng");
-            //设置LOG开关，默认为false
-            //UMConfigure.setLogEnabled(true);
-            //友盟预初始化
-            UMConfigure.preInit(getApplicationContext(), "60254fc7425ec25f10f4293e", "Umeng");
-
-            //判断是否同意隐私协议，uminit为1时为已经同意，直接初始化umsdk
-            if (sharedPreferencesHelper.getSharedPreference("uminit", "").equals("1")) {
-                //友盟正式初始化
-                UmInitConfig umInitConfig = new UmInitConfig();
-                umInitConfig.UMinit(getApplicationContext());
-            }
         } catch (Exception e) {
             Log.e(TAG, "onCreate:", e);
         }
+    }
+
+    /**
+     * 获取全局上下文
+     */
+    public static Context getContext() {
+        return context;
     }
 }

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="16dp"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp"
     android:paddingTop="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp"
     android:weightSum="1">
 
     <LinearLayout
@@ -47,13 +48,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="@string/server_ip" />
+            android:text="@string/server_ip"
+            android:textStyle="bold" />
 
         <com.idormy.sms.forwarder.view.IPEditText
             android:id="@+id/textServerIp"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -95,15 +96,17 @@
             android:id="@+id/ipText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10sp"
+            android:layout_marginTop="10dp"
             android:text="@string/local_ip"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10sp"
-            android:text="@string/operating_instruction" />
+            android:layout_marginTop="10dp"
+            android:text="@string/operating_instruction"
+            android:textSize="10sp"
+            tools:ignore="SmallSp" />
     </LinearLayout>
 
 </LinearLayout>

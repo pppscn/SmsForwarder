@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.R;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.utils.RuleLineUtils;
@@ -20,6 +21,8 @@ import lombok.Data;
 @SuppressWarnings({"unused"})
 @Data
 public class RuleModel {
+    public static final int STATUS_ON = 1;
+    public static final int STATUS_OFF = 0;
     public static final String FILED_TRANSPOND_ALL = "transpond_all";
     public static final String FILED_PHONE_NUM = "phone_num";
     public static final String FILED_PACKAGE_NAME = "package_name";
@@ -42,32 +45,32 @@ public class RuleModel {
     public static final Map<String, String> TYPE_MAP = new HashMap<>();
 
     static {
-        TYPE_MAP.put("sms", "短信");
-        TYPE_MAP.put("call", "来电");
-        TYPE_MAP.put("app", "应用");
+        TYPE_MAP.put("sms", getString(R.string.rule_sms));
+        TYPE_MAP.put("call", getString(R.string.rule_call));
+        TYPE_MAP.put("app", getString(R.string.rule_app));
     }
 
     static {
-        FILED_MAP.put("transpond_all", "全部转发");
-        FILED_MAP.put("phone_num", "手机号");
-        FILED_MAP.put("msg_content", "内容");
-        FILED_MAP.put("multi_match", "多重匹配");
-        FILED_MAP.put("package_name", "APP包名");
-        FILED_MAP.put("inform_content", "通知内容");
+        FILED_MAP.put("transpond_all", getString(R.string.rule_transpond_all));
+        FILED_MAP.put("phone_num", getString(R.string.rule_phone_num));
+        FILED_MAP.put("msg_content", getString(R.string.rule_msg_content));
+        FILED_MAP.put("multi_match", getString(R.string.rule_multi_match));
+        FILED_MAP.put("package_name", getString(R.string.rule_package_name));
+        FILED_MAP.put("inform_content", getString(R.string.rule_inform_content));
     }
 
     static {
-        CHECK_MAP.put("is", "是");
-        CHECK_MAP.put("notis", "不是");
-        CHECK_MAP.put("contain", "包含");
-        CHECK_MAP.put("startwith", "开头是");
-        CHECK_MAP.put("endwith", "结尾是");
-        CHECK_MAP.put("notcontain", "不包含");
-        CHECK_MAP.put("regex", "正则匹配");
+        CHECK_MAP.put("is", getString(R.string.rule_is));
+        CHECK_MAP.put("notis", getString(R.string.rule_notis));
+        CHECK_MAP.put("contain", getString(R.string.rule_contain));
+        CHECK_MAP.put("startwith", getString(R.string.rule_startwith));
+        CHECK_MAP.put("endwith", getString(R.string.rule_endwith));
+        CHECK_MAP.put("notcontain", getString(R.string.rule_notcontain));
+        CHECK_MAP.put("regex", getString(R.string.rule_regex));
     }
 
     static {
-        SIM_SLOT_MAP.put("ALL", "全部");
+        SIM_SLOT_MAP.put("ALL", getString(R.string.rule_all));
         SIM_SLOT_MAP.put("SIM1", "SIM1");
         SIM_SLOT_MAP.put("SIM2", "SIM2");
     }
@@ -85,13 +88,14 @@ public class RuleModel {
     private String smsTemplate;
     private boolean switchRegexReplace;
     private String regexReplace;
+    private int status;
 
     public static String getRuleMatch(String filed, String check, String value, String simSlot) {
-        String SimStr = SIM_SLOT_MAP.get(simSlot) + "卡 ";
+        String SimStr = SIM_SLOT_MAP.get(simSlot) + getString(R.string.rule_card);
         if (filed == null || filed.equals(FILED_TRANSPOND_ALL)) {
-            return SimStr + "全部 转发到 ";
+            return SimStr + getString(R.string.rule_all_fw_to);
         } else {
-            return SimStr + "当 " + FILED_MAP.get(filed) + " " + CHECK_MAP.get(check) + " " + value + " 转发到 ";
+            return SimStr + getString(R.string.rule_when) + FILED_MAP.get(filed) + " " + CHECK_MAP.get(check) + " " + value + getString(R.string.rule_fw_to);
         }
     }
 
@@ -239,11 +243,11 @@ public class RuleModel {
     }
 
     public String getRuleMatch() {
-        String SimStr = "app".equals(type) ? "" : SIM_SLOT_MAP.get(simSlot) + "卡 ";
+        String SimStr = "app".equals(type) ? "" : SIM_SLOT_MAP.get(simSlot) + getString(R.string.rule_card);
         if (filed == null || filed.equals(FILED_TRANSPOND_ALL)) {
-            return SimStr + "全部 转发到 ";
+            return SimStr + getString(R.string.rule_all_fw_to);
         } else {
-            return SimStr + "当 " + FILED_MAP.get(filed) + " " + CHECK_MAP.get(check) + " " + value + " 转发到 ";
+            return SimStr + getString(R.string.rule_when) + FILED_MAP.get(filed) + " " + CHECK_MAP.get(check) + " " + value + getString(R.string.rule_fw_to);
         }
     }
 
@@ -304,6 +308,37 @@ public class RuleModel {
         return switchRegexReplace;
     }
 
+    public boolean getStatusChecked() {
+        return !(status == STATUS_OFF);
+    }
+
+
+    public int getImageId() {
+        switch (simSlot) {
+            case (CHECK_SIM_SLOT_1):
+                return R.drawable.sim1;
+            case (CHECK_SIM_SLOT_2):
+                return R.drawable.sim2;
+            case (CHECK_SIM_SLOT_ALL):
+            default:
+                return type.equals("app") ? R.drawable.ic_app : R.drawable.ic_sim;
+        }
+    }
+
+    public int getStatusImageId() {
+        switch (status) {
+            case (STATUS_OFF):
+                return R.drawable.ic_round_pause;
+            case (STATUS_ON):
+            default:
+                return R.drawable.ic_round_play;
+        }
+    }
+
+    private static String getString(int resId) {
+        return MyApplication.getContext().getString(resId);
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -314,6 +349,7 @@ public class RuleModel {
                 ", value='" + value + '\'' +
                 ", senderId=" + senderId +
                 ", time=" + time +
+                ", status=" + status +
                 '}';
     }
 }

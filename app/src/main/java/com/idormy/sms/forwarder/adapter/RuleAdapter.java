@@ -62,7 +62,10 @@ public class RuleAdapter extends ArrayAdapter<RuleModel> {
             viewHolder = new ViewHolder();
             viewHolder.ruleMatch = view.findViewById(R.id.rule_match);
             viewHolder.ruleSender = view.findViewById(R.id.rule_sender);
+            viewHolder.ruleImage = view.findViewById(R.id.rule_image);
+            viewHolder.ruleStatus = view.findViewById(R.id.rule_status);
             viewHolder.ruleSenderImage = view.findViewById(R.id.rule_sender_image);
+            viewHolder.ruleSenderStatus = view.findViewById(R.id.rule_sender_status);
 
             // 将ViewHolder存储在View中（即将控件的实例存储在其中）
             view.setTag(viewHolder);
@@ -73,11 +76,15 @@ public class RuleAdapter extends ArrayAdapter<RuleModel> {
 
         // 获取控件实例，并调用set...方法使其显示出来
         if (ruleModel != null) {
+            viewHolder.ruleImage.setImageResource(ruleModel.getImageId());
+            viewHolder.ruleStatus.setImageResource(ruleModel.getStatusImageId());
+
             List<SenderModel> senderModel = SenderUtil.getSender(ruleModel.getSenderId(), null);
             viewHolder.ruleMatch.setText(ruleModel.getRuleMatch());
             if (!senderModel.isEmpty()) {
                 viewHolder.ruleSender.setText(senderModel.get(0).getName());
                 viewHolder.ruleSenderImage.setImageResource(senderModel.get(0).getImageId());
+                viewHolder.ruleSenderStatus.setImageResource(senderModel.get(0).getStatusImageId());
             } else {
                 viewHolder.ruleSender.setText("");
             }
@@ -111,7 +118,10 @@ public class RuleAdapter extends ArrayAdapter<RuleModel> {
     static class ViewHolder {
         TextView ruleMatch;
         TextView ruleSender;
+        ImageView ruleImage;
+        ImageView ruleStatus;
         ImageView ruleSenderImage;
+        ImageView ruleSenderStatus;
     }
 
 }

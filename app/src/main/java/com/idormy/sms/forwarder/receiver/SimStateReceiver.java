@@ -18,9 +18,6 @@ public class SimStateReceiver extends BroadcastReceiver {
     /**
      * 更换SIM卡，如果不杀后台并重启，则发送出的「卡槽信息」仍然是刚启动应用时读取的SIM卡
      * 增加这个Receiver，接收SIM卡插拔状态广播，自动更新缓存
-     *
-     * @param context
-     * @param intent
      */
     @Override
     public void onReceive(Context context, Intent intent) {

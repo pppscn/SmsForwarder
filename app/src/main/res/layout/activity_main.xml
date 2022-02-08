@@ -1,13 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnCleanLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="90dp"
+        android:contentDescription="@string/clean_log"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_delete"
+        app:borderWidth="0dp"
+        app:elevation="5dp"
+        app:fabSize="mini" />-->
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/btnCleanLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="90dp"
+        android:src="@drawable/ic_delete"
+        app:fab_type="mini"
+        app:fab_colorNormal="@color/colorPrimary"
+        app:fab_colorPressed="@color/colorPrimaryDark"
+        app:fab_colorRipple="@color/colorAccent" />
+
+    <LinearLayout
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dip"
         android:orientation="horizontal">
@@ -15,14 +46,16 @@
         <RadioGroup
             android:id="@+id/radioGroupTypeCheck"
             style="@style/rg_style"
+            android:layout_width="match_parent"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/btnTypeSms"
                 style="@style/select_style"
+                android:checked="true"
                 android:tag="sms"
-                android:text="@string/sms"
-                android:checked="true" />
+                android:text="@string/sms" />
 
             <RadioButton
                 android:id="@+id/btnTypeCall"
@@ -42,65 +75,20 @@
     <com.idormy.sms.forwarder.RefreshListView
         android:id="@+id/list_view_log"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="5dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/radioGroup"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="85dp" />
 
-    <LinearLayout
+    <com.idormy.sms.forwarder.view.StepBar
+        android:id="@+id/stepBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        app:current_step="main"
+        app:help_tip="@string/log_tips" />
 
-        <TextView
-            android:id="@+id/help_tip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/log_tips"
-            android:textColor="@color/colorPrimary" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimary"
-                android:onClick="cleanLog"
-                android:text="@string/bt_refresh_log"
-                tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimary"
-                android:onClick="toRuleSetting"
-                android:text="@string/rule_setting"
-                tools:ignore="ButtonStyle,NestedWeights,UsingOnClickInXml" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimary"
-                android:onClick="toSendSetting"
-                android:text="@string/sender_setting"
-                tools:ignore="ButtonStyle,UsingOnClickInXml" />
-        </LinearLayout>
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

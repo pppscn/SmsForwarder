@@ -13,48 +13,61 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/set_name" />
+                android:text="@string/set_name"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextQYWXGroupRobotName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:singleLine="true"
+                tools:ignore="LabelFor" />
+
+            <Switch
+                android:id="@+id/switchQYWXGroupRobotEnable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:autofillHints=""
-                android:ems="11"
-                android:inputType="text"
-                android:text=""
-                tools:ignore="LabelFor" />
+                android:checked="true"
+                android:textSize="14sp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/QYWXGroupRobotWebHook" />
+                android:orientation="horizontal">
 
-            <!--<EditText
-                android:id="@+id/editTextQYWXGroupRobotWebHook"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="14"
-                android:inputType="text"
-                android:text=""
-                tools:ignore="LabelFor" />-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/QYWXGroupRobotWebHook"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/QYWXGroupRobotWebHookTips"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
 
             <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextQYWXGroupRobotWebHook"

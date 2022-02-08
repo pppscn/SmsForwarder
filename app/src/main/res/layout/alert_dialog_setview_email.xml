@@ -13,8 +13,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -24,32 +24,38 @@
 
             <EditText
                 android:id="@+id/editTextEmailName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:singleLine="true"
+                tools:ignore="LabelFor,TextFields" />
+
+            <Switch
+                android:id="@+id/switchEmailEnable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:autofillHints=""
-                android:ems="11"
-                android:inputType="text"
-                android:maxLines="1"
-                android:text=""
-                tools:ignore="LabelFor,TextFields" />
+                android:checked="true"
+                android:textSize="14sp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:text="@string/account"
-            android:textSize="14sp"
             android:textColor="@color/colorBlueGreyDark"
+            android:textSize="14sp"
             tools:ignore="HardcodedText" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -73,26 +79,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/email_password" />
-
-            <!--<EditText
-                android:id="@+id/editTextEmailPsw"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:autofillHints=""
-                android:ems="14"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:text=""
-                tools:ignore="LabelFor,TextFields" />-->
 
             <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextEmailPsw"
@@ -109,8 +103,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -134,19 +128,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:text="@string/servers"
-            android:textSize="14sp"
             android:textColor="@color/colorBlueGreyDark"
+            android:textSize="14sp"
             tools:ignore="HardcodedText" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal"
             android:visibility="gone">
 
@@ -183,8 +177,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -208,8 +202,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -219,14 +213,15 @@
 
             <EditText
                 android:id="@+id/editTextEmailPort"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
-                android:autofillHints=""
-                android:ems="5"
+                android:layout_weight="1"
+                android:digits="0123456789"
+                android:importantForAutofill="no"
                 android:inputType="number"
-                android:maxLines="1"
-                android:text=""
+                android:maxLength="5"
+                android:singleLine="true"
                 tools:ignore="LabelFor,TextFields" />
 
             <TextView
@@ -245,19 +240,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
-            android:text="@string/email"
-            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:text="@string/email_settings"
             android:textColor="@color/colorBlueGreyDark"
+            android:textSize="14sp"
             tools:ignore="HardcodedText" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:background="@android:color/white"
             android:gravity="center_vertical"
             android:orientation="vertical">
@@ -285,8 +280,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
-                android:inputType="text"
                 android:gravity="start|top"
+                android:inputType="text"
                 android:minLines="1"
                 android:text=""
                 tools:ignore="LabelFor,TextFields" />
@@ -297,8 +292,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:background="@android:color/white"
             android:gravity="center_vertical"
             android:orientation="vertical">
@@ -326,8 +321,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
-                android:inputType="text"
                 android:gravity="start|top"
+                android:inputType="text"
                 android:minLines="1"
                 android:text=""
                 tools:ignore="LabelFor,TextFields" />

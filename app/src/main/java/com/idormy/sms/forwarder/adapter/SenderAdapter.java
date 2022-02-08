@@ -60,6 +60,7 @@ public class SenderAdapter extends ArrayAdapter<SenderModel> {
             // 避免每次调用getView()时都要重新获取控件实例
             viewHolder = new ViewHolder();
             viewHolder.senderImage = view.findViewById(R.id.sender_image);
+            viewHolder.senderStatus = view.findViewById(R.id.sender_status);
             viewHolder.senderName = view.findViewById(R.id.sender_name);
 
             // 将ViewHolder存储在View中（即将控件的实例存储在其中）
@@ -72,6 +73,7 @@ public class SenderAdapter extends ArrayAdapter<SenderModel> {
         // 获取控件实例，并调用set...方法使其显示出来
         if (senderModel != null) {
             viewHolder.senderImage.setImageResource(senderModel.getImageId());
+            viewHolder.senderStatus.setImageResource(senderModel.getStatusImageId());
             viewHolder.senderName.setText(senderModel.getName());
         }
 
@@ -123,6 +125,7 @@ public class SenderAdapter extends ArrayAdapter<SenderModel> {
     // 定义一个内部类，用于对控件的实例进行缓存
     static class ViewHolder {
         ImageView senderImage;
+        ImageView senderStatus;
         TextView senderName;
     }
 

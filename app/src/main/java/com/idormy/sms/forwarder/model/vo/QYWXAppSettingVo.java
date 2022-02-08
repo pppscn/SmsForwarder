@@ -1,5 +1,7 @@
 package com.idormy.sms.forwarder.model.vo;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 
 import lombok.Data;
@@ -30,6 +32,12 @@ public class QYWXAppSettingVo implements Serializable {
             return null;
         }
         return accessToken;
+    }
+
+    public boolean checkParms() {
+        if (TextUtils.isEmpty(corpID)) return false;
+        if (TextUtils.isEmpty(agentID)) return false;
+        return !TextUtils.isEmpty(secret);
     }
 
 }

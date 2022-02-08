@@ -20,20 +20,9 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.idormy.sms.forwarder.model.**{*;}
--keep public class com.idormy.sms.forwarder.R$*{
-public static final int *;
-}
+-keep class com.idormy.**{*;}
 
--keep class com.umeng.** {*;}
--keepclassmembers class * {
-   public <init> (org.json.JSONObject);
-}
--keepclassmembers enum * {
-    public static **[] values();
-    public static ** valueOf(java.lang.String);
-}
-
+#emailkit
 -dontwarn com.sun.**
 -dontwarn javax.mail.**
 -dontwarn javax.activation.**
@@ -42,8 +31,8 @@ public static final int *;
 -keep class javax.activation.** { *;}
 -keep class com.smailnet.emailkit.** { *;}
 
+#xupdate
 -keep class com.xuexiang.xupdate.entity.** { *; }
--keep class com.xuexiang.xupdatedemo.entity.** { *; }
 -dontwarn com.arialyy.aria.**
 -keep class com.arialyy.aria.**{*;}
 -keep class **$$DownloadListenerProxy{ *; }
@@ -54,4 +43,35 @@ public static final int *;
     @Download.* <methods>;
     @Upload.* <methods>;
     @DownloadGroup.* <methods>;
+}
+
+#友盟统计SDK
+-dontwarn com.umeng.**
+-dontwarn com.taobao.**
+-dontwarn anet.channel.**
+-dontwarn anetwork.channel.**
+-dontwarn org.android.**
+-dontwarn org.apache.thrift.**
+-dontwarn com.xiaomi.**
+-dontwarn com.huawei.**
+-dontwarn com.meizu.**
+
+-keepattributes *Annotation*
+
+-keep class com.taobao.** {*;}
+-keep class org.android.** {*;}
+-keep class anet.channel.** {*;}
+-keep class com.umeng.** {*;}
+-keep class com.xiaomi.** {*;}
+-keep class com.huawei.** {*;}
+-keep class com.meizu.** {*;}
+-keep class org.apache.thrift.** {*;}
+
+-keep class com.alibaba.sdk.android.** {*;}
+-keep class com.ut.** {*;}
+-keep class com.uc.** {*;}
+-keep class com.ta.** {*;}
+
+-keep public class **.R$* {
+    public static final int *;
 }

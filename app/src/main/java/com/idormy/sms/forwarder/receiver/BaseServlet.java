@@ -6,29 +6,40 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.util.IOUtils;
-import com.idormy.sms.forwarder.CloneActivity;
 import com.idormy.sms.forwarder.model.vo.SmsHubVo;
+import com.idormy.sms.forwarder.utils.BackupDbTask;
+import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.idormy.sms.forwarder.utils.SmsHubActionHandler;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @WebServlet
 @MultipartConfig
 public class BaseServlet extends HttpServlet {
 
     public static final int BUFFER_SIZE = 1 << 12;
-    public static final String CLONE_PATH = "/";
+    public static final String CLONE_PATH = "/clone";
     public static final String SMSHUB_PATH = "/send_api";
     private static final long serialVersionUID = 1L;
     private static final String TAG = "BaseServlet";
@@ -37,6 +48,7 @@ public class BaseServlet extends HttpServlet {
     public BaseServlet(String path, Context context) {
         this.path = path;
         this.context = context;
+        SettingUtil.init(context);
     }
 
     private final String path;
@@ -79,12 +91,27 @@ public class BaseServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String msg = "HTTP method POST is not supported by this URL";
         if (CLONE_PATH.equals(path)) {
-            clone(req, resp);
+            clone_api(req, resp);
         } else if (SMSHUB_PATH.equals(path)) {
             send_api(req, resp);
+        } else if ("1.1".endsWith(req.getProtocol())) {
+            resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, msg);
         } else {
-            notFound(req, resp);
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String msg = "HTTP method GET is not supported by this URL";
+        if (CLONE_PATH.equals(path)) {
+            clone(req, resp);
+        } else if ("1.1".endsWith(req.getProtocol())) {
+            resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, msg);
+        } else {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
         }
     }
 
@@ -107,7 +134,7 @@ public class BaseServlet extends HttpServlet {
         BufferedReader reader = req.getReader();
         try {
             String read = read(reader);
-            Log.i(TAG, "请求内容:" + read);
+            Log.i(TAG, "Request message:" + read);
             List<SmsHubVo> smsHubVos = JSON.parseArray(read, SmsHubVo.class);
             if (smsHubVos.size() == 1 && SmsHubVo.Action.heartbeat.code().equals(smsHubVos.get(0).getAction())) {
                 smsHubVos.clear();
@@ -141,15 +168,60 @@ public class BaseServlet extends HttpServlet {
     }
 
     private void printErrMsg(HttpServletResponse resp, PrintWriter writer, Exception e) {
-        String text = "服务器内部错误:" + e.getMessage();
+        String text = "Internal server error: " + e.getMessage();
         Log.e(TAG, text);
         resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         writer.println(text);
     }
 
+    //一键克隆——查询接口
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private void clone_api(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setCharacterEncoding("utf-8");
+        PrintWriter writer = resp.getWriter();
+        BufferedReader reader = req.getReader();
+        try {
+            //备份文件
+            BackupDbTask task = new BackupDbTask(context);
+            String backup_version = task.doInBackground(BackupDbTask.COMMAND_BACKUP);
+            Log.d(TAG, "backup_version = " + backup_version);
+
+            Map msgMap = new HashMap();
+            msgMap.put("versionCode", SettingUtil.getVersionCode());
+            msgMap.put("versionName", SettingUtil.getVersionName());
+            msgMap.put("enableSms", SettingUtil.getSwitchEnableSms());
+            msgMap.put("enablePhone", SettingUtil.getSwitchEnablePhone());
+            msgMap.put("callType1", SettingUtil.getSwitchCallType1());
+            msgMap.put("callType2", SettingUtil.getSwitchCallType2());
+            msgMap.put("callType3", SettingUtil.getSwitchCallType3());
+            msgMap.put("enableAppNotify", SettingUtil.getSwitchEnableAppNotify());
+            msgMap.put("cancelAppNotify", SettingUtil.getSwitchCancelAppNotify());
+            msgMap.put("smsHubApiUrl", SettingUtil.getSmsHubApiUrl());
+            msgMap.put("batteryLevelAlarmMin", SettingUtil.getBatteryLevelAlarmMin());
+            msgMap.put("batteryLevelAlarmMax", SettingUtil.getBatteryLevelAlarmMax());
+            msgMap.put("batteryLevelAlarmOnce", SettingUtil.getBatteryLevelAlarmOnce());
+            msgMap.put("retryTimes", SettingUtil.getRetryTimes());
+            msgMap.put("delayTime", SettingUtil.getDelayTime());
+            msgMap.put("enableSmsTemplate", SettingUtil.getSwitchSmsTemplate());
+            msgMap.put("smsTemplate", SettingUtil.getSmsTemplate());
+            msgMap.put("backupVersion", backup_version);
+
+            resp.setContentType("application/json;charset=utf-8");
+            String text = JSON.toJSONString(msgMap);
+            writer.println(text);
+        } catch (Exception e) {
+            e.printStackTrace();
+            printErrMsg(resp, writer, e);
+        } finally {
+            IOUtils.close(reader);
+            IOUtils.close(writer);
+        }
+    }
+
+    //一键克隆——下载接口
     private void clone(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        File file = context.getDatabasePath(CloneActivity.DATABASE_NAME);
-        resp.addHeader("Content-Disposition", "attachment;filename=" + CloneActivity.DATABASE_NAME);
+        File file = new File(context.getCacheDir().getPath() + File.separator + BackupDbTask.BACKUP_FILE);
+        resp.addHeader("Content-Disposition", "attachment;filename=" + BackupDbTask.BACKUP_FILE);
         ServletOutputStream outputStream = resp.getOutputStream();
         InputStream inputStream = new FileInputStream(file);
         try {
@@ -160,7 +232,7 @@ public class BaseServlet extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            String text = "服务器内部错误:" + e.getMessage();
+            String text = "Internal server error: " + e.getMessage();
             Log.e(TAG, text);
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } finally {
