@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.util.IOUtils;
+import com.idormy.sms.forwarder.model.vo.ResVo;
 import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 import com.idormy.sms.forwarder.utils.BackupDbTask;
 import com.idormy.sms.forwarder.utils.SettingUtil;
@@ -14,6 +15,7 @@ import com.idormy.sms.forwarder.utils.SmsHubActionHandler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.StringUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -43,7 +45,7 @@ public class BaseServlet extends HttpServlet {
     public static final String SMSHUB_PATH = "/send_api";
     private static final long serialVersionUID = 1L;
     private static final String TAG = "BaseServlet";
-    private static final SmsHubActionHandler.SmsHubMode smsHubMode = SmsHubActionHandler.SmsHubMode.server;
+    public static final SmsHubActionHandler.SmsHubMode smsHubMode = SmsHubActionHandler.SmsHubMode.server;
 
     public BaseServlet(String path, Context context) {
         this.path = path;
@@ -115,18 +117,6 @@ public class BaseServlet extends HttpServlet {
         }
     }
 
-    private void notFound(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        PrintWriter writer = resp.getWriter();
-        try {
-            String text = "NOT FOUND";
-            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            writer.println(text);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            IOUtils.close(writer);
-        }
-    }
 
     private void send_api(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setCharacterEncoding("utf-8");
@@ -135,28 +125,16 @@ public class BaseServlet extends HttpServlet {
         try {
             String read = read(reader);
             Log.i(TAG, "Request message:" + read);
-            List<SmsHubVo> smsHubVos = JSON.parseArray(read, SmsHubVo.class);
-            if (smsHubVos.size() == 1 && SmsHubVo.Action.heartbeat.code().equals(smsHubVos.get(0).getAction())) {
-                smsHubVos.clear();
-                SmsHubVo smsHubVo = SmsHubVo.heartbeatInstance();
-                smsHubVos.add(smsHubVo);
-                List<SmsHubVo> data = SmsHubActionHandler.getData(smsHubMode);
-                if (data != null && data.size() > 0) {
-                    smsHubVo.setChildren(data);
-                }
-            } else {
+            List<SmsHubVo> data = SmsHubActionHandler.getData(smsHubMode);
+            SmsHubVo smsHubVo = SmsHubVo.heartbeatInstance(data);
+            if (StringUtil.isNotBlank(read)) {
+                List<SmsHubVo> smsHubVos = JSON.parseArray(read, SmsHubVo.class);
                 for (SmsHubVo vo : smsHubVos) {
                     SmsHubActionHandler.handle(TAG, vo);
                 }
-                List<SmsHubVo> data = SmsHubActionHandler.getData(smsHubMode);
-                if (data != null && data.size() > 0) {
-                    SmsHubVo smsHubVo = SmsHubVo.heartbeatInstance();
-                    smsHubVo.setChildren(data);
-                    smsHubVos.add(smsHubVo);
-                }
             }
             resp.setContentType("application/json;charset=utf-8");
-            String text = JSON.toJSONString(smsHubVos);
+            String text = JSON.toJSONString(ResVo.suessces(smsHubVo));
             writer.println(text);
         } catch (Exception e) {
             e.printStackTrace();
@@ -170,8 +148,9 @@ public class BaseServlet extends HttpServlet {
     private void printErrMsg(HttpServletResponse resp, PrintWriter writer, Exception e) {
         String text = "Internal server error: " + e.getMessage();
         Log.e(TAG, text);
-        resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        writer.println(text);
+        resp.setStatus(HttpServletResponse.SC_OK);
+        resp.setContentType("application/json;charset=utf-8");
+        writer.println(JSON.toJSONString(ResVo.error(text)));
     }
 
     //一键克隆——查询接口

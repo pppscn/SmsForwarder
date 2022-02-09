@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.idormy.sms.forwarder.model.LogModel;
 import com.idormy.sms.forwarder.model.vo.SmsHubVo;
+import com.idormy.sms.forwarder.sender.SmsHubApiTask;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,8 +57,17 @@ public class SmsHubActionHandler {
         }
     }
 
+    private static long falg = System.currentTimeMillis();
+
     public static synchronized void putData(SmsHubMode smsHubMode, SmsHubVo... smsHubVos) {
         if (isEnable(smsHubMode)) {
+            if (smsHubMode == SmsHubMode.server) {
+                long l = falg;
+                falg = System.currentTimeMillis();
+                if (System.currentTimeMillis() - l > SmsHubApiTask.DELAY_SECONDS * 3) {
+                    return;
+                }
+            }
             Objects.requireNonNull(cache.get(smsHubMode)).addAll(Arrays.asList(smsHubVos));
         }
     }
@@ -101,7 +111,7 @@ public class SmsHubActionHandler {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
                     int simId = Integer.parseInt(vo.getChannel());
                     vo.setChannel("SIM" + simId);
-                    msg = SmsUtil.sendSms(SimUtil.getSubscriptionIdBySimId(simId), vo.getTarget(), vo.getContent());
+                    msg = SmsUtil.sendSms(SimUtil.getSubscriptionIdBySimId(simId - 1), vo.getTarget(), vo.getContent());
                     if (msg == null) {
                         failure = false;
                         HttpUtil.Toast(tag, "短信发送成功");
