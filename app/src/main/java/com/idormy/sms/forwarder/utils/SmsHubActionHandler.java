@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.idormy.sms.forwarder.model.LogModel;
 import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 import com.idormy.sms.forwarder.sender.SmsHubApiTask;
@@ -89,11 +90,12 @@ public class SmsHubActionHandler {
     }
 
     public static void handle(String tag, SmsHubVo vo) {
+        Log.i(tag, JSON.toJSONString(vo));
         String action = vo.getAction();
         if (SmsHubVo.Action.send.code().equals(action)) {
             send(tag, vo);
         } else {
-            String errMsg = "暂不支持的action:" + action;
+            String errMsg = "暂不支持的action[" + action + "]";
             vo.setErrMsg(errMsg);
             vo.setAction(SmsHubVo.Action.failure.code());
         }
@@ -107,11 +109,12 @@ public class SmsHubActionHandler {
         try {
             if (SmsHubVo.Action.send.code().equals(vo.getAction())) {
                 vo.setType(SmsHubVo.Type.sms.code());
-                logId = LogUtil.addLog(new LogModel(vo.getType(), vo.getTarget(), vo.getContent(), "SIM" + vo.getChannel(), RULE_ID));
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    int simId = Integer.parseInt(vo.getChannel());
-                    vo.setChannel("SIM" + simId);
-                    msg = SmsUtil.sendSms(SimUtil.getSubscriptionIdBySimId(simId - 1), vo.getTarget(), vo.getContent());
+                    int subscriptionIdBySimId = SimUtil.getSubscriptionIdBySimId(Integer.parseInt(vo.getChannel()) - 1);
+                    msg = SmsUtil.sendSms(subscriptionIdBySimId, vo.getTarget(), vo.getContent());
+                    String simInfo = "SIM" + (subscriptionIdBySimId + 1);
+                    vo.setChannel(simInfo);
+                    logId = LogUtil.addLog(new LogModel(vo.getType(), vo.getTarget(), vo.getContent(), simInfo, RULE_ID));
                     if (msg == null) {
                         failure = false;
                         HttpUtil.Toast(tag, "短信发送成功");

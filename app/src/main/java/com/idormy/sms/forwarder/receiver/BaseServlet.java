@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.util.IOUtils;
 import com.idormy.sms.forwarder.model.vo.ResVo;
 import com.idormy.sms.forwarder.model.vo.SmsHubVo;
@@ -125,16 +126,31 @@ public class BaseServlet extends HttpServlet {
         try {
             String read = read(reader);
             Log.i(TAG, "Request message:" + read);
-            List<SmsHubVo> data = SmsHubActionHandler.getData(smsHubMode);
-            SmsHubVo smsHubVo = SmsHubVo.heartbeatInstance(data);
+            SmsHubVo smsHubVo = SmsHubVo.heartbeatInstance(SmsHubActionHandler.getData(smsHubMode));
+            ResVo<List<SmsHubVo>> result = ResVo.suessces(null);
             if (StringUtil.isNotBlank(read)) {
-                List<SmsHubVo> smsHubVos = JSON.parseArray(read, SmsHubVo.class);
-                for (SmsHubVo vo : smsHubVos) {
+                ResVo<List<SmsHubVo>> obj = JSON.parseObject(read, new TypeReference<ResVo<List<SmsHubVo>>>() {
+                }.getType());
+                List<SmsHubVo> data = obj.getData();
+                for (SmsHubVo vo : data) {
                     SmsHubActionHandler.handle(TAG, vo);
                 }
+                result.setData(data);
             }
+            result.setHeartbeat(smsHubVo);
             resp.setContentType("application/json;charset=utf-8");
-            String text = JSON.toJSONString(ResVo.suessces(smsHubVo));
+            StringBuilder sb = new StringBuilder();
+            int i = 0;
+            for (SmsHubVo datum : result.getData()) {
+                if (SmsHubVo.Action.failure.code().equals(datum.getAction())) {
+                    sb.append(",").append("第").append(i++).append("条处理失败:").append(datum.getErrMsg());
+                }
+                i++;
+            }
+            if (sb.length() > 0) {
+                result.setError(sb.substring(1));
+            }
+            String text = JSON.toJSONString(result);
             writer.println(text);
         } catch (Exception e) {
             e.printStackTrace();
