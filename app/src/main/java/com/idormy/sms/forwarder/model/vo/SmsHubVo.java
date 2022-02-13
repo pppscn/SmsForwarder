@@ -28,7 +28,7 @@ public class SmsHubVo implements Serializable {
 
     public SmsHubVo(Type type, Integer simId, String content, String target) {
         this.msgId = UUID.randomUUID().toString();
-        if (channel != null) {
+        if (simId != null) {
             String simInfo = simId == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1(); //自定义备注优先
             simInfo = "SIM" + simId + ":" + simInfo;
             this.channel = simInfo;
@@ -37,6 +37,7 @@ public class SmsHubVo implements Serializable {
         this.target = target;
         this.action = Action.receive.code();
         this.type = type.code;
+        this.ts = System.currentTimeMillis() + "";
     }
 
     //唯一id
@@ -51,22 +52,25 @@ public class SmsHubVo implements Serializable {
     private String errMsg;
     //手机号(;分隔)或包名
     private String target;
-    //状态或操作
+    //状态或操作 0:发送短信, 1:接收到的消息, 2:操作处理成功, 3:操作处理失败, -1:心跳包 (包含deviceInfo字段,children里带有两次心跳间收到的消息)
     private String action;
-    //消息类型
+    //消息类型 app:通知 phone:来电, sms:短信, battery:电池信息
     private String type;
     //时间戳
     private String ts;
     //两次交互之间接收到的消息
     private List<SmsHubVo> children;
 
-    public static SmsHubVo heartbeatInstance() {
+    public static SmsHubVo heartbeatInstance(List<SmsHubVo> data) {
         SmsHubVo smsHubVo = new SmsHubVo();
         HashMap<String, String> deviInfoMap = getDevInfoMap(false);
         smsHubVo.setDeviceInfo(JSON.toJSONString(deviInfoMap));
         smsHubVo.setChannel("SIM1:" + SimUtil.getSimInfo(1) + SettingUtil.getAddExtraSim1() + ";SIM2:" + SimUtil.getSimInfo(2) + SettingUtil.getAddExtraSim2());
         smsHubVo.setTs(Long.toString(System.currentTimeMillis()));
         smsHubVo.setAction(SmsHubVo.Action.heartbeat.code());
+        if (data != null && data.size() > 0) {
+            smsHubVo.setChildren(data);
+        }
         return smsHubVo;
     }
 

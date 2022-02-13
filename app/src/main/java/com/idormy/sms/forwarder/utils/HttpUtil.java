@@ -9,11 +9,13 @@ import androidx.annotation.NonNull;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.hjq.toast.ToastUtils;
+import com.idormy.sms.forwarder.sender.RetryIntercepter;
 
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -25,7 +27,8 @@ import okhttp3.Response;
 
 @SuppressWarnings("unchecked")
 public class HttpUtil {
-    private static final OkHttpClient client = new OkHttpClient();
+    private static OkHttpClient client;
+    private static OkHttpClient retryClient;
     private static final String TAG = "HttpUtil";
     private static Boolean hasInit = false;
     @SuppressLint("StaticFieldLeak")
@@ -40,30 +43,43 @@ public class HttpUtil {
 
             hasInit = true;
             HttpUtil.context = context;
+            OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+            //设置读取超时时间
+            clientBuilder
+                    .readTimeout(Define.REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                    .writeTimeout(Define.REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                    .connectTimeout(Define.REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            client = clientBuilder.build();
+            //设置重试拦截器
+            int retryTimes = SettingUtil.getRetryTimes();
+            int delayTime = SettingUtil.getDelayTime();
+            if (retryTimes > 0)
+                clientBuilder.addInterceptor(new RetryIntercepter.Builder().executionCount(retryTimes).retryInterval(delayTime).build());
+            retryClient = clientBuilder.build();
         }
     }
 
-    public static void asyncGet(String tag, String url, Object param, Lamda.Consumer<Response> onResponse, Lamda.Consumer<Exception> onFailure) {
+    public static void asyncGet(String tag, String url, Object param, Lamda.Consumer<Response> onResponse, Lamda.Consumer<Exception> onFailure, boolean doRetry) {
         StringBuilder resUrl = appendQueryStr(tag, url, param);
         Request request = new Request.Builder().url(resUrl.toString()).get().build();
         Lamda.Func<Call, String> func = call -> {
             call.enqueue(new Callback0(tag, onResponse, onFailure));
             return null;
         };
-        callAndCatch(tag, request, func);
+        callAndCatch(tag, request, func, doRetry);
     }
 
-    public static void asyncPostJson(String tag, String url, Object param, Lamda.Consumer<Response> onResponse, Lamda.Consumer<Exception> onFailure) {
+    public static void asyncPostJson(String tag, String url, Object param, Lamda.Consumer<Response> onResponse, Lamda.Consumer<Exception> onFailure, boolean doRetry) {
         String jsonString = JSON.toJSONString(param);
         Request request = new Request.Builder().url(url).post(RequestBody.create(jsonString, MEDIA_TYPE_JSON)).build();
         Lamda.Func<Call, String> func = call -> {
             call.enqueue(new Callback0(tag, onResponse, onFailure));
             return null;
         };
-        callAndCatch(tag, request, func);
+        callAndCatch(tag, request, func, doRetry);
     }
 
-    public static String postJson(String tag, String url, Object param) {
+    public static String postJson(String tag, String url, Object param, boolean doRetry) {
         String jsonString = JSON.toJSONString(param);
         Request request = new Request.Builder().url(url).post(RequestBody.create(jsonString, MEDIA_TYPE_JSON)).build();
         Lamda.Func<Call, String> func = call -> {
@@ -73,10 +89,10 @@ public class HttpUtil {
             }
             return null;
         };
-        return callAndCatch(tag, request, func);
+        return callAndCatch(tag, request, func, doRetry);
     }
 
-    public static String get(String tag, String url, Object param) {
+    public static String get(String tag, String url, Object param, boolean doRetry) {
         StringBuilder resUrl = appendQueryStr(tag, url, param);
         Request request = new Request.Builder().url(resUrl.toString()).get().build();
         Lamda.Func<Call, String> func = call -> {
@@ -86,7 +102,7 @@ public class HttpUtil {
             }
             return null;
         };
-        return callAndCatch(tag, request, func);
+        return callAndCatch(tag, request, func, doRetry);
     }
 
     public static void Toast(String Tag, String data) {
@@ -119,9 +135,9 @@ public class HttpUtil {
         return resUrl;
     }
 
-    public static String callAndCatch(String tag, Request request, Lamda.Func<Call, String> func) {
+    public static String callAndCatch(String tag, Request request, Lamda.Func<Call, String> func, boolean doRetry) {
         try {
-            Call call = client.newCall(request);
+            Call call = (doRetry ? retryClient : client).newCall(request);
             return func.execute(call);
         } catch (Exception e) {
             Toast(tag, "请求失败：" + e.getMessage());
@@ -158,7 +174,7 @@ public class HttpUtil {
 
         @Override
         public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-            Log.d(tag, "onResponse：" + response.code() + ":" + Objects.requireNonNull(response.body()).toString());
+            Log.d(tag, "onResponse：" + response.code() + ":" + JSON.toJSONString(Objects.requireNonNull(response.body())));
             if (onResponse != null)
                 onResponse.executeThrowRunTimeExcp(response);
         }
