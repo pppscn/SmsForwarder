@@ -1,18 +1,33 @@
-<resources>
-
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="Theme.App" parent="Theme.MaterialComponents.DayNight">
+        <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimaryContainer">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/colorBlueGreyDark</item>
+        <item name="colorSecondaryVariant">@color/colorBlueGrey</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/white</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
         <item name="actionOverflowMenuStyle">@style/OverflowMenu</item>
+        <item name="toolbarStyle">@style/MyToolbar</item>
     </style>
 
-    <style name="OverflowMenu" parent="Base.Widget.AppCompat.PopupMenu.Overflow">
+    <style name="MyToolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="OverflowMenu" parent="Widget.MaterialComponents.PopupMenu.Overflow">
         <item name="android:dropDownWidth">100dp</item>
         <!-- 是否覆盖锚点，默认为true，即盖住Toolbar -->
         <item name="overlapAnchor">false</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:popupBackground">@color/colorPrimary</item>
     </style>
 
@@ -31,17 +46,19 @@
     <style name="select_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">5dip</item>
-        <item name="android:layout_marginRight">5dip</item>
-        <item name="android:paddingLeft">10dip</item>
-        <item name="android:paddingRight">10dip</item>
-        <item name="android:paddingTop">5dip</item>
-        <item name="android:paddingBottom">5dip</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
         <item name="android:background">@drawable/select_selector</item>
         <item name="android:button">@null</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">13sp</item>
         <item name="android:letterSpacing">0.1</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
         <item name="android:textColor">@drawable/txt_select_selector</item>
     </style>
 

@@ -17,9 +17,9 @@ import android.widget.ScrollView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.service.NotifyService;
-import com.melnykov.fab.FloatingActionButton;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

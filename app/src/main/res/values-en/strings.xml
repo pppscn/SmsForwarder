@@ -21,6 +21,9 @@
     <string name="rule_tips">Tips: Tap "NEW SMS/Call Fw. RULE" to add a new rule; Long press a rule to delete; Tap an existing rule to edit.</string>
     <string name="sender_tips">Tips: Tap "NEW SENDER" to add a new sender; Long press a sender to delete; Tap an existing sender to edit.</string>
     <string name="app_tips">Tips: Tap to copy the package name of an App; Long press an App to start and jump to it.</string>
+    <string name="clear_logs">Clear logs</string>
+    <string name="add_rule">Add rule</string>
+    <string name="add_sender">Add sender</string>
     <!--AboutActivity-->
     <string name="version">Version</string>
     <string name="check_for_updates">Check for updates</string>

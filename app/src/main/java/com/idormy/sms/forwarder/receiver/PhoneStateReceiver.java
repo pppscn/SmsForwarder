@@ -128,7 +128,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         SettingUtil.setPrevNoticeHash(phoneNumber, currHash);
 
         SmsVo smsVo = new SmsVo(phoneNumber, getTypeText(context, type, name, viaNumber), new Date(), simInfo);
-        Log.d(TAG, "send_msg" + smsVo.toString());
+        Log.d(TAG, "send_msg" + smsVo);
         SendUtil.send_msg(context, smsVo, simId, "call");
 
         //SmsHubApi

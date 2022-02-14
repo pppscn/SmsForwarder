@@ -3,14 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/txHelpTip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#10000000"
+        android:background="@color/tip_bar_color"
         android:gravity="center"
         android:padding="2dp"
         android:text="@string/log_tips"

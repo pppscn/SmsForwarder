@@ -201,7 +201,7 @@ public class BatteryService extends Service {
         Log.i(TAG, msg);
         try {
             SmsVo smsVo = new SmsVo("88888888", msg, new Date(), "电池状态监听");
-            Log.d(TAG, "send_msg" + smsVo.toString());
+            Log.d(TAG, "send_msg" + smsVo);
             SendUtil.send_msg(context, smsVo, 1, "app");
 
             //SmsHubApi

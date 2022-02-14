@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
@@ -50,7 +51,6 @@ import com.idormy.sms.forwarder.utils.SharedPreferencesHelper;
 import com.idormy.sms.forwarder.utils.SmsUtil;
 import com.idormy.sms.forwarder.utils.TimeUtil;
 import com.idormy.sms.forwarder.view.StepBar;
-import com.melnykov.fab.FloatingActionButton;
 import com.umeng.commonsdk.UMConfigure;
 
 import java.lang.reflect.Method;

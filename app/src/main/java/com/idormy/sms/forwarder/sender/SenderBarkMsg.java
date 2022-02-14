@@ -72,7 +72,7 @@ public class SenderBarkMsg extends SenderBaseMsg {
         }
 
         RequestBody body = builder.build();
-        Log.d(TAG, "method = POST, Body = " + body.toString());
+        Log.d(TAG, "method = POST, Body = " + body);
 
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
         //设置重试拦截器

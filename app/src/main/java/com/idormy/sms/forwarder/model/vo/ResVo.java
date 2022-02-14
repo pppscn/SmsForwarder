@@ -2,6 +2,7 @@ package com.idormy.sms.forwarder.model.vo;
 
 import lombok.Data;
 
+@SuppressWarnings("UnusedReturnValue")
 @Data
 public class ResVo<T> {
     public static final int ERROR_CODE = 500;

@@ -21,6 +21,9 @@
     <string name="rule_tips">提示：新建规则点击“添加”，长按删除/克隆，点击编辑已有</string>
     <string name="sender_tips">提示：新建发送通道点击“添加”，长按删除/克隆，点击编辑已有</string>
     <string name="app_tips">提示：点击复制APP的包名，长按则启动并跳转该APP</string>
+    <string name="clear_logs">清空日志</string>
+    <string name="add_rule">清空日志</string>
+    <string name="add_sender">添加发送通道</string>
     <!--AboutActivity-->
     <string name="version">当前版本</string>
     <string name="check_for_updates">检查新版本</string>
@@ -151,7 +154,7 @@
     <string name="QYWXGroupRobotWebHook">WebHook地址</string>
     <string name="QYWXGroupRobotWebHookTips">示例：https://qyapi.weixin.qq.com/cgixx?key=xxx</string>
     <string name="ServerChanSendKey">Server酱·Turbo版的SendKey</string>
-    <string name="TelegramApiToken">Telegram机器人的ApiToken 或 自定义地址(http开头)</string>
+    <string name="TelegramApiToken">Tg机器人的 ApiToken 或 自定义地址(http开头)</string>
     <string name="TelegramChatId">被通知人(或群组)的ChatId</string>
     <string name="Method" formatted="false">请求方式</string>
     <string name="WebNotifyWebServer">WebServer</string>

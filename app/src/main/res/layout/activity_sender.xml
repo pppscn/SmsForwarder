@@ -1,38 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnAddSender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="20dp"
-        android:contentDescription="@string/new_sender"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:contentDescription="@string/add_sender"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_add"
-        app:borderWidth="0dp"
-        app:elevation="5dp"
-        app:fabSize="mini" />-->
-
-    <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/btnAddSender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="90dp"
-        android:src="@drawable/ic_add"
-        app:fab_type="mini"
-        app:fab_colorNormal="@color/colorPrimary"
-        app:fab_colorPressed="@color/colorPrimaryDark"
-        app:fab_colorRipple="@color/colorAccent" />
+        android:tint="?attr/colorOnPrimary"
+        app:fabSize="mini" />
 
     <ListView
         android:id="@+id/list_view_sender"

@@ -64,6 +64,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:text="@string/set_bark_server_tips"
                     android:textSize="10sp"
                     tools:ignore="SmallSp" />
@@ -73,11 +74,7 @@
                 android:id="@+id/editTextBarkServer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/line_bg_white_only_bottom_d8"
-                app:showEye="true"
-                app:textColor="@color/tv_black_333333"
-                app:textColorHint="@color/tv_gray_999999"
-                app:textSize="15sp" />
+                app:showEye="true" />
         </LinearLayout>
 
         <LinearLayout
@@ -242,7 +239,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -283,7 +280,6 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:background="@android:color/white"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -326,48 +322,68 @@
                 <Button
                     android:id="@+id/bt_insert_sender"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
-                    android:background="@color/colorBlueGrey"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:padding="5dp"
+                    android:singleLine="true"
                     android:text="@string/insert_sender"
+                    android:textSize="11sp"
+                    app:backgroundTint="@color/colorBlueGrey"
                     tools:ignore="ButtonStyle,NestedWeights" />
 
                 <Button
                     android:id="@+id/bt_insert_extra"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
-                    android:background="@color/colorBlueGrey"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:padding="5dp"
+                    android:singleLine="true"
                     android:text="@string/insert_extra"
+                    android:textSize="11sp"
+                    app:backgroundTint="@color/colorBlueGrey"
                     tools:ignore="ButtonStyle,NestedWeights" />
 
                 <Button
                     android:id="@+id/bt_insert_time"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
-                    android:background="@color/colorBlueGrey"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:padding="5dp"
+                    android:singleLine="true"
                     android:text="@string/insert_time"
+                    android:textSize="11sp"
+                    app:backgroundTint="@color/colorBlueGrey"
                     tools:ignore="ButtonStyle,NestedWeights" />
 
                 <Button
                     android:id="@+id/bt_insert_device_name"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
-                    android:background="@color/colorBlueGrey"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:padding="5dp"
+                    android:singleLine="true"
                     android:text="@string/insert_device_name"
+                    android:textSize="11sp"
+                    app:backgroundTint="@color/colorBlueGrey"
                     tools:ignore="ButtonStyle,NestedWeights" />
 
             </LinearLayout>
@@ -381,28 +397,31 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonBarkTest"
+                android:id="@+id/buttonTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
                 android:layout_weight="1"
+                android:singleLine="true"
                 android:text="@string/test"
                 tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
-                android:id="@+id/buttonBarkDel"
+                android:id="@+id/buttonDel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
+                android:singleLine="true"
                 android:text="@string/del"
                 tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
-                android:id="@+id/buttonBarkOk"
+                android:id="@+id/buttonOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
+                android:singleLine="true"
                 android:text="@string/ok"
                 tools:ignore="ButtonStyle,NestedWeights" />
 

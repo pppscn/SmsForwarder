@@ -41,6 +41,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.fastjson.JSON;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
@@ -78,7 +79,6 @@ import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.RuleUtil;
 import com.idormy.sms.forwarder.view.ClearEditText;
 import com.idormy.sms.forwarder.view.StepBar;
-import com.melnykov.fab.FloatingActionButton;
 
 import java.lang.reflect.Method;
 import java.net.Proxy;
@@ -432,16 +432,16 @@ public class SenderActivity extends AppCompatActivity {
             Log.d(TAG, "onCheckedChanged:" + isChecked);
         });
 
-        Button buttonDingdingOk = view1.findViewById(R.id.buttonDingdingOk);
-        Button buttonDingdingDel = view1.findViewById(R.id.buttonDingdingDel);
-        Button buttonDingdingTest = view1.findViewById(R.id.buttonDingdingTest);
+        Button buttonOk = view1.findViewById(R.id.buttonOk);
+        Button buttonDel = view1.findViewById(R.id.buttonDel);
+        Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setdingdingtitle)
                 .setIcon(R.mipmap.dingding)
                 .setView(view1)
                 .create();
         final AlertDialog show = alertDialog71.show();
-        buttonDingdingOk.setOnClickListener(view -> {
+        buttonOk.setOnClickListener(view -> {
             String senderName = editTextDingdingName.getText().toString().trim();
             int senderStatus = switchDingdingEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             String token = editTextDingdingToken.getText().trim();
@@ -480,7 +480,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonDingdingDel.setOnClickListener(view -> {
+        buttonDel.setOnClickListener(view -> {
             if (senderModel != null) {
                 SenderUtil.delSender(senderModel.getId());
                 initSenders();
@@ -489,7 +489,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonDingdingTest.setOnClickListener(view -> {
+        buttonTest.setOnClickListener(view -> {
             String token = editTextDingdingToken.getText().trim();
             if (CommonUtil.checkUrl(token, true)) {
                 ToastUtils.delayedShow(R.string.invalid_token, 3000);
@@ -552,9 +552,9 @@ public class SenderActivity extends AppCompatActivity {
             editTextEmailTitle.setText(emailSettingVo.getTitle());
         }
 
-        Button buttonEmailOk = view1.findViewById(R.id.buttonEmailOk);
-        Button buttonEmailDel = view1.findViewById(R.id.buttonEmailDel);
-        Button buttonEmailTest = view1.findViewById(R.id.buttonEmailTest);
+        Button buttonOk = view1.findViewById(R.id.buttonOk);
+        Button buttonDel = view1.findViewById(R.id.buttonDel);
+        Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setemailtitle)
                 .setIcon(R.mipmap.email)
@@ -562,7 +562,7 @@ public class SenderActivity extends AppCompatActivity {
                 .create();
         final AlertDialog show = alertDialog71.show();
 
-        buttonEmailOk.setOnClickListener(view -> {
+        buttonOk.setOnClickListener(view -> {
             String senderName = editTextEmailName.getText().toString().trim();
             int senderStatus = switchEmailEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
@@ -610,7 +610,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonEmailDel.setOnClickListener(view -> {
+        buttonDel.setOnClickListener(view -> {
             if (senderModel != null) {
                 SenderUtil.delSender(senderModel.getId());
                 initSenders();
@@ -619,7 +619,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonEmailTest.setOnClickListener(view -> {
+        buttonTest.setOnClickListener(view -> {
             String protocol = radioGroupEmailProtocol.getCheckedRadioButtonId() == R.id.radioEmailProtocolSmtp ? "SMTP" : "IMAP";
             String host = editTextEmailHost.getText().toString().trim();
             String port = editTextEmailPort.getText().toString().trim();
@@ -717,9 +717,9 @@ public class SenderActivity extends AppCompatActivity {
             radioGroupBarkLevel.check(barkSettingVo.getLevelId());
         }
 
-        Button buttonBarkOk = view1.findViewById(R.id.buttonBarkOk);
-        Button buttonBarkDel = view1.findViewById(R.id.buttonBarkDel);
-        Button buttonBarkTest = view1.findViewById(R.id.buttonBarkTest);
+        Button buttonOk = view1.findViewById(R.id.buttonOk);
+        Button buttonDel = view1.findViewById(R.id.buttonDel);
+        Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setbarktitle)
                 .setIcon(R.mipmap.bark)
@@ -727,7 +727,7 @@ public class SenderActivity extends AppCompatActivity {
                 .create();
         final AlertDialog show = alertDialog71.show();
 
-        buttonBarkOk.setOnClickListener(view -> {
+        buttonOk.setOnClickListener(view -> {
             String senderName = editTextBarkName.getText().toString().trim();
             int senderStatus = switchBarkEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
@@ -770,7 +770,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonBarkDel.setOnClickListener(view -> {
+        buttonDel.setOnClickListener(view -> {
             if (senderModel != null) {
                 SenderUtil.delSender(senderModel.getId());
                 initSenders();
@@ -779,7 +779,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonBarkTest.setOnClickListener(view -> {
+        buttonTest.setOnClickListener(view -> {
             String barkServer = editTextBarkServer.getText().trim();
             String icon = editTextBarkIcon.getText().toString().trim(); //消息图标
             String title = editTextBarkTitle.getText().toString().trim(); //标题模板
@@ -865,9 +865,9 @@ public class SenderActivity extends AppCompatActivity {
             radioGroupWebNotifyMethod.check(webNotifySettingVo.getWebNotifyMethodCheckId());
         }
 
-        Button buttonWebNotifyOk = view1.findViewById(R.id.buttonWebNotifyOk);
-        Button buttonWebNotifyDel = view1.findViewById(R.id.buttonWebNotifyDel);
-        Button buttonWebNotifyTest = view1.findViewById(R.id.buttonWebNotifyTest);
+        Button buttonOk = view1.findViewById(R.id.buttonOk);
+        Button buttonDel = view1.findViewById(R.id.buttonDel);
+        Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setwebnotifytitle)
                 .setIcon(R.mipmap.webhook)
@@ -875,7 +875,7 @@ public class SenderActivity extends AppCompatActivity {
                 .create();
         final AlertDialog show = alertDialog71.show();
 
-        buttonWebNotifyOk.setOnClickListener(view -> {
+        buttonOk.setOnClickListener(view -> {
             String senderName = editTextWebNotifyName.getText().toString().trim();
             int senderStatus = switchWebNotifyEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
@@ -913,7 +913,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonWebNotifyDel.setOnClickListener(view -> {
+        buttonDel.setOnClickListener(view -> {
             if (senderModel != null) {
                 SenderUtil.delSender(senderModel.getId());
                 initSenders();
@@ -922,7 +922,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonWebNotifyTest.setOnClickListener(view -> {
+        buttonTest.setOnClickListener(view -> {
             String webServer = editTextWebNotifyWebServer.getText().toString().trim();
             String secret = editTextWebNotifySecret.getText().trim();
             String method = radioGroupWebNotifyMethod.getCheckedRadioButtonId() == R.id.radioWebNotifyMethodGet ? "GET" : "POST";
@@ -970,9 +970,9 @@ public class SenderActivity extends AppCompatActivity {
             editTextQYWXGroupRobotWebHook.setText(qywxGroupRobotSettingVo.getWebHook());
         }
 
-        Button buttonQyWxGroupRobotOk = view1.findViewById(R.id.buttonQyWxGroupRobotOk);
-        Button buttonQyWxGroupRobotDel = view1.findViewById(R.id.buttonQyWxGroupRobotDel);
-        Button buttonQyWxGroupRobotTest = view1.findViewById(R.id.buttonQyWxGroupRobotTest);
+        Button buttonOk = view1.findViewById(R.id.buttonOk);
+        Button buttonDel = view1.findViewById(R.id.buttonDel);
+        Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setqywxgrouprobottitle)
                 .setIcon(R.mipmap.qywx)
@@ -980,7 +980,7 @@ public class SenderActivity extends AppCompatActivity {
                 .create();
         final AlertDialog show = alertDialog71.show();
 
-        buttonQyWxGroupRobotOk.setOnClickListener(view -> {
+        buttonOk.setOnClickListener(view -> {
             String senderName = editTextQYWXGroupRobotName.getText().toString().trim();
             int senderStatus = switchQYWXGroupRobotEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
@@ -1016,7 +1016,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonQyWxGroupRobotDel.setOnClickListener(view -> {
+        buttonDel.setOnClickListener(view -> {
             if (senderModel != null) {
                 SenderUtil.delSender(senderModel.getId());
                 initSenders();
@@ -1025,7 +1025,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonQyWxGroupRobotTest.setOnClickListener(view -> {
+        buttonTest.setOnClickListener(view -> {
             String webHook = editTextQYWXGroupRobotWebHook.getText().trim();
             if (!CommonUtil.checkUrl(webHook, false)) {
                 ToastUtils.delayedShow(R.string.invalid_webhook, 3000);
@@ -1088,16 +1088,16 @@ public class SenderActivity extends AppCompatActivity {
             Log.d(TAG, "onCheckedChanged:" + isChecked);
         });
 
-        Button buttonQYWXAppOk = view1.findViewById(R.id.buttonQYWXAppOk);
-        Button buttonQYWXAppDel = view1.findViewById(R.id.buttonQYWXAppDel);
-        Button buttonQYWXAppTest = view1.findViewById(R.id.buttonQYWXAppTest);
+        Button buttonOk = view1.findViewById(R.id.buttonOk);
+        Button buttonDel = view1.findViewById(R.id.buttonDel);
+        Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setqywxapptitle)
                 .setIcon(R.mipmap.qywxapp)
                 .setView(view1)
                 .create();
         final AlertDialog show = alertDialog71.show();
-        buttonQYWXAppOk.setOnClickListener(view -> {
+        buttonOk.setOnClickListener(view -> {
             String senderName = editTextQYWXAppName.getText().toString().trim();
             int senderStatus = switchQYWXAppEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
@@ -1145,7 +1145,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonQYWXAppDel.setOnClickListener(view -> {
+        buttonDel.setOnClickListener(view -> {
             if (senderModel != null) {
                 SenderUtil.delSender(senderModel.getId());
                 initSenders();
@@ -1154,7 +1154,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonQYWXAppTest.setOnClickListener(view -> {
+        buttonTest.setOnClickListener(view -> {
             QYWXAppSettingVo QYWXAppSettingVoNew = new QYWXAppSettingVo(
                     editTextQYWXAppCorpID.getText().toString().trim(),
                     editTextQYWXAppAgentID.getText().toString().trim(),
@@ -1205,9 +1205,9 @@ public class SenderActivity extends AppCompatActivity {
         if (serverchanSettingVo != null)
             editTextServerChanSendKey.setText(serverchanSettingVo.getSendKey());
 
-        Button buttonServerChanOk = view1.findViewById(R.id.buttonServerChanOk);
-        Button buttonServerChanDel = view1.findViewById(R.id.buttonServerChanDel);
-        Button buttonServerChanTest = view1.findViewById(R.id.buttonServerChanTest);
+        Button buttonOk = view1.findViewById(R.id.buttonOk);
+        Button buttonDel = view1.findViewById(R.id.buttonDel);
+        Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setserverchantitle)
                 .setIcon(R.mipmap.serverchan)
@@ -1215,7 +1215,7 @@ public class SenderActivity extends AppCompatActivity {
                 .create();
         final AlertDialog show = alertDialog71.show();
 
-        buttonServerChanOk.setOnClickListener(view -> {
+        buttonOk.setOnClickListener(view -> {
             String senderName = editTextServerChanName.getText().toString().trim();
             int senderStatus = switchServerChanEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
@@ -1251,7 +1251,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonServerChanDel.setOnClickListener(view -> {
+        buttonDel.setOnClickListener(view -> {
             if (senderModel != null) {
                 SenderUtil.delSender(senderModel.getId());
                 initSenders();
@@ -1260,7 +1260,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonServerChanTest.setOnClickListener(view -> {
+        buttonTest.setOnClickListener(view -> {
             String serverChanServer = editTextServerChanSendKey.getText().trim();
             if (TextUtils.isEmpty(serverChanServer)) {
                 ToastUtils.delayedShow(R.string.invalid_sendkey, 3000);
@@ -1357,9 +1357,9 @@ public class SenderActivity extends AppCompatActivity {
             editTextProxyPassword.setText(telegramSettingVo.getProxyPassword());
         }
 
-        Button buttonTelegramOk = view1.findViewById(R.id.buttonTelegramOk);
-        Button buttonTelegramDel = view1.findViewById(R.id.buttonTelegramDel);
-        Button buttonTelegramTest = view1.findViewById(R.id.buttonTelegramTest);
+        Button buttonOk = view1.findViewById(R.id.buttonOk);
+        Button buttonDel = view1.findViewById(R.id.buttonDel);
+        Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.settelegramtitle)
                 .setIcon(R.mipmap.telegram)
@@ -1367,7 +1367,7 @@ public class SenderActivity extends AppCompatActivity {
                 .create();
         final AlertDialog show = alertDialog71.show();
 
-        buttonTelegramOk.setOnClickListener(view -> {
+        buttonOk.setOnClickListener(view -> {
             String senderName = editTextTelegramName.getText().toString().trim();
             int senderStatus = switchTelegramEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
@@ -1422,7 +1422,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonTelegramDel.setOnClickListener(view -> {
+        buttonDel.setOnClickListener(view -> {
             if (senderModel != null) {
                 SenderUtil.delSender(senderModel.getId());
                 initSenders();
@@ -1431,7 +1431,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonTelegramTest.setOnClickListener(view -> {
+        buttonTest.setOnClickListener(view -> {
             String apiToken = editTextTelegramApiToken.getText().trim();
             String chatId = editTextTelegramChatId.getText().toString().trim();
             if (apiToken.isEmpty() || chatId.isEmpty()) {
@@ -1529,9 +1529,9 @@ public class SenderActivity extends AppCompatActivity {
             switchSmsOnlyNoNetwork.setChecked(smsSettingVo.getOnlyNoNetwork());
         }
 
-        Button buttonSmsOk = view1.findViewById(R.id.buttonSmsOk);
-        Button buttonSmsDel = view1.findViewById(R.id.buttonSmsDel);
-        Button buttonSmsTest = view1.findViewById(R.id.buttonSmsTest);
+        Button buttonOk = view1.findViewById(R.id.buttonOk);
+        Button buttonDel = view1.findViewById(R.id.buttonDel);
+        Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setsmstitle)
                 .setIcon(R.mipmap.sms)
@@ -1539,7 +1539,7 @@ public class SenderActivity extends AppCompatActivity {
                 .create();
         final AlertDialog show = alertDialog71.show();
 
-        buttonSmsOk.setOnClickListener(view -> {
+        buttonOk.setOnClickListener(view -> {
             String senderName = editTextSmsName.getText().toString().trim();
             int senderStatus = switchSmsEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
@@ -1585,7 +1585,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonSmsDel.setOnClickListener(view -> {
+        buttonDel.setOnClickListener(view -> {
             if (senderModel != null) {
                 SenderUtil.delSender(senderModel.getId());
                 initSenders();
@@ -1594,7 +1594,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonSmsTest.setOnClickListener(view -> {
+        buttonTest.setOnClickListener(view -> {
             int simSlot = R.id.btnSmsSimSlot2 == radioGroupSmsSimSlot.getCheckedRadioButtonId() ? 1 : 0;
             Boolean onlyNoNetwork = switchSmsOnlyNoNetwork.isChecked();
             String mobiles = editTextSmsMobiles.getText().toString().trim();
@@ -1641,16 +1641,16 @@ public class SenderActivity extends AppCompatActivity {
             editTextFeishuSecret.setText(feiShuSettingVo.getSecret());
         }
 
-        Button buttonFeishuOk = view1.findViewById(R.id.buttonFeishuOk);
-        Button buttonFeishuDel = view1.findViewById(R.id.buttonFeishuDel);
-        Button buttonFeishuTest = view1.findViewById(R.id.buttonFeishuTest);
+        Button buttonOk = view1.findViewById(R.id.buttonOk);
+        Button buttonDel = view1.findViewById(R.id.buttonDel);
+        Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setfeishutitle)
                 .setIcon(R.mipmap.feishu)
                 .setView(view1)
                 .create();
         final AlertDialog show = alertDialog71.show();
-        buttonFeishuOk.setOnClickListener(view -> {
+        buttonOk.setOnClickListener(view -> {
             String senderName = editTextFeishuName.getText().toString().trim();
             int senderStatus = switchFeishuEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
@@ -1687,7 +1687,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonFeishuDel.setOnClickListener(view -> {
+        buttonDel.setOnClickListener(view -> {
             if (senderModel != null) {
                 SenderUtil.delSender(senderModel.getId());
                 initSenders();
@@ -1696,7 +1696,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonFeishuTest.setOnClickListener(view -> {
+        buttonTest.setOnClickListener(view -> {
             String webHook = editTextFeishuWebhook.getText().toString().trim();
             String secret = editTextFeishuSecret.getText().trim();
             if (!CommonUtil.checkUrl(webHook, false)) {
@@ -1755,16 +1755,16 @@ public class SenderActivity extends AppCompatActivity {
             editTextPushPlusTitle.setText(pushPlusSettingVo.getTitleTemplate());
         }
 
-        Button buttonPushPlusOk = view1.findViewById(R.id.buttonPushPlusOk);
-        Button buttonPushPlusDel = view1.findViewById(R.id.buttonPushPlusDel);
-        Button buttonPushPlusTest = view1.findViewById(R.id.buttonPushPlusTest);
+        Button buttonOk = view1.findViewById(R.id.buttonOk);
+        Button buttonDel = view1.findViewById(R.id.buttonDel);
+        Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setpushplustitle)
                 .setIcon(R.mipmap.pushplus)
                 .setView(view1)
                 .create();
         final AlertDialog show = alertDialog71.show();
-        buttonPushPlusOk.setOnClickListener(view -> {
+        buttonOk.setOnClickListener(view -> {
             String senderName = editTextPushPlusName.getText().toString().trim();
             int senderStatus = switchPushPlusEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
@@ -1809,7 +1809,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonPushPlusDel.setOnClickListener(view -> {
+        buttonDel.setOnClickListener(view -> {
             if (senderModel != null) {
                 SenderUtil.delSender(senderModel.getId());
                 initSenders();
@@ -1818,7 +1818,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonPushPlusTest.setOnClickListener(view -> {
+        buttonTest.setOnClickListener(view -> {
 
             String title = editTextPushPlusTitle.getText().toString().trim();
             if (title.isEmpty()) title = "SmsForwarder Title";
@@ -1908,9 +1908,9 @@ public class SenderActivity extends AppCompatActivity {
             editTextGotifyPriority.setText(gotifySettingVo.getPriority());
         }
 
-        Button buttonGotifyOk = view1.findViewById(R.id.buttonGotifyOk);
-        Button buttonGotifyDel = view1.findViewById(R.id.buttonGotifyDel);
-        Button buttonGotifyTest = view1.findViewById(R.id.buttonGotifyTest);
+        Button buttonOk = view1.findViewById(R.id.buttonOk);
+        Button buttonDel = view1.findViewById(R.id.buttonDel);
+        Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setgotifytitle)
                 .setIcon(R.mipmap.gotify)
@@ -1918,7 +1918,7 @@ public class SenderActivity extends AppCompatActivity {
                 .create();
         final AlertDialog show = alertDialog71.show();
 
-        buttonGotifyOk.setOnClickListener(view -> {
+        buttonOk.setOnClickListener(view -> {
             String senderName = editTextGotifyName.getText().toString().trim();
             int senderStatus = switchGotifyEnable.isChecked() ? STATUS_ON : STATUS_OFF;
             if (TextUtils.isEmpty(senderName)) {
@@ -1960,7 +1960,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonGotifyDel.setOnClickListener(view -> {
+        buttonDel.setOnClickListener(view -> {
             if (senderModel != null) {
                 SenderUtil.delSender(senderModel.getId());
                 initSenders();
@@ -1969,7 +1969,7 @@ public class SenderActivity extends AppCompatActivity {
             show.dismiss();
         });
 
-        buttonGotifyTest.setOnClickListener(view -> {
+        buttonTest.setOnClickListener(view -> {
             String webServer = editTextGotifyWebServer.getText().trim();
             if (!CommonUtil.checkUrl(webServer, false)) {
                 ToastUtils.delayedShow(R.string.invalid_webserver, 3000);

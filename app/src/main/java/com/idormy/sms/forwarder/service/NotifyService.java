@@ -89,7 +89,7 @@ public class NotifyService extends NotificationListenerService {
             SettingUtil.setPrevNoticeHash(packageName, currHash);
 
             SmsVo smsVo = new SmsVo(packageName, text, new Date(), title);
-            Log.d(TAG, "send_msg" + smsVo.toString());
+            Log.d(TAG, "send_msg" + smsVo);
             SendUtil.send_msg(this, smsVo, 1, "app");
 
             //SmsHubApi

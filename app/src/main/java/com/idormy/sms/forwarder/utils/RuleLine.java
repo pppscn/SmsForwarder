@@ -156,14 +156,14 @@ class RuleLine {
                     } else {
                         //生成了一个中间体
                         middleList.add(buildMiddleWord.toString());
-                        logg("get Middle++:" + buildMiddleWord.toString());
+                        logg("get Middle++:" + buildMiddleWord);
 
                         buildMiddleWord = new StringBuilder();
                     }
                 } else {
                     //把w拼接到中间体上
                     buildMiddleWord.append(w);
-                    logg("buildMiddleWord length:" + buildMiddleWord.length() + "buildMiddleWord:" + buildMiddleWord.toString());
+                    logg("buildMiddleWord length:" + buildMiddleWord.length() + "buildMiddleWord:" + buildMiddleWord);
 
                 }
             }
@@ -174,7 +174,7 @@ class RuleLine {
             }
 
         }
-        logg("isDealValue done valueBuilder:" + valueBuilder.toString());
+        logg("isDealValue done valueBuilder:" + valueBuilder);
 
 
         if (middleList.size() != 4) {

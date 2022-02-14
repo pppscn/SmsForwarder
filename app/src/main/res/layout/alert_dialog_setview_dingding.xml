@@ -67,11 +67,7 @@
                 android:id="@+id/editTextDingdingToken"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/line_bg_white_only_bottom_d8"
-                app:showEye="true"
-                app:textColor="@color/tv_black_333333"
-                app:textColorHint="@color/tv_gray_999999"
-                app:textSize="15sp" />
+                app:showEye="true" />
         </LinearLayout>
 
         <LinearLayout
@@ -92,11 +88,7 @@
                 android:id="@+id/editTextDingdingSecret"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/line_bg_white_only_bottom_d8"
-                app:showEye="true"
-                app:textColor="@color/tv_black_333333"
-                app:textColorHint="@color/tv_gray_999999"
-                app:textSize="15sp" />
+                app:showEye="true" />
         </LinearLayout>
 
         <LinearLayout
@@ -159,6 +151,7 @@
                 tools:ignore="LabelFor" />
         </LinearLayout>
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -166,28 +159,31 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonDingdingTest"
+                android:id="@+id/buttonTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
                 android:layout_weight="1"
+                android:singleLine="true"
                 android:text="@string/test"
                 tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
-                android:id="@+id/buttonDingdingDel"
+                android:id="@+id/buttonDel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
+                android:singleLine="true"
                 android:text="@string/del"
                 tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
-                android:id="@+id/buttonDingdingOk"
+                android:id="@+id/buttonOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
+                android:singleLine="true"
                 android:text="@string/ok"
                 tools:ignore="ButtonStyle,NestedWeights" />
 

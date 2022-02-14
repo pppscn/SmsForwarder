@@ -23,7 +23,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/to_about"
-        android:icon="@drawable/ic_forwarder"
+        android:icon="@drawable/ic_about"
         android:orderInCategory="100"
         android:title="@string/about"
         app:showAsAction="never" />

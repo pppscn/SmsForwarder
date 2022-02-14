@@ -49,35 +49,24 @@
             android:layout_marginEnd="10dp"
             android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:text="@string/QYWXGroupRobotWebHook"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/QYWXGroupRobotWebHook"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/QYWXGroupRobotWebHookTips"
-                    android:textSize="10sp"
-                    tools:ignore="SmallSp" />
-            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/QYWXGroupRobotWebHookTips"
+                android:textSize="10sp"
+                tools:ignore="SmallSp" />
 
             <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextQYWXGroupRobotWebHook"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/line_bg_white_only_bottom_d8"
-                app:showEye="true"
-                app:textColor="@color/tv_black_333333"
-                app:textColorHint="@color/tv_gray_999999"
-                app:textSize="15sp" />
+                app:showEye="true" />
         </LinearLayout>
 
         <LinearLayout
@@ -87,28 +76,31 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonQyWxGroupRobotTest"
+                android:id="@+id/buttonTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
                 android:layout_weight="1"
+                android:singleLine="true"
                 android:text="@string/test"
                 tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
-                android:id="@+id/buttonQyWxGroupRobotDel"
+                android:id="@+id/buttonDel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
+                android:singleLine="true"
                 android:text="@string/del"
                 tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
-                android:id="@+id/buttonQyWxGroupRobotOk"
+                android:id="@+id/buttonOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
+                android:singleLine="true"
                 android:text="@string/ok"
                 tools:ignore="ButtonStyle,NestedWeights" />
 

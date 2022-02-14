@@ -6,17 +6,24 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.idormy.sms.forwarder.model.vo.SmsHubVo;
-import com.idormy.sms.forwarder.utils.*;
+import com.idormy.sms.forwarder.utils.HttpUtil;
+import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.SmsHubActionHandler;
 
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
 /**
  * 主动发送短信轮询任务
+ *
  * @author xxc
  * 2022/1/10 9:53
  */
+@SuppressWarnings("CodeBlock2Expr")
 public class SmsHubApiTask extends TimerTask {
     private static Boolean hasInit = false;
     public static final long DELAY_SECONDS = 30;

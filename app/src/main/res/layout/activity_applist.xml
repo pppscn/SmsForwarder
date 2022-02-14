@@ -19,6 +19,12 @@
             <RadioButton
                 android:id="@+id/btnTypeUser"
                 style="@style/select_style"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
                 android:checked="true"
                 android:tag="user"
                 android:text="@string/user_app" />
@@ -26,6 +32,12 @@
             <RadioButton
                 android:id="@+id/btnTypeSys"
                 style="@style/select_style"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
                 android:tag="sys"
                 android:text="@string/system_app" />
 
@@ -39,7 +51,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:background="#aadcdcdc" />
+        android:background="@color/line_color" />
 
     <ListView
         android:id="@+id/list_view_app"
@@ -54,6 +66,7 @@
         android:id="@+id/help_tip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/tip_bar_color"
         android:gravity="center"
         android:text="@string/app_tips"
         android:textColor="@color/colorPrimary" />

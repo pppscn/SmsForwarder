@@ -11,7 +11,7 @@
     <color name="black">#000000</color>
 
     <color name="line_color">#aadcdcdc</color>
-    <color name="setting_bg_color">#10000000</color>
-    <color name="setting_bar_color">#ffffff</color>
-    <color name="tip_bar_color">#10000000</color>
+    <color name="setting_bg_color">#000000</color>
+    <color name="setting_bar_color">#979797</color>
+    <color name="tip_bar_color">#30979797</color>
 </resources>

@@ -6,15 +6,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/setting_bg_color">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:background="@android:color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:background="@color/setting_bar_color"
             android:padding="15dp">
 
             <LinearLayout
@@ -41,6 +42,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="5dp"
                 android:text="@string/check_for_updates" />
 
         </LinearLayout>
@@ -49,9 +53,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:background="@android:color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:background="@color/setting_bar_color"
             android:padding="15dp">
 
             <TextView
@@ -74,9 +78,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:background="@android:color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:background="@color/setting_bar_color"
             android:padding="15dp">
 
             <TextView
@@ -99,9 +103,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:background="@android:color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:background="@color/setting_bar_color"
             android:padding="15dp">
 
             <LinearLayout
@@ -133,13 +137,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="5dp"
                 android:text="@string/join_qq_group1" />
 
             <Button
                 android:id="@+id/join_qq_group2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:gravity="center"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="5dp"
                 android:text="@string/join_qq_group2" />
         </LinearLayout>
 
@@ -147,9 +158,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:background="@android:color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:background="@color/setting_bar_color"
             android:padding="15dp">
 
             <LinearLayout
@@ -176,6 +187,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="5dp"
                 android:text="@string/purge" />
 
         </LinearLayout>

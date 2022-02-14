@@ -92,6 +92,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="bottom"
                 android:orientation="horizontal">
 
                 <TextView
@@ -101,9 +102,14 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxEms="8"
+                    android:maxLines="1"
                     android:text="@string/SmsMobilesTips"
                     android:textSize="10sp"
                     tools:ignore="SmallSp" />
@@ -150,28 +156,31 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonSmsTest"
+                android:id="@+id/buttonTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
                 android:layout_weight="1"
+                android:singleLine="true"
                 android:text="@string/test"
                 tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
-                android:id="@+id/buttonSmsDel"
+                android:id="@+id/buttonDel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
+                android:singleLine="true"
                 android:text="@string/del"
                 tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
-                android:id="@+id/buttonSmsOk"
+                android:id="@+id/buttonOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
+                android:singleLine="true"
                 android:text="@string/ok"
                 tools:ignore="ButtonStyle,NestedWeights" />
 

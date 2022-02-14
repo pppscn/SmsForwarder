@@ -4,34 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnCleanLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="90dp"
-        android:contentDescription="@string/clean_log"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:contentDescription="@string/clear_logs"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_delete"
-        app:borderWidth="0dp"
-        app:elevation="5dp"
-        app:fabSize="mini" />-->
-
-    <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/btnCleanLog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="90dp"
-        android:src="@drawable/ic_delete"
-        app:fab_type="mini"
-        app:fab_colorNormal="@color/colorPrimary"
-        app:fab_colorPressed="@color/colorPrimaryDark"
-        app:fab_colorRipple="@color/colorAccent" />
+        android:tint="?attr/colorOnPrimary"
+        app:fabSize="mini" />
 
     <LinearLayout
         android:id="@+id/radioGroup"
@@ -54,18 +40,36 @@
                 android:id="@+id/btnTypeSms"
                 style="@style/select_style"
                 android:checked="true"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
                 android:tag="sms"
                 android:text="@string/sms" />
 
             <RadioButton
                 android:id="@+id/btnTypeCall"
                 style="@style/select_style"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
                 android:tag="call"
                 android:text="@string/call" />
 
             <RadioButton
                 android:id="@+id/btnTypeApp"
                 style="@style/select_style"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
                 android:tag="app"
                 android:text="@string/app" />
         </RadioGroup>
