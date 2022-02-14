@@ -277,7 +277,7 @@
     <string name="send_sms_config_title2">Execute the operation returned by the interface</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="agree">Agree</string>
-    <string name="disagree">Disagree</string>
+    <string name="refuse">Refuse</string>
     <string name="privacy_policy_text">&#160;&#160;SmsForwarder (the "Application/App"), is 100\% free and open source, and is compliled and released basing on repository hosted on GitHub. The App will not collect any of your privacy data!\n\n Version information of the App will be sent in the following situations: \n&#160;&#160;1. As startup, version information will be sent to "Umeng +· U-APP Mobile Statistics" for user retention analyze and crash stats;\n&#160;&#160;2. Manual update check triggered by user;\n&#160;&#160;The App collects no any other data!!\n\n&#160;&#160;The App collects and uses version information only in accordance with the Privacy Policy, and will not collect any other information as an abuse of users\' consent to the Privacy Policy;</string>
     <string name="GotifyWebServer">WebServer</string>
     <string name="GotifyWebServerTips"><![CDATA[eg.: https://push.ppps.cn/message?token=<apptoken>]]></string>
@@ -426,4 +426,5 @@
     <string name="toast_granted_part">获取部分权限成功，但部分权限未正常授予，APP部分功能可能受限！</string>
     <string name="toast_denied_never">被永久拒绝授权，请前往系统设置手动授予权限！</string>
     <string name="toast_denied">获取必需的权限失败，APP功能可能受限！</string>
+    <string name="tips_first_time">\n&#160;&#160;&#160;&#160;首次使用请按照1234步骤顺序设置，数字点亮表示该步骤已设置(4点亮表示有成功日志)！\n\n&#160;&#160;&#160;&#160;根据以往用户反馈，90%的新用户最终排查结果都是手机权限设置问题，5%的用户是APP保活问题，其他问题排查参考Wiki中的常见问题（APP右上角使用帮助入口）\n\n&#160;&#160;&#160;&#160;强烈建议：手动排查一下系统设置：自启动、电源策略、APP的权限，把所有权限打开（始终允许，不要“使用中允许”，MIUI系统就全部变绿），特别是一些国产定制系统加入隐私保护、验证码保护等（例如：MIUI 系统的 空白通行证）\n\n&#160;&#160;&#160;&#160;请选择是否立即“前往系统设置”检查，或“稍后自行处理”？</string>
 </resources>

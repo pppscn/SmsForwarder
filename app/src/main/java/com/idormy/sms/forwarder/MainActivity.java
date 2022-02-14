@@ -179,6 +179,26 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
                             }
                         }
                         SettingUtil.switchEnableSms(true);
+
+                        //首次使用重要提醒
+                        final SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(MainActivity.this, "umeng");
+                        boolean firstTime = sharedPreferencesHelper.getSharedPreference("firstTime", "true").equals("true");
+                        if (firstTime && LogUtil.countLog("2", null, null) == 0) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this)
+                                    .setIcon(R.mipmap.ic_launcher)
+                                    .setTitle("首次使用重要提醒")
+                                    .setMessage(R.string.tips_first_time)
+                                    .setCancelable(false)//点击对话框以外的区域是否让对话框消失
+                                    .setPositiveButton("前往系统设置", (dialogInterface, i) -> {
+                                        sharedPreferencesHelper.put("firstTime", "false");
+                                        dialogInterface.dismiss();
+                                        XXPermissions.startPermissionActivity(MainActivity.this);
+                                    }).setNegativeButton("稍后自行处理", (dialogInterface, i) -> {
+                                        sharedPreferencesHelper.put("firstTime", "false");
+                                        dialogInterface.dismiss();
+                                    });
+                            builder.create().show();
+                        }
                     }
 
                     @Override
@@ -509,7 +529,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
 
         succsebtn.setOnClickListener(v -> {
             /* uminit为1时代表已经同意隐私协议，sp记录当前状态*/
-            SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(this, "umeng");
+            SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(MainActivity.this, "umeng");
             sharedPreferencesHelper.put("uminit", "1");
             UMConfigure.submitPolicyGrantResult(getApplicationContext(), true);
             /* 友盟sdk正式初始化*/

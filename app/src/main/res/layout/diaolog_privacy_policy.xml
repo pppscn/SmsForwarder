@@ -19,7 +19,8 @@
             android:layout_marginBottom="10dp"
             android:text="@string/privacy_policy"
             android:textColor="#000"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,14 +53,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/disagree"
+                    android:text="@string/refuse"
                     android:textColor="#000"
                     android:textSize="20sp" />
 
                 <View
-                    android:layout_width="0.5dp"
+                    android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="#5F6063" />
+                    android:background="#514E4E" />
 
                 <TextView
                     android:id="@+id/succsebtn"
