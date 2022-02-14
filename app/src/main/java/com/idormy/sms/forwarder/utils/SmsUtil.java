@@ -37,8 +37,12 @@ public class SmsUtil {
         for (String mobile : mobileArray) {
             try {
                 SmsManager smsManager = SmsManager.getSmsManagerForSubscriptionId(subId);
-                @SuppressLint("UnspecifiedImmutableFlag") PendingIntent sendPI = PendingIntent.getBroadcast(context, 0, new Intent(Context.TELEPHONY_SUBSCRIPTION_SERVICE), PendingIntent.FLAG_ONE_SHOT);
-                @SuppressLint("UnspecifiedImmutableFlag") PendingIntent deliverPI = PendingIntent.getBroadcast(context, 0, new Intent("DELIVERED_SMS_ACTION"), 0);
+
+                int sendFlags = Build.VERSION.SDK_INT >= 30 ? PendingIntent.FLAG_IMMUTABLE : PendingIntent.FLAG_ONE_SHOT;
+                PendingIntent sendPI = PendingIntent.getBroadcast(context, 0, new Intent(Context.TELEPHONY_SUBSCRIPTION_SERVICE), sendFlags);
+
+                int deliverFlags = Build.VERSION.SDK_INT >= 30 ? PendingIntent.FLAG_IMMUTABLE : 0;
+                PendingIntent deliverPI = PendingIntent.getBroadcast(context, 0, new Intent("DELIVERED_SMS_ACTION"), deliverFlags);
 
                 ArrayList<PendingIntent> sentPendingIntents = new ArrayList<>();
                 ArrayList<PendingIntent> deliveredPendingIntents = new ArrayList<>();
