@@ -1,8 +1,7 @@
-
-
 ![SmsForwarder](pic/SmsForwarder.png)
 
 # SmsForwarder-短信转发器
+
 [English Version](README_en.md)
 
 [![GitHub release](https://img.shields.io/github/release/pppscn/SmsForwarder.svg)](https://github.com/pppscn/SmsForwarder/releases) [![GitHub stars](https://img.shields.io/github/stars/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/stargazers) [![GitHub forks](https://img.shields.io/github/forks/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/network/members) [![GitHub issues](https://img.shields.io/github/issues/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/issues) [![GitHub license](https://img.shields.io/github/license/pppscn/SmsForwarder)](https://github.com/pppscn/SmsForwarder/blob/main/LICENSE)
@@ -90,6 +89,7 @@
 - [x] 转发到 Gotify发送通道（自主推送通知服务）
 - [x] 被动接收本地 HttpServer
 - [x] 主动轮询远程 SmsHub Api
+- [x] 适配暗夜模式
 
 --------
 
@@ -126,8 +126,8 @@
 + https://github.com/mailhu/emailkit （邮件发送）
 + https://github.com/alibaba/fastjson (Json解析)
 + https://github.com/getActivity/XXPermissions (权限请求框架)
-+ https://github.com/Xcreen/RestSMS（被动接收本地API方案）
-+ https://github.com/juancrescente/SMSHub（主动轮询远程API方案）
++ https://github.com/Xcreen/RestSMS （被动接收本地API方案）
++ https://github.com/juancrescente/SMSHub （主动轮询远程API方案）
 + [<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg?_ga=2.126618957.1361252949.1638261367-1417196221.1635638144&_gl=1*1pfl3dq*_ga*MTQxNzE5NjIyMS4xNjM1NjM4MTQ0*_ga_V0XZL7QHEB*MTYzODMzMjA4OC43LjAuMTYzODMzMjA5Ny4w" alt="GitHub license" style="zoom:50%;" />](https://jb.gg/OpenSourceSupport)  (License Certificate for JetBrains All Products Pack)
 
 --------
