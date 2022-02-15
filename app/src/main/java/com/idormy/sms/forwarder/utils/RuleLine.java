@@ -9,6 +9,7 @@ import com.idormy.sms.forwarder.model.vo.SmsVo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -338,7 +339,14 @@ class RuleLine {
             case CHECK_REGEX:
                 if (msgValue != null) {
                     try {
-                        checked = Pattern.matches(this.value, msgValue);
+                        //checked = Pattern.matches(this.value, msgValue);
+                        Pattern pattern = Pattern.compile(this.value, Pattern.CASE_INSENSITIVE);
+                        Matcher matcher = pattern.matcher(msgValue);
+                        //noinspection LoopStatementThatDoesntLoop
+                        while (matcher.find()) {
+                            checked = true;
+                            break;
+                        }
                     } catch (PatternSyntaxException e) {
                         logg("PatternSyntaxException: ");
                         logg("Description: " + e.getDescription());
