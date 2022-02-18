@@ -361,7 +361,7 @@ public class SendUtil {
                     PushPlusSettingVo pushPlusSettingVo = JSON.parseObject(senderModel.getJsonSetting(), PushPlusSettingVo.class);
                     if (pushPlusSettingVo != null) {
                         try {
-                            SenderPushPlusMsg.sendMsg(logId, handError, retryInterceptor, pushPlusSettingVo, smsVo.getMobile(), smsVo.getSmsVoForSend(smsTemplate, regexReplace));
+                            SenderPushPlusMsg.sendMsg(logId, handError, retryInterceptor, pushPlusSettingVo, smsVo.getTitleForSend(pushPlusSettingVo.getTitleTemplate()), smsVo.getSmsVoForSend(smsTemplate, regexReplace));
                         } catch (Exception e) {
                             LogUtil.updateLog(logId, 0, e.getMessage());
                             Log.e(TAG, "senderSendMsg: feishu error " + e.getMessage());
