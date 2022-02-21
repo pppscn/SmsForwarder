@@ -33,7 +33,11 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         String receiveAction = intent.getAction();
         String TAG = "SmsBroadcastReceiver";
         Log.d(TAG, "onReceive intent " + receiveAction);
-        if ("android.provider.Telephony.SMS_RECEIVED".equals(receiveAction)) {
+
+        String SMS_RECEIVED_ACTION = "android.provider.Telephony.SMS_RECEIVED";
+        String SMS_DELIVER_ACTION = "android.provider.Telephony.SMS_DELIVER";
+
+        if (SMS_RECEIVED_ACTION.equals(receiveAction) || SMS_DELIVER_ACTION.equals(receiveAction)) {
             try {
                 if (!SettingUtil.getSwitchEnableSms()) {
                     return;
