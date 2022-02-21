@@ -935,7 +935,7 @@ public class SenderActivity extends AppCompatActivity {
 
             try {
                 SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
-                SenderWebNotifyMsg.sendMsg(0, handler, null, webServer, webParams, secret, method, smsVo.getMobile(), smsVo.getSmsVoForSend());
+                SenderWebNotifyMsg.sendMsg(0, handler, null, webServer, webParams, secret, method, smsVo, "", "");
             } catch (Exception e) {
                 ToastUtils.delayedShow(getString(R.string.failed_to_fwd) + e.getMessage(), 3000);
                 e.printStackTrace();
