@@ -8,6 +8,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.alibaba.fastjson.JSON;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.utils.CertUtils;
 import com.idormy.sms.forwarder.utils.Define;
@@ -178,15 +179,10 @@ public class SenderWebNotifyMsg extends SenderBaseMsg {
 
     //JSON需要转义的字符
     private static String escapeJson(String str) {
-        return str.replace("\n", "\\n")
-                .replace("\"", "\\\"")
-                .replace("\\/", "\\\\/")
-                .replace("\\b", "\\\\b")
-                .replace("\\f", "\\\\f")
-                .replace("\\t", "\\\\t")
-                .replace("\\n", "\\\\n")
-                .replace("\\r", "\\\\r")
-                .replace("\\u", "\\\\u");
+        if (str == null) return "null";
+
+        String jsonStr = JSON.toJSONString(str);
+        return jsonStr.length() >= 2 ? jsonStr.substring(1, jsonStr.length() - 1) : jsonStr;
     }
 
 }
