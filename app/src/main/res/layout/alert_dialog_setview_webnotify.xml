@@ -126,13 +126,13 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text='@string/WebNotifyWebParams'
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/WebNotifyWebParamsTips"
                 android:textSize="10sp"
@@ -157,16 +157,15 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/WebNotifySecret"
                 android:textStyle="bold" />
 
             <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextWebNotifySecret"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
                 app:showEye="true" />
         </LinearLayout>
 

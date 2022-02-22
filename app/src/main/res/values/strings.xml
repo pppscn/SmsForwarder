@@ -149,8 +149,8 @@
     <string name="feishu_msg_type_interactive">消息卡片</string>
     <string name="feishu_msg_type_interactive_title">标题模板</string>
     <string name="Corp_ID">企业ID</string>
-    <string name="Agent_ID">应用AgentId</string>
-    <string name="App_Secret">应用Secret</string>
+    <string name="Agent_ID">AgentId</string>
+    <string name="App_Secret">Secret</string>
     <string name="is_at_all">是否@all</string>
     <string name="specified_member">指定成员</string>
     <string name="at_all">\@all</string>
@@ -179,7 +179,7 @@
     <string name="low_power_alarm_threshold">电量预警(%)</string>
     <string name="low_power_alarm_threshold_tips">取值：0–99，0禁用</string>
     <string name="retry_interval">请求接口失败重试</string>
-    <string name="retry_interval_tips">次数=0时禁用，间隔逐次递增</string>
+    <string name="retry_interval_tips">次数=0禁用，间隔逐次递增</string>
     <string name="forward_sms">转发短信广播</string>
     <string name="forward_sms_tips">请授予读取短信、通知类短信、发送短信等权限，关闭验证码保护</string>
     <string name="forward_missed_calls">转发通话记录</string>

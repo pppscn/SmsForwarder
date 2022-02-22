@@ -18,7 +18,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:text="@string/set_name"
@@ -28,6 +28,7 @@
                 android:id="@+id/editTextQYWXAppName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:importantForAutofill="no"
                 android:inputType="text"
@@ -51,7 +52,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:text="@string/Corp_ID"
@@ -76,9 +77,11 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:gravity="end"
+                android:maxLines="1"
                 android:text="@string/Agent_ID"
                 android:textStyle="bold" />
 
@@ -93,7 +96,6 @@
                 tools:ignore="LabelFor" />
         </LinearLayout>
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -102,7 +104,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:text="@string/App_Secret"
@@ -112,7 +114,7 @@
                 android:id="@+id/editTextQYWXAppSecret"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="5dp"
                 app:showEye="true" />
         </LinearLayout>
 
@@ -125,7 +127,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:text="@string/is_at_all"
@@ -154,7 +156,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:text="@string/specified_member"
