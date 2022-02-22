@@ -346,7 +346,7 @@ public class SendUtil {
                     FeiShuSettingVo feiShuSettingVo = JSON.parseObject(senderModel.getJsonSetting(), FeiShuSettingVo.class);
                     if (feiShuSettingVo != null) {
                         try {
-                            SenderFeishuMsg.sendMsg(logId, handError, retryInterceptor, feiShuSettingVo.getWebhook(), feiShuSettingVo.getSecret(), feiShuSettingVo.getMsgType(), smsVo.getMobile(), smsVo.getDate(), smsVo.getSmsVoForSend(smsTemplate, regexReplace));
+                            SenderFeishuMsg.sendMsg(logId, handError, retryInterceptor, feiShuSettingVo.getWebhook(), feiShuSettingVo.getSecret(), feiShuSettingVo.getMsgType(), smsVo.getMobile(), smsVo.getDate(), smsVo.getTitleForSend(feiShuSettingVo.getTitleTemplate()), smsVo.getSmsVoForSend(smsTemplate, regexReplace));
                         } catch (Exception e) {
                             LogUtil.updateLog(logId, 0, e.getMessage());
                             Log.e(TAG, "senderSendMsg: feishu error " + e.getMessage());

@@ -1637,11 +1637,27 @@ public class SenderActivity extends AppCompatActivity {
         final EditText editTextFeishuWebhook = view1.findViewById(R.id.editTextFeishuWebhook);
         final ClearEditText editTextFeishuSecret = view1.findViewById(R.id.editTextFeishuSecret);
         final RadioGroup radioGroupFeishuMsgType = view1.findViewById(R.id.radioGroupFeishuMsgType);
+        final EditText editTextFeishuTitle = view1.findViewById(R.id.editTextFeishuTitle);
+        final LinearLayout layoutTitleTemplate = view1.findViewById(R.id.layoutTitleTemplate);
+
         if (feiShuSettingVo != null) {
             editTextFeishuWebhook.setText(feiShuSettingVo.getWebhook());
             editTextFeishuSecret.setText(feiShuSettingVo.getSecret());
             radioGroupFeishuMsgType.check(feiShuSettingVo.getMsgTypeCheckId());
+            editTextFeishuTitle.setText(feiShuSettingVo.getTitleTemplate());
+            if ("text".equals(feiShuSettingVo.getMsgType())) {
+                layoutTitleTemplate.setVisibility(View.GONE);
+            } else {
+                layoutTitleTemplate.setVisibility(View.VISIBLE);
+            }
         }
+
+        radioGroupFeishuMsgType.setOnCheckedChangeListener((group, checkedId) -> {
+            if (group != null && checkedId > 0) {
+                layoutTitleTemplate.setVisibility(checkedId == R.id.radioFeishuMsgTypeText ? View.GONE : View.VISIBLE);
+                group.check(checkedId);
+            }
+        });
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
@@ -1663,12 +1679,15 @@ public class SenderActivity extends AppCompatActivity {
             String webHook = editTextFeishuWebhook.getText().toString().trim();
             String secret = editTextFeishuSecret.getText().trim();
             String msgType = radioGroupFeishuMsgType.getCheckedRadioButtonId() == R.id.radioFeishuMsgTypeText ? "text" : "interactive";
+            String titleTemplate = editTextFeishuTitle.getText().toString().trim();
             if (!CommonUtil.checkUrl(webHook, false)) {
                 ToastUtils.delayedShow(R.string.invalid_webhook, 3000);
                 return;
             }
 
-            FeiShuSettingVo feiShuSettingVoNew = new FeiShuSettingVo(webHook, secret, msgType);
+            if (TextUtils.isEmpty(titleTemplate)) titleTemplate = "【{{设备名称}}】来自{{来源号码}}的通知";
+
+            FeiShuSettingVo feiShuSettingVoNew = new FeiShuSettingVo(webHook, secret, msgType, titleTemplate);
             if (isClone || senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(senderName);
@@ -1703,6 +1722,7 @@ public class SenderActivity extends AppCompatActivity {
             String webHook = editTextFeishuWebhook.getText().toString().trim();
             String secret = editTextFeishuSecret.getText().trim();
             String msgType = radioGroupFeishuMsgType.getCheckedRadioButtonId() == R.id.radioFeishuMsgTypeText ? "text" : "interactive";
+            String titleTemplate = editTextFeishuTitle.getText().toString().trim();
             if (!CommonUtil.checkUrl(webHook, false)) {
                 ToastUtils.delayedShow(R.string.invalid_webhook, 3000);
                 return;
@@ -1710,11 +1730,39 @@ public class SenderActivity extends AppCompatActivity {
 
             try {
                 SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
-                SenderFeishuMsg.sendMsg(0, handler, null, webHook, secret, msgType, smsVo.getMobile(), new Date(), smsVo.getSmsVoForSend());
+                SenderFeishuMsg.sendMsg(0, handler, null, webHook, secret, msgType, smsVo.getMobile(), new Date(), smsVo.getTitleForSend(titleTemplate), smsVo.getSmsVoForSend());
             } catch (Exception e) {
                 ToastUtils.delayedShow(getString(R.string.failed_to_fwd) + e.getMessage(), 3000);
                 e.printStackTrace();
             }
+        });
+
+        Button buttonInsertSender = view1.findViewById(R.id.bt_insert_sender);
+        buttonInsertSender.setOnClickListener(view -> {
+            editTextFeishuTitle.setFocusable(true);
+            editTextFeishuTitle.requestFocus();
+            CommonUtil.insertOrReplaceText2Cursor(editTextFeishuTitle, getString(R.string.tag_from));
+        });
+
+        Button buttonInsertExtra = view1.findViewById(R.id.bt_insert_extra);
+        buttonInsertExtra.setOnClickListener(view -> {
+            editTextFeishuTitle.setFocusable(true);
+            editTextFeishuTitle.requestFocus();
+            CommonUtil.insertOrReplaceText2Cursor(editTextFeishuTitle, getString(R.string.tag_card_slot));
+        });
+
+        Button buttonInsertTime = view1.findViewById(R.id.bt_insert_time);
+        buttonInsertTime.setOnClickListener(view -> {
+            editTextFeishuTitle.setFocusable(true);
+            editTextFeishuTitle.requestFocus();
+            CommonUtil.insertOrReplaceText2Cursor(editTextFeishuTitle, getString(R.string.tag_receive_time));
+        });
+
+        Button buttonInsertDeviceName = view1.findViewById(R.id.bt_insert_device_name);
+        buttonInsertDeviceName.setOnClickListener(view -> {
+            editTextFeishuTitle.setFocusable(true);
+            editTextFeishuTitle.requestFocus();
+            CommonUtil.insertOrReplaceText2Cursor(editTextFeishuTitle, getString(R.string.tag_device_name));
         });
     }
 

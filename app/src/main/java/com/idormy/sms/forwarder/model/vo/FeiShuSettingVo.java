@@ -11,14 +11,16 @@ public class FeiShuSettingVo implements Serializable {
     private String webhook;
     private String secret;
     private String msgType;
+    private String titleTemplate;
 
     public FeiShuSettingVo() {
     }
 
-    public FeiShuSettingVo(String webhook, String secret, String msgType) {
+    public FeiShuSettingVo(String webhook, String secret, String msgType, String titleTemplate) {
         this.webhook = webhook;
         this.secret = secret;
         this.msgType = msgType;
+        this.titleTemplate = titleTemplate;
     }
 
     public int getMsgTypeCheckId() {
