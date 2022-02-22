@@ -144,6 +144,9 @@
     <string name="email_title">邮件主题</string>
     <string name="feishu_webhook">Webhook 地址</string>
     <string name="feishu_secret">加签 Secret (没有可不填)</string>
+    <string name="feishu_msg_type">消息类型</string>
+    <string name="feishu_msg_type_text">纯文本</string>
+    <string name="feishu_msg_type_interactive">消息卡片</string>
     <string name="Corp_ID">企业ID</string>
     <string name="Agent_ID">应用AgentId</string>
     <string name="App_Secret">应用Secret</string>

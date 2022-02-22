@@ -1636,9 +1636,11 @@ public class SenderActivity extends AppCompatActivity {
 
         final EditText editTextFeishuWebhook = view1.findViewById(R.id.editTextFeishuWebhook);
         final ClearEditText editTextFeishuSecret = view1.findViewById(R.id.editTextFeishuSecret);
+        final RadioGroup radioGroupFeishuMsgType = view1.findViewById(R.id.radioGroupFeishuMsgType);
         if (feiShuSettingVo != null) {
             editTextFeishuWebhook.setText(feiShuSettingVo.getWebhook());
             editTextFeishuSecret.setText(feiShuSettingVo.getSecret());
+            radioGroupFeishuMsgType.check(feiShuSettingVo.getMsgTypeCheckId());
         }
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
@@ -1660,12 +1662,13 @@ public class SenderActivity extends AppCompatActivity {
 
             String webHook = editTextFeishuWebhook.getText().toString().trim();
             String secret = editTextFeishuSecret.getText().trim();
+            String msgType = radioGroupFeishuMsgType.getCheckedRadioButtonId() == R.id.radioFeishuMsgTypeText ? "text" : "interactive";
             if (!CommonUtil.checkUrl(webHook, false)) {
                 ToastUtils.delayedShow(R.string.invalid_webhook, 3000);
                 return;
             }
 
-            FeiShuSettingVo feiShuSettingVoNew = new FeiShuSettingVo(webHook, secret);
+            FeiShuSettingVo feiShuSettingVoNew = new FeiShuSettingVo(webHook, secret, msgType);
             if (isClone || senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(senderName);
@@ -1699,6 +1702,7 @@ public class SenderActivity extends AppCompatActivity {
         buttonTest.setOnClickListener(view -> {
             String webHook = editTextFeishuWebhook.getText().toString().trim();
             String secret = editTextFeishuSecret.getText().trim();
+            String msgType = radioGroupFeishuMsgType.getCheckedRadioButtonId() == R.id.radioFeishuMsgTypeText ? "text" : "interactive";
             if (!CommonUtil.checkUrl(webHook, false)) {
                 ToastUtils.delayedShow(R.string.invalid_webhook, 3000);
                 return;
@@ -1706,7 +1710,7 @@ public class SenderActivity extends AppCompatActivity {
 
             try {
                 SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
-                SenderFeishuMsg.sendMsg(0, handler, null, webHook, secret, smsVo.getMobile(), new Date(), smsVo.getSmsVoForSend());
+                SenderFeishuMsg.sendMsg(0, handler, null, webHook, secret, msgType, smsVo.getMobile(), new Date(), smsVo.getSmsVoForSend());
             } catch (Exception e) {
                 ToastUtils.delayedShow(getString(R.string.failed_to_fwd) + e.getMessage(), 3000);
                 e.printStackTrace();

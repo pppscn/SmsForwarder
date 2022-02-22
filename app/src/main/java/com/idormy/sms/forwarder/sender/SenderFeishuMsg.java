@@ -90,7 +90,7 @@ public class SenderFeishuMsg extends SenderBaseMsg {
             "  }\n" +
             "}";
 
-    public static void sendMsg(final long logId, final Handler handError, final RetryIntercepter retryInterceptor, String webhook, String secret, String from, Date date, String content) throws Exception {
+    public static void sendMsg(final long logId, final Handler handError, final RetryIntercepter retryInterceptor, String webhook, String secret, String msgType, String from, Date date, String content) throws Exception {
         Log.i(TAG, "sendMsg webhook:" + webhook + " secret:" + secret + " content:" + content);
 
         if (webhook == null || webhook.isEmpty()) {
@@ -117,8 +117,15 @@ public class SenderFeishuMsg extends SenderBaseMsg {
         }
 
         //组装报文
-        textMsgMap.put("msg_type", "interactive");
-        textMsgMap.put("card", "${CARD_BODY}");
+        if (msgType == null || msgType.equals("interactive")) {
+            textMsgMap.put("msg_type", "interactive");
+            textMsgMap.put("card", "${CARD_BODY}");
+        } else {
+            textMsgMap.put("msg_type", "text");
+            Map contentMap = new HashMap();
+            contentMap.put("text", content);
+            textMsgMap.put("content", contentMap);
+        }
 
         Log.i(TAG, "requestUrl:" + webhook);
         final String requestMsg = JSON.toJSONString(textMsgMap).replace("\"${CARD_BODY}\"", buildMsg(from, date, content));
