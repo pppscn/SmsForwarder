@@ -8,7 +8,9 @@ import android.util.Log;
 
 import com.idormy.sms.forwarder.service.BatteryService;
 import com.idormy.sms.forwarder.service.FrontService;
+import com.idormy.sms.forwarder.service.MusicService;
 import com.idormy.sms.forwarder.utils.InitUtil;
+import com.idormy.sms.forwarder.utils.SettingUtil;
 
 public class RebootBroadcastReceiver extends BroadcastReceiver {
 
@@ -31,6 +33,11 @@ public class RebootBroadcastReceiver extends BroadcastReceiver {
             //电池状态监听
             Intent batteryServiceIntent = new Intent(context, BatteryService.class);
             context.startService(batteryServiceIntent);
+
+            //后台播放无声音乐
+            if (SettingUtil.getPlaySilenceMusic()) {
+                context.startService(new Intent(context, MusicService.class));
+            }
         }
 
     }

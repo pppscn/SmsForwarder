@@ -157,6 +157,11 @@
             android:name=".service.BatteryService"
             android:enabled="true" />
         <service
+            android:name=".service.MusicService"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="ExportedService" />
+        <service
             android:name=".service.NotifyService"
             android:enabled="true"
             android:exported="false"

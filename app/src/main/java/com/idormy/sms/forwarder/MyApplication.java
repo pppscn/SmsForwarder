@@ -17,6 +17,7 @@ import com.idormy.sms.forwarder.receiver.SimStateReceiver;
 import com.idormy.sms.forwarder.sender.SendHistory;
 import com.idormy.sms.forwarder.service.BatteryService;
 import com.idormy.sms.forwarder.service.FrontService;
+import com.idormy.sms.forwarder.service.MusicService;
 import com.idormy.sms.forwarder.utils.Define;
 import com.idormy.sms.forwarder.utils.PermissionInterceptor;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
@@ -107,6 +108,11 @@ public class MyApplication extends Application {
             //电池状态监听
             Intent batteryServiceIntent = new Intent(this, BatteryService.class);
             startService(batteryServiceIntent);
+
+            //后台播放无声音乐
+            if (SettingUtil.getPlaySilenceMusic()) {
+                startService(new Intent(context, MusicService.class));
+            }
 
             //SIM卡插拔状态广播监听
             IntentFilter simStateFilter = new IntentFilter(SimStateReceiver.ACTION_SIM_STATE_CHANGED);

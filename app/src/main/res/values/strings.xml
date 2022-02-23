@@ -327,7 +327,7 @@
     <string name="battery_monitor">电池监控</string>
     <string name="battery_monitor_tips">【注意】需要手动创建APP转发规则，包名：88888888</string>
     <string name="keep_alive">保活措施</string>
-    <string name="keep_alive_tips">建议开启每一项授权或设置，不要禁用通知栏，避免APP被杀</string>
+    <string name="keep_alive_tips">建议开启前三项授权或设置，不要禁用通知栏，避免APP被杀</string>
     <string name="custom_settings">个性设置</string>
     <string name="custom_settings_tips">如果自动获取失败，请手动填写备注 或 清空后再次自动获取</string>
     <string name="times">次</string>
@@ -433,4 +433,6 @@
     <string name="toast_denied_never">被永久拒绝授权，请前往系统设置手动授予权限！</string>
     <string name="toast_denied">获取必需的权限失败，APP功能可能受限！</string>
     <string name="tips_first_time">\n&#160;&#160;&#160;&#160;首次使用请按照1234步骤顺序设置，数字点亮表示该步骤已设置(4点亮表示有成功日志)！\n\n&#160;&#160;&#160;&#160;根据以往用户反馈，90%的新用户最终排查结果都是手机权限设置问题，5%的用户是APP保活问题，其他问题排查参考Wiki中的常见问题（APP右上角使用帮助入口）\n\n&#160;&#160;&#160;&#160;强烈建议：手动排查一下系统设置：自启动、电源策略、APP的权限，把所有权限打开（始终允许，不要“使用中允许”，MIUI系统就全部变绿），特别是一些国产定制系统加入隐私保护、验证码保护等（例如：MIUI 系统的 空白通行证）\n\n&#160;&#160;&#160;&#160;请选择是否立即“前往系统设置”检查，或“稍后自行处理”？</string>
+    <string name="play_silence_music">后台播放无声音乐</string>
+    <string name="play_silence_music_tips">播放无声音乐让后台一直运行，可能比较耗电，按需启用</string>
 </resources>

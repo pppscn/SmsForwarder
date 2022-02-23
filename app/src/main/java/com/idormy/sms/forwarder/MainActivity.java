@@ -39,6 +39,7 @@ import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.sender.SmsHubApiTask;
 import com.idormy.sms.forwarder.service.BatteryService;
 import com.idormy.sms.forwarder.service.FrontService;
+import com.idormy.sms.forwarder.service.MusicService;
 import com.idormy.sms.forwarder.utils.CommonUtil;
 import com.idormy.sms.forwarder.utils.HttpUtil;
 import com.idormy.sms.forwarder.utils.KeepAliveUtils;
@@ -106,6 +107,16 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
             Log.e(TAG, "BatteryService:", e);
         }
 
+        //后台播放无声音乐
+        if (SettingUtil.getPlaySilenceMusic()) {
+            try {
+                Intent musicServiceIntent = new Intent(this, MusicService.class);
+                musicServiceIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startService(musicServiceIntent);
+            } catch (Exception e) {
+                Log.e(TAG, "MusicService:", e);
+            }
+        }
 
         HttpUtil.init(this);
         //启用HttpServer

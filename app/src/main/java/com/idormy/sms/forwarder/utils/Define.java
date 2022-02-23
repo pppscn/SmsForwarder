@@ -11,6 +11,7 @@ public class Define {
     public static final String SP_MSG_KEY_STRING_ENABLE_APP_NOTIFY = "tsms_msg_key_switch_enable_app_notify";
     public static final String SP_MSG_KEY_STRING_CANCEL_APP_NOTIFY = "tsms_msg_key_switch_cancel_app_notify";
     public static final String SP_MSG_KEY_STRING_ENABLE_EXCLUDE_FROM_RECENTS = "tsms_msg_key_switch_enable_exclude_from_recents";
+    public static final String SP_MSG_KEY_STRING_ENABLE_PLAY_SILENCE_MUSIC = "tsms_msg_key_switch_enable_play_silence_music";
     public static final String SP_MSG_KEY_STRING_ADD_EXTRA_DEVICE_MARK = "tsms_msg_key_string_add_extra_device_mark";
     public static final String SP_MSG_KEY_STRING_ADD_EXTRA_SIM1 = "tsms_msg_key_string_add_extra_sim1";
     public static final String SP_MSG_KEY_STRING_ADD_EXTRA_SIM2 = "tsms_msg_key_string_add_extra_sim2";
