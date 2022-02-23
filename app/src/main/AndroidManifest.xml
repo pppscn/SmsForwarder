@@ -117,6 +117,16 @@
             android:name=".AppListActivity"
             android:exported="true"
             android:label="@string/app_list" />
+        <activity
+            android:name=".OnePixelActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|navigation|keyboard"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:finishOnTaskLaunch="false"
+            android:label="@string/one_pixel"
+            android:launchMode="singleInstance"
+            android:process=":live"
+            android:theme="@style/OnePixelActivity" />
 
         <receiver
             android:name=".receiver.RebootBroadcastReceiver"
@@ -149,6 +159,7 @@
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".receiver.OnePixelReceiver" />
 
         <service
             android:name=".service.FrontService"

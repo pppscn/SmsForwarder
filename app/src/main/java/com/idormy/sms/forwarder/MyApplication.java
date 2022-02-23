@@ -115,6 +115,7 @@ public class MyApplication extends Application {
             }
 
             //SIM卡插拔状态广播监听
+            PhoneUtils.init(this);
             IntentFilter simStateFilter = new IntentFilter(SimStateReceiver.ACTION_SIM_STATE_CHANGED);
             registerReceiver(new SimStateReceiver(), simStateFilter);
 

@@ -102,4 +102,8 @@
         <attr name="current_step" format="string" />
         <attr name="help_tip" format="string" />
     </declare-styleable>
+
+    <style name="OnePixelActivity" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 </resources>

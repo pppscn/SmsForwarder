@@ -332,65 +332,63 @@ public class PhoneUtils {
     @SuppressLint({"ObsoleteSdkInt", "Range"})
     public static List<SimInfo> getSimMultiInfo() {
         List<SimInfo> infos = new ArrayList<>();
-        //Log.d(TAG, "Build.VERSION.SDK_INT = " + Build.VERSION.SDK_INT);
-        //Log.d(TAG, "Build.VERSION_CODES.LOLLIPOP_MR1 = " + Build.VERSION_CODES.LOLLIPOP_MR1);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            Log.d(TAG, "1.版本超过5.1，调用系统方法");
-            //1.版本超过5.1，调用系统方法
-            SubscriptionManager mSubscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
-            List<SubscriptionInfo> activeSubscriptionInfoList = null;
-            if (mSubscriptionManager != null) {
-                try {
+        try {
+            //Log.d(TAG, "Build.VERSION.SDK_INT = " + Build.VERSION.SDK_INT);
+            //Log.d(TAG, "Build.VERSION_CODES.LOLLIPOP_MR1 = " + Build.VERSION_CODES.LOLLIPOP_MR1);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                Log.d(TAG, "1.版本超过5.1，调用系统方法");
+                //1.版本超过5.1，调用系统方法
+                SubscriptionManager mSubscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+                List<SubscriptionInfo> activeSubscriptionInfoList = null;
+                if (mSubscriptionManager != null) {
                     ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE);
                     activeSubscriptionInfoList = mSubscriptionManager.getActiveSubscriptionInfoList();
-                } catch (Exception ignored) {
                 }
-            }
-            if (activeSubscriptionInfoList != null && activeSubscriptionInfoList.size() > 0) {
-                //1.1.1 有使用的卡，就遍历所有卡
-                for (SubscriptionInfo subscriptionInfo : activeSubscriptionInfoList) {
-                    SimInfo simInfo = new SimInfo();
-                    simInfo.mCarrierName = subscriptionInfo.getCarrierName();
-                    simInfo.mIccId = subscriptionInfo.getIccId();
-                    simInfo.mSimSlotIndex = subscriptionInfo.getSimSlotIndex();
-                    simInfo.mNumber = subscriptionInfo.getNumber();
-                    simInfo.mCountryIso = subscriptionInfo.getCountryIso();
-                    simInfo.mSubscriptionId = subscriptionInfo.getSubscriptionId();
+                if (activeSubscriptionInfoList != null && activeSubscriptionInfoList.size() > 0) {
+                    //1.1.1 有使用的卡，就遍历所有卡
+                    for (SubscriptionInfo subscriptionInfo : activeSubscriptionInfoList) {
+                        SimInfo simInfo = new SimInfo();
+                        simInfo.mCarrierName = subscriptionInfo.getCarrierName();
+                        simInfo.mIccId = subscriptionInfo.getIccId();
+                        simInfo.mSimSlotIndex = subscriptionInfo.getSimSlotIndex();
+                        simInfo.mNumber = subscriptionInfo.getNumber();
+                        simInfo.mCountryIso = subscriptionInfo.getCountryIso();
+                        simInfo.mSubscriptionId = subscriptionInfo.getSubscriptionId();
                     /*try {
                         simInfo.mImei = getReflexMethodWithId(context, "getDeviceId", String.valueOf(simInfo.mSimSlotIndex));
                         simInfo.mImsi = getReflexMethodWithId(context, "getSubscriberId", String.valueOf(subscriptionInfo.getSubscriptionId()));
                     } catch (MethodNotFoundException ignored) {
                     }*/
-                    Log.d(TAG, String.valueOf(simInfo));
-                    infos.add(simInfo);
+                        Log.d(TAG, String.valueOf(simInfo));
+                        infos.add(simInfo);
+                    }
                 }
-            }
-        } else {
-            Log.d(TAG, "2.版本低于5.1的系统，首先调用数据库，看能不能访问到");
-            //2.版本低于5.1的系统，首先调用数据库，看能不能访问到
-            Uri uri = Uri.parse("content://telephony/siminfo"); //访问raw_contacts表
-            ContentResolver resolver = context.getContentResolver();
-            Cursor cursor = resolver.query(uri, new String[]{"_id", "icc_id", "sim_id", "display_name", "carrier_name", "name_source", "color", "number", "display_number_format", "data_roaming", "mcc", "mnc"}, null, null, null);
-            if (cursor != null && cursor.moveToFirst()) {
-                do {
-                    SimInfo simInfo = new SimInfo();
-                    simInfo.mCarrierName = cursor.getString(cursor.getColumnIndex("carrier_name"));
-                    simInfo.mIccId = cursor.getString(cursor.getColumnIndex("icc_id"));
-                    simInfo.mSimSlotIndex = cursor.getInt(cursor.getColumnIndex("sim_id"));
-                    simInfo.mNumber = cursor.getString(cursor.getColumnIndex("number"));
-                    simInfo.mCountryIso = cursor.getString(cursor.getColumnIndex("mcc"));
-                    String id = cursor.getString(cursor.getColumnIndex("_id"));
+            } else {
+                Log.d(TAG, "2.版本低于5.1的系统，首先调用数据库，看能不能访问到");
+                //2.版本低于5.1的系统，首先调用数据库，看能不能访问到
+                Uri uri = Uri.parse("content://telephony/siminfo"); //访问raw_contacts表
+                ContentResolver resolver = context.getContentResolver();
+                Cursor cursor = resolver.query(uri, new String[]{"_id", "icc_id", "sim_id", "display_name", "carrier_name", "name_source", "color", "number", "display_number_format", "data_roaming", "mcc", "mnc"}, null, null, null);
+                if (cursor != null && cursor.moveToFirst()) {
+                    do {
+                        SimInfo simInfo = new SimInfo();
+                        simInfo.mCarrierName = cursor.getString(cursor.getColumnIndex("carrier_name"));
+                        simInfo.mIccId = cursor.getString(cursor.getColumnIndex("icc_id"));
+                        simInfo.mSimSlotIndex = cursor.getInt(cursor.getColumnIndex("sim_id"));
+                        simInfo.mNumber = cursor.getString(cursor.getColumnIndex("number"));
+                        simInfo.mCountryIso = cursor.getString(cursor.getColumnIndex("mcc"));
+                        String id = cursor.getString(cursor.getColumnIndex("_id"));
                     /*try {
                         simInfo.mImei = getReflexMethodWithId(context, "getDeviceId", String.valueOf(simInfo.mSimSlotIndex));
                         simInfo.mImsi = getReflexMethodWithId(context, "getSubscriberId", String.valueOf(id));
                     } catch (MethodNotFoundException ignored) {
                     }*/
-                    Log.d(TAG, String.valueOf(simInfo));
-                    infos.add(simInfo);
-                } while (cursor.moveToNext());
-                cursor.close();
+                        Log.d(TAG, String.valueOf(simInfo));
+                        infos.add(simInfo);
+                    } while (cursor.moveToNext());
+                    cursor.close();
+                }
             }
-        }
 
         /*Log.d(TAG, "3.通过反射读取卡槽信息，最后通过IMEI去重");
         //3.通过反射读取卡槽信息，最后通过IMEI去重
@@ -404,6 +402,9 @@ public class PhoneUtils {
             }
         }
         return simInfos;*/
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return infos;
     }

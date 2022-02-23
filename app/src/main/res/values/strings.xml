@@ -434,5 +434,8 @@
     <string name="toast_denied">获取必需的权限失败，APP功能可能受限！</string>
     <string name="tips_first_time">\n&#160;&#160;&#160;&#160;首次使用请按照1234步骤顺序设置，数字点亮表示该步骤已设置(4点亮表示有成功日志)！\n\n&#160;&#160;&#160;&#160;根据以往用户反馈，90%的新用户最终排查结果都是手机权限设置问题，5%的用户是APP保活问题，其他问题排查参考Wiki中的常见问题（APP右上角使用帮助入口）\n\n&#160;&#160;&#160;&#160;强烈建议：手动排查一下系统设置：自启动、电源策略、APP的权限，把所有权限打开（始终允许，不要“使用中允许”，MIUI系统就全部变绿），特别是一些国产定制系统加入隐私保护、验证码保护等（例如：MIUI 系统的 空白通行证）\n\n&#160;&#160;&#160;&#160;请选择是否立即“前往系统设置”检查，或“稍后自行处理”？</string>
     <string name="play_silence_music">后台播放无声音乐</string>
-    <string name="play_silence_music_tips">播放无声音乐让后台一直运行，可能比较耗电，按需启用</string>
+    <string name="play_silence_music_tips">【按需启用】播放无声音乐让后台一直运行，可能比较耗电</string>
+    <string name="one_pixel">1像素</string>
+    <string name="one_pixel_activity">1像素透明Activity保活</string>
+    <string name="one_pixel_activity_tips">【按需启用】使进程的优先级在屏幕锁屏时间由4提升为最高优先级1</string>
 </resources>

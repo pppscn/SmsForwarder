@@ -45,6 +45,7 @@ import com.idormy.sms.forwarder.utils.Define;
 import com.idormy.sms.forwarder.utils.HttpUtil;
 import com.idormy.sms.forwarder.utils.KeepAliveUtils;
 import com.idormy.sms.forwarder.utils.LogUtil;
+import com.idormy.sms.forwarder.utils.OnePixelManager;
 import com.idormy.sms.forwarder.utils.RuleUtil;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.idormy.sms.forwarder.view.ClearEditText;
@@ -109,6 +110,8 @@ public class SettingActivity extends AppCompatActivity {
         switchExcludeFromRecents(findViewById(R.id.switch_exclude_from_recents));
         //后台播放无声音乐
         switchPlaySilenceMusic(findViewById(R.id.switch_play_silence_music));
+        //1像素透明Activity保活
+        switchOnePixelActivity(findViewById(R.id.switch_one_pixel_activity));
         //接口请求失败重试时间间隔
         editRetryDelayTime(findViewById(R.id.et_retry_times), findViewById(R.id.et_delay_time));
 
@@ -683,6 +686,24 @@ public class SettingActivity extends AppCompatActivity {
                 startService(new Intent(context, MusicService.class));
             } else {
                 stopService(new Intent(context, MusicService.class));
+            }
+            Log.d(TAG, "onCheckedChanged:" + isChecked);
+        });
+    }
+
+    //1像素透明Activity保活
+    @SuppressLint("ObsoleteSdkInt,UseSwitchCompatOrMaterialCode")
+    private void switchOnePixelActivity(Switch switch_one_pixel_activity) {
+        switch_one_pixel_activity.setChecked(SettingUtil.getOnePixelActivity());
+
+        switch_one_pixel_activity.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingUtil.switchOnePixelActivity(isChecked);
+
+            OnePixelManager onePixelManager = new OnePixelManager();
+            if (isChecked) {
+                onePixelManager.registerOnePixelReceiver(this);//注册广播接收者
+            } else {
+                onePixelManager.unregisterOnePixelReceiver(this);
             }
             Log.d(TAG, "onCheckedChanged:" + isChecked);
         });

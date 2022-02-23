@@ -45,6 +45,7 @@ import com.idormy.sms.forwarder.utils.HttpUtil;
 import com.idormy.sms.forwarder.utils.KeepAliveUtils;
 import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.NetUtil;
+import com.idormy.sms.forwarder.utils.OnePixelManager;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.RuleUtil;
 import com.idormy.sms.forwarder.utils.SettingUtil;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
     private RefreshListView listView;
     private Intent serviceIntent;
     private String currentType = "sms";
+    OnePixelManager onePixelManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +79,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
 
         //是否同意隐私协议
         if (!MyApplication.allowPrivacyPolicy) return;
-
-        //获取SIM信息
-        PhoneUtils.init(this);
 
         //短信&网络组件初始化
         SmsUtil.init(this);
@@ -115,6 +114,16 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
                 startService(musicServiceIntent);
             } catch (Exception e) {
                 Log.e(TAG, "MusicService:", e);
+            }
+        }
+
+        //1像素透明Activity保活
+        if (SettingUtil.getOnePixelActivity()) {
+            try {
+                onePixelManager = new OnePixelManager();
+                onePixelManager.registerOnePixelReceiver(this);//注册广播接收者
+            } catch (Exception e) {
+                Log.e(TAG, "OnePixelManager:", e);
             }
         }
 
@@ -359,6 +368,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         } catch (Exception e) {
             Log.e(TAG, "onDestroy:", e);
         }
+
+        if (onePixelManager != null) onePixelManager.unregisterOnePixelReceiver(this);
     }
 
     @Override

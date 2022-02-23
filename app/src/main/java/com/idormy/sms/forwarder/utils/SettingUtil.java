@@ -101,6 +101,14 @@ public class SettingUtil {
         return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_PLAY_SILENCE_MUSIC, false);
     }
 
+    public static void switchOnePixelActivity(Boolean enable) {
+        sp_setting.edit().putBoolean(Define.SP_MSG_KEY_STRING_ENABLE_ONE_PIXEL_ACTIVITY, enable).apply();
+    }
+
+    public static boolean getOnePixelActivity() {
+        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_ENABLE_ONE_PIXEL_ACTIVITY, false);
+    }
+
     public static void switchSmsTemplate(Boolean switchSmsTemplate) {
         sp_setting.edit().putBoolean(Define.SP_MSG_KEY_SWITCH_SMS_TEMPLATE, switchSmsTemplate).apply();
     }
