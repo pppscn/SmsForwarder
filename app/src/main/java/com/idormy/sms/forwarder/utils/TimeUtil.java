@@ -57,15 +57,26 @@ public class TimeUtil {
      * @param utcTime UTC时间
      * @return 本地时间格式的时间
      */
-    public static String utc2Local(String utcTime) {
+    public static Date utc2LocalDate(String utcTime) throws ParseException {
         String utcTimePatten = "yyyy-MM-dd HH:mm:ss";
-        String localTimePatten = "yyyy-MM-dd HH:mm:ss";
         @SuppressLint("SimpleDateFormat") SimpleDateFormat utcFormatter = new SimpleDateFormat(utcTimePatten);
         utcFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));//时区定义并进行时间获取
 
+        return utcFormatter.parse(utcTime);
+    }
+
+    /**
+     * 函数功能描述:UTC时间转本地时间格式
+     *
+     * @param utcTime UTC时间
+     * @return 本地时间格式的时间
+     */
+    public static String utc2Local(String utcTime) {
+        String localTimePatten = "yyyy-MM-dd HH:mm:ss";
+
         Date utcDate;
         try {
-            utcDate = utcFormatter.parse(utcTime);
+            utcDate = utc2LocalDate(utcTime);
         } catch (ParseException e) {
             e.printStackTrace();
             return utcTime;

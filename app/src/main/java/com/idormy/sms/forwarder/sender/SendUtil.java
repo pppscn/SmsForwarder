@@ -14,7 +14,6 @@ import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SMS;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_TELEGRAM;
 import static com.idormy.sms.forwarder.model.SenderModel.TYPE_WEB_NOTIFY;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
@@ -41,12 +40,11 @@ import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.NetUtil;
 import com.idormy.sms.forwarder.utils.RuleUtil;
 import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.TimeUtil;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class SendUtil {
     private static final String TAG = "SendUtil";
@@ -98,10 +96,9 @@ public class SendUtil {
      */
     public static void resendMsgByLog(Context context, Handler handler, LogVo logVo) {
         Log.d(TAG, logVo.toString());
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date date = new Date();
         try {
-            date = sdf.parse(logVo.getTime());
+            date = TimeUtil.utc2LocalDate(logVo.getTime());
         } catch (ParseException e) {
             Log.e(TAG, "SimpleDateFormat parse error", e);
         }
