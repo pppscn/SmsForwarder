@@ -3,6 +3,7 @@ package com.idormy.sms.forwarder.model.vo;
 import com.idormy.sms.forwarder.R;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import lombok.Data;
 
@@ -12,15 +13,17 @@ public class WebNotifySettingVo implements Serializable {
     private String secret;
     private String method;
     private String webParams;
+    private Map<String, String> headers;
 
     public WebNotifySettingVo() {
     }
 
-    public WebNotifySettingVo(String webServer, String secret, String method, String webParams) {
+    public WebNotifySettingVo(String webServer, String secret, String method, String webParams, Map<String, String> headers) {
         this.webServer = webServer;
         this.secret = secret;
         this.method = method;
         this.webParams = webParams;
+        this.headers = headers;
     }
 
     public int getWebNotifyMethodCheckId() {

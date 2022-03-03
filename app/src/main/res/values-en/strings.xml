@@ -24,6 +24,11 @@
     <string name="clear_logs">Clear logs</string>
     <string name="add_rule">Add rule</string>
     <string name="add_sender">Add sender</string>
+    <string name="headers">Headers</string>
+    <string name="header_key">Key</string>
+    <string name="header_value">Value</string>
+    <string name="header_add">Add Header</string>
+    <string name="header_del">Remove Header</string>h
     <!--AboutActivity-->
     <string name="version">Version</string>
     <string name="check_for_updates">Check for updates</string>

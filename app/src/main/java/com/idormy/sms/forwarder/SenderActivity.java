@@ -31,6 +31,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -86,6 +87,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("deprecation")
 public class SenderActivity extends AppCompatActivity {
@@ -832,6 +834,57 @@ public class SenderActivity extends AppCompatActivity {
 
     }
 
+    //header序号
+    int headerItemId = 0;
+
+    /**
+     * 动态增删header
+     *
+     * @param headerItemMap                管理item的map，用于删除指定header
+     * @param linearLayoutWebNotifyHeaders 需要挂载item的LinearLayout
+     * @param key                          header的key，为空则不设置
+     * @param value                        header的value，为空则不设置
+     */
+    private void addHeaderItemLinearLayout(Map<Integer, LinearLayout> headerItemMap, final LinearLayout linearLayoutWebNotifyHeaders, String key, String value) {
+        LinearLayout linearLayoutItemAddHeader = (LinearLayout) View.inflate(this, R.layout.item_add_header, null);
+        ImageView imageViewRemoveHeader = linearLayoutItemAddHeader.findViewById(R.id.imageViewRemoveHeader);
+
+        if (key != null && value != null) {
+            EditText editTextHeaderKey = linearLayoutItemAddHeader.findViewById(R.id.editTextHeaderKey);
+            EditText editTextHeaderValue = linearLayoutItemAddHeader.findViewById(R.id.editTextHeaderValue);
+            editTextHeaderKey.setText(key);
+            editTextHeaderValue.setText(value);
+        }
+
+        imageViewRemoveHeader.setTag(headerItemId);
+        imageViewRemoveHeader.setOnClickListener(view2 -> {
+            int itemId = (int) view2.getTag();
+            linearLayoutWebNotifyHeaders.removeView(headerItemMap.get(itemId));
+            headerItemMap.remove(itemId);
+        });
+        linearLayoutWebNotifyHeaders.addView(linearLayoutItemAddHeader);
+        headerItemMap.put(headerItemId, linearLayoutItemAddHeader);
+        headerItemId++;
+    }
+
+    /**
+     * 从EditText控件中获取全部headers
+     *
+     * @param headerItemMap 管理item的map
+     * @return 全部headers
+     */
+    private Map<String, String> getHeadersFromHeaderItemMap(Map<Integer, LinearLayout> headerItemMap) {
+        Map<String, String> headers = new HashMap<>();
+        for (LinearLayout headerItem : headerItemMap.values()) {
+            EditText editTextHeaderKey = headerItem.findViewById(R.id.editTextHeaderKey);
+            EditText editTextHeaderValue = headerItem.findViewById(R.id.editTextHeaderValue);
+            String key = editTextHeaderKey.getText().toString().trim();
+            String value = editTextHeaderValue.getText().toString().trim();
+            headers.put(key, value);
+        }
+        return headers;
+    }
+
     //webhook
     @SuppressLint("SimpleDateFormat")
     private void setWebNotify(final SenderModel senderModel, final boolean isClone) {
@@ -858,12 +911,24 @@ public class SenderActivity extends AppCompatActivity {
         final EditText editTextWebNotifyWebParams = view1.findViewById(R.id.editTextWebNotifyWebParams);
         final ClearEditText editTextWebNotifySecret = view1.findViewById(R.id.editTextWebNotifySecret);
         final RadioGroup radioGroupWebNotifyMethod = view1.findViewById(R.id.radioGroupWebNotifyMethod);
+
+        Map<Integer, LinearLayout> headerItemMap = new HashMap<>(2);
+        final LinearLayout linearLayoutWebNotifyHeaders = view1.findViewById(R.id.linearLayoutWebNotifyHeaders);
+        final ImageView imageViewWebNotifyAddHeader = view1.findViewById(R.id.imageViewWebNotifyAddHeader);
+
         if (webNotifySettingVo != null) {
             editTextWebNotifyWebServer.setText(webNotifySettingVo.getWebServer());
             editTextWebNotifyWebParams.setText(webNotifySettingVo.getWebParams());
             editTextWebNotifySecret.setText(webNotifySettingVo.getSecret());
             radioGroupWebNotifyMethod.check(webNotifySettingVo.getWebNotifyMethodCheckId());
+            //set header
+            for (Map.Entry<String, String> header : webNotifySettingVo.getHeaders().entrySet()) {
+                addHeaderItemLinearLayout(headerItemMap, linearLayoutWebNotifyHeaders, header.getKey(), header.getValue());
+            }
         }
+
+        //add header
+        imageViewWebNotifyAddHeader.setOnClickListener(view -> addHeaderItemLinearLayout(headerItemMap, linearLayoutWebNotifyHeaders, null, null));
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
@@ -887,13 +952,14 @@ public class SenderActivity extends AppCompatActivity {
             String secret = editTextWebNotifySecret.getText().trim();
             String method = radioGroupWebNotifyMethod.getCheckedRadioButtonId() == R.id.radioWebNotifyMethodGet ? "GET" : "POST";
             String webParams = editTextWebNotifyWebParams.getText().toString().trim();
+            Map<String, String> headers = getHeadersFromHeaderItemMap(headerItemMap);
 
             if (!CommonUtil.checkUrl(webServer, false)) {
                 ToastUtils.delayedShow(R.string.invalid_webserver, 3000);
                 return;
             }
 
-            WebNotifySettingVo webNotifySettingVoNew = new WebNotifySettingVo(webServer, secret, method, webParams);
+            WebNotifySettingVo webNotifySettingVoNew = new WebNotifySettingVo(webServer, secret, method, webParams, headers);
             if (isClone || senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(senderName);
@@ -927,6 +993,7 @@ public class SenderActivity extends AppCompatActivity {
             String secret = editTextWebNotifySecret.getText().trim();
             String method = radioGroupWebNotifyMethod.getCheckedRadioButtonId() == R.id.radioWebNotifyMethodGet ? "GET" : "POST";
             String webParams = editTextWebNotifyWebParams.getText().toString().trim();
+            Map<String, String> headers = getHeadersFromHeaderItemMap(headerItemMap);
 
             if (!CommonUtil.checkUrl(webServer, false)) {
                 ToastUtils.delayedShow(R.string.invalid_webserver, 3000);
@@ -935,7 +1002,7 @@ public class SenderActivity extends AppCompatActivity {
 
             try {
                 SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
-                SenderWebNotifyMsg.sendMsg(0, handler, null, webServer, webParams, secret, method, smsVo, "", "");
+                SenderWebNotifyMsg.sendMsg(0, handler, null, webServer, webParams, secret, method, headers, smsVo, "", "");
             } catch (Exception e) {
                 ToastUtils.delayedShow(getString(R.string.failed_to_fwd) + e.getMessage(), 3000);
                 e.printStackTrace();
