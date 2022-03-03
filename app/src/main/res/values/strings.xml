@@ -24,6 +24,11 @@
     <string name="clear_logs">清空日志</string>
     <string name="add_rule">清空日志</string>
     <string name="add_sender">添加发送通道</string>
+    <string name="headers">Headers</string>
+    <string name="header_key">Key</string>
+    <string name="header_value">Value</string>
+    <string name="header_add">添加Header</string>
+    <string name="header_del">删除Header</string>
     <!--AboutActivity-->
     <string name="version">当前版本</string>
     <string name="check_for_updates">检查新版本</string>

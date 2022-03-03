@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -39,7 +40,7 @@ public class SenderWebNotifyMsg extends SenderBaseMsg {
 
     static final String TAG = "SenderWebNotifyMsg";
 
-    public static void sendMsg(final long logId, final Handler handError, final RetryIntercepter retryInterceptor, String webServer, String webParams, String secret, String method, SmsVo smsVo, String smsTemplate, String regexReplace) throws Exception {
+    public static void sendMsg(final long logId, final Handler handError, final RetryIntercepter retryInterceptor, String webServer, String webParams, String secret, String method, Map<String, String> headers, SmsVo smsVo, String smsTemplate, String regexReplace) throws Exception {
         String from = smsVo.getMobile();
         String content = smsVo.getSmsVoForSend(smsTemplate, regexReplace);
         Log.i(TAG, "sendMsg webServer:" + webServer + " webParams:" + webParams + " from:" + from + " content:" + content);
@@ -65,7 +66,7 @@ public class SenderWebNotifyMsg extends SenderBaseMsg {
             Log.i(TAG, "sign:" + sign);
         }
 
-        Request request;
+        Request.Builder requestBuilder;
         if (method.equals("GET") && TextUtils.isEmpty(webParams)) {
             webServer += (webServer.contains("?") ? "&" : "?") + "from=" + URLEncoder.encode(from, "UTF-8");
             webServer += "&content=" + URLEncoder.encode(content, "UTF-8");
@@ -75,7 +76,7 @@ public class SenderWebNotifyMsg extends SenderBaseMsg {
             }
 
             Log.d(TAG, "method = GET, Url = " + webServer);
-            request = new Request.Builder().url(webServer).get().build();
+            requestBuilder = new Request.Builder().url(webServer).get();
         } else if (method.equals("GET") && !TextUtils.isEmpty(webParams)) {
             webParams = webParams.replace("[from]", URLEncoder.encode(from, "UTF-8"))
                     .replace("[content]", URLEncoder.encode(content, "UTF-8"))
@@ -94,7 +95,7 @@ public class SenderWebNotifyMsg extends SenderBaseMsg {
             webServer += (webServer.contains("?") ? "&" : "?") + webParams;
 
             Log.d(TAG, "method = GET, Url = " + webServer);
-            request = new Request.Builder().url(webServer).get().build();
+            requestBuilder = new Request.Builder().url(webServer).get();
         } else if (webParams != null && webParams.contains("[msg]")) {
             String bodyMsg;
             String contentType = "application/x-www-form-urlencoded";
@@ -121,11 +122,10 @@ public class SenderWebNotifyMsg extends SenderBaseMsg {
                         .replace("[receive_time]", URLEncoder.encode(receiveTime, "UTF-8"));
             }
             RequestBody body = RequestBody.create(MediaType.parse(contentType), bodyMsg);
-            request = new Request.Builder()
+            requestBuilder = new Request.Builder()
                     .url(webServer)
                     .addHeader("Content-Type", contentType)
-                    .method("POST", body)
-                    .build();
+                    .method("POST", body);
             Log.d(TAG, "method = POST webParams, Body = " + bodyMsg);
         } else {
             MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
@@ -138,7 +138,11 @@ public class SenderWebNotifyMsg extends SenderBaseMsg {
 
             RequestBody body = builder.build();
             Log.d(TAG, "method = POST, Body = " + body);
-            request = new Request.Builder().url(webServer).method("POST", body).build();
+            requestBuilder = new Request.Builder().url(webServer).method("POST", body);
+        }
+
+        for (Map.Entry<String, String> entry : headers.entrySet()) {
+            requestBuilder.addHeader(entry.getKey(), entry.getValue());
         }
 
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
@@ -153,7 +157,7 @@ public class SenderWebNotifyMsg extends SenderBaseMsg {
                 .connectTimeout(Define.REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)
                 .build();
 
-        client.newCall(request).enqueue(new Callback() {
+        client.newCall(requestBuilder.build()).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull final IOException e) {
                 LogUtil.updateLog(logId, 0, e.getMessage());
