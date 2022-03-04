@@ -135,14 +135,11 @@
     <string name="dingding_secret">加签 Secret (没有可不填)</string>
     <string name="dingding_at">转发时@某人</string>
     <string name="dingding_at_tips">Tips：多个手机号用逗号分开，例如：18888888888,19999999999</string>
-    <string name="email_protocol">协议类型</string>
-    <string name="email_smtp">SMTP</string>
-    <string name="email_imap">IMAP</string>
     <string name="email_host">服务器地址</string>
     <string name="smtp_port">服务器端口</string>
     <string name="enable_ssl">开启SSL</string>
-    <string name="email_account">发件人邮箱</string>
-    <string name="email_password">登录密码/授权码</string>
+    <string name="email_account">发件邮箱</string>
+    <string name="email_password">登录密码</string>
     <string name="email_nickname">发件人昵称</string>
     <string name="email_to">收件地址</string>
     <string name="email_to_tips">Tip：多个收件人以半角逗号,分隔</string>
@@ -443,4 +440,8 @@
     <string name="one_pixel">1像素</string>
     <string name="one_pixel_activity">1像素透明Activity保活</string>
     <string name="one_pixel_activity_tips">【按需启用】使进程的优先级在屏幕锁屏时间由4提升为最高优先级1</string>
+    <string name="hint_from_add">填写 @ 前面的用户名</string>
+    <string name="hint_from_add_full">填写格式: AAA@BBB.CCC</string>
+    <string name="other_mail_type">其他邮箱</string>
+    <string name="tips_other_mail_type">其他邮箱，请填写完整的邮箱地址并手动填写SMTP服务器信息</string>
 </resources>

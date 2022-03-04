@@ -22,12 +22,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.SpannedString;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -36,6 +41,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.Switch;
 
 import androidx.appcompat.app.AlertDialog;
@@ -94,9 +100,6 @@ public class SenderActivity extends AppCompatActivity {
 
     public static final int NOTIFY = 0x9731993;
     private final String TAG = "SenderActivity";
-    // 用于存储数据
-    private List<SenderModel> senderModels = new ArrayList<>();
-    private SenderAdapter adapter;
     //消息处理者,创建一个Handler的子类对象,目的是重写Handler的处理消息的方法(handleMessage())
     @SuppressLint("HandlerLeak")
     private final Handler handler = new Handler() {
@@ -107,6 +110,9 @@ public class SenderActivity extends AppCompatActivity {
             }
         }
     };
+    // 用于存储数据
+    private List<SenderModel> senderModels = new ArrayList<>();
+    private SenderAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -514,6 +520,8 @@ public class SenderActivity extends AppCompatActivity {
     //邮箱
     @SuppressLint("SimpleDateFormat")
     private void setEmail(final SenderModel senderModel, final boolean isClone) {
+        final String[] MAIL_TYPE = getResources().getStringArray(R.array.MailType);
+
         EmailSettingVo emailSettingVo = null;
         //try phrase json setting
         if (senderModel != null) {
@@ -541,9 +549,20 @@ public class SenderActivity extends AppCompatActivity {
         final ClearEditText editTextEmailPsw = view1.findViewById(R.id.editTextEmailPsw);
         final EditText editTextEmailToAdd = view1.findViewById(R.id.editTextEmailToAdd);
         final EditText editTextEmailTitle = view1.findViewById(R.id.editTextEmailTitle);
-        final RadioGroup radioGroupEmailProtocol = view1.findViewById(R.id.radioGroupEmailProtocol);
+        final Spinner spinnerEmailType = view1.findViewById(R.id.spinnerEmailType);
+        final LinearLayout layoutServiceSetting = view1.findViewById(R.id.layoutServiceSetting);
         if (emailSettingVo != null) {
-            radioGroupEmailProtocol.check(emailSettingVo.getEmailProtocolCheckId());
+            String mailType = emailSettingVo.getMailType();
+            if (!TextUtils.isEmpty(mailType)) {
+                for (int i = 0; i < MAIL_TYPE.length; i++) {
+                    if (mailType.equals(MAIL_TYPE[i])) {
+                        spinnerEmailType.setSelection(i);
+                        break;
+                    }
+                }
+            } else {
+                spinnerEmailType.setSelection(MAIL_TYPE.length - 1);
+            }
             editTextEmailHost.setText(emailSettingVo.getHost());
             editTextEmailPort.setText(emailSettingVo.getPort());
             switchEmailSSl.setChecked(emailSettingVo.getSsl());
@@ -564,6 +583,34 @@ public class SenderActivity extends AppCompatActivity {
                 .create();
         final AlertDialog show = alertDialog71.show();
 
+        spinnerEmailType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String mailType = parent.getItemAtPosition(position).toString();
+                //ToastUtils.show("选择的邮箱类型是：" + mailType);
+
+                String hint;
+                if (mailType.equals(getString(R.string.other_mail_type))) {
+                    hint = getString(R.string.hint_from_add_full);
+                    layoutServiceSetting.setVisibility(View.VISIBLE);
+                    ToastUtils.delayedShow(R.string.tips_other_mail_type, 3000);
+                } else {
+                    hint = getString(R.string.hint_from_add);
+                    layoutServiceSetting.setVisibility(View.GONE);
+                }
+                SpannableString ss = new SpannableString(hint);//定义hint的值
+                AbsoluteSizeSpan ass = new AbsoluteSizeSpan(13, true);//设置字体大小 true表示单位是sp
+                ss.setSpan(ass, 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                editTextEmailFromAdd.setHint(new SpannedString(ss));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+
         buttonOk.setOnClickListener(view -> {
             String senderName = editTextEmailName.getText().toString().trim();
             int senderStatus = switchEmailEnable.isChecked() ? STATUS_ON : STATUS_OFF;
@@ -572,7 +619,7 @@ public class SenderActivity extends AppCompatActivity {
                 return;
             }
 
-            String protocol = radioGroupEmailProtocol.getCheckedRadioButtonId() == R.id.radioEmailProtocolSmtp ? "SMTP" : "IMAP";
+            String mailType = spinnerEmailType.getSelectedItem().toString();
             String host = editTextEmailHost.getText().toString().trim();
             String port = editTextEmailPort.getText().toString().trim();
             boolean ssl = switchEmailSSl.isChecked();
@@ -585,12 +632,17 @@ public class SenderActivity extends AppCompatActivity {
 
             String nickname = editTextEmailNickname.getText().toString().trim();
             if (nickname.isEmpty()) nickname = "SmsForwarder";
-            if (host.isEmpty() || port.isEmpty() || fromEmail.isEmpty() || pwd.isEmpty() || toEmail.isEmpty()) {
+            if (fromEmail.isEmpty() || pwd.isEmpty() || toEmail.isEmpty()) {
                 ToastUtils.delayedShow(R.string.invalid_email, 3000);
                 return;
             }
 
-            EmailSettingVo emailSettingVoNew = new EmailSettingVo(protocol, host, port, ssl, fromEmail, nickname, pwd, toEmail, title);
+            if (mailType.equals(getString(R.string.other_mail_type)) && (host.isEmpty() || port.isEmpty())) {
+                ToastUtils.delayedShow(R.string.tips_other_mail_type, 3000);
+                return;
+            }
+
+            EmailSettingVo emailSettingVoNew = new EmailSettingVo(mailType, host, port, ssl, fromEmail, nickname, pwd, toEmail, title);
             if (isClone || senderModel == null) {
                 SenderModel newSenderModel = new SenderModel();
                 newSenderModel.setName(senderName);
@@ -622,7 +674,7 @@ public class SenderActivity extends AppCompatActivity {
         });
 
         buttonTest.setOnClickListener(view -> {
-            String protocol = radioGroupEmailProtocol.getCheckedRadioButtonId() == R.id.radioEmailProtocolSmtp ? "SMTP" : "IMAP";
+            String mailType = spinnerEmailType.getSelectedItem().toString();
             String host = editTextEmailHost.getText().toString().trim();
             String port = editTextEmailPort.getText().toString().trim();
             boolean ssl = switchEmailSSl.isChecked();
@@ -636,14 +688,20 @@ public class SenderActivity extends AppCompatActivity {
             String nickname = editTextEmailNickname.getText().toString().trim();
             if (nickname.isEmpty()) nickname = "SmsForwarder";
 
-            if (host.isEmpty() || port.isEmpty() || fromEmail.isEmpty() || pwd.isEmpty() || toEmail.isEmpty()) {
+            if (fromEmail.isEmpty() || pwd.isEmpty() || toEmail.isEmpty()) {
                 ToastUtils.delayedShow(R.string.invalid_email, 3000);
                 return;
             }
 
+            if (mailType.equals(getString(R.string.other_mail_type)) && (host.isEmpty() || port.isEmpty())) {
+                ToastUtils.delayedShow(R.string.tips_other_mail_type, 3000);
+                return;
+            }
+
             try {
+                EmailSettingVo emailSettingVoNew = new EmailSettingVo(mailType, host, port, ssl, fromEmail, nickname, pwd, toEmail, title);
                 SmsVo smsVo = new SmsVo(getString(R.string.test_phone_num), getString(R.string.test_sender_sms), new Date(), getString(R.string.test_sim_info));
-                SenderMailMsg.sendEmail(0, handler, protocol, host, port, ssl, fromEmail, nickname, pwd, toEmail, smsVo.getTitleForSend(title), smsVo.getSmsVoForSend());
+                SenderMailMsg.sendEmail(0, handler, emailSettingVoNew, smsVo.getTitleForSend(title), smsVo.getSmsVoForSend());
             } catch (Exception e) {
                 ToastUtils.delayedShow(getString(R.string.failed_to_fwd) + e.getMessage(), 3000);
                 e.printStackTrace();

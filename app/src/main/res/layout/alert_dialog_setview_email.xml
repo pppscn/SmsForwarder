@@ -20,7 +20,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/set_name" />
+                android:text="@string/set_name"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextEmailName"
@@ -49,6 +50,7 @@
             android:text="@string/account"
             android:textColor="@color/colorBlueGreyDark"
             android:textSize="14sp"
+            android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
         <LinearLayout
@@ -61,19 +63,30 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/email_account" />
+                android:text="@string/email_account"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextEmailFromAdd"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
+                android:layout_weight="1"
                 android:autofillHints=""
-                android:ems="14"
+                android:hint="@string/hint_from_add"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:text=""
                 tools:ignore="LabelFor" />
+
+            <Spinner
+                android:id="@+id/spinnerEmailType"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:entries="@array/MailType"
+                android:padding="0dp"
+                android:theme="@style/dialog_spinner_style" />
         </LinearLayout>
 
         <LinearLayout
@@ -86,14 +99,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/email_password" />
+                android:text="@string/email_password"
+                android:textStyle="bold" />
 
             <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextEmailPsw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                app:showEye="true" />
+                android:layout_marginStart="3dp"
+                app:hint="填写登录密码 或 授权码"
+                app:showEye="true"
+                app:textColorHint="#9E9E9E"
+                app:textSize="13sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -106,7 +123,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/email_nickname" />
+                android:text="@string/email_nickname"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextEmailNickname"
@@ -121,116 +139,89 @@
                 tools:ignore="LabelFor,TextFields" />
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/servers"
-            android:textColor="@color/colorBlueGreyDark"
-            android:textSize="14sp"
-            tools:ignore="HardcodedText" />
-
         <LinearLayout
+            android:id="@+id/layoutServiceSetting"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
-            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:text="@string/email_protocol" />
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/servers"
+                android:textColor="@color/colorBlueGreyDark"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
 
-            <RadioGroup
-                android:id="@+id/radioGroupEmailProtocol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/radioEmailProtocolSmtp"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/email_host"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/editTextEmailHost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:autofillHints=""
+                    android:ems="14"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:text=""
+                    tools:ignore="LabelFor,TextFields" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/smtp_port"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/editTextEmailPort"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1"
+                    android:digits="0123456789"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:maxLength="5"
+                    android:singleLine="true"
+                    tools:ignore="LabelFor,TextFields" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enable_ssl"
+                    android:textStyle="bold" />
+
+                <Switch
+                    android:id="@+id/switchEmailSSl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="@string/email_smtp" />
-
-                <RadioButton
-                    android:id="@+id/radioEmailProtocolImap"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/email_imap" />
-
-            </RadioGroup>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/email_host" />
-
-            <EditText
-                android:id="@+id/editTextEmailHost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:autofillHints=""
-                android:ems="14"
-                android:inputType="text"
-                android:maxLines="1"
-                android:text=""
-                tools:ignore="LabelFor,TextFields" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/smtp_port" />
-
-            <EditText
-                android:id="@+id/editTextEmailPort"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:layout_weight="1"
-                android:digits="0123456789"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:maxLength="5"
-                android:singleLine="true"
-                tools:ignore="LabelFor,TextFields" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/enable_ssl" />
-
-            <Switch
-                android:id="@+id/switchEmailSSl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+            </LinearLayout>
         </LinearLayout>
 
         <TextView
@@ -241,6 +232,7 @@
             android:text="@string/email_settings"
             android:textColor="@color/colorBlueGreyDark"
             android:textSize="14sp"
+            android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
         <LinearLayout
@@ -260,7 +252,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/email_to" />
+                    android:text="@string/email_to"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -300,7 +293,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/email_title" />
+                    android:text="@string/email_title"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
