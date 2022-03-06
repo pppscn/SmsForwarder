@@ -442,7 +442,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
-        buttonDel.setText(senderModel != null ? "删除" : "取消");
+        buttonDel.setText(senderModel != null ? R.string.del : R.string.cancel);
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setdingdingtitle)
@@ -576,7 +576,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
-        buttonDel.setText(senderModel != null ? "删除" : "取消");
+        buttonDel.setText(senderModel != null ? R.string.del : R.string.cancel);
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setemailtitle)
@@ -781,7 +781,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
-        buttonDel.setText(senderModel != null ? "删除" : "取消");
+        buttonDel.setText(senderModel != null ? R.string.del : R.string.cancel);
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setbarktitle)
@@ -993,7 +993,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
-        buttonDel.setText(senderModel != null ? "删除" : "取消");
+        buttonDel.setText(senderModel != null ? R.string.del : R.string.cancel);
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setwebnotifytitle)
@@ -1101,7 +1101,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
-        buttonDel.setText(senderModel != null ? "删除" : "取消");
+        buttonDel.setText(senderModel != null ? R.string.del : R.string.cancel);
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setqywxgrouprobottitle)
@@ -1220,7 +1220,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
-        buttonDel.setText(senderModel != null ? "删除" : "取消");
+        buttonDel.setText(senderModel != null ? R.string.del : R.string.cancel);
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setqywxapptitle)
@@ -1338,7 +1338,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
-        buttonDel.setText(senderModel != null ? "删除" : "取消");
+        buttonDel.setText(senderModel != null ? R.string.del : R.string.cancel);
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setserverchantitle)
@@ -1491,7 +1491,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
-        buttonDel.setText(senderModel != null ? "删除" : "取消");
+        buttonDel.setText(senderModel != null ? R.string.del : R.string.cancel);
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.settelegramtitle)
@@ -1664,7 +1664,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
-        buttonDel.setText(senderModel != null ? "删除" : "取消");
+        buttonDel.setText(senderModel != null ? R.string.del : R.string.cancel);
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setsmstitle)
@@ -1795,7 +1795,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
-        buttonDel.setText(senderModel != null ? "删除" : "取消");
+        buttonDel.setText(senderModel != null ? R.string.del : R.string.cancel);
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setfeishutitle)
@@ -1944,7 +1944,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
-        buttonDel.setText(senderModel != null ? "删除" : "取消");
+        buttonDel.setText(senderModel != null ? R.string.del : R.string.cancel);
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setpushplustitle)
@@ -2098,7 +2098,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
-        buttonDel.setText(senderModel != null ? "删除" : "取消");
+        buttonDel.setText(senderModel != null ? R.string.del : R.string.cancel);
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setgotifytitle)

@@ -257,7 +257,7 @@ public class RuleActivity extends AppCompatActivity {
 
         Button buttonRuleOk = view1.findViewById(R.id.buttonRuleOk);
         Button buttonRuleDel = view1.findViewById(R.id.buttonRuleDel);
-        buttonRuleDel.setText(ruleModel != null ? "删除" : "取消");
+        buttonRuleDel.setText(ruleModel != null ? R.string.del : R.string.cancel);
         Button buttonRuleTest = view1.findViewById(R.id.buttonRuleTest);
         alertDialog71
                 .setTitle(getDialogTitle(currentType))
