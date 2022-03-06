@@ -335,6 +335,7 @@
                         android:id="@+id/editText_text_sms_hub_url"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:hint="http://xxx.com/send_api"
                         app:showEye="true" />
                 </LinearLayout>
 

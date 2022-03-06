@@ -73,7 +73,7 @@
                 android:id="@+id/editTextPushPlusToken"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                app:hint="请认准 pushplus 官网地址"
                 app:showEye="true" />
         </LinearLayout>
 
@@ -97,6 +97,7 @@
                 android:layout_marginStart="3dp"
                 android:autofillHints=""
                 android:ems="14"
+                android:hint="@string/optional"
                 android:inputType="text"
                 android:text=""
                 tools:ignore="LabelFor" />
@@ -172,6 +173,7 @@
                 android:layout_marginStart="3dp"
                 android:autofillHints=""
                 android:ems="14"
+                android:hint="@string/optional"
                 android:inputType="text"
                 android:text=""
                 tools:ignore="LabelFor" />
@@ -197,6 +199,7 @@
                 android:layout_marginStart="3dp"
                 android:autofillHints=""
                 android:ems="14"
+                android:hint="@string/optional"
                 android:inputType="textUri"
                 android:text=""
                 tools:ignore="LabelFor" />
@@ -222,6 +225,7 @@
                 android:layout_marginStart="3dp"
                 android:autofillHints=""
                 android:ems="14"
+                android:hint="@string/optional"
                 android:inputType="number"
                 android:text=""
                 tools:ignore="LabelFor" />

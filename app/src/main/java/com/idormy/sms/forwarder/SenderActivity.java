@@ -442,6 +442,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
+        buttonDel.setText(senderModel != null ? "删除" : "取消");
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setdingdingtitle)
@@ -575,6 +576,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
+        buttonDel.setText(senderModel != null ? "删除" : "取消");
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setemailtitle)
@@ -779,6 +781,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
+        buttonDel.setText(senderModel != null ? "删除" : "取消");
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setbarktitle)
@@ -990,6 +993,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
+        buttonDel.setText(senderModel != null ? "删除" : "取消");
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setwebnotifytitle)
@@ -1097,6 +1101,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
+        buttonDel.setText(senderModel != null ? "删除" : "取消");
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setqywxgrouprobottitle)
@@ -1215,6 +1220,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
+        buttonDel.setText(senderModel != null ? "删除" : "取消");
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setqywxapptitle)
@@ -1332,6 +1338,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
+        buttonDel.setText(senderModel != null ? "删除" : "取消");
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setserverchantitle)
@@ -1484,6 +1491,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
+        buttonDel.setText(senderModel != null ? "删除" : "取消");
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.settelegramtitle)
@@ -1656,6 +1664,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
+        buttonDel.setText(senderModel != null ? "删除" : "取消");
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setsmstitle)
@@ -1759,7 +1768,7 @@ public class SenderActivity extends AppCompatActivity {
             switchFeishuEnable.setChecked(senderModel.getStatusChecked());
         }
 
-        final EditText editTextFeishuWebhook = view1.findViewById(R.id.editTextFeishuWebhook);
+        final ClearEditText editTextFeishuWebhook = view1.findViewById(R.id.editTextFeishuWebhook);
         final ClearEditText editTextFeishuSecret = view1.findViewById(R.id.editTextFeishuSecret);
         final RadioGroup radioGroupFeishuMsgType = view1.findViewById(R.id.radioGroupFeishuMsgType);
         final EditText editTextFeishuTitle = view1.findViewById(R.id.editTextFeishuTitle);
@@ -1786,6 +1795,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
+        buttonDel.setText(senderModel != null ? "删除" : "取消");
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setfeishutitle)
@@ -1801,7 +1811,7 @@ public class SenderActivity extends AppCompatActivity {
                 return;
             }
 
-            String webHook = editTextFeishuWebhook.getText().toString().trim();
+            String webHook = editTextFeishuWebhook.getText().trim();
             String secret = editTextFeishuSecret.getText().trim();
             String msgType = radioGroupFeishuMsgType.getCheckedRadioButtonId() == R.id.radioFeishuMsgTypeText ? "text" : "interactive";
             String titleTemplate = editTextFeishuTitle.getText().toString().trim();
@@ -1844,7 +1854,7 @@ public class SenderActivity extends AppCompatActivity {
         });
 
         buttonTest.setOnClickListener(view -> {
-            String webHook = editTextFeishuWebhook.getText().toString().trim();
+            String webHook = editTextFeishuWebhook.getText().trim();
             String secret = editTextFeishuSecret.getText().trim();
             String msgType = radioGroupFeishuMsgType.getCheckedRadioButtonId() == R.id.radioFeishuMsgTypeText ? "text" : "interactive";
             String titleTemplate = editTextFeishuTitle.getText().toString().trim();
@@ -1934,6 +1944,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
+        buttonDel.setText(senderModel != null ? "删除" : "取消");
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setpushplustitle)
@@ -2087,6 +2098,7 @@ public class SenderActivity extends AppCompatActivity {
 
         Button buttonOk = view1.findViewById(R.id.buttonOk);
         Button buttonDel = view1.findViewById(R.id.buttonDel);
+        buttonDel.setText(senderModel != null ? "删除" : "取消");
         Button buttonTest = view1.findViewById(R.id.buttonTest);
         alertDialog71
                 .setTitle(R.string.setgotifytitle)

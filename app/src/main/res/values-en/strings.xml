@@ -126,9 +126,9 @@
     <string name="invalid_phone_num">Phone number cannot be blank</string>
     <string name="set_bark_name">GroupName/Status</string>
     <string name="set_bark_server">Bark-Server</string>
-    <string name="set_bark_server_tips"> e.g. https://day.app/XXXXXXXX/</string>
-    <string name="set_bark_icon">Bark-Icon (optional)</string>
-    <string name="set_bark_icon_tips">e.g. http://day.app/assets/images/avatar.jpg</string>
+    <string name="set_bark_server_tips"> e.g. https://api.day.app/XXXXXXXX/</string>
+    <string name="set_bark_icon">Bark-Icon</string>
+    <string name="set_bark_icon_tips">Optional, fill in the Url, the image should not be too big</string>
     <string name="set_name">Name/Staus</string>
     <string name="dingding_token">Token（Not contain links）</string>
     <string name="dingding_token_tips">e.g. the XXX part of https://oapi.dingtalk.com/robot/send?access_token=XXX</string>
@@ -397,12 +397,12 @@
     <string name="tips_get_info_failed">Failed to get one-click clone information from sender</string>
     <string name="linkman">Linkman:</string>
     <string name="via_number">Via Number:</string>
-    <string name="bark_sound">Sound (optional)</string>
-    <string name="bark_sound_tips">e.g. minuet.caf</string>
-    <string name="bark_badge">Badge (optional)</string>
-    <string name="bark_badge_tips">e.g. 888</string>
-    <string name="bark_url">Url (optional)</string>
-    <string name="bark_url_tips">e.g. https://github.com/pppscn/SmsForwarder</string>
+    <string name="bark_sound">Sound</string>
+    <string name="bark_sound_tips">optional, e.g. minuet.caf</string>
+    <string name="bark_badge">Badge</string>
+    <string name="bark_badge_tips">optional, e.g. 888</string>
+    <string name="bark_url">Url</string>
+    <string name="bark_url_tips">optional, e.g. https://github.com/pppscn/SmsForwarder</string>
     <string name="bark_level">Level</string>
     <string name="bark_level_active">active</string>
     <string name="bark_level_timeSensitive">timeSensitive</string>
@@ -445,4 +445,6 @@
     <string name="hint_from_add_full">format: AAA@BBB.CCC</string>
     <string name="other_mail_type">Other</string>
     <string name="tips_other_mail_type">For other email addresses, please fill in the complete email address and manually fill in the SMTP server information</string>
+    <string name="optional">Optional</string>
+    <string name="TelegramChatIdTips">Follow the steps in the wiki to obtain it</string>
 </resources>

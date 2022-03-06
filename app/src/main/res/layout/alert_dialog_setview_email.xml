@@ -109,7 +109,6 @@
                 android:layout_marginStart="3dp"
                 app:hint="填写登录密码 或 授权码"
                 app:showEye="true"
-                app:textColorHint="#9E9E9E"
                 app:textSize="13sp" />
         </LinearLayout>
 

@@ -461,6 +461,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
             ToastUtils.show(R.string.delete_log_toast);
             dialog.dismiss();
         });
+        //取消
+        builder.setPositiveButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
 
         //重发消息回调，重发失败也会触发
         Handler handler = new Handler(Looper.myLooper(), msg -> {
@@ -470,7 +472,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
         });
         //对于发送失败的消息添加重发按钮
         if (logVo.getForwardStatus() != 2) {
-            builder.setPositiveButton(R.string.resend, (dialog, which) -> {
+            builder.setNeutralButton(R.string.resend, (dialog, which) -> {
                 ToastUtils.show(R.string.resend_toast);
                 SendUtil.resendMsgByLog(MainActivity.this, handler, logVo);
                 dialog.dismiss();

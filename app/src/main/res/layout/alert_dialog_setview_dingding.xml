@@ -51,7 +51,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/dingding_token"
                 android:textStyle="bold" />
@@ -65,8 +65,9 @@
 
             <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextDingdingToken"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:hint="机器人设置→webhook→access_token"
                 app:showEye="true" />
         </LinearLayout>
 
@@ -88,6 +89,7 @@
                 android:id="@+id/editTextDingdingSecret"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:hint="机器人设置→安全设置→加签"
                 app:showEye="true" />
         </LinearLayout>
 

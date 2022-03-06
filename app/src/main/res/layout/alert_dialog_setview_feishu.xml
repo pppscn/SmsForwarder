@@ -56,15 +56,12 @@
                 android:text="@string/feishu_webhook"
                 android:textStyle="bold" />
 
-            <EditText
+            <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextFeishuWebhook"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="14"
-                android:inputType="text"
-                android:text=""
-                tools:ignore="LabelFor" />
+                app:hint="群机器人→Webhook 地址"
+                app:showEye="true" />
         </LinearLayout>
 
 
@@ -77,16 +74,16 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/feishu_secret"
                 android:textStyle="bold" />
 
             <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextFeishuSecret"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                app:hint="群机器人→安全设置→签名校验"
                 app:showEye="true" />
         </LinearLayout>
 

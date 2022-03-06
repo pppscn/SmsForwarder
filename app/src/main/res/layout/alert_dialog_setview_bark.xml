@@ -65,6 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
+                    android:hint=""
                     android:text="@string/set_bark_server_tips"
                     android:textSize="10sp"
                     tools:ignore="SmallSp" />
@@ -83,36 +84,24 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/set_bark_icon"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/set_bark_icon_tips"
-                    android:textSize="10sp"
-                    tools:ignore="SmallSp" />
-            </LinearLayout>
+                android:text="@string/set_bark_icon"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextBarkIcon"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
                 android:autofillHints=""
-                android:ems="14"
+                android:hint="@string/set_bark_icon_tips"
                 android:inputType="text"
-                android:text=""
+                android:textSize="14sp"
                 tools:ignore="LabelFor" />
         </LinearLayout>
 
@@ -122,36 +111,24 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bark_sound"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/bark_sound_tips"
-                    android:textSize="10sp"
-                    tools:ignore="SmallSp" />
-            </LinearLayout>
+                android:text="@string/bark_sound"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextBarkSound"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
                 android:autofillHints=""
-                android:ems="14"
+                android:hint="@string/bark_sound_tips"
                 android:inputType="text"
-                android:text=""
+                android:textSize="14sp"
                 tools:ignore="LabelFor" />
         </LinearLayout>
 
@@ -161,36 +138,24 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bark_badge"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/bark_badge_tips"
-                    android:textSize="10sp"
-                    tools:ignore="SmallSp" />
-            </LinearLayout>
+                android:text="@string/bark_badge"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextBarkBadge"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
                 android:autofillHints=""
-                android:ems="14"
+                android:hint="@string/bark_badge_tips"
                 android:inputType="text"
-                android:text=""
+                android:textSize="14sp"
                 tools:ignore="LabelFor" />
         </LinearLayout>
 
@@ -200,37 +165,25 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bark_url"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/bark_url_tips"
-                    android:textSize="10sp"
-                    tools:ignore="SmallSp" />
-            </LinearLayout>
+                android:text="@string/bark_url"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextBarkUrl"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
                 android:autofillHints=""
-                android:ems="14"
-                android:inputType="textUri"
-                android:text=""
-                tools:ignore="LabelFor" />
+                android:hint="@string/bark_url_tips"
+                android:inputType="text"
+                android:textSize="14sp"
+                tools:ignore="LabelFor,TextFields" />
         </LinearLayout>
 
         <LinearLayout

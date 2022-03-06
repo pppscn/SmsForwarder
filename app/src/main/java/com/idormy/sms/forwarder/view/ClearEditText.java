@@ -3,7 +3,6 @@ package com.idormy.sms.forwarder.view;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -40,8 +39,8 @@ public class ClearEditText extends RelativeLayout {
     private int cleanPadding = 0;//清除按钮padding边距
     private String hintStr;
     private String textStr;
-    private int mTextColorHint = Color.BLACK;
-    private int mTextColor = Color.BLACK;
+    private int mTextColorHint = -1; //Color.LTGRAY
+    private int mTextColor = -1;//Color.BLACK
     private int mTextSize = -1;
     private int mMaxLength = 2000;
     private int mMaxLines = 1;
@@ -97,9 +96,9 @@ public class ClearEditText extends RelativeLayout {
         ivEditEye = view.findViewById(R.id.iv_edit_eye);
 
         myEdie.setHint(hintStr);
-        myEdie.setHintTextColor(mTextColorHint);
+        if (mTextColorHint != -1) myEdie.setHintTextColor(mTextColorHint);
         myEdie.setText(textStr);
-        myEdie.setTextColor(mTextColor);
+        if (mTextColor != -1) myEdie.setTextColor(mTextColor);
         myEdie.setMaxLines(mMaxLines);
         myEdie.setFilters(new InputFilter[]{new InputFilter.LengthFilter(mMaxLength)});
         if (mTextSize != -1) {

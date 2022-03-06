@@ -239,7 +239,7 @@ public class SettingUtil {
     }
 
     public static String getSmsHubApiUrl() {
-        return sp_setting.getString(Define.SP_MSG_KEY_STRING_SMSHUB_API_URL, "http://xxx.com/send_api");
+        return sp_setting.getString(Define.SP_MSG_KEY_STRING_SMSHUB_API_URL, "");
     }
 
     public static void switchCallType1(Boolean switchCallType) {

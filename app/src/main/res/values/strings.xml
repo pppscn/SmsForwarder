@@ -126,13 +126,13 @@
     <string name="invalid_phone_num">接收手机号不能为空</string>
     <string name="set_bark_name">分组名称/状态</string>
     <string name="set_bark_server">Bark-Server</string>
-    <string name="set_bark_server_tips">例：https://day.app/XXXXXXXX/</string>
-    <string name="set_bark_icon">消息图标(可选)</string>
-    <string name="set_bark_icon_tips">例：http://day.app/assets/images/avatar.jpg</string>
+    <string name="set_bark_server_tips">例：https://api.day.app/XXXXXXXX/</string>
+    <string name="set_bark_icon">消息图标</string>
+    <string name="set_bark_icon_tips">可选，填写Url，图片不要太大</string>
     <string name="set_name">名称/状态</string>
     <string name="dingding_token">Token（不含链接）</string>
     <string name="dingding_token_tips">例：https://oapi.dingtalk.com/robot/send?access_token=XXX 中的 XXX</string>
-    <string name="dingding_secret">加签 Secret (没有可不填)</string>
+    <string name="dingding_secret">加签 Secret</string>
     <string name="dingding_at">转发时@某人</string>
     <string name="dingding_at_tips">Tips：多个手机号用逗号分开，例如：18888888888,19999999999</string>
     <string name="email_host">服务器地址</string>
@@ -160,7 +160,7 @@
     <string name="QYWXGroupRobotWebHook">WebHook地址</string>
     <string name="QYWXGroupRobotWebHookTips">示例：https://qyapi.weixin.qq.com/cgixx?key=xxx</string>
     <string name="ServerChanSendKey">Server酱·Turbo版的SendKey</string>
-    <string name="TelegramApiToken">Tg机器人的 ApiToken 或 自定义地址(http开头)</string>
+    <string name="TelegramApiToken">ApiToken 或 自定义代理地址(http开头)</string>
     <string name="TelegramChatId">被通知人(或群组)的ChatId</string>
     <string name="Method" formatted="false">请求方式</string>
     <string name="WebNotifyWebServer">WebServer</string>
@@ -396,12 +396,12 @@
     <string name="tips_get_info_failed">从发送端获取一键克隆信息失败</string>
     <string name="linkman">联 系 人：</string>
     <string name="via_number">来源号码：</string>
-    <string name="bark_sound">消息声音(可选)</string>
-    <string name="bark_sound_tips">例：minuet.caf</string>
-    <string name="bark_badge">消息角标(可选)</string>
-    <string name="bark_badge_tips">例：888</string>
-    <string name="bark_url">消息链接(可选)</string>
-    <string name="bark_url_tips">例：https://github.com/pppscn/SmsForwarder</string>
+    <string name="bark_sound">消息声音</string>
+    <string name="bark_sound_tips">可选，例：minuet.caf</string>
+    <string name="bark_badge">消息角标</string>
+    <string name="bark_badge_tips">可选，例：888</string>
+    <string name="bark_url">消息链接</string>
+    <string name="bark_url_tips">可选，例：https://github.com/pppscn/SmsForwarder</string>
     <string name="bark_level">通知级别</string>
     <string name="bark_level_active">立即亮屏</string>
     <string name="bark_level_timeSensitive">时效性</string>
@@ -444,4 +444,6 @@
     <string name="hint_from_add_full">填写格式: AAA@BBB.CCC</string>
     <string name="other_mail_type">其他邮箱</string>
     <string name="tips_other_mail_type">其他邮箱，请填写完整的邮箱地址并手动填写SMTP服务器信息</string>
+    <string name="optional">可选</string>
+    <string name="TelegramChatIdTips">请按照wiki中的步骤获取</string>
 </resources>
