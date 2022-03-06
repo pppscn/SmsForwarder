@@ -257,6 +257,7 @@ public class RuleActivity extends AppCompatActivity {
 
         Button buttonRuleOk = view1.findViewById(R.id.buttonRuleOk);
         Button buttonRuleDel = view1.findViewById(R.id.buttonRuleDel);
+        buttonRuleDel.setText(ruleModel != null ? R.string.del : R.string.cancel);
         Button buttonRuleTest = view1.findViewById(R.id.buttonRuleTest);
         alertDialog71
                 .setTitle(getDialogTitle(currentType))
@@ -541,7 +542,7 @@ public class RuleActivity extends AppCompatActivity {
         builder.setTitle(R.string.select_sender);
         //添加列表
         builder.setItems(senderNames, (dialogInterface, which) -> {
-            ToastUtils.delayedShow(senderNames[which], 3000);
+            //ToastUtils.delayedShow(senderNames[which], 3000);
             showTv.setText(senderNames[which]);
             showTv.setTag(senderModels.get(which).getId());
         });

@@ -1,13 +1,12 @@
 package com.idormy.sms.forwarder.model.vo;
 
-import com.idormy.sms.forwarder.R;
-
 import java.io.Serializable;
 
 import lombok.Data;
 
 @Data
 public class EmailSettingVo implements Serializable {
+    private String mailType;
     private String host;
     private String port;
     private Boolean ssl;
@@ -16,13 +15,12 @@ public class EmailSettingVo implements Serializable {
     private String pwd;
     private String toEmail;
     private String title;
-    private String protocol;
 
     public EmailSettingVo() {
     }
 
-    public EmailSettingVo(String protocol, String host, String port, Boolean ssl, String fromEmail, String nickname, String pwd, String toEmail, String title) {
-        this.protocol = protocol;
+    public EmailSettingVo(String mailType, String host, String port, Boolean ssl, String fromEmail, String nickname, String pwd, String toEmail, String title) {
+        this.mailType = mailType;
         this.host = host;
         this.port = port;
         this.ssl = ssl;
@@ -33,11 +31,4 @@ public class EmailSettingVo implements Serializable {
         this.title = title;
     }
 
-    public int getEmailProtocolCheckId() {
-        if (protocol == null || protocol.equals("SMTP")) {
-            return R.id.radioEmailProtocolSmtp;
-        } else {
-            return R.id.radioEmailProtocolImap;
-        }
-    }
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="MailType">
+        <item>\@qq.com</item>
+        <item>\@foxmail.com</item>
+        <item>\@exmail.qq.com</item>
+        <item>\@outlook.com</item>
+        <item>\@office365.com</item>
+        <item>\@gmail.com</item>
+        <item>\@yeah.net</item>
+        <item>\@163.com</item>
+        <item>\@126.com</item>
+        <item>其他邮箱</item><!--注意这里不能修改-->
+    </string-array>
+</resources>

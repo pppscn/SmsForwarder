@@ -50,16 +50,15 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/TelegramApiToken"
                 android:textStyle="bold" />
 
             <com.idormy.sms.forwarder.view.ClearEditText
                 android:id="@+id/editTextTelegramApiToken"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
                 app:showEye="true" />
         </LinearLayout>
 
@@ -121,6 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
+                android:hint="@string/TelegramChatIdTips"
                 android:ems="14"
                 android:inputType="text"
                 android:text=""

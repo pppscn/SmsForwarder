@@ -210,8 +210,7 @@ public class SendUtil {
                     EmailSettingVo emailSettingVo = JSON.parseObject(senderModel.getJsonSetting(), EmailSettingVo.class);
                     if (emailSettingVo != null) {
                         try {
-                            SenderMailMsg.sendEmail(logId, handError, emailSettingVo.getProtocol(), emailSettingVo.getHost(), emailSettingVo.getPort(), emailSettingVo.getSsl(), emailSettingVo.getFromEmail(), emailSettingVo.getNickname(),
-                                    emailSettingVo.getPwd(), emailSettingVo.getToEmail(), smsVo.getTitleForSend(emailSettingVo.getTitle(), regexReplace), smsVo.getSmsVoForSend(smsTemplate, regexReplace));
+                            SenderMailMsg.sendEmail(logId, handError, emailSettingVo, smsVo.getTitleForSend(emailSettingVo.getTitle(), regexReplace), smsVo.getSmsVoForSend(smsTemplate, regexReplace));
                         } catch (Exception e) {
                             LogUtil.updateLog(logId, 0, e.getMessage());
                             Log.e(TAG, "senderSendMsg: SenderMailMsg error " + e.getMessage());
@@ -226,7 +225,7 @@ public class SendUtil {
                     BarkSettingVo barkSettingVo = JSON.parseObject(senderModel.getJsonSetting(), BarkSettingVo.class);
                     if (barkSettingVo != null) {
                         try {
-                            SenderBarkMsg.sendMsg(logId, handError, retryInterceptor, barkSettingVo, smsVo.getTitleForSend(barkSettingVo.getTitle(), regexReplace), smsVo.getSmsVoForSend(smsTemplate, regexReplace), senderModel.getName());
+                            SenderBarkMsg.sendMsg(logId, handError, retryInterceptor, barkSettingVo, smsVo.getTitleForSend(barkSettingVo.getTitle()), smsVo.getSmsVoForSend(smsTemplate, regexReplace), senderModel.getName());
                         } catch (Exception e) {
                             LogUtil.updateLog(logId, 0, e.getMessage());
                             Log.e(TAG, "senderSendMsg: SenderBarkMsg error " + e.getMessage());

@@ -106,4 +106,10 @@
     <style name="OnePixelActivity" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
     </style>
+
+    <style name="dialog_spinner_style" parent="@android:style/Widget.TextView.SpinnerItem">
+        <item name="android:textSize">13sp</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:padding">0dp</item>
+    </style>
 </resources>
