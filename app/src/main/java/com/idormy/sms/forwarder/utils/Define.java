@@ -20,6 +20,9 @@ public class Define {
     public static final String SP_MSG_KEY_STRING_SMS_TEMPLATE = "tsms_msg_key_string_sms_template";
     public static final String SP_MSG_KEY_STRING_BATTERY_STATUS = "tsms_msg_key_string_battery_status";
     public static final String SP_MSG_KEY_STRING_BATTERY_RECEIVER = "tsms_msg_key_switch_battery_receiver";
+    public static final String SP_MSG_KEY_STRING_BATTERY_CRON = "tsms_msg_key_switch_battery_cron";
+    public static final String SP_MSG_KEY_STRING_BATTERY_CRON_START_TIME = "tsms_msg_key_switch_battery_cron_start_time";
+    public static final String SP_MSG_KEY_STRING_BATTERY_CRON_INTERVAL = "tsms_msg_key_switch_battery_cron_interval";
     public static final String SP_MSG_KEY_STRING_BATTERY_LEVEL_CURRENT = "tsms_msg_key_string_battery_level_current";
     public static final String SP_MSG_KEY_STRING_BATTERY_LEVEL_ALARM = "tsms_msg_key_string_battery_level_alarm";
     public static final String SP_MSG_KEY_STRING_BATTERY_LEVEL_MAX = "tsms_msg_key_string_battery_level_max";

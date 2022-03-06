@@ -2,6 +2,7 @@ package com.idormy.sms.forwarder;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
+import android.app.TimePickerDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +36,7 @@ import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
 import com.hjq.toast.ToastUtils;
 import com.idormy.sms.forwarder.receiver.RebootBroadcastReceiver;
+import com.idormy.sms.forwarder.sender.BatteryReportCronTask;
 import com.idormy.sms.forwarder.sender.HttpServer;
 import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.sender.SmsHubApiTask;
@@ -53,6 +55,7 @@ import com.idormy.sms.forwarder.view.StepBar;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,6 +104,10 @@ public class SettingActivity extends AppCompatActivity {
         switchBatteryReceiver(findViewById(R.id.switch_battery_receiver));
         //电量预警
         editBatteryLevelAlarm(findViewById(R.id.et_battery_level_alarm_min), findViewById(R.id.et_battery_level_alarm_max), findViewById(R.id.cb_battery_level_alarm_once));
+        //定时推送电池状态
+        switchBatteryCron(findViewById(R.id.switch_battery_cron));
+        //设置推送电池状态时机
+        editBatteryCronTiming(findViewById(R.id.et_battery_cron_start_time), findViewById(R.id.et_battery_cron_interval));
 
         //开机启动
         checkWithReboot(findViewById(R.id.switch_with_reboot), findViewById(R.id.tv_auto_startup));
@@ -428,6 +435,71 @@ public class SettingActivity extends AppCompatActivity {
             if (isChecked && 0 == SettingUtil.getBatteryLevelAlarmMin() && 0 == SettingUtil.getBatteryLevelAlarmMax()) {
                 ToastUtils.show(R.string.tips_battery_level_alarm_once);
                 SettingUtil.switchEnablePhone(false);
+            }
+        });
+    }
+
+    //定时推送电池状态
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    private void switchBatteryCron(Switch switch_battery_cron) {
+        boolean isOn = SettingUtil.getSwitchEnableBatteryCron();
+        switch_battery_cron.setChecked(isOn);
+
+        final LinearLayout layout_battery_cron = findViewById(R.id.layout_battery_cron);
+        layout_battery_cron.setVisibility(isOn ? View.VISIBLE : View.GONE);
+
+        switch_battery_cron.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Log.d(TAG, "onCheckedChanged:" + isChecked);
+            layout_battery_cron.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            SettingUtil.switchEnableBatteryCron(isChecked);
+            BatteryReportCronTask.getSingleton().updateTimer();
+        });
+    }
+
+    //设置推送电池状态时机
+    private void editBatteryCronTiming(final EditText et_battery_cron_start_time, final EditText et_battery_cron_interval) {
+        et_battery_cron_start_time.setText(SettingUtil.getBatteryCronStartTime());
+
+        Calendar calendar = Calendar.getInstance();
+        et_battery_cron_start_time.setOnClickListener(view -> {
+            TimePickerDialog dialog = new TimePickerDialog(SettingActivity.this, (timePicker, hourOfDay, minute) -> {
+                StringBuilder sb = new StringBuilder();
+                if (hourOfDay < 10) {
+                    sb.append("0");
+                }
+                sb.append(hourOfDay);
+                sb.append(":");
+                if (minute < 10) {
+                    sb.append("0");
+                }
+                sb.append(minute);
+                String startTime = sb.toString();
+                et_battery_cron_start_time.setText(startTime);
+                SettingUtil.setBatteryCronStartTime(startTime);
+                BatteryReportCronTask.getSingleton().updateTimer();
+            }, calendar.get(Calendar.HOUR_OF_DAY) + 1, 0, true);
+            dialog.show();
+        });
+
+        et_battery_cron_interval.setText(String.valueOf(SettingUtil.getBatteryCronInterval()));
+        et_battery_cron_interval.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String interval = et_battery_cron_interval.getText().toString().trim();
+                if (!interval.isEmpty() && Integer.parseInt(interval) > 0) {
+                    SettingUtil.setBatteryCronInterval(Integer.parseInt(interval));
+                    BatteryReportCronTask.getSingleton().updateTimer();
+                } else {
+                    SettingUtil.setBatteryCronInterval(60);
+                }
             }
         });
     }

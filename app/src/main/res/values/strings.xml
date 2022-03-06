@@ -272,6 +272,10 @@
     <string name="zero">0</string>
     <string name="monitor_battery_status_changes">监听电池状态变化</string>
     <string name="battery_status_changes_tips">充电状态改变(充电中/放电中/未充电/已充满)时发出通知</string>
+    <string name="timing_report_battery_status">定时推送电池状态</string>
+    <string name="timer_rule">定时规则</string>
+    <string name="first_send_time">首次发送时间：</string>
+    <string name="interval_minutes">间隔(分钟)：</string>
     <string name="proxy_settings">代理设置</string>
     <string name="proxy_none">无代理</string>
     <string name="proxy_http">HTTP</string>
