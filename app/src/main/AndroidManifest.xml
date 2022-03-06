@@ -118,6 +118,10 @@
             android:exported="true"
             android:label="@string/app_list" />
         <activity
+            android:name=".HelpActivity"
+            android:exported="true"
+            android:label="@string/help" />
+        <activity
             android:name=".OnePixelActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|navigation|keyboard"
             android:excludeFromRecents="true"

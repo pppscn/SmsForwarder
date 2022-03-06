@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -59,6 +58,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("CommentedOutCode")
 public class MainActivity extends AppCompatActivity implements RefreshListView.IRefreshListener {
 
     private final String TAG = "MainActivity";
@@ -513,8 +513,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
                 intent = new Intent(this, AboutActivity.class);
                 break;
             case R.id.to_help:
-                Uri uri = Uri.parse("https://gitee.com/pp/SmsForwarder/wikis/pages");
-                intent = new Intent(Intent.ACTION_VIEW, uri);
+                //Uri uri = Uri.parse("https://gitee.com/pp/SmsForwarder/wikis/pages");
+                //intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent = new Intent(this, HelpActivity.class);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
