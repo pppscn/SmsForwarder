@@ -32,6 +32,7 @@ import com.hjq.permissions.XXPermissions;
 import com.hjq.toast.ToastUtils;
 import com.idormy.sms.forwarder.adapter.LogAdapter;
 import com.idormy.sms.forwarder.model.vo.LogVo;
+import com.idormy.sms.forwarder.sender.BatteryReportCronTask;
 import com.idormy.sms.forwarder.sender.HttpServer;
 import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.sender.SenderUtil;
@@ -145,6 +146,15 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
                 SmsHubApiTask.updateTimer();
             } catch (Exception e) {
                 Log.e(TAG, "SmsHubApiTask:", e);
+            }
+        }
+
+        //电池状态定时推送
+        if (SettingUtil.getSwitchEnableBatteryCron()) {
+            try {
+                BatteryReportCronTask.getSingleton().updateTimer();
+            } catch (Exception e) {
+                Log.e(TAG, "BatteryReportCronTask:", e);
             }
         }
 

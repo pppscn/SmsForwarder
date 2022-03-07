@@ -273,6 +273,10 @@
     <string name="zero">0</string>
     <string name="monitor_battery_status_changes">Monitor battery status changes</string>
     <string name="battery_status_changes_tips">Notify when charging status changes (charging/discharging/uncharged/fully charged)</string>
+    <string name="timing_report_battery_status">Regularly report battery status</string>
+    <string name="timer_rule">Timer rule</string>
+    <string name="first_send_time">First time: </string>
+    <string name="interval_minutes">Interval(minutes): </string>
     <string name="proxy_settings">Proxy Settings</string>
     <string name="proxy_none">None</string>
     <string name="proxy_http">HTTP</string>

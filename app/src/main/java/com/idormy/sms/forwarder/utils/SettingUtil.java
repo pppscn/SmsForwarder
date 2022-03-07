@@ -282,6 +282,30 @@ public class SettingUtil {
         sp_setting.edit().putInt(Define.SP_MSG_KEY_STRING_DELAY_TIME, delay_time).apply();
     }
 
+    public static void switchEnableBatteryCron(Boolean enable) {
+        sp_setting.edit().putBoolean(Define.SP_MSG_KEY_STRING_BATTERY_CRON, enable).apply();
+    }
+
+    public static boolean getSwitchEnableBatteryCron() {
+        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_BATTERY_CRON, false);
+    }
+
+    public static void setBatteryCronStartTime(String startTime) {
+        sp_setting.edit().putString(Define.SP_MSG_KEY_STRING_BATTERY_CRON_START_TIME, startTime).apply();
+    }
+
+    public static String getBatteryCronStartTime() {
+        return sp_setting.getString(Define.SP_MSG_KEY_STRING_BATTERY_CRON_START_TIME, "00:00");
+    }
+
+    public static void setBatteryCronInterval(int interval) {
+        sp_setting.edit().putInt(Define.SP_MSG_KEY_STRING_BATTERY_CRON_INTERVAL, interval).apply();
+    }
+
+    public static int getBatteryCronInterval() {
+        return sp_setting.getInt(Define.SP_MSG_KEY_STRING_BATTERY_CRON_INTERVAL, 60);
+    }
+
     //获取当前版本名称
     public static String getVersionName() {
         // 获取PackageManager的实例
