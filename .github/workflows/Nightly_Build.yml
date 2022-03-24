@@ -1,17 +1,13 @@
-name: Build SmsForwarder
+name: Nightly Build
 
 # 触发器
 on:
-  push:
-    tags:
-      - v*
-  pull_request:
-    tags:
-      - v*
+  schedule:
+    - cron: '30 15 * * *' #每天在国际标准时间14点(北京时间+8，即 23:30)
   workflow_dispatch:
     inputs:
       root_sol:
-        description: "Release title"
+        description: "Nightly Build Title"
         required: true
         default: "SmsForwarder"
 
@@ -59,14 +55,6 @@ jobs:
           prerelease: false
       # 存档打包的文件
       - name: Archive production artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
-          name: build
-          path: app/build/outputs #将打包之后的文件全部上传（里面会有混淆的map文件）
-      # 上传至release的资源
-      - name: Upload release binaries
-        uses: alexellis/upload-assets@0.2.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          asset_paths: '["./app/build/outputs/apk/release/SmsForwarder_release_*"]'
+          path: app/build/outputs/apk/release/*.apk
