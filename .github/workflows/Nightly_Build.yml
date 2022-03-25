@@ -35,24 +35,6 @@ jobs:
       # 打包release
       - name: Build with Gradle
         run: bash ./gradlew assembleRelease
-      # 创建release
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          #GitHub 会自动创建 GITHUB_TOKEN 密码以在工作流程中使用。
-          #您可以使用 GITHUB_TOKEN 在工作流程运行中进行身份验证。
-          #当您启用 GitHub Actions 时，GitHub 在您的仓库中安装 GitHub 应用程序。
-          #GITHUB_TOKEN 密码是一种 GitHub 应用程序 安装访问令牌。
-          #您可以使用安装访问令牌代表仓库中安装的 GitHub 应用程序 进行身份验证。
-          #令牌的权限仅限于包含您的工作流程的仓库。 更多信息请参阅“GITHUB_TOKEN 的权限”。
-          #在每个作业开始之前， GitHub 将为作业提取安装访问令牌。 令牌在作业完成后过期。
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: SmsForwarder ${{ github.ref }}
-          draft: false
-          prerelease: false
       # 存档打包的文件
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
