@@ -39,4 +39,6 @@ jobs:
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
+          name: SmsForwarder Nightly Build
           path: app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
