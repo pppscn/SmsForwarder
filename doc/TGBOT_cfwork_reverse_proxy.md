@@ -1,6 +1,6 @@
 ### Cloudflare Work 反向代理代理 **TG_BOT_API**
 
-​	准备：一个域名， cloudflare账号
+​	准备：cloudflare账号
 
 ## 1.建立一个cf work 复制粘贴以下代码
 
@@ -49,7 +49,7 @@ https://xxx.xxx.workers.dev/bot{机器人token}/sendMessage?chat_id={消息发�
 
 ## 2.配置APP转发
 
-<img src="C:/Users/Dwsy/AppData/Roaming/Typora/typora-user-images/image-20220328141416387.png" alt="image-20220328141416387" style="zoom:50%;" />
+<img src="https://ae03.alicdn.com/kf/Hb31257341c364a83a5844dd160667140d.png" alt="image.png" title="image.png" />
 
 添加TGBOT
 
