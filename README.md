@@ -65,7 +65,7 @@
 - [x] 转发到企业微信群机器人
 - [x] 转发到企业微信应用消息
 - [x] 转发到ServerChan(Server酱·Turbo版)
-- [x] 转发到Telegram机器人（支持设置Socks5/Http代理、POST/GET）
+- [x] 转发到Telegram机器人（支持设置Socks5/Http代理、POST/GET、[CloudFlare反向代理](doc/TGBOT_cfwork_reverse_proxy.md)）
 - [x] 转发到其他手机短信【注意：非免费的，转发短信运营商有收费的，建议没有网络时启用，并设置好内容过滤规则】
 - [x] 在线检测新版本、升级
 - [x] 清理缓存
