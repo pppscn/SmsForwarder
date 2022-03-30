@@ -77,6 +77,14 @@ public class SettingUtil {
         return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_CANCEL_APP_NOTIFY, false);
     }
 
+    public static void switchNotUserPresent(Boolean enable) {
+        sp_setting.edit().putBoolean(Define.SP_MSG_KEY_STRING_NOT_USER_PRESENT, enable).apply();
+    }
+
+    public static boolean getSwitchNotUserPresent() {
+        return sp_setting.getBoolean(Define.SP_MSG_KEY_STRING_NOT_USER_PRESENT, false);
+    }
+
     public static void switchEnableBatteryReceiver(Boolean enable) {
         sp_setting.edit().putBoolean(Define.SP_MSG_KEY_STRING_BATTERY_RECEIVER, enable).apply();
     }

@@ -10,6 +10,7 @@ public class Define {
     public static final String SP_MSG_KEY_STRING_ENABLE_PHONE = "tsms_msg_key_switch_enable_phone";
     public static final String SP_MSG_KEY_STRING_ENABLE_APP_NOTIFY = "tsms_msg_key_switch_enable_app_notify";
     public static final String SP_MSG_KEY_STRING_CANCEL_APP_NOTIFY = "tsms_msg_key_switch_cancel_app_notify";
+    public static final String SP_MSG_KEY_STRING_NOT_USER_PRESENT = "tsms_msg_key_switch_not_user_present";
     public static final String SP_MSG_KEY_STRING_ENABLE_EXCLUDE_FROM_RECENTS = "tsms_msg_key_switch_enable_exclude_from_recents";
     public static final String SP_MSG_KEY_STRING_ENABLE_PLAY_SILENCE_MUSIC = "tsms_msg_key_switch_enable_play_silence_music";
     public static final String SP_MSG_KEY_STRING_ENABLE_ONE_PIXEL_ACTIVITY = "tsms_msg_key_switch_enable_one_pixel_activity";

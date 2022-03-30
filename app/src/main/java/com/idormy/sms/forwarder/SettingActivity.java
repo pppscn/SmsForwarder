@@ -93,7 +93,7 @@ public class SettingActivity extends AppCompatActivity {
         //转发通话记录
         switchEnablePhone(findViewById(R.id.switch_enable_phone), findViewById(R.id.cbCallType1), findViewById(R.id.cbCallType2), findViewById(R.id.cbCallType3));
         //转发应用通知 & 自动关闭通知
-        switchEnableAppNotify(findViewById(R.id.switch_enable_app_notify), findViewById(R.id.checkbox_cancel_app_notify));
+        switchEnableAppNotify(findViewById(R.id.switch_enable_app_notify), findViewById(R.id.checkbox_cancel_app_notify), findViewById(R.id.checkbox_not_user_present));
 
         //HttpServer
         switchEnableHttpServer(findViewById(R.id.switch_enable_http_server));
@@ -280,7 +280,7 @@ public class SettingActivity extends AppCompatActivity {
 
     //转发应用通知 & 自动关闭通知
     @SuppressLint("UseSwitchCompatOrMaterialCode")
-    private void switchEnableAppNotify(Switch switch_enable_app_notify, CheckBox checkbox_cancel_app_notify) {
+    private void switchEnableAppNotify(Switch switch_enable_app_notify, CheckBox checkbox_cancel_app_notify, CheckBox checkbox_not_user_present) {
         final LinearLayout layout_cancel_app_notify = findViewById(R.id.layout_cancel_app_notify);
         boolean isEnable = SettingUtil.getSwitchEnableAppNotify();
         switch_enable_app_notify.setChecked(isEnable);
@@ -307,6 +307,20 @@ public class SettingActivity extends AppCompatActivity {
         checkbox_cancel_app_notify.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingUtil.switchCancelAppNotify(isChecked);
             Log.d(TAG, "switchCancelAppNotify:" + isChecked);
+        });
+
+        checkbox_not_user_present.setChecked(SettingUtil.getSwitchNotUserPresent());
+        checkbox_not_user_present.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingUtil.switchNotUserPresent(isChecked);
+            Log.d(TAG, "switchNotUserPresent:" + isChecked);
+
+            //1像素透明Activity保活 or 仅锁屏状态转发APP通知
+            OnePixelManager onePixelManager = new OnePixelManager();
+            if (SettingUtil.getOnePixelActivity() || SettingUtil.getSwitchNotUserPresent()) {
+                onePixelManager.registerOnePixelReceiver(this);//注册广播接收者
+            } else {
+                onePixelManager.unregisterOnePixelReceiver(this);
+            }
         });
     }
 
@@ -770,14 +784,15 @@ public class SettingActivity extends AppCompatActivity {
 
         switch_one_pixel_activity.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingUtil.switchOnePixelActivity(isChecked);
+            Log.d(TAG, "onCheckedChanged:" + isChecked);
 
+            //1像素透明Activity保活 or 仅锁屏状态转发APP通知
             OnePixelManager onePixelManager = new OnePixelManager();
-            if (isChecked) {
+            if (SettingUtil.getOnePixelActivity() || SettingUtil.getSwitchNotUserPresent()) {
                 onePixelManager.registerOnePixelReceiver(this);//注册广播接收者
             } else {
                 onePixelManager.unregisterOnePixelReceiver(this);
             }
-            Log.d(TAG, "onCheckedChanged:" + isChecked);
         });
     }
 

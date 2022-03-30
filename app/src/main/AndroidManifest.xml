@@ -163,7 +163,7 @@
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receiver.OnePixelReceiver" />
+        <receiver android:name=".receiver.ScreenBroadcastReceiver" />
 
         <service
             android:name=".service.FrontService"

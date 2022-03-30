@@ -189,6 +189,7 @@
     <string name="forward_app_notify">Forward app Ntf.</string>
     <string name="forward_app_notify_tips">Main switch, requires permission to read notification.</string>
     <string name="cancel_app_notify">Auto close Ntf.</string>
+    <string name="not_user_present">Not User Present</string>
     <string name="enable_custom_templates">Global Custom Template</string>
     <string name="enable_custom_templates_tips">Priority: custom template for forwarding rules > Global custom template > System default</string>
     <string name="enable_regex_replace">Enable regular replacement content</string>

@@ -6,14 +6,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 import com.idormy.sms.forwarder.OnePixelActivity;
-import com.idormy.sms.forwarder.receiver.OnePixelReceiver;
+import com.idormy.sms.forwarder.receiver.ScreenBroadcastReceiver;
 
 import java.lang.ref.WeakReference;
 
 public class OnePixelManager {
     private static final String TAG = "OnePixelManager";
     private WeakReference<Activity> mActivity;
-    private OnePixelReceiver onePixelReceiver;
+    private ScreenBroadcastReceiver screenBroadcastReceiver;
 
     /**
      * 一像素广播接收者注册方法。该方法中初始化OnePixelReceiver，并添加了过滤条件
@@ -24,16 +24,16 @@ public class OnePixelManager {
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_USER_PRESENT);
-        onePixelReceiver = new OnePixelReceiver();
-        context.registerReceiver(onePixelReceiver, filter);
+        screenBroadcastReceiver = new ScreenBroadcastReceiver();
+        context.registerReceiver(screenBroadcastReceiver, filter);
     }
 
     /**
      * 对广播接收者进行解注册
      */
     public void unregisterOnePixelReceiver(Context context) {
-        if (null != onePixelReceiver) {
-            context.unregisterReceiver(onePixelReceiver);
+        if (null != screenBroadcastReceiver) {
+            context.unregisterReceiver(screenBroadcastReceiver);
         }
     }
 

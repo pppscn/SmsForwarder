@@ -189,6 +189,7 @@
     <string name="forward_app_notify">转发应用通知</string>
     <string name="forward_app_notify_tips">请授予通知使用权再开启；开启“自动消除”可避免多条通知堆叠</string>
     <string name="cancel_app_notify">自动消除通知</string>
+    <string name="not_user_present">仅锁屏状态</string>
     <string name="enable_custom_templates">启用自定义模版</string>
     <string name="enable_custom_templates_tips">优先级：转发规则的自定义模板 > 全局自定义模版 > 默认</string>
     <string name="enable_regex_replace">启用正则替换内容</string>

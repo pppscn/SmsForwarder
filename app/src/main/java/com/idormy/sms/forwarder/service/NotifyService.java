@@ -42,6 +42,9 @@ public class NotifyService extends NotificationListenerService {
         if (sbn.getNotification() == null) return;
         if (sbn.getNotification().extras == null) return;
 
+        //仅锁屏状态转发APP通知
+        if (SettingUtil.getSwitchNotUserPresent() && MyApplication.isUserPresent) return;
+
         //推送通知的应用包名
         String packageName = sbn.getPackageName();
         //自身通知跳过

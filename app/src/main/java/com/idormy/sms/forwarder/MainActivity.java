@@ -118,8 +118,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
             }
         }
 
-        //1像素透明Activity保活
-        if (SettingUtil.getOnePixelActivity()) {
+        //1像素透明Activity保活 or 仅锁屏状态转发APP通知
+        if (SettingUtil.getOnePixelActivity() || SettingUtil.getSwitchNotUserPresent()) {
             try {
                 onePixelManager = new OnePixelManager();
                 onePixelManager.registerOnePixelReceiver(this);//注册广播接收者

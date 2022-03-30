@@ -40,6 +40,8 @@ public class MyApplication extends Application {
     public static boolean allowPrivacyPolicy = false;
     @SuppressLint("StaticFieldLeak")
     private static Context context;
+    //是否已解锁
+    public static boolean isUserPresent = true;
 
     @Override
     protected void attachBaseContext(Context base) {

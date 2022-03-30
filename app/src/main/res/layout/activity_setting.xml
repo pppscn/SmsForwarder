@@ -222,6 +222,16 @@
                             android:scaleX="0.7"
                             android:scaleY="0.7"
                             android:text="@string/cancel_app_notify" />
+
+                        <CheckBox
+                            android:id="@+id/checkbox_not_user_present"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="-25dp"
+                            android:scaleX="0.7"
+                            android:scaleY="0.7"
+                            android:text="@string/not_user_present" />
+
                     </LinearLayout>
 
                 </LinearLayout>
