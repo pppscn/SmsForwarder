@@ -225,9 +225,12 @@
     <string name="post">POST</string>
     <string name="get">GET</string>
     <string name="local_ip">本机IP：</string>
-    <string name="operating_instruction">操作说明：\n1.新旧手机连接同一个WiFi网络(禁用AP隔离)\n2.旧手机直接点【发送】按钮，获取到【服务端IP】\n3.新手机填写【服务端IP】后，点【接收】按钮\n\n注意事项：\n1.发送方与接收方的APP版本必须一致，才能克隆!\n2.新手机接收后，发送通道、转发规则将完全被覆盖，清空历史记录！\n3.主动请求、保活措施、个性设置不在克隆范围</string>
+    <string name="operating_instruction">严正声明：\n该功能仅限个人新旧手机切换使用，用于非法用途后果自负！\n\n操作说明：\n1.新旧手机连接同一个WiFi网络(禁用AP隔离)\n2.旧手机直接点【发送】按钮，获取到【服务端IP】\n3.新手机填写【服务端IP】后，点【接收】按钮\n\n注意事项：\n1.发送方与接收方的APP版本必须一致，才能克隆!\n2.新手机接收后，发送通道、转发规则将完全被覆盖，清空历史记录！\n3.主动请求、保活措施、个性设置不在克隆范围</string>
+    <string name="operating_instruction_offline">严正声明：\n该功能仅限个人新旧手机切换使用，用于非法用途后果自负！\n\n注意事项：\n1.发送方与接收方的APP版本必须一致，才能克隆!\n2.新手机接收后，发送通道、转发规则将完全被覆盖，清空历史记录！\n3.主动请求、保活措施、个性设置不在克隆范围</string>
     <string name="send">启动</string>
     <string name="stop">停止</string>
+    <string name="export">导出</string>
+    <string name="imports">导入</string>
     <string name="old_mobile_phone">我是旧手机</string>
     <string name="receive">接收</string>
     <string name="new_mobile_phone">我是新手机</string>
@@ -392,13 +395,9 @@
     <string name="tips_compatible_solution">兼容方案</string>
     <string name="tips_wait_3_seconds">点击启动后请等待3秒</string>
     <string name="tips_clone_done">一键克隆操作完成！\n请检查·通用设置·各项开关是否已开启！</string>
-    <string name="tips_download_done">下载完成，正准备还原数据…</string>
-    <string name="tips_download_failed">下载失败：</string>
-    <string name="tips_downloading">正在下载</string>
-    <string name="tips_please_wait">请稍后…</string>
     <string name="tips_clone_failed">一键克隆失败：</string>
-    <string name="tips_versions_inconsistent">发送端与接收端的APP版本不一致，无法一键克隆！</string>
-    <string name="tips_get_info_failed">从发送端获取一键克隆信息失败</string>
+    <string name="tips_versions_inconsistent">APP版本不一致，无法一键克隆！</string>
+    <string name="tips_get_info_failed">获取一键克隆信息失败</string>
     <string name="linkman">联 系 人：</string>
     <string name="via_number">来源号码：</string>
     <string name="bark_sound">消息声音</string>
@@ -451,4 +450,7 @@
     <string name="tips_other_mail_type">其他邮箱，请填写完整的邮箱地址并手动填写SMTP服务器信息</string>
     <string name="optional">可选</string>
     <string name="TelegramChatIdTips">请按照wiki中的步骤获取</string>
+    <string name="network_model">网络模式</string>
+    <string name="offline_mode">离线模式</string>
+    <string name="tips_backup_path">备份文件存放路径：</string>
 </resources>

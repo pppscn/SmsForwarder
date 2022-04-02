@@ -20,6 +20,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+@SuppressWarnings("RedundantThrows")
 public class SenderServerChanMsg extends SenderBaseMsg {
 
     static final String TAG = "SenderServerChanMsg";

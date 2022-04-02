@@ -24,7 +24,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
+@SuppressWarnings({"rawtypes", "unchecked", "deprecation", "RedundantThrows"})
 public class SenderPushPlusMsg extends SenderBaseMsg {
 
     static final String TAG = "SenderPushPlusMsg";

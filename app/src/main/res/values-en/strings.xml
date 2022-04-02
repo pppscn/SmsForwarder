@@ -227,8 +227,11 @@
     <!--CloneActivity-->
     <string name="local_ip">Local IP：</string>
     <string name="operating_instruction">Instructions: \n[Note] The APP version of the sender and receiver must be the same!\n1. Please keep the SOURCE and DESTINATION phones in the same Wi-Fi network, and do not turn on isolation. \n2. Tap "Send" on SOURCE mobile phone, and get "server IP" \n3. After filling in "Server IP" on DESTINATION phone, tap "Receive". \n [NOTE:] sender(s), forwarding rule(s) and log(s) will be overwritten after cloning!</string> <!-- 原文是“新旧手机”，英文翻译中处理为“源”手机和“目标”手机，因为担心“新旧”的表述引起混淆（有没一种可能就是用户就是用从新手机的设备复制到旧手机上去呢？）。 -->
+    <string name="operating_instruction_offline">[NOTE:] sender(s), forwarding rule(s) and log(s) will be overwritten after cloning!</string> <!-- 原文是“新旧手机”，英文翻译中处理为“源”手机和“目标”手机，因为担心“新旧”的表述引起混淆（有没一种可能就是用户就是用从新手机的设备复制到旧手机上去呢？）。 -->
     <string name="send">Start</string>
     <string name="stop">Stop</string>
+    <string name="export">Export</string>
+    <string name="imports">Import</string>
     <string name="old_mobile_phone">I\'m the SCOURCE phone</string>
     <string name="receive">Receive</string>
     <string name="new_mobile_phone">I\'m the DESTINATION phone</string>
@@ -393,10 +396,6 @@
     <string name="tips_compatible_solution">Compatible solution</string>
     <string name="tips_wait_3_seconds">Please wait 3 seconds after clicking start</string>
     <string name="tips_clone_done">One-click clone operation is complete! \nPlease check whether the general settings and switches are turned on!</string>
-    <string name="tips_download_done">Download complete, preparing to restore data…</string>
-    <string name="tips_download_failed">Download failed:</string>
-    <string name="tips_downloading">Downloading</string>
-    <string name="tips_please_wait">Please wait…</string>
     <string name="tips_clone_failed">One-click clone failed:</string>
     <string name="tips_versions_inconsistent">The APP versions of the sender and the receiver are inconsistent, and cannot be cloned with one click!</string>
     <string name="tips_get_info_failed">Failed to get one-click clone information from sender</string>
@@ -452,4 +451,7 @@
     <string name="tips_other_mail_type">For other email addresses, please fill in the complete email address and manually fill in the SMTP server information</string>
     <string name="optional">Optional</string>
     <string name="TelegramChatIdTips">Follow the steps in the wiki to obtain it</string>
+    <string name="network_model">网络模式</string>
+    <string name="offline_mode">离线模式</string>
+    <string name="tips_backup_path">Backup Path:</string>
 </resources>

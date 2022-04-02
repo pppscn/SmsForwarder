@@ -9,7 +9,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.util.IOUtils;
 import com.idormy.sms.forwarder.model.vo.ResVo;
 import com.idormy.sms.forwarder.model.vo.SmsHubVo;
-import com.idormy.sms.forwarder.utils.BackupDbTask;
+import com.idormy.sms.forwarder.utils.CloneUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.idormy.sms.forwarder.utils.SmsHubActionHandler;
 
@@ -20,14 +20,11 @@ import org.eclipse.jetty.util.StringUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.Reader;
-import java.util.HashMap;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletOutputStream;
@@ -118,7 +115,7 @@ public class BaseServlet extends HttpServlet {
         }
     }
 
-
+    //发送短信api
     private void send_api(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setCharacterEncoding("utf-8");
         PrintWriter writer = resp.getWriter();
@@ -170,40 +167,15 @@ public class BaseServlet extends HttpServlet {
     }
 
     //一键克隆——查询接口
-    @SuppressWarnings({"unchecked", "rawtypes"})
     private void clone_api(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setCharacterEncoding("utf-8");
         PrintWriter writer = resp.getWriter();
         BufferedReader reader = req.getReader();
+
         try {
-            //备份文件
-            BackupDbTask task = new BackupDbTask(context);
-            String backup_version = task.doInBackground(BackupDbTask.COMMAND_BACKUP);
-            Log.d(TAG, "backup_version = " + backup_version);
-
-            Map msgMap = new HashMap();
-            msgMap.put("versionCode", SettingUtil.getVersionCode());
-            msgMap.put("versionName", SettingUtil.getVersionName());
-            msgMap.put("enableSms", SettingUtil.getSwitchEnableSms());
-            msgMap.put("enablePhone", SettingUtil.getSwitchEnablePhone());
-            msgMap.put("callType1", SettingUtil.getSwitchCallType1());
-            msgMap.put("callType2", SettingUtil.getSwitchCallType2());
-            msgMap.put("callType3", SettingUtil.getSwitchCallType3());
-            msgMap.put("enableAppNotify", SettingUtil.getSwitchEnableAppNotify());
-            msgMap.put("cancelAppNotify", SettingUtil.getSwitchCancelAppNotify());
-            msgMap.put("smsHubApiUrl", SettingUtil.getSmsHubApiUrl());
-            msgMap.put("batteryLevelAlarmMin", SettingUtil.getBatteryLevelAlarmMin());
-            msgMap.put("batteryLevelAlarmMax", SettingUtil.getBatteryLevelAlarmMax());
-            msgMap.put("batteryLevelAlarmOnce", SettingUtil.getBatteryLevelAlarmOnce());
-            msgMap.put("retryTimes", SettingUtil.getRetryTimes());
-            msgMap.put("delayTime", SettingUtil.getDelayTime());
-            msgMap.put("enableSmsTemplate", SettingUtil.getSwitchSmsTemplate());
-            msgMap.put("smsTemplate", SettingUtil.getSmsTemplate());
-            msgMap.put("backupVersion", backup_version);
-
             resp.setContentType("application/json;charset=utf-8");
-            String text = JSON.toJSONString(msgMap);
-            writer.println(text);
+            String json = CloneUtils.exportSettings();
+            writer.println(json);
         } catch (Exception e) {
             e.printStackTrace();
             printErrMsg(resp, writer, e);
@@ -215,23 +187,17 @@ public class BaseServlet extends HttpServlet {
 
     //一键克隆——下载接口
     private void clone(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        File file = new File(context.getCacheDir().getPath() + File.separator + BackupDbTask.BACKUP_FILE);
-        resp.addHeader("Content-Disposition", "attachment;filename=" + BackupDbTask.BACKUP_FILE);
+        resp.addHeader("Content-Disposition", "attachment;filename=" + "SmsForwarder.json");
         ServletOutputStream outputStream = resp.getOutputStream();
-        InputStream inputStream = new FileInputStream(file);
         try {
-            byte[] buffer = new byte[BUFFER_SIZE];
-            int size;
-            while ((size = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, size);
-            }
+            String json = CloneUtils.exportSettings();
+            outputStream.write(json.getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
             e.printStackTrace();
             String text = "Internal server error: " + e.getMessage();
             Log.e(TAG, text);
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } finally {
-            IOUtils.close(inputStream);
             IOUtils.close(outputStream);
         }
     }

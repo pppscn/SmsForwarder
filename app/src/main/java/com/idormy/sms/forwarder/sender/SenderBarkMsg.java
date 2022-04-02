@@ -28,6 +28,7 @@ public class SenderBarkMsg extends SenderBaseMsg {
 
     static final String TAG = "SenderBarkMsg";
 
+    @SuppressWarnings("RedundantThrows")
     public static void sendMsg(final long logId, final Handler handError, final RetryIntercepter retryInterceptor, BarkSettingVo barkSettingVo, String title, String content, String groupName) throws Exception {
         Log.i(TAG, "sendMsg barkServer:" + barkSettingVo.toString() + " title:" + title + " content:" + content);
 

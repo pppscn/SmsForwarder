@@ -48,9 +48,13 @@ public class RuleUtil {
         values.put(RuleTable.RuleEntry.COLUMN_REGEX_REPLACE, ruleModel.getRegexReplace());
         values.put(RuleTable.RuleEntry.COLUMN_NAME_STATUS, ruleModel.getStatus());
 
-        // Insert the new row, returning the primary key value of the new row
-
-        return db.insert(RuleTable.RuleEntry.TABLE_NAME, null, values);
+        if (null != ruleModel.getId()) {
+            values.put(BaseColumns._ID, ruleModel.getId());
+            return db.replace(RuleTable.RuleEntry.TABLE_NAME, null, values);
+        } else {
+            // Insert the new row, returning the primary key value of the new row
+            return db.insert(RuleTable.RuleEntry.TABLE_NAME, null, values);
+        }
     }
 
     public static long updateRule(RuleModel ruleModel) {
@@ -89,6 +93,10 @@ public class RuleUtil {
         // Issue SQL statement.
         return db.delete(RuleTable.RuleEntry.TABLE_NAME, selection, selectionArgs);
 
+    }
+
+    public static List<RuleModel> getRule(Long id, String key) {
+        return getRule(id, key, null, null);
     }
 
     public static List<RuleModel> getRule(Long id, String key, String type) {

@@ -147,6 +147,7 @@ public class HttpUtil {
         return null;
     }
 
+    @SuppressWarnings("RedundantThrows")
     public static class Callback0 implements Callback {
         public Callback0(String tag, Lamda.Consumer<Response> onResponse, Lamda.Consumer<Exception> onFailure) {
             this.tag = tag;

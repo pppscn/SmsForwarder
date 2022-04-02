@@ -8,6 +8,7 @@ import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.SimUtil;
 import com.idormy.sms.forwarder.utils.SmsUtil;
 
+@SuppressWarnings("RedundantThrows")
 public class SenderSmsMsg extends SenderBaseMsg {
 
     static final String TAG = "SenderSmsMsg";

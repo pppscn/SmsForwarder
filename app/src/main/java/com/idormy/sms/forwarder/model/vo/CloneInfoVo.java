@@ -2,7 +2,11 @@ package com.idormy.sms.forwarder.model.vo;
 
 import androidx.annotation.NonNull;
 
+import com.idormy.sms.forwarder.model.RuleModel;
+import com.idormy.sms.forwarder.model.SenderModel;
+
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +32,8 @@ public class CloneInfoVo implements Serializable {
     private int delayTime;
     private boolean enableSmsTemplate;
     private String smsTemplate;
-    private String backupVersion;
+    private List<SenderModel> senderList;
+    private List<RuleModel> ruleList;
 
     @NonNull
     @Override
@@ -51,7 +56,8 @@ public class CloneInfoVo implements Serializable {
                 ", delayTime=" + delayTime +
                 ", enableSmsTemplate=" + enableSmsTemplate +
                 ", smsTemplate=" + smsTemplate +
-                ", backupVersion=" + backupVersion +
+                ", senderList=" + senderList.toString() +
+                ", ruleList=" + ruleList.toString() +
                 '}';
     }
 }

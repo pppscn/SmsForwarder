@@ -46,9 +46,13 @@ public class SenderUtil {
         values.put(SenderTable.SenderEntry.COLUMN_NAME_STATUS, senderModel.getStatus());
         values.put(SenderTable.SenderEntry.COLUMN_NAME_JSON_SETTING, senderModel.getJsonSetting());
 
-        // Insert the new row, returning the primary key value of the new row
-
-        return db.insert(SenderTable.SenderEntry.TABLE_NAME, null, values);
+        if (null != senderModel.getId()) {
+            values.put(BaseColumns._ID, senderModel.getId());
+            return db.replace(SenderTable.SenderEntry.TABLE_NAME, null, values);
+        } else {
+            // Insert the new row, returning the primary key value of the new row
+            return db.insert(SenderTable.SenderEntry.TABLE_NAME, null, values);
+        }
     }
 
     public static long updateSender(SenderModel senderModel) {
