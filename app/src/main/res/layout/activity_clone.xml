@@ -18,7 +18,6 @@
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/btnTypeNetwork"
                 style="@style/select_style"
                 android:checked="true"
                 android:minWidth="0dp"

@@ -36,7 +36,6 @@ import com.idormy.sms.forwarder.sender.BatteryReportCronTask;
 import com.idormy.sms.forwarder.sender.HttpServer;
 import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.sender.SenderUtil;
-import com.idormy.sms.forwarder.sender.SmsHubApiTask;
 import com.idormy.sms.forwarder.service.BatteryService;
 import com.idormy.sms.forwarder.service.FrontService;
 import com.idormy.sms.forwarder.service.MusicService;
@@ -136,16 +135,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.I
                 HttpServer.update();
             } catch (Exception e) {
                 Log.e(TAG, "Start HttpServer:", e);
-            }
-        }
-
-        //启用SmsHubApiTask
-        if (SettingUtil.getSwitchEnableSmsHubApi()) {
-            SmsHubApiTask.init(this);
-            try {
-                SmsHubApiTask.updateTimer();
-            } catch (Exception e) {
-                Log.e(TAG, "SmsHubApiTask:", e);
             }
         }
 

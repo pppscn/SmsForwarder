@@ -290,8 +290,6 @@
     <string name="proxy_authenticator">Proxy Authenticator</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="send_sms_config_title">SmsHub client Mode</string>
-    <string name="send_sms_config_title2">Execute the operation returned by the interface</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="agree">Agree</string>
     <string name="refuse">Refuse</string>

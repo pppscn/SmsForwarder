@@ -3,6 +3,7 @@ package com.idormy.sms.forwarder.utils;
 import java.util.Objects;
 
 public class Lamda {
+    @SuppressWarnings("RedundantThrows")
     public interface Consumer<T> extends Func<T, T> {
         void accept(T t) throws Exception;
 

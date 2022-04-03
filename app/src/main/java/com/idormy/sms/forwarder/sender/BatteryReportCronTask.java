@@ -6,11 +6,9 @@ import android.content.IntentFilter;
 import android.util.Log;
 
 import com.idormy.sms.forwarder.MyApplication;
-import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.utils.BatteryUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
-import com.idormy.sms.forwarder.utils.SmsHubActionHandler;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -91,11 +89,6 @@ public class BatteryReportCronTask {
             try {
                 SmsVo smsVo = new SmsVo("88888888", msg, new Date(), "电池状态定时推送");
                 SendUtil.send_msg(context, smsVo, 1, "app");
-
-                //SmsHubApi
-                if (SettingUtil.getSwitchEnableSmsHubApi()) {
-                    SmsHubActionHandler.putData(new SmsHubVo(SmsHubVo.Type.phone, null, msg, "电池状态定时推送"));
-                }
             } catch (Exception e) {
                 Log.e(TAG, "sendMessage e:" + e.getMessage());
             }

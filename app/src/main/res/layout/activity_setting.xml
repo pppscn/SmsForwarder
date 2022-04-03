@@ -315,53 +315,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:background="@color/setting_bar_color"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="15dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/send_sms_config_title"
-                        android:textStyle="bold"
-                        tools:ignore="RelativeOverlap" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/send_sms_config_title2"
-                        android:textSize="9sp"
-                        tools:ignore="SmallSp" />
-
-                    <com.idormy.sms.forwarder.view.ClearEditText
-                        android:id="@+id/editText_text_sms_hub_url"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:hint="http://xxx.com/send_api"
-                        app:showEye="true" />
-                </LinearLayout>
-
-                <Switch
-                    android:id="@+id/switch_enable_sms_hub"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:textSize="16sp"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"

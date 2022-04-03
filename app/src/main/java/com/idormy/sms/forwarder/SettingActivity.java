@@ -39,7 +39,6 @@ import com.idormy.sms.forwarder.receiver.RebootBroadcastReceiver;
 import com.idormy.sms.forwarder.sender.BatteryReportCronTask;
 import com.idormy.sms.forwarder.sender.HttpServer;
 import com.idormy.sms.forwarder.sender.SenderUtil;
-import com.idormy.sms.forwarder.sender.SmsHubApiTask;
 import com.idormy.sms.forwarder.service.MusicService;
 import com.idormy.sms.forwarder.utils.CommonUtil;
 import com.idormy.sms.forwarder.utils.DbHelper;
@@ -50,7 +49,6 @@ import com.idormy.sms.forwarder.utils.LogUtil;
 import com.idormy.sms.forwarder.utils.OnePixelManager;
 import com.idormy.sms.forwarder.utils.RuleUtil;
 import com.idormy.sms.forwarder.utils.SettingUtil;
-import com.idormy.sms.forwarder.view.ClearEditText;
 import com.idormy.sms.forwarder.view.StepBar;
 
 import java.lang.reflect.Method;
@@ -97,8 +95,6 @@ public class SettingActivity extends AppCompatActivity {
 
         //HttpServer
         switchEnableHttpServer(findViewById(R.id.switch_enable_http_server));
-        //SmsHubApiTask
-        editSmsHubConfig(findViewById(R.id.switch_enable_sms_hub), findViewById(R.id.editText_text_sms_hub_url));
 
         //监听电池状态变化
         switchBatteryReceiver(findViewById(R.id.switch_battery_receiver));
@@ -350,26 +346,6 @@ public class SettingActivity extends AppCompatActivity {
             @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_enable_app_notify = findViewById(R.id.switch_enable_app_notify);
             switch_enable_app_notify.setChecked(SettingUtil.getSwitchEnableAppNotify());
         }
-    }
-
-    //SmsHubApiTask
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
-    private void editSmsHubConfig(Switch switch_enable_send_sms, ClearEditText editText_text_send_sms) {
-        switch_enable_send_sms.setChecked(SettingUtil.getSwitchEnableSmsHubApi());
-        switch_enable_send_sms.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            String webServer = editText_text_send_sms.getText().trim();
-            if (isChecked && !CommonUtil.checkUrl(webServer, false)) {
-                HttpUtil.Toast(TAG, getString(R.string.invalid_webserver));
-                switch_enable_send_sms.setChecked(false);
-                return;
-            }
-            SettingUtil.switchEnableSmsHubApi(isChecked);
-            Log.d(TAG, "switchEnableSendApi:" + isChecked);
-            SmsHubApiTask.updateTimer();
-        });
-
-        editText_text_send_sms.setText(SettingUtil.getSmsHubApiUrl());
-        editText_text_send_sms.setOnEditInputListener(content -> SettingUtil.smsHubApiUrl(content.trim()));
     }
 
     //HttpServer

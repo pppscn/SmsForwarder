@@ -10,7 +10,6 @@ import android.util.Log;
 import com.idormy.sms.forwarder.R;
 import com.idormy.sms.forwarder.model.CallInfo;
 import com.idormy.sms.forwarder.model.PhoneBookEntity;
-import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.utils.CommonUtil;
@@ -18,7 +17,6 @@ import com.idormy.sms.forwarder.utils.ContactHelper;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.idormy.sms.forwarder.utils.SimUtil;
-import com.idormy.sms.forwarder.utils.SmsHubActionHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -130,11 +128,6 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         SmsVo smsVo = new SmsVo(phoneNumber, getTypeText(context, type, name, viaNumber), new Date(), simInfo);
         Log.d(TAG, "send_msg" + smsVo);
         SendUtil.send_msg(context, smsVo, simId, "call");
-
-        //SmsHubApi
-        if (SettingUtil.getSwitchEnableSmsHubApi()) {
-            SmsHubActionHandler.putData(new SmsHubVo(SmsHubVo.Type.phone, simId, getTypeText(context, type, name, viaNumber), phoneNumber));
-        }
     }
 
     //获取通话类型：1.呼入 2.呼出 3.未接

@@ -26,7 +26,6 @@ public class CloneUtils {
             cloneInfo.setCallType3(SettingUtil.getSwitchCallType3());
             cloneInfo.setEnableAppNotify(SettingUtil.getSwitchEnableAppNotify());
             cloneInfo.setCancelAppNotify(SettingUtil.getSwitchCancelAppNotify());
-            cloneInfo.setSmsHubApiUrl(SettingUtil.getSmsHubApiUrl());
             cloneInfo.setBatteryLevelAlarmMin(SettingUtil.getBatteryLevelAlarmMin());
             cloneInfo.setBatteryLevelAlarmMax(SettingUtil.getBatteryLevelAlarmMax());
             cloneInfo.setBatteryLevelAlarmOnce(SettingUtil.getBatteryLevelAlarmOnce());
@@ -56,7 +55,6 @@ public class CloneUtils {
             SettingUtil.switchCallType3(cloneInfoVo.isCallType3());
             SettingUtil.switchEnableAppNotify(cloneInfoVo.isEnableAppNotify());
             SettingUtil.switchCancelAppNotify(cloneInfoVo.isCancelAppNotify());
-            SettingUtil.smsHubApiUrl(cloneInfoVo.getSmsHubApiUrl());
             SettingUtil.setBatteryLevelAlarmMin(cloneInfoVo.getBatteryLevelAlarmMin());
             SettingUtil.setBatteryLevelAlarmMax(cloneInfoVo.getBatteryLevelAlarmMax());
             SettingUtil.switchBatteryLevelAlarmOnce(cloneInfoVo.isBatteryLevelAlarmOnce());

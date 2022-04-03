@@ -3,7 +3,6 @@ package com.idormy.sms.forwarder.model.vo;
 import androidx.annotation.NonNull;
 
 import com.alibaba.fastjson.JSON;
-import com.idormy.sms.forwarder.sender.SmsHubApiTask;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
 import com.idormy.sms.forwarder.utils.SimUtil;
@@ -87,7 +86,6 @@ public class SmsHubVo implements Serializable {
             deviInfoMap.put("imei", PhoneUtils.getIMEI());
             deviInfoMap.put("SDKVersion", PhoneUtils.getSDKVersion() + "");
             deviInfoMap.put("Version", SettingUtil.getVersionName());
-            deviInfoMap.put("heartbeat", SmsHubApiTask.DELAY_SECONDS + "");
             cache.put(key, deviInfoMap);
             return deviInfoMap;
         }

@@ -289,8 +289,6 @@
     <string name="proxy_authenticator">代理身份验证</string>
     <string name="username">用户</string>
     <string name="password">密码</string>
-    <string name="send_sms_config_title">主动轮询远程 SmsHubApi</string>
-    <string name="send_sms_config_title2">请先填写服务端地址，再启动服务，APP轮询执行接口返回的操作</string>
     <string name="privacy_policy">隐私政策</string>
     <string name="agree">同意</string>
     <string name="refuse">拒绝</string>

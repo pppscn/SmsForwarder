@@ -24,7 +24,6 @@ public class CloneInfoVo implements Serializable {
     private boolean callType3;
     private boolean enableAppNotify;
     private boolean cancelAppNotify;
-    private String smsHubApiUrl;
     private int batteryLevelAlarmMin;
     private int batteryLevelAlarmMax;
     private boolean batteryLevelAlarmOnce;
@@ -48,7 +47,6 @@ public class CloneInfoVo implements Serializable {
                 ", callType3=" + callType3 +
                 ", enableAppNotify=" + enableAppNotify +
                 ", cancelAppNotify=" + cancelAppNotify +
-                ", smsHubApiUrl=" + smsHubApiUrl +
                 ", batteryLevelAlarmMin=" + batteryLevelAlarmMin +
                 ", batteryLevelAlarmMax=" + batteryLevelAlarmMax +
                 ", batteryLevelAlarmOnce=" + batteryLevelAlarmOnce +

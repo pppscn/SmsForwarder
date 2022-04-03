@@ -10,7 +10,6 @@ public class ResVo<T> {
     private int code;
     private String msg;
     private String auth;
-    private SmsHubVo heartbeat;
     private T data;
 
     public ResVo<T> setSuessces(T data) {

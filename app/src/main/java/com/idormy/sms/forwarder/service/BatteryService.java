@@ -10,12 +10,10 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.idormy.sms.forwarder.MyApplication;
-import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.utils.BatteryUtils;
 import com.idormy.sms.forwarder.utils.SettingUtil;
-import com.idormy.sms.forwarder.utils.SmsHubActionHandler;
 
 import java.util.Date;
 
@@ -119,11 +117,6 @@ public class BatteryService extends Service {
             SmsVo smsVo = new SmsVo("88888888", msg, new Date(), "电池状态监听");
             Log.d(TAG, "send_msg" + smsVo);
             SendUtil.send_msg(context, smsVo, 1, "app");
-
-            //SmsHubApi
-            if (SettingUtil.getSwitchEnableSmsHubApi()) {
-                SmsHubActionHandler.putData(new SmsHubVo(SmsHubVo.Type.phone, null, msg, "电池状态监听"));
-            }
         } catch (Exception e) {
             Log.e(TAG, "getLog e:" + e.getMessage());
         }
