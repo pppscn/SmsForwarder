@@ -983,8 +983,11 @@ public class SenderActivity extends AppCompatActivity {
             editTextWebNotifySecret.setText(webNotifySettingVo.getSecret());
             radioGroupWebNotifyMethod.check(webNotifySettingVo.getWebNotifyMethodCheckId());
             //set header
-            for (Map.Entry<String, String> header : webNotifySettingVo.getHeaders().entrySet()) {
-                addHeaderItemLinearLayout(headerItemMap, linearLayoutWebNotifyHeaders, header.getKey(), header.getValue());
+            Map<String, String> headers = webNotifySettingVo.getHeaders();
+            if (headers != null) {
+                for (Map.Entry<String, String> header : headers.entrySet()) {
+                    addHeaderItemLinearLayout(headerItemMap, linearLayoutWebNotifyHeaders, header.getKey(), header.getValue());
+                }
             }
         }
 
