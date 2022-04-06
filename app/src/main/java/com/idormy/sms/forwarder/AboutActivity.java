@@ -12,9 +12,9 @@ import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
 import com.hjq.toast.ToastUtils;
 import com.idormy.sms.forwarder.receiver.RebootBroadcastReceiver;
-import com.idormy.sms.forwarder.utils.CacheUtil;
+import com.idormy.sms.forwarder.utils.CacheUtils;
 import com.idormy.sms.forwarder.utils.CommonUtil;
-import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.SettingUtils;
 import com.xuexiang.xupdate.easy.EasyUpdate;
 import com.xuexiang.xupdate.proxy.impl.DefaultUpdateChecker;
 
@@ -46,7 +46,7 @@ public class AboutActivity extends BaseActivity {
                         } else {
                             ToastUtils.show(R.string.toast_granted_part);
                         }
-                        SettingUtil.switchEnableSms(true);
+                        SettingUtils.switchEnableSms(true);
                     }
 
                     @Override
@@ -58,7 +58,7 @@ public class AboutActivity extends BaseActivity {
                         } else {
                             ToastUtils.show(R.string.toast_denied);
                         }
-                        SettingUtil.switchEnableSms(false);
+                        SettingUtils.switchEnableSms(false);
                     }
                 });
 
@@ -100,15 +100,15 @@ public class AboutActivity extends BaseActivity {
 
         final TextView cache_size = findViewById(R.id.cache_size);
         try {
-            cache_size.setText(CacheUtil.getTotalCacheSize(AboutActivity.this));
+            cache_size.setText(CacheUtils.getTotalCacheSize(AboutActivity.this));
         } catch (Exception e) {
             e.printStackTrace();
         }
         Button clear_all_cache = findViewById(R.id.clear_all_cache);
         clear_all_cache.setOnClickListener(v -> {
-            CacheUtil.clearAllCache(AboutActivity.this);
+            CacheUtils.clearAllCache(AboutActivity.this);
             try {
-                cache_size.setText(CacheUtil.getTotalCacheSize(AboutActivity.this));
+                cache_size.setText(CacheUtils.getTotalCacheSize(AboutActivity.this));
             } catch (Exception e) {
                 e.printStackTrace();
             }

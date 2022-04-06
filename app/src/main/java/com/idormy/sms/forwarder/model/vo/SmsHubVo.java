@@ -4,8 +4,8 @@ import androidx.annotation.NonNull;
 
 import com.alibaba.fastjson.JSON;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
-import com.idormy.sms.forwarder.utils.SettingUtil;
-import com.idormy.sms.forwarder.utils.SimUtil;
+import com.idormy.sms.forwarder.utils.SettingUtils;
+import com.idormy.sms.forwarder.utils.SimUtils;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ public class SmsHubVo implements Serializable {
     public SmsHubVo(Type type, Integer simId, String content, String target) {
         this.msgId = UUID.randomUUID().toString();
         if (simId != null) {
-            String simInfo = simId == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1(); //自定义备注优先
+            String simInfo = simId == 2 ? SettingUtils.getAddExtraSim2() : SettingUtils.getAddExtraSim1(); //自定义备注优先
             simInfo = "SIM" + simId + ":" + simInfo;
             this.channel = simInfo;
         }
@@ -64,7 +64,7 @@ public class SmsHubVo implements Serializable {
         SmsHubVo smsHubVo = new SmsHubVo();
         HashMap<String, String> deviInfoMap = getDevInfoMap(false);
         smsHubVo.setDeviceInfo(JSON.toJSONString(deviInfoMap));
-        smsHubVo.setChannel("SIM1:" + SimUtil.getSimInfo(1) + SettingUtil.getAddExtraSim1() + ";SIM2:" + SimUtil.getSimInfo(2) + SettingUtil.getAddExtraSim2());
+        smsHubVo.setChannel("SIM1:" + SimUtils.getSimInfo(1) + SettingUtils.getAddExtraSim1() + ";SIM2:" + SimUtils.getSimInfo(2) + SettingUtils.getAddExtraSim2());
         smsHubVo.setTs(Long.toString(System.currentTimeMillis()));
         smsHubVo.setAction(SmsHubVo.Action.heartbeat.code());
         if (data != null && data.size() > 0) {
@@ -80,12 +80,12 @@ public class SmsHubVo implements Serializable {
         String key = "deviceInfo";
         if (reflush || !cache.containsKey(key)) {
             HashMap<String, String> deviInfoMap = new HashMap<>();
-            deviInfoMap.put("mark", SettingUtil.getAddExtraDeviceMark());
+            deviInfoMap.put("mark", SettingUtils.getAddExtraDeviceMark());
             deviInfoMap.put("simOperatorName", PhoneUtils.getSimOperatorName());
             deviInfoMap.put("phoneNumber", PhoneUtils.getPhoneNumber());
             deviInfoMap.put("imei", PhoneUtils.getIMEI());
             deviInfoMap.put("SDKVersion", PhoneUtils.getSDKVersion() + "");
-            deviInfoMap.put("Version", SettingUtil.getVersionName());
+            deviInfoMap.put("Version", SettingUtils.getVersionName());
             cache.put(key, deviInfoMap);
             return deviInfoMap;
         }

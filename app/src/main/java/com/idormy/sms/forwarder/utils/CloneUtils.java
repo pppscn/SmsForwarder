@@ -17,24 +17,24 @@ public class CloneUtils {
     public static String exportSettings() {
         CloneInfoVo cloneInfo = new CloneInfoVo();
         try {
-            cloneInfo.setVersionCode(SettingUtil.getVersionCode());
-            cloneInfo.setVersionName(SettingUtil.getVersionName());
-            cloneInfo.setEnableSms(SettingUtil.getSwitchEnableSms());
-            cloneInfo.setEnablePhone(SettingUtil.getSwitchEnablePhone());
-            cloneInfo.setCallType1(SettingUtil.getSwitchCallType1());
-            cloneInfo.setCallType2(SettingUtil.getSwitchCallType2());
-            cloneInfo.setCallType3(SettingUtil.getSwitchCallType3());
-            cloneInfo.setEnableAppNotify(SettingUtil.getSwitchEnableAppNotify());
-            cloneInfo.setCancelAppNotify(SettingUtil.getSwitchCancelAppNotify());
-            cloneInfo.setBatteryLevelAlarmMin(SettingUtil.getBatteryLevelAlarmMin());
-            cloneInfo.setBatteryLevelAlarmMax(SettingUtil.getBatteryLevelAlarmMax());
-            cloneInfo.setBatteryLevelAlarmOnce(SettingUtil.getBatteryLevelAlarmOnce());
-            cloneInfo.setRetryTimes(SettingUtil.getRetryTimes());
-            cloneInfo.setDelayTime(SettingUtil.getDelayTime());
-            cloneInfo.setEnableSmsTemplate(SettingUtil.getSwitchSmsTemplate());
-            cloneInfo.setSmsTemplate(SettingUtil.getSmsTemplate());
+            cloneInfo.setVersionCode(SettingUtils.getVersionCode());
+            cloneInfo.setVersionName(SettingUtils.getVersionName());
+            cloneInfo.setEnableSms(SettingUtils.getSwitchEnableSms());
+            cloneInfo.setEnablePhone(SettingUtils.getSwitchEnablePhone());
+            cloneInfo.setCallType1(SettingUtils.getSwitchCallType1());
+            cloneInfo.setCallType2(SettingUtils.getSwitchCallType2());
+            cloneInfo.setCallType3(SettingUtils.getSwitchCallType3());
+            cloneInfo.setEnableAppNotify(SettingUtils.getSwitchEnableAppNotify());
+            cloneInfo.setCancelAppNotify(SettingUtils.getSwitchCancelAppNotify());
+            cloneInfo.setBatteryLevelAlarmMin(SettingUtils.getBatteryLevelAlarmMin());
+            cloneInfo.setBatteryLevelAlarmMax(SettingUtils.getBatteryLevelAlarmMax());
+            cloneInfo.setBatteryLevelAlarmOnce(SettingUtils.getBatteryLevelAlarmOnce());
+            cloneInfo.setRetryTimes(SettingUtils.getRetryTimes());
+            cloneInfo.setDelayTime(SettingUtils.getDelayTime());
+            cloneInfo.setEnableSmsTemplate(SettingUtils.getSwitchSmsTemplate());
+            cloneInfo.setSmsTemplate(SettingUtils.getSmsTemplate());
             cloneInfo.setSenderList(SenderUtil.getSender(null, null));
-            cloneInfo.setRuleList(RuleUtil.getRule(null, null));
+            cloneInfo.setRuleList(RuleUtils.getRule(null, null));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,21 +47,21 @@ public class CloneUtils {
 
         try {
             //应用配置
-            //SettingUtil.init(context);
-            SettingUtil.switchEnableSms(cloneInfoVo.isEnableSms());
-            SettingUtil.switchEnablePhone(cloneInfoVo.isEnablePhone());
-            SettingUtil.switchCallType1(cloneInfoVo.isCallType1());
-            SettingUtil.switchCallType2(cloneInfoVo.isCallType2());
-            SettingUtil.switchCallType3(cloneInfoVo.isCallType3());
-            SettingUtil.switchEnableAppNotify(cloneInfoVo.isEnableAppNotify());
-            SettingUtil.switchCancelAppNotify(cloneInfoVo.isCancelAppNotify());
-            SettingUtil.setBatteryLevelAlarmMin(cloneInfoVo.getBatteryLevelAlarmMin());
-            SettingUtil.setBatteryLevelAlarmMax(cloneInfoVo.getBatteryLevelAlarmMax());
-            SettingUtil.switchBatteryLevelAlarmOnce(cloneInfoVo.isBatteryLevelAlarmOnce());
-            SettingUtil.setRetryTimes(cloneInfoVo.getRetryTimes());
-            SettingUtil.setDelayTime(cloneInfoVo.getDelayTime());
-            SettingUtil.switchSmsTemplate(cloneInfoVo.isEnableSmsTemplate());
-            SettingUtil.setSmsTemplate(cloneInfoVo.getSmsTemplate());
+            //SettingUtils.init(context);
+            SettingUtils.switchEnableSms(cloneInfoVo.isEnableSms());
+            SettingUtils.switchEnablePhone(cloneInfoVo.isEnablePhone());
+            SettingUtils.switchCallType1(cloneInfoVo.isCallType1());
+            SettingUtils.switchCallType2(cloneInfoVo.isCallType2());
+            SettingUtils.switchCallType3(cloneInfoVo.isCallType3());
+            SettingUtils.switchEnableAppNotify(cloneInfoVo.isEnableAppNotify());
+            SettingUtils.switchCancelAppNotify(cloneInfoVo.isCancelAppNotify());
+            SettingUtils.setBatteryLevelAlarmMin(cloneInfoVo.getBatteryLevelAlarmMin());
+            SettingUtils.setBatteryLevelAlarmMax(cloneInfoVo.getBatteryLevelAlarmMax());
+            SettingUtils.switchBatteryLevelAlarmOnce(cloneInfoVo.isBatteryLevelAlarmOnce());
+            SettingUtils.setRetryTimes(cloneInfoVo.getRetryTimes());
+            SettingUtils.setDelayTime(cloneInfoVo.getDelayTime());
+            SettingUtils.switchSmsTemplate(cloneInfoVo.isEnableSmsTemplate());
+            SettingUtils.setSmsTemplate(cloneInfoVo.getSmsTemplate());
 
             SenderUtil.delSender(null);
             List<SenderModel> senderList = cloneInfoVo.getSenderList();
@@ -69,13 +69,13 @@ public class CloneUtils {
                 SenderUtil.addSender(senderModel);
             }
 
-            RuleUtil.delRule(null);
+            RuleUtils.delRule(null);
             List<RuleModel> ruleList = cloneInfoVo.getRuleList();
             for (RuleModel ruleModel : ruleList) {
-                RuleUtil.addRule(ruleModel);
+                RuleUtils.addRule(ruleModel);
             }
 
-            LogUtil.delLog(null, null);
+            LogUtils.delLog(null, null);
 
             return true;
         } catch (Exception e) {

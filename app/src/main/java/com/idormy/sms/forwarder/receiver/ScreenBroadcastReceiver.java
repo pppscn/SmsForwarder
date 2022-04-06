@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.utils.OnePixelManager;
-import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.SettingUtils;
 
 //监听屏幕状态变换广播（开屏、锁屏、解锁）
 public class ScreenBroadcastReceiver extends BroadcastReceiver {
@@ -18,7 +18,7 @@ public class ScreenBroadcastReceiver extends BroadcastReceiver {
         String action = intent.getAction();
 
         //1像素透明Activity保活
-        if (SettingUtil.getOnePixelActivity()) {
+        if (SettingUtils.getOnePixelActivity()) {
             OnePixelManager manager = new OnePixelManager();
             if (Intent.ACTION_SCREEN_ON.equals(action)) {//如果亮屏，则关闭1像素Activity
                 manager.finishOnePixelActivity();

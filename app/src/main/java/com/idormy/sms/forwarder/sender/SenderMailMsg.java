@@ -7,7 +7,7 @@ import android.util.Log;
 import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.R;
 import com.idormy.sms.forwarder.model.vo.EmailSettingVo;
-import com.idormy.sms.forwarder.utils.LogUtil;
+import com.idormy.sms.forwarder.utils.LogUtils;
 import com.smailnet.emailkit.Draft;
 import com.smailnet.emailkit.EmailKit;
 
@@ -55,13 +55,13 @@ public class SenderMailMsg extends SenderBaseMsg {
                     .send(draft, new EmailKit.GetSendCallback() {
                         @Override
                         public void onSuccess() {
-                            LogUtil.updateLog(logId, 2, "发送成功");
+                            LogUtils.updateLog(logId, 2, "发送成功");
                             Toast(handError, TAG, "发送成功");
                         }
 
                         @Override
                         public void onFailure(String errMsg) {
-                            LogUtil.updateLog(logId, 0, errMsg);
+                            LogUtils.updateLog(logId, 0, errMsg);
                             Toast(handError, TAG, "发送失败，错误：" + errMsg);
                         }
                     });
@@ -70,7 +70,7 @@ public class SenderMailMsg extends SenderBaseMsg {
             EmailKit.destroy();
 
         } catch (Exception e) {
-            LogUtil.updateLog(logId, 0, e.getMessage());
+            LogUtils.updateLog(logId, 0, e.getMessage());
             Log.e(TAG, e.getMessage(), e);
             Toast(handError, TAG, "发送失败：" + e.getMessage());
         }

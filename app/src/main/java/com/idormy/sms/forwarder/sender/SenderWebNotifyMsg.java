@@ -12,8 +12,8 @@ import com.alibaba.fastjson.JSON;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.utils.CertUtils;
 import com.idormy.sms.forwarder.utils.Define;
-import com.idormy.sms.forwarder.utils.LogUtil;
-import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.LogUtils;
+import com.idormy.sms.forwarder.utils.SettingUtils;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -51,8 +51,8 @@ public class SenderWebNotifyMsg extends SenderBaseMsg {
 
         Long timestamp = System.currentTimeMillis();
         String orgContent = smsVo.getContent();
-        String deviceMark = SettingUtil.getAddExtraDeviceMark().trim();
-        String appVersion = SettingUtil.getVersionName();
+        String deviceMark = SettingUtils.getAddExtraDeviceMark().trim();
+        String appVersion = SettingUtils.getVersionName();
         String simInfo = smsVo.getSimInfo();
         @SuppressLint("SimpleDateFormat") String receiveTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(smsVo.getDate());
 
@@ -160,7 +160,7 @@ public class SenderWebNotifyMsg extends SenderBaseMsg {
         client.newCall(requestBuilder.build()).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull final IOException e) {
-                LogUtil.updateLog(logId, 0, e.getMessage());
+                LogUtils.updateLog(logId, 0, e.getMessage());
                 Toast(handError, TAG, "发送失败：" + e.getMessage());
             }
 
@@ -172,9 +172,9 @@ public class SenderWebNotifyMsg extends SenderBaseMsg {
 
                 //返回http状态200即为成功
                 if (200 == response.code()) {
-                    LogUtil.updateLog(logId, 2, responseStr);
+                    LogUtils.updateLog(logId, 2, responseStr);
                 } else {
-                    LogUtil.updateLog(logId, 0, responseStr);
+                    LogUtils.updateLog(logId, 0, responseStr);
                 }
             }
         });

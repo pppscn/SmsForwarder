@@ -92,6 +92,13 @@ android {
     lint {
         checkReleaseBuilds false
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
 }
 
 
@@ -150,7 +157,7 @@ dependencies {
     implementation 'com.squareup.okio:okio:3.0.0'
 
     //fastjson
-    implementation "com.alibaba:fastjson:1.2.79"
+    implementation "com.alibaba:fastjson:1.2.80"
 
     //XUpdate
     implementation 'com.github.xuexiangjys:XUpdate:2.1.1'
@@ -179,11 +186,25 @@ dependencies {
     implementation 'com.github.getActivity:XXPermissions:13.2'
 
     //jetty
-    implementation "org.eclipse.jetty:jetty-server:9.2.30.v20200428"
-    implementation "org.eclipse.jetty:jetty-servlet:9.2.30.v20200428"
+    def jetty_version = '9.2.30.v20200428'
+    //noinspection GradleDependency
+    implementation "org.eclipse.jetty:jetty-server:$jetty_version"
+    //noinspection GradleDependency
+    implementation "org.eclipse.jetty:jetty-servlet:$jetty_version"
 
     //友盟统计SDK
     implementation 'com.umeng.umsdk:common:9.4.7'// (必选)
     implementation 'com.umeng.umsdk:asms:1.6.0'// 必选
 
+    //frpc
+    //implementation(name: 'frpclib', ext: 'aar')
+    implementation files('libs/frpclib.aar')
+    implementation 'io.github.jeremyliao:live-event-bus-x:1.8.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
+
+    def room_version = "2.4.2"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
 }

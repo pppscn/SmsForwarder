@@ -26,9 +26,9 @@ import com.idormy.sms.forwarder.sender.HttpServer;
 import com.idormy.sms.forwarder.utils.CloneUtils;
 import com.idormy.sms.forwarder.utils.Define;
 import com.idormy.sms.forwarder.utils.FileUtils;
-import com.idormy.sms.forwarder.utils.HttpUtil;
-import com.idormy.sms.forwarder.utils.NetUtil;
-import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.HttpUtils;
+import com.idormy.sms.forwarder.utils.NetUtils;
+import com.idormy.sms.forwarder.utils.SettingUtils;
 import com.idormy.sms.forwarder.view.IPEditText;
 
 import java.io.File;
@@ -67,7 +67,7 @@ public class CloneActivity extends BaseActivity {
         setContentView(R.layout.activity_clone);
         Log.d(TAG, "onCreate: " + RebootBroadcastReceiver.class.getName());
 
-        HttpUtil.init(this);
+        HttpUtils.init(this);
         HttpServer.init(this);
     }
 
@@ -120,7 +120,7 @@ public class CloneActivity extends BaseActivity {
         receiveTxt = findViewById(R.id.receiveTxt);
         Button receiveBtn = findViewById(R.id.receiveBtn);
 
-        serverIp = NetUtil.getLocalIp(CloneActivity.this);
+        serverIp = NetUtils.getLocalIp(CloneActivity.this);
         ipText.setText(serverIp);
 
         if (HttpServer.asRunning()) {
@@ -134,14 +134,14 @@ public class CloneActivity extends BaseActivity {
 
         //发送
         sendBtn.setOnClickListener(v -> {
-            if (!HttpServer.asRunning() && NetUtil.NETWORK_WIFI != NetUtil.getNetWorkStatus()) {
+            if (!HttpServer.asRunning() && NetUtils.NETWORK_WIFI != NetUtils.getNetWorkStatus()) {
                 ToastUtils.show(getString(R.string.no_wifi_network));
                 return;
             }
 
-            SettingUtil.switchEnableHttpServer(!SettingUtil.getSwitchEnableHttpServer());
+            SettingUtils.switchEnableHttpServer(!SettingUtils.getSwitchEnableHttpServer());
             if (!HttpServer.update()) {
-                SettingUtil.switchEnableHttpServer(!SettingUtil.getSwitchEnableHttpServer());
+                SettingUtils.switchEnableHttpServer(!SettingUtils.getSwitchEnableHttpServer());
                 return;
             }
             if (!HttpServer.asRunning()) {
@@ -163,7 +163,7 @@ public class CloneActivity extends BaseActivity {
                 return;
             }
 
-            if (NetUtil.NETWORK_WIFI != NetUtil.getNetWorkStatus()) {
+            if (NetUtils.NETWORK_WIFI != NetUtils.getNetWorkStatus()) {
                 receiveTxt.setText(R.string.no_wifi_network);
                 ToastUtils.show(getString(R.string.no_wifi_network));
                 return;
@@ -185,8 +185,8 @@ public class CloneActivity extends BaseActivity {
                     .build();
 
             Map msgMap = new HashMap();
-            msgMap.put("versionCode", SettingUtil.getVersionCode());
-            msgMap.put("versionName", SettingUtil.getVersionName());
+            msgMap.put("versionCode", SettingUtils.getVersionCode());
+            msgMap.put("versionName", SettingUtils.getVersionName());
 
             String requestMsg = JSON.toJSONString(msgMap);
             Log.i(TAG, "requestMsg:" + requestMsg);
@@ -222,7 +222,7 @@ public class CloneActivity extends BaseActivity {
                         CloneInfoVo cloneInfoVo = JSON.parseObject(responseStr, CloneInfoVo.class);
                         Log.d(TAG, cloneInfoVo.toString());
 
-                        if (!SettingUtil.getVersionName().equals(cloneInfoVo.getVersionName())) {
+                        if (!SettingUtils.getVersionName().equals(cloneInfoVo.getVersionName())) {
                             ToastUtils.show(getString(R.string.tips_versions_inconsistent));
                             return;
                         }
@@ -268,7 +268,7 @@ public class CloneActivity extends BaseActivity {
                 CloneInfoVo cloneInfoVo = JSON.parseObject(responseStr, CloneInfoVo.class);
                 Log.d(TAG, Objects.requireNonNull(cloneInfoVo).toString());
 
-                if (!SettingUtil.getVersionName().equals(cloneInfoVo.getVersionName())) {
+                if (!SettingUtils.getVersionName().equals(cloneInfoVo.getVersionName())) {
                     ToastUtils.show(getString(R.string.tips_versions_inconsistent));
                     return;
                 }
@@ -292,7 +292,7 @@ public class CloneActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        serverIp = NetUtil.getLocalIp(CloneActivity.this);
+        serverIp = NetUtils.getLocalIp(CloneActivity.this);
         TextView ipText = findViewById(R.id.ipText);
         ipText.setText(getString(R.string.local_ip) + serverIp);
     }

@@ -18,9 +18,9 @@ import com.idormy.sms.forwarder.RuleActivity;
 import com.idormy.sms.forwarder.SenderActivity;
 import com.idormy.sms.forwarder.SettingActivity;
 import com.idormy.sms.forwarder.sender.SenderUtil;
-import com.idormy.sms.forwarder.utils.LogUtil;
-import com.idormy.sms.forwarder.utils.RuleUtil;
-import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.LogUtils;
+import com.idormy.sms.forwarder.utils.RuleUtils;
+import com.idormy.sms.forwarder.utils.SettingUtils;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class StepBar extends LinearLayout {
@@ -165,15 +165,15 @@ public class StepBar extends LinearLayout {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     public void setHighlight() {
-        SettingUtil.init(mContext);
+        SettingUtils.init(mContext);
         SenderUtil.init(mContext);
-        RuleUtil.init(mContext);
-        LogUtil.init(mContext);
+        RuleUtils.init(mContext);
+        LogUtils.init(mContext);
 
-        boolean Step1 = SettingUtil.getSwitchEnableSms() || SettingUtil.getSwitchEnablePhone() || SettingUtil.getSwitchEnableAppNotify();
+        boolean Step1 = SettingUtils.getSwitchEnableSms() || SettingUtils.getSwitchEnablePhone() || SettingUtils.getSwitchEnableAppNotify();
         boolean Step2 = SenderUtil.countSender("1", null) > 0;
-        boolean Step3 = RuleUtil.countRule("1", null, null) > 0;
-        boolean Step4 = LogUtil.countLog("2", null, null) > 0;
+        boolean Step3 = RuleUtils.countRule("1", null, null) > 0;
+        boolean Step4 = LogUtils.countLog("2", null, null) > 0;
 
         //页面提示文本
         if (txHelpTip != null) {

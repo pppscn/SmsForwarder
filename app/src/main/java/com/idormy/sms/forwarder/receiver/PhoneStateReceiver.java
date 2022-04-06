@@ -15,8 +15,8 @@ import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.utils.CommonUtil;
 import com.idormy.sms.forwarder.utils.ContactHelper;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
-import com.idormy.sms.forwarder.utils.SettingUtil;
-import com.idormy.sms.forwarder.utils.SimUtil;
+import com.idormy.sms.forwarder.utils.SettingUtils;
+import com.idormy.sms.forwarder.utils.SimUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,7 +30,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (!SettingUtil.getSwitchEnablePhone()) {
+        if (!SettingUtils.getSwitchEnablePhone()) {
             return;
         }
 
@@ -84,9 +84,9 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         if (callInfo == null) return;
 
         int type = callInfo.getType();
-        if ((type == 1 && !SettingUtil.getSwitchCallType1())
-                || (type == 2 && !SettingUtil.getSwitchCallType2())
-                || (type == 3 && !SettingUtil.getSwitchCallType3())) {
+        if ((type == 1 && !SettingUtils.getSwitchCallType1())
+                || (type == 2 && !SettingUtils.getSwitchCallType2())
+                || (type == 3 && !SettingUtils.getSwitchCallType3())) {
             Log.w(TAG, "Call record forwarding of this type is not enabled, no processing will be done!");
             return;
         }
@@ -100,9 +100,9 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         int simId = 1;
         Log.d(TAG, "getSubscriptionId = " + callInfo.getSubscriptionId()); //TODO:这里的SubscriptionId跟短信的不一样
         if (callInfo.getSubscriptionId() != -1) {
-            simId = SimUtil.getSimIdBySubscriptionId(callInfo.getSubscriptionId());
+            simId = SimUtils.getSimIdBySubscriptionId(callInfo.getSubscriptionId());
         }
-        simInfo = simId == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1(); //自定义备注优先
+        simInfo = simId == 2 ? SettingUtils.getAddExtraSim2() : SettingUtils.getAddExtraSim1(); //自定义备注优先
         simInfo = "SIM" + simId + "_" + simInfo;
 
         if (TextUtils.isEmpty(name)) {
@@ -116,14 +116,14 @@ public class PhoneStateReceiver extends BroadcastReceiver {
 
         //TODO:同一卡槽同一秒的重复未接来电广播不再重复处理（部分机型会收到两条广播？）
         String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE).format(new Date());
-        String prevHash = SettingUtil.getPrevNoticeHash(phoneNumber);
+        String prevHash = SettingUtils.getPrevNoticeHash(phoneNumber);
         String currHash = CommonUtil.MD5(phoneNumber + simInfo + time);
         Log.d(TAG, "prevHash=" + prevHash + " currHash=" + currHash);
         if (prevHash != null && prevHash.equals(currHash)) {
             Log.w(TAG, "Repeated missed call broadcasts of the same card slot in the same second are no longer processed repeatedly (some models will receive two broadcasts)");
             return;
         }
-        SettingUtil.setPrevNoticeHash(phoneNumber, currHash);
+        SettingUtils.setPrevNoticeHash(phoneNumber, currHash);
 
         SmsVo smsVo = new SmsVo(phoneNumber, getTypeText(context, type, name, viaNumber), new Date(), simInfo);
         Log.d(TAG, "send_msg" + smsVo);

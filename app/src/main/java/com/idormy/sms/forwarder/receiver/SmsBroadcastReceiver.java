@@ -12,8 +12,8 @@ import androidx.annotation.RequiresApi;
 
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
-import com.idormy.sms.forwarder.utils.SettingUtil;
-import com.idormy.sms.forwarder.utils.SimUtil;
+import com.idormy.sms.forwarder.utils.SettingUtils;
+import com.idormy.sms.forwarder.utils.SimUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,7 +37,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
 
         if (SMS_RECEIVED_ACTION.equals(receiveAction) || SMS_DELIVER_ACTION.equals(receiveAction)) {
             try {
-                if (!SettingUtil.getSwitchEnableSms()) {
+                if (!SettingUtils.getSwitchEnableSms()) {
                     return;
                 }
 
@@ -53,11 +53,11 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                         if (extras.containsKey("simId")) {
                             simId = extras.getInt("simId");
                         } else if (extras.containsKey("subscription")) {
-                            simId = SimUtil.getSimIdBySubscriptionId(extras.getInt("subscription"));
+                            simId = SimUtils.getSimIdBySubscriptionId(extras.getInt("subscription"));
                         }
 
                         //自定义备注优先
-                        simInfo = simId == 2 ? SettingUtil.getAddExtraSim2() : SettingUtil.getAddExtraSim1();
+                        simInfo = simId == 2 ? SettingUtils.getAddExtraSim2() : SettingUtils.getAddExtraSim1();
                         simInfo = "SIM" + simId + "_" + simInfo;
                     } catch (Exception e) {
                         Log.e(TAG, "Failed to get the receiving phone number:" + e.getMessage());

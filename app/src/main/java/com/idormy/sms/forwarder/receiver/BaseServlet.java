@@ -11,11 +11,11 @@ import com.idormy.sms.forwarder.model.LogModel;
 import com.idormy.sms.forwarder.model.vo.ResVo;
 import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 import com.idormy.sms.forwarder.utils.CloneUtils;
-import com.idormy.sms.forwarder.utils.HttpUtil;
-import com.idormy.sms.forwarder.utils.LogUtil;
-import com.idormy.sms.forwarder.utils.SettingUtil;
-import com.idormy.sms.forwarder.utils.SimUtil;
-import com.idormy.sms.forwarder.utils.SmsUtil;
+import com.idormy.sms.forwarder.utils.HttpUtils;
+import com.idormy.sms.forwarder.utils.LogUtils;
+import com.idormy.sms.forwarder.utils.SettingUtils;
+import com.idormy.sms.forwarder.utils.SimUtils;
+import com.idormy.sms.forwarder.utils.SmsUtils;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -56,7 +56,7 @@ public class BaseServlet extends HttpServlet {
     public BaseServlet(String path, Context context) {
         this.path = path;
         this.context = context;
-        SettingUtil.init(context);
+        SettingUtils.init(context);
     }
 
     public Context getContext() {
@@ -226,17 +226,17 @@ public class BaseServlet extends HttpServlet {
             if (SmsHubVo.Action.send.code().equals(vo.getAction())) {
                 vo.setType(SmsHubVo.Type.sms.code());
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    int subscriptionIdBySimId = SimUtil.getSubscriptionIdBySimId(Integer.parseInt(vo.getChannel()) - 1);
-                    msg = SmsUtil.sendSms(subscriptionIdBySimId, vo.getTarget(), vo.getContent());
+                    int subscriptionIdBySimId = SimUtils.getSubscriptionIdBySimId(Integer.parseInt(vo.getChannel()) - 1);
+                    msg = SmsUtils.sendSms(subscriptionIdBySimId, vo.getTarget(), vo.getContent());
                     String simInfo = "SIM" + (subscriptionIdBySimId + 1);
                     vo.setChannel(simInfo);
-                    logId = LogUtil.addLog(new LogModel(vo.getType(), vo.getTarget(), vo.getContent(), simInfo, RULE_ID));
+                    logId = LogUtils.addLog(new LogModel(vo.getType(), vo.getTarget(), vo.getContent(), simInfo, RULE_ID));
                     if (msg == null) {
                         failure = false;
-                        HttpUtil.Toast(tag, "短信发送成功");
+                        HttpUtils.Toast(tag, "短信发送成功");
                         Log.i(tag, "短信发送成功");
                         vo.setAction(SmsHubVo.Action.suessces.code());
-                        LogUtil.updateLog(logId, 2, SmsHubVo.Action.suessces.code());
+                        LogUtils.updateLog(logId, 2, SmsHubVo.Action.suessces.code());
                     }
                 } else {
                     msg = "api<22";
@@ -248,12 +248,12 @@ public class BaseServlet extends HttpServlet {
         }
         if (failure) {
             msg = "短信发送失败:" + msg;
-            HttpUtil.Toast(tag, msg);
+            HttpUtils.Toast(tag, msg);
             Log.i(tag, msg);
             vo.setAction(SmsHubVo.Action.failure.code());
             vo.setErrMsg(msg);
             if (logId != null) {
-                LogUtil.updateLog(logId, 0, msg);
+                LogUtils.updateLog(logId, 0, msg);
             }
         }
     }

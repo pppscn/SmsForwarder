@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.R;
-import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.SettingUtils;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -47,8 +47,8 @@ public class SmsVo implements Serializable {
     public String getTitleForSend(String titleTemplate, String regexReplace) {
         if (titleTemplate == null || titleTemplate.isEmpty()) titleTemplate = getString(R.string.tag_from);
 
-        String deviceMark = SettingUtil.getAddExtraDeviceMark().trim();
-        String versionName = SettingUtil.getVersionName();
+        String deviceMark = SettingUtils.getAddExtraDeviceMark().trim();
+        String versionName = SettingUtils.getVersionName();
         String titleForSend = titleTemplate.replace(getString(R.string.tag_from), mobile)
                 .replace(getString(R.string.tag_package_name), mobile)
                 .replace(getString(R.string.tag_sms), content)
@@ -75,7 +75,7 @@ public class SmsVo implements Serializable {
 
     @SuppressLint("SimpleDateFormat")
     public String getSmsVoForSend(String ruleSmsTemplate, String regexReplace) {
-        String deviceMark = SettingUtil.getAddExtraDeviceMark().trim();
+        String deviceMark = SettingUtils.getAddExtraDeviceMark().trim();
         String customSmsTemplate = getString(R.string.tag_from) + "\n" +
                 getString(R.string.tag_sms) + "\n" +
                 getString(R.string.tag_card_slot) + "\n" +
@@ -86,14 +86,14 @@ public class SmsVo implements Serializable {
         if (!ruleSmsTemplate.isEmpty()) {
             customSmsTemplate = ruleSmsTemplate;
         } else {
-            boolean switchSmsTemplate = SettingUtil.getSwitchSmsTemplate();
-            String smsTemplate = SettingUtil.getSmsTemplate().trim();
+            boolean switchSmsTemplate = SettingUtils.getSwitchSmsTemplate();
+            String smsTemplate = SettingUtils.getSmsTemplate().trim();
             if (switchSmsTemplate && !smsTemplate.isEmpty()) {
                 customSmsTemplate = smsTemplate;
             }
         }
 
-        String versionName = SettingUtil.getVersionName();
+        String versionName = SettingUtils.getVersionName();
         String smsVoForSend = customSmsTemplate.replace(getString(R.string.tag_from), mobile)
                 .replace(getString(R.string.tag_package_name), mobile)
                 .replace(getString(R.string.tag_sms), content)

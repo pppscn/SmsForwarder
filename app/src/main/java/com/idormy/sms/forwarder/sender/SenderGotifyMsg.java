@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import com.idormy.sms.forwarder.model.vo.GotifySettingVo;
 import com.idormy.sms.forwarder.utils.CertUtils;
 import com.idormy.sms.forwarder.utils.Define;
-import com.idormy.sms.forwarder.utils.LogUtil;
+import com.idormy.sms.forwarder.utils.LogUtils;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -58,7 +58,7 @@ public class SenderGotifyMsg extends SenderBaseMsg {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull final IOException e) {
-                LogUtil.updateLog(logId, 0, e.getMessage());
+                LogUtils.updateLog(logId, 0, e.getMessage());
                 Toast(handError, TAG, "发送失败：" + e.getMessage());
             }
 
@@ -70,9 +70,9 @@ public class SenderGotifyMsg extends SenderBaseMsg {
 
                 //TODO:粗略解析是否发送成功
                 if (response.isSuccessful()) {
-                    LogUtil.updateLog(logId, 2, responseStr);
+                    LogUtils.updateLog(logId, 2, responseStr);
                 } else {
-                    LogUtil.updateLog(logId, 0, responseStr);
+                    LogUtils.updateLog(logId, 0, responseStr);
                 }
             }
         });

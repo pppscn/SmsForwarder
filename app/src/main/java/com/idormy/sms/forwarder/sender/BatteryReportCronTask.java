@@ -8,7 +8,7 @@ import android.util.Log;
 import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.utils.BatteryUtils;
-import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.SettingUtils;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -36,7 +36,7 @@ public class BatteryReportCronTask {
 
     public void updateTimer() {
         cancelTimer();
-        if (SettingUtil.getSwitchEnableBatteryCron()) {
+        if (SettingUtils.getSwitchEnableBatteryCron()) {
             startTimer();
         } else {
             Log.d(TAG, "Cancel Task");
@@ -51,8 +51,8 @@ public class BatteryReportCronTask {
     }
 
     private void startTimer() {
-        String startTime = SettingUtil.getBatteryCronStartTime();
-        int interval = SettingUtil.getBatteryCronInterval();
+        String startTime = SettingUtils.getBatteryCronStartTime();
+        int interval = SettingUtils.getBatteryCronInterval();
         Log.i(TAG, "Task started, startTime: " + startTime + ", interval: " + interval);
 
         int hour = Integer.parseInt(startTime.split(":")[0]);

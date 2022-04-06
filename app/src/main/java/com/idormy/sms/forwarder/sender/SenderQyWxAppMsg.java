@@ -10,7 +10,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.idormy.sms.forwarder.model.SenderModel;
 import com.idormy.sms.forwarder.model.vo.QYWXAppSettingVo;
 import com.idormy.sms.forwarder.utils.Define;
-import com.idormy.sms.forwarder.utils.LogUtil;
+import com.idormy.sms.forwarder.utils.LogUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -74,7 +74,7 @@ public class SenderQyWxAppMsg extends SenderBaseMsg {
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull final IOException e) {
-                    LogUtil.updateLog(logId, 0, e.getMessage());
+                    LogUtils.updateLog(logId, 0, e.getMessage());
                     qYWXAppSettingVo.setAccessToken("");
                     qYWXAppSettingVo.setExpiresIn(0L);
                     if (senderModel != null) {
@@ -107,7 +107,7 @@ public class SenderQyWxAppMsg extends SenderBaseMsg {
                         sendTextMsg(retryInterceptor, logId, handError, agentID, toUser, content, access_token);
                     } else {
                         String errmsg = jsonObject.getString("errmsg");
-                        LogUtil.updateLog(logId, 0, errmsg);
+                        LogUtils.updateLog(logId, 0, errmsg);
                         Log.d(TAG, "onFailure：" + errmsg);
                         Toast(handError, TAG, "获取access_token失败：" + errmsg);
                     }
@@ -159,7 +159,7 @@ public class SenderQyWxAppMsg extends SenderBaseMsg {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull final IOException e) {
-                LogUtil.updateLog(logId, 0, e.getMessage());
+                LogUtils.updateLog(logId, 0, e.getMessage());
                 Toast(handError, TAG, "发送失败：" + e.getMessage());
             }
 
@@ -171,9 +171,9 @@ public class SenderQyWxAppMsg extends SenderBaseMsg {
 
                 //TODO:粗略解析是否发送成功
                 if (responseStr.contains("\"errcode\":0")) {
-                    LogUtil.updateLog(logId, 2, responseStr);
+                    LogUtils.updateLog(logId, 2, responseStr);
                 } else {
-                    LogUtil.updateLog(logId, 0, responseStr);
+                    LogUtils.updateLog(logId, 0, responseStr);
                 }
             }
         });

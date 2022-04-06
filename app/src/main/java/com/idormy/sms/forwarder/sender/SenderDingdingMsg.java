@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 
 import com.alibaba.fastjson.JSON;
 import com.idormy.sms.forwarder.utils.Define;
-import com.idormy.sms.forwarder.utils.LogUtil;
+import com.idormy.sms.forwarder.utils.LogUtils;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -110,7 +110,7 @@ public class SenderDingdingMsg extends SenderBaseMsg {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull final IOException e) {
-                LogUtil.updateLog(logId, 0, e.getMessage());
+                LogUtils.updateLog(logId, 0, e.getMessage());
                 Toast(handError, TAG, "发送失败：" + e.getMessage());
             }
 
@@ -122,9 +122,9 @@ public class SenderDingdingMsg extends SenderBaseMsg {
 
                 //TODO:粗略解析是否发送成功
                 if (responseStr.contains("\"errcode\":0")) {
-                    LogUtil.updateLog(logId, 2, responseStr);
+                    LogUtils.updateLog(logId, 2, responseStr);
                 } else {
-                    LogUtil.updateLog(logId, 0, responseStr);
+                    LogUtils.updateLog(logId, 0, responseStr);
                 }
             }
         });

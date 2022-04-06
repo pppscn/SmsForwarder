@@ -9,8 +9,8 @@ import com.idormy.sms.forwarder.R;
 import com.idormy.sms.forwarder.model.vo.SmsHubVo;
 import com.idormy.sms.forwarder.receiver.BaseServlet;
 import com.idormy.sms.forwarder.utils.Define;
-import com.idormy.sms.forwarder.utils.NetUtil;
-import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.NetUtils;
+import com.idormy.sms.forwarder.utils.SettingUtils;
 
 import org.eclipse.jetty.server.Server;
 
@@ -58,7 +58,7 @@ public class HttpServer {
 
     public synchronized static boolean update() {
         //非WiFi网络下不可启用
-        if (NetUtil.NETWORK_WIFI != NetUtil.getNetWorkStatus()) {
+        if (NetUtils.NETWORK_WIFI != NetUtils.getNetWorkStatus()) {
             ToastUtils.show(R.string.no_wifi_network);
             if (asRunning()) stop();
             return false;
@@ -68,10 +68,10 @@ public class HttpServer {
             ToastUtils.show(R.string.tips_wait_3_seconds);
             return false;
         }
-        if (asRunning().equals(SettingUtil.getSwitchEnableHttpServer())) {
+        if (asRunning().equals(SettingUtils.getSwitchEnableHttpServer())) {
             return false;
         }
-        if (SettingUtil.getSwitchEnableHttpServer()) {
+        if (SettingUtils.getSwitchEnableHttpServer()) {
             SmsHubVo.getDevInfoMap(true);
             start();
             ts = System.currentTimeMillis();

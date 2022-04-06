@@ -30,9 +30,9 @@ import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.utils.CommonUtil;
-import com.idormy.sms.forwarder.utils.LogUtil;
-import com.idormy.sms.forwarder.utils.RuleUtil;
-import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.LogUtils;
+import com.idormy.sms.forwarder.utils.RuleUtils;
+import com.idormy.sms.forwarder.utils.SettingUtils;
 import com.idormy.sms.forwarder.view.StepBar;
 
 import java.util.ArrayList;
@@ -66,8 +66,8 @@ public class RuleActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rule);
 
-        LogUtil.init(this);
-        RuleUtil.init(this);
+        LogUtils.init(this);
+        RuleUtils.init(this);
         SenderUtil.init(this);
     }
 
@@ -99,7 +99,7 @@ public class RuleActivity extends BaseActivity {
             builder.setMessage(R.string.delete_rule_tips);
 
             builder.setPositiveButton(R.string.confirm, (dialog, which) -> {
-                RuleUtil.delRule(ruleModels.get(position).getId());
+                RuleUtils.delRule(ruleModels.get(position).getId());
                 initRules();
                 adapter.del(ruleModels);
                 ToastUtils.show(R.string.delete_rule_toast);
@@ -178,7 +178,7 @@ public class RuleActivity extends BaseActivity {
 
     // 初始化数据
     private void initRules() {
-        ruleModels = RuleUtil.getRule(null, null, currentType);
+        ruleModels = RuleUtils.getRule(null, null, currentType);
     }
 
     private void setRule(final RuleModel ruleModel, final boolean isClone) {
@@ -288,7 +288,7 @@ public class RuleActivity extends BaseActivity {
                 newRuleModel.setRegexReplace(regexReplace);
                 newRuleModel.setSenderId(Long.valueOf(senderId.toString()));
                 newRuleModel.setStatus(switchRuleStatus.isChecked() ? STATUS_ON : STATUS_OFF);
-                RuleUtil.addRule(newRuleModel);
+                RuleUtils.addRule(newRuleModel);
                 initRules();
                 adapter.add(ruleModels);
             } else {
@@ -302,7 +302,7 @@ public class RuleActivity extends BaseActivity {
                 ruleModel.setRegexReplace(regexReplace);
                 ruleModel.setSenderId(Long.valueOf(senderId.toString()));
                 ruleModel.setStatus(switchRuleStatus.isChecked() ? STATUS_ON : STATUS_OFF);
-                RuleUtil.updateRule(ruleModel);
+                RuleUtils.updateRule(ruleModel);
                 initRules();
                 adapter.update(ruleModels);
             }
@@ -311,7 +311,7 @@ public class RuleActivity extends BaseActivity {
 
         buttonRuleDel.setOnClickListener(view -> {
             if (ruleModel != null) {
-                RuleUtil.delRule(ruleModel.getId());
+                RuleUtils.delRule(ruleModel.getId());
                 initRules();
                 adapter.del(ruleModels);
             }
@@ -576,9 +576,9 @@ public class RuleActivity extends BaseActivity {
                 String simSlot = RuleModel.getRuleSimSlotFromCheckId(radioGroupTestSimSlot.getCheckedRadioButtonId());
                 String simInfo;
                 if (simSlot.equals("SIM2")) {
-                    simInfo = simSlot + "_" + SettingUtil.getAddExtraSim2();
+                    simInfo = simSlot + "_" + SettingUtils.getAddExtraSim2();
                 } else {
-                    simInfo = simSlot + "_" + SettingUtil.getAddExtraSim1();
+                    simInfo = simSlot + "_" + SettingUtils.getAddExtraSim1();
                 }
                 SmsVo testSmsVo = new SmsVo(editTextTestPhone.getText().toString().trim(), editTextTestMsgContent.getText().toString().trim(), new Date(), simInfo);
                 SendUtil.sendMsgByRuleModelSenderId(handler, ruleModel, testSmsVo, senderId);

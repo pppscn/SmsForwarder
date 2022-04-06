@@ -76,7 +76,7 @@
 
     </LinearLayout>
 
-    <com.idormy.sms.forwarder.RefreshListView
+    <com.idormy.sms.forwarder.view.RefreshListView
         android:id="@+id/list_view_log"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

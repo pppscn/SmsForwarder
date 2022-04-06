@@ -18,11 +18,13 @@ import com.idormy.sms.forwarder.sender.SendHistory;
 import com.idormy.sms.forwarder.service.BatteryService;
 import com.idormy.sms.forwarder.service.FrontService;
 import com.idormy.sms.forwarder.service.MusicService;
+import com.idormy.sms.forwarder.utils.CrashHandler;
 import com.idormy.sms.forwarder.utils.Define;
 import com.idormy.sms.forwarder.utils.PermissionInterceptor;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
-import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.SettingUtils;
 import com.idormy.sms.forwarder.utils.SharedPreferencesHelper;
+import com.idormy.sms.forwarder.utils.UmInitConfig;
 import com.smailnet.emailkit.EmailKit;
 import com.umeng.commonsdk.UMConfigure;
 
@@ -91,13 +93,13 @@ public class MyApplication extends Application {
             }
 
             SendHistory.init(this);
-            SettingUtil.init(this);
+            SettingUtils.init(this);
             EmailKit.initialize(this);
 
             SharedPreferences sp = MyApplication.this.getSharedPreferences(Define.SP_CONFIG, Context.MODE_PRIVATE);
             showHelpTip = sp.getBoolean(Define.SP_CONFIG_SWITCH_HELP_TIP, true);
 
-            if (SettingUtil.getExcludeFromRecents()) {
+            if (SettingUtils.getExcludeFromRecents()) {
                 ActivityManager am = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
                 if (am != null) {
                     List<ActivityManager.AppTask> appTasks = am.getAppTasks();
@@ -112,7 +114,7 @@ public class MyApplication extends Application {
             startService(batteryServiceIntent);
 
             //后台播放无声音乐
-            if (SettingUtil.getPlaySilenceMusic()) {
+            if (SettingUtils.getPlaySilenceMusic()) {
                 startService(new Intent(context, MusicService.class));
             }
 

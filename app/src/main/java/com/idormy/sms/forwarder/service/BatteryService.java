@@ -13,7 +13,7 @@ import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.utils.BatteryUtils;
-import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.SettingUtils;
 
 import java.util.Date;
 
@@ -70,26 +70,26 @@ public class BatteryService extends Service {
 
             //电量发生变化
             int levelCur = intent.getIntExtra("level", 0);
-            int levelPre = SettingUtil.getBatteryLevelCurrent();
+            int levelPre = SettingUtils.getBatteryLevelCurrent();
             if (levelCur != levelPre) {
                 String msg = BatteryUtils.getBatteryInfo(intent);
-                SettingUtil.setBatteryLevelCurrent(levelCur);
+                SettingUtils.setBatteryLevelCurrent(levelCur);
 
-                int levelMin = SettingUtil.getBatteryLevelAlarmMin();
-                int levelMax = SettingUtil.getBatteryLevelAlarmMax();
-                if (SettingUtil.getBatteryLevelAlarmOnce() && levelMin > 0 && levelPre > levelCur && levelCur <= levelMin) { //电量下降到下限
+                int levelMin = SettingUtils.getBatteryLevelAlarmMin();
+                int levelMax = SettingUtils.getBatteryLevelAlarmMax();
+                if (SettingUtils.getBatteryLevelAlarmOnce() && levelMin > 0 && levelPre > levelCur && levelCur <= levelMin) { //电量下降到下限
                     msg = "【电量预警】已低于电量预警下限，请及时充电！" + msg;
                     sendMessage(context, msg);
                     return;
-                } else if (SettingUtil.getBatteryLevelAlarmOnce() && levelMax > 0 && levelPre < levelCur && levelCur >= levelMax) { //电量上升到上限
+                } else if (SettingUtils.getBatteryLevelAlarmOnce() && levelMax > 0 && levelPre < levelCur && levelCur >= levelMax) { //电量上升到上限
                     msg = "【电量预警】已高于电量预警上限，请拔掉充电器！" + msg;
                     sendMessage(context, msg);
                     return;
-                } else if (!SettingUtil.getBatteryLevelAlarmOnce() && levelMin > 0 && levelPre > levelCur && levelCur == levelMin) { //电量下降到下限
+                } else if (!SettingUtils.getBatteryLevelAlarmOnce() && levelMin > 0 && levelPre > levelCur && levelCur == levelMin) { //电量下降到下限
                     msg = "【电量预警】已到达电量预警下限，请及时充电！" + msg;
                     sendMessage(context, msg);
                     return;
-                } else if (!SettingUtil.getBatteryLevelAlarmOnce() && levelMax > 0 && levelPre < levelCur && levelCur == levelMax) { //电量上升到上限
+                } else if (!SettingUtils.getBatteryLevelAlarmOnce() && levelMax > 0 && levelPre < levelCur && levelCur == levelMax) { //电量上升到上限
                     msg = "【电量预警】已到达电量预警上限，请拔掉充电器！" + msg;
                     sendMessage(context, msg);
                     return;
@@ -98,11 +98,11 @@ public class BatteryService extends Service {
 
             //充电状态改变
             int status = intent.getIntExtra("status", 0);
-            if (SettingUtil.getSwitchEnableBatteryReceiver()) {
-                int oldStatus = SettingUtil.getBatteryStatus();
+            if (SettingUtils.getSwitchEnableBatteryReceiver()) {
+                int oldStatus = SettingUtils.getBatteryStatus();
                 if (status != oldStatus) {
                     String msg = BatteryUtils.getBatteryInfo(intent);
-                    SettingUtil.setBatteryStatus(status);
+                    SettingUtils.setBatteryStatus(status);
                     msg = "【充电状态】发生变化：" + BatteryUtils.getStatus(oldStatus) + " → " + BatteryUtils.getStatus(status) + msg;
                     sendMessage(context, msg);
                 }

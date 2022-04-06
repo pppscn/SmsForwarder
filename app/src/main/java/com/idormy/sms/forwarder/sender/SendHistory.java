@@ -13,7 +13,7 @@ import com.idormy.sms.forwarder.model.LogModel;
 import com.idormy.sms.forwarder.model.LogTable;
 import com.idormy.sms.forwarder.utils.DbHelper;
 import com.idormy.sms.forwarder.utils.Define;
-import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.SettingUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -43,7 +43,7 @@ public class SendHistory {
     @SuppressLint("MutatingSharedPrefs")
     public static void addHistory(String msg) {
         //不保存转发消息
-        if (SettingUtil.saveMsgHistory()) return;
+        if (SettingUtils.saveMsgHistory()) return;
         //保存
         SharedPreferences sp = context.getSharedPreferences(Define.SP_MSG, Context.MODE_PRIVATE);
         Set<String> msg_set_default = new HashSet<>();
@@ -69,7 +69,7 @@ public class SendHistory {
 
     public static long addHistoryDb(LogModel logModel) {
         //不保存转发消息
-        if (SettingUtil.saveMsgHistory()) return 0;
+        if (SettingUtils.saveMsgHistory()) return 0;
 
         // Gets the data repository in write mode
         SQLiteDatabase db = dbHelper.getWritableDatabase();

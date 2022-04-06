@@ -4,9 +4,9 @@ import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.util.Log;
 
-import com.idormy.sms.forwarder.utils.LogUtil;
-import com.idormy.sms.forwarder.utils.SimUtil;
-import com.idormy.sms.forwarder.utils.SmsUtil;
+import com.idormy.sms.forwarder.utils.LogUtils;
+import com.idormy.sms.forwarder.utils.SimUtils;
+import com.idormy.sms.forwarder.utils.SmsUtils;
 
 @SuppressWarnings("RedundantThrows")
 public class SenderSmsMsg extends SenderBaseMsg {
@@ -18,14 +18,14 @@ public class SenderSmsMsg extends SenderBaseMsg {
         Log.i(TAG, "sendMsg simSlot:" + simSlot + " mobiles:" + mobiles + " onlyNoNetwork:" + onlyNoNetwork + " from:" + from + " text:" + text);
 
         //TODO：simSlot转subId
-        final int subId = SimUtil.getSubscriptionIdBySimId(simSlot);
-        String res = SmsUtil.sendSms(subId, mobiles, text);
+        final int subId = SimUtils.getSubscriptionIdBySimId(simSlot);
+        String res = SmsUtils.sendSms(subId, mobiles, text);
 
         //TODO:粗略解析是否发送成功
         if (res == null) {
-            LogUtil.updateLog(logId, 2, "发送成功");
+            LogUtils.updateLog(logId, 2, "发送成功");
         } else {
-            LogUtil.updateLog(logId, 0, res);
+            LogUtils.updateLog(logId, 0, res);
             Toast(handError, TAG, "短信发送失败");
         }
 

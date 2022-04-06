@@ -4,7 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.idormy.sms.forwarder.utils.LogUtil;
+import com.idormy.sms.forwarder.utils.LogUtils;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -58,7 +58,7 @@ public class RetryIntercepter implements Interceptor {
             response = chain.proceed(request);
         } catch (Exception e) {
             String resp = retryTimes > 0 ? "第" + retryTimes + "次重试：" + e.getMessage() : e.getMessage();
-            LogUtil.updateLog(logId, 1, resp);
+            LogUtils.updateLog(logId, 1, resp);
             Log.w(TAG, resp);
         }
         return response;

@@ -12,7 +12,7 @@ import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.utils.CommonUtil;
-import com.idormy.sms.forwarder.utils.SettingUtil;
+import com.idormy.sms.forwarder.utils.SettingUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,13 +35,13 @@ public class NotifyService extends NotificationListenerService {
         if (!MyApplication.allowPrivacyPolicy) return;
 
         //未开启转发
-        if (!SettingUtil.getSwitchEnableAppNotify()) return;
+        if (!SettingUtils.getSwitchEnableAppNotify()) return;
         //异常通知跳过
         if (sbn.getNotification() == null) return;
         if (sbn.getNotification().extras == null) return;
 
         //仅锁屏状态转发APP通知
-        if (SettingUtil.getSwitchNotUserPresent() && MyApplication.isUserPresent) return;
+        if (SettingUtils.getSwitchNotUserPresent() && MyApplication.isUserPresent) return;
 
         //推送通知的应用包名
         String packageName = sbn.getPackageName();
@@ -74,20 +74,20 @@ public class NotifyService extends NotificationListenerService {
             );
 
             //自动关闭通知
-            if (SettingUtil.getSwitchCancelAppNotify()) {
+            if (SettingUtils.getSwitchCancelAppNotify()) {
                 String key = sbn.getKey();
                 cancelNotification(key);
             }
 
             //重复通知不再处理
-            String prevHash = SettingUtil.getPrevNoticeHash(packageName);
+            String prevHash = SettingUtils.getPrevNoticeHash(packageName);
             String currHash = CommonUtil.MD5(packageName + title + text + time);
             Log.d(TAG, "prevHash=" + prevHash + " currHash=" + currHash);
             if (prevHash != null && prevHash.equals(currHash)) {
                 Log.w(TAG, "重复通知不再处理");
                 return;
             }
-            SettingUtil.setPrevNoticeHash(packageName, currHash);
+            SettingUtils.setPrevNoticeHash(packageName, currHash);
 
             SmsVo smsVo = new SmsVo(packageName, text, new Date(), title);
             Log.d(TAG, "send_msg" + smsVo);
@@ -106,7 +106,7 @@ public class NotifyService extends NotificationListenerService {
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
         //未开启转发
-        if (!SettingUtil.getSwitchEnableAppNotify()) return;
+        if (!SettingUtils.getSwitchEnableAppNotify()) return;
         //异常通知跳过
         if (sbn.getNotification() == null) return;
 
@@ -119,7 +119,7 @@ public class NotifyService extends NotificationListenerService {
     @Override
     public void onListenerDisconnected() {
         //未开启转发
-        if (!SettingUtil.getSwitchEnableAppNotify()) return;
+        if (!SettingUtils.getSwitchEnableAppNotify()) return;
 
         Log.d(TAG, "通知侦听器断开连接 - 请求重新绑定");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

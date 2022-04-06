@@ -42,4 +42,8 @@ public class Define {
     public static final int REQUEST_TIMEOUT_SECONDS = 5;
     //HttpServer 服务端口
     public static final int HTTP_SERVER_PORT = 5000;
+
+    //FRPC相关
+    public static final String EVENT_UPDATE_CONFIG = "EVENT_UPDATE_CONFIG";
+    public static final String EVENT_RUNNING_ERROR = "EVENT_RUNNING_ERROR";
 }

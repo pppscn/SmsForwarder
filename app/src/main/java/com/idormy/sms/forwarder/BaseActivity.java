@@ -12,8 +12,6 @@ import java.lang.reflect.Method;
 
 public class BaseActivity extends AppCompatActivity {
 
-    private final String TAG = "BaseActivity";
-
     //启用menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -37,8 +35,6 @@ public class BaseActivity extends AppCompatActivity {
                 intent = new Intent(this, AboutActivity.class);
                 break;
             case R.id.to_help:
-                //Uri uri = Uri.parse("https://gitee.com/pp/SmsForwarder/wikis/pages");
-                //intent = new Intent(Intent.ACTION_VIEW, uri);
                 intent = new Intent(this, HelpActivity.class);
                 break;
             default:
@@ -52,6 +48,7 @@ public class BaseActivity extends AppCompatActivity {
     //设置menu图标显示
     @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
+        String TAG = "BaseActivity";
         Log.d(TAG, "onMenuOpened, featureId=" + featureId);
         if (menu != null) {
             if (menu.getClass().getSimpleName().equals("MenuBuilder")) {

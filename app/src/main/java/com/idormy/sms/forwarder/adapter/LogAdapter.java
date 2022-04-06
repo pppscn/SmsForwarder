@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.idormy.sms.forwarder.R;
 import com.idormy.sms.forwarder.model.vo.LogVo;
-import com.idormy.sms.forwarder.utils.TimeUtil;
+import com.idormy.sms.forwarder.utils.TimeUtils;
 
 import java.util.List;
 
@@ -76,7 +76,7 @@ public class LogAdapter extends ArrayAdapter<LogVo> {
             viewHolder.tLogFrom.setText(logVo.getFrom());
             viewHolder.tLogContent.setText(logVo.getContent());
             viewHolder.tLogRule.setText(logVo.getRule());
-            viewHolder.tLogTime.setText(TimeUtil.friendlyTime(logVo.getTime()));
+            viewHolder.tLogTime.setText(TimeUtils.friendlyTime(logVo.getTime()));
             viewHolder.senderImage.setImageResource(logVo.getSenderImageId());
             viewHolder.simImage.setImageResource(logVo.getSimImageId());
             viewHolder.statusImage.setImageResource(logVo.getStatusImageId());
