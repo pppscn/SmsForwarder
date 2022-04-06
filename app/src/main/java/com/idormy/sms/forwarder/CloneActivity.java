@@ -13,7 +13,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.fastjson.JSON;
 import com.hjq.permissions.OnPermissionCallback;
@@ -48,7 +47,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class CloneActivity extends AppCompatActivity {
+public class CloneActivity extends BaseActivity {
     private final String TAG = "CloneActivity";
     private Context context;
     private String serverIp;

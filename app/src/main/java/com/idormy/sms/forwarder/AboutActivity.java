@@ -7,8 +7,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
@@ -22,8 +20,7 @@ import com.xuexiang.xupdate.proxy.impl.DefaultUpdateChecker;
 
 import java.util.List;
 
-
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends BaseActivity {
 
     private final String TAG = "AboutActivity";
 

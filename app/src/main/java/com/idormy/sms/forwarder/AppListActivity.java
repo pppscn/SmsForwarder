@@ -21,8 +21,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.hjq.toast.ToastUtils;
 import com.idormy.sms.forwarder.adapter.AppAdapter;
 import com.idormy.sms.forwarder.model.AppInfo;
@@ -31,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("deprecation")
-public class AppListActivity extends AppCompatActivity {
+public class AppListActivity extends BaseActivity {
 
     public static final int APP_LIST = 0x9731991;
     private final String TAG = "AppListActivity";
