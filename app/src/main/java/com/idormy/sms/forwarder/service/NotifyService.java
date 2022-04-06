@@ -11,7 +11,7 @@ import androidx.annotation.RequiresApi;
 import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
-import com.idormy.sms.forwarder.utils.CommonUtil;
+import com.idormy.sms.forwarder.utils.CommonUtils;
 import com.idormy.sms.forwarder.utils.SettingUtils;
 
 import java.text.SimpleDateFormat;
@@ -81,7 +81,7 @@ public class NotifyService extends NotificationListenerService {
 
             //重复通知不再处理
             String prevHash = SettingUtils.getPrevNoticeHash(packageName);
-            String currHash = CommonUtil.MD5(packageName + title + text + time);
+            String currHash = CommonUtils.MD5(packageName + title + text + time);
             Log.d(TAG, "prevHash=" + prevHash + " currHash=" + currHash);
             if (prevHash != null && prevHash.equals(currHash)) {
                 Log.w(TAG, "重复通知不再处理");

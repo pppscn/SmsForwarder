@@ -22,7 +22,7 @@ import com.idormy.sms.forwarder.MyApplication;
 import com.idormy.sms.forwarder.R;
 import com.idormy.sms.forwarder.database.AppDatabase;
 import com.idormy.sms.forwarder.database.Config;
-import com.idormy.sms.forwarder.utils.CommonUtil;
+import com.idormy.sms.forwarder.utils.CommonUtils;
 import com.idormy.sms.forwarder.utils.Define;
 import com.idormy.sms.forwarder.utils.OSUtils;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
@@ -110,8 +110,8 @@ public class FrontService extends Service {
         }
 
         //开关通知监听服务
-        if (SettingUtils.getSwitchEnableAppNotify() && CommonUtil.isNotificationListenerServiceEnabled(this)) {
-            CommonUtil.toggleNotificationListenerService(this);
+        if (SettingUtils.getSwitchEnableAppNotify() && CommonUtils.isNotificationListenerServiceEnabled(this)) {
+            CommonUtils.toggleNotificationListenerService(this);
         }
 
         //Frc内网穿透

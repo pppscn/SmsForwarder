@@ -21,7 +21,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.idormy.sms.forwarder.R;
 import com.idormy.sms.forwarder.utils.AnimationUtils;
-import com.idormy.sms.forwarder.utils.CommonUtil;
+import com.idormy.sms.forwarder.utils.CommonUtils;
 
 public class ClearEditText extends RelativeLayout {
     private EditText myEdie;
@@ -120,7 +120,7 @@ public class ClearEditText extends RelativeLayout {
             int left = myEdie.getPaddingLeft();
             int top = myEdie.getPaddingTop();
             int bottom = myEdie.getPaddingBottom();
-            myEdie.setPadding(left, top, CommonUtil.dp2px(mContext, 90), bottom);
+            myEdie.setPadding(left, top, CommonUtils.dp2px(mContext, 90), bottom);
         } else if (!showClean && !showEye) {
             int left = myEdie.getPaddingLeft();
             int top = myEdie.getPaddingTop();
@@ -131,7 +131,7 @@ public class ClearEditText extends RelativeLayout {
             int left = myEdie.getPaddingLeft();
             int top = myEdie.getPaddingTop();
             int bottom = myEdie.getPaddingBottom();
-            myEdie.setPadding(left, top, CommonUtil.dp2px(mContext, 45), bottom);
+            myEdie.setPadding(left, top, CommonUtils.dp2px(mContext, 45), bottom);
         }
 
         myEdie.addTextChangedListener(new TextWatcher() {
@@ -268,7 +268,7 @@ public class ClearEditText extends RelativeLayout {
         if (showEye) {
             //关闭按钮的宽度
             int ivWidth = 35;
-            ObjectAnimator.ofFloat(ivEditEye, "translationX", -CommonUtil.dp2px(mContext, ivWidth)).setDuration(500).start();
+            ObjectAnimator.ofFloat(ivEditEye, "translationX", -CommonUtils.dp2px(mContext, ivWidth)).setDuration(500).start();
         }
     }
 

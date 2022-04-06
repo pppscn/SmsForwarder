@@ -36,7 +36,7 @@ import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.service.BatteryService;
 import com.idormy.sms.forwarder.service.FrontService;
 import com.idormy.sms.forwarder.service.MusicService;
-import com.idormy.sms.forwarder.utils.CommonUtil;
+import com.idormy.sms.forwarder.utils.CommonUtils;
 import com.idormy.sms.forwarder.utils.HttpUtils;
 import com.idormy.sms.forwarder.utils.KeepAliveUtils;
 import com.idormy.sms.forwarder.utils.LogUtils;
@@ -159,7 +159,7 @@ public class MainActivity extends BaseActivity implements RefreshListView.IRefre
 
         //检查权限是否获取
         PackageManager pm = getPackageManager();
-        CommonUtil.CheckPermission(pm, this);
+        CommonUtils.CheckPermission(pm, this);
         XXPermissions.with(this)
                 // 接收短信
                 .permission(Permission.RECEIVE_SMS)
@@ -235,7 +235,7 @@ public class MainActivity extends BaseActivity implements RefreshListView.IRefre
         //计算浮动按钮位置
         FloatingActionButton btnFloat = findViewById(R.id.btnCleanLog);
         RefreshListView viewList = findViewById(R.id.list_view_log);
-        CommonUtil.calcMarginBottom(this, btnFloat, viewList, null);
+        CommonUtils.calcMarginBottom(this, btnFloat, viewList, null);
 
         //清空日志
         btnFloat.setOnClickListener(v -> {
@@ -339,8 +339,8 @@ public class MainActivity extends BaseActivity implements RefreshListView.IRefre
             }
 
             //开启读取通知栏权限
-            if (SettingUtils.getSwitchEnableAppNotify() && !CommonUtil.isNotificationListenerServiceEnabled(this)) {
-                CommonUtil.toggleNotificationListenerService(this);
+            if (SettingUtils.getSwitchEnableAppNotify() && !CommonUtils.isNotificationListenerServiceEnabled(this)) {
+                CommonUtils.toggleNotificationListenerService(this);
                 SettingUtils.switchEnableAppNotify(false);
                 ToastUtils.delayedShow(R.string.tips_notification_listener, 3000);
                 return;
@@ -390,10 +390,10 @@ public class MainActivity extends BaseActivity implements RefreshListView.IRefre
         //是否同意隐私协议
         if (!MyApplication.allowPrivacyPolicy) return;
 
-        if (requestCode == CommonUtil.NOTIFICATION_REQUEST_CODE) {
-            if (CommonUtil.isNotificationListenerServiceEnabled(this)) {
+        if (requestCode == CommonUtils.NOTIFICATION_REQUEST_CODE) {
+            if (CommonUtils.isNotificationListenerServiceEnabled(this)) {
                 ToastUtils.show(R.string.notification_listener_service_enabled);
-                CommonUtil.toggleNotificationListenerService(this);
+                CommonUtils.toggleNotificationListenerService(this);
             } else {
                 ToastUtils.show(R.string.notification_listener_service_disabled);
             }

@@ -29,7 +29,7 @@ import com.idormy.sms.forwarder.model.SenderModel;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
 import com.idormy.sms.forwarder.sender.SenderUtil;
-import com.idormy.sms.forwarder.utils.CommonUtil;
+import com.idormy.sms.forwarder.utils.CommonUtils;
 import com.idormy.sms.forwarder.utils.LogUtils;
 import com.idormy.sms.forwarder.utils.RuleUtils;
 import com.idormy.sms.forwarder.utils.SettingUtils;
@@ -133,7 +133,7 @@ public class RuleActivity extends BaseActivity {
 
         //计算浮动按钮位置
         FloatingActionButton btnAddRule = findViewById(R.id.btnAddRule);
-        CommonUtil.calcMarginBottom(this, btnAddRule, listView, null);
+        CommonUtils.calcMarginBottom(this, btnAddRule, listView, null);
 
         //添加规则
         btnAddRule.setOnClickListener(v -> setRule(null, false));
@@ -380,49 +380,49 @@ public class RuleActivity extends BaseActivity {
         buttonInsertSender.setOnClickListener(view -> {
             textSmsTemplate.setFocusable(true);
             textSmsTemplate.requestFocus();
-            CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_from));
+            CommonUtils.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_from));
         });
 
         Button buttonInsertContent = view1.findViewById(R.id.bt_insert_content);
         buttonInsertContent.setOnClickListener(view -> {
             textSmsTemplate.setFocusable(true);
             textSmsTemplate.requestFocus();
-            CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_sms));
+            CommonUtils.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_sms));
         });
 
         Button buttonInsertSenderApp = view1.findViewById(R.id.bt_insert_sender_app);
         buttonInsertSenderApp.setOnClickListener(view -> {
             textSmsTemplate.setFocusable(true);
             textSmsTemplate.requestFocus();
-            CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_package_name));
+            CommonUtils.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_package_name));
         });
 
         Button buttonInsertContentApp = view1.findViewById(R.id.bt_insert_content_app);
         buttonInsertContentApp.setOnClickListener(view -> {
             textSmsTemplate.setFocusable(true);
             textSmsTemplate.requestFocus();
-            CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_msg));
+            CommonUtils.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_msg));
         });
 
         Button buttonInsertExtra = view1.findViewById(R.id.bt_insert_extra);
         buttonInsertExtra.setOnClickListener(view -> {
             textSmsTemplate.setFocusable(true);
             textSmsTemplate.requestFocus();
-            CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_card_slot));
+            CommonUtils.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_card_slot));
         });
 
         Button buttonInsertTime = view1.findViewById(R.id.bt_insert_time);
         buttonInsertTime.setOnClickListener(view -> {
             textSmsTemplate.setFocusable(true);
             textSmsTemplate.requestFocus();
-            CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_receive_time));
+            CommonUtils.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_receive_time));
         });
 
         Button buttonInsertDeviceName = view1.findViewById(R.id.bt_insert_device_name);
         buttonInsertDeviceName.setOnClickListener(view -> {
             textSmsTemplate.setFocusable(true);
             textSmsTemplate.requestFocus();
-            CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_device_name));
+            CommonUtils.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_device_name));
         });
 
         //正则替换

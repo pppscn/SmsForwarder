@@ -37,7 +37,7 @@ import com.idormy.sms.forwarder.sender.BatteryReportCronTask;
 import com.idormy.sms.forwarder.sender.HttpServer;
 import com.idormy.sms.forwarder.sender.SenderUtil;
 import com.idormy.sms.forwarder.service.MusicService;
-import com.idormy.sms.forwarder.utils.CommonUtil;
+import com.idormy.sms.forwarder.utils.CommonUtils;
 import com.idormy.sms.forwarder.utils.DbHelper;
 import com.idormy.sms.forwarder.utils.Define;
 import com.idormy.sms.forwarder.utils.HttpUtils;
@@ -80,7 +80,7 @@ public class SettingActivity extends BaseActivity {
 
         //是否关闭页面提示
         ScrollView scrollView = findViewById(R.id.scrollView);
-        CommonUtil.calcMarginBottom(this, null, null, scrollView);
+        CommonUtils.calcMarginBottom(this, null, null, scrollView);
 
         //转发短信广播
         switchEnableSms(findViewById(R.id.switch_enable_sms));
@@ -149,7 +149,7 @@ public class SettingActivity extends BaseActivity {
             if (isChecked) {
                 //检查权限是否获取
                 PackageManager pm = getPackageManager();
-                CommonUtil.CheckPermission(pm, this);
+                CommonUtils.CheckPermission(pm, this);
                 XXPermissions.with(this)
                         // 接收短信
                         .permission(Permission.RECEIVE_SMS)
@@ -206,7 +206,7 @@ public class SettingActivity extends BaseActivity {
             if (isChecked) {
                 //检查权限是否获取
                 PackageManager pm = getPackageManager();
-                CommonUtil.CheckPermission(pm, this);
+                CommonUtils.CheckPermission(pm, this);
                 XXPermissions.with(this)
                         // 读取电话状态
                         .permission(Permission.READ_PHONE_STATE)
@@ -282,13 +282,13 @@ public class SettingActivity extends BaseActivity {
             layout_cancel_app_notify.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             //TODO:校验使用APP通知转发必备的权限
             if (isChecked) {
-                if (!CommonUtil.isNotificationListenerServiceEnabled(this)) {
-                    CommonUtil.openNotificationAccess(this);
+                if (!CommonUtils.isNotificationListenerServiceEnabled(this)) {
+                    CommonUtils.openNotificationAccess(this);
                     ToastUtils.delayedShow(R.string.tips_notification_listener, 3000);
                     return;
                 } else {
                     ToastUtils.delayedShow(R.string.notification_service_is_on, 3000);
-                    CommonUtil.toggleNotificationListenerService(this);
+                    CommonUtils.toggleNotificationListenerService(this);
                 }
             }
             SettingUtils.switchEnableAppNotify(isChecked);
@@ -318,21 +318,21 @@ public class SettingActivity extends BaseActivity {
 
     //请求通知使用权限
     public void requestNotificationPermission(View view) {
-        if (!CommonUtil.isNotificationListenerServiceEnabled(this)) {
-            CommonUtil.openNotificationAccess(this);
+        if (!CommonUtils.isNotificationListenerServiceEnabled(this)) {
+            CommonUtils.openNotificationAccess(this);
         } else {
             ToastUtils.show(R.string.notification_listener_service_enabled);
-            CommonUtil.toggleNotificationListenerService(this);
+            CommonUtils.toggleNotificationListenerService(this);
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CommonUtil.NOTIFICATION_REQUEST_CODE) {
-            if (CommonUtil.isNotificationListenerServiceEnabled(this)) {
+        if (requestCode == CommonUtils.NOTIFICATION_REQUEST_CODE) {
+            if (CommonUtils.isNotificationListenerServiceEnabled(this)) {
                 ToastUtils.show(R.string.notification_listener_service_enabled);
-                CommonUtil.toggleNotificationListenerService(this);
+                CommonUtils.toggleNotificationListenerService(this);
                 SettingUtils.switchEnableAppNotify(true);
             } else {
                 ToastUtils.show(R.string.notification_listener_service_disabled);
@@ -927,19 +927,19 @@ public class SettingActivity extends BaseActivity {
         textSmsTemplate.requestFocus();
         switch (v.getId()) {
             case R.id.bt_insert_sender:
-                CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_from));
+                CommonUtils.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_from));
                 return;
             case R.id.bt_insert_content:
-                CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_sms));
+                CommonUtils.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_sms));
                 return;
             case R.id.bt_insert_extra:
-                CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_card_slot));
+                CommonUtils.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_card_slot));
                 return;
             case R.id.bt_insert_time:
-                CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_receive_time));
+                CommonUtils.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_receive_time));
                 return;
             case R.id.bt_insert_device_name:
-                CommonUtil.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_device_name));
+                CommonUtils.insertOrReplaceText2Cursor(textSmsTemplate, getString(R.string.tag_device_name));
                 return;
             default:
         }
@@ -957,7 +957,7 @@ public class SettingActivity extends BaseActivity {
 
             StepBar stepBar = findViewById(R.id.stepBar);
             stepBar.setHighlight();
-            CommonUtil.calcMarginBottom(this, null, null, findViewById(R.id.scrollView));
+            CommonUtils.calcMarginBottom(this, null, null, findViewById(R.id.scrollView));
         });
     }
 

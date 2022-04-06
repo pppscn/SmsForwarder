@@ -12,7 +12,7 @@ import com.idormy.sms.forwarder.model.CallInfo;
 import com.idormy.sms.forwarder.model.PhoneBookEntity;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
 import com.idormy.sms.forwarder.sender.SendUtil;
-import com.idormy.sms.forwarder.utils.CommonUtil;
+import com.idormy.sms.forwarder.utils.CommonUtils;
 import com.idormy.sms.forwarder.utils.ContactHelper;
 import com.idormy.sms.forwarder.utils.PhoneUtils;
 import com.idormy.sms.forwarder.utils.SettingUtils;
@@ -117,7 +117,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         //TODO:同一卡槽同一秒的重复未接来电广播不再重复处理（部分机型会收到两条广播？）
         String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE).format(new Date());
         String prevHash = SettingUtils.getPrevNoticeHash(phoneNumber);
-        String currHash = CommonUtil.MD5(phoneNumber + simInfo + time);
+        String currHash = CommonUtils.MD5(phoneNumber + simInfo + time);
         Log.d(TAG, "prevHash=" + prevHash + " currHash=" + currHash);
         if (prevHash != null && prevHash.equals(currHash)) {
             Log.w(TAG, "Repeated missed call broadcasts of the same card slot in the same second are no longer processed repeatedly (some models will receive two broadcasts)");

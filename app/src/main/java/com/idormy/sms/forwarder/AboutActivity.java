@@ -13,7 +13,7 @@ import com.hjq.permissions.XXPermissions;
 import com.hjq.toast.ToastUtils;
 import com.idormy.sms.forwarder.receiver.RebootBroadcastReceiver;
 import com.idormy.sms.forwarder.utils.CacheUtils;
-import com.idormy.sms.forwarder.utils.CommonUtil;
+import com.idormy.sms.forwarder.utils.CommonUtils;
 import com.idormy.sms.forwarder.utils.SettingUtils;
 import com.xuexiang.xupdate.easy.EasyUpdate;
 import com.xuexiang.xupdate.proxy.impl.DefaultUpdateChecker;
@@ -65,7 +65,7 @@ public class AboutActivity extends BaseActivity {
         final TextView version_now = findViewById(R.id.version_now);
         Button check_version_now = findViewById(R.id.check_version_now);
         try {
-            version_now.setText(CommonUtil.getVersionName(AboutActivity.this));
+            version_now.setText(CommonUtils.getVersionName(AboutActivity.this));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -73,7 +73,7 @@ public class AboutActivity extends BaseActivity {
         check_version_now.setOnClickListener(v -> {
             try {
                 String updateUrl = "https://xupdate.bms.ink/update/checkVersion?appKey=com.idormy.sms.forwarder&versionCode=";
-                updateUrl += CommonUtil.getVersionCode(AboutActivity.this);
+                updateUrl += CommonUtils.getVersionCode(AboutActivity.this);
                 Log.d(TAG, updateUrl);
 
                 EasyUpdate.create(AboutActivity.this, updateUrl)
