@@ -43,8 +43,7 @@ public class SenderTelegramMsg extends SenderBaseMsg {
             return;
         }
 
-        //特殊处理避免标题重复
-        final String finalText = text.replaceAll("#", "井").trim();
+        final String finalText = text.trim(); //.replaceAll("#", "井")
 
         if (!apiToken.startsWith("http")) {
             apiToken = "https://api.telegram.org/bot" + apiToken + "/sendMessage";
