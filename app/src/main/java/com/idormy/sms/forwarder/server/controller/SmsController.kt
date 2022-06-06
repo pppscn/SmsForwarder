@@ -13,10 +13,7 @@ import com.idormy.sms.forwarder.server.model.SmsSendData
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xutil.XUtil
-import com.yanzhenjie.andserver.annotation.PostMapping
-import com.yanzhenjie.andserver.annotation.RequestBody
-import com.yanzhenjie.andserver.annotation.RequestMapping
-import com.yanzhenjie.andserver.annotation.RestController
+import com.yanzhenjie.andserver.annotation.*
 
 @Suppress("PrivatePropertyName")
 @RestController
@@ -26,6 +23,7 @@ class SmsController {
     private val TAG: String = SmsController::class.java.simpleName
 
     //发送短信
+    @CrossOrigin(methods = [RequestMethod.POST])
     @PostMapping("/send")
     fun send(@RequestBody bean: BaseRequest<SmsSendData>): String {
         val smsSendData = bean.data
@@ -50,9 +48,12 @@ class SmsController {
     }
 
     //查询短信
+    @CrossOrigin(methods = [RequestMethod.POST])
     @PostMapping("/query")
-    fun query(@RequestBody bean: BaseRequest<SmsQueryData>): List<SmsInfo>? {
+    fun query(@RequestBody bean: BaseRequest<SmsQueryData>): List<SmsInfo> {
         val smsQueryData = bean.data
+        Log.d(TAG, smsQueryData.toString())
+
         val limit = smsQueryData.pageSize
         val offset = (smsQueryData.pageNum - 1) * limit
         return PhoneUtils.getSmsList(smsQueryData.type, limit, offset, smsQueryData.keyword)

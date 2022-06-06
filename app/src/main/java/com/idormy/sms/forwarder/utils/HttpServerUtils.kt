@@ -224,19 +224,20 @@ class HttpServerUtils private constructor() {
         //返回统一结构报文
         fun response(output: Any?): String {
             val resp: MutableMap<String, Any> = mutableMapOf()
+            val timestamp = System.currentTimeMillis()
+            resp["timestamp"] = timestamp
             if (output is String && output != "success") {
                 resp["code"] = HTTP_FAILURE_CODE
                 resp["msg"] = output
             } else {
                 resp["code"] = HTTP_SUCCESS_CODE
                 resp["msg"] = "success"
-                if (output != null) resp["data"] = output
-            }
-
-            val timestamp = System.currentTimeMillis()
-            resp["timestamp"] = timestamp
-            if (!TextUtils.isEmpty(serverSignKey)) {
-                resp["sign"] = calcSign(timestamp.toString(), serverSignKey.toString())
+                if (output != null) {
+                    resp["data"] = output
+                }
+                if (!TextUtils.isEmpty(serverSignKey)) {
+                    resp["sign"] = calcSign(timestamp.toString(), serverSignKey.toString())
+                }
             }
 
             return Gson().toJson(resp)
