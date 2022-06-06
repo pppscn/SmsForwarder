@@ -1,25 +1,36 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    repositories {
-        maven { url 'https://maven.aliyun.com/repository/google' }
-        maven { url 'https://maven.aliyun.com/repository/central' }
-        maven { url 'https://maven.aliyun.com/repository/public' }
-        google()
-        maven { url "https://jitpack.io" }
-        maven { url 'https://repo1.maven.org/maven2/' }
-    }
+    apply from: './versions.gradle'
+    addRepos(repositories) //增加代码仓库
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.3'
+        classpath deps.android_gradle_plugin
+        classpath deps.android_maven_gradle_plugin
+        //图片压缩
         classpath 'com.chenenyu:img-optimizer:1.2.0'
+        //美团多渠道打包
+        classpath 'com.meituan.android.walle:plugin:1.1.6'
+        //滴滴的质量优化框架
+        if (isNeedPackage.toBoolean() && isUseBooster.toBoolean()) {
+            classpath deps.booster.gradle_plugin
+            classpath deps.booster.task_processed_res
+            classpath deps.booster.task_resource_deredundancy
+        }
+        //AndServer
+        classpath 'com.yanzhenjie.andserver:plugin:2.1.10'
     }
 }
+
+//allprojects {
+//    addRepos(repositories)
+//}
 
 allprojects {
     repositories {
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/central' }
         maven { url 'https://maven.aliyun.com/repository/public' }
+        mavenCentral()
         google()
         maven { url "https://jitpack.io" }
         maven { url 'https://repo1.maven.org/maven2/' }
@@ -28,4 +39,12 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+
+    FileTree tree = fileTree(dir: rootProject.getRootDir())
+    tree.each { File file ->
+        if (file.toString().contains("ajcore") && file.toString().endsWith(".txt")) {
+            delete file
+        }
+    }
 }
+

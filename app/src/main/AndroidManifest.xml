@@ -7,6 +7,9 @@
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -16,9 +19,8 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
@@ -28,6 +30,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <!--Android 9（API 级别 28）或更高版本并使用前台服务，则其必须请求 FOREGROUND_SERVICE 权限-->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
@@ -44,10 +48,16 @@
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
+    <!--进程杀死-->
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
 
     <application
-        android:name=".MyApplication"
+        android:name=".App"
         android:allowBackup="true"
+        android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
         android:fullBackupContent="@xml/backup_descriptor"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -55,95 +65,169 @@
         android:largeHeap="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.App"
+        android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:ignore="DataExtractionRules,UnusedAttribute">
+        android:windowSoftInputMode="adjustPan|stateHidden"
+        tools:ignore="DataExtractionRules,LockedOrientationActivity,UnusedAttribute"
+        tools:replace="android:allowBackup">
 
         <meta-data
             android:name="ScopedStorage"
             android:value="true" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.SplashActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
+            android:excludeFromRecents="true"
             android:exported="true"
-            tools:ignore="IntentFilterExportedReceiver">
+            android:screenOrientation="portrait"
+            android:taskAffinity=":splash"
+            android:theme="@style/AppTheme.Launch.App"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            tools:ignore="TranslucentOrientation">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="um.60254fc7425ec25f10f4293e" />
-            </intent-filter>
         </activity>
         <activity
-            android:name=".AboutActivity"
+            android:name=".activity.MainActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
             android:exported="true"
-            android:label="@string/about"
-            tools:ignore="IntentFilterExportedReceiver">
-            <intent-filter>
-                <!--协议部分，随便设置-->
-                <data
-                    android:host="main"
-                    android:scheme="forwarder" />
-                <!--下面这几行也必须得设置-->
-                <category android:name="android.intent.category.DEFAULT" />
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.BROWSABLE" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".SettingActivity"
+            android:name=".activity.LoginActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
             android:exported="true"
-            android:label="@string/setting" />
-        <activity
-            android:name=".CloneActivity"
-            android:exported="true"
-            android:label="@string/clone" />
-        <activity
-            android:name=".RuleActivity"
-            android:exported="true"
-            android:label="@string/rule_setting" />
-        <activity
-            android:name=".SenderActivity"
-            android:exported="true"
-            android:label="@string/sender_setting" />
-        <activity
-            android:name=".AppListActivity"
-            android:exported="true"
-            android:label="@string/app_list" />
-        <activity
-            android:name=".HelpActivity"
-            android:exported="true"
-            android:label="@string/help" />
-        <activity
-            android:name=".OnePixelActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|navigation|keyboard"
-            android:excludeFromRecents="true"
-            android:exported="false"
-            android:finishOnTaskLaunch="false"
-            android:label="@string/one_pixel"
             android:launchMode="singleInstance"
-            android:process=":live"
-            android:theme="@style/OnePixelActivity" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <!--通用浏览器-->
+        <activity
+            android:name=".core.webview.AgentWebActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
+            android:exported="true"
+            android:hardwareAccelerated="true"
+            android:label="@string/app_browser_name"
+            android:theme="@style/AppTheme">
+            <!-- Scheme -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="com.xuexiang.xui.applink" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:scheme="about" />
+                <data android:scheme="javascript" />
+                <!--   设置自己的deeplink   -->
+                <!--                <data-->
+                <!--                    android:host="xxx.com"-->
+                <!--                    android:scheme="xui"/>-->
+            </intent-filter>
+            <!-- AppLink -->
+            <intent-filter
+                android:autoVerify="true"
+                tools:targetApi="m">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:scheme="inline" />
+                <data android:mimeType="text/html" />
+                <data android:mimeType="text/plain" />
+                <data android:mimeType="application/xhtml+xml" />
+                <data android:mimeType="application/vnd.wap.xhtml+xml" />
+                <!--   设置自己的applink   -->
+                <!--                <data-->
+                <!--                    android:host="xxx.com"-->
+                <!--                    android:scheme="http"/>-->
+                <!--                <data-->
+                <!--                    android:host="xxx.com"-->
+                <!--                    android:scheme="https"/>-->
+            </intent-filter>
+        </activity>
+
+        <!--fragment的页面容器-->
+        <activity
+            android:name=".core.BaseActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <!-- 版本更新提示-->
+        <activity
+            android:name=".utils.update.UpdateTipDialog"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogTheme" />
+        <!-- Webview拦截提示弹窗-->
+        <activity
+            android:name=".core.webview.WebViewInterceptDialog"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogTheme" />
+        <!-- applink的中转页面 -->
+        <activity
+            android:name=".core.XPageTransferActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+
+        <!--屏幕自适应设计图-->
+        <meta-data
+            android:name="design_width_in_dp"
+            android:exported="true"
+            android:value="360" />
+        <meta-data
+            android:name="design_height_in_dp"
+            android:exported="true"
+            android:value="640" />
+
+        <service
+            android:name=".service.HttpService"
+            android:enabled="true" />
+        <service
+            android:name=".service.BatteryService"
+            android:enabled="true" />
+        <service
+            android:name=".service.ForegroundService"
+            android:enabled="true" />
+        <service
+            android:name=".service.NotifyService"
+            android:enabled="true"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
 
         <receiver
-            android:name=".receiver.RebootBroadcastReceiver"
+            android:name=".receiver.BootReceiver"
+            android:directBootAware="true"
             android:exported="true"
             tools:ignore="IntentFilterExportedReceiver">
             <intent-filter android:priority="2147483647">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
                 <action android:name="android.intent.action.PACKAGE_RESTARTED" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".receiver.SmsBroadcastReceiver"
+            android:name=".receiver.SmsReceiver"
             android:exported="true"
             android:permission="android.permission.BROADCAST_SMS"
             tools:ignore="IntentFilterExportedReceiver">
@@ -163,30 +247,6 @@
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receiver.ScreenBroadcastReceiver" />
-
-        <service
-            android:name=".service.FrontService"
-            android:enabled="true" />
-        <service
-            android:name=".service.BatteryService"
-            android:enabled="true" />
-        <service
-            android:name=".service.MusicService"
-            android:enabled="true"
-            android:exported="true"
-            tools:ignore="ExportedService" />
-        <service
-            android:name=".service.NotifyService"
-            android:enabled="true"
-            android:exported="false"
-            android:label="@string/app_name"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
-            <intent-filter>
-                <action android:name="android.service.notification.NotificationListenerService" />
-            </intent-filter>
-        </service>
-
     </application>
 
 </manifest>

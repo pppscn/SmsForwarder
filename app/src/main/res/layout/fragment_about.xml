@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/xui_config_color_background"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView style="@style/ScrollViewStyle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/logo"
+                app:srcCompat="@drawable/ic_splash_app_logo" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/menu_version"
+                style="@style/InfoItem.AboutWithBtn"
+                android:layout_marginTop="15dp"
+                app:sLeftTextString="@string/about_app_version">
+
+                <com.xuexiang.xui.widget.button.CountDownButton
+                    android:id="@+id/btn_update"
+                    style="@style/Button.Blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/sRightImgId"
+                    android:minWidth="30dp"
+                    android:minHeight="0dp"
+                    android:padding="5dp"
+                    android:text="@string/check_update"
+                    android:textSize="11sp"
+                    app:cdbt_countDown="3000"
+                    app:cdbt_enableCountDown="true" />
+
+            </com.xuexiang.xui.widget.textview.supertextview.SuperTextView>
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/menu_cache"
+                style="@style/InfoItem.AboutWithBtn"
+                app:sLeftTextString="@string/about_cache_size">
+
+                <com.xuexiang.xui.widget.button.CountDownButton
+                    android:id="@+id/btn_cache"
+                    style="@style/Button.Blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/sRightImgId"
+                    android:minWidth="30dp"
+                    android:minHeight="0dp"
+                    android:padding="5dp"
+                    android:text="@string/clear_cache"
+                    android:textSize="11sp"
+                    app:cdbt_countDown="1000"
+                    app:cdbt_enableCountDown="true" />
+
+            </com.xuexiang.xui.widget.textview.supertextview.SuperTextView>
+
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/menu_wecom_group"
+                style="@style/InfoItem.About"
+                android:layout_marginTop="10dp"
+                app:sLeftTextString="@string/about_item_add_wework_group" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/menu_dingtalk_group"
+                style="@style/InfoItem.About"
+                app:sLeftTextString="@string/about_item_add_dingtalk_group" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                style="@style/InfoItem.AboutWithBtn"
+                app:sLeftTextString="@string/about_item_add_qq_group">
+
+                <com.xuexiang.xui.widget.button.CountDownButton
+                    android:id="@+id/btn_add_qq_group_1"
+                    style="@style/Button.Blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/btn_add_qq_group_2"
+                    android:minWidth="30dp"
+                    android:minHeight="0dp"
+                    android:padding="5dp"
+                    android:text="@string/about_item_add_qq_group_1"
+                    android:textSize="11sp"
+                    app:cdbt_countDown="500"
+                    app:cdbt_enableCountDown="true" />
+
+                <com.xuexiang.xui.widget.button.CountDownButton
+                    android:id="@+id/btn_add_qq_group_2"
+                    style="@style/Button.Blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/btn_add_qq_group_3"
+                    android:minWidth="30dp"
+                    android:minHeight="0dp"
+                    android:padding="5dp"
+                    android:text="@string/about_item_add_qq_group_2"
+                    android:textSize="11sp"
+                    app:cdbt_countDown="500"
+                    app:cdbt_enableCountDown="true" />
+
+                <com.xuexiang.xui.widget.button.CountDownButton
+                    android:id="@+id/btn_add_qq_group_3"
+                    style="@style/Button.Blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/btn_add_qq_group_4"
+                    android:minWidth="30dp"
+                    android:minHeight="0dp"
+                    android:padding="5dp"
+                    android:text="@string/about_item_add_qq_group_3"
+                    android:textSize="11sp"
+                    app:cdbt_countDown="500"
+                    app:cdbt_enableCountDown="true" />
+
+                <com.xuexiang.xui.widget.button.CountDownButton
+                    android:id="@+id/btn_add_qq_group_4"
+                    style="@style/Button.Blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/btn_add_qq_group_5"
+                    android:minWidth="30dp"
+                    android:minHeight="0dp"
+                    android:padding="5dp"
+                    android:text="@string/about_item_add_qq_group_4"
+                    android:textSize="11sp"
+                    app:cdbt_countDown="500"
+                    app:cdbt_enableCountDown="true" />
+
+                <com.xuexiang.xui.widget.button.CountDownButton
+                    android:id="@+id/btn_add_qq_group_5"
+                    style="@style/Button.Blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/sRightImgId"
+                    android:minWidth="30dp"
+                    android:minHeight="0dp"
+                    android:padding="5dp"
+                    android:text="@string/about_item_add_qq_group_5"
+                    android:textSize="11sp"
+                    app:cdbt_countDown="500"
+                    app:cdbt_enableCountDown="true" />
+
+            </com.xuexiang.xui.widget.textview.supertextview.SuperTextView>
+
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                style="@style/InfoItem.AboutWithBtn"
+                android:layout_marginTop="10dp"
+                app:sLeftTextString="@string/about_item_open_source">
+
+                <com.xuexiang.xui.widget.button.CountDownButton
+                    android:id="@+id/btn_github"
+                    style="@style/Button.Blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/btn_gitee"
+                    android:minWidth="30dp"
+                    android:minHeight="0dp"
+                    android:padding="5dp"
+                    android:text="@string/about_item_github"
+                    android:textSize="11sp"
+                    app:cdbt_countDown="500"
+                    app:cdbt_enableCountDown="true" />
+
+                <com.xuexiang.xui.widget.button.CountDownButton
+                    android:id="@+id/btn_gitee"
+                    style="@style/Button.Blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/sRightImgId"
+                    android:minWidth="30dp"
+                    android:minHeight="0dp"
+                    android:padding="5dp"
+                    android:text="@string/about_item_gitee"
+                    android:textSize="11sp"
+                    app:cdbt_countDown="500"
+                    app:cdbt_enableCountDown="true" />
+
+            </com.xuexiang.xui.widget.textview.supertextview.SuperTextView>
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/menu_donation"
+                style="@style/InfoItem.About"
+                app:sLeftTextString="@string/about_item_donation_link" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/menu_user_protocol"
+                style="@style/InfoItem.About"
+                app:sLeftTextString="@string/title_user_protocol" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/menu_privacy_protocol"
+                style="@style/InfoItem.About"
+                app:sLeftTextString="@string/title_privacy_protocol" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/copyright"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:gravity="center_horizontal"
+                android:textColor="@color/xui_config_color_gray_7" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

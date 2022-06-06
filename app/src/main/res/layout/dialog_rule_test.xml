@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="?attr/xui_config_content_spacing_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_sim_slot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/test_sim_slot" />
+
+    <RadioGroup
+        android:id="@+id/rg_sim_slot"
+        style="@style/rg_style"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_sim_slot_1"
+            style="@style/rg_rb_style"
+            android:checked="true"
+            android:text="@string/sim1" />
+
+        <RadioButton
+            android:id="@+id/rb_sim_slot_2"
+            style="@style/rg_rb_style"
+            android:text="@string/sim2" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tv_from"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/test_phone_number" />
+
+    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+        android:id="@+id/et_from"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        app:met_clearButton="true" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/test_msg_content" />
+
+    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        app:met_clearButton="true" />
+
+</LinearLayout>

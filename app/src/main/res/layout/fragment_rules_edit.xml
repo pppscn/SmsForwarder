@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/xui_config_color_background"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/ruleBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_sender"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="5dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/iv_sender_image"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageView
+                            android:id="@+id/iv_sender_status"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_marginStart="14dp"
+                            android:layout_marginTop="-10dp"
+                            tools:ignore="ContentDescription" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_sender_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxEms="6"
+                        android:maxLines="1"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+
+                </LinearLayout>
+
+                <com.xuexiang.xui.widget.spinner.editspinner.EditSpinner
+                    android:id="@+id/sp_sender"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    app:es_hint="@string/choose_sender"
+                    app:es_maxLength="20"
+                    app:es_maxLine="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_sim_slot"
+                style="@style/ruleBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/match_sim_slot"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/rg_sim_slot"
+                    style="@style/rg_style"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_sim_slot_all"
+                        style="@style/rg_rb_style"
+                        android:checked="true"
+                        android:text="@string/all" />
+
+                    <RadioButton
+                        android:id="@+id/rb_sim_slot_1"
+                        style="@style/rg_rb_style"
+                        android:text="@string/sim1" />
+
+                    <RadioButton
+                        android:id="@+id/rb_sim_slot_2"
+                        style="@style/rg_rb_style"
+                        android:text="@string/sim2" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/ruleBarStyleWithSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/match_field"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/rg_filed"
+                    style="@style/rg_style"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_transpond_all"
+                        style="@style/rg_rb_style_wrap"
+                        android:checked="true"
+                        android:text="@string/all" />
+
+                    <RadioButton
+                        android:id="@+id/rb_phone"
+                        style="@style/rg_rb_style_wrap"
+                        android:text="@string/phone_number" />
+
+                    <RadioButton
+                        android:id="@+id/rb_content"
+                        style="@style/rg_rb_style_wrap"
+                        android:text="@string/sms_content" />
+
+                    <RadioButton
+                        android:id="@+id/rb_package_name"
+                        style="@style/rg_rb_style_wrap"
+                        android:text="@string/package_name" />
+
+                    <RadioButton
+                        android:id="@+id/rb_inform_content"
+                        style="@style/rg_rb_style_wrap"
+                        android:text="@string/inform_content" />
+
+                    <RadioButton
+                        android:id="@+id/rb_multi_match"
+                        style="@style/rg_rb_style_wrap"
+                        android:text="@string/multiple_matches" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_match_type"
+                style="@style/ruleBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/match_type"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/rg_check"
+                    style="@style/rg_style"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_is"
+                        style="@style/rg_rb_style"
+                        android:checked="true"
+                        android:text="@string/btn_is" />
+
+                    <RadioButton
+                        android:id="@+id/rb_contain"
+                        style="@style/rg_rb_style"
+                        android:text="@string/btn_contain" />
+
+                    <RadioButton
+                        android:id="@+id/rb_not_contain"
+                        style="@style/rg_rb_style"
+                        android:text="@string/btn_not_contain" />
+                </RadioGroup>
+
+                <RadioGroup
+                    android:id="@+id/rg_check2"
+                    style="@style/rg_style"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_start_with"
+                        style="@style/rg_rb_style"
+                        android:text="@string/btn_start_with" />
+
+                    <RadioButton
+                        android:id="@+id/rb_end_with"
+                        style="@style/rg_rb_style"
+                        android:text="@string/btn_end_with" />
+
+                    <RadioButton
+                        android:id="@+id/rb_regex"
+                        style="@style/rg_rb_style"
+                        android:text="@string/btn_regex" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_match_value"
+                style="@style/ruleBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/match_value"
+                    android:textStyle="bold" />
+
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    app:met_clearButton="true" />
+
+                <LinearLayout
+                    android:id="@+id/layout_app_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/choose_app"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <com.xuexiang.xui.widget.spinner.editspinner.EditSpinner
+                        android:id="@+id/sp_app"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        app:es_hint="@string/choose_app_hint"
+                        app:es_maxLength="20"
+                        app:es_maxLine="1" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_mu_rule_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mu_rule_sms_tips"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/ruleBarStyleWithSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@string/enable_custom_templates"
+                    android:textStyle="bold" />
+
+                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                    android:id="@+id/sb_sms_template"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_sms_template"
+                style="@style/ruleBarStyleNoMarginTop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enable_custom_templates_tips"
+                    android:textSize="11sp" />
+
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_sms_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    app:met_clearButton="true" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/bt_insert_sender"
+                        style="@style/insertButtonStyle"
+                        android:text="@string/insert_sender" />
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/bt_insert_content"
+                        style="@style/insertButtonStyle"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/insert_content" />
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/bt_insert_extra"
+                        style="@style/insertButtonStyle"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/insert_extra" />
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/bt_insert_sender_app"
+                        style="@style/insertButtonStyle"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/insert_sender_app" />
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/bt_insert_content_app"
+                        style="@style/insertButtonStyle"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/insert_content_app" />
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/bt_insert_time"
+                        style="@style/insertButtonStyle"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/insert_time" />
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/bt_insert_device_name"
+                        style="@style/insertButtonStyle"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/insert_device_name" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/ruleBarStyleWithSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@string/enable_regex_replace"
+                    android:textStyle="bold" />
+
+                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                    android:id="@+id/sb_regex_replace"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_regex_replace"
+                style="@style/ruleBarStyleNoMarginTop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enable_regex_replace_tips"
+                    android:textSize="11sp" />
+
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_regex_replace"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    app:met_clearButton="true" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/ruleBarStyleWithSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@string/switch_rule_status"
+                    android:textStyle="bold" />
+
+                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                    android:id="@+id/sb_status"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_del"
+            style="@style/SuperButton.Gray.Icon"
+            android:drawableStart="@drawable/icon_delete"
+            android:paddingStart="15dp"
+            android:text="@string/del"
+            android:textSize="11sp"
+            tools:ignore="RtlSymmetry" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_save"
+            style="@style/SuperButton.Blue.Icon"
+            android:layout_marginStart="10dp"
+            android:drawableStart="@drawable/icon_save"
+            android:paddingStart="15dp"
+            android:text="@string/save"
+            android:textSize="11sp"
+            tools:ignore="RtlSymmetry" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_test"
+            style="@style/SuperButton.Green.Icon"
+            android:layout_marginStart="10dp"
+            android:drawableStart="@drawable/icon_test"
+            android:paddingStart="15dp"
+            android:text="@string/test"
+            android:textSize="11sp"
+            tools:ignore="RtlSymmetry" />
+
+    </LinearLayout>
+
+</LinearLayout>

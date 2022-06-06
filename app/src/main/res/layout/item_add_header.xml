@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:orientation="horizontal">
 
     <TextView
@@ -11,37 +11,36 @@
         android:layout_height="wrap_content"
         android:text="@string/header_key" />
 
-    <EditText
+    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
         android:id="@+id/editTextHeaderKey"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:layout_weight="1"
-        android:autofillHints=""
-        android:inputType="text"
         android:singleLine="true"
-        tools:ignore="LabelFor" />
+        app:met_clearButton="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:text="@string/header_value" />
 
-    <EditText
+    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
         android:id="@+id/editTextHeaderValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:layout_weight="1"
-        android:autofillHints=""
-        android:inputType="text"
         android:singleLine="true"
-        tools:ignore="LabelFor" />
+        app:met_clearButton="true" />
 
     <ImageView
         android:id="@+id/imageViewRemoveHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_delete"
-        app:tint="@color/design_default_color_error"
-        android:contentDescription="@string/header_del" />
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:contentDescription="@string/header_del"
+        android:src="@drawable/icon_delete"
+        app:tint="@color/design_default_color_error" />
 
 </LinearLayout>

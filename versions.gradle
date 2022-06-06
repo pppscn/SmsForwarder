@@ -1,0 +1,218 @@
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
+def build_versions = [:]
+build_versions.version_code = 38
+build_versions.version_name = "3.0.0"
+build_versions.min_sdk = 19
+build_versions.target_sdk = 32
+build_versions.build_tools = "32.0.0"
+ext.build_versions = build_versions
+
+ext.deps = [:]
+def versions = [:]
+versions.android_gradle_plugin = '7.1.3'
+versions.android_maven_gradle_plugin = "2.1"
+versions.gradle_bintray_plugin = "1.8.0"
+versions.booster = "3.1.0"
+versions.booster_all = "1.1.1"
+versions.support = "28.0.0"
+versions.annotation = "1.3.0"
+versions.androidx = "1.4.1"
+versions.recyclerview = "1.2.1"
+versions.material = "1.5.0"
+versions.junit = "4.13.2"
+versions.espresso = "3.4.0"
+versions.constraint_layout = "2.1.3"
+versions.glide = "4.13.1"
+versions.rxjava2 = "2.2.21"
+versions.rxandroid = "2.1.1"
+versions.rxbinding = "2.2.0"
+versions.butterknife = "10.2.3"
+versions.runner = "1.4.0"
+versions.gson = "2.9.0"
+versions.okhttp3 = "3.12.13" //不可升级，支持 API 19
+versions.leakcanary = "2.8.1"
+versions.lifecycle = "2.2.0"
+versions.kotlin = '1.6.21'
+
+//========xlibrary start========//
+
+versions.xui = "1.2.0" //1.1.9
+versions.xupdate = "2.1.1"
+versions.xaop = "1.1.0"
+versions.xutil = "2.0.0"
+versions.xhttp2 = "2.0.4"
+versions.xpage = "3.3.0"
+versions.xrouter = "1.0.1"
+
+//========xlibrary end========//
+
+ext.versions = versions
+
+def deps = [:]
+
+def support = [:]
+support.annotations = "com.android.support:support-annotations:$versions.support"
+support.app_compat = "com.android.support:appcompat-v7:$versions.support"
+support.recyclerview = "com.android.support:recyclerview-v7:$versions.support"
+support.cardview = "com.android.support:cardview-v7:$versions.support"
+support.design = "com.android.support:design:$versions.support"
+support.v4 = "com.android.support:support-v4:$versions.support"
+support.core_utils = "com.android.support:support-core-utils:$versions.support"
+deps.support = support
+
+def androidx = [:]
+androidx.annotations = "androidx.annotation:annotation:$versions.annotation"
+androidx.appcompat = "androidx.appcompat:appcompat:$versions.androidx"
+androidx.recyclerview = "androidx.recyclerview:recyclerview:$versions.recyclerview"
+androidx.design = "com.google.android.material:material:$versions.material"
+androidx.multidex = 'androidx.multidex:multidex:2.0.1'
+deps.androidx = androidx
+
+def booster = [:]
+booster.gradle_plugin = "com.didiglobal.booster:booster-gradle-plugin:$versions.booster"
+booster.task_all = "com.didiglobal.booster:booster-task-all:$versions.booster_all"
+booster.transform_all = "com.didiglobal.booster:booster-transform-all:$versions.booster_all"
+//采用 cwebp 对资源进行压缩
+booster.task_compression_cwebp = "com.didiglobal.booster:booster-task-compression-cwebp:$versions.booster"
+//采用 pngquant 对资源进行压缩
+booster.task_compression_pngquant = "com.didiglobal.booster:booster-task-compression-pngquant:$versions.booster"
+//ap_ 文件压缩
+booster.task_processed_res = "com.didiglobal.booster:booster-task-compression-processed-res:$versions.booster"
+//去冗余资源
+booster.task_resource_deredundancy = "com.didiglobal.booster:booster-task-resource-deredundancy:$versions.booster"
+//检查 SNAPSHOT 版本
+booster.task_check_snapshot = "com.didiglobal.booster:booster-task-check-snapshot:$versions.booster"
+//性能瓶颈检测
+booster.transform_lint = "com.didiglobal.booster:booster-transform-lint:$versions.booster"
+//多线程优化
+booster.transform_thread = "com.didiglobal.booster:booster-transform-thread:$versions.booster"
+//资源索引内联
+booster.transform_r_inline = "com.didiglobal.booster:booster-transform-r-inline:$versions.booster"
+//WebView 预加载
+booster.transform_webview = "com.didiglobal.booster:booster-transform-webview:$versions.booster"
+//SharedPreferences 优化
+booster.transform_shared_preferences = "com.didiglobal.booster:booster-transform-shared-preferences:$versions.booster"
+//检查覆盖安装导致的 Resources 和 Assets 未加载的 Bug
+booster.transform_res_check = "com.didiglobal.booster:booster-transform-res-check:$versions.booster"
+//修复 Toast 在 Android 7.1 上的 Bug
+booster.transform_toast = "com.didiglobal.booster:booster-transform-toast:$versions.booster"
+//处理系统 Crash
+booster.transform_activity_thread = "com.didiglobal.booster:booster-transform-activity-thread:$versions.booster"
+deps.booster = booster
+
+def butterknife = [:]
+butterknife.runtime = "com.jakewharton:butterknife:$versions.butterknife"
+butterknife.compiler = "com.jakewharton:butterknife-compiler:$versions.butterknife"
+
+deps.butterknife = butterknife
+
+def espresso = [:]
+espresso.core = "androidx.test.espresso:espresso-core:$versions.espresso"
+espresso.contrib = "androidx.test.espresso:espresso-contrib:$versions.espresso"
+espresso.intents = "androidx.test.espresso:espresso-intents:$versions.espresso"
+deps.espresso = espresso
+
+deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
+deps.android_maven_gradle_plugin = "com.github.dcendents:android-maven-gradle-plugin:$versions.android_maven_gradle_plugin"
+deps.gradle_bintray_plugin = "com.jfrog.bintray.gradle:gradle-bintray-plugin:$versions.gradle_bintray_plugin"
+deps.glide = "com.github.bumptech.glide:glide:$versions.glide"
+deps.constraint_layout = "androidx.constraint:constraint-layout:$versions.constraint_layout"
+deps.junit = "junit:junit:$versions.junit"
+deps.runner = "androidx.test:runner:$versions.runner"
+deps.rxjava2 = "io.reactivex.rxjava2:rxjava:$versions.rxjava2"
+deps.rxandroid = "io.reactivex.rxjava2:rxandroid:$versions.rxandroid"
+deps.rxbinding = "com.jakewharton.rxbinding2:rxbinding:$versions.rxbinding"
+deps.gson = "com.google.code.gson:gson:$versions.gson"
+deps.okhttp3 = "com.squareup.okhttp3:okhttp:$versions.okhttp3"
+deps.leakcanary = "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary"
+
+//========xlibrary start=================//
+
+def xlibrary = [:]
+
+xlibrary.xui = "com.github.pppscn:XUI:$versions.xui" //com.github.xuexiangjys:XUI
+xlibrary.xupdate = "com.github.xuexiangjys:XUpdate:$versions.xupdate"
+xlibrary.xaop_runtime = "com.github.xuexiangjys.XAOP:xaop-runtime:$versions.xaop"
+xlibrary.xaop_plugin = "com.github.xuexiangjys.XAOP:xaop-plugin:$versions.xaop"
+xlibrary.xutil_core = "com.github.xuexiangjys.XUtil:xutil-core:$versions.xutil"
+xlibrary.xutil_sub = "com.github.xuexiangjys.XUtil:xutil-sub:$versions.xutil"
+xlibrary.xhttp2 = "com.github.xuexiangjys:XHttp2:$versions.xhttp2"
+xlibrary.xpage_lib = "com.github.xuexiangjys.XPage:xpage-lib:$versions.xpage"
+xlibrary.xpage_compiler = "com.github.xuexiangjys.XPage:xpage-compiler:$versions.xpage"
+xlibrary.xrouter_runtime = "com.github.xuexiangjys.XRouter:xrouter-runtime:$versions.xrouter"
+xlibrary.xrouter_compiler = "com.github.xuexiangjys.XRouter:xrouter-compiler:$versions.xrouter"
+xlibrary.xrouter_plugin = "com.github.xuexiangjys.XRouter:xrouter-plugin:$versions.xrouter"
+
+deps.xlibrary = xlibrary
+
+//========xlibrary end=================//
+
+def lifecycle = [:]
+lifecycle.runtime = "androidx.lifecycle:lifecycle-runtime:$versions.lifecycle"
+lifecycle.java8 = "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle"
+lifecycle.compiler = "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle"
+lifecycle.viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
+lifecycle.livedata_ktx = "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle"
+deps.lifecycle = lifecycle
+
+ext.deps = deps
+
+/**
+ * @return 是否为release
+ */
+def isRelease() {
+    Gradle gradle = getGradle()
+    String tskReqStr = gradle.getStartParameter().getTaskRequests().toString()
+
+    Pattern pattern
+    if (tskReqStr.contains("assemble")) {
+        println tskReqStr
+        pattern = Pattern.compile("assemble(\\w*)(Release|Debug)")
+    } else {
+        pattern = Pattern.compile("generate(\\w*)(Release|Debug)")
+    }
+    Matcher matcher = pattern.matcher(tskReqStr)
+
+    if (matcher.find()) {
+        String task = matcher.group(0).toLowerCase()
+        println("[BuildType] Current task: " + task)
+        return task.contains("release")
+    } else {
+        println "[BuildType] NO MATCH FOUND"
+        return true
+    }
+}
+
+ext.isRelease = this.&isRelease
+
+//默认添加代码仓库路径
+static def addRepos(RepositoryHandler handler) {
+    handler.mavenLocal()
+    handler.google { url 'https://maven.aliyun.com/repository/google' }
+    handler.mavenCentral { url 'https://maven.aliyun.com/repository/central' }
+    handler.maven { url "https://jitpack.io" }
+    handler.maven { url 'https://maven.aliyun.com/repository/public' }
+    handler.maven { url "https://repo1.maven.org/maven2/" }
+    handler.maven { url 'https://oss.sonatype.org/content/repositories/public' }
+    //Add the Local repository
+    handler.maven { url 'LocalRepository' }
+}
+
+ext.addRepos = this.&addRepos
+
+//自动添加XAOP和XRouter插件
+project.buildscript.configurations.each { configuration ->
+    def dependencies = getProject().dependencies
+    if (configuration.name == "classpath") {
+        //XAOP插件
+        configuration.dependencies.add(dependencies.create(deps.xlibrary.xaop_plugin))
+        //XRouter插件
+        configuration.dependencies.add(dependencies.create(deps.xlibrary.xrouter_plugin))
+        //AspectJX
+        configuration.dependencies.add(dependencies.create('com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.10'))
+        //kotlin插件
+        configuration.dependencies.add(dependencies.create("org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"))
+    }
+}

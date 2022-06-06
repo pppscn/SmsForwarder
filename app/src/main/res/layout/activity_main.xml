@@ -1,98 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:openDrawer="start">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnCleanLog"
+    <!--  主内容填充  -->
+    <include
+        android:id="@+id/include_main"
+        layout="@layout/layout_main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- 侧边栏   -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="40dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:contentDescription="@string/clear_logs"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_delete"
-        android:tint="?attr/colorOnPrimary"
-        app:fabSize="mini" />
-
-    <LinearLayout
-        android:id="@+id/radioGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dip"
-        android:orientation="horizontal">
-
-        <RadioGroup
-            android:id="@+id/radioGroupTypeCheck"
-            style="@style/rg_style"
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/btnTypeSms"
-                style="@style/select_style"
-                android:checked="true"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:paddingStart="10dp"
-                android:paddingTop="5dp"
-                android:paddingEnd="10dp"
-                android:paddingBottom="5dp"
-                android:tag="sms"
-                android:text="@string/sms" />
-
-            <RadioButton
-                android:id="@+id/btnTypeCall"
-                style="@style/select_style"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:paddingStart="10dp"
-                android:paddingTop="5dp"
-                android:paddingEnd="10dp"
-                android:paddingBottom="5dp"
-                android:tag="call"
-                android:text="@string/call" />
-
-            <RadioButton
-                android:id="@+id/btnTypeApp"
-                style="@style/select_style"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:paddingStart="10dp"
-                android:paddingTop="5dp"
-                android:paddingEnd="10dp"
-                android:paddingBottom="5dp"
-                android:tag="app"
-                android:text="@string/app" />
-        </RadioGroup>
-
-    </LinearLayout>
-
-    <com.idormy.sms.forwarder.view.RefreshListView
-        android:id="@+id/list_view_log"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/radioGroup"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="85dp" />
+        android:layout_gravity="start"
+        app:headerLayout="@layout/include_navigation_header"
+        app:menu="@menu/menu_drawer" />
 
-    <com.idormy.sms.forwarder.view.StepBar
-        android:id="@+id/stepBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        app:current_step="main"
-        app:help_tip="@string/log_tips" />
-
-</RelativeLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

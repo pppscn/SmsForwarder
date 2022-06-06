@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refreshLayout"
+    style="@style/PullDownStyle">
+
+    <com.idormy.sms.forwarder.core.webview.LollipopFixedWebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/xui_config_color_white"
+        android:overScrollMode="never"
+        android:visibility="visible" />
+
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

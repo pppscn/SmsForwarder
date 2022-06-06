@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xuexiang.xui.widget.layout.XUIFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    style="@style/XUILayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/config_margin_5dp"
+    android:layout_marginTop="@dimen/config_margin_5dp"
+    android:layout_marginEnd="@dimen/config_margin_5dp"
+    android:paddingStart="@dimen/config_padding_5dp"
+    android:paddingTop="@dimen/config_padding_5dp"
+    android:paddingEnd="@dimen/config_padding_5dp"
+    android:paddingBottom="@dimen/config_padding_5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_image"
+                android:layout_width="@dimen/card_view_image_size"
+                android:layout_height="@dimen/card_view_image_size"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/iv_autorun"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="-16dp"
+                tools:ignore="ContentDescription" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp" />
+
+        <ImageView
+            android:id="@+id/iv_play"
+            android:layout_width="@dimen/card_view_image_size"
+            android:layout_height="@dimen/card_view_image_size"
+            android:padding="@dimen/card_view_image_padding"
+            app:tint="@color/colorStart"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/iv_edit"
+            android:layout_width="@dimen/card_view_image_size"
+            android:layout_height="@dimen/card_view_image_size"
+            android:padding="@dimen/card_view_image_padding"
+            app:tint="@color/toast_info_color"
+            tools:ignore="ContentDescription,PrivateResource" />
+
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="@dimen/card_view_image_size"
+            android:layout_height="@dimen/card_view_image_size"
+            android:padding="@dimen/card_view_image_padding"
+            app:tint="@color/toast_error_color"
+            tools:ignore="ContentDescription,PrivateResource" />
+
+    </LinearLayout>
+
+</com.xuexiang.xui.widget.layout.XUIFrameLayout>

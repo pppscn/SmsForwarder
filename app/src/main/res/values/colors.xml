@@ -1,17 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="colorPrimary">#1C8DD4</color>
-    <color name="colorPrimaryDark">#1B8DD4</color>
-    <color name="colorAccent">#63C2FA</color>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="colorPrimary">#299EE3</color>
+    <color name="colorPrimaryDark">#299EE3</color>
+    <color name="colorAccent">#299EE3</color>
+
+    <color name="config_color_select_bg">#FFF1F1F1</color>
+
+    <!--Toast，可自定义喜欢的颜色-->
+    <color name="toast_default_text_color" tools:ignore="PrivateResource">@color/xui_config_color_white</color>
+    <color name="toast_error_color" tools:ignore="PrivateResource">@color/xui_config_color_red</color>
+    <color name="toast_info_color" tools:ignore="PrivateResource">@color/colorAccent</color>
+    <color name="toast_success_color" tools:ignore="PrivateResource">#388E3C</color>
+    <color name="toast_warning_color" tools:ignore="PrivateResource">@color/xui_config_color_waring</color>
+    <color name="toast_normal_tint_color" tools:ignore="PrivateResource">#353A3E</color>
+
+    <color name="app_color_theme_1">#EF5362</color> <!-- Grapefruit -->
+    <color name="app_color_theme_2">#FE6D4B</color> <!-- Bittersweet -->
+    <color name="app_color_theme_3">#FFCF47</color> <!-- Sunflower -->
+    <color name="app_color_theme_4">#9FD661</color> <!-- Grass -->
+    <color name="app_color_theme_5">#3FD0AD</color> <!-- Mint -->
+    <color name="app_color_theme_6">#2BBDF3</color> <!-- Aqua -->
+    <color name="app_color_theme_7">#5A9AEF</color> <!-- Blue Jeans -->
+    <color name="app_color_theme_8">#AC8FEF</color> <!-- Lavender -->
+    <color name="app_color_theme_9">#EE85C1</color> <!-- Pink Rose -->
+
     <color name="colorBlueGrey">#78909C</color>
     <color name="colorBlueGreyDark">#546E7A</color>
     <color name="gray_text_light">#979797</color>
+    <color name="darkGreen">#388E3C</color>
+    <color name="darkGrey">#353A3E</color>
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="green">#00FF00</color>
+    <color name="red">#FF0000</color>
 
     <color name="line_color">#aadcdcdc</color>
     <color name="setting_bg_color">#10000000</color>
     <color name="setting_bar_color">#ffffff</color>
     <color name="tip_bar_color">#10000000</color>
+
+    <color name="colorStart">#03DAC5</color>
+    <color name="colorStop">#E91E63</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
 </resources>

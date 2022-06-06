@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/refresh"
+        android:title="@string/refresh_web"
+        android:visible="true"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/copy"
+        android:title="@string/copy_link"
+        android:visible="true"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/share"
+        android:title="@string/share_web"
+        android:visible="true"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/default_browser"
+        android:title="@string/open_in_default_browser"
+        android:visible="true"
+        app:showAsAction="never" />
+
+</menu>

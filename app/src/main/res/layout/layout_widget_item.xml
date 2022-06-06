@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/xui_config_list_item_transparent_selector"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="5dp"
+    tools:ignore="PrivateResource">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/item_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/item_name"
+        style="@style/TextStyle.Explain"
+        android:lines="2" />
+
+</LinearLayout>

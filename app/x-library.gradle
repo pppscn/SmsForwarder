@@ -1,0 +1,56 @@
+apply plugin: 'com.xuexiang.xrouter'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'android-aspectjx'
+apply plugin: 'com.xuexiang.xaop'
+
+//自动添加依赖
+configurations.each { configuration ->
+    def dependencies = getProject().dependencies
+    if (configuration.name == "implementation") {
+        //为Project加入X-Library依赖
+        //XUI框架
+        configuration.dependencies.add(dependencies.create(deps.xlibrary.xui))
+        configuration.dependencies.add(dependencies.create(deps.androidx.appcompat))
+        configuration.dependencies.add(dependencies.create(deps.androidx.recyclerview))
+        configuration.dependencies.add(dependencies.create(deps.androidx.design))
+        configuration.dependencies.add(dependencies.create(deps.glide))
+        //XUtil工具类
+        configuration.dependencies.add(dependencies.create(deps.xlibrary.xutil_core))
+        configuration.dependencies.add(dependencies.create(deps.xlibrary.xutil_sub))
+        //XAOP切片
+        configuration.dependencies.add(dependencies.create(deps.xlibrary.xaop_runtime))
+        //XUpdate版本更新
+        configuration.dependencies.add(dependencies.create(deps.xlibrary.xupdate))
+        //XHttp2
+        configuration.dependencies.add(dependencies.create(deps.xlibrary.xhttp2))
+        configuration.dependencies.add(dependencies.create(deps.rxjava2))
+        configuration.dependencies.add(dependencies.create(deps.rxandroid))
+        configuration.dependencies.add(dependencies.create(deps.okhttp3))
+        configuration.dependencies.add(dependencies.create(deps.gson))
+        //XPage
+        configuration.dependencies.add(dependencies.create(deps.xlibrary.xpage_lib))
+        //页面路由
+        configuration.dependencies.add(dependencies.create(deps.xlibrary.xrouter_runtime))
+    }
+
+    if (configuration.name == "kapt") {
+        //XPage
+        configuration.dependencies.add(dependencies.create(deps.xlibrary.xpage_compiler))
+        //页面路由
+        configuration.dependencies.add(dependencies.create(deps.xlibrary.xrouter_compiler))
+    }
+
+    if (configuration.name == "debugImplementation") {
+        //内存泄漏监测leak
+        configuration.dependencies.add(dependencies.create(deps.leakcanary))
+    }
+}
+
+configurations.all {
+    resolutionStrategy.force deps.okhttp3
+}
+
+// 这里需要修改包名
+aspectjx {
+    include 'com.idormy.sms.forwarder'
+}

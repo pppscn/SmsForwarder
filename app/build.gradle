@@ -1,4 +1,11 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    id 'img-optimizer'
+    id 'com.yanzhenjie.andserver'
+}
 
 def keyProps = new Properties()
 def keyPropsFile = rootProject.file('keystore/keystore.properties')
@@ -6,32 +13,47 @@ if (keyPropsFile.exists()) {
     keyProps.load(new FileInputStream(keyPropsFile))
 }
 
-// 读取version.properties
-def versionProps = new Properties()
-def versionPropsFile = rootProject.file('version.properties')
-if (versionPropsFile.exists()) {
-    versionProps.load(new FileInputStream(versionPropsFile))
+//打包时，记得设置true启用
+if (isNeedPackage.toBoolean() && isUseBooster.toBoolean()) {
+    apply plugin: 'com.didiglobal.booster'
 }
 
 android {
     //noinspection GradleDependency
-    buildToolsVersion '32.0.0'
-    compileSdkVersion 32
+    buildToolsVersion build_versions.build_tools
+    compileSdkVersion build_versions.target_sdk
+
     compileOptions {
-        sourceCompatibility 11
-        targetCompatibility 11
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    buildFeatures {
+        viewBinding true
+    }
+
     defaultConfig {
         applicationId "com.idormy.sms.forwarder"
-        minSdkVersion 21
-        targetSdkVersion 32
-        versionCode versionProps['versionCode'].toInteger()
-        versionName versionProps['versionName']
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode build_versions.version_code
+        versionName build_versions.version_name
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
+
         ndk {
-            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86'//, 'x86_64'
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         }
     }
+
     signingConfigs {
         release {
             keyAlias keyProps['keyAlias']
@@ -46,31 +68,81 @@ android {
             storePassword keyProps['storePassword']
         }
     }
+
     buildTypes {
         release {
-            minifyEnabled false
-            //shrinkResources true
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            if (isNeedPackage.toBoolean()) {
+                signingConfig signingConfigs.release
+                if (file('local.properties').exists()) {
+                    Properties properties = new Properties()
+                    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+                    def appID = properties.getProperty("APP_ID_UMENG")
+                    if (appID != null) {
+                        buildConfigField "String", "APP_ID_UMENG", appID
+                    } else {
+                        buildConfigField "String", "APP_ID_UMENG", '"60254fc7425ec25f10f4293e"'
+                    }
+                } else {
+                    buildConfigField "String", "APP_ID_UMENG", '"60254fc7425ec25f10f4293e"'
+                }
+            } else {
+                signingConfig signingConfigs.debug
+                buildConfigField "String", "APP_ID_UMENG", '"60254fc7425ec25f10f4293e"'
+            }
         }
         debug {
-            minifyEnabled false
-            //shrinkResources true
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.debug
+            if (isNeedPackage.toBoolean()) {
+                signingConfig signingConfigs.release
+                if (file('local.properties').exists()) {
+                    Properties properties = new Properties()
+                    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+                    def appID = properties.getProperty("APP_ID_UMENG")
+                    if (appID != null) {
+                        buildConfigField "String", "APP_ID_UMENG", appID
+                    } else {
+                        buildConfigField "String", "APP_ID_UMENG", '"60254fc7425ec25f10f4293e"'
+                    }
+                } else {
+                    buildConfigField "String", "APP_ID_UMENG", '"60254fc7425ec25f10f4293e"'
+                }
+            } else {
+                signingConfig signingConfigs.debug
+                buildConfigField "String", "APP_ID_UMENG", '"60254fc7425ec25f10f4293e"'
+            }
         }
+        /*debug {
+            debuggable true
+            minifyEnabled false
+
+            signingConfig signingConfigs.debug
+            buildConfigField "String", "APP_ID_UMENG", '"60254fc7425ec25f10f4293e"'
+        }*/
     }
+
     //ABI配置——按CPU架构分别打包
     splits {
         abi {
             enable true
             reset()
-            include 'armeabi-v7a', 'arm64-v8a', 'x86'//, 'x86_64'
+            include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
             universalApk true
         }
     }
     def abiCodes = ['universal': 1, 'armeabi-v7a': 2, 'arm64-v8a': 3, 'x86': 4, 'x86_64': 5]
     packagingOptions {
+        //去除FrpcLib的so，用时下载并动态加载
+        if (isNeedPackage.toBoolean()) {
+            exclude 'lib/armeabi-v7a/libgojni.so'
+            exclude 'lib/arm64-v8a/libgojni.so'
+            exclude 'lib/x86/libgojni.so'
+            exclude 'lib/x86_64/libgojni.so'
+        }
         resources {
             pickFirst 'META-INF/LICENSE.md'
             pickFirst 'META-INF/NOTICE.md'
@@ -82,6 +154,7 @@ android {
         variant.outputs.each {
             output ->
                 def date = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08"))
+                //noinspection GrDeprecatedAPIUsage
                 def abiName = output.getFilter(com.android.build.OutputFile.ABI)
                 if (abiName == null) abiName = "universal"
                 output.versionCodeOverride = abiCodes.get(abiName, 0) * 100000 + variant.versionCode
@@ -89,8 +162,8 @@ android {
         }
     }
 
-    lint {
-        checkReleaseBuilds false
+    lintOptions {
+        abortOnError false
     }
 
     sourceSets {
@@ -101,110 +174,97 @@ android {
 
 }
 
-
-task upgradeVersion {
-    group 'help'
-    description '构建新版本'
-    doLast {
-        println("---自动升级版本号---\n")
-        String oldVersionCode = versionProps['versionCode']
-        String oldVersionName = versionProps['versionName']
-        if (oldVersionCode == null || oldVersionName == null ||
-                oldVersionCode.isEmpty() || oldVersionName.isEmpty()) {
-            println("error:版本号不能为空")
-            return
-        }
-        versionProps['versionCode'] = String.valueOf(versionProps['versionCode'].toInteger() + 1)
-        String str = versionProps['versionName'].toString()
-        versionProps['versionName'] = str.substring(0, str.lastIndexOf('.') + 1) +
-                (str.substring(str.lastIndexOf('.') + 1).toInteger() + 1)
-        String tip =
-                "版本号从$oldVersionName($oldVersionCode)升级到${versionProps['versionName']}(${versionProps['versionCode']})"
-        println(tip)
-
-        def writer = new FileWriter(versionPropsFile)
-        versionProps.store(writer, null)
-        writer.flush()
-        writer.close()
-        def tag = "v${versionProps['versionName']}"
-        cmdExecute("git pull")
-        cmdExecute("git add version.properties")
-        cmdExecute("git commit -m \"版本号升级为：$tag\"")
-        cmdExecute("git push origin")
-        cmdExecute("git tag $tag")
-        cmdExecute("git push origin $tag")
-    }
-}
-
-void cmdExecute(String cmd) {
-    println "\n执行$cmd"
-    println cmd.execute().text
-}
-
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    //noinspection GradleDependency
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-    implementation 'com.google.android.material:material:1.5.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-
-    //okhttp
-    //noinspection GradleDependency
-    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
-    implementation 'com.squareup.okio:okio:3.0.0'
-
-    //fastjson
-    implementation "com.alibaba:fastjson:1.2.80"
-
-    //XUpdate
-    implementation 'com.github.xuexiangjys:XUpdate:2.1.1'
-    implementation 'com.github.xuexiangjys.XUpdateAPI:xupdate-easy:1.0.1'
-    implementation 'com.github.xuexiangjys.XUpdateAPI:xupdate-downloader-aria:1.0.1'
-
-    //EmailKit
-    implementation 'com.github.mailhu:emailkit:4.2.2'
-    implementation 'com.sun.mail:android-mail:1.6.7'
-    implementation 'com.sun.mail:android-activation:1.6.7'
-
-    //Lombok
-    //noinspection AnnotationProcessorOnCompilePath
-    compileOnly 'org.projectlombok:lombok:1.18.22'
-    annotationProcessor 'org.projectlombok:lombok:1.18.22'
-
-    //RxJava
-    //implementation 'io.reactivex.rxjava3:rxjava:3.1.3'
-
-    //AndroidAsync
-    implementation 'com.koushikdutta.async:androidasync:3.1.0'
-
-    //吐司框架：https://github.com/getActivity/ToastUtils
-    implementation 'com.github.getActivity:ToastUtils:10.3'
-    //权限请求框架：https://github.com/getActivity/XXPermissions
-    implementation 'com.github.getActivity:XXPermissions:13.2'
-
-    //jetty
-    def jetty_version = '9.2.30.v20200428'
-    //noinspection GradleDependency
-    implementation "org.eclipse.jetty:jetty-server:$jetty_version"
-    //noinspection GradleDependency
-    implementation "org.eclipse.jetty:jetty-servlet:$jetty_version"
-
-    //友盟统计SDK
-    implementation 'com.umeng.umsdk:common:9.4.7'// (必选)
-    implementation 'com.umeng.umsdk:asms:1.6.0'// 必选
-
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     //frpc
-    //implementation(name: 'frpclib', ext: 'aar')
     implementation files('libs/frpclib.aar')
-    implementation 'io.github.jeremyliao:live-event-bus-x:1.8.0'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
 
-    def room_version = "2.4.2"
+    testImplementation deps.junit
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation deps.espresso.core
+
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation "androidx.activity:activity-ktx:1.4.0"
+    implementation "androidx.fragment:fragment-ktx:1.4.1"
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
+
+    //分包
+    implementation deps.androidx.multidex
+
+    implementation 'com.alibaba.android:vlayout:1.3.0'
+    //下拉刷新
+    implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-header:1.1.5'
+    implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-layout:1.1.5'
+    //WebView
+    implementation 'com.github.xuexiangjys.AgentWeb:agentweb-core:1.0.0'
+    implementation 'com.github.xuexiangjys.AgentWeb:agentweb-download:1.0.0'//选填
+    //腾讯的键值对存储mmkv
+    implementation 'com.tencent:mmkv:1.2.13'
+    //屏幕适配AutoSize
+    implementation 'me.jessyan:autosize:1.2.1'
+    //umeng统计
+    implementation 'com.umeng.umsdk:common:9.5.0'
+    implementation 'com.umeng.umsdk:asms:1.6.3'
+
+    //预加载占位控件
+    implementation 'me.samlss:broccoli:1.0.0'
+
+    implementation 'com.zzhoujay.richtext:richtext:3.0.8'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+    //ANR异常捕获
+    implementation 'com.github.anrwatchdog:anrwatchdog:1.4.0'
+
+    //美团多渠道打包
+    implementation 'com.meituan.android.walle:library:1.1.6'
+
+    api("androidx.work:work-multiprocess:2.7.1")
+    api("androidx.work:work-runtime-ktx:2.7.1")
+
+    //Android Room
+    def room_version = '2.4.2'
+    implementation "androidx.room:room-ktx:$room_version"
     implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-paging:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    implementation 'com.github.AmrDeveloper:CodeView:1.3.4'
+    implementation 'io.github.jeremyliao:live-event-bus-x:1.8.0'
+
+    implementation 'com.github.tiagohm.MarkdownView:library:0.19.0'
+    implementation 'com.github.tiagohm.MarkdownView:emoji:0.19.0'
+
+    def retrofit2_version = '2.9.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit2_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit2_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit2_version"
+
+    def paging_version = "3.1.1"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+    // alternatively - without Android dependencies for tests
+    testImplementation "androidx.paging:paging-common-ktx:$paging_version"
+
+    //权限请求框架：https://github.com/getActivity/XXPermissions
+    implementation 'com.github.getActivity:XXPermissions:13.6'
+
+    def mail_version = '1.6.7'
+    implementation "com.sun.mail:android-mail:$mail_version"
+    implementation "com.sun.mail:android-activation:$mail_version"
+
+    //Android Keep Alive(安卓保活)，Cactus 集成双进程前台服务，JobScheduler，onePix(一像素)，WorkManager，无声音乐
+    //https://github.com/gyf-dev/Cactus
+    implementation 'com.gyf.cactus:cactus:1.1.3-beta13'
+
+    //HTTP服务器：https://github.com/yanzhenjie/AndServer
+    implementation 'com.yanzhenjie.andserver:api:2.1.10'
+    kapt 'com.yanzhenjie.andserver:processor:2.1.10'
 }
+//自动添加X-Library依赖
+apply from: 'x-library.gradle'
+//walle多渠道打包
+apply from: 'multiple-channel.gradle'
+
+

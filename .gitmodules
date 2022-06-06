@@ -1,3 +1,0 @@
-[submodule "keystore"]
-	path = keystore
-	url = https://github.com/pppscn/keystore.git

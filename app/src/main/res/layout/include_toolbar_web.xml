@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/xui_actionbar_height"
+    android:background="?attr/colorAccent"
+    app:contentInsetLeft="0dp"
+    app:contentInsetStart="0dp"
+    app:titleTextColor="@android:color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorAccent">
+
+        <com.xuexiang.xui.widget.alpha.XUIAlphaImageView
+            android:id="@+id/iv_back"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:scaleType="center"
+            android:src="@drawable/ic_web_back" />
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toEndOf="@id/iv_back"
+            android:background="@color/xui_config_color_white" />
+
+        <com.xuexiang.xui.widget.alpha.XUIAlphaImageView
+            android:id="@+id/iv_finish"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/view_line"
+            android:scaleType="center"
+            android:src="@drawable/ic_web_close" />
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            tools:ignore="RelativeOverlap" />
+
+        <com.xuexiang.xui.widget.alpha.XUIAlphaImageView
+            android:id="@+id/iv_more"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:scaleType="center"
+            android:src="@drawable/ic_web_more" />
+    </RelativeLayout>
+
+
+</androidx.appcompat.widget.Toolbar>
+
