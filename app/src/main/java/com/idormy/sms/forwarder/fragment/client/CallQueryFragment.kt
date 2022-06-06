@@ -108,6 +108,7 @@ class CallQueryFragment : BaseFragment<FragmentClientCallQueryBinding?>() {
                 }
                 holder.click(R.id.iv_reply) {
                     XToastUtils.info("远程发短信：" + model.number)
+                    LiveEventBus.get<Int>(EVENT_KEY_SIM_SLOT).post(model.simId)
                     LiveEventBus.get<String>(EVENT_KEY_PHONE_NUMBERS).post(model.number)
                     PageOption.to(SmsSendFragment::class.java).setNewActivity(true).open((context as XPageActivity?)!!)
                 }
