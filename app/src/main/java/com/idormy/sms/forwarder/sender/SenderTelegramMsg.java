@@ -96,6 +96,7 @@ public class SenderTelegramMsg extends SenderBaseMsg {
             bodyMap.put("chat_id", chatId);
             bodyMap.put("text", finalText);
             bodyMap.put("parse_mode", "HTML");
+            bodyMap.put("disable_web_page_preview", "true");
 
             String requestMsg = JSON.toJSONString(bodyMap);
             Log.i(TAG, "requestMsg:" + requestMsg);
