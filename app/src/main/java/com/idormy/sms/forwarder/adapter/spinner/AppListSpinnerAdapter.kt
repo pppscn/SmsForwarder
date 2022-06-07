@@ -150,4 +150,8 @@ class AppListSpinnerAdapter<T> : BaseEditSpinnerAdapter<T>, EditSpinnerFilter {
             }
         }
     }
+
+    fun getItemSource(position: Int): T {
+        return mDataSource[mIndexs[position]]
+    }
 }

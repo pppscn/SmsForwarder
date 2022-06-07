@@ -42,7 +42,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 @Page(name = "转发规则·编辑器")
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "CAST_NEVER_SUCCEEDS")
 class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private val TAG: String = RulesEditFragment::class.java.simpleName
@@ -54,9 +54,11 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
 
     //发送通道列表
     private val senderSpinnerList = ArrayList<SenderAdapterItem>()
+    private lateinit var senderSpinnerAdapter: SenderSpinnerAdapter<*>
 
     //已安装App信息列表
     private val appListSpinnerList = ArrayList<AppListAdapterItem>()
+    private lateinit var appListSpinnerAdapter: AppListSpinnerAdapter<*>
 
     @JvmField
     @AutoWired(name = KEY_RULE_ID)
@@ -293,14 +295,13 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                     for (sender in senderList) {
                         senderSpinnerList.add(SenderAdapterItem(sender.name, sender.imageId, sender.id, sender.status))
                     }
-                    binding!!.spSender.setAdapter(
-                        SenderSpinnerAdapter(senderSpinnerList)
-                            //.setTextColor(ResUtils.getColor(R.color.green))
-                            //.setTextSize(12F)
-                            .setIsFilterKey(true)
-                            .setFilterColor("#FFFF00")
-                            .setBackgroundSelector(R.drawable.selector_custom_spinner_bg)
-                    )
+                    senderSpinnerAdapter = SenderSpinnerAdapter(senderSpinnerList)
+                        //.setTextColor(ResUtils.getColor(R.color.green))
+                        //.setTextSize(12F)
+                        .setIsFilterKey(true)
+                        .setFilterColor("#EF5362")
+                        .setBackgroundSelector(R.drawable.selector_custom_spinner_bg)
+                    binding!!.spSender.setAdapter(senderSpinnerAdapter)
 
                     if (senderId > 0) {
                         for (sender in senderSpinnerList) {
@@ -322,11 +323,11 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
             })
         binding!!.spSender.setOnItemClickListener { _: AdapterView<*>, _: View, position: Int, _: Long ->
             try {
-                val sender = senderSpinnerList[position]
+                //val sender = senderSpinnerList[position]
+                val sender = senderSpinnerAdapter.getItemSource(position) as SenderAdapterItem
                 sender.id.also {
                     senderId = it ?: 0L
                 }
-                XToastUtils.toast(sender.title)
                 binding!!.ivSenderImage.setImageDrawable(sender.icon)
                 binding!!.ivSenderStatus.setImageDrawable(
                     ResUtils.getDrawable(
@@ -362,17 +363,17 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 for (appInfo in App.AppInfoList) {
                     appListSpinnerList.add(AppListAdapterItem(appInfo.name, appInfo.icon, appInfo.packageName))
                 }
-                binding!!.spApp.setAdapter(
-                    AppListSpinnerAdapter(appListSpinnerList)
-                        //.setTextColor(ResUtils.getColor(R.color.green))
-                        //.setTextSize(12F)
-                        .setIsFilterKey(true)
-                        .setFilterColor("#FFFF00")
-                        .setBackgroundSelector(R.drawable.selector_custom_spinner_bg)
-                )
+                appListSpinnerAdapter = AppListSpinnerAdapter(appListSpinnerList)
+                    //.setTextColor(ResUtils.getColor(R.color.green))
+                    //.setTextSize(12F)
+                    .setIsFilterKey(true)
+                    .setFilterColor("#EF5362")
+                    .setBackgroundSelector(R.drawable.selector_custom_spinner_bg)
+                binding!!.spApp.setAdapter(appListSpinnerAdapter)
                 binding!!.spApp.setOnItemClickListener { _: AdapterView<*>, _: View, position: Int, _: Long ->
                     try {
-                        val appInfo = appListSpinnerList[position]
+                        //val appInfo = appListSpinnerList[position]
+                        val appInfo = appListSpinnerAdapter.getItemSource(position) as AppListAdapterItem
                         CommonUtils.insertOrReplaceText2Cursor(binding!!.etValue, appInfo.packageName.toString())
                     } catch (e: Exception) {
                         XToastUtils.error(e.message.toString())
