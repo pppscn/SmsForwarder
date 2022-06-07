@@ -15,10 +15,13 @@ class AppExceptionResolver : ExceptionResolver {
     override fun onResolve(request: HttpRequest, response: HttpResponse, e: Throwable) {
         e.printStackTrace()
         if (e is HttpException) {
-            response.status = e.statusCode
+            //response.status = e.statusCode
+            //异常捕获返回 http 200
+            response.status = StatusCode.SC_OK
         } else {
             response.status = StatusCode.SC_INTERNAL_SERVER_ERROR
         }
+
         //返回统一结构报文
         response.setBody(JsonBody(HttpServerUtils.response(e.message.toString())))
     }
