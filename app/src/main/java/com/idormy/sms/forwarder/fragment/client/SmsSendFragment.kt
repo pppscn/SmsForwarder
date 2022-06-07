@@ -19,6 +19,7 @@ import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.utils.TextUtils
+import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 
@@ -27,6 +28,7 @@ import com.xuexiang.xui.widget.actionbar.TitleBar
 class SmsSendFragment : BaseFragment<FragmentClientSmsSendBinding?>(), View.OnClickListener {
 
     val TAG: String = SmsSendFragment::class.java.simpleName
+    private var mCountDownHelper: CountDownButtonHelper? = null
 
     override fun viewBindingInflate(
         inflater: LayoutInflater,
@@ -43,6 +45,17 @@ class SmsSendFragment : BaseFragment<FragmentClientSmsSendBinding?>(), View.OnCl
      * 初始化控件
      */
     override fun initViews() {
+        //发送按钮增加倒计时，避免重复点击
+        mCountDownHelper = CountDownButtonHelper(binding!!.btnSubmit, SettingUtils.requestTimeout)
+        mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
+            override fun onCountDown(time: Int) {
+                binding!!.btnSubmit.text = String.format(getString(R.string.seconds_n), time)
+            }
+
+            override fun onFinished() {
+                binding!!.btnSubmit.text = getString(R.string.send)
+            }
+        })
     }
 
     override fun initListeners() {
@@ -93,6 +106,7 @@ class SmsSendFragment : BaseFragment<FragmentClientSmsSendBinding?>(), View.OnCl
                 val requestMsg: String = Gson().toJson(msgMap)
                 Log.i(TAG, "requestMsg:$requestMsg")
 
+                mCountDownHelper?.start()
                 XHttp.post(requestUrl)
                     .upJson(requestMsg)
                     .keepJson(true)
@@ -127,6 +141,11 @@ class SmsSendFragment : BaseFragment<FragmentClientSmsSendBinding?>(), View.OnCl
             }
             else -> {}
         }
+    }
+
+    override fun onDestroyView() {
+        if (mCountDownHelper != null) mCountDownHelper!!.recycle()
+        super.onDestroyView()
     }
 
 }

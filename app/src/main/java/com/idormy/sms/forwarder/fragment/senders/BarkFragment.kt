@@ -23,6 +23,8 @@ import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
 import com.xuexiang.xrouter.launcher.XRouter
+import com.xuexiang.xui.utils.CountDownButtonHelper
+import com.xuexiang.xui.utils.CountDownButtonHelper.OnCountDownListener
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
@@ -40,6 +42,7 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
     private val TAG: String = BarkFragment::class.java.simpleName
     var titleBar: TitleBar? = null
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
+    private var mCountDownHelper: CountDownButtonHelper? = null
     private var barkLevel: String = "active" //通知级别
 
     @JvmField
@@ -74,6 +77,18 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
      * 初始化控件
      */
     override fun initViews() {
+        //测试按钮增加倒计时，避免重复点击
+        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, SettingUtils.requestTimeout)
+        mCountDownHelper!!.setOnCountDownListener(object : OnCountDownListener {
+            override fun onCountDown(time: Int) {
+                binding!!.btnTest.text = String.format(getString(R.string.seconds_n), time)
+            }
+
+            override fun onFinished() {
+                binding!!.btnTest.text = getString(R.string.test)
+            }
+        })
+
         binding!!.spLevel.setItems(BARK_LEVEL_MAP.values.toList())
         binding!!.spLevel.setOnItemSelectedListener { _: MaterialSpinner?, _: Int, _: Long, item: Any ->
             BARK_LEVEL_MAP.forEach {
@@ -167,6 +182,7 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
                     return
                 }
                 R.id.btn_test -> {
+                    mCountDownHelper?.start()
                     val settingVo = checkSetting()
                     Log.d(TAG, settingVo.toString())
                     val msgInfo = MsgInfo("sms", getString(R.string.test_phone_num), getString(R.string.test_sender_sms), Date(), getString(R.string.test_sim_info))
@@ -235,6 +251,11 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
         val title = binding!!.etTitleTemplate.text.toString().trim()
 
         return BarkSetting(server, group, icon, sound, badge, url, barkLevel, title)
+    }
+
+    override fun onDestroyView() {
+        if (mCountDownHelper != null) mCountDownHelper!!.recycle()
+        super.onDestroyView()
     }
 
 }

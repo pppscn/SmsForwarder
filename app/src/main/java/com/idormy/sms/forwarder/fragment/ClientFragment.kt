@@ -30,6 +30,7 @@ import com.xuexiang.xpage.core.PageOption
 import com.xuexiang.xpage.model.PageInfo
 import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder
+import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.utils.DensityUtils
 import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.utils.WidgetUtils
@@ -45,13 +46,22 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
     val TAG: String = ClientFragment::class.java.simpleName
     private var appContext: App? = null
     private var serverConfig: ConfigData? = null
+    private var mCountDownHelper: CountDownButtonHelper? = null
 
     override fun initViews() {
         appContext = requireActivity().application as App
-        //val context = requireContext()
-        //Set Server-Logging for Server
-        //val serverLogging = ServerLogging(context.filesDir.absolutePath)
-        //appContext!!.httpServer.serverLogging = serverLogging
+
+        //测试按钮增加倒计时，避免重复点击
+        mCountDownHelper = CountDownButtonHelper(binding!!.btnServerTest, SettingUtils.requestTimeout)
+        mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
+            override fun onCountDown(time: Int) {
+                binding!!.btnServerTest.text = String.format(getString(R.string.seconds_n), time)
+            }
+
+            override fun onFinished() {
+                binding!!.btnServerTest.text = getString(R.string.server_test)
+            }
+        })
 
         WidgetUtils.initGridRecyclerView(binding!!.recyclerView, 3, DensityUtils.dp2px(1f))
         val widgetItemAdapter = WidgetItemAdapter(CLIENT_FRAGMENT_LIST)
@@ -159,6 +169,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
         val requestMsg: String = Gson().toJson(msgMap)
         Log.i(TAG, "requestMsg:$requestMsg")
 
+        if (needToast) mCountDownHelper?.start()
         XHttp.post(requestUrl)
             .upJson(requestMsg)
             .keepJson(true)
@@ -191,6 +202,11 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
                 }
 
             })
+    }
+
+    override fun onDestroyView() {
+        if (mCountDownHelper != null) mCountDownHelper!!.recycle()
+        super.onDestroyView()
     }
 
 }

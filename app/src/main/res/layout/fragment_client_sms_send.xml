@@ -123,10 +123,9 @@
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_submit"
             style="@style/SuperButton.Blue.Icon"
-            android:drawableStart="@drawable/icon_save"
-            android:paddingStart="15dp"
-            android:text="@string/submit"
-            android:textSize="11sp"
+            android:drawableStart="@drawable/ic_send_white"
+            android:paddingStart="20dp"
+            android:text="@string/send"
             tools:ignore="RtlSymmetry" />
 
     </LinearLayout>

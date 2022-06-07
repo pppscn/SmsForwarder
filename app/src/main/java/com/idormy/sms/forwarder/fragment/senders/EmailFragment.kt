@@ -23,6 +23,7 @@ import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
 import com.xuexiang.xrouter.launcher.XRouter
+import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
@@ -41,6 +42,7 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
     private val TAG: String = EmailFragment::class.java.simpleName
     var titleBar: TitleBar? = null
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
+    private var mCountDownHelper: CountDownButtonHelper? = null
     private var mailType: String = getString(R.string.other_mail_type) //邮箱类型
 
     @JvmField
@@ -75,6 +77,18 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
      * 初始化控件
      */
     override fun initViews() {
+        //测试按钮增加倒计时，避免重复点击
+        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, SettingUtils.requestTimeout)
+        mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
+            override fun onCountDown(time: Int) {
+                binding!!.btnTest.text = String.format(getString(R.string.seconds_n), time)
+            }
+
+            override fun onFinished() {
+                binding!!.btnTest.text = getString(R.string.test)
+            }
+        })
+
         val mailTypeArray = ResUtils.getStringArray(R.array.MailType)
         Log.d(TAG, mailTypeArray.toString())
         binding!!.spMailType.setOnItemSelectedListener { _: MaterialSpinner?, position: Int, _: Long, item: Any ->
@@ -176,6 +190,7 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
                     return
                 }
                 R.id.btn_test -> {
+                    mCountDownHelper?.start()
                     val settingVo = checkSetting()
                     Log.d(TAG, settingVo.toString())
                     val msgInfo = MsgInfo("sms", getString(R.string.test_phone_num), getString(R.string.test_sender_sms), Date(), getString(R.string.test_sim_info))
@@ -237,6 +252,11 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
         val title = binding!!.etTitleTemplate.text.toString().trim()
 
         return EmailSetting(mailType, fromEmail, pwd, nickname, host, port, ssl, startTls, toEmail, title)
+    }
+
+    override fun onDestroyView() {
+        if (mCountDownHelper != null) mCountDownHelper!!.recycle()
+        super.onDestroyView()
     }
 
 }

@@ -28,6 +28,7 @@ import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.utils.TextUtils
+import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xutil.app.AppUtils
@@ -44,6 +45,10 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
     val TAG: String = SmsQueryFragment::class.java.simpleName
     private var backupPath: String? = null
     private val backupFile = "SmsForwarder.json"
+    private var pushCountDownHelper: CountDownButtonHelper? = null
+    private var pullCountDownHelper: CountDownButtonHelper? = null
+    private var exportCountDownHelper: CountDownButtonHelper? = null
+    private var importCountDownHelper: CountDownButtonHelper? = null
 
     override fun viewBindingInflate(
         inflater: LayoutInflater,
@@ -96,6 +101,48 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                 binding!!.layoutOffline.visibility = View.GONE
             }
         }
+
+        //按钮增加倒计时，避免重复点击
+        pushCountDownHelper = CountDownButtonHelper(binding!!.btnPush, SettingUtils.requestTimeout)
+        pushCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
+            override fun onCountDown(time: Int) {
+                binding!!.btnPush.text = String.format(getString(R.string.seconds_n), time)
+            }
+
+            override fun onFinished() {
+                binding!!.btnPush.text = getString(R.string.push)
+            }
+        })
+        pullCountDownHelper = CountDownButtonHelper(binding!!.btnPull, SettingUtils.requestTimeout)
+        pullCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
+            override fun onCountDown(time: Int) {
+                binding!!.btnPull.text = String.format(getString(R.string.seconds_n), time)
+            }
+
+            override fun onFinished() {
+                binding!!.btnPull.text = getString(R.string.pull)
+            }
+        })
+        exportCountDownHelper = CountDownButtonHelper(binding!!.btnExport, 3)
+        exportCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
+            override fun onCountDown(time: Int) {
+                binding!!.btnExport.text = String.format(getString(R.string.seconds_n), time)
+            }
+
+            override fun onFinished() {
+                binding!!.btnExport.text = getString(R.string.export)
+            }
+        })
+        importCountDownHelper = CountDownButtonHelper(binding!!.btnImport, 3)
+        importCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
+            override fun onCountDown(time: Int) {
+                binding!!.btnImport.text = String.format(getString(R.string.seconds_n), time)
+            }
+
+            override fun onFinished() {
+                binding!!.btnImport.text = getString(R.string.imports)
+            }
+        })
     }
 
     override fun initListeners() {
@@ -115,6 +162,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
             //导出配置
             R.id.btn_export -> {
                 try {
+                    exportCountDownHelper?.start()
                     val file = File(backupPath + File.separator + backupFile)
                     //判断文件是否存在，存在则在创建之前删除
                     FileUtils.createFileByDeleteOldFile(file)
@@ -133,6 +181,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
             //导入配置
             R.id.btn_import -> {
                 try {
+                    importCountDownHelper?.start()
                     val file = File(backupPath + File.separator + backupFile)
                     //判断文件是否存在
                     if (!FileUtils.isFileExists(file)) {
@@ -171,6 +220,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
 
     //推送配置
     private fun pushData() {
+        pushCountDownHelper?.start()
 
         val requestUrl: String = HttpServerUtils.serverAddress + "/clone/push"
         Log.i(TAG, "requestUrl:$requestUrl")
@@ -223,6 +273,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
 
     //拉取配置
     private fun pullData() {
+        exportCountDownHelper?.start()
 
         val requestUrl: String = HttpServerUtils.serverAddress + "/clone/pull"
         Log.i(TAG, "requestUrl:$requestUrl")
@@ -291,5 +342,13 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
 
             })
 
+    }
+
+    override fun onDestroyView() {
+        if (pushCountDownHelper != null) pushCountDownHelper!!.recycle()
+        if (pullCountDownHelper != null) pullCountDownHelper!!.recycle()
+        if (exportCountDownHelper != null) exportCountDownHelper!!.recycle()
+        if (importCountDownHelper != null) importCountDownHelper!!.recycle()
+        super.onDestroyView()
     }
 }

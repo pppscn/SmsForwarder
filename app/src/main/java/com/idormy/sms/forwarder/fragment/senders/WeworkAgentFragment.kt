@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.fragment.senders
 
+import android.annotation.SuppressLint
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,15 +18,13 @@ import com.idormy.sms.forwarder.database.viewmodel.SenderViewModel
 import com.idormy.sms.forwarder.databinding.FragmentSendersWeworkAgentBinding
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.WeworkAgentSetting
-import com.idormy.sms.forwarder.utils.KEY_SENDER_CLONE
-import com.idormy.sms.forwarder.utils.KEY_SENDER_ID
-import com.idormy.sms.forwarder.utils.KEY_SENDER_TYPE
-import com.idormy.sms.forwarder.utils.XToastUtils
+import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.utils.sender.WeworkAgentUtils
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
 import com.xuexiang.xrouter.launcher.XRouter
+import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
@@ -42,6 +41,7 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
     private val TAG: String = WeworkAgentFragment::class.java.simpleName
     var titleBar: TitleBar? = null
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
+    private var mCountDownHelper: CountDownButtonHelper? = null
 
     @JvmField
     @AutoWired(name = KEY_SENDER_ID)
@@ -75,6 +75,18 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
      * 初始化控件
      */
     override fun initViews() {
+        //测试按钮增加倒计时，避免重复点击
+        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, SettingUtils.requestTimeout)
+        mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
+            override fun onCountDown(time: Int) {
+                binding!!.btnTest.text = String.format(getString(R.string.seconds_n), time)
+            }
+
+            override fun onFinished() {
+                binding!!.btnTest.text = getString(R.string.test)
+            }
+        })
+
         //新增
         if (senderId <= 0) {
             titleBar?.setSubTitle(getString(R.string.add_sender))
@@ -125,6 +137,7 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
         binding!!.sbAtAll.setOnCheckedChangeListener(this)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         //TODO: 这里只有一个监听不需要判断id
         if (isChecked) {
@@ -141,6 +154,7 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
         try {
             when (v.id) {
                 R.id.btn_test -> {
+                    mCountDownHelper?.start()
                     val settingVo = checkSetting()
                     Log.d(TAG, settingVo.toString())
                     val msgInfo = MsgInfo("sms", getString(R.string.test_phone_num), getString(R.string.test_sender_sms), Date(), getString(R.string.test_sim_info))
@@ -202,6 +216,11 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
         val toUser = binding!!.etToUser.text.toString().trim()
 
         return WeworkAgentSetting(corpID, agentID, secret, atAll, toUser)
+    }
+
+    override fun onDestroyView() {
+        if (mCountDownHelper != null) mCountDownHelper!!.recycle()
+        super.onDestroyView()
     }
 
 }

@@ -158,6 +158,7 @@
     <string name="del">Delete</string>
     <string name="save">Save</string>
     <string name="submit">Submit</string>
+    <string name="send">Send</string>
     <string name="test">Test</string>
     <string name="confirm">Confirm</string>
     <string name="all">All</string>
@@ -506,6 +507,7 @@
     <string name="interval">Interval</string>
     <string name="timeout">timeout</string>
     <string name="seconds">sec</string>
+    <string name="seconds_n">%s sec</string>
     <string name="retry">Retry</string>
     <string name="test_sender_sms">[Test Channel] Congratulations, the sending channel test is successful, please continue to add forwarding rules!</string>
     <string name="test_sim_info" tools:ignore="Typos">SIM1_TestOperator_18888888888</string>
@@ -800,4 +802,5 @@
     <string name="battery_status">Status: %s</string>
     <string name="battery_health">Health: %s</string>
     <string name="battery_plugged">Plugged: %s</string>
+    <string name="server_test">Server Test</string>
 </resources>
