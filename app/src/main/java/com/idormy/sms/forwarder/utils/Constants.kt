@@ -173,7 +173,7 @@ const val FRONT_CHANNEL_ID = "com.idormy.sms.forwarder"
 const val FRONT_CHANNEL_NAME = "SmsForwarder Foreground Service"
 
 //Frp内网穿透
-const val FRPC_LIB_VERSION = "0.42.0"
+const val FRPC_LIB_VERSION = "0.43.0"
 const val EVENT_FRPC_UPDATE_CONFIG = "EVENT_FRPC_UPDATE_CONFIG"
 const val EVENT_FRPC_DELETE_CONFIG = "EVENT_FRPC_DELETE_CONFIG"
 const val EVENT_FRPC_RUNNING_ERROR = "EVENT_FRPC_RUNNING_ERROR"

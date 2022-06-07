@@ -354,7 +354,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
         val downloadUrl = "https://xupdate.bms.ink/uploads/$FRPC_LIB_VERSION/$cpuAbi/libgojni.so"
         val mContext = this
         val dialog: MaterialDialog = MaterialDialog.Builder(mContext)
-            .title(getString(R.string.frpclib_download_title))
+            .title(String.format(getString(R.string.frpclib_download_title), FRPC_LIB_VERSION))
             .content(getString(R.string.frpclib_download_content))
             .contentGravity(GravityEnum.CENTER)
             .progress(false, 0, true)

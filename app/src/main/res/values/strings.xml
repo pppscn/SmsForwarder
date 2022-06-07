@@ -25,7 +25,9 @@
 
     <string name="about_app_version">软件版本：%s</string>
     <string name="about_cache_size">缓存大小：%s</string>
+    <string name="about_frpc_version">Frpc版本：%s</string>
     <string name="about_cache_purged">已清理缓存</string>
+    <string name="about_frpc_deleted">已删除动态库，重启APP中…</string>
     <string name="about_copyright">© %1$s PPPSCN All rights reserved.</string>
     <string name="about_item_open_source">开源仓库</string>
     <string name="about_item_github">GitHub</string>
@@ -630,6 +632,7 @@
     <string name="add">添加</string>
     <string name="check_update">检查更新</string>
     <string name="clear_cache">清理缓存</string>
+    <string name="delete_frpc">删除动态库</string>
 
     <string name="sender_name_status">通道名称/状态</string>
     <string name="choose_sender_status">发送通道/状态</string>
@@ -700,7 +703,7 @@
     <string name="request_succeeded">请求成功</string>
     <string name="request_failed">请求失败：</string>
     <string name="no_sms_sending_permission">没有短信发送权限</string>
-    <string name="frpclib_download_title">缺少 FrpcLib 动态库</string>
+    <string name="frpclib_download_title">缺少 FrpcLib v%s 动态库</string>
     <string name="frpclib_download_content">正在下载中，请稍后……</string>
     <string name="frpclib_version_mismatch">FrpcLib 版本不匹配，重新下载</string>
     <string name="page_not_found">页面未找到！</string>

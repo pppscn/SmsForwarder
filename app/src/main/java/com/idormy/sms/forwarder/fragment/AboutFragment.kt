@@ -1,6 +1,8 @@
 package com.idormy.sms.forwarder.fragment
 
+import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
@@ -18,6 +20,9 @@ import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView
 import com.xuexiang.xutil.app.AppUtils
+import com.xuexiang.xutil.file.FileUtils
+import frpclib.Frpclib
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -44,6 +49,11 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
         binding!!.menuVersion.setLeftString(String.format(resources.getString(R.string.about_app_version), AppUtils.getAppVersionName()))
         binding!!.menuCache.setLeftString(String.format(resources.getString(R.string.about_cache_size), CacheUtils.getTotalCacheSize(requireContext())))
 
+        if (FileUtils.isFileExists(context?.filesDir?.absolutePath + "/libs/libgojni.so")) {
+            binding!!.menuFrpc.setLeftString(String.format(resources.getString(R.string.about_frpc_version), Frpclib.getVersion()))
+            binding!!.menuFrpc.visibility = View.VISIBLE
+        }
+
         val dateFormat = SimpleDateFormat("yyyy", Locale.CHINA)
         val currentYear = dateFormat.format(Date())
         binding!!.copyright.text = java.lang.String.format(resources.getString(R.string.about_copyright), currentYear)
@@ -58,6 +68,21 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
             CacheUtils.clearAllCache(requireContext())
             XToastUtils.success(R.string.about_cache_purged)
             binding!!.menuCache.setLeftString(String.format(resources.getString(R.string.about_cache_size), CacheUtils.getTotalCacheSize(requireContext())))
+        }
+        binding!!.btnFrpc.setOnClickListener {
+            try {
+                val soFile = File(context?.filesDir?.absolutePath + "/libs/libgojni.so")
+                if (soFile.exists()) soFile.delete()
+                XToastUtils.success(R.string.about_frpc_deleted)
+
+                val intent: Intent? = context?.packageManager?.getLaunchIntentForPackage(context?.packageName.toString())
+                intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+                android.os.Process.killProcess(android.os.Process.myPid()) //杀掉以前进程
+            } catch (e: Exception) {
+                e.printStackTrace()
+                XToastUtils.error(e.message.toString())
+            }
         }
         binding!!.btnGithub.setOnClickListener {
             AgentWebActivity.goWeb(context, getString(R.string.url_project_github))

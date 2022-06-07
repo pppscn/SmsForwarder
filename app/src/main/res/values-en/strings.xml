@@ -25,7 +25,9 @@
 
     <string name="about_app_version">App Version: %s</string>
     <string name="about_cache_size">Cache Size: %s</string>
+    <string name="about_frpc_version">Frpc Version：%s</string>
     <string name="about_cache_purged">Cache cleared</string>
+    <string name="about_frpc_deleted">Frpc Deleted, App restarting</string>
     <string name="about_copyright">© %1$s PPPSCN All rights reserved.</string>
     <string name="about_item_open_source">OpenSource Repo</string>
     <string name="about_item_github">GitHub</string>
@@ -629,6 +631,7 @@
     <string name="add">Add</string>
     <string name="check_update">Check update</string>
     <string name="clear_cache">Clear cache</string>
+    <string name="delete_frpc">Delete Frpc</string>
 
     <string name="sender_name_status">Channel Name/Status</string>
     <string name="choose_sender_status">Send Channel/Status</string>
@@ -699,7 +702,7 @@
     <string name="request_succeeded">Request succeeded</string>
     <string name="request_failed">Request failed: </string>
     <string name="no_sms_sending_permission">No SMS sending permission</string>
-    <string name="frpclib_download_title">Missing FrpcLib</string>
+    <string name="frpclib_download_title">Missing FrpcLib v%s</string>
     <string name="frpclib_download_content">Downloading, please wait…</string>
     <string name="frpclib_version_mismatch">FrpcLib version mismatch, download again</string>
     <string name="page_not_found">Page not found!</string>
