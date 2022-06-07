@@ -12,7 +12,7 @@
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="输入关键字模糊匹配短信内容" />
+        android:hint="@string/sms_keyword_hint" />
 
     <com.xuexiang.xui.widget.tabbar.EasyIndicator
         android:id="@+id/tabBar"

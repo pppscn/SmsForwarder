@@ -86,7 +86,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                     } else {
                         XToastUtils.error(R.string.toast_denied)
                     }
-                    binding!!.tvBackupPath.text = "未授权储存权限，该功能无法使用！"
+                    binding!!.tvBackupPath.text = getString(R.string.storage_permission_tips)
                 }
             })
 
@@ -169,13 +169,13 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                     val cloneInfo = HttpServerUtils.exportSettings()
                     val jsonStr = Gson().toJson(cloneInfo)
                     if (FileIOUtils.writeFileFromString(file, jsonStr)) {
-                        XToastUtils.success("导出配置成功！")
+                        XToastUtils.success(getString(R.string.export_succeeded))
                     } else {
-                        binding!!.tvExport.text = "导出失败，请检查写入权限！"
-                        XToastUtils.error("导出失败，请检查写入权限！")
+                        binding!!.tvExport.text = getString(R.string.export_failed)
+                        XToastUtils.error(getString(R.string.export_failed))
                     }
                 } catch (e: Exception) {
-                    XToastUtils.error("导出失败：" + e.message)
+                    XToastUtils.error(String.format(getString(R.string.export_failed_tips), e.message))
                 }
             }
             //导入配置
@@ -185,14 +185,14 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                     val file = File(backupPath + File.separator + backupFile)
                     //判断文件是否存在
                     if (!FileUtils.isFileExists(file)) {
-                        XToastUtils.error("导入失败：本地备份文件不存在！")
+                        XToastUtils.error(getString(R.string.import_failed_file_not_exist))
                         return
                     }
 
                     val jsonStr = FileIOUtils.readFile2String(file)
                     Log.d(TAG, "jsonStr = $jsonStr")
                     if (TextUtils.isEmpty(jsonStr)) {
-                        XToastUtils.error("导入失败：请检查是否有外部存储访问权限！")
+                        XToastUtils.error(getString(R.string.import_failed))
                         return
                     }
 
@@ -207,12 +207,12 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                     HttpServerUtils.compareVersion(cloneInfo)
 
                     if (HttpServerUtils.restoreSettings(cloneInfo)) {
-                        XToastUtils.success("导入配置成功！")
+                        XToastUtils.success(getString(R.string.import_succeeded))
                     } else {
-                        XToastUtils.error("导入失败")
+                        XToastUtils.error(getString(R.string.import_failed))
                     }
                 } catch (e: Exception) {
-                    XToastUtils.error("导入失败：" + e.message)
+                    XToastUtils.error(String.format(getString(R.string.import_failed_tips), e.message))
                 }
             }
         }
@@ -329,7 +329,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                             HttpServerUtils.compareVersion(cloneInfo)
 
                             if (HttpServerUtils.restoreSettings(cloneInfo)) {
-                                XToastUtils.success("导入配置成功！")
+                                XToastUtils.success(getString(R.string.import_succeeded))
                             }
                         } else {
                             XToastUtils.error(ResUtils.getString(R.string.request_failed) + resp.msg)

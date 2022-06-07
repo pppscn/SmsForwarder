@@ -67,7 +67,7 @@
                     android:paddingBottom="@dimen/config_margin_10dp"
                     android:singleLine="false"
                     android:textColor="@color/xui_config_color_primary_text"
-                    tools:text="获取更多资讯，欢迎关注我的微信公众号：【我的Android开源之旅】" />
+                    tools:text="" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -1,9 +1,11 @@
 package com.idormy.sms.forwarder.server.controller
 
 import android.util.Log
+import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.CloneInfo
 import com.idormy.sms.forwarder.server.model.BaseRequest
 import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.xuexiang.xui.utils.ResUtils.getString
 import com.yanzhenjie.andserver.annotation.*
 
 @Suppress("PrivatePropertyName")
@@ -36,7 +38,7 @@ class CloneController {
 
         HttpServerUtils.compareVersion(cloneInfo)
 
-        return if (HttpServerUtils.restoreSettings(cloneInfo)) "success" else "还原失败"
+        return if (HttpServerUtils.restoreSettings(cloneInfo)) "success" else getString(R.string.restore_failed)
     }
 
 }

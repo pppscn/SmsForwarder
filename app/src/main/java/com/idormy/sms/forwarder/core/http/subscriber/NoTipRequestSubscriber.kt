@@ -27,7 +27,7 @@ abstract class NoTipRequestSubscriber<T> : BaseSubscriber<T> {
 
     public override fun onError(e: ApiException) {
         if (!StringUtils.isEmpty(mUrl)) {
-            Logger.e("网络请求的url:$mUrl", e)
+            Logger.e("Request Url: $mUrl", e)
         } else {
             Logger.e(e)
         }

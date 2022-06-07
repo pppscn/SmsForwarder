@@ -29,7 +29,7 @@ abstract class TipRequestSubscriber<T> : BaseSubscriber<T> {
     public override fun onError(e: ApiException) {
         XToastUtils.error(e)
         if (!StringUtils.isEmpty(mUrl)) {
-            Logger.e("网络请求的url:$mUrl", e)
+            Logger.e("Request Url: $mUrl", e)
         } else {
             Logger.e(e)
         }

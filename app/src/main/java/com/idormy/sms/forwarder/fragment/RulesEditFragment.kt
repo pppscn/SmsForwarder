@@ -339,7 +339,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 )
                 binding!!.tvSenderName.text = sender.title
                 if (STATUS_OFF == sender.status) {
-                    XToastUtils.warning("【注意】该发送通道已经禁用，其关联的规则即便匹配上也不会发送！")
+                    XToastUtils.warning(getString(R.string.sender_disabled_tips))
                 }
             } catch (e: Exception) {
                 XToastUtils.error(e.message.toString())
@@ -557,7 +557,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                     val testSim = "SIM" + (simSlot + 1)
                     val ruleSim: String = rule.simSlot
                     if (ruleSim != "ALL" && ruleSim != testSim) {
-                        throw java.lang.Exception("卡槽未匹配中规则")
+                        throw java.lang.Exception(getString(R.string.card_slot_does_not_match))
                     }
 
                     //获取卡槽信息
@@ -569,7 +569,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
 
                     val msgInfo = MsgInfo(ruleType, etFrom.text.toString(), etContent.text.toString(), Date(), simInfo, simSlot)
                     if (!rule.checkMsg(msgInfo)) {
-                        throw java.lang.Exception("未匹配中规则")
+                        throw java.lang.Exception(getString(R.string.unmatched_rule))
                     }
 
                     AppDatabase.getInstance(requireContext())

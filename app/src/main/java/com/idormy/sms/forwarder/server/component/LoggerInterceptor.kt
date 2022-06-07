@@ -1,7 +1,9 @@
 package com.idormy.sms.forwarder.server.component
 
 import android.util.Log
+import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.xuexiang.xui.utils.ResUtils.getString
 import com.yanzhenjie.andserver.annotation.Interceptor
 import com.yanzhenjie.andserver.error.HttpException
 import com.yanzhenjie.andserver.framework.HandlerInterceptor
@@ -39,7 +41,7 @@ class LoggerInterceptor : HandlerInterceptor {
                 || (httpPath.startsWith("/contact/query") && !HttpServerUtils.enableApiContactQuery)
                 || (httpPath.startsWith("/battery/query") && !HttpServerUtils.enableApiBatteryQuery)
             ) {
-                throw HttpException(500, "服务端未开启此功能")
+                throw HttpException(500, getString(R.string.disabled_on_the_server))
             }
 
             /*

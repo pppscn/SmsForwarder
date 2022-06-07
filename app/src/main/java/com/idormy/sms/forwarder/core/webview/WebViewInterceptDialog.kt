@@ -43,7 +43,7 @@ class WebViewInterceptDialog : AppCompatActivity(), DialogInterface.OnDismissLis
     private fun getOpenTitle(url: String): String {
         val scheme = getScheme(url)
         return if ("mqqopensdkapi" == scheme) {
-            "是否允许页面打开\"QQ\"?"
+            ResUtils.getString(R.string.lab_open_qq_app)
         } else {
             ResUtils.getString(R.string.lab_open_third_app)
         }

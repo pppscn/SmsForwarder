@@ -158,7 +158,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
                     R.id.nav_logcat -> openNewPage(LogcatFragment::class.java)
                     R.id.nav_help -> AgentWebActivity.goWeb(this, getString(R.string.url_help))
                     R.id.nav_about -> openNewPage(AboutFragment::class.java)
-                    else -> XToastUtils.toast("点击了:" + menuItem.title)
+                    else -> XToastUtils.toast("Click:" + menuItem.title)
                 }
             }
             true

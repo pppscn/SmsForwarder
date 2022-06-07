@@ -117,7 +117,7 @@ class FrpcFragment : BaseFragment<FragmentFrpcsBinding?>(), FrpcPagingAdapter.On
 
         //运行出错时间
         LiveEventBus.get(EVENT_FRPC_RUNNING_ERROR, String::class.java).observe(this) {
-            XToastUtils.error("Frpc运行失败")
+            XToastUtils.error(getString(R.string.frpc_failed_to_run))
             //FrpcUtils.checkAndStopService(requireContext())
             adapter.refresh()
         }
@@ -190,7 +190,7 @@ class FrpcFragment : BaseFragment<FragmentFrpcsBinding?>(), FrpcPagingAdapter.On
                 try {
                     viewModel.delete(item)
                     LiveEventBus.get<Frpc>(EVENT_FRPC_DELETE_CONFIG).post(item)
-                    XToastUtils.success("删除成功")
+                    XToastUtils.success(getString(R.string.successfully_deleted))
                 } catch (e: Exception) {
                     e.message?.let { XToastUtils.error(it) }
                 }

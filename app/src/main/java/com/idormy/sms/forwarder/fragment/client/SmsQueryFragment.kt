@@ -98,7 +98,7 @@ class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
                 holder.text(R.id.tv_content, model.content)
                 holder.image(R.id.iv_reply, R.drawable.ic_reply)
                 holder.click(R.id.iv_reply) {
-                    XToastUtils.info("远程回短信：" + model.number)
+                    XToastUtils.info(getString(R.string.remote_sms) + model.number)
                     LiveEventBus.get<Int>(EVENT_KEY_SIM_SLOT).post(model.simId)
                     LiveEventBus.get<String>(EVENT_KEY_PHONE_NUMBERS).post(model.number)
                     PageOption.to(SmsSendFragment::class.java).setNewActivity(true).open((context as XPageActivity?)!!)
@@ -136,9 +136,9 @@ class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
         binding!!.searchView.setSuggestions(resources.getStringArray(R.array.query_suggestions))
         binding!!.searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                SnackbarUtils.Indefinite(view, "搜索关键字: $query").info()
+                SnackbarUtils.Indefinite(view, String.format(getString(R.string.search_keyword), query)).info()
                     .actionColor(ResUtils.getColor(R.color.xui_config_color_white))
-                    .setAction("清除") {
+                    .setAction(getString(R.string.clear)) {
                         keyword = ""
                         loadRemoteData(true)
                     }.show()

@@ -2,6 +2,8 @@ package com.idormy.sms.forwarder.entity
 
 import android.util.Patterns
 import com.google.gson.annotations.SerializedName
+import com.idormy.sms.forwarder.R
+import com.xuexiang.xui.utils.ResUtils.getString
 import java.io.Serializable
 import java.util.*
 
@@ -17,6 +19,6 @@ data class ContactInfo(
         }
 
     override fun toString(): String {
-        return String.format("姓名：%s\n号码：%s", name, phoneNumber)
+        return String.format(getString(R.string.contact_info), name, phoneNumber)
     }
 }

@@ -55,6 +55,7 @@
 
     <string name="lab_yes">Yes</string>
     <string name="lab_no">No</string>
+    <string name="lab_open_qq_app">Allow pages to open QQ apps?</string>
     <string name="lab_open_third_app">Allow pages to open third-party apps?</string>
 
     <!-- 隐私政策弹窗   -->
@@ -703,6 +704,7 @@
     <string name="other_login_methods">Other login methods</string>
     <string name="request_succeeded">Request succeeded</string>
     <string name="request_failed">Request failed: </string>
+    <string name="request_failed_tips">Request failed: %s</string>
     <string name="no_sms_sending_permission">No SMS sending permission</string>
     <string name="frpclib_download_title">Missing FrpcLib v%s</string>
     <string name="frpclib_download_content">Downloading, please wait…</string>
@@ -802,5 +804,52 @@
     <string name="battery_status">Status: %s</string>
     <string name="battery_health">Health: %s</string>
     <string name="battery_plugged">Plugged: %s</string>
+
     <string name="server_test">Server Test</string>
+    <string name="invalid_service_address">Invalid service address</string>
+    <string name="click_test_button_first">Click the test button first, to get the list of features enabled by the server</string>
+    <string name="disabled_on_the_server">Disable this feature on the server</string>
+    <string name="frpc_failed_to_run">Frpc failed to run</string>
+    <string name="successfully_deleted">Successfully deleted</string>
+    <string name="sender_disabled_tips">[Note] The sending channel has been disabled, and its associated rules will not be sent even if they match!</string>
+    <string name="local_call">Local Call:</string>
+    <string name="remote_sms">Remote SMS：</string>
+    <string name="clear">Clear</string>
+    <string name="storage_permission_tips">Unauthorized storage permission, this function cannot be used!</string>
+    <string name="contact_info">Name：%s\nPhone：%s</string>
+    <string name="card_slot_does_not_match">Card slot does not match the rule</string>
+    <string name="unmatched_rule">Unmatched rule</string>
+    <string name="copied_to_clipboard">Copied to clipboard:\n%s</string>
+    <string name="search_keyword">Search Keyword: %s</string>
+    <string name="export_succeeded">Export configuration succeeded!</string>
+    <string name="export_failed">Export failed, please check write permission!</string>
+    <string name="export_failed_tips">Export failed: %s</string>
+    <string name="import_failed">Import failed: Please check for external storage access!</string>
+    <string name="import_failed_file_not_exist">Import failed: local backup file does not exist</string>
+    <string name="import_succeeded">Import configuration successful!</string>
+    <string name="import_failed_tips">Import failed: %s</string>
+    <string name="restore_failed">Restore failed</string>
+    <string name="battery_status_monitor">Battery Status Monitor</string>
+    <string name="below_level_min">[Battery Warning] The battery has been lower than the lower limit of the battery warning, please charge it in time!%s</string>
+    <string name="over_level_max">[Battery Warning] The battery warning limit has been exceeded, please unplug the charger!%s</string>
+    <string name="reach_level_min">[Battery Warning] The lower limit of the battery warning has been reached, please charge it in time!%s</string>
+    <string name="reach_level_max">[Battery Warning] The upper limit of battery warning has been reached, please unplug the charger!%s</string>
+    <string name="battery_status_changed">【充电状态】发生变化：</string>
+    <string name="no_indentation_allowed_on_the_first_line">第一行不允许缩进</string>
+    <string name="sign_required">The server enables the signing key, and the sign node required</string>
+    <string name="timestamp_required">The server enables the signing key, and the timestamp node required</string>
+    <string name="sign_verify_failed">Sign verify failed</string>
+    <string name="version_code_required">version_code required</string>
+    <string name="inconsistent_version">The app versions of the client and server are inconsistent</string>
+    <string name="timestamp_verify_failed">The timestamp verification failed, and the difference with the server time (%s) cannot exceed 1 hour (diffTime=%s)</string>
+
+    <string name="main_title">Main title</string>
+    <string name="subtitle">Subtitle</string>
+    <string name="sms_keyword_hint">Input keywords to fuzzy match SMS content</string>
+    <string name="contact_keyword_hint">Pure numbers match numbers / non-numbers match names</string>
+    <string name="call_keyword_hint">Input keyword to fuzzy match mobile phone number</string>
+    <string name="server_settings_tips2">Fill two items according to the config of server, the signature key is optional</string>
+    <string name="service_address">Service Address</string>
+    <string name="service_address_hint">E.g: http://127.0.0.1:5000</string>
+    <string name="features_list">Features List</string>
 </resources>

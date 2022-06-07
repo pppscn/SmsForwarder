@@ -12,12 +12,12 @@
     <TextView
         android:id="@+id/tv_title"
         style="@style/TextStyle.Title"
-        tools:text="主标题" />
+        tools:text="@string/main_title" />
 
     <TextView
         android:id="@+id/tv_sub_title"
         style="@style/TextStyle.Explain"
         android:layout_marginTop="4dp"
-        tools:text="副标题" />
+        tools:text="@string/subtitle" />
 
 </LinearLayout>

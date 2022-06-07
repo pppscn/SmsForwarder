@@ -1,7 +1,9 @@
 package com.idormy.sms.forwarder.utils
 
 import android.util.Log
+import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.MsgInfo
+import com.xuexiang.xui.utils.ResUtils.getString
 import java.util.*
 
 @Suppress("unused")
@@ -45,7 +47,7 @@ object RuleLineUtils {
             if (lineNum == 0) {
                 //第一行不允许缩进
                 if (line.startsWith(" ")) {
-                    throw Exception("第一行不允许缩进")
+                    throw Exception(getString(R.string.no_indentation_allowed_on_the_first_line))
                 }
             }
 

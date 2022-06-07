@@ -13,7 +13,7 @@ import com.xuexiang.xui.widget.dialog.MiniLoadingDialog
  */
 class MiniLoadingDialogLoader @JvmOverloads constructor(
     context: Context?,
-    msg: String? = "请求中...",
+    msg: String? = "Loading...",
 ) : IProgressLoader {
     /**
      * 进度loading弹窗

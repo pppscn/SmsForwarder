@@ -107,7 +107,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
         when (v.id) {
             R.id.btn_server_test -> {
                 if (!CommonUtils.checkUrl(HttpServerUtils.serverAddress)) {
-                    XToastUtils.error("请输入有效的服务地址")
+                    XToastUtils.error(getString(R.string.invalid_service_address))
                     return
                 }
                 queryConfig(true)
@@ -119,12 +119,12 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
     override fun onItemClick(itemView: View, item: PageInfo, position: Int) {
         try {
             if (!CommonUtils.checkUrl(HttpServerUtils.serverAddress)) {
-                XToastUtils.error("请输入有效的服务地址")
+                XToastUtils.error(getString(R.string.invalid_service_address))
                 serverConfig = null
                 return
             }
             if (serverConfig == null && item.name != ResUtils.getString(R.string.api_clone)) {
-                XToastUtils.error("请先点击【测试接口】按钮")
+                XToastUtils.error(getString(R.string.click_test_button_first))
                 return
             }
             if (serverConfig != null && (
@@ -135,7 +135,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
                                 || (item.name == ResUtils.getString(R.string.api_battery_query) && !serverConfig!!.enableApiBatteryQuery)
                         )
             ) {
-                XToastUtils.error("服务端未开启此功能")
+                XToastUtils.error(getString(R.string.disabled_on_the_server))
                 return
             }
             @Suppress("UNCHECKED_CAST")

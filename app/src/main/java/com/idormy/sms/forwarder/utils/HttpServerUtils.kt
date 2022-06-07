@@ -4,9 +4,11 @@ package com.idormy.sms.forwarder.utils
 import android.text.TextUtils
 import android.util.Base64
 import com.google.gson.Gson
+import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.entity.CloneInfo
 import com.idormy.sms.forwarder.server.model.BaseRequest
+import com.xuexiang.xui.utils.ResUtils.getString
 import com.xuexiang.xutil.app.AppUtils
 import com.yanzhenjie.andserver.error.HttpException
 import java.net.URLEncoder
@@ -116,26 +118,26 @@ class HttpServerUtils private constructor() {
             val signSecret = serverSignKey
             if (TextUtils.isEmpty(signSecret)) return
 
-            if (TextUtils.isEmpty(req.sign)) throw HttpException(500, "服务端启用签名密钥，sign节点必传")
-            if (req.timestamp == 0L) throw HttpException(500, "服务端启用签名密钥，timestamp节点必传")
+            if (TextUtils.isEmpty(req.sign)) throw HttpException(500, getString(R.string.sign_required))
+            if (req.timestamp == 0L) throw HttpException(500, getString(R.string.timestamp_required))
 
             val timestamp = System.currentTimeMillis()
             val diffTime = kotlin.math.abs(timestamp - req.timestamp)
             if (diffTime > 3600000L) {
-                throw HttpException(500, "timestamp校验失败，与服务器时间($timestamp)误差不能超过1小时(diffTime=$diffTime)")
+                throw HttpException(500, String.format(getString(R.string.timestamp_verify_failed), timestamp, diffTime))
             }
 
             val sign = calcSign(req.timestamp.toString(), signSecret.toString())
-            if (sign != req.sign) throw HttpException(500, "签名校验失败")
+            if (sign != req.sign) throw HttpException(500, getString(R.string.sign_verify_failed))
         }
 
         //判断版本是否一致
         @Throws(HttpException::class)
         fun compareVersion(cloneInfo: CloneInfo) {
             val versionCodeRequest = cloneInfo.versionCode
-            if (versionCodeRequest == 0) throw HttpException(500, "version_code节点必传")
+            if (versionCodeRequest == 0) throw HttpException(500, getString(R.string.version_code_required))
             val versionCodeLocal = AppUtils.getAppVersionCode().toString().substring(1)
-            if (!versionCodeRequest.toString().endsWith(versionCodeLocal)) throw HttpException(500, "客户端与服务端的App版本不一致")
+            if (!versionCodeRequest.toString().endsWith(versionCodeLocal)) throw HttpException(500, getString(R.string.inconsistent_version))
         }
 
         //导出设置

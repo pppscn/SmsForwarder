@@ -12,6 +12,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.google.gson.Gson
+import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.utils.BatteryUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
@@ -66,19 +67,19 @@ class BatteryService : Service() {
                 val levelMin: Int = SettingUtils.batteryLevelMin
                 val levelMax: Int = SettingUtils.batteryLevelMax
                 if (SettingUtils.batteryLevelOnce && levelMin > 0 && levelPre > levelCur && levelCur <= levelMin) { //电量下降到下限
-                    msg = "【电量预警】已低于电量预警下限，请及时充电！$msg"
+                    msg = String.format(getString(R.string.below_level_min), msg)
                     sendMessage(context, msg)
                     return
                 } else if (SettingUtils.batteryLevelOnce && levelMax > 0 && levelPre < levelCur && levelCur >= levelMax) { //电量上升到上限
-                    msg = "【电量预警】已高于电量预警上限，请拔掉充电器！$msg"
+                    msg = String.format(getString(R.string.over_level_max), msg)
                     sendMessage(context, msg)
                     return
                 } else if (!SettingUtils.batteryLevelOnce && levelMin > 0 && levelPre > levelCur && levelCur == levelMin) { //电量下降到下限
-                    msg = "【电量预警】已到达电量预警下限，请及时充电！$msg"
+                    msg = String.format(getString(R.string.reach_level_min), msg)
                     sendMessage(context, msg)
                     return
                 } else if (!SettingUtils.batteryLevelOnce && levelMax > 0 && levelPre < levelCur && levelCur == levelMax) { //电量上升到上限
-                    msg = "【电量预警】已到达电量预警上限，请拔掉充电器！$msg"
+                    msg = String.format(getString(R.string.reach_level_max), msg)
                     sendMessage(context, msg)
                     return
                 }
@@ -91,7 +92,7 @@ class BatteryService : Service() {
                 if (status != oldStatus) {
                     var msg: String = BatteryUtils.getBatteryInfo(intent).toString()
                     SettingUtils.batteryStatus = status
-                    msg = "【充电状态】发生变化：" + BatteryUtils.getStatus(oldStatus) + " → " + BatteryUtils.getStatus(status) + msg
+                    msg = getString(R.string.battery_status_changed) + BatteryUtils.getStatus(oldStatus) + " → " + BatteryUtils.getStatus(status) + msg
                     sendMessage(context, msg)
                 }
             }
@@ -102,7 +103,7 @@ class BatteryService : Service() {
     private fun sendMessage(context: Context, msg: String) {
         Log.i(TAG, msg)
         try {
-            val msgInfo = MsgInfo("app", "88888888", msg, Date(), "电池状态监听", -1)
+            val msgInfo = MsgInfo("app", "88888888", msg, Date(), getString(R.string.battery_status_monitor), -1)
             val request = OneTimeWorkRequestBuilder<SendWorker>()
                 .setInputData(
                     workDataOf(

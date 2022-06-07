@@ -236,11 +236,16 @@ class CommonUtils private constructor() {
         }
 
         //是否合法的url
-        fun checkUrl(urls: String, emptyResult: Boolean): Boolean {
+        fun checkUrl(urls: String?): Boolean {
+            return checkUrl(urls, false)
+        }
+
+        //是否合法的url
+        fun checkUrl(urls: String?, emptyResult: Boolean): Boolean {
             if (TextUtils.isEmpty(urls)) return emptyResult
             val regex = "(ht|f)tp(s?)\\:\\/\\/[\\da-zA-Z]([-.\\w]*[\\da-zA-Z])*(:(0-9)*)*(\\/?)([a-zA-Z\\d\\-\\.\\?\\,\\'\\/\\\\&%\\+\\$#_=]*)?"
             val pat = Pattern.compile(regex)
-            val mat = pat.matcher(urls.trim())
+            val mat = pat.matcher(urls?.trim() ?: "")
             return mat.matches()
         }
 

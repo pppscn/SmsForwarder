@@ -95,15 +95,15 @@ class ContactQueryFragment : BaseFragment<FragmentClientContactQueryBinding?>() 
                 holder.image(R.id.iv_reply, R.drawable.ic_reply)
                 holder.click(R.id.iv_copy) {
                     val str = model.toString()
-                    XToastUtils.info("已经复制到剪贴板！\n$str")
+                    XToastUtils.info(String.format(getString(R.string.copied_to_clipboard), str))
                     ClipboardUtils.copyText(str)
                 }
                 holder.click(R.id.iv_call) {
-                    XToastUtils.info("本地呼叫：" + model.phoneNumber)
+                    XToastUtils.info(getString(R.string.local_call) + model.phoneNumber)
                     PhoneUtils.dial(model.phoneNumber)
                 }
                 holder.click(R.id.iv_reply) {
-                    XToastUtils.info("远程发短信：" + model.phoneNumber)
+                    XToastUtils.info(getString(R.string.remote_sms) + model.phoneNumber)
                     /*val params = Bundle()
                     params.putString(KEY_PHONE_NUMBERS, model.phoneNumber)
                     openPage(SmsSendFragment::class.java, params)*/
@@ -133,9 +133,9 @@ class ContactQueryFragment : BaseFragment<FragmentClientContactQueryBinding?>() 
         binding!!.searchView.setSuggestions(resources.getStringArray(R.array.query_suggestions))
         binding!!.searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                SnackbarUtils.Indefinite(view, "搜索关键字: $query").info()
+                SnackbarUtils.Indefinite(view, String.format(getString(R.string.search_keyword), query)).info()
                     .actionColor(ResUtils.getColor(R.color.xui_config_color_white))
-                    .setAction("清除") {
+                    .setAction(getString(R.string.clear)) {
                         keyword = ""
                         loadRemoteData()
                     }.show()

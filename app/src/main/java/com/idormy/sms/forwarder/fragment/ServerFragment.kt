@@ -144,7 +144,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 if (inetAddress != null) {
                     val url = "http://${inetAddress!!.hostAddress}:5000"
                     ClipboardUtils.copyText(url)
-                    XToastUtils.info("已复制到剪贴板：$url")
+                    XToastUtils.info(String.format(getString(R.string.copied_to_clipboard), url))
                 }
             }
             else -> {}

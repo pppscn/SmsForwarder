@@ -18,6 +18,7 @@ import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
 import com.xuexiang.xui.utils.ResUtils
+import com.xuexiang.xui.utils.ResUtils.getString
 
 @Suppress("PrivatePropertyName", "UNUSED_PARAMETER")
 class WeworkAgentUtils private constructor() {
@@ -65,7 +66,7 @@ class WeworkAgentUtils private constructor() {
                             MMKVUtils.put("expires_in_" + setting.agentID, System.currentTimeMillis() + ((resp.expires_in ?: 7200) - 120) * 1000L) //提前2分钟过期
                             sendTextMsg(setting, msgInfo, rule, logId)
                         } else {
-                            XToastUtils.error("请求失败：$response")
+                            XToastUtils.error(String.format(getString(R.string.request_failed_tips), response))
                         }
                     }
 

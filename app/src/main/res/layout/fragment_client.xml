@@ -26,14 +26,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="服务端设置"
+                    android:text="@string/server_settings"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="按照主动控制·服务端的配置填写以下两项，签名密钥可选"
+                    android:text="@string/server_settings_tips2"
                     android:textSize="10sp"
                     tools:ignore="SmallSp" />
 
@@ -49,7 +49,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="服务地址"
+                    android:text="@string/service_address"
                     android:textStyle="bold" />
 
                 <com.xuexiang.xui.widget.edittext.ClearEditText
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_weight="1"
-                    android:hint="例如：http://127.0.0.1:5000" />
+                    android:hint="@string/service_address_hint" />
 
             </LinearLayout>
 
@@ -72,7 +72,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="签名密钥"
+                    android:text="@string/sign_key"
                     android:textStyle="bold" />
 
                 <com.xuexiang.xui.widget.edittext.ClearEditText
@@ -108,14 +108,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="功能列表"
+                    android:text="@string/features_list"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="请先点击【测试接口】按钮，获取服务端已启用的功能列表"
+                    android:text="@string/click_test_button_first"
                     android:textSize="10sp"
                     tools:ignore="SmallSp" />
 

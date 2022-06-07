@@ -55,6 +55,7 @@
 
     <string name="lab_yes">是</string>
     <string name="lab_no">否</string>
+    <string name="lab_open_qq_app">是否允许页面打开"QQ"?</string>
     <string name="lab_open_third_app">是否允许页面打开第三方应用?</string>
 
     <!-- 隐私政策弹窗   -->
@@ -704,6 +705,7 @@
     <string name="other_login_methods">其他登录方式</string>
     <string name="request_succeeded">请求成功</string>
     <string name="request_failed">请求失败：</string>
+    <string name="request_failed_tips">请求失败：%s</string>
     <string name="no_sms_sending_permission">没有短信发送权限</string>
     <string name="frpclib_download_title">缺少 FrpcLib v%s 动态库</string>
     <string name="frpclib_download_content">正在下载中，请稍后……</string>
@@ -803,5 +805,52 @@
     <string name="battery_status">电池状态：%s</string>
     <string name="battery_health">健康度：%s</string>
     <string name="battery_plugged">充电器：%s</string>
+
     <string name="server_test">测试接口</string>
+    <string name="invalid_service_address">无效的服务地址</string>
+    <string name="click_test_button_first">请先点击【测试接口】按钮，获取服务端已启用的功能列表</string>
+    <string name="disabled_on_the_server">服务端禁用此功能</string>
+    <string name="frpc_failed_to_run">Frpc运行失败</string>
+    <string name="successfully_deleted">删除成功</string>
+    <string name="sender_disabled_tips">【注意】该发送通道已经禁用，其关联的规则即便匹配上也不会发送！</string>
+    <string name="local_call">本地呼叫：</string>
+    <string name="remote_sms">远程发短信：</string>
+    <string name="clear">清除</string>
+    <string name="storage_permission_tips">未授权储存权限，该功能无法使用！</string>
+    <string name="contact_info">姓名：%s\n号码：%s</string>
+    <string name="card_slot_does_not_match">卡槽未匹配中规则</string>
+    <string name="unmatched_rule">未匹配中规则</string>
+    <string name="copied_to_clipboard">已复制到剪贴板:\n%s</string>
+    <string name="search_keyword">搜索关键字: %s</string>
+    <string name="export_succeeded">导出配置成功！</string>
+    <string name="export_failed">导出失败，请检查写入权限！</string>
+    <string name="export_failed_tips">导出失败: %s</string>
+    <string name="import_failed">导入失败：请检查是否有外部存储访问权限！</string>
+    <string name="import_failed_file_not_exist">导入失败：本地备份文件不存在！</string>
+    <string name="import_succeeded">导入配置成功！</string>
+    <string name="import_failed_tips">导入失败: %s</string>
+    <string name="restore_failed">还原失败</string>
+    <string name="battery_status_monitor">电池状态监听</string>
+    <string name="below_level_min">【电量预警】已低于电量预警下限，请及时充电！%s</string>
+    <string name="over_level_max">【电量预警】已高于电量预警上限，请拔掉充电器！%s</string>
+    <string name="reach_level_min">【电量预警】已低于电量预警下限，请及时充电！%s</string>
+    <string name="reach_level_max">【电量预警】已高于电量预警上限，请拔掉充电器！%s</string>
+    <string name="battery_status_changed">【充电状态】发生变化：</string>
+    <string name="no_indentation_allowed_on_the_first_line">第一行不允许缩进</string>
+    <string name="sign_required">服务端启用签名密钥，sign节点必传</string>
+    <string name="timestamp_required">服务端启用签名密钥，timestamp节点必传</string>
+    <string name="sign_verify_failed">签名校验失败</string>
+    <string name="version_code_required">version_code节点必传</string>
+    <string name="inconsistent_version">客户端与服务端的App版本不一致</string>
+    <string name="timestamp_verify_failed">timestamp校验失败，与服务器时间(%s)误差不能超过1小时(diffTime=%s)</string>
+
+    <string name="main_title">主标题</string>
+    <string name="subtitle">副标题</string>
+    <string name="sms_keyword_hint">输入关键字模糊匹配短信内容</string>
+    <string name="contact_keyword_hint">纯数字匹配号码/非数字匹配姓名</string>
+    <string name="call_keyword_hint">输入关键字模糊匹配手机号码</string>
+    <string name="server_settings_tips2">按照主动控制·服务端的配置填写以下两项，签名密钥可选</string>
+    <string name="service_address">服务地址</string>
+    <string name="service_address_hint">例如：http://127.0.0.1:5000</string>
+    <string name="features_list">功能列表</string>
 </resources>

@@ -105,7 +105,7 @@
                     app:met_maxCharacters="390"
                     app:met_regexp="@string/msg_content_regex"
                     app:met_validateOnFocusLost="true"
-                    app:mlet_hintText="请输入短信内容，70个字以内算一条，超过每增加64字加一条" />
+                    app:mlet_hintText="@string/msg_content_hint" />
 
             </LinearLayout>
 

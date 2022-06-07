@@ -12,7 +12,7 @@
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="纯数字匹配号码/非数字匹配姓名" />
+        android:hint="@string/contact_keyword_hint" />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"

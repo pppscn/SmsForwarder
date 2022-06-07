@@ -17,6 +17,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xui.utils.DensityUtils
+import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.utils.ThemeUtils
 import com.xuexiang.xui.utils.WidgetUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
@@ -73,7 +74,7 @@ class AppListFragment : BaseFragment<FragmentAppListBinding?>() {
             val cm = requireContext().getSystemService(AppCompatActivity.CLIPBOARD_SERVICE) as ClipboardManager
             val mClipData = ClipData.newPlainText("pkgName", item?.packageName)
             cm.setPrimaryClip(mClipData)
-            XToastUtils.toast("已复制包名：" + item?.packageName, 2000)
+            XToastUtils.toast(ResUtils.getString(R.string.package_name_copied) + item?.packageName, 2000)
         }
 
         //设置刷新加载时禁止所有列表操作
