@@ -15,10 +15,7 @@ import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentClientBinding
 import com.idormy.sms.forwarder.server.model.BaseResponse
 import com.idormy.sms.forwarder.server.model.ConfigData
-import com.idormy.sms.forwarder.utils.CLIENT_FRAGMENT_LIST
-import com.idormy.sms.forwarder.utils.HttpServerUtils
-import com.idormy.sms.forwarder.utils.SettingUtils
-import com.idormy.sms.forwarder.utils.XToastUtils
+import com.idormy.sms.forwarder.utils.*
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
@@ -35,7 +32,6 @@ import com.xuexiang.xui.utils.DensityUtils
 import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.utils.WidgetUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
-import com.xuexiang.xutil.net.NetworkUtils
 
 @Suppress("PrivatePropertyName", "PropertyName")
 @Page(name = "主动控制·客户端")
@@ -68,7 +64,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
         widgetItemAdapter.setOnItemClickListener(this)
         binding!!.recyclerView.adapter = widgetItemAdapter
 
-        if (NetworkUtils.isUrlValid(HttpServerUtils.serverAddress)) queryConfig(false)
+        if (CommonUtils.checkUrl(HttpServerUtils.serverAddress)) queryConfig(false)
     }
 
     override fun initTitle(): TitleBar? {
@@ -110,7 +106,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btn_server_test -> {
-                if (!NetworkUtils.isUrlValid(HttpServerUtils.serverAddress)) {
+                if (!CommonUtils.checkUrl(HttpServerUtils.serverAddress)) {
                     XToastUtils.error("请输入有效的服务地址")
                     return
                 }
@@ -122,7 +118,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
 
     override fun onItemClick(itemView: View, item: PageInfo, position: Int) {
         try {
-            if (!NetworkUtils.isUrlValid(HttpServerUtils.serverAddress)) {
+            if (!CommonUtils.checkUrl(HttpServerUtils.serverAddress)) {
                 XToastUtils.error("请输入有效的服务地址")
                 serverConfig = null
                 return
