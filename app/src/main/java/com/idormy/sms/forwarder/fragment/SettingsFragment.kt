@@ -42,10 +42,12 @@ import com.xuexiang.xui.widget.picker.XRangeSlider
 import com.xuexiang.xui.widget.picker.XRangeSlider.OnRangeSliderListener
 import com.xuexiang.xui.widget.picker.XSeekBar
 import com.xuexiang.xui.widget.picker.widget.builder.TimePickerBuilder
+import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.XUtil.getPackageManager
 import com.xuexiang.xutil.app.AppUtils.getAppPackageName
 import com.xuexiang.xutil.data.DateUtils
 import java.util.*
+
 
 @Suppress("PropertyName", "SpellCheckingInspection")
 @Page(name = "通用设置")
@@ -121,6 +123,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
         //帮助提示
         switchHelpTip(binding!!.sbHelpTip)
+
+        //纯客户端模式
+        switchDirectlyToClient(binding!!.sbDirectlyToClient)
     }
 
     override fun initListeners() {
@@ -690,6 +695,24 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         switchHelpTip.isChecked = SettingUtils.enableHelpTip
         switchHelpTip.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             SettingUtils.enableHelpTip = isChecked
+        }
+    }
+
+    //纯客户端模式
+    private fun switchDirectlyToClient(@SuppressLint("UseSwitchCompatOrMaterialCode") switchDirectlyToClient: SwitchButton) {
+        switchDirectlyToClient.isChecked = SettingUtils.enablePureClientMode
+        switchDirectlyToClient.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            SettingUtils.enablePureClientMode = isChecked
+            if (isChecked) {
+                MaterialDialog.Builder(requireContext())
+                    .content(getString(R.string.enabling_pure_client_mode))
+                    .positiveText(R.string.lab_yes)
+                    .onPositive { _: MaterialDialog?, _: DialogAction? ->
+                        XUtil.exitApp()
+                    }
+                    .negativeText(R.string.lab_no)
+                    .show()
+            }
         }
     }
 

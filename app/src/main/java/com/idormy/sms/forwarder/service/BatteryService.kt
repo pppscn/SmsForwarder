@@ -31,8 +31,8 @@ class BatteryService : Service() {
         super.onCreate()
         Log.i(TAG, "onCreate--------------")
 
-        //是否同意隐私协议
-        //if (!MyApplication.allowPrivacyPolicy) return
+        //纯客户端模式
+        //if (SettingUtils.enablePureClientMode) return
 
         val batteryFilter = IntentFilter()
         batteryFilter.addAction(Intent.ACTION_BATTERY_CHANGED)
@@ -41,15 +41,16 @@ class BatteryService : Service() {
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         Log.i(TAG, "onStartCommand--------------")
-        return START_STICKY //
+        return START_STICKY
     }
 
     override fun onDestroy() {
         Log.i(TAG, "onDestroy--------------")
         super.onDestroy()
 
-        //是否同意隐私协议
-        //if (!MyApplication.allowPrivacyPolicy) return
+        //纯客户端模式
+        //if (SettingUtils.enablePureClientMode) return
+
         unregisterReceiver(batteryReceiver)
     }
 

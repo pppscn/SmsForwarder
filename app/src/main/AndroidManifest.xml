@@ -100,7 +100,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.ClientActivity"
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
             android:exported="true"
             android:launchMode="singleInstance"

@@ -63,6 +63,7 @@ const val SP_ENABLE_SMS_TEMPLATE = "enable_sms_template"
 const val SP_SMS_TEMPLATE = "sms_template"
 
 const val SP_ENABLE_HELP_TIP = "enable_help_tip"
+const val SP_PURE_CLIENT_MODE = "enable_pure_client_mode"
 
 const val CACTUS_TIMER = "cactus_timer"
 const val CACTUS_LAST_TIMER = "cactus_last_timer"

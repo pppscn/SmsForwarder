@@ -40,6 +40,9 @@ class NotifyService : NotificationListenerService()/*, LifecycleOwner*/ {
     }
 
     override fun onListenerDisconnected() {
+        //纯客户端模式
+        if (SettingUtils.enablePureClientMode) return
+
         //总开关
         if (!SettingUtils.enableAppNotify) return
 
@@ -51,6 +54,9 @@ class NotifyService : NotificationListenerService()/*, LifecycleOwner*/ {
 
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         try {
+            //纯客户端模式
+            if (SettingUtils.enablePureClientMode) return
+
             //总开关
             if (!SettingUtils.enableAppNotify) return
 

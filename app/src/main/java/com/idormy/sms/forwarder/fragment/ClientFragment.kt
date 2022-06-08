@@ -32,6 +32,7 @@ import com.xuexiang.xui.utils.DensityUtils
 import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.utils.WidgetUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
+import com.xuexiang.xutil.XUtil
 
 @Suppress("PrivatePropertyName", "PropertyName")
 @Page(name = "主动控制·客户端")
@@ -69,7 +70,20 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
 
     override fun initTitle(): TitleBar? {
         val titleBar = super.initTitle()!!.setImmersive(false)
-        titleBar.setTitle(R.string.menu_client)
+        //纯客户端模式
+        if (SettingUtils.enablePureClientMode) {
+            titleBar.setTitle(R.string.app_name).setSubTitle(getString(R.string.menu_client)).disableLeftView()
+            titleBar.addAction(object : TitleBar.ImageAction(R.drawable.ic_logout) {
+                @SingleClick
+                override fun performAction(view: View) {
+                    XToastUtils.success(getString(R.string.exit_pure_client_mode))
+                    SettingUtils.enablePureClientMode = false
+                    XUtil.exitApp()
+                }
+            })
+        } else {
+            titleBar.setTitle(R.string.menu_client)
+        }
         return titleBar
     }
 

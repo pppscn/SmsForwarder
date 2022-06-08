@@ -2,7 +2,6 @@ package com.idormy.sms.forwarder.utils.sdkinit
 
 import android.app.Application
 import com.idormy.sms.forwarder.core.BaseActivity
-import com.idormy.sms.forwarder.utils.TokenUtils
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.xuexiang.xaop.XAOP
 import com.xuexiang.xhttp2.XHttpSDK
@@ -49,7 +48,6 @@ class XBasicLibInit private constructor() {
         private fun initXUtil(application: Application) {
             XUtil.init(application)
             XUtil.debug(com.idormy.sms.forwarder.App.isDebug)
-            TokenUtils.init(application)
         }
 
         /**

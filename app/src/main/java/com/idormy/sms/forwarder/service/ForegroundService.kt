@@ -72,6 +72,10 @@ class ForegroundService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+
+        //纯客户端模式
+        if (SettingUtils.enablePureClientMode) return
+
         notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         startForeground(FRONT_NOTIFY_ID, createForegroundNotification())
         isRunning = true
@@ -108,6 +112,12 @@ class ForegroundService : Service() {
     }
 
     override fun onDestroy() {
+        //纯客户端模式
+        if (SettingUtils.enablePureClientMode) {
+            super.onDestroy()
+            return
+        }
+
         stopForeground(true)
         compositeDisposable.dispose()
         isRunning = false

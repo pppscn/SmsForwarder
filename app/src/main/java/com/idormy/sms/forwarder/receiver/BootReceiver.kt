@@ -7,6 +7,7 @@ import android.os.Build
 import android.util.Log
 import com.idormy.sms.forwarder.activity.SplashActivity
 import com.idormy.sms.forwarder.service.ForegroundService
+import com.idormy.sms.forwarder.utils.SettingUtils
 
 @Suppress("PropertyName")
 class BootReceiver : BroadcastReceiver() {
@@ -21,6 +22,9 @@ class BootReceiver : BroadcastReceiver() {
                 val i = Intent(context, SplashActivity::class.java)
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 context.startActivity(i)
+
+                //纯客户端模式
+                if (SettingUtils.enablePureClientMode) return
 
                 //前台服务
                 val frontServiceIntent = Intent(context, ForegroundService::class.java)

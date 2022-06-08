@@ -6,6 +6,7 @@ import android.os.IBinder
 import android.util.Log
 import com.idormy.sms.forwarder.utils.HTTP_SERVER_PORT
 import com.idormy.sms.forwarder.utils.HTTP_SERVER_TIME_OUT
+import com.idormy.sms.forwarder.utils.SettingUtils
 import com.yanzhenjie.andserver.AndServer
 import com.yanzhenjie.andserver.Server
 import java.util.concurrent.TimeUnit
@@ -28,6 +29,10 @@ class HttpService : Service(), Server.ServerListener {
 
     override fun onCreate() {
         super.onCreate()
+
+        //纯客户端模式
+        if (SettingUtils.enablePureClientMode) return
+
         Log.i(TAG, "onCreate: ")
         server.startup()
     }
@@ -39,6 +44,10 @@ class HttpService : Service(), Server.ServerListener {
 
     override fun onDestroy() {
         super.onDestroy()
+
+        //纯客户端模式
+        if (SettingUtils.enablePureClientMode) return
+
         Log.i(TAG, "onDestroy: ")
         server.shutdown()
     }

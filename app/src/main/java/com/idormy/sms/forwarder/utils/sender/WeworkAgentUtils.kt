@@ -17,7 +17,6 @@ import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.utils.ResUtils.getString
 
 @Suppress("PrivatePropertyName", "UNUSED_PARAMETER")
@@ -122,10 +121,10 @@ class WeworkAgentUtils private constructor() {
                         val resp = Gson().fromJson(response, DingtalkResult::class.java)
                         if (resp.errcode == 0L) {
                             SendUtils.updateLogs(logId, 2, response)
-                            XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
+                            XToastUtils.success(getString(R.string.request_succeeded))
                         } else {
                             SendUtils.updateLogs(logId, 0, response)
-                            XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
+                            XToastUtils.error(getString(R.string.request_failed) + response)
                         }
                     }
 

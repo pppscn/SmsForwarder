@@ -93,6 +93,12 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
     override fun onCreate() {
         super.onCreate()
         try {
+            context = applicationContext
+            initLibs()
+
+            //纯客户端模式
+            if (SettingUtils.enablePureClientMode) return
+
             //动态加载FrpcLib
             val libPath = filesDir.absolutePath + "/libs"
             val soFile = File(libPath)
@@ -101,9 +107,6 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
             } catch (throwable: Throwable) {
                 Log.e("APP", throwable.message!!)
             }
-
-            context = applicationContext
-            initLibs()
 
             //启动前台服务
             val intent = Intent(this, ForegroundService::class.java)

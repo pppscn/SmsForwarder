@@ -268,6 +268,14 @@ class SettingUtils private constructor() {
             set(enableHelpTip) {
                 MMKVUtils.put(SP_ENABLE_HELP_TIP, enableHelpTip)
             }
+
+        //是否纯客户端模式
+        @JvmStatic
+        var enablePureClientMode: Boolean
+            get() = MMKVUtils.getBoolean(SP_PURE_CLIENT_MODE, false)
+            set(enablePureClientMode) {
+                MMKVUtils.put(SP_PURE_CLIENT_MODE, enablePureClientMode)
+            }
     }
 
     init {

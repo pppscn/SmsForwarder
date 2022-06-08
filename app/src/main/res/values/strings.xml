@@ -853,4 +853,8 @@
     <string name="service_address">服务地址</string>
     <string name="service_address_hint">例如：http://127.0.0.1:5000</string>
     <string name="features_list">功能列表</string>
+    <string name="pure_client_mode">纯客户端模式</string>
+    <string name="pure_client_mode_tips">启动APP时直接进入主动控制·客户端</string>
+    <string name="exit_pure_client_mode">退出纯客户端模式</string>
+    <string name="enabling_pure_client_mode">是否立即退出App后手动启动，以生效纯客户端模式？</string>
 </resources>
