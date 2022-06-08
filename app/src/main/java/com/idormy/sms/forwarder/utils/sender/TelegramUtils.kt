@@ -88,6 +88,7 @@ class TelegramUtils {
                 bodyMap["chat_id"] = setting.chatId
                 bodyMap["text"] = content
                 bodyMap["parse_mode"] = "HTML"
+                bodyMap["disable_web_page_preview"] = "true"
                 val requestMsg: String = Gson().toJson(bodyMap)
                 Log.i(TAG, "requestMsg:$requestMsg")
                 val requestBody = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), requestMsg)
