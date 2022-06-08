@@ -54,6 +54,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
 
     override fun initListeners() {
         binding!!.tvServerTips.setOnClickListener(this)
+        binding!!.ivCopy.setOnClickListener(this)
         binding!!.toggleServerBtn.setOnClickListener(this)
         //Refresh Button every sec
         Thread {
@@ -140,7 +141,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 binding!!.etSignKey.setText(sign)
                 XToastUtils.info(getString(R.string.sign_key_tips))
             }
-            R.id.tv_server_tips -> {
+            R.id.tv_server_tips, R.id.iv_copy -> {
                 if (inetAddress != null) {
                     val url = "http://${inetAddress!!.hostAddress}:5000"
                     ClipboardUtils.copyText(url)
@@ -157,9 +158,11 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
             binding!!.toggleServerBtn.text = resources.getText(R.string.stop_server)
             inetAddress = NetworkUtils.getLocalInetAddress()
             binding!!.tvServerTips.text = getString(R.string.http_server_running, inetAddress!!.hostAddress, HTTP_SERVER_PORT)
+            binding!!.ivCopy.visibility = View.VISIBLE
         } else {
             binding!!.toggleServerBtn.text = resources.getText(R.string.start_server)
             binding!!.tvServerTips.text = getString(R.string.http_server_stopped)
+            binding!!.ivCopy.visibility = View.GONE
         }
     }
 

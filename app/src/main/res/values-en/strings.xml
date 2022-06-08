@@ -806,7 +806,7 @@
     <string name="battery_plugged">Plugged: %s</string>
 
     <string name="server_test">Server Test</string>
-    <string name="invalid_service_address">Invalid service address</string>
+    <string name="invalid_service_address">Invalid service address\nFormat: http://127.0.0.1:5000 or https://smsf.demo.com</string>
     <string name="click_test_button_first">Click the test button first, to get the list of features enabled by the server</string>
     <string name="disabled_on_the_server">Disable this feature on the server</string>
     <string name="frpc_failed_to_run">Frpc failed to run</string>

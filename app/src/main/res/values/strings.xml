@@ -807,7 +807,7 @@
     <string name="battery_plugged">充电器：%s</string>
 
     <string name="server_test">测试接口</string>
-    <string name="invalid_service_address">无效的服务地址</string>
+    <string name="invalid_service_address">无效的服务地址！\n格式：http://127.0.0.1:5000 或 https://smsf.demo.com</string>
     <string name="click_test_button_first">请先点击【测试接口】按钮，获取服务端已启用的功能列表</string>
     <string name="disabled_on_the_server">服务端禁用此功能</string>
     <string name="frpc_failed_to_run">Frpc运行失败</string>
@@ -856,5 +856,5 @@
     <string name="pure_client_mode">纯客户端模式</string>
     <string name="pure_client_mode_tips">启动APP时直接进入主动控制·客户端</string>
     <string name="exit_pure_client_mode">退出纯客户端模式</string>
-    <string name="enabling_pure_client_mode">是否立即退出App后手动启动，以生效纯客户端模式？</string>
+    <string name="enabling_pure_client_mode">是否立即退出App，并手动启动以生效纯客户端模式？</string>
 </resources>
