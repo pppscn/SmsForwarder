@@ -105,6 +105,14 @@ class NotifyService : NotificationListenerService()/*, LifecycleOwner*/ {
                         }
                     }
                 }*/
+            //自动消除全部通知（临时方案）
+            if (SettingUtils.enableCancelAppNotify) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    cancelNotification(sbn.key)
+                } else {
+                    cancelNotification(sbn.packageName, sbn.tag, sbn.id)
+                }
+            }
 
         } catch (e: Exception) {
             Log.e(TAG, "Parsing Notification failed: " + e.message.toString())

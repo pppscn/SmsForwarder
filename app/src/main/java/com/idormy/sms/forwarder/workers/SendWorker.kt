@@ -30,7 +30,7 @@ class SendWorker(
                 val msgInfoJson = inputData.getString(Worker.sendMsgInfo)
                 val msgInfo = Gson().fromJson(msgInfoJson, MsgInfo::class.java)
 
-                //TODO:过滤重复消息机制
+                // 过滤重复消息机制
                 if (SettingUtils.duplicateMessagesLimits > 0) {
                     val key = CipherUtils.md5(msgInfo.type + msgInfo.from + msgInfo.content)
                     val timestamp: Long = System.currentTimeMillis() / 1000L
