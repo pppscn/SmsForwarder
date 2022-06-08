@@ -14,6 +14,7 @@ import androidx.work.workDataOf
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.entity.MsgInfo
+import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.Worker
 import com.idormy.sms.forwarder.workers.SendWorker
@@ -45,17 +46,25 @@ class SmsReceiver : BroadcastReceiver() {
             Log.d(TAG, "from = $from")
             Log.d(TAG, "content = $content")
 
+            //获取卡槽信息
+            if (App.SimInfoList.isEmpty()) {
+                App.SimInfoList = PhoneUtils.getSimMultiInfo()
+            }
+            Log.e(TAG, "SimInfoList = " + App.SimInfoList.toString())
+
             //TODO：准确获取卡槽信息，目前测试结果只有 subscription 相对靠谱
-            //val slot = intent.extras?.getInt("slot") ?: -1
-            //val simId = intent.extras?.getInt("simId") ?: -1
-            val subscription = intent.extras?.getInt("subscription") ?: -1
-            //Logs.d(TAG, "slot = $slot, simId = $simId, subscription = $subscription")
+            val slot = intent.extras?.getInt("slot") ?: -1
+            val simId = intent.extras?.getInt("simId") ?: slot
+            val subscription = intent.extras?.getInt("subscription") ?: simId
+            Log.d(TAG, "slot = $slot, simId = $simId, subscription = $subscription")
+
             //卡槽id：-1=获取失败、0=卡槽1、1=卡槽2
             var simSlot = -1
             if (App.SimInfoList.isNotEmpty()) {
                 for (simInfo in App.SimInfoList.values) {
                     if (simInfo.mSubscriptionId == subscription) {
                         simSlot = simInfo.mSimSlotIndex
+                        break
                     }
                 }
             }
@@ -67,6 +76,8 @@ class SmsReceiver : BroadcastReceiver() {
             }
 
             val msgInfo = MsgInfo("sms", from, content, Date(), simInfo, simSlot)
+            Log.d(TAG, "msgInfo = $msgInfo")
+
             val request = OneTimeWorkRequestBuilder<SendWorker>()
                 .setInputData(
                     workDataOf(
