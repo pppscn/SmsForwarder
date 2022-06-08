@@ -19,7 +19,6 @@ import java.net.Proxy
 import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
 
-//TODO:待迁移！！！
 @Suppress("PrivatePropertyName", "UNUSED_PARAMETER", "unused")
 class TelegramUtils {
     companion object {

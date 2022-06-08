@@ -71,7 +71,7 @@ class SenderAdapterItem {
         return this
     }
 
-    //TODO:注意自定义实体，需要重写对象的toString方法
+    //注意：自定义实体需要重写对象的toString方法
     override fun toString(): String {
         return title.toString()
     }

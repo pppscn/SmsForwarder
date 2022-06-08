@@ -14,7 +14,7 @@ import com.xuexiang.xupdate.proxy.impl.AbstractUpdateParser
 class CustomUpdateParser : AbstractUpdateParser() {
     @Throws(Exception::class)
     override fun parseJson(json: String): UpdateEntity? {
-        // TODO: 2020-02-18 这里填写你需要自定义的json格式，如果使用默认的API就不需要设置
+        // 填写自定义的json格式，如果使用默认的API就不需要设置
         return null
     }
 }

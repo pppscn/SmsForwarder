@@ -120,7 +120,7 @@ class PhoneUtils private constructor() {
                     val sendPI = PendingIntent.getBroadcast(XUtil.getContext(), 0, Intent(), sendFlags)
 
                     val smsManager = if (subId > -1 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) SmsManager.getSmsManagerForSubscriptionId(subId) else SmsManager.getDefault()
-                    //TODO: Android 5.1.1 以下使用反射指定卡槽
+                    // Android 5.1.1 以下使用反射指定卡槽
                     if (subId > -1 && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
                         Log.d(TAG, "Android 5.1.1 以下使用反射指定卡槽")
                         val clz = SmsManager::class.java
@@ -129,7 +129,7 @@ class PhoneUtils private constructor() {
                         field.set(smsManager, subId)
                     }
 
-                    //TODO: 切割长短信
+                    // 切割长短信
                     if (message.length >= 70) {
                         val deliverFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) PendingIntent.FLAG_IMMUTABLE else 0
                         val deliverPI = PendingIntent.getBroadcast(XUtil.getContext(), 0, Intent("DELIVERED_SMS_ACTION"), deliverFlags)
@@ -172,7 +172,7 @@ class PhoneUtils private constructor() {
                 Log.d(TAG, "selection = $selection")
                 Log.d(TAG, "selectionArgs = $selectionArgs")
 
-                //TODO：避免超过总数后循环取出
+                // 避免超过总数后循环取出
                 val cursorTotal = Core.app.contentResolver.query(
                     CallLog.Calls.CONTENT_URI,
                     null,
@@ -279,7 +279,7 @@ class PhoneUtils private constructor() {
                 Log.d(TAG, "selection = $selection")
                 Log.d(TAG, "selectionArgs = $selectionArgs")
 
-                //TODO：避免超过总数后循环取出
+                // 避免超过总数后循环取出
                 val cursorTotal = Core.app.contentResolver.query(
                     ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                     null,
@@ -376,7 +376,7 @@ class PhoneUtils private constructor() {
                 Log.d(TAG, "selection = $selection")
                 Log.d(TAG, "selectionArgs = $selectionArgs")
 
-                //TODO：避免超过总数后循环取出
+                // 避免超过总数后循环取出
                 val cursorTotal = Core.app.contentResolver.query(
                     Uri.parse("content://sms/"),
                     null,

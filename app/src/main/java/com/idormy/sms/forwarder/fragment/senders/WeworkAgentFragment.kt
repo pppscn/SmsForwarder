@@ -139,7 +139,7 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
 
     @SuppressLint("SetTextI18n")
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-        //TODO: 这里只有一个监听不需要判断id
+        //注意：因为只有一个监听，暂不需要判断id
         if (isChecked) {
             binding!!.etToUser.setText("@all")
             binding!!.layoutToUser.visibility = View.GONE

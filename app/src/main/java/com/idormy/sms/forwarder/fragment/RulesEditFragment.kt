@@ -477,9 +477,9 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
             else -> CHECK_SIM_SLOT_ALL
         }
         val status = if (binding!!.sbStatus.isChecked) STATUS_ON else STATUS_OFF
-        if (status == STATUS_OFF) {
-            throw Exception(getString(R.string.invalid_rule_status))
-        }
+        //if (status == STATUS_OFF) {
+        //    throw Exception(getString(R.string.invalid_rule_status))
+        //}
 
         return Rule(ruleId, ruleType, filed, check, value, senderId, smsTemplate, regexReplace, simSlot, status)
     }

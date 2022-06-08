@@ -331,7 +331,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
             @Suppress("UNCHECKED_CAST")
             PageOption.to(Class.forName(widgetInfo.classPath) as Class<XPageFragment>) //跳转的fragment
                 .setNewActivity(true)
-                .putInt(KEY_SENDER_TYPE, pos) //TODO：需要注意这里，目前刚好是这个顺序而已
+                .putInt(KEY_SENDER_TYPE, pos) //注意：目前刚好是这个顺序而已
                 .open(this)
         } catch (e: Exception) {
             e.printStackTrace()

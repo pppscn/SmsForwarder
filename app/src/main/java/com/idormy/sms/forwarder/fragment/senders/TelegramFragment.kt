@@ -154,7 +154,7 @@ class TelegramFragment : BaseFragment<FragmentSendersTelegramBinding?>(), View.O
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-        //TODO: 这里只有一个监听不需要判断id
+        //注意：因为只有一个监听，暂不需要判断id
         binding!!.layoutProxyAuthenticator.visibility = if (isChecked) View.VISIBLE else View.GONE
     }
 

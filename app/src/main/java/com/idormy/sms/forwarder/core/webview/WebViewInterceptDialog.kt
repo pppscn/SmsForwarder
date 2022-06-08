@@ -94,9 +94,9 @@ class WebViewInterceptDialog : AppCompatActivity(), DialogInterface.OnDismissLis
     companion object {
         private const val KEY_INTERCEPT_URL = "key_intercept_url"
 
-        // TODO: 2019-10-30 这里修改你的applink
-        const val APP_LINK_HOST = "xuexiangjys.club"
-        const val APP_LINK_ACTION = "com.xuexiang.xui.applink"
+        // TODO: 修改你的applink
+        const val APP_LINK_HOST = "ppps.cn"
+        const val APP_LINK_ACTION = "com.idormy.sms.forwarder"
 
         /**
          * 显示WebView拦截提示

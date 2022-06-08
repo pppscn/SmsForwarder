@@ -65,7 +65,7 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(), SenderPagingAda
         binding!!.tabBar.setOnTabClickListener { _, position ->
             //XToastUtils.toast("点击了$title--$position")
             //currentStatus = statusValueArray[position]
-            currentStatus = 1 - position //TODO:取巧，这里刚好相反
+            currentStatus = 1 - position //注意：这里刚好相反，可以取巧
             viewModel.setStatus(currentStatus)
             adapter.refresh()
             binding!!.recyclerView.scrollToPosition(0)
