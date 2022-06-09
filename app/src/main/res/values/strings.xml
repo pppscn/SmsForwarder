@@ -698,10 +698,10 @@
     <string name="regex_multi_match" tools:ignore="TypographyDashes">^\\s*(并且|或者)\\s(是|不是)\\s(手机号|APP包名|短信内容|通知内容|通知标题|卡槽信息)\\s(相等|包含|不包含|开头|结尾|正则匹配)\\s(.*)$</string>
     <string name="privacy_content_1">欢迎使用</string>
     <string name="privacy_content_2">我们深知个人信息对你的重要性，也感谢你对我们的信任。\n</string>
-    <string name="privacy_content_3">为了更好地保护你的权益，同时遵守相关监管的要求，我们将通过《</string>
-    <string name="privacy_content_4">》向你说明我们会如何收集、存储、保护、使用及对外提供你的信息，并说明你享有的权利。\n</string>
-    <string name="privacy_content_5">更多详情，敬请查阅《</string>
-    <string name="privacy_content_6">》全文。</string>
+    <string name="privacy_content_3">为了更好地保护你的权益，同时遵守相关监管的要求，我们将通过 </string>
+    <string name="privacy_content_4"> 向你说明我们会如何收集、存储、保护、使用及对外提供你的信息，并说明你享有的权利。\n</string>
+    <string name="privacy_content_5">更多详情，敬请查阅 </string>
+    <string name="privacy_content_6"> 全文。</string>
     <string name="other_login_methods">其他登录方式</string>
     <string name="request_succeeded">请求成功</string>
     <string name="request_failed">请求失败：</string>
