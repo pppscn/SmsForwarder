@@ -1,6 +1,7 @@
 package com.idormy.sms.forwarder.utils.sender
 
 import android.annotation.SuppressLint
+import android.os.Looper
 import android.text.TextUtils
 import android.util.Base64
 import android.util.Log
@@ -164,7 +165,10 @@ class WebhookUtils {
                 override fun onFailure(call: Call, e: IOException) {
                     SendUtils.updateLogs(logId, 0, e.message.toString())
                     //LogUtils.updateLog(logId, 0, e.message)
+                    //解决在子线程中调用Toast的异常情况处理
+                    Looper.prepare()
                     XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
+                    Looper.loop()
                 }
 
                 @Throws(IOException::class)
@@ -172,14 +176,17 @@ class WebhookUtils {
                     val responseStr = response.body().toString()
                     Log.d(TAG, "Response：" + response.code() + "，" + responseStr)
 
-
                     //返回http状态200即为成功
                     if (200 == response.code()) {
                         SendUtils.updateLogs(logId, 2, responseStr)
+                        Looper.prepare()
                         XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
+                        Looper.loop()
                     } else {
                         SendUtils.updateLogs(logId, 0, responseStr)
+                        Looper.prepare()
                         XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
+                        Looper.loop()
                     }
                 }
             })

@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.utils.sender
 
+import android.os.Looper
 import android.text.TextUtils
 import android.util.Log
 import com.google.gson.Gson
@@ -104,7 +105,9 @@ class TelegramUtils {
                 override fun onFailure(call: Call, e: IOException) {
                     SendUtils.updateLogs(logId, 0, e.message.toString())
                     e.printStackTrace()
-                    //XToastUtils.error("发送失败：" + e.message)
+                    Looper.prepare()
+                    XToastUtils.error("发送失败：" + e.message)
+                    Looper.loop()
                 }
 
                 @Throws(IOException::class)
@@ -115,10 +118,14 @@ class TelegramUtils {
                     val resp = Gson().fromJson(responseStr, TelegramResult::class.java)
                     if (resp.ok == true) {
                         SendUtils.updateLogs(logId, 2, responseStr.toString())
+                        Looper.prepare()
                         XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
+                        Looper.loop()
                     } else {
                         SendUtils.updateLogs(logId, 0, responseStr.toString())
+                        Looper.prepare()
                         XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
+                        Looper.loop()
                     }
                 }
             })
