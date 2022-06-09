@@ -3,6 +3,8 @@ package com.idormy.sms.forwarder.utils.mail
 import android.text.Html
 import android.text.Spanned
 import android.util.Log
+import com.xuexiang.xrouter.utils.TextUtils
+import java.io.UnsupportedEncodingException
 import java.util.*
 import javax.activation.DataHandler
 import javax.activation.FileDataSource
@@ -45,7 +47,16 @@ object MailUtil {
         return MimeMessage(session).apply {
 
             // 设置发件箱
-            setFrom(InternetAddress(mail.fromAddress))
+            if (TextUtils.isEmpty(mail.fromNickname)) {
+                setFrom(InternetAddress(mail.fromAddress))
+            } else {
+                val nickname = try {
+                    MimeUtility.encodeText(mail.fromNickname)
+                } catch (e: UnsupportedEncodingException) {
+                    e.printStackTrace()
+                }
+                setFrom(InternetAddress("$nickname <${mail.fromAddress}>"))
+            }
 
             // 设置直接接收者收件箱
             val toAddress = mail.toAddress.map {

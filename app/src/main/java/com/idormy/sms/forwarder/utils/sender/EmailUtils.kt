@@ -120,6 +120,7 @@ class EmailUtils {
                 mailServerHost = setting.host.toString()
                 mailServerPort = setting.port.toString()
                 fromAddress = setting.fromEmail.toString()
+                fromNickname = msgInfo.getTitleForSend(setting.nickname.toString())
                 password = setting.pwd.toString()
                 toAddress = arrayListOf(setting.toEmail.toString())
                 subject = title

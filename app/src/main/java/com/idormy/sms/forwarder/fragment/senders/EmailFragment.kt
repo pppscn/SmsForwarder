@@ -159,6 +159,10 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
     }
 
     override fun initListeners() {
+        binding!!.btInsertSenderToNickname.setOnClickListener(this)
+        binding!!.btInsertExtraToNickname.setOnClickListener(this)
+        binding!!.btInsertTimeToNickname.setOnClickListener(this)
+        binding!!.btInsertDeviceNameToNickname.setOnClickListener(this)
         binding!!.btInsertSender.setOnClickListener(this)
         binding!!.btInsertExtra.setOnClickListener(this)
         binding!!.btInsertTime.setOnClickListener(this)
@@ -171,8 +175,25 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
     @SingleClick
     override fun onClick(v: View) {
         try {
+            val etNickname: EditText = binding!!.etNickname
             val etTitleTemplate: EditText = binding!!.etTitleTemplate
             when (v.id) {
+                R.id.bt_insert_sender_to_nickname -> {
+                    CommonUtils.insertOrReplaceText2Cursor(etNickname, getString(R.string.tag_from))
+                    return
+                }
+                R.id.bt_insert_extra_to_nickname -> {
+                    CommonUtils.insertOrReplaceText2Cursor(etNickname, getString(R.string.tag_card_slot))
+                    return
+                }
+                R.id.bt_insert_time_to_nickname -> {
+                    CommonUtils.insertOrReplaceText2Cursor(etNickname, getString(R.string.tag_receive_time))
+                    return
+                }
+                R.id.bt_insert_device_name_to_nickname -> {
+                    CommonUtils.insertOrReplaceText2Cursor(etNickname, getString(R.string.tag_device_name))
+                    return
+                }
                 R.id.bt_insert_sender -> {
                     CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_from))
                     return
