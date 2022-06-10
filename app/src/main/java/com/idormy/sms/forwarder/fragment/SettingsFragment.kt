@@ -327,6 +327,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
         sbEnableAppNotify.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             layoutOptionalAction.visibility = if (isChecked) View.VISIBLE else View.GONE
+            SettingUtils.enableAppNotify = isChecked
             if (isChecked) {
                 //检查权限是否获取
                 XXPermissions.with(this)
