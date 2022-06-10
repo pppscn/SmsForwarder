@@ -32,7 +32,7 @@ class XUpdateInit private constructor() {
                 //默认设置使用get请求检查版本
                 .isGet(true)
                 //默认设置非自动模式，可根据具体使用配置
-                .isAutoMode(false)
+                //.isAutoMode(false)
                 //设置默认公共请求参数
                 .param("versionCode", UpdateUtils.getVersionCode(application))
                 .param("appKey", application.packageName) //这个必须设置！实现网络请求功能。

@@ -27,6 +27,7 @@ import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.databinding.ActivityMainBinding
 import com.idormy.sms.forwarder.fragment.*
 import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.sdkinit.XUpdateInit
 import com.idormy.sms.forwarder.widget.GuideTipsDialog.Companion.showTips
 import com.idormy.sms.forwarder.widget.GuideTipsDialog.Companion.showTipsForce
 import com.jeremyliao.liveeventbus.LiveEventBus
@@ -119,7 +120,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
 
     private fun initData() {
         showTips(this)
-        //XUpdateInit.checkUpdate(this, true)
+        XUpdateInit.checkUpdate(this, false)
     }
 
     fun initListeners() {
