@@ -45,7 +45,8 @@ class SendWorker(
                 }
 
                 //val sendSbnId = inputData.getInt(Worker.sendSbnId, 0)
-                val simSlot = "SIM" + msgInfo.simSlot
+                //【注意】卡槽id：-1=获取失败、0=卡槽1、1=卡槽2，但是 Rule 表里存的是 SIM1/SIM2
+                val simSlot = "SIM" + (msgInfo.simSlot + 1)
                 val ruleList: List<RuleAndSender> = Core.rule.getRuleAndSender(msgInfo.type, 1, simSlot)
                 if (ruleList.isEmpty()) {
                     return@withContext Result.failure(workDataOf("send" to "failed"))
