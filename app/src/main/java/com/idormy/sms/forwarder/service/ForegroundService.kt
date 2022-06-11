@@ -73,35 +73,41 @@ class ForegroundService : Service() {
     override fun onCreate() {
         super.onCreate()
 
-        //纯客户端模式
-        if (SettingUtils.enablePureClientMode) return
+        try {
+            //纯客户端模式
+            if (SettingUtils.enablePureClientMode) return
 
-        notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        startForeground(FRONT_NOTIFY_ID, createForegroundNotification())
-        isRunning = true
+            notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            startForeground(FRONT_NOTIFY_ID, createForegroundNotification())
 
-        //开关通知监听服务
-        if (SettingUtils.enableAppNotify && CommonUtils.isNotificationListenerServiceEnabled(this)) {
-            CommonUtils.toggleNotificationListenerService(this)
-        }
-
-        //监听Frpc启动指令
-        LiveEventBus.get(INTENT_FRPC_APPLY_FILE, String::class.java).observeStickyForever(frpcObserver)
-        //自启动的Frpc
-        GlobalScope.async(Dispatchers.IO) {
-            val frpcList = AppDatabase.getInstance(App.context).frpcDao().getAutorun()
-
-            if (frpcList.isEmpty()) {
-                Log.d(TAG, "没有自启动的Frpc")
-                return@async
+            //开关通知监听服务
+            if (SettingUtils.enableAppNotify && CommonUtils.isNotificationListenerServiceEnabled(this)) {
+                CommonUtils.toggleNotificationListenerService(this)
             }
 
-            for (frpc in frpcList) {
-                val error = Frpclib.runContent(frpc.uid, frpc.config)
-                if (!TextUtils.isEmpty(error)) {
-                    Log.e(TAG, error)
+            //监听Frpc启动指令
+            LiveEventBus.get(INTENT_FRPC_APPLY_FILE, String::class.java).observeStickyForever(frpcObserver)
+            //自启动的Frpc
+            GlobalScope.async(Dispatchers.IO) {
+                val frpcList = AppDatabase.getInstance(App.context).frpcDao().getAutorun()
+
+                if (frpcList.isEmpty()) {
+                    Log.d(TAG, "没有自启动的Frpc")
+                    return@async
+                }
+
+                for (frpc in frpcList) {
+                    val error = Frpclib.runContent(frpc.uid, frpc.config)
+                    if (!TextUtils.isEmpty(error)) {
+                        Log.e(TAG, error)
+                    }
                 }
             }
+
+            isRunning = true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            isRunning = false
         }
 
     }
@@ -118,9 +124,13 @@ class ForegroundService : Service() {
             return
         }
 
-        stopForeground(true)
-        compositeDisposable.dispose()
-        isRunning = false
+        try {
+            stopForeground(true)
+            compositeDisposable.dispose()
+            isRunning = false
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         super.onDestroy()
     }
 

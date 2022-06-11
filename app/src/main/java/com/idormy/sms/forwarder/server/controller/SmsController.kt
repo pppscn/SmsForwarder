@@ -56,6 +56,6 @@ class SmsController {
 
         val limit = smsQueryData.pageSize
         val offset = (smsQueryData.pageNum - 1) * limit
-        return PhoneUtils.getSmsList(smsQueryData.type, limit, offset, smsQueryData.keyword)
+        return PhoneUtils.getSmsInfoList(smsQueryData.type, limit, offset, smsQueryData.keyword)
     }
 }

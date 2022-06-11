@@ -18,7 +18,7 @@ data class CallInfo(
     //被呼号码
     @SerializedName("via_number")
     var viaNumber: String = "",
-    //卡槽ID： 1=Sim1, 2=Sim2, -1=获取失败
+    //卡槽ID： 0=Sim1, 1=Sim2, -1=获取失败
     @SerializedName("sim_id")
     var simId: Int = -1,
 ) : Serializable {
@@ -35,8 +35,8 @@ data class CallInfo(
     val simImageId: Int
         get() {
             return when (simId) {
-                1 -> R.drawable.ic_sim1
-                2 -> R.drawable.ic_sim2
+                0 -> R.drawable.ic_sim1
+                1 -> R.drawable.ic_sim2
                 else -> R.drawable.ic_sim
             }
         }

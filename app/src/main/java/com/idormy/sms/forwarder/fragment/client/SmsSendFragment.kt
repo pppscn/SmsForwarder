@@ -61,7 +61,7 @@ class SmsSendFragment : BaseFragment<FragmentClientSmsSendBinding?>(), View.OnCl
     override fun initListeners() {
         binding!!.btnSubmit.setOnClickListener(this)
         LiveEventBus.get(EVENT_KEY_SIM_SLOT, Int::class.java).observeSticky(this) { value: Int ->
-            binding!!.rgSimSlot.check(if (value == 2) R.id.rb_sim_slot_2 else R.id.rb_sim_slot_1)
+            binding!!.rgSimSlot.check(if (value == 1) R.id.rb_sim_slot_2 else R.id.rb_sim_slot_1)
         }
         LiveEventBus.get(EVENT_KEY_PHONE_NUMBERS, String::class.java).observeSticky(this) { value: String ->
             binding!!.etPhoneNumbers.setText(value)
