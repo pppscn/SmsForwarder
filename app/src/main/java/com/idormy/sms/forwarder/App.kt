@@ -82,6 +82,8 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
 
         //Cactus运行状态
         val mStatus = MutableLiveData<Boolean>().apply { value = true }
+
+        var mDisposable: Disposable? = null
     }
 
     override fun attachBaseContext(base: Context) {
@@ -139,7 +141,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
             }
 
             //Cactus 集成双进程前台服务，JobScheduler，onePix(一像素)，WorkManager，无声音乐
-            if (!isDebug) {
+            if (SettingUtils.enableCactus) {
                 //注册广播监听器
                 registerReceiver(CactusReceiver(), IntentFilter().apply {
                     addAction(Cactus.CACTUS_WORK)
@@ -208,8 +210,6 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         // ANR监控
         ANRWatchDogInit.init()
     }
-
-    private var mDisposable: Disposable? = null
 
     @SuppressLint("CheckResult")
     override fun doWork(times: Int) {

@@ -635,56 +635,74 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/play_silence_music"
+                        android:text="@string/enable_cactus"
                         android:textStyle="bold"
                         tools:ignore="RelativeOverlap" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/play_silence_music_tips"
+                        android:text="@string/enabe_cactus_tips"
                         android:textSize="9sp"
                         tools:ignore="SmallSp" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_cactus_optional"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/optional_components"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            tools:ignore="SmallSp" />
+
+                        <com.xuexiang.xui.widget.button.SmoothCheckBox
+                            android:id="@+id/scb_play_silence_music"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            app:scb_color_checked="@color/colorPrimary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:text="@string/play_silence_music"
+                            android:textSize="11sp" />
+
+                        <LinearLayout
+                            android:id="@+id/layout_one_pixel_activity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
+
+                            <com.xuexiang.xui.widget.button.SmoothCheckBox
+                                android:id="@+id/scb_one_pixel_activity"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_marginStart="5dp"
+                                app:scb_color_checked="@color/colorPrimary" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="2dp"
+                                android:text="@string/one_pixel_activity"
+                                android:textSize="11sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
-                    android:id="@+id/sb_play_silence_music"
-                    style="@style/SwitchButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_one_pixel_activity"
-                style="@style/settingBarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/one_pixel_activity"
-                        android:textStyle="bold"
-                        tools:ignore="RelativeOverlap" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/one_pixel_activity_tips"
-                        android:textSize="9sp"
-                        tools:ignore="SmallSp" />
-                </LinearLayout>
-
-                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
-                    android:id="@+id/sb_one_pixel_activity"
+                    android:id="@+id/sb_enable_cactus"
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

@@ -602,7 +602,7 @@
     <string name="play_silence_music">后台播放无声音乐</string>
     <string name="play_silence_music_tips">【按需启用】播放无声音乐让后台一直运行，可能比较耗电</string>
     <string name="one_pixel">1像素</string>
-    <string name="one_pixel_activity">1像素透明Activity保活</string>
+    <string name="one_pixel_activity">1像素透明Activity</string>
     <string name="one_pixel_activity_tips">【按需启用】使进程的优先级在屏幕锁屏时间由4提升为最高优先级1</string>
     <string name="optional">可选</string>
     <string name="TelegramChatIdTips">请按照wiki中的步骤获取</string>
@@ -857,4 +857,7 @@
     <string name="pure_client_mode_tips">启动APP时直接进入主动控制·客户端</string>
     <string name="exit_pure_client_mode">退出纯客户端模式</string>
     <string name="enabling_pure_client_mode">是否立即退出App，并手动启动以生效纯客户端模式？</string>
+    <string name="optional_components">可选组件：</string>
+    <string name="enable_cactus">启用 Cactus 增强保活措施（会增加耗电）</string>
+    <string name="enabe_cactus_tips">双进程前台服务/JobScheduler/WorkManager/1像素/无声音乐</string>
 </resources>

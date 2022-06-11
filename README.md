@@ -86,9 +86,11 @@ PS.如果QQ群已满员，请看群简介加入其他群
 
 + https://github.com/xiaoyuanhost/TranspondSms (项目原型)
 + https://github.com/xuexiangjys/XUI （UI框架）
-+ https://github.com/xuexiangjys/XUpdateAPI （在线升级）
++ https://github.com/xuexiangjys/XUpdate （在线升级）
 + https://github.com/getActivity/XXPermissions (权限请求框架)
 + https://github.com/mainfunx/frpc_android (内网穿透)
++ https://github.com/gyf-dev/Cactus (保活措施)
++ https://github.com/yanzhenjie/AndServer (HttpServer)
 + [<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg?_ga=2.126618957.1361252949.1638261367-1417196221.1635638144&_gl=1*1pfl3dq*_ga*MTQxNzE5NjIyMS4xNjM1NjM4MTQ0*_ga_V0XZL7QHEB*MTYzODMzMjA4OC43LjAuMTYzODMzMjA5Ny4w" alt="GitHub license" style="zoom:50%;" />](https://jb.gg/OpenSourceSupport)  (License Certificate for JetBrains All Products Pack)
 
 --------

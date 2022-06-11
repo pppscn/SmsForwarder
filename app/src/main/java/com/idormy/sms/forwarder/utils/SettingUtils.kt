@@ -173,6 +173,14 @@ class SettingUtils private constructor() {
                 MMKVUtils.put(SP_ENABLE_EXCLUDE_FROM_RECENTS, enableExcludeFromRecents)
             }
 
+        //是否转发应用通知
+        @JvmStatic
+        var enableCactus: Boolean
+            get() = MMKVUtils.getBoolean(SP_ENABLE_APP_NOTIFY, false)
+            set(enableAppNotify) {
+                MMKVUtils.put(SP_ENABLE_APP_NOTIFY, enableAppNotify)
+            }
+
         //是否播放静音音乐
         @JvmStatic
         var enablePlaySilenceMusic: Boolean
@@ -181,7 +189,7 @@ class SettingUtils private constructor() {
                 MMKVUtils.put(SP_ENABLE_PLAY_SILENCE_MUSIC, enablePlaySilenceMusic)
             }
 
-        //是否不在最近任务列表中显示
+        //是否启用1像素
         @JvmStatic
         var enableOnePixelActivity: Boolean
             get() = MMKVUtils.getBoolean(SP_ENABLE_ONE_PIXEL_ACTIVITY, false)

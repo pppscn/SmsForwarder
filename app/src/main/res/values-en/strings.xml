@@ -856,4 +856,7 @@
     <string name="pure_client_mode_tips">When starting the APP, it will directly enter the active control client</string>
     <string name="exit_pure_client_mode">Exit pure client mode</string>
     <string name="enabling_pure_client_mode">Do you want to quit the app immediately and start it manually to take effect in pure client mode?</string>
+    <string name="optional_components">Optional:</string>
+    <string name="enable_cactus">Enable Cactus Keep Alive</string>
+    <string name="enabe_cactus_tips">Dual process foreground service/JobScheduler/WorkManager/1px/silent music</string>
 </resources>

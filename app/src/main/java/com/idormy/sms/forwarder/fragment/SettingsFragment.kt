@@ -99,10 +99,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         batterySetting(binding!!.layoutBatterySetting, binding!!.sbBatterySetting)
         //不在最近任务列表中显示
         switchExcludeFromRecents(binding!!.layoutExcludeFromRecents, binding!!.sbExcludeFromRecents)
-        //后台播放无声音乐
-        switchPlaySilenceMusic(binding!!.sbPlaySilenceMusic)
-        //1像素透明Activity保活(只有在android p以下可以使用)
-        switchOnePixelActivity(binding!!.sbOnePixelActivity)
+
+        //Cactus增强保活措施
+        switchEnableCactus(binding!!.sbEnableCactus, binding!!.scbPlaySilenceMusic, binding!!.scbOnePixelActivity)
 
         //接口请求失败重试时间间隔
         editRetryDelayTime(binding!!.etRetryTimes, binding!!.etDelayTime, binding!!.etTimeout)
@@ -525,25 +524,30 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         }
     }
 
-    //后台播放无声音乐
-    @SuppressLint("ObsoleteSdkInt,UseSwitchCompatOrMaterialCode")
-    fun switchPlaySilenceMusic(sbPlaySilenceMusic: SwitchButton) {
-        sbPlaySilenceMusic.isChecked = SettingUtils.enablePlaySilenceMusic
-        sbPlaySilenceMusic.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+    //转发应用通知
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    fun switchEnableCactus(sbEnableCactus: SwitchButton, scbPlaySilenceMusic: SmoothCheckBox, scbOnePixelActivity: SmoothCheckBox) {
+        val layoutCactusOptional: LinearLayout = binding!!.layoutCactusOptional
+        val isEnable: Boolean = SettingUtils.enableCactus
+        sbEnableCactus.isChecked = isEnable
+        layoutCactusOptional.visibility = if (isEnable) View.VISIBLE else View.GONE
+
+        sbEnableCactus.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            layoutCactusOptional.visibility = if (isChecked) View.VISIBLE else View.GONE
+            SettingUtils.enableCactus = isChecked
+        }
+
+        scbPlaySilenceMusic.isChecked = SettingUtils.enablePlaySilenceMusic
+        scbPlaySilenceMusic.setOnCheckedChangeListener { _: SmoothCheckBox, isChecked: Boolean ->
             SettingUtils.enablePlaySilenceMusic = isChecked
             XToastUtils.warning(getString(R.string.need_to_restart))
         }
-    }
 
-    //1像素透明Activity保活
-    @SuppressLint("ObsoleteSdkInt,UseSwitchCompatOrMaterialCode")
-    fun switchOnePixelActivity(sbOnePixelActivity: SwitchButton) {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-            binding!!.layoutOnePixelActivity.visibility = View.VISIBLE
-        }
-
-        sbOnePixelActivity.isChecked = SettingUtils.enableOnePixelActivity
-        sbOnePixelActivity.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+        //if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+        binding!!.layoutOnePixelActivity.visibility = View.VISIBLE
+        //}
+        scbOnePixelActivity.isChecked = SettingUtils.enableOnePixelActivity
+        scbOnePixelActivity.setOnCheckedChangeListener { _: SmoothCheckBox, isChecked: Boolean ->
             SettingUtils.enableOnePixelActivity = isChecked
             XToastUtils.warning(getString(R.string.need_to_restart))
         }
