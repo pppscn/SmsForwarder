@@ -13,7 +13,6 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.google.gson.Gson
-import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.CallInfo
 import com.idormy.sms.forwarder.entity.MsgInfo
@@ -147,22 +146,8 @@ class PhoneStateReceiver : BroadcastReceiver() {
             return
         }
 
-        //获取卡槽信息
-        if (App.SimInfoList.isEmpty()) {
-            App.SimInfoList = PhoneUtils.getSimMultiInfo()
-        }
-        Log.e(TAG, "SimInfoList = " + App.SimInfoList.toString())
-
         //卡槽id：-1=获取失败、0=卡槽1、1=卡槽2
-        var simSlot = -1
-        Log.e(TAG, "getSubscriptionId = " + callInfo.simId)
-        if (callInfo.simId != -1 && App.SimInfoList.isNotEmpty()) {
-            for (simInfo in App.SimInfoList.values) {
-                if (simInfo.mSubscriptionId == callInfo.simId) {
-                    simSlot = simInfo.mSimSlotIndex
-                }
-            }
-        }
+        val simSlot = callInfo.simId
         //获取卡槽信息
         val simInfo = when (simSlot) {
             0 -> "SIM1_" + SettingUtils.extraSim1

@@ -218,13 +218,12 @@ class PhoneUtils private constructor() {
                     val indexViaNumber = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && cursor.getColumnIndex("via_number") != -1) cursor.getColumnIndex("via_number") else -1
                     var isSimId = false
                     var indexSimId = -1
-                    if (cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID) != -1
+                    if (cursor.getColumnIndex("simid") != -1) {
+                        indexSimId = cursor.getColumnIndex("simid")
+                    } else if (cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID) != -1
                         && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
                     ) {
                         indexSimId = cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID)
-                    } else if (cursor.getColumnIndex("simid") != -1) {
-                        indexSimId = cursor.getColumnIndex("simid")
-                        //isSimId = true
                     }
                     do {
                         val callInfo = CallInfo(
