@@ -535,6 +535,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         sbEnableCactus.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             layoutCactusOptional.visibility = if (isChecked) View.VISIBLE else View.GONE
             SettingUtils.enableCactus = isChecked
+            XToastUtils.warning(getString(R.string.need_to_restart))
         }
 
         scbPlaySilenceMusic.isChecked = SettingUtils.enablePlaySilenceMusic
@@ -543,9 +544,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             XToastUtils.warning(getString(R.string.need_to_restart))
         }
 
-        //if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-        binding!!.layoutOnePixelActivity.visibility = View.VISIBLE
-        //}
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+            binding!!.layoutOnePixelActivity.visibility = View.VISIBLE
+        }
         scbOnePixelActivity.isChecked = SettingUtils.enableOnePixelActivity
         scbOnePixelActivity.setOnCheckedChangeListener { _: SmoothCheckBox, isChecked: Boolean ->
             SettingUtils.enableOnePixelActivity = isChecked

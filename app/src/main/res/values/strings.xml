@@ -749,7 +749,7 @@
     <string name="auto_start_samsung"><![CDATA[三星手机：自动运行应用程序 -> 打开应用开关 -> 电池管理 -> 未监视的应用程序 -> 添加应用]]></string>
     <string name="auto_start_letv"><![CDATA[乐视手机：自启动管理 -> 允许应用自启动]]></string>
     <string name="auto_start_smartisan"><![CDATA[锤子手机：权限管理 -> 自启动权限管理 -> 点击应用 -> 允许被系统启动]]></string>
-    <string name="need_to_restart">需要重新启动APP，才能生效该配置项</string>
+    <string name="need_to_restart">需要手动重新启动APP，才能生效该配置项</string>
     <string name="time_picker">时间选择</string>
 
     <string name="http_server_running">HttpServer运行中，监听：%1$s:%2$d</string>
