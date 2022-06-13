@@ -74,6 +74,12 @@
         <item>Offline Mode</item>
     </string-array>
 
+    <!--APP类型-->
+    <string-array name="app_type_option">
+        <item>User App</item>
+        <item>System App</item>
+    </string-array>
+
     <string-array name="MailType">
         <item>\@qq.com</item>
         <item>\@foxmail.com</item>

@@ -63,7 +63,8 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         var SimInfoList: MutableMap<Int, SimInfo> = mutableMapOf()
 
         //已安装App信息
-        var AppInfoList: List<AppUtils.AppInfo> = arrayListOf()
+        var UserAppList: MutableList<AppUtils.AppInfo> = mutableListOf()
+        var SystemAppList: MutableList<AppUtils.AppInfo> = mutableListOf()
 
         /**
          * @return 当前app是否是调试开发模式
@@ -123,15 +124,30 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
             startService(batteryServiceIntent)
 
             //异步获取所有已安装 App 信息
-            val get = GlobalScope.async(Dispatchers.IO) {
-                AppInfoList = AppUtils.getAppsInfo()
-            }
-            GlobalScope.launch(Dispatchers.Main) {
-                runCatching {
-                    get.await()
-                    Log.d("GlobalScope", "AppUtils.getAppsInfo() Done")
-                }.onFailure {
-                    Log.e("GlobalScope", it.message.toString())
+            if (SettingUtils.enableLoadAppList) {
+                val enableLoadUserAppList = SettingUtils.enableLoadUserAppList
+                val enableLoadSystemAppList = SettingUtils.enableLoadSystemAppList
+                val get = GlobalScope.async(Dispatchers.IO) {
+                    val appInfoList = AppUtils.getAppsInfo()
+                    for (appInfo in appInfoList) {
+                        if (appInfo.isSystem && enableLoadSystemAppList) {
+                            SystemAppList.add(appInfo)
+                        } else if (enableLoadUserAppList) {
+                            UserAppList.add(appInfo)
+                        }
+                    }
+                    UserAppList.sortBy { appInfo -> appInfo.name }
+                    SystemAppList.sortBy { appInfo -> appInfo.name }
+                }
+                GlobalScope.launch(Dispatchers.Main) {
+                    runCatching {
+                        get.await()
+                        Log.d("GlobalScope", "AppUtils.getAppsInfo() Done")
+                        Log.d("GlobalScope", "UserAppList = $UserAppList")
+                        Log.d("GlobalScope", "SystemAppList = $SystemAppList")
+                    }.onFailure {
+                        Log.e("GlobalScope", it.message.toString())
+                    }
                 }
             }
 

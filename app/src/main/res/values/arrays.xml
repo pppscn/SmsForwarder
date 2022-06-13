@@ -74,6 +74,12 @@
         <item>离线模式</item>
     </string-array>
 
+    <!--APP类型-->
+    <string-array name="app_type_option">
+        <item>用户应用</item>
+        <item>系统应用</item>
+    </string-array>
+
     <string-array name="MailType">
         <item>\@qq.com</item>
         <item>\@foxmail.com</item>

@@ -34,6 +34,10 @@ const val SP_ENABLE_APP_NOTIFY = "enable_app_notify"
 const val SP_ENABLE_CANCEL_APP_NOTIFY = "enable_cancel_app_notify"
 const val SP_ENABLE_NOT_USER_PRESENT = "enable_not_user_present"
 
+const val ENABLE_LOAD_APP_LIST = "enable_load_app_list"
+const val ENABLE_LOAD_USER_APP_LIST = "enable_load_user_app_list"
+const val ENABLE_LOAD_SYSTEM_APP_LIST = "enable_load_system_app_list"
+
 const val SP_DUPLICATE_MESSAGES_LIMITS = "duplicate_messages_limits"
 
 const val SP_BATTERY_RECEIVER = "enable_battery_receiver"

@@ -352,17 +352,40 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
         if (ruleType != "app") return
 
         val get = GlobalScope.async(Dispatchers.IO) {
-            App.AppInfoList = AppUtils.getAppsInfo()
+            if ((SettingUtils.enableLoadUserAppList && App.UserAppList.isEmpty())
+                || SettingUtils.enableLoadSystemAppList && App.SystemAppList.isEmpty()
+            ) {
+                App.UserAppList.clear()
+                App.SystemAppList.clear()
+                val appInfoList = AppUtils.getAppsInfo()
+                for (appInfo in appInfoList) {
+                    if (appInfo.isSystem) {
+                        App.SystemAppList.add(appInfo)
+                    } else {
+                        App.UserAppList.add(appInfo)
+                    }
+                }
+                App.UserAppList.sortBy { appInfo -> appInfo.name }
+                App.SystemAppList.sortBy { appInfo -> appInfo.name }
+            }
         }
         GlobalScope.launch(Dispatchers.Main) {
             runCatching {
                 get.await()
-                if (App.AppInfoList.isEmpty()) return@runCatching
+                if (App.UserAppList.isEmpty() && App.SystemAppList.isEmpty()) return@runCatching
 
-                Log.e(TAG, App.AppInfoList.toString())
-                for (appInfo in App.AppInfoList) {
-                    appListSpinnerList.add(AppListAdapterItem(appInfo.name, appInfo.icon, appInfo.packageName))
+                appListSpinnerList.clear()
+                if (SettingUtils.enableLoadUserAppList) {
+                    for (appInfo in App.UserAppList) {
+                        appListSpinnerList.add(AppListAdapterItem(appInfo.name, appInfo.icon, appInfo.packageName))
+                    }
                 }
+                if (SettingUtils.enableLoadSystemAppList) {
+                    for (appInfo in App.SystemAppList) {
+                        appListSpinnerList.add(AppListAdapterItem(appInfo.name, appInfo.icon, appInfo.packageName))
+                    }
+                }
+
                 appListSpinnerAdapter = AppListSpinnerAdapter(appListSpinnerList)
                     //.setTextColor(ResUtils.getColor(R.color.green))
                     //.setTextSize(12F)

@@ -27,6 +27,7 @@ import com.xuexiang.xutil.app.AppUtils
 class AppListFragment : BaseFragment<FragmentAppListBinding?>() {
 
     var appListAdapter: AppListAdapter? = null
+    private var currentType: String = "user"
 
     override fun viewBindingInflate(
         inflater: LayoutInflater,
@@ -53,6 +54,18 @@ class AppListFragment : BaseFragment<FragmentAppListBinding?>() {
     override fun initViews() {
         WidgetUtils.initRecyclerView(binding!!.recyclerView, DensityUtils.dp2px(5f), ThemeUtils.resolveColor(context, R.attr.xui_config_color_background))
         binding!!.recyclerView.adapter = AppListAdapter(true).also { appListAdapter = it }
+
+        binding!!.tabBar.setTabTitles(ResUtils.getStringArray(R.array.app_type_option))
+        binding!!.tabBar.setOnTabClickListener { _, position ->
+            //XToastUtils.toast("点击了$title--$position")
+            currentType = when (position) {
+                1 -> "system"
+                else -> "user"
+            }
+            appListAdapter?.refresh(getAppsList(false))
+            binding!!.refreshLayout.finishRefresh()
+            binding!!.recyclerView.scrollToPosition(0)
+        }
     }
 
     override fun initListeners() {
@@ -65,7 +78,7 @@ class AppListFragment : BaseFragment<FragmentAppListBinding?>() {
 
             override fun onRefresh(refreshLayout: RefreshLayout) {
                 refreshLayout.layout.postDelayed({
-                    appListAdapter?.refresh(AppUtils.getAppsInfo())
+                    appListAdapter?.refresh(getAppsList(true))
                     refreshLayout.finishRefresh()
                 }, 3000)
             }
@@ -80,12 +93,7 @@ class AppListFragment : BaseFragment<FragmentAppListBinding?>() {
         //设置刷新加载时禁止所有列表操作
         binding!!.refreshLayout.setDisableContentWhenRefresh(true)
         binding!!.refreshLayout.setDisableContentWhenLoading(true)
-        //binding!!.refreshLayout.autoRefresh()
-        if (App.AppInfoList.isEmpty()) {
-            appListAdapter?.refresh(AppUtils.getAppsInfo())
-        } else {
-            appListAdapter?.refresh(App.AppInfoList)
-        }
+        appListAdapter?.refresh(getAppsList(false))
         binding!!.refreshLayout.finishRefresh()
     }
 
@@ -93,4 +101,24 @@ class AppListFragment : BaseFragment<FragmentAppListBinding?>() {
         appListAdapter?.recycle()
         super.onDestroyView()
     }
+
+    private fun getAppsList(refresh: Boolean): MutableList<AppUtils.AppInfo> {
+        if (refresh || (currentType == "user" && App.UserAppList.isEmpty()) || (currentType == "system" && App.SystemAppList.isEmpty())) {
+            App.UserAppList.clear()
+            App.SystemAppList.clear()
+            val appInfoList = AppUtils.getAppsInfo()
+            for (appInfo in appInfoList) {
+                if (appInfo.isSystem) {
+                    App.SystemAppList.add(appInfo)
+                } else {
+                    App.UserAppList.add(appInfo)
+                }
+            }
+            App.UserAppList.sortBy { appInfo -> appInfo.name }
+            App.SystemAppList.sortBy { appInfo -> appInfo.name }
+        }
+
+        return if (currentType == "system") App.SystemAppList else App.UserAppList
+    }
+
 }

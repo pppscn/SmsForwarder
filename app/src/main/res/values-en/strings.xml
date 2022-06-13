@@ -494,6 +494,7 @@
     <string name="received_call">Received</string>
     <string name="local_outgoing_call">Call out</string>
     <string name="optional_action">Optional: </string>
+    <string name="optional_type">Optional: </string>
     <string name="active_request">Active request</string>
     <string name="active_request_tips">Obtain instructions through passive reception or active polling to operate the machine</string>
     <string name="httpserver">Local HttpServer</string>
@@ -527,6 +528,7 @@
     <string name="tag_from">{{FROM}}</string>
     <string name="tag_sms">{{SMS}}</string>
     <string name="tag_package_name">{{PACKAGE_NAME}}</string>
+    <string name="tag_app_name">{{APP_NAME}}</string>
     <string name="tag_msg">{{MSG}}</string>
     <string name="tag_card_slot">{{CARD_SLOT}}</string>
     <string name="tag_receive_time">{{RECEIVE_TIME}}</string>
@@ -859,4 +861,7 @@
     <string name="optional_components">Optional:</string>
     <string name="enable_cactus">Enable Cactus Keep Alive</string>
     <string name="enabe_cactus_tips">Dual process foreground service/JobScheduler/WorkManager/1px/silent music</string>
+    <string name="load_app_list">Get installed app info async at startup</string>
+    <string name="load_app_list_tips">Used to speed up entering the application list/editing forwarding rules drop-down selection/replacement {{APP_NAME}}</string>
+    <string name="load_app_list_toast">A type must be selected when enabling asynchronous loading of the list of installed apps</string>
 </resources>

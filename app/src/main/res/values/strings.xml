@@ -495,6 +495,7 @@
     <string name="received_call">已接来电</string>
     <string name="local_outgoing_call">本机去电</string>
     <string name="optional_action">可选操作：</string>
+    <string name="optional_type">可选类型：</string>
     <string name="active_request">主动请求</string>
     <string name="active_request_tips">通过 被动接收 或者 主动轮询 获取指令，从而操作本机</string>
     <string name="httpserver">被动接收本地 HttpServer</string>
@@ -528,6 +529,7 @@
     <string name="tag_from">{{来源号码}}</string>
     <string name="tag_sms">{{短信内容}}</string>
     <string name="tag_package_name">{{APP包名}}</string>
+    <string name="tag_app_name">{{APP名称}}</string>
     <string name="tag_msg">{{通知内容}}</string>
     <string name="tag_card_slot">{{卡槽信息}}</string>
     <string name="tag_receive_time">{{接收时间}}</string>
@@ -860,4 +862,7 @@
     <string name="optional_components">可选组件：</string>
     <string name="enable_cactus">启用 Cactus 增强保活措施（会增加耗电）</string>
     <string name="enabe_cactus_tips">双进程前台服务/JobScheduler/WorkManager/1像素/无声音乐</string>
+    <string name="load_app_list">启动时异步获取已安装App列表</string>
+    <string name="load_app_list_tips">用于加速进入应用列表/编辑转发规则下拉选择/替换{{APP名称}}</string>
+    <string name="load_app_list_toast">开启异步获取已安装App列表时必选一个类型</string>
 </resources>

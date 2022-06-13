@@ -78,6 +78,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         switchEnablePhone(binding!!.sbEnablePhone, binding!!.scbCallType1, binding!!.scbCallType2, binding!!.scbCallType3)
         //转发应用通知
         switchEnableAppNotify(binding!!.sbEnableAppNotify, binding!!.scbCancelAppNotify, binding!!.scbNotUserPresent)
+        //启动时异步获取已安装App信息
+        switchEnableLoadAppList(binding!!.sbEnableLoadAppList, binding!!.scbLoadUserApp, binding!!.scbLoadSystemApp)
         //过滤多久内重复消息
         binding!!.xsbDuplicateMessagesLimits.setDefaultValue(SettingUtils.duplicateMessagesLimits)
         binding!!.xsbDuplicateMessagesLimits.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
@@ -365,6 +367,41 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         scbNotUserPresent.isChecked = SettingUtils.enableNotUserPresent
         scbNotUserPresent.setOnCheckedChangeListener { _: SmoothCheckBox, isChecked: Boolean ->
             SettingUtils.enableNotUserPresent = isChecked
+        }
+    }
+
+    //启动时异步获取已安装App信息 (binding!!.sbEnableLoadAppList, binding!!.scbLoadUserApp, binding!!.scbLoadSystemApp)
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    fun switchEnableLoadAppList(sbEnableLoadAppList: SwitchButton, scbLoadUserApp: SmoothCheckBox, scbLoadSystemApp: SmoothCheckBox) {
+        val isEnable: Boolean = SettingUtils.enableLoadAppList
+        sbEnableLoadAppList.isChecked = isEnable
+
+        sbEnableLoadAppList.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            if (isChecked && !SettingUtils.enableLoadUserAppList && !SettingUtils.enableLoadSystemAppList) {
+                sbEnableLoadAppList.isChecked = false
+                SettingUtils.enableLoadAppList = false
+                XToastUtils.error(getString(R.string.load_app_list_toast))
+                return@setOnCheckedChangeListener
+            }
+            SettingUtils.enableLoadAppList = isChecked
+        }
+        scbLoadUserApp.isChecked = SettingUtils.enableLoadUserAppList
+        scbLoadUserApp.setOnCheckedChangeListener { _: SmoothCheckBox, isChecked: Boolean ->
+            SettingUtils.enableLoadUserAppList = isChecked
+            if (SettingUtils.enableLoadAppList && !SettingUtils.enableLoadUserAppList && !SettingUtils.enableLoadSystemAppList) {
+                sbEnableLoadAppList.isChecked = false
+                SettingUtils.enableLoadAppList = false
+                XToastUtils.error(getString(R.string.load_app_list_toast))
+            }
+        }
+        scbLoadSystemApp.isChecked = SettingUtils.enableLoadSystemAppList
+        scbLoadSystemApp.setOnCheckedChangeListener { _: SmoothCheckBox, isChecked: Boolean ->
+            SettingUtils.enableLoadSystemAppList = isChecked
+            if (SettingUtils.enableLoadAppList && !SettingUtils.enableLoadUserAppList && !SettingUtils.enableLoadSystemAppList) {
+                sbEnableLoadAppList.isChecked = false
+                SettingUtils.enableLoadAppList = false
+                XToastUtils.error(getString(R.string.load_app_list_toast))
+            }
         }
     }
 

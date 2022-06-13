@@ -26,6 +26,12 @@ data class CloneInfo(
     var cancelAppNotify: Boolean = false,
     @SerializedName("enable_not_user_present")
     var enableNotUserPresent: Boolean = false,
+    @SerializedName("enable_load_app_list")
+    var enableLoadAppList: Boolean = false,
+    @SerializedName("enable_load_user_app_list")
+    var enableLoadUserAppList: Boolean = false,
+    @SerializedName("enable_load_system_app_list")
+    var enableLoadSystemAppList: Boolean = false,
     @SerializedName("duplicate_messages_limits")
     var duplicateMessagesLimits: Int = 0,
     @SerializedName("enable_battery_receiver")
@@ -44,8 +50,12 @@ data class CloneInfo(
     var batteryCronInterval: Int = 0,
     @SerializedName("enable_exclude_from_recents")
     var enableExcludeFromRecents: Boolean = false,
+    @SerializedName("enable_cactus")
+    var enableCactus: Boolean = false,
     @SerializedName("enable_play_silence_music")
     var enablePlaySilenceMusic: Boolean = false,
+    @SerializedName("enable_one_pixel_activity")
+    var enableOnePixelActivity: Boolean = false,
     @SerializedName("request_retry_times")
     var requestRetryTimes: Int = 0,
     @SerializedName("request_delay_time")
@@ -60,6 +70,8 @@ data class CloneInfo(
     var smsTemplate: String? = null,
     @SerializedName("enable_help_tip")
     var enableHelpTip: Boolean = false,
+    @SerializedName("enable_pure_client_mode")
+    var enablePureClientMode: Boolean = false,
     @SerializedName("sender_list")
     var senderList: List<Sender>? = null,
     @SerializedName("rule_list")

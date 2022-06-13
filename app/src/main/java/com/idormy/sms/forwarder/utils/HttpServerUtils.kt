@@ -153,6 +153,9 @@ class HttpServerUtils private constructor() {
             cloneInfo.enableAppNotify = SettingUtils.enableAppNotify
             cloneInfo.cancelAppNotify = SettingUtils.enableCancelAppNotify
             cloneInfo.enableNotUserPresent = SettingUtils.enableNotUserPresent
+            cloneInfo.enableLoadAppList = SettingUtils.enableLoadAppList
+            cloneInfo.enableLoadUserAppList = SettingUtils.enableLoadUserAppList
+            cloneInfo.enableLoadSystemAppList = SettingUtils.enableLoadSystemAppList
             cloneInfo.duplicateMessagesLimits = SettingUtils.duplicateMessagesLimits
             cloneInfo.enableBatteryReceiver = SettingUtils.enableBatteryReceiver
             cloneInfo.batteryLevelMin = SettingUtils.batteryLevelMin
@@ -162,7 +165,9 @@ class HttpServerUtils private constructor() {
             cloneInfo.batteryCronStartTime = SettingUtils.batteryCronStartTime
             cloneInfo.batteryCronInterval = SettingUtils.batteryCronInterval
             cloneInfo.enableExcludeFromRecents = SettingUtils.enableExcludeFromRecents
+            cloneInfo.enableCactus = SettingUtils.enableCactus
             cloneInfo.enablePlaySilenceMusic = SettingUtils.enablePlaySilenceMusic
+            cloneInfo.enableOnePixelActivity = SettingUtils.enableOnePixelActivity
             cloneInfo.requestRetryTimes = SettingUtils.requestRetryTimes
             cloneInfo.requestDelayTime = SettingUtils.requestDelayTime
             cloneInfo.requestTimeout = SettingUtils.requestTimeout
@@ -170,6 +175,7 @@ class HttpServerUtils private constructor() {
             cloneInfo.enableSmsTemplate = SettingUtils.enableSmsTemplate
             cloneInfo.smsTemplate = SettingUtils.smsTemplate
             cloneInfo.enableHelpTip = SettingUtils.enableHelpTip
+            cloneInfo.enablePureClientMode = SettingUtils.enablePureClientMode
             cloneInfo.senderList = Core.sender.all
             cloneInfo.ruleList = Core.rule.all
 
@@ -188,6 +194,9 @@ class HttpServerUtils private constructor() {
                 SettingUtils.enableAppNotify = cloneInfo.enableAppNotify
                 SettingUtils.enableCancelAppNotify = cloneInfo.cancelAppNotify
                 SettingUtils.enableNotUserPresent = cloneInfo.enableNotUserPresent
+                SettingUtils.enableLoadAppList = cloneInfo.enableLoadAppList
+                SettingUtils.enableLoadUserAppList = cloneInfo.enableLoadUserAppList
+                SettingUtils.enableLoadSystemAppList = cloneInfo.enableLoadSystemAppList
                 SettingUtils.duplicateMessagesLimits = cloneInfo.duplicateMessagesLimits
                 SettingUtils.enableBatteryReceiver = cloneInfo.enableBatteryReceiver
                 SettingUtils.batteryLevelMin = cloneInfo.batteryLevelMin
@@ -197,7 +206,9 @@ class HttpServerUtils private constructor() {
                 SettingUtils.batteryCronStartTime = cloneInfo.batteryCronStartTime
                 SettingUtils.batteryCronInterval = cloneInfo.batteryCronInterval
                 SettingUtils.enableExcludeFromRecents = cloneInfo.enableExcludeFromRecents
+                SettingUtils.enableCactus = cloneInfo.enableCactus
                 SettingUtils.enablePlaySilenceMusic = cloneInfo.enablePlaySilenceMusic
+                SettingUtils.enableOnePixelActivity = cloneInfo.enableOnePixelActivity
                 SettingUtils.requestRetryTimes = cloneInfo.requestRetryTimes
                 SettingUtils.requestDelayTime = cloneInfo.requestDelayTime
                 SettingUtils.requestTimeout = cloneInfo.requestTimeout
@@ -205,6 +216,7 @@ class HttpServerUtils private constructor() {
                 SettingUtils.enableSmsTemplate = cloneInfo.enableSmsTemplate
                 SettingUtils.smsTemplate = cloneInfo.smsTemplate
                 SettingUtils.enableHelpTip = cloneInfo.enableHelpTip
+                SettingUtils.enablePureClientMode = cloneInfo.enablePureClientMode
                 //删除发送通道、转发规则、转发日志
                 Core.sender.deleteAll()
                 //发送通道
