@@ -214,9 +214,6 @@ dependencies {
     implementation 'com.zzhoujay.richtext:richtext:3.0.8'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
-    //ANR异常捕获
-    implementation 'com.github.anrwatchdog:anrwatchdog:1.4.0'
-
     //美团多渠道打包
     implementation 'com.meituan.android.walle:library:1.1.6'
 

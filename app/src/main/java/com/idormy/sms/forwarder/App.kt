@@ -27,7 +27,6 @@ import com.idormy.sms.forwarder.service.BatteryService
 import com.idormy.sms.forwarder.service.ForegroundService
 import com.idormy.sms.forwarder.service.HttpService
 import com.idormy.sms.forwarder.utils.*
-import com.idormy.sms.forwarder.utils.sdkinit.ANRWatchDogInit
 import com.idormy.sms.forwarder.utils.sdkinit.UMengInit
 import com.idormy.sms.forwarder.utils.sdkinit.XBasicLibInit
 import com.idormy.sms.forwarder.utils.sdkinit.XUpdateInit
@@ -223,8 +222,6 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         XUpdateInit.init(this)
         // 运营统计数据
         UMengInit.init(this)
-        // ANR监控
-        ANRWatchDogInit.init()
     }
 
     @SuppressLint("CheckResult")
