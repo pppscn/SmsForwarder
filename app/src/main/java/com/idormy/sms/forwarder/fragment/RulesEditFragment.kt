@@ -191,10 +191,23 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-        val visibility = if (isChecked) View.VISIBLE else View.GONE
         when (buttonView?.id) {
-            R.id.sb_sms_template -> binding!!.layoutSmsTemplate.visibility = visibility
-            R.id.sb_regex_replace -> binding!!.layoutRegexReplace.visibility = visibility
+            R.id.sb_sms_template -> {
+                if (isChecked) {
+                    binding!!.layoutSmsTemplate.visibility = View.VISIBLE
+                } else {
+                    binding!!.layoutSmsTemplate.visibility = View.GONE
+                    binding!!.etSmsTemplate.setText("")
+                }
+            }
+            R.id.sb_regex_replace -> {
+                if (isChecked) {
+                    binding!!.layoutRegexReplace.visibility = View.VISIBLE
+                } else {
+                    binding!!.layoutRegexReplace.visibility = View.GONE
+                    binding!!.etRegexReplace.setText("")
+                }
+            }
             else -> {}
         }
     }
