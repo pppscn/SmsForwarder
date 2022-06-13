@@ -1,6 +1,8 @@
 package com.idormy.sms.forwarder.fragment
 
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -35,6 +37,15 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
     private var appContext: App? = null
     private var inetAddress: InetAddress? = null
 
+    //定时更新界面
+    private val handler: Handler = Handler(Looper.getMainLooper())
+    private val runnable: Runnable = object : Runnable {
+        override fun run() {
+            handler.postDelayed(this, 1000) //每隔1秒刷新一次
+            refreshButtonText()
+        }
+    }
+
     override fun initViews() {
         appContext = requireActivity().application as App
     }
@@ -56,22 +67,13 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
         binding!!.tvServerTips.setOnClickListener(this)
         binding!!.ivCopy.setOnClickListener(this)
         binding!!.toggleServerBtn.setOnClickListener(this)
-        //Refresh Button every sec
-        Thread {
-            try {
-                while (true) {
-                    Thread.sleep(1000)
-                    requireActivity().runOnUiThread { refreshButtonText() }
-                }
-            } catch (ex: Exception) {
-                ex.printStackTrace()
-            }
-        }.start()
 
         binding!!.scbServerAutorun.isChecked = HttpServerUtils.enableServerAutorun
         binding!!.scbServerAutorun.setOnCheckedChangeListener { _: SmoothCheckBox, isChecked: Boolean ->
             HttpServerUtils.enableServerAutorun = isChecked
         }
+        //启动更新UI定时器
+        handler.post(runnable)
 
         binding!!.btnSignKey.setOnClickListener(this)
         binding!!.etSignKey.setText(HttpServerUtils.serverSignKey)
@@ -268,4 +270,11 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 }
             })
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        //取消定时器
+        handler.removeCallbacks(runnable)
+    }
+
 }
