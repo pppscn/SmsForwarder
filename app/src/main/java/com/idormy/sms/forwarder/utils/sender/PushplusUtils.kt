@@ -10,7 +10,6 @@ import com.idormy.sms.forwarder.entity.result.PushplusResult
 import com.idormy.sms.forwarder.entity.setting.PushplusSetting
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
-import com.idormy.sms.forwarder.utils.XToastUtils
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
@@ -82,7 +81,7 @@ class PushplusUtils private constructor() {
                     override fun onError(e: ApiException) {
                         SendUtils.updateLogs(logId, 0, e.displayMessage)
                         Log.e(TAG, e.detailMessage)
-                        XToastUtils.error(e.displayMessage)
+                        //XToastUtils.error(e.displayMessage)
                     }
 
                     override fun onSuccess(response: String) {
@@ -91,10 +90,10 @@ class PushplusUtils private constructor() {
                         val resp = Gson().fromJson(response, PushplusResult::class.java)
                         if (resp.code == 200L) {
                             SendUtils.updateLogs(logId, 2, response)
-                            XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
+                            //XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
                         } else {
                             SendUtils.updateLogs(logId, 0, response)
-                            XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
+                            //XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
                         }
                     }
 

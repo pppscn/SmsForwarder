@@ -5,6 +5,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.google.gson.Gson
+import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.entity.LogsAndRuleAndSender
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.database.entity.Sender
@@ -14,6 +15,7 @@ import com.idormy.sms.forwarder.entity.setting.*
 import com.idormy.sms.forwarder.utils.sender.*
 import com.idormy.sms.forwarder.workers.SendWorker
 import com.idormy.sms.forwarder.workers.UpdateLogsWorker
+import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.data.DateUtils
 import java.text.SimpleDateFormat
@@ -121,7 +123,15 @@ object SendUtils {
 
     //更新转发日志状态
     fun updateLogs(logId: Long?, status: Int, response: String) {
-        if (logId == null) return
+        if (logId == null || logId == 0L) {
+            //测试的没有记录ID，这里取巧了
+            if (status == 2) {
+                XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
+            } else {
+                XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
+            }
+            return
+        }
 
         val sendResponse = SendResponse(logId, status, response)
         val request = OneTimeWorkRequestBuilder<UpdateLogsWorker>()

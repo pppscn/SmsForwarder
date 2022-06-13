@@ -3,19 +3,16 @@ package com.idormy.sms.forwarder.utils.sender
 import android.util.Base64
 import android.util.Log
 import com.google.gson.Gson
-import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.result.FeishuResult
 import com.idormy.sms.forwarder.entity.setting.FeishuSetting
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
-import com.idormy.sms.forwarder.utils.XToastUtils
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
-import com.xuexiang.xui.utils.ResUtils
 import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
 import java.util.*
@@ -148,7 +145,7 @@ class FeishuUtils private constructor() {
                     override fun onError(e: ApiException) {
                         SendUtils.updateLogs(logId, 0, e.displayMessage)
                         Log.e(TAG, e.detailMessage)
-                        XToastUtils.error(e.displayMessage)
+                        //XToastUtils.error(e.displayMessage)
                     }
 
                     override fun onSuccess(response: String) {
@@ -157,10 +154,10 @@ class FeishuUtils private constructor() {
                         val resp = Gson().fromJson(response, FeishuResult::class.java)
                         if (resp.code == 0L) {
                             SendUtils.updateLogs(logId, 2, response)
-                            XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
+                            //XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
                         } else {
                             SendUtils.updateLogs(logId, 0, response)
-                            XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
+                            //XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
                         }
                     }
 

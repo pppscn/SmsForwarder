@@ -6,15 +6,12 @@ import android.text.TextUtils
 import android.util.Base64
 import android.util.Log
 import com.google.gson.Gson
-import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.WebhookSetting
 import com.idormy.sms.forwarder.utils.CertUtils
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
-import com.idormy.sms.forwarder.utils.XToastUtils
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xutil.app.AppUtils
 import okhttp3.*
 import java.io.IOException
@@ -167,7 +164,7 @@ class WebhookUtils {
                     //LogUtils.updateLog(logId, 0, e.message)
                     //解决在子线程中调用Toast的异常情况处理
                     Looper.prepare()
-                    XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
+                    //XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
                     Looper.loop()
                 }
 
@@ -180,12 +177,12 @@ class WebhookUtils {
                     if (200 == response.code()) {
                         SendUtils.updateLogs(logId, 2, responseStr)
                         Looper.prepare()
-                        XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
+                        //XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
                         Looper.loop()
                     } else {
                         SendUtils.updateLogs(logId, 0, responseStr)
                         Looper.prepare()
-                        XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
+                        //XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
                         Looper.loop()
                     }
                 }

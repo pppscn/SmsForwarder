@@ -7,7 +7,6 @@ import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.EmailSetting
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
-import com.idormy.sms.forwarder.utils.XToastUtils
 import com.idormy.sms.forwarder.utils.mail.Mail
 import com.idormy.sms.forwarder.utils.mail.MailSender
 import com.xuexiang.xui.utils.ResUtils
@@ -133,12 +132,12 @@ class EmailUtils {
                 override fun onError(e: Throwable) {
                     SendUtils.updateLogs(logId, 0, e.message.toString())
                     Log.e("MailSender", e.message.toString())
-                    XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message.toString())
+                    //XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message.toString())
                 }
 
                 override fun onSuccess() {
                     SendUtils.updateLogs(logId, 2, ResUtils.getString(R.string.request_succeeded))
-                    XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
+                    //XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
                 }
             })
 

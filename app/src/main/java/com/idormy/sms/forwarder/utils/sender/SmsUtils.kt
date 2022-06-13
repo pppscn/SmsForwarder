@@ -12,7 +12,6 @@ import com.idormy.sms.forwarder.entity.setting.SmsSetting
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
-import com.idormy.sms.forwarder.utils.XToastUtils
 import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.net.NetworkUtils
@@ -53,16 +52,16 @@ class SmsUtils {
             val mSubscriptionId: Int = App.SimInfoList[simSlotIndex]?.mSubscriptionId ?: -1
 
             if (ActivityCompat.checkSelfPermission(XUtil.getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                XToastUtils.error(ResUtils.getString(R.string.no_sms_sending_permission))
+                //XToastUtils.error(ResUtils.getString(R.string.no_sms_sending_permission))
                 return
             }
             val res: String? = PhoneUtils.sendSms(mSubscriptionId, setting.mobiles, content)
             if (res == null) {
                 SendUtils.updateLogs(logId, 2, ResUtils.getString(R.string.request_succeeded))
-                XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
+                //XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
             } else {
                 SendUtils.updateLogs(logId, 0, res)
-                XToastUtils.error(ResUtils.getString(R.string.request_failed) + res)
+                //XToastUtils.error(ResUtils.getString(R.string.request_failed) + res)
             }
         }
 
