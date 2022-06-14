@@ -100,9 +100,9 @@ class TelegramUtils {
             client.newCall(request).enqueue(object : Callback {
 
                 override fun onFailure(call: Call, e: IOException) {
-                    SendUtils.updateLogs(logId, 0, e.message.toString())
                     e.printStackTrace()
                     Looper.prepare()
+                    SendUtils.updateLogs(logId, 0, e.message.toString())
                     //XToastUtils.error("发送失败：" + e.message)
                     Looper.loop()
                 }
@@ -114,13 +114,13 @@ class TelegramUtils {
 
                     val resp = Gson().fromJson(responseStr, TelegramResult::class.java)
                     if (resp.ok == true) {
-                        SendUtils.updateLogs(logId, 2, responseStr.toString())
                         Looper.prepare()
+                        SendUtils.updateLogs(logId, 2, responseStr.toString())
                         //XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
                         Looper.loop()
                     } else {
-                        SendUtils.updateLogs(logId, 0, responseStr.toString())
                         Looper.prepare()
+                        SendUtils.updateLogs(logId, 0, responseStr.toString())
                         //XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
                         Looper.loop()
                     }

@@ -160,10 +160,10 @@ class WebhookUtils {
 
             client.newCall(requestBuilder.build()).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    SendUtils.updateLogs(logId, 0, e.message.toString())
-                    //LogUtils.updateLog(logId, 0, e.message)
                     //解决在子线程中调用Toast的异常情况处理
                     Looper.prepare()
+                    e.printStackTrace()
+                    SendUtils.updateLogs(logId, 0, e.message.toString())
                     //XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
                     Looper.loop()
                 }
@@ -175,13 +175,13 @@ class WebhookUtils {
 
                     //返回http状态200即为成功
                     if (200 == response.code()) {
-                        SendUtils.updateLogs(logId, 2, responseStr)
                         Looper.prepare()
+                        SendUtils.updateLogs(logId, 2, responseStr)
                         //XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
                         Looper.loop()
                     } else {
-                        SendUtils.updateLogs(logId, 0, responseStr)
                         Looper.prepare()
+                        SendUtils.updateLogs(logId, 0, responseStr)
                         //XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
                         Looper.loop()
                     }
