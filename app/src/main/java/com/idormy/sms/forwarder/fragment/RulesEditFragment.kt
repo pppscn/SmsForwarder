@@ -364,9 +364,12 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
     private fun initAppSpinner() {
         if (ruleType != "app") return
 
+        //未开启异步获取已安装App信息开关时，规则编辑不显示已安装APP下拉框
+        if (!SettingUtils.enableLoadUserAppList && !SettingUtils.enableLoadSystemAppList) return
+
         val get = GlobalScope.async(Dispatchers.IO) {
             if ((SettingUtils.enableLoadUserAppList && App.UserAppList.isEmpty())
-                || SettingUtils.enableLoadSystemAppList && App.SystemAppList.isEmpty()
+                || (SettingUtils.enableLoadSystemAppList && App.SystemAppList.isEmpty())
             ) {
                 App.UserAppList.clear()
                 App.SystemAppList.clear()
@@ -398,6 +401,9 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                         appListSpinnerList.add(AppListAdapterItem(appInfo.name, appInfo.icon, appInfo.packageName))
                     }
                 }
+
+                //列表为空也不显示下拉框
+                if (appListSpinnerList.isEmpty()) return@runCatching
 
                 appListSpinnerAdapter = AppListSpinnerAdapter(appListSpinnerList)
                     //.setTextColor(ResUtils.getColor(R.color.green))
