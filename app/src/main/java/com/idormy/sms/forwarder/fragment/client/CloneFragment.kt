@@ -18,6 +18,7 @@ import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentClientCloneBinding
 import com.idormy.sms.forwarder.entity.CloneInfo
 import com.idormy.sms.forwarder.server.model.BaseResponse
+import com.idormy.sms.forwarder.utils.CommonUtils
 import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.XToastUtils
@@ -220,6 +221,11 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
 
     //推送配置
     private fun pushData() {
+        if (!CommonUtils.checkUrl(HttpServerUtils.serverAddress)) {
+            XToastUtils.error(getString(R.string.invalid_service_address))
+            return
+        }
+
         pushCountDownHelper?.start()
 
         val requestUrl: String = HttpServerUtils.serverAddress + "/clone/push"
@@ -273,6 +279,11 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
 
     //拉取配置
     private fun pullData() {
+        if (!CommonUtils.checkUrl(HttpServerUtils.serverAddress)) {
+            XToastUtils.error(getString(R.string.invalid_service_address))
+            return
+        }
+        
         exportCountDownHelper?.start()
 
         val requestUrl: String = HttpServerUtils.serverAddress + "/clone/pull"

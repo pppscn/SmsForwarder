@@ -132,7 +132,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
 
     override fun onItemClick(itemView: View, item: PageInfo, position: Int) {
         try {
-            if (!CommonUtils.checkUrl(HttpServerUtils.serverAddress)) {
+            if (item.name != ResUtils.getString(R.string.api_clone) && !CommonUtils.checkUrl(HttpServerUtils.serverAddress)) {
                 XToastUtils.error(getString(R.string.invalid_service_address))
                 serverConfig = null
                 return
