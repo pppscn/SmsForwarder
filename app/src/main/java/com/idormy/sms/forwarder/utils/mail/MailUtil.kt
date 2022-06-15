@@ -50,11 +50,15 @@ object MailUtil {
             if (TextUtils.isEmpty(mail.fromNickname)) {
                 setFrom(InternetAddress(mail.fromAddress))
             } else {
-                val nickname = try {
-                    MimeUtility.encodeText(mail.fromNickname)
+                var nickname = mail.fromNickname.replace(":", "-").replace("\n", "-")
+                try {
+                    Log.d("createMailMessage", "nickname = $nickname")
+                    nickname = MimeUtility.encodeText(nickname)
                 } catch (e: UnsupportedEncodingException) {
                     e.printStackTrace()
                 }
+
+                Log.d("createMailMessage", "nickname = $nickname")
                 setFrom(InternetAddress("$nickname <${mail.fromAddress}>"))
             }
 
@@ -77,7 +81,12 @@ object MailUtil {
             setRecipients(Message.RecipientType.BCC, bccAddress)
 
             // 邮件主题
-            subject = mail.subject
+            subject = mail.subject.replace(":", "-").replace("\n", "-")
+            try {
+                subject = MimeUtility.encodeText(subject)
+            } catch (e: UnsupportedEncodingException) {
+                e.printStackTrace()
+            }
 
             // 邮件内容
             val contentPart = MimeMultipart()

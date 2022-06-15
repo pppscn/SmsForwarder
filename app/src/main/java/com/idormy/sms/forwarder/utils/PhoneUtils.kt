@@ -216,7 +216,7 @@ class PhoneUtils private constructor() {
                     val indexDuration = cursor.getColumnIndex(CallLog.Calls.DURATION)
                     val indexType = cursor.getColumnIndex(CallLog.Calls.TYPE)
                     val indexViaNumber = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && cursor.getColumnIndex("via_number") != -1) cursor.getColumnIndex("via_number") else -1
-                    var isSimId = false
+                    val isSimId = false
                     var indexSimId = -1
                     if (cursor.getColumnIndex("simid") != -1) {
                         indexSimId = cursor.getColumnIndex("simid")
@@ -396,7 +396,7 @@ class PhoneUtils private constructor() {
                     val indexBody = cursor.getColumnIndex("body")
                     val indexDate = cursor.getColumnIndex("date")
                     val indexType = cursor.getColumnIndex("type")
-                    var isSimId = false
+                    val isSimId = false
                     var indexSimId = -1
                     if (cursor.getColumnIndex("sim_id") != -1) {
                         indexSimId = cursor.getColumnIndex("sim_id")
