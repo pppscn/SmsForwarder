@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.os.Bundle
 import android.provider.CallLog
 import android.provider.ContactsContract
 import android.provider.Settings
@@ -173,41 +172,18 @@ class PhoneUtils private constructor() {
                 Log.d(TAG, "selection = $selection")
                 Log.d(TAG, "selectionArgs = $selectionArgs")
 
-                // 避免超过总数后循环取出
-                val cursorTotal = Core.app.contentResolver.query(
+                //为了兼容性这里全部取出后手动分页
+                val cursor = Core.app.contentResolver.query(
                     CallLog.Calls.CONTENT_URI,
                     null,
                     selection,
                     selectionArgs.toTypedArray(),
-                    CallLog.Calls.DEFAULT_SORT_ORDER
+                    CallLog.Calls.DEFAULT_SORT_ORDER // + " limit $limit offset $offset"
                 ) ?: return callInfoList
-                if (offset >= cursorTotal.count) return callInfoList
-
-                val cursor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    Core.app.contentResolver.query(
-                        CallLog.Calls.CONTENT_URI,
-                        null,
-                        Bundle().apply {
-                            putString(ContentResolver.QUERY_ARG_SQL_SELECTION, selection)
-                            putStringArray(ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS, selectionArgs.toTypedArray())
-                            putStringArray(ContentResolver.QUERY_ARG_SORT_COLUMNS, arrayOf(CallLog.Calls.DATE))
-                            putInt(ContentResolver.QUERY_ARG_SORT_DIRECTION, ContentResolver.QUERY_SORT_DIRECTION_DESCENDING)
-                            putInt(ContentResolver.QUERY_ARG_LIMIT, limit)
-                            putInt(ContentResolver.QUERY_ARG_OFFSET, offset)
-                        },
-                        null)
-                } else {
-                    Core.app.contentResolver.query(
-                        CallLog.Calls.CONTENT_URI,
-                        null,
-                        selection,
-                        selectionArgs.toTypedArray(),
-                        CallLog.Calls.DEFAULT_SORT_ORDER + " limit $limit offset $offset"
-                    )
-                } ?: return callInfoList
-
                 Log.i(TAG, "cursor count:" + cursor.count)
-                if (cursor.count == 0) return callInfoList
+
+                // 避免超过总数后循环取出
+                if (cursor.count == 0 || offset >= cursor.count) return callInfoList
 
                 if (cursor.moveToFirst()) {
                     val indexName = cursor.getColumnIndex(CallLog.Calls.CACHED_NAME)
@@ -225,18 +201,27 @@ class PhoneUtils private constructor() {
                     ) {
                         indexSimId = cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID)
                     }
+                    var curOffset = 0
                     do {
-                        val callInfo = CallInfo(
-                            cursor.getString(indexName) ?: "",  //姓名
-                            cursor.getString(indexNumber) ?: "",  //号码
-                            cursor.getLong(indexDate),  //获取通话日期
-                            cursor.getInt(indexDuration),  //获取通话时长，值为多少秒
-                            cursor.getInt(indexType),  //获取通话类型：1.呼入 2.呼出 3.未接
-                            if (indexViaNumber != -1) cursor.getString(indexViaNumber) else "",  //来源号码
-                            if (indexSimId != -1) getSimId(cursor.getInt(indexSimId), isSimId) else -1 //卡槽id
-                        )
-                        Log.d(TAG, callInfo.toString())
-                        callInfoList.add(callInfo)
+                        if (curOffset >= offset) {
+                            val callInfo = CallInfo(
+                                cursor.getString(indexName) ?: "",  //姓名
+                                cursor.getString(indexNumber) ?: "",  //号码
+                                cursor.getLong(indexDate),  //获取通话日期
+                                cursor.getInt(indexDuration),  //获取通话时长，值为多少秒
+                                cursor.getInt(indexType),  //获取通话类型：1.呼入 2.呼出 3.未接
+                                if (indexViaNumber != -1) cursor.getString(indexViaNumber) else "",  //来源号码
+                                if (indexSimId != -1) getSimId(cursor.getInt(indexSimId), isSimId) else -1 //卡槽id
+                            )
+                            Log.d(TAG, callInfo.toString())
+                            callInfoList.add(callInfo)
+                            if (limit == 1) {
+                                cursor.close()
+                                return callInfoList
+                            }
+                        }
+                        curOffset++
+                        if (curOffset >= offset + limit) break
                     } while (cursor.moveToNext())
                     if (!cursor.isClosed) cursor.close()
                 }
@@ -273,41 +258,17 @@ class PhoneUtils private constructor() {
                 Log.d(TAG, "selection = $selection")
                 Log.d(TAG, "selectionArgs = $selectionArgs")
 
-                // 避免超过总数后循环取出
-                val cursorTotal = Core.app.contentResolver.query(
+                val cursor = Core.app.contentResolver.query(
                     ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                     null,
                     selection,
                     selectionArgs.toTypedArray(),
                     ContactsContract.CommonDataKinds.Phone.SORT_KEY_PRIMARY
                 ) ?: return contactInfoList
-                if (offset >= cursorTotal.count) return contactInfoList
-
-                val cursor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    Core.app.contentResolver.query(
-                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                        null,
-                        Bundle().apply {
-                            putString(ContentResolver.QUERY_ARG_SQL_SELECTION, selection)
-                            putStringArray(ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS, selectionArgs.toTypedArray())
-                            putStringArray(ContentResolver.QUERY_ARG_SORT_COLUMNS, arrayOf(ContactsContract.CommonDataKinds.Phone.SORT_KEY_PRIMARY))
-                            putInt(ContentResolver.QUERY_ARG_SORT_DIRECTION, ContentResolver.QUERY_SORT_DIRECTION_ASCENDING)
-                            putInt(ContentResolver.QUERY_ARG_LIMIT, limit)
-                            putInt(ContentResolver.QUERY_ARG_OFFSET, offset)
-                        },
-                        null)
-                } else {
-                    Core.app.contentResolver.query(
-                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                        null,
-                        selection,
-                        selectionArgs.toTypedArray(),
-                        ContactsContract.CommonDataKinds.Phone.SORT_KEY_PRIMARY + " limit $limit offset $offset"
-                    )
-                } ?: return contactInfoList
-
                 Log.i(TAG, "cursor count:" + cursor.count)
-                if (cursor.count == 0) return contactInfoList
+
+                // 避免超过总数后循环取出
+                if (cursor.count == 0 || offset >= cursor.count) return contactInfoList
 
                 if (cursor.moveToFirst()) {
                     val displayNameIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
@@ -319,6 +280,10 @@ class PhoneUtils private constructor() {
                         )
                         Log.d(TAG, contactInfo.toString())
                         contactInfoList.add(contactInfo)
+                        if (limit == 1) {
+                            cursor.close()
+                            return contactInfoList
+                        }
                     } while (cursor.moveToNext())
                     if (!cursor.isClosed) cursor.close()
                 }
