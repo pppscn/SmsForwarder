@@ -32,7 +32,10 @@ import com.xuexiang.xui.utils.DensityUtils
 import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.utils.WidgetUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
+import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xutil.XUtil
+
 
 @Suppress("PrivatePropertyName", "PropertyName")
 @Page(name = "主动控制·客户端")
@@ -43,6 +46,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
     val TAG: String = ClientFragment::class.java.simpleName
     private var appContext: App? = null
     private var serverConfig: ConfigData? = null
+    private var serverHistory: MutableMap<String, String> = mutableMapOf()
     private var mCountDownHelper: CountDownButtonHelper? = null
 
     override fun initViews() {
@@ -64,6 +68,12 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
         val widgetItemAdapter = WidgetItemAdapter(CLIENT_FRAGMENT_LIST)
         widgetItemAdapter.setOnItemClickListener(this)
         binding!!.recyclerView.adapter = widgetItemAdapter
+
+        //取出历史记录
+        val history = HttpServerUtils.serverHistory
+        if (!TextUtils.isEmpty(history)) {
+            serverHistory = Gson().fromJson(history, object : TypeToken<MutableMap<String, String>>() {}.type)
+        }
 
         if (CommonUtils.checkUrl(HttpServerUtils.serverAddress)) queryConfig(false)
     }
@@ -113,12 +123,39 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
             }
         })
 
+        binding!!.btnServerHistory.setOnClickListener(this)
         binding!!.btnServerTest.setOnClickListener(this)
     }
 
     @SingleClick
     override fun onClick(v: View) {
         when (v.id) {
+            R.id.btn_server_history -> {
+                if (serverHistory.isEmpty()) {
+                    XToastUtils.warning(getString(R.string.no_server_history))
+                    return
+                }
+                Log.d(TAG, "serverHistory = $serverHistory")
+
+                MaterialDialog.Builder(context!!)
+                    .title(R.string.server_history)
+                    .items(serverHistory.keys)
+                    .itemsCallbackSingleChoice(0) { _: MaterialDialog?, _: View?, _: Int, text: CharSequence ->
+                        //XToastUtils.info("$which: $text")
+                        binding!!.etServerAddress.setText(text)
+                        binding!!.etSignKey.setText(serverHistory[text])
+                        true // allow selection
+                    }
+                    .positiveText(R.string.select)
+                    .negativeText(R.string.cancel)
+                    .neutralText(R.string.clear_history)
+                    .neutralColor(ResUtils.getColors(R.color.red))
+                    .onNeutral { _: MaterialDialog?, _: DialogAction? ->
+                        serverHistory.clear()
+                        HttpServerUtils.serverHistory = ""
+                    }
+                    .show()
+            }
             R.id.btn_server_test -> {
                 if (!CommonUtils.checkUrl(HttpServerUtils.serverAddress)) {
                     XToastUtils.error(getString(R.string.invalid_service_address))
@@ -202,6 +239,9 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
                         if (resp.code == 200) {
                             serverConfig = resp.data!!
                             if (needToast) XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
+                            //添加到历史记录
+                            serverHistory[HttpServerUtils.serverAddress.toString()] = HttpServerUtils.clientSignKey ?: ""
+                            HttpServerUtils.serverHistory = Gson().toJson(serverHistory)
                         } else {
                             if (needToast) XToastUtils.error(ResUtils.getString(R.string.request_failed) + resp.msg)
                         }

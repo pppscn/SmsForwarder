@@ -47,6 +47,14 @@ class HttpServerUtils private constructor() {
                 MMKVUtils.put(SP_SERVER_ADDRESS, clientSignKey)
             }
 
+        //服务地址历史记录
+        @JvmStatic
+        var serverHistory: String?
+            get() = MMKVUtils.getString(SP_SERVER_HISTORY, "")
+            set(serverHistory) {
+                MMKVUtils.put(SP_SERVER_HISTORY, serverHistory)
+            }
+
         //客户端签名密钥
         @JvmStatic
         var clientSignKey: String?

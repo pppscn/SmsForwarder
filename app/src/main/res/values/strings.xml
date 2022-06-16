@@ -170,6 +170,7 @@
     <string name="about">关于软件</string>
     <string name="help">使用帮助</string>
     <string name="clear_logs">清空日志</string>
+    <string name="clear_history">清空记录</string>
     <string name="app_rule">通知转发规则</string>
     <string name="call_rule">通话转发规则</string>
     <string name="sms_rule">短信转发规则</string>
@@ -808,6 +809,7 @@
     <string name="battery_health">健康度：%s</string>
     <string name="battery_plugged">充电器：%s</string>
 
+    <string name="server_history">历史记录</string>
     <string name="server_test">测试接口</string>
     <string name="invalid_service_address">无效的服务地址！\n格式：http://127.0.0.1:5000 或 https://smsf.demo.com</string>
     <string name="click_test_button_first">请先点击【测试接口】按钮，获取服务端已启用的功能列表</string>
@@ -865,4 +867,5 @@
     <string name="load_app_list">启动时异步获取已安装App列表</string>
     <string name="load_app_list_tips">用于加速进入应用列表/编辑转发规则下拉选择/替换{{APP名称}}</string>
     <string name="load_app_list_toast">开启异步获取已安装App列表时必选一个类型</string>
+    <string name="no_server_history">暂无历史记录，接口测试通过后自动加入</string>
 </resources>

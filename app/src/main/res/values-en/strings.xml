@@ -169,6 +169,7 @@
     <string name="about">About</string>
     <string name="help">Help</string>
     <string name="clear_logs">Clear logs</string>
+    <string name="clear_history">Clear History</string>
     <string name="app_rule">App rule</string>
     <string name="call_rule">Call rule</string>
     <string name="sms_rule">Sms rule</string>
@@ -807,6 +808,7 @@
     <string name="battery_health">Health: %s</string>
     <string name="battery_plugged">Plugged: %s</string>
 
+    <string name="server_history">Server History</string>
     <string name="server_test">Server Test</string>
     <string name="invalid_service_address">Invalid service address\nFormat: http://127.0.0.1:5000 or https://smsf.demo.com</string>
     <string name="click_test_button_first">Click the test button first, to get the list of features enabled by the server</string>
@@ -864,4 +866,5 @@
     <string name="load_app_list">Get installed app info async at startup</string>
     <string name="load_app_list_tips">Used to speed up entering the application list/editing forwarding rules drop-down selection/replacement {{APP_NAME}}</string>
     <string name="load_app_list_toast">A type must be selected when enabling asynchronous loading of the list of installed apps</string>
+    <string name="no_server_history">There is no history record, it will be added automatically after the interface test is passed</string>
 </resources>

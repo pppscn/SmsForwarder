@@ -60,6 +60,17 @@
                     android:layout_weight="1"
                     android:hint="@string/service_address_hint" />
 
+                <com.xuexiang.xui.widget.button.ButtonView
+                    android:id="@+id/btn_server_history"
+                    style="@style/ButtonView.Gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:gravity="center"
+                    android:minWidth="70dp"
+                    android:padding="5dp"
+                    android:text="@string/server_history" />
+
             </LinearLayout>
 
             <LinearLayout
