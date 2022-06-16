@@ -179,6 +179,7 @@ const val FRONT_CHANNEL_ID = "com.idormy.sms.forwarder"
 const val FRONT_CHANNEL_NAME = "SmsForwarder Foreground Service"
 
 //Frp内网穿透
+const val FRPC_LIB_DOWNLOAD_URL = "https://xupdate.ppps.cn/uploads/%s/%s/libgojni.so"
 const val FRPC_LIB_VERSION = "0.43.0"
 const val EVENT_FRPC_UPDATE_CONFIG = "EVENT_FRPC_UPDATE_CONFIG"
 const val EVENT_FRPC_DELETE_CONFIG = "EVENT_FRPC_DELETE_CONFIG"
@@ -213,7 +214,7 @@ const val EVENT_KEY_SIM_SLOT = "EVENT_KEY_SIM_SLOT"
 const val EVENT_KEY_PHONE_NUMBERS = "EVENT_KEY_PHONE_NUMBERS"
 
 //在线升级URL
-const val KEY_UPDATE_URL = "https://xupdate.bms.ink/update/checkVersion"
+const val KEY_UPDATE_URL = "https://xupdate.ppps.cn/update/checkVersion"
 
 //HttpServer相关
 const val ENABLE_HTTP_SERVER = "enable_http_server"

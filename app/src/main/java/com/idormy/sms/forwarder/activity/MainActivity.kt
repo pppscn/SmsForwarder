@@ -352,7 +352,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
         val libPath = filesDir.absolutePath + "/libs"
         val soFile = File(libPath)
         if (!soFile.exists()) soFile.mkdirs()
-        val downloadUrl = "https://xupdate.bms.ink/uploads/$FRPC_LIB_VERSION/$cpuAbi/libgojni.so"
+        val downloadUrl = String.format(FRPC_LIB_DOWNLOAD_URL, FRPC_LIB_VERSION, cpuAbi)
         val mContext = this
         val dialog: MaterialDialog = MaterialDialog.Builder(mContext)
             .title(String.format(getString(R.string.frpclib_download_title), FRPC_LIB_VERSION))
