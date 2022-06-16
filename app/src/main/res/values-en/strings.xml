@@ -35,6 +35,7 @@
     <string name="about_item_donation_link">Reward List</string>
     <string name="about_item_add_dingtalk_group">DingTalk Group</string>
     <string name="about_item_add_wework_group">Wework Group</string>
+    <string name="about_item_add_qq_channel">QQ Channel</string>
     <string name="about_item_add_qq_group">QQ Group</string>
     <string name="about_item_add_qq_group_1">①</string>
     <string name="about_item_add_qq_group_2">②</string>
@@ -52,6 +53,7 @@
     <string name="url_add_qq_group_5">https://qm.qq.com/cgi-bin/qm/qr?k=CcamLcA-QVN-KqCDjeMZqdTx8IGlJrVx</string>
     <string name="url_dingtalk_group">https://gitee.com/pp/SmsForwarder/raw/main/pic/dingtalk.png</string>
     <string name="url_wework_group">https://gitee.com/pp/SmsForwarder/raw/main/pic/qywechat.png</string>
+    <string name="url_qq_channel">https://qun.qq.com/qqweb/qunpro/share?_wv=3&amp;_wwv=128&amp;appChannel=share&amp;inviteCode=1W5aewP&amp;appChannel=share&amp;businessType=9&amp;from=246610&amp;biz=ka</string>
 
     <string name="lab_yes">Yes</string>
     <string name="lab_no">No</string>

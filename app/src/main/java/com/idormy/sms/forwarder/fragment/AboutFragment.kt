@@ -109,6 +109,7 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
         binding!!.menuDonation.setOnSuperTextViewClickListener(this)
         binding!!.menuWecomGroup.setOnSuperTextViewClickListener(this)
         binding!!.menuDingtalkGroup.setOnSuperTextViewClickListener(this)
+        binding!!.menuQqChannel.setOnSuperTextViewClickListener(this)
         binding!!.menuUserProtocol.setOnSuperTextViewClickListener(this)
         binding!!.menuPrivacyProtocol.setOnSuperTextViewClickListener(this)
     }
@@ -124,6 +125,9 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
             }
             R.id.menu_dingtalk_group -> {
                 previewPicture(this, getString(R.string.url_dingtalk_group), null)
+            }
+            R.id.menu_qq_channel -> {
+                AgentWebActivity.goWeb(context, getString(R.string.url_qq_channel))
             }
             R.id.menu_user_protocol -> {
                 gotoProtocol(this, isPrivacy = false, isImmersive = false)

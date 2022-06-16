@@ -106,6 +106,11 @@
                 app:sLeftTextString="@string/about_item_add_dingtalk_group" />
 
             <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/menu_qq_channel"
+                style="@style/InfoItem.About"
+                app:sLeftTextString="@string/about_item_add_qq_channel" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                 style="@style/InfoItem.AboutWithBtn"
                 app:sLeftTextString="@string/about_item_add_qq_group">
 

@@ -35,6 +35,7 @@
     <string name="about_item_donation_link">打赏名单</string>
     <string name="about_item_add_dingtalk_group">钉钉客户群</string>
     <string name="about_item_add_wework_group">企业微信群</string>
+    <string name="about_item_add_qq_channel">QQ频道</string>
     <string name="about_item_add_qq_group">QQ互助交流群</string>
     <string name="about_item_add_qq_group_1">①群</string>
     <string name="about_item_add_qq_group_2">②群</string>
@@ -52,6 +53,7 @@
     <string name="url_add_qq_group_5">https://qm.qq.com/cgi-bin/qm/qr?k=CcamLcA-QVN-KqCDjeMZqdTx8IGlJrVx</string>
     <string name="url_dingtalk_group">https://gitee.com/pp/SmsForwarder/raw/main/pic/dingtalk.png</string>
     <string name="url_wework_group">https://gitee.com/pp/SmsForwarder/raw/main/pic/qywechat.png</string>
+    <string name="url_qq_channel">https://qun.qq.com/qqweb/qunpro/share?_wv=3&amp;_wwv=128&amp;appChannel=share&amp;inviteCode=1W5aewP&amp;appChannel=share&amp;businessType=9&amp;from=246610&amp;biz=ka</string>
 
     <string name="lab_yes">是</string>
     <string name="lab_no">否</string>
