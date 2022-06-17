@@ -39,7 +39,7 @@ class DingtalkUtils private constructor() {
 
             var requestUrl = if (setting.token.startsWith("http")) setting.token else "https://oapi.dingtalk.com/robot/send?access_token=" + setting.token
 
-            if (setting.secret != null) {
+            if (!TextUtils.isEmpty(setting.secret)) {
                 val timestamp = System.currentTimeMillis()
                 val stringToSign = "$timestamp\n" + setting.secret
                 val mac = Mac.getInstance("HmacSHA256")
