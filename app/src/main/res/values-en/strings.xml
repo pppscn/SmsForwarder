@@ -869,4 +869,7 @@
     <string name="load_app_list_tips">Used to speed up entering the application list/editing forwarding rules drop-down selection/replacement {{APP_NAME}}</string>
     <string name="load_app_list_toast">A type must be selected when enabling asynchronous loading of the list of installed apps</string>
     <string name="no_server_history">There is no history record, it will be added automatically after the interface test is passed</string>
+    <string name="select_time_period">Select Time Period</string>
+    <string name="silent_time_period">Silent (disable forwarding) time period</string>
+    <string name="silent_time_period_tips">If the end time is less than the start time, it will span days; if it is equal, it will be disabled</string>
 </resources>

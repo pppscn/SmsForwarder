@@ -41,7 +41,9 @@ import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xui.widget.picker.XRangeSlider
 import com.xuexiang.xui.widget.picker.XRangeSlider.OnRangeSliderListener
 import com.xuexiang.xui.widget.picker.XSeekBar
+import com.xuexiang.xui.widget.picker.widget.builder.OptionsPickerBuilder
 import com.xuexiang.xui.widget.picker.widget.builder.TimePickerBuilder
+import com.xuexiang.xui.widget.picker.widget.listener.OnOptionsSelectListener
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.XUtil.getPackageManager
 import com.xuexiang.xutil.app.AppUtils.getAppPackageName
@@ -54,6 +56,7 @@ import java.util.*
 class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickListener {
 
     val TAG: String = SettingsFragment::class.java.simpleName
+    private val mTimeOption = DataProvider.timePeriodOption
 
     override fun viewBindingInflate(
         inflater: LayoutInflater,
@@ -85,6 +88,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         binding!!.xsbDuplicateMessagesLimits.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
             SettingUtils.duplicateMessagesLimits = newValue
         }
+        //免打扰(禁用转发)时间段
+        binding!!.tvSilentPeriod.text = mTimeOption[SettingUtils.silentPeriodStart] + " ~ " + mTimeOption[SettingUtils.silentPeriodEnd]
 
         //监听电池状态变化
         switchBatteryReceiver(binding!!.sbBatteryReceiver)
@@ -130,6 +135,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     }
 
     override fun initListeners() {
+        binding!!.btnSilentPeriod.setOnClickListener(this)
         binding!!.btnExtraDeviceMark.setOnClickListener(this)
         binding!!.btnExtraSim1.setOnClickListener(this)
         binding!!.btnExtraSim2.setOnClickListener(this)
@@ -145,6 +151,21 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     override fun onClick(v: View) {
         val etSmsTemplate: EditText = binding!!.etSmsTemplate
         when (v.id) {
+            R.id.btn_silent_period -> {
+                OptionsPickerBuilder(context, OnOptionsSelectListener { _: View?, options1: Int, options2: Int, _: Int ->
+                    SettingUtils.silentPeriodStart = options1
+                    SettingUtils.silentPeriodEnd = options2
+                    val txt = mTimeOption[options1] + " ~ " + mTimeOption[options2]
+                    binding!!.tvSilentPeriod.text = txt
+                    XToastUtils.toast(txt)
+                    return@OnOptionsSelectListener false
+                }).setTitleText(getString(R.string.select_time_period))
+                    .setSelectOptions(SettingUtils.silentPeriodStart, SettingUtils.silentPeriodEnd)
+                    .build<Any>().also {
+                        it.setNPicker(mTimeOption, mTimeOption)
+                        it.show()
+                    }
+            }
             R.id.btn_extra_device_mark -> {
                 binding!!.etExtraDeviceMark.setText(PhoneUtils.getDeviceName())
                 return

@@ -870,4 +870,7 @@
     <string name="load_app_list_tips">用于加速进入应用列表/编辑转发规则下拉选择/替换{{APP名称}}</string>
     <string name="load_app_list_toast">开启异步获取已安装App列表时必选一个类型</string>
     <string name="no_server_history">暂无历史记录，接口测试通过后自动加入</string>
+    <string name="select_time_period">时间段选择</string>
+    <string name="silent_time_period">免打扰(禁用转发)时间段</string>
+    <string name="silent_time_period_tips">结束时间小于开始时间则跨天；相等则禁用</string>
 </resources>

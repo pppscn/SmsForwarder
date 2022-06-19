@@ -10,13 +10,13 @@ import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.Logs
 import com.idormy.sms.forwarder.database.entity.RuleAndSender
 import com.idormy.sms.forwarder.entity.MsgInfo
-import com.idormy.sms.forwarder.utils.HistoryUtils
-import com.idormy.sms.forwarder.utils.SendUtils
-import com.idormy.sms.forwarder.utils.SettingUtils
-import com.idormy.sms.forwarder.utils.Worker
+import com.idormy.sms.forwarder.utils.*
 import com.xuexiang.xutil.security.CipherUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.text.ParsePosition
+import java.text.SimpleDateFormat
+import java.util.*
 
 class SendWorker(
     context: Context,
@@ -27,6 +27,35 @@ class SendWorker(
 
         return withContext(Dispatchers.IO) {
             try {
+                // 免打扰(禁用转发)时间段
+                if (SettingUtils.silentPeriodStart != SettingUtils.silentPeriodEnd) {
+                    val periodStartDay = Date()
+                    var periodStartEnd = Date()
+                    //跨天了
+                    if (SettingUtils.silentPeriodStart > SettingUtils.silentPeriodEnd) {
+                        val c: Calendar = Calendar.getInstance()
+                        c.time = periodStartEnd
+                        c.add(Calendar.DAY_OF_MONTH, 1)
+                        periodStartEnd = c.time
+                    }
+
+                    val dateFmt = SimpleDateFormat("yyyy-MM-dd")
+                    val mTimeOption = DataProvider.timePeriodOption
+                    val periodStartStr = dateFmt.format(periodStartDay) + " " + mTimeOption[SettingUtils.silentPeriodStart] + ":00"
+                    val periodEndStr = dateFmt.format(periodStartEnd) + " " + mTimeOption[SettingUtils.silentPeriodEnd] + ":00"
+
+                    val timeFmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                    val periodStart = timeFmt.parse(periodStartStr, ParsePosition(0)).time
+                    val periodEnd = timeFmt.parse(periodEndStr, ParsePosition(0)).time
+
+                    val now = System.currentTimeMillis()
+                    if (now in periodStart..periodEnd) {
+                        Log.e("SendWorker", "免打扰(禁用转发)时间段")
+                        return@withContext Result.failure(workDataOf("send" to "failed"))
+                    }
+
+                }
+
                 val msgInfoJson = inputData.getString(Worker.sendMsgInfo)
                 val msgInfo = Gson().fromJson(msgInfoJson, MsgInfo::class.java)
 

@@ -117,6 +117,22 @@ class SettingUtils private constructor() {
                 MMKVUtils.put(SP_DUPLICATE_MESSAGES_LIMITS, duplicateMessagesLimits)
             }
 
+        //免打扰(禁用转发)时间段——开始
+        @JvmStatic
+        var silentPeriodStart: Int
+            get() = MMKVUtils.getInt(SP_SILENT_PERIOD_START, 0)
+            set(silentPeriodStart) {
+                MMKVUtils.put(SP_SILENT_PERIOD_START, silentPeriodStart)
+            }
+
+        //免打扰(禁用转发)时间段——结束
+        @JvmStatic
+        var silentPeriodEnd: Int
+            get() = MMKVUtils.getInt(SP_SILENT_PERIOD_END, 0)
+            set(silentPeriodEnd) {
+                MMKVUtils.put(SP_SILENT_PERIOD_END, silentPeriodEnd)
+            }
+
         //是否监听电池状态变化
         @JvmStatic
         var enableBatteryReceiver: Boolean

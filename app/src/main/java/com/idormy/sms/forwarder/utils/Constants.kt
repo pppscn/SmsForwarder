@@ -39,6 +39,8 @@ const val ENABLE_LOAD_USER_APP_LIST = "enable_load_user_app_list"
 const val ENABLE_LOAD_SYSTEM_APP_LIST = "enable_load_system_app_list"
 
 const val SP_DUPLICATE_MESSAGES_LIMITS = "duplicate_messages_limits"
+const val SP_SILENT_PERIOD_START = "silent_period_start"
+const val SP_SILENT_PERIOD_END = "silent_period_end"
 
 const val SP_BATTERY_RECEIVER = "enable_battery_receiver"
 const val SP_BATTERY_STATUS = "battery_status"
