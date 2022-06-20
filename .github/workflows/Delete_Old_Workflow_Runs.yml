@@ -18,8 +18,8 @@ jobs:
         with:
           token: ${{ github.token }}
           repository: ${{ github.repository }}
-          retain_days: 7
-          keep_minimum_runs: 6
+          retain_days: 1
+          keep_minimum_runs: 1
           delete_workflow_pattern: 'Nightly Build'
       - name: Delete Self
         uses: Mattraks/delete-workflow-runs@v2
