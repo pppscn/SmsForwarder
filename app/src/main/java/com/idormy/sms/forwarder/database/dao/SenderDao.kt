@@ -31,14 +31,14 @@ interface SenderDao {
     @Query("SELECT * FROM Sender where status=:status ORDER BY id DESC")
     fun pagingSource(status: Int): PagingSource<Int, Sender>
 
-    @Query("SELECT * FROM sender ORDER BY id DESC")
+    @Query("SELECT * FROM Sender ORDER BY id DESC")
     fun getAll(): Single<List<Sender>>
 
-    @Query("SELECT COUNT(id) FROM sender WHERE status = 1")
+    @Query("SELECT COUNT(id) FROM Sender WHERE status = 1")
     fun getOnCount(): Flow<Long>
 
     //TODO:允许主线程访问，后面再优化
-    @Query("SELECT * FROM sender ORDER BY id ASC")
+    @Query("SELECT * FROM Sender ORDER BY id ASC")
     fun getAll2(): List<Sender>
 
     @Query("DELETE FROM Sender")

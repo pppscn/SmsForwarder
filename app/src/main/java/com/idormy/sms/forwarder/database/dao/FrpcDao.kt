@@ -30,4 +30,10 @@ interface FrpcDao {
     @Query("SELECT * FROM Frpc ORDER BY time DESC")
     fun pagingSource(): PagingSource<Int, Frpc>
 
+    //TODO:允许主线程访问，后面再优化
+    @Query("SELECT * FROM Frpc ORDER BY time ASC")
+    fun getAll(): List<Frpc>
+
+    @Query("DELETE FROM Frpc")
+    fun deleteAll()
 }

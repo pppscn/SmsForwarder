@@ -26,6 +26,7 @@ class SenderRepository(private val senderDao: SenderDao) {
 
     //TODO:允许主线程访问，后面再优化
     val all: List<Sender> = senderDao.getAll2()
+
     fun deleteAll() {
         senderDao.deleteAll()
     }

@@ -186,6 +186,7 @@ class HttpServerUtils private constructor() {
             cloneInfo.enablePureClientMode = SettingUtils.enablePureClientMode
             cloneInfo.senderList = Core.sender.all
             cloneInfo.ruleList = Core.rule.all
+            cloneInfo.frpcList = Core.frpc.all
 
             return cloneInfo
         }
@@ -228,12 +229,23 @@ class HttpServerUtils private constructor() {
                 //删除发送通道、转发规则、转发日志
                 Core.sender.deleteAll()
                 //发送通道
-                for (sender in cloneInfo.senderList!!) {
-                    Core.sender.insert(sender)
+                if (!cloneInfo.senderList.isNullOrEmpty()) {
+                    for (sender in cloneInfo.senderList!!) {
+                        Core.sender.insert(sender)
+                    }
                 }
                 //转发规则
-                for (rule in cloneInfo.ruleList!!) {
-                    Core.rule.insert(rule)
+                if (!cloneInfo.ruleList.isNullOrEmpty()) {
+                    for (rule in cloneInfo.ruleList!!) {
+                        Core.rule.insert(rule)
+                    }
+                }
+                //Frpc配置
+                Core.frpc.deleteAll()
+                if (!cloneInfo.frpcList.isNullOrEmpty()) {
+                    for (frpc in cloneInfo.frpcList!!) {
+                        Core.frpc.insert(frpc)
+                    }
                 }
                 true
             } catch (e: Exception) {

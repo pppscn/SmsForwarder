@@ -43,10 +43,10 @@ interface RuleDao {
     fun pagingSource(type: String): PagingSource<Int, RuleAndSender>
 
     @Transaction
-    @Query("SELECT * FROM rule where type=:type and status=:status and (sim_slot='ALL' or sim_slot=:simSlot)")
+    @Query("SELECT * FROM Rule where type=:type and status=:status and (sim_slot='ALL' or sim_slot=:simSlot)")
     suspend fun getRuleAndSender(type: String, status: Int, simSlot: String): List<RuleAndSender>
 
     //TODO:允许主线程访问，后面再优化
-    @Query("SELECT * FROM rule ORDER BY id ASC")
+    @Query("SELECT * FROM Rule ORDER BY id ASC")
     fun getAll(): List<Rule>
 }

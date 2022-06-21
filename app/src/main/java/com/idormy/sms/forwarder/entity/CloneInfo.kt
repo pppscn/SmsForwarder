@@ -1,6 +1,7 @@
 package com.idormy.sms.forwarder.entity
 
 import com.google.gson.annotations.SerializedName
+import com.idormy.sms.forwarder.database.entity.Frpc
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.database.entity.Sender
 import java.io.Serializable
@@ -76,4 +77,6 @@ data class CloneInfo(
     var senderList: List<Sender>? = null,
     @SerializedName("rule_list")
     var ruleList: List<Rule>? = null,
+    @SerializedName("frpc_list")
+    var frpcList: List<Frpc>? = null,
 ) : Serializable

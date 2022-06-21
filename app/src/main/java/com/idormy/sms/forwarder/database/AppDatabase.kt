@@ -58,6 +58,7 @@ server_port = 8888
 #可选，建议启用
 token = 888888888
 
+#[二选一即可]每台机器不可重复，通过 http://88.88.88.88:5000 访问
 [SmsForwarder-TCP]
 type = tcp
 local_ip = 127.0.0.1
@@ -65,6 +66,7 @@ local_port = 5000
 #只要修改下面这一行
 remote_port = 5000
 
+#[二选一即可]每台机器不可重复，通过 http://smsf.demo.com 访问
 [SmsForwarder-HTTP]
 type = http
 local_ip = 127.0.0.1
@@ -177,6 +179,7 @@ server_port = 8888
 #可选，建议启用
 token = 888888888
 
+#[二选一即可]每台机器不可重复，通过 http://88.88.88.88:5000 访问
 [SmsForwarder-TCP]
 type = tcp
 local_ip = 127.0.0.1
@@ -184,6 +187,7 @@ local_port = 5000
 #只要修改下面这一行
 remote_port = 5000
 
+#[二选一即可]每台机器不可重复，通过 http://smsf.demo.com 访问
 [SmsForwarder-HTTP]
 type = http
 local_ip = 127.0.0.1

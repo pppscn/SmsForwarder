@@ -26,4 +26,11 @@ class FrpcRepository(
     @WorkerThread
     fun update(frpc: Frpc) = frpcDao.update(frpc)
 
+    //TODO:允许主线程访问，后面再优化
+    val all: List<Frpc> = frpcDao.getAll()
+
+    fun deleteAll() {
+        frpcDao.deleteAll()
+    }
+
 }
