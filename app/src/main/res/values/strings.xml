@@ -714,7 +714,7 @@
     <string name="no_sms_sending_permission">没有短信发送权限</string>
     <string name="frpclib_download_title">缺少 FrpcLib v%s 动态库</string>
     <string name="frpclib_download_content">正在下载中，请稍后……</string>
-    <string name="frpclib_version_mismatch">FrpcLib 版本不匹配，重新下载</string>
+    <string name="frpclib_version_mismatch">FrpcLib 版本不匹配</string>
     <string name="page_not_found">页面未找到！</string>
     <string name="data_error">数据出错！</string>
     <string name="cannot_open_with_browser">Can\'t open with browser</string>
@@ -873,4 +873,5 @@
     <string name="select_time_period">时间段选择</string>
     <string name="silent_time_period">免打扰(禁用转发)时间段</string>
     <string name="silent_time_period_tips">结束时间小于开始时间则跨天；相等则禁用</string>
+    <string name="download_frpc_tips">是否立即下载，并重启加载？</string>
 </resources>

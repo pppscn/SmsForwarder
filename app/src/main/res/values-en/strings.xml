@@ -713,7 +713,7 @@
     <string name="no_sms_sending_permission">No SMS sending permission</string>
     <string name="frpclib_download_title">Missing FrpcLib v%s</string>
     <string name="frpclib_download_content">Downloading, please wait…</string>
-    <string name="frpclib_version_mismatch">FrpcLib version mismatch, download again</string>
+    <string name="frpclib_version_mismatch">FrpcLib version mismatch</string>
     <string name="page_not_found">Page not found!</string>
     <string name="data_error">Data error!</string>
     <string name="cannot_open_with_browser">Can\'t open with browser</string>
@@ -872,4 +872,5 @@
     <string name="select_time_period">Select Time Period</string>
     <string name="silent_time_period">Silent (disable forwarding) time period</string>
     <string name="silent_time_period_tips">If the end time is less than the start time, it will span days; if it is equal, it will be disabled</string>
+    <string name="download_frpc_tips">Do you want to download and restart to load!</string>
 </resources>

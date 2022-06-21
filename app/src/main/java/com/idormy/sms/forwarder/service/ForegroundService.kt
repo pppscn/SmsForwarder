@@ -16,6 +16,7 @@ import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.utils.*
 import com.jeremyliao.liveeventbus.LiveEventBus
+import com.xuexiang.xutil.file.FileUtils
 import frpclib.Frpclib
 import io.reactivex.Single
 import io.reactivex.SingleObserver
@@ -85,21 +86,23 @@ class ForegroundService : Service() {
                 CommonUtils.toggleNotificationListenerService(this)
             }
 
-            //监听Frpc启动指令
-            LiveEventBus.get(INTENT_FRPC_APPLY_FILE, String::class.java).observeStickyForever(frpcObserver)
-            //自启动的Frpc
-            GlobalScope.async(Dispatchers.IO) {
-                val frpcList = AppDatabase.getInstance(App.context).frpcDao().getAutorun()
+            if (FileUtils.isFileExists(filesDir.absolutePath + "/libs/libgojni.so")) {
+                //监听Frpc启动指令
+                LiveEventBus.get(INTENT_FRPC_APPLY_FILE, String::class.java).observeStickyForever(frpcObserver)
+                //自启动的Frpc
+                GlobalScope.async(Dispatchers.IO) {
+                    val frpcList = AppDatabase.getInstance(App.context).frpcDao().getAutorun()
 
-                if (frpcList.isEmpty()) {
-                    Log.d(TAG, "没有自启动的Frpc")
-                    return@async
-                }
+                    if (frpcList.isEmpty()) {
+                        Log.d(TAG, "没有自启动的Frpc")
+                        return@async
+                    }
 
-                for (frpc in frpcList) {
-                    val error = Frpclib.runContent(frpc.uid, frpc.config)
-                    if (!TextUtils.isEmpty(error)) {
-                        Log.e(TAG, error)
+                    for (frpc in frpcList) {
+                        val error = Frpclib.runContent(frpc.uid, frpc.config)
+                        if (!TextUtils.isEmpty(error)) {
+                            Log.e(TAG, error)
+                        }
                     }
                 }
             }

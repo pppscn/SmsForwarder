@@ -32,6 +32,9 @@ import com.idormy.sms.forwarder.widget.GuideTipsDialog.Companion.showTips
 import com.idormy.sms.forwarder.widget.GuideTipsDialog.Companion.showTipsForce
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
+import com.xuexiang.xhttp2.XHttp
+import com.xuexiang.xhttp2.callback.DownloadProgressCallBack
+import com.xuexiang.xhttp2.exception.ApiException
 import com.xuexiang.xpage.base.XPageFragment
 import com.xuexiang.xpage.core.PageOption
 import com.xuexiang.xpage.model.PageInfo
@@ -43,8 +46,6 @@ import com.xuexiang.xui.utils.WidgetUtils
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.GravityEnum
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
-import com.xuexiang.xupdate.XUpdate
-import com.xuexiang.xupdate.service.OnFileDownloadListener
 import com.xuexiang.xutil.common.CollectionUtils
 import com.xuexiang.xutil.file.FileUtils
 import frpclib.Frpclib
@@ -53,7 +54,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.io.File
-import kotlin.math.roundToInt
 
 
 @Suppress("DEPRECATION", "PrivatePropertyName")
@@ -144,15 +144,31 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
                     R.id.nav_server -> openNewPage(ServerFragment::class.java)
                     R.id.nav_client -> openNewPage(ClientFragment::class.java)
                     R.id.nav_frpc -> {
-                        if (FileUtils.isFileExists(filesDir.absolutePath + "/libs/libgojni.so")) {
-                            if (FRPC_LIB_VERSION == Frpclib.getVersion()) {
-                                openNewPage(FrpcFragment::class.java)
-                            } else {
-                                XToastUtils.error(getString(R.string.frpclib_version_mismatch))
-                                downloadFrpcLib()
-                            }
+                        if (!FileUtils.isFileExists(filesDir.absolutePath + "/libs/libgojni.so")) {
+                            MaterialDialog.Builder(this)
+                                .title(String.format(getString(R.string.frpclib_download_title), FRPC_LIB_VERSION))
+                                .content(R.string.download_frpc_tips)
+                                .positiveText(R.string.lab_yes)
+                                .negativeText(R.string.lab_no)
+                                .onPositive { _: MaterialDialog?, _: DialogAction? ->
+                                    downloadFrpcLib()
+                                }
+                                .show()
+                            return@setNavigationItemSelectedListener false
+                        }
+
+                        if (FRPC_LIB_VERSION == Frpclib.getVersion()) {
+                            openNewPage(FrpcFragment::class.java)
                         } else {
-                            downloadFrpcLib()
+                            MaterialDialog.Builder(this)
+                                .title(R.string.frpclib_version_mismatch)
+                                .content(R.string.download_frpc_tips)
+                                .positiveText(R.string.lab_yes)
+                                .negativeText(R.string.lab_no)
+                                .onPositive { _: MaterialDialog?, _: DialogAction? ->
+                                    downloadFrpcLib()
+                                }
+                                .show()
                         }
                     }
                     R.id.nav_app_list -> openNewPage(AppListFragment::class.java)
@@ -361,27 +377,30 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
             .progress(false, 0, true)
             .progressNumberFormat("%2dMB/%1dMB")
             .build()
-        XUpdate.newBuild(mContext)
-            .apkCacheDir(cacheDir.absolutePath) //设置下载缓存的根目录
-            .build()
-            .download(downloadUrl, object : OnFileDownloadListener {
 
+        XHttp.downLoad(downloadUrl)
+            .savePath(cacheDir.absolutePath)
+            .execute(object : DownloadProgressCallBack<String?>() {
                 override fun onStart() {
                     dialog.show()
                 }
 
-                override fun onProgress(progress: Float, total: Long) {
-                    Log.d(TAG, "onProgress: progress=$progress, total=$total")
-
-                    val max = (total / 1024F / 1024F).roundToInt()
-                    dialog.maxProgress = max
-                    dialog.setProgress((progress * max).roundToInt())
+                override fun onError(e: ApiException) {
+                    dialog.dismiss()
+                    XToastUtils.error(e.message.toString())
                 }
 
-                override fun onCompleted(srcFile: File): Boolean {
-                    dialog.dismiss()
-                    Log.d(TAG, srcFile.path)
+                override fun update(bytesRead: Long, contentLength: Long, done: Boolean) {
+                    Log.d(TAG, "onProgress: bytesRead=$bytesRead, contentLength=$contentLength")
+                    dialog.maxProgress = (contentLength / 1048576L).toInt()
+                    dialog.setProgress((bytesRead / 1048576L).toInt())
+                }
 
+                override fun onComplete(srcPath: String) {
+                    dialog.dismiss()
+                    Log.d(TAG, "srcPath = $srcPath")
+
+                    val srcFile = File(srcPath)
                     val destFile = File("$libPath/libgojni.so")
                     FileUtils.moveFile(srcFile, destFile, null)
 
@@ -389,15 +408,9 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
                     intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     startActivity(intent)
                     android.os.Process.killProcess(android.os.Process.myPid()) //杀掉以前进程
-
-                    return false
-                }
-
-                override fun onError(throwable: Throwable) {
-                    dialog.dismiss()
-                    XToastUtils.error(throwable.message!!)
                 }
             })
+
     }
 
 }
