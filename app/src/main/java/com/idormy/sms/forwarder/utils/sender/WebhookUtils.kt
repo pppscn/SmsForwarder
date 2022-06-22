@@ -104,6 +104,8 @@ class WebhookUtils {
                         .replace("[title]", escapeJson(simInfo))
                         .replace("[card_slot]", escapeJson(simInfo))
                         .replace("[receive_time]", receiveTime)
+                        .replace("[timestamp]", timestamp.toString())
+                        .replace("[sign]", sign)
                 } else {
                     bodyMsg = webParams.replace("[from]", URLEncoder.encode(from, "UTF-8"))
                         .replace("[content]", URLEncoder.encode(content, "UTF-8"))
@@ -114,6 +116,8 @@ class WebhookUtils {
                         .replace("[title]", URLEncoder.encode(simInfo, "UTF-8"))
                         .replace("[card_slot]", URLEncoder.encode(simInfo, "UTF-8"))
                         .replace("[receive_time]", URLEncoder.encode(receiveTime, "UTF-8"))
+                        .replace("[timestamp]", URLEncoder.encode(timestamp.toString(), "UTF-8"))
+                        .replace("[sign]", URLEncoder.encode(sign, "UTF-8"))
                 }
                 val body = RequestBody.create(MediaType.parse(contentType), bodyMsg)
                 requestBuilder = Request.Builder()

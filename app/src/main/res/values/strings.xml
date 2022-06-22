@@ -686,7 +686,7 @@
     <string name="webhook_server">Webhook Server</string>
     <string name="webhook_server_tips">例如：https://a.b.com/msg?token=xyz</string>
     <string name="webhook_params">Params</string>
-    <string name="webhook_params_tips">例如：payload=%7B%22text%22%3A%22[msg]%22%7D [msg]将被替换成短信内容。\n支持Json格式，例如：{"text":[msg]}。\n注意：除JSON格式外，msg会自动进行UTF-8编码</string>
+    <string name="webhook_params_tips">例如：payload=%7B%22text%22%3A%22[msg]%22%7D [msg]将被替换成短信内容。\n支持Json格式，例如：{\"text\":\"[msg]\"}。\n注意：除JSON格式外，msg会自动进行UTF-8编码</string>
     <string name="webhook_secret">Secret：置空则不计算sign</string>
     <string name="headers">Headers</string>
     <string name="header_key">Key</string>

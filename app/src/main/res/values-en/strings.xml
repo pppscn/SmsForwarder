@@ -685,7 +685,7 @@
     <string name="webhook_server">Webhook Server</string>
     <string name="webhook_server_tips">For example: https://a.b.com/msg?token=xyz</string>
     <string name="webhook_params">Params</string>
-    <string name="webhook_params_tips">For example: payload=%7B%22text%22%3A%22[msg]%22%7D [msg] will be replaced with SMS content.\nJson format is supported, for example: {text:[msg]}.\nNote: msg is automatically UTF-8 encoded except in JSON format</string>
+    <string name="webhook_params_tips">For example: payload=%7B%22text%22%3A%22[msg]%22%7D [msg] will be replaced with SMS content.\nJson format is supported, for example: {\"text\":\"[msg]\"}.\nNote: msg is automatically UTF-8 encoded except in JSON format</string>
     <string name="webhook_secret">Secret: If it is empty, the sign will not be calculated</string>
     <string name="headers">Headers</string>
     <string name="header_key">Key</string>

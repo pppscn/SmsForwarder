@@ -107,7 +107,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
             try {
                 TinkerLoadLibrary.installNativeLibraryPath(classLoader, soFile)
             } catch (throwable: Throwable) {
-                Log.e("APP", throwable.message!!)
+                Log.e("APP", throwable.message.toString())
             }
 
             //启动前台服务
