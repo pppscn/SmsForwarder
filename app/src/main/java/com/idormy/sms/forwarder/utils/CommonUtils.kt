@@ -243,7 +243,7 @@ class CommonUtils private constructor() {
         //是否合法的url
         fun checkUrl(urls: String?, emptyResult: Boolean): Boolean {
             if (TextUtils.isEmpty(urls)) return emptyResult
-            val regex = "(ht|f)tp(s?)\\:\\/\\/[\\da-zA-Z]([-.\\w]*[\\da-zA-Z])*(:(0-9)*)*(\\/?)([a-zA-Z\\d\\-\\.\\?\\,\\'\\/\\\\&%\\+\\$#_=]*)?"
+            val regex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]"
             val pat = Pattern.compile(regex)
             val mat = pat.matcher(urls?.trim() ?: "")
             return mat.matches()
