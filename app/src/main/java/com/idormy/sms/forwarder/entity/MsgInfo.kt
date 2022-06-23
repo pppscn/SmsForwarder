@@ -100,7 +100,7 @@ data class MsgInfo(
                 val lineSplit = line.split("===".toRegex()).toTypedArray()
                 if (lineSplit.isNotEmpty()) {
                     val regex = lineSplit[0]
-                    val replacement = if (lineSplit.size >= 2) lineSplit[1] else ""
+                    val replacement = if (lineSplit.size >= 2) lineSplit[1].replace("\\\\n".toRegex(), "\n") else ""
                     newContent = newContent.replace(regex.toRegex(), replacement)
                 }
             }
