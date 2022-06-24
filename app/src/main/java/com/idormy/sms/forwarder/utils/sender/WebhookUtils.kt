@@ -72,7 +72,7 @@ class WebhookUtils {
                 }
                 Log.d(TAG, "method = GET, Url = $webServer")
                 requestBuilder = Request.Builder().url(webServer).get()
-            } else if (setting.method == "GET" && !TextUtils.isEmpty(setting.webParams)) {
+            } else if (setting.method == "GET" && !TextUtils.isEmpty(webParams)) {
                 webParams = webParams.toString().replace("[from]", URLEncoder.encode(from, "UTF-8"))
                     .replace("[content]", URLEncoder.encode(content, "UTF-8"))
                     .replace("[msg]", URLEncoder.encode(content, "UTF-8"))
@@ -90,7 +90,7 @@ class WebhookUtils {
                 webServer += (if (webServer.contains("?")) "&" else "?") + webParams
                 Log.d(TAG, "method = GET, Url = $webServer")
                 requestBuilder = Request.Builder().url(webServer).get()
-            } else if (webParams != null && webParams.contains("[msg]")) {
+            } else if (webParams != null && !TextUtils.isEmpty(webParams)) {
                 val bodyMsg: String
                 var contentType = "application/x-www-form-urlencoded"
                 if (webParams.startsWith("{")) {
