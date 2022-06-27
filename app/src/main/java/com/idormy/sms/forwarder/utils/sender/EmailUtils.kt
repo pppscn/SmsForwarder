@@ -114,14 +114,25 @@ class EmailUtils {
                 else -> {}
             }
 
-            // 创建邮箱
+            //收件地址
+            val toAddressList = ArrayList<String>()
+            val emailArray = setting.toEmail.toString().split("[,，;；]".toRegex())
+            if (emailArray.isNotEmpty()) {
+                for (email in emailArray) {
+                    toAddressList.add(email)
+                }
+            } else {
+                toAddressList.add(setting.toEmail.toString())
+            }
+
+            //创建邮箱
             val mail = Mail().apply {
                 mailServerHost = setting.host.toString()
                 mailServerPort = setting.port.toString()
                 fromAddress = setting.fromEmail.toString()
                 fromNickname = msgInfo.getTitleForSend(setting.nickname.toString())
                 password = setting.pwd.toString()
-                toAddress = arrayListOf(setting.toEmail.toString())
+                toAddress = toAddressList
                 subject = title
                 content = message
                 openSSL = setting.ssl == true
