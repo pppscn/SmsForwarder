@@ -98,6 +98,7 @@ class SendWorker(
 
             } catch (e: Exception) {
                 e.printStackTrace()
+                return@withContext Result.failure(workDataOf("send" to e.message.toString()))
             }
 
             return@withContext Result.success()

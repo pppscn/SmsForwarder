@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.utils
 
+import android.os.Looper
 import android.util.Log
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
@@ -68,68 +69,76 @@ object SendUtils {
 
     //匹配发送通道发送消息
     fun sendMsgSender(msgInfo: MsgInfo, rule: Rule, sender: Sender, logId: Long) {
-        when (sender.type) {
-            TYPE_DINGDING -> {
-                val settingVo = Gson().fromJson(sender.jsonSetting, DingtalkSetting::class.java)
-                DingtalkUtils.sendMsg(settingVo, msgInfo, rule, logId)
+        try {
+            when (sender.type) {
+                TYPE_DINGDING -> {
+                    val settingVo = Gson().fromJson(sender.jsonSetting, DingtalkSetting::class.java)
+                    DingtalkUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                }
+                TYPE_EMAIL -> {
+                    val settingVo = Gson().fromJson(sender.jsonSetting, EmailSetting::class.java)
+                    EmailUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                }
+                TYPE_BARK -> {
+                    val settingVo = Gson().fromJson(sender.jsonSetting, BarkSetting::class.java)
+                    BarkUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                }
+                TYPE_WEBHOOK -> {
+                    val settingVo = Gson().fromJson(sender.jsonSetting, WebhookSetting::class.java)
+                    WebhookUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                }
+                TYPE_WEWORK_ROBOT -> {
+                    val settingVo = Gson().fromJson(sender.jsonSetting, WeworkRobotSetting::class.java)
+                    WeworkRobotUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                }
+                TYPE_WEWORK_AGENT -> {
+                    val settingVo = Gson().fromJson(sender.jsonSetting, WeworkAgentSetting::class.java)
+                    WeworkAgentUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                }
+                TYPE_SERVERCHAN -> {
+                    val settingVo = Gson().fromJson(sender.jsonSetting, ServerchanSetting::class.java)
+                    ServerchanUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                }
+                TYPE_TELEGRAM -> {
+                    val settingVo = Gson().fromJson(sender.jsonSetting, TelegramSetting::class.java)
+                    TelegramUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                }
+                TYPE_SMS -> {
+                    val settingVo = Gson().fromJson(sender.jsonSetting, SmsSetting::class.java)
+                    SmsUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                }
+                TYPE_FEISHU -> {
+                    val settingVo = Gson().fromJson(sender.jsonSetting, FeishuSetting::class.java)
+                    FeishuUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                }
+                TYPE_PUSHPLUS -> {
+                    val settingVo = Gson().fromJson(sender.jsonSetting, PushplusSetting::class.java)
+                    PushplusUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                }
+                TYPE_GOTIFY -> {
+                    val settingVo = Gson().fromJson(sender.jsonSetting, GotifySetting::class.java)
+                    GotifyUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                }
+                else -> {}
             }
-            TYPE_EMAIL -> {
-                val settingVo = Gson().fromJson(sender.jsonSetting, EmailSetting::class.java)
-                EmailUtils.sendMsg(settingVo, msgInfo, rule, logId)
-            }
-            TYPE_BARK -> {
-                val settingVo = Gson().fromJson(sender.jsonSetting, BarkSetting::class.java)
-                BarkUtils.sendMsg(settingVo, msgInfo, rule, logId)
-            }
-            TYPE_WEBHOOK -> {
-                val settingVo = Gson().fromJson(sender.jsonSetting, WebhookSetting::class.java)
-                WebhookUtils.sendMsg(settingVo, msgInfo, rule, logId)
-            }
-            TYPE_WEWORK_ROBOT -> {
-                val settingVo = Gson().fromJson(sender.jsonSetting, WeworkRobotSetting::class.java)
-                WeworkRobotUtils.sendMsg(settingVo, msgInfo, rule, logId)
-            }
-            TYPE_WEWORK_AGENT -> {
-                val settingVo = Gson().fromJson(sender.jsonSetting, WeworkAgentSetting::class.java)
-                WeworkAgentUtils.sendMsg(settingVo, msgInfo, rule, logId)
-            }
-            TYPE_SERVERCHAN -> {
-                val settingVo = Gson().fromJson(sender.jsonSetting, ServerchanSetting::class.java)
-                ServerchanUtils.sendMsg(settingVo, msgInfo, rule, logId)
-            }
-            TYPE_TELEGRAM -> {
-                val settingVo = Gson().fromJson(sender.jsonSetting, TelegramSetting::class.java)
-                TelegramUtils.sendMsg(settingVo, msgInfo, rule, logId)
-            }
-            TYPE_SMS -> {
-                val settingVo = Gson().fromJson(sender.jsonSetting, SmsSetting::class.java)
-                SmsUtils.sendMsg(settingVo, msgInfo, rule, logId)
-            }
-            TYPE_FEISHU -> {
-                val settingVo = Gson().fromJson(sender.jsonSetting, FeishuSetting::class.java)
-                FeishuUtils.sendMsg(settingVo, msgInfo, rule, logId)
-            }
-            TYPE_PUSHPLUS -> {
-                val settingVo = Gson().fromJson(sender.jsonSetting, PushplusSetting::class.java)
-                PushplusUtils.sendMsg(settingVo, msgInfo, rule, logId)
-            }
-            TYPE_GOTIFY -> {
-                val settingVo = Gson().fromJson(sender.jsonSetting, GotifySetting::class.java)
-                GotifyUtils.sendMsg(settingVo, msgInfo, rule, logId)
-            }
-            else -> {}
+        } catch (e: Exception) {
+            e.printStackTrace()
+            updateLogs(logId, 0, e.message.toString())
         }
     }
 
     //更新转发日志状态
     fun updateLogs(logId: Long?, status: Int, response: String) {
+
+        //测试的没有记录ID，这里取巧了
         if (logId == null || logId == 0L) {
-            //测试的没有记录ID，这里取巧了
+            if (Looper.myLooper() == null) Looper.prepare()
             if (status == 2) {
                 XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
             } else {
                 XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
             }
+            Looper.loop()
             return
         }
 

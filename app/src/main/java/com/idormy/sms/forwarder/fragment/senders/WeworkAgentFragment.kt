@@ -1,6 +1,7 @@
 package com.idormy.sms.forwarder.fragment.senders
 
 import android.annotation.SuppressLint
+import android.os.Looper
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -155,10 +156,19 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
             when (v.id) {
                 R.id.btn_test -> {
                     mCountDownHelper?.start()
-                    val settingVo = checkSetting()
-                    Log.d(TAG, settingVo.toString())
-                    val msgInfo = MsgInfo("sms", getString(R.string.test_phone_num), getString(R.string.test_sender_sms), Date(), getString(R.string.test_sim_info))
-                    WeworkAgentUtils.sendMsg(settingVo, msgInfo)
+                    Thread {
+                        try {
+                            val settingVo = checkSetting()
+                            Log.d(TAG, settingVo.toString())
+                            val msgInfo = MsgInfo("sms", getString(R.string.test_phone_num), getString(R.string.test_sender_sms), Date(), getString(R.string.test_sim_info))
+                            WeworkAgentUtils.sendMsg(settingVo, msgInfo)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            if (Looper.myLooper() == null) Looper.prepare()
+                            XToastUtils.error(e.message.toString())
+                            Looper.loop()
+                        }
+                    }.start()
                     return
                 }
                 R.id.btn_del -> {

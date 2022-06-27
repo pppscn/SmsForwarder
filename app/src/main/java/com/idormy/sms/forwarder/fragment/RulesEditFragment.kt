@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.fragment
 
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -627,7 +628,16 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                             }
 
                             override fun onSuccess(sender: Sender) {
-                                SendUtils.sendMsgSender(msgInfo, rule, sender, 0L)
+                                Thread {
+                                    try {
+                                        SendUtils.sendMsgSender(msgInfo, rule, sender, 0L)
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                        if (Looper.myLooper() == null) Looper.prepare()
+                                        XToastUtils.error(e.message.toString())
+                                        Looper.loop()
+                                    }
+                                }.start()
                             }
                         })
 
