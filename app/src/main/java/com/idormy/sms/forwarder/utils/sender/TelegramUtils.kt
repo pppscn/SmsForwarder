@@ -13,6 +13,7 @@ import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
+import com.xuexiang.xutil.net.NetworkUtils
 import okhttp3.Credentials
 import okhttp3.Response
 import okhttp3.Route
@@ -64,7 +65,15 @@ class TelegramUtils private constructor() {
                 && !TextUtils.isEmpty(setting.proxyHost) && !TextUtils.isEmpty(setting.proxyPort)
             ) {
                 //代理服务器的IP和端口号
-                request.okproxy(Proxy(setting.proxyType, setting.proxyPort?.let { InetSocketAddress(setting.proxyHost, it.toInt()) }))
+                Log.d(TAG, "proxyHost = ${setting.proxyHost}, proxyPort = ${setting.proxyPort}")
+                val proxyHost = if (NetworkUtils.isIP(setting.proxyHost)) setting.proxyHost else NetworkUtils.getDomainAddress(setting.proxyHost)
+                if (!NetworkUtils.isIP(proxyHost)) {
+                    throw Exception("代理服务器主机名解析失败：proxyHost=$proxyHost")
+                }
+                val proxyPort: Int = setting.proxyPort?.toInt() ?: 7890
+
+                Log.d(TAG, "proxyHost = $proxyHost, proxyPort = $proxyPort")
+                request.okproxy(Proxy(setting.proxyType, InetSocketAddress(proxyHost, proxyPort)))
 
                 //代理的鉴权账号密码
                 if (setting.proxyAuthenticator == true
