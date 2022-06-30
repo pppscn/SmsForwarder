@@ -62,9 +62,8 @@ class GotifyUtils {
                 .execute(object : SimpleCallBack<String>() {
 
                     override fun onError(e: ApiException) {
-                        SendUtils.updateLogs(logId, 0, e.displayMessage)
                         Log.e(TAG, e.detailMessage)
-                        //XToastUtils.error(e.displayMessage)
+                        SendUtils.updateLogs(logId, 0, e.displayMessage)
                     }
 
                     override fun onSuccess(response: String) {
@@ -73,10 +72,8 @@ class GotifyUtils {
                         val resp = Gson().fromJson(response, GotifyResult::class.java)
                         if (resp?.id != null) {
                             SendUtils.updateLogs(logId, 2, response)
-                            //XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
                         } else {
                             SendUtils.updateLogs(logId, 0, response)
-                            //XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
                         }
                     }
 

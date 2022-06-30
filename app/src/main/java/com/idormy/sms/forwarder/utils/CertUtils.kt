@@ -7,8 +7,10 @@ import java.security.cert.X509Certificate
 import java.util.*
 import javax.net.ssl.*
 
+@Suppress("unused")
 @SuppressLint("ALL")
 object CertUtils {
+
     //获取这个SSLSocketFactory
     val sSLSocketFactory: SSLSocketFactory
         get() = try {

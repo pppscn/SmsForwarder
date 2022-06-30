@@ -3,6 +3,7 @@ package com.idormy.sms.forwarder.utils.sender
 import android.text.TextUtils
 import android.util.Log
 import com.google.gson.Gson
+import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.result.DingtalkResult
@@ -15,6 +16,7 @@ import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
+import com.xuexiang.xui.utils.ResUtils.getString
 
 @Suppress("PrivatePropertyName", "UNUSED_PARAMETER")
 class WeworkAgentUtils private constructor() {
@@ -48,9 +50,8 @@ class WeworkAgentUtils private constructor() {
                 .execute(object : SimpleCallBack<String>() {
 
                     override fun onError(e: ApiException) {
-                        SendUtils.updateLogs(logId, 0, e.displayMessage)
                         Log.e(TAG, e.detailMessage)
-                        //XToastUtils.error(e.displayMessage)
+                        SendUtils.updateLogs(logId, 0, e.displayMessage)
                     }
 
                     override fun onSuccess(response: String) {
@@ -62,7 +63,7 @@ class WeworkAgentUtils private constructor() {
                             MMKVUtils.put("expires_in_" + setting.agentID, System.currentTimeMillis() + ((resp.expires_in ?: 7200) - 120) * 1000L) //提前2分钟过期
                             sendTextMsg(setting, msgInfo, rule, logId)
                         } else {
-                            //XToastUtils.error(String.format(getString(R.string.request_failed_tips), response))
+                            SendUtils.updateLogs(logId, 0, String.format(getString(R.string.request_failed_tips), response))
                         }
                     }
 
@@ -107,9 +108,8 @@ class WeworkAgentUtils private constructor() {
                 .execute(object : SimpleCallBack<String>() {
 
                     override fun onError(e: ApiException) {
-                        SendUtils.updateLogs(logId, 0, e.displayMessage)
                         Log.e(TAG, e.detailMessage)
-                        //XToastUtils.error(e.displayMessage)
+                        SendUtils.updateLogs(logId, 0, e.displayMessage)
                     }
 
                     override fun onSuccess(response: String) {
@@ -118,10 +118,8 @@ class WeworkAgentUtils private constructor() {
                         val resp = Gson().fromJson(response, DingtalkResult::class.java)
                         if (resp.errcode == 0L) {
                             SendUtils.updateLogs(logId, 2, response)
-                            //XToastUtils.success(getString(R.string.request_succeeded))
                         } else {
                             SendUtils.updateLogs(logId, 0, response)
-                            //XToastUtils.error(getString(R.string.request_failed) + response)
                         }
                     }
 

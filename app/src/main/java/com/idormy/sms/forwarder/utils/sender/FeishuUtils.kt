@@ -143,9 +143,8 @@ class FeishuUtils private constructor() {
                 .execute(object : SimpleCallBack<String>() {
 
                     override fun onError(e: ApiException) {
-                        SendUtils.updateLogs(logId, 0, e.displayMessage)
                         Log.e(TAG, e.detailMessage)
-                        //XToastUtils.error(e.displayMessage)
+                        SendUtils.updateLogs(logId, 0, e.displayMessage)
                     }
 
                     override fun onSuccess(response: String) {
@@ -154,10 +153,8 @@ class FeishuUtils private constructor() {
                         val resp = Gson().fromJson(response, FeishuResult::class.java)
                         if (resp.code == 0L) {
                             SendUtils.updateLogs(logId, 2, response)
-                            //XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
                         } else {
                             SendUtils.updateLogs(logId, 0, response)
-                            //XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
                         }
                     }
 

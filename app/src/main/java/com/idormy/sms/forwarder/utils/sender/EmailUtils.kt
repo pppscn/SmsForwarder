@@ -141,14 +141,12 @@ class EmailUtils {
 
             MailSender.getInstance().sendMail(mail, object : MailSender.OnMailSendListener {
                 override fun onError(e: Throwable) {
-                    SendUtils.updateLogs(logId, 0, e.message.toString())
                     Log.e("MailSender", e.message.toString())
-                    //XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message.toString())
+                    SendUtils.updateLogs(logId, 0, e.message.toString())
                 }
 
                 override fun onSuccess() {
                     SendUtils.updateLogs(logId, 2, ResUtils.getString(R.string.request_succeeded))
-                    //XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
                 }
             })
 

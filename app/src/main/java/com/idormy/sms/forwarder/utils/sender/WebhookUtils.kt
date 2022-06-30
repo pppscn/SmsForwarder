@@ -1,7 +1,6 @@
 package com.idormy.sms.forwarder.utils.sender
 
 import android.annotation.SuppressLint
-import android.os.Looper
 import android.text.TextUtils
 import android.util.Base64
 import android.util.Log
@@ -9,17 +8,17 @@ import com.google.gson.Gson
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.WebhookSetting
-import com.idormy.sms.forwarder.utils.CertUtils
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
+import com.xuexiang.xhttp2.XHttp
+import com.xuexiang.xhttp2.cache.model.CacheMode
+import com.xuexiang.xhttp2.callback.SimpleCallBack
+import com.xuexiang.xhttp2.exception.ApiException
 import com.xuexiang.xutil.app.AppUtils
-import okhttp3.*
-import java.io.IOException
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
@@ -42,8 +41,8 @@ class WebhookUtils {
                 msgInfo.getContentForSend(SettingUtils.smsTemplate.toString())
             }
 
-            var webServer: String = setting.webServer //推送地址
-            Log.i(TAG, "requestUrl:$webServer")
+            var requestUrl: String = setting.webServer //推送地址
+            Log.i(TAG, "requestUrl:$requestUrl")
 
             val timestamp = System.currentTimeMillis()
             val orgContent: String = msgInfo.content
@@ -62,16 +61,25 @@ class WebhookUtils {
             }
 
             var webParams = setting.webParams?.trim()
-            val requestBuilder: Request.Builder
-            if (setting.method == "GET" && TextUtils.isEmpty(webParams)) {
+
+            //支持HTTP基本认证(Basic Authentication)
+            val regex = "^(https?://)([^:]+):([^@]+)@(.+)"
+            val matches = Regex(regex, RegexOption.IGNORE_CASE).findAll(requestUrl).toList().flatMap(MatchResult::groupValues)
+            Log.i(TAG, "matches = $matches")
+            if (matches.isNotEmpty()) {
+                requestUrl = matches[1] + matches[4]
+                Log.i(TAG, "requestUrl:$requestUrl")
+            }
+
+            val request = if (setting.method == "GET" && TextUtils.isEmpty(webParams)) {
                 setting.webServer += (if (setting.webServer.contains("?")) "&" else "?") + "from=" + URLEncoder.encode(from, "UTF-8")
-                webServer += "&content=" + URLEncoder.encode(content, "UTF-8")
-                if (!TextUtils.isEmpty(setting.secret)) {
-                    webServer += "&timestamp=$timestamp"
-                    webServer += "&sign=$sign"
+                requestUrl += "&content=" + URLEncoder.encode(content, "UTF-8")
+                if (!TextUtils.isEmpty(sign)) {
+                    requestUrl += "&timestamp=$timestamp"
+                    requestUrl += "&sign=$sign"
                 }
-                Log.d(TAG, "method = GET, Url = $webServer")
-                requestBuilder = Request.Builder().url(webServer).get()
+                Log.d(TAG, "method = GET, Url = $requestUrl")
+                XHttp.get(requestUrl).keepJson(true)
             } else if (setting.method == "GET" && !TextUtils.isEmpty(webParams)) {
                 webParams = webParams.toString().replace("[from]", URLEncoder.encode(from, "UTF-8"))
                     .replace("[content]", URLEncoder.encode(content, "UTF-8"))
@@ -87,110 +95,83 @@ class WebhookUtils {
                     webParams = webParams.replace("[timestamp]", timestamp.toString())
                         .replace("[sign]", URLEncoder.encode(sign, "UTF-8"))
                 }
-                webServer += (if (webServer.contains("?")) "&" else "?") + webParams
-                Log.d(TAG, "method = GET, Url = $webServer")
-                requestBuilder = Request.Builder().url(webServer).get()
-            } else if (webParams != null && !TextUtils.isEmpty(webParams)) {
-                val bodyMsg: String
-                var contentType = "application/x-www-form-urlencoded"
-                if (webParams.startsWith("{")) {
-                    contentType = "application/json;charset=utf-8"
-                    bodyMsg = webParams.replace("[from]", from)
-                        .replace("[content]", escapeJson(content))
-                        .replace("[msg]", escapeJson(content))
-                        .replace("[org_content]", escapeJson(orgContent))
-                        .replace("[device_mark]", escapeJson(deviceMark))
-                        .replace("[app_version]", appVersion)
-                        .replace("[title]", escapeJson(simInfo))
-                        .replace("[card_slot]", escapeJson(simInfo))
-                        .replace("[receive_time]", receiveTime)
-                        .replace("[timestamp]", timestamp.toString())
-                        .replace("[sign]", sign)
+                requestUrl += if (webParams.startsWith("/")) {
+                    webParams
                 } else {
-                    bodyMsg = webParams.replace("[from]", URLEncoder.encode(from, "UTF-8"))
-                        .replace("[content]", URLEncoder.encode(content, "UTF-8"))
-                        .replace("[msg]", URLEncoder.encode(content, "UTF-8"))
-                        .replace("[org_content]", URLEncoder.encode(orgContent, "UTF-8"))
-                        .replace("[device_mark]", URLEncoder.encode(deviceMark, "UTF-8"))
-                        .replace("[app_version]", URLEncoder.encode(appVersion, "UTF-8"))
-                        .replace("[title]", URLEncoder.encode(simInfo, "UTF-8"))
-                        .replace("[card_slot]", URLEncoder.encode(simInfo, "UTF-8"))
-                        .replace("[receive_time]", URLEncoder.encode(receiveTime, "UTF-8"))
-                        .replace("[timestamp]", URLEncoder.encode(timestamp.toString(), "UTF-8"))
-                        .replace("[sign]", URLEncoder.encode(sign, "UTF-8"))
+                    (if (requestUrl.contains("?")) "&" else "?") + webParams
                 }
-                val body = RequestBody.create(MediaType.parse(contentType), bodyMsg)
-                requestBuilder = Request.Builder()
-                    .url(webServer)
-                    .addHeader("Content-Type", contentType)
-                    .method("POST", body)
-                Log.d(TAG, "method = POST webParams, Body = $bodyMsg")
+                Log.d(TAG, "method = GET, Url = $requestUrl")
+                XHttp.get(requestUrl).keepJson(true)
+            } else if (webParams != null && webParams.isNotEmpty() && webParams.startsWith("{")) {
+                val bodyMsg = webParams.replace("[from]", from)
+                    .replace("[content]", escapeJson(content))
+                    .replace("[msg]", escapeJson(content))
+                    .replace("[org_content]", escapeJson(orgContent))
+                    .replace("[device_mark]", escapeJson(deviceMark))
+                    .replace("[app_version]", appVersion)
+                    .replace("[title]", escapeJson(simInfo))
+                    .replace("[card_slot]", escapeJson(simInfo))
+                    .replace("[receive_time]", receiveTime)
+                    .replace("[timestamp]", timestamp.toString())
+                    .replace("[sign]", sign)
+                Log.d(TAG, "method = POST, Url = $requestUrl, bodyMsg = $bodyMsg")
+                XHttp.post(requestUrl).keepJson(true).upJson(bodyMsg)
             } else {
-                val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
-                    .addFormDataPart("from", from)
-                    .addFormDataPart("content", content)
-                if (!TextUtils.isEmpty(setting.secret)) {
-                    builder.addFormDataPart("timestamp", timestamp.toString())
-                    builder.addFormDataPart("sign", sign)
-                }
-                val body: RequestBody = builder.build()
-                Log.d(TAG, "method = POST, Body = $body")
-                requestBuilder = Request.Builder().url(webServer).method("POST", body)
-            }
-
-            for ((key, value) in setting.headers?.entries!!) {
-                requestBuilder.addHeader(key, value)
-            }
-
-            val clientBuilder = OkHttpClient.Builder()
-
-            //设置重试拦截器
-            val retryTimes: Int = SettingUtils.requestRetryTimes
-            if (retryTimes > 0) {
-                val delayTime: Long = SettingUtils.requestDelayTime.toLong()
-                val retryInterceptor: RetryInterceptor = RetryInterceptor.Builder().executionCount(retryTimes).retryInterval(delayTime).logId(0).build()
-                clientBuilder.addInterceptor(retryInterceptor)
-            }
-
-            //忽略https证书
-            CertUtils.x509TrustManager?.let { clientBuilder.sslSocketFactory(CertUtils.sSLSocketFactory, it).hostnameVerifier(CertUtils.hostnameVerifier) }
-
-            //设置读取超时时间
-            val client = clientBuilder
-                .readTimeout(SettingUtils.requestTimeout.toLong(), TimeUnit.SECONDS)
-                .writeTimeout(SettingUtils.requestTimeout.toLong(), TimeUnit.SECONDS)
-                .connectTimeout(SettingUtils.requestTimeout.toLong(), TimeUnit.SECONDS)
-                .build()
-
-            client.newCall(requestBuilder.build()).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    //解决在子线程中调用Toast的异常情况处理
-                    if (Looper.myLooper() == null) Looper.prepare()
-                    e.printStackTrace()
-                    SendUtils.updateLogs(logId, 0, e.message.toString())
-                    //XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
-                    Looper.loop()
+                if (webParams == null || webParams.isEmpty()) {
+                    webParams = "from=[from]&content=[content]&timestamp=[timestamp]"
+                    if (!TextUtils.isEmpty(sign)) webParams += "&sign=[sign]"
                 }
 
-                @Throws(IOException::class)
-                override fun onResponse(call: Call, response: Response) {
-                    val responseStr = response.body().toString()
-                    Log.d(TAG, "Response：" + response.code() + "，" + responseStr)
-
-                    //返回http状态200即为成功
-                    if (200 == response.code()) {
-                        if (Looper.myLooper() == null) Looper.prepare()
-                        SendUtils.updateLogs(logId, 2, responseStr)
-                        //XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
-                        Looper.loop()
-                    } else {
-                        if (Looper.myLooper() == null) Looper.prepare()
-                        SendUtils.updateLogs(logId, 0, responseStr)
-                        //XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
-                        Looper.loop()
+                val postRequest = XHttp.post(requestUrl).keepJson(true)
+                webParams.split("&").forEach {
+                    val param = it.split("=")
+                    if (param.size == 2) {
+                        postRequest.params(param[0], param[1].replace("[from]", from)
+                            .replace("[content]", content)
+                            .replace("[msg]", content)
+                            .replace("[org_content]", orgContent)
+                            .replace("[device_mark]", deviceMark)
+                            .replace("[app_version]", appVersion)
+                            .replace("[title]", simInfo)
+                            .replace("[card_slot]", simInfo)
+                            .replace("[receive_time]", receiveTime)
+                            .replace("[timestamp]", timestamp.toString())
+                            .replace("[sign]", sign))
                     }
                 }
-            })
+                postRequest
+            }
+
+            //添加headers
+            for ((key, value) in setting.headers?.entries!!) {
+                request.headers(key, value)
+            }
+
+            //支持HTTP基本认证(Basic Authentication)
+            if (matches.isNotEmpty()) {
+                request.addInterceptor(BasicAuthInterceptor(matches[2], matches[3]))
+            }
+
+            request.ignoreHttpsCert() //忽略https证书
+                .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
+                .cacheMode(CacheMode.NO_CACHE)
+                .retryCount(SettingUtils.requestRetryTimes) //超时重试的次数
+                .retryDelay(SettingUtils.requestDelayTime) //超时重试的延迟时间
+                .retryIncreaseDelay(SettingUtils.requestDelayTime) //超时重试叠加延时
+                .timeStamp(true)
+                .execute(object : SimpleCallBack<String>() {
+
+                    override fun onError(e: ApiException) {
+                        Log.e(TAG, e.detailMessage)
+                        SendUtils.updateLogs(logId, 0, e.displayMessage)
+                    }
+
+                    override fun onSuccess(response: String) {
+                        Log.i(TAG, response)
+                        SendUtils.updateLogs(logId, 2, response)
+                    }
+
+                })
 
         }
 
