@@ -48,6 +48,8 @@ configurations.each { configuration ->
 
 configurations.all {
     resolutionStrategy.force deps.okhttp3
+    //总是拉取最新的 build 版本
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 // 这里需要修改包名
