@@ -17,6 +17,14 @@ import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
 import com.xuexiang.xui.utils.ResUtils.getString
+import com.xuexiang.xutil.net.NetworkUtils
+import okhttp3.Credentials
+import okhttp3.Response
+import okhttp3.Route
+import java.net.Authenticator
+import java.net.InetSocketAddress
+import java.net.PasswordAuthentication
+import java.net.Proxy
 
 @Suppress("PrivatePropertyName", "UNUSED_PARAMETER")
 class WeworkAgentUtils private constructor() {
@@ -42,8 +50,49 @@ class WeworkAgentUtils private constructor() {
             getTokenUrl += "&corpsecret=" + setting.secret
             Log.d(TAG, "getTokenUrl：$getTokenUrl")
 
-            XHttp.get(getTokenUrl)
-                .keepJson(true)
+            val request = XHttp.get(getTokenUrl)
+
+            //设置代理
+            if ((setting.proxyType == Proxy.Type.HTTP || setting.proxyType == Proxy.Type.SOCKS)
+                && !TextUtils.isEmpty(setting.proxyHost) && !TextUtils.isEmpty(setting.proxyPort)
+            ) {
+                //代理服务器的IP和端口号
+                Log.d(TAG, "proxyHost = ${setting.proxyHost}, proxyPort = ${setting.proxyPort}")
+                val proxyHost = if (NetworkUtils.isIP(setting.proxyHost)) setting.proxyHost else NetworkUtils.getDomainAddress(setting.proxyHost)
+                if (!NetworkUtils.isIP(proxyHost)) {
+                    throw Exception("代理服务器主机名解析失败：proxyHost=$proxyHost")
+                }
+                val proxyPort: Int = setting.proxyPort?.toInt() ?: 7890
+
+                Log.d(TAG, "proxyHost = $proxyHost, proxyPort = $proxyPort")
+                request.okproxy(Proxy(setting.proxyType, InetSocketAddress(proxyHost, proxyPort)))
+
+                //代理的鉴权账号密码
+                if (setting.proxyAuthenticator == true
+                    && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))
+                ) {
+                    Log.i(TAG, "proxyUsername = ${setting.proxyUsername}, proxyPassword = ${setting.proxyPassword}")
+
+                    if (setting.proxyType == Proxy.Type.HTTP) {
+                        request.okproxyAuthenticator { _: Route?, response: Response ->
+                            //设置代理服务器账号密码
+                            val credential = Credentials.basic(setting.proxyUsername.toString(), setting.proxyPassword.toString())
+                            response.request().newBuilder()
+                                .header("Proxy-Authorization", credential)
+                                .build()
+                        }
+                    } else {
+                        Authenticator.setDefault(object : Authenticator() {
+                            override fun getPasswordAuthentication(): PasswordAuthentication {
+                                return PasswordAuthentication(setting.proxyUsername.toString(), setting.proxyPassword?.toCharArray())
+                            }
+                        })
+                    }
+                }
+            }
+
+            request.keepJson(true)
+                .ignoreHttpsCert()
                 .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
                 .cacheMode(CacheMode.NO_CACHE)
                 .timeStamp(true)
@@ -96,9 +145,50 @@ class WeworkAgentUtils private constructor() {
             val requestMsg: String = Gson().toJson(textMsgMap)
             Log.i(TAG, "requestMsg:$requestMsg")
 
-            XHttp.post(requestUrl)
-                .upJson(requestMsg)
+            val request = XHttp.post(requestUrl)
+
+            //设置代理
+            if ((setting.proxyType == Proxy.Type.HTTP || setting.proxyType == Proxy.Type.SOCKS)
+                && !TextUtils.isEmpty(setting.proxyHost) && !TextUtils.isEmpty(setting.proxyPort)
+            ) {
+                //代理服务器的IP和端口号
+                Log.d(TAG, "proxyHost = ${setting.proxyHost}, proxyPort = ${setting.proxyPort}")
+                val proxyHost = if (NetworkUtils.isIP(setting.proxyHost)) setting.proxyHost else NetworkUtils.getDomainAddress(setting.proxyHost)
+                if (!NetworkUtils.isIP(proxyHost)) {
+                    throw Exception("代理服务器主机名解析失败：proxyHost=$proxyHost")
+                }
+                val proxyPort: Int = setting.proxyPort?.toInt() ?: 7890
+
+                Log.d(TAG, "proxyHost = $proxyHost, proxyPort = $proxyPort")
+                request.okproxy(Proxy(setting.proxyType, InetSocketAddress(proxyHost, proxyPort)))
+
+                //代理的鉴权账号密码
+                if (setting.proxyAuthenticator == true
+                    && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))
+                ) {
+                    Log.i(TAG, "proxyUsername = ${setting.proxyUsername}, proxyPassword = ${setting.proxyPassword}")
+
+                    if (setting.proxyType == Proxy.Type.HTTP) {
+                        request.okproxyAuthenticator { _: Route?, response: Response ->
+                            //设置代理服务器账号密码
+                            val credential = Credentials.basic(setting.proxyUsername.toString(), setting.proxyPassword.toString())
+                            response.request().newBuilder()
+                                .header("Proxy-Authorization", credential)
+                                .build()
+                        }
+                    } else {
+                        Authenticator.setDefault(object : Authenticator() {
+                            override fun getPasswordAuthentication(): PasswordAuthentication {
+                                return PasswordAuthentication(setting.proxyUsername.toString(), setting.proxyPassword?.toCharArray())
+                            }
+                        })
+                    }
+                }
+            }
+
+            request.upJson(requestMsg)
                 .keepJson(true)
+                .ignoreHttpsCert()
                 .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
                 .cacheMode(CacheMode.NO_CACHE)
                 .retryCount(SettingUtils.requestRetryTimes) //超时重试的次数

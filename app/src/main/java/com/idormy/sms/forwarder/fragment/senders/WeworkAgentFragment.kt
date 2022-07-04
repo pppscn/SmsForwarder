@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import android.widget.RadioGroup
 import androidx.fragment.app.viewModels
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
@@ -33,6 +34,7 @@ import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.net.Proxy
 import java.util.*
 
 @Page(name = "企业微信应用")
@@ -126,6 +128,12 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
                         binding!!.etSecret.setText(settingVo.secret)
                         binding!!.sbAtAll.isChecked = settingVo.atAll == true
                         binding!!.etToUser.setText(settingVo.toUser)
+                        binding!!.rgProxyType.check(settingVo.getProxyTypeCheckId())
+                        binding!!.etProxyHost.setText(settingVo.proxyHost)
+                        binding!!.etProxyPort.setText(settingVo.proxyPort)
+                        binding!!.sbProxyAuthenticator.isChecked = settingVo.proxyAuthenticator == true
+                        binding!!.etProxyUsername.setText(settingVo.proxyUsername)
+                        binding!!.etProxyPassword.setText(settingVo.proxyPassword)
                     }
                 }
             })
@@ -136,17 +144,36 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
         binding!!.sbAtAll.setOnCheckedChangeListener(this)
+        binding!!.sbProxyAuthenticator.setOnCheckedChangeListener(this)
+        binding!!.rgProxyType.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
+            if (checkedId == R.id.rb_proxyHttp || checkedId == R.id.rb_proxySocks) {
+                binding!!.layoutProxyHost.visibility = View.VISIBLE
+                binding!!.layoutProxyPort.visibility = View.VISIBLE
+                binding!!.layoutProxyAuthenticator.visibility = if (binding!!.sbProxyAuthenticator.isChecked) View.VISIBLE else View.GONE
+            } else {
+                binding!!.layoutProxyHost.visibility = View.GONE
+                binding!!.layoutProxyPort.visibility = View.GONE
+                binding!!.layoutProxyAuthenticator.visibility = View.GONE
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-        //注意：因为只有一个监听，暂不需要判断id
-        if (isChecked) {
-            binding!!.etToUser.setText("@all")
-            binding!!.layoutToUser.visibility = View.GONE
-        } else {
-            binding!!.etToUser.setText("")
-            binding!!.layoutToUser.visibility = View.VISIBLE
+    override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
+        when (buttonView.id) {
+            R.id.sb_at_all -> {
+                if (isChecked) {
+                    binding!!.etToUser.setText("@all")
+                    binding!!.layoutToUser.visibility = View.GONE
+                } else {
+                    binding!!.etToUser.setText("")
+                    binding!!.layoutToUser.visibility = View.VISIBLE
+                }
+            }
+            R.id.sb_proxyAuthenticator -> {
+                binding!!.layoutProxyAuthenticator.visibility = if (isChecked) View.VISIBLE else View.GONE
+            }
+            else -> {}
         }
     }
 
@@ -225,7 +252,26 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
         val atAll = binding!!.sbAtAll.isChecked
         val toUser = binding!!.etToUser.text.toString().trim()
 
-        return WeworkAgentSetting(corpID, agentID, secret, atAll, toUser)
+        val proxyType: Proxy.Type = when (binding!!.rgProxyType.checkedRadioButtonId) {
+            R.id.rb_proxyHttp -> Proxy.Type.HTTP
+            R.id.rb_proxySocks -> Proxy.Type.SOCKS
+            else -> Proxy.Type.DIRECT
+        }
+        val proxyHost = binding!!.etProxyHost.text.toString().trim()
+        val proxyPort = binding!!.etProxyPort.text.toString().trim()
+
+        if (proxyType != Proxy.Type.DIRECT && (TextUtils.isEmpty(proxyHost) || TextUtils.isEmpty(proxyPort))) {
+            throw Exception(getString(R.string.invalid_host_or_port))
+        }
+
+        val proxyAuthenticator = binding!!.sbProxyAuthenticator.isChecked
+        val proxyUsername = binding!!.etProxyUsername.text.toString().trim()
+        val proxyPassword = binding!!.etProxyPassword.text.toString().trim()
+        if (proxyAuthenticator && TextUtils.isEmpty(proxyUsername) && TextUtils.isEmpty(proxyPassword)) {
+            throw Exception(getString(R.string.invalid_username_or_password))
+        }
+
+        return WeworkAgentSetting(corpID, agentID, secret, atAll, toUser, proxyType, proxyHost, proxyPort, proxyAuthenticator, proxyUsername, proxyPassword)
     }
 
     override fun onDestroyView() {
