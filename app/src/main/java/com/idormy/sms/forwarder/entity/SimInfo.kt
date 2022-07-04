@@ -7,19 +7,19 @@ import java.io.Serializable
 data class SimInfo(
     //运营商信息：中国移动 中国联通 中国电信
     @SerializedName("carrier_name")
-    var mCarrierName: CharSequence? = null,
+    var mCarrierName: String? = null,
     //集成电路卡识别码即SIM卡卡号
     @SerializedName("icc_id")
-    var mIccId: CharSequence? = null,
+    var mIccId: String? = null,
     //卡槽id：-1=没插入、 0=卡槽1 、1=卡槽2
     @SerializedName("sim_slot_index")
     var mSimSlotIndex: Int = 0,
     //号码
     @SerializedName("number")
-    var mNumber: CharSequence? = null,
+    var mNumber: String? = null,
     //国家代码
     @SerializedName("country_iso")
-    var mCountryIso: CharSequence? = null,
+    var mCountryIso: String? = null,
     //SIM的 Subscription Id (SIM插入顺序)
     @SerializedName("subscription_id")
     var mSubscriptionId: Int = 0,

@@ -52,11 +52,11 @@ class PhoneUtils private constructor() {
                         //1.1.1 有使用的卡，就遍历所有卡
                         for (subscriptionInfo in activeSubscriptionInfoList) {
                             val simInfo = SimInfo()
-                            simInfo.mCarrierName = subscriptionInfo.carrierName
-                            simInfo.mIccId = subscriptionInfo.iccId
+                            simInfo.mCarrierName = subscriptionInfo.carrierName.toString()
+                            simInfo.mIccId = subscriptionInfo.iccId.toString()
                             simInfo.mSimSlotIndex = subscriptionInfo.simSlotIndex
-                            simInfo.mNumber = subscriptionInfo.number
-                            simInfo.mCountryIso = subscriptionInfo.countryIso
+                            simInfo.mNumber = subscriptionInfo.number.toString()
+                            simInfo.mCountryIso = subscriptionInfo.countryIso.toString()
                             simInfo.mSubscriptionId = subscriptionInfo.subscriptionId
                             println(simInfo.toString())
                             infoList[simInfo.mSimSlotIndex] = simInfo
