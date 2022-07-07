@@ -762,6 +762,7 @@
     <string name="server_settings_tips">It is recommended to enable signature settings, click "Random" to generate and copy to clipboard</string>
     <string name="sign_key">Sign Key</string>
     <string name="sign_key_tips">Key generated and copied to clipboard</string>
+    <string name="copy">Copy</string>
     <string name="random">Random</string>
     <string name="enable_function">Enable Function</string>
     <string name="enable_function_tips">Select the features you want to enable remote control as needed</string>

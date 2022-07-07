@@ -761,6 +761,7 @@
     <string name="http_server_stopped">HttpServer已停止</string>
     <string name="server_settings">服务端设置</string>
     <string name="server_settings_tips">建议启用签名设置、点击“随机”自动生成并复制到剪贴板</string>
+    <string name="copy">复制</string>
     <string name="random">随机生成</string>
     <string name="sign_key">签名密钥</string>
     <string name="sign_key_tips">已生成密钥，并复制到剪贴板</string>
