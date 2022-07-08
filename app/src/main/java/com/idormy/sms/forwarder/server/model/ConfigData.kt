@@ -25,4 +25,8 @@ data class ConfigData(
     var extraSim2: String = "",
     @SerializedName("sim_info_list")
     var simInfoList: MutableMap<Int, SimInfo> = mutableMapOf(),
+    @SerializedName("version_code")
+    var versionCode: Int = 0,
+    @SerializedName("version_name")
+    var versionName: String = "",
 ) : Serializable

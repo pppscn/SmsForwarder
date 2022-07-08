@@ -7,6 +7,7 @@ import com.idormy.sms.forwarder.server.model.ConfigData
 import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
+import com.xuexiang.xutil.app.AppUtils
 import com.yanzhenjie.andserver.annotation.*
 
 @Suppress("PrivatePropertyName")
@@ -38,7 +39,9 @@ class ConfigController {
             SettingUtils.extraDeviceMark.toString(),
             SettingUtils.extraSim1.toString(),
             SettingUtils.extraSim2.toString(),
-            App.SimInfoList
+            App.SimInfoList,
+            AppUtils.getAppVersionCode(),
+            AppUtils.getAppVersionName(),
         )
     }
 
