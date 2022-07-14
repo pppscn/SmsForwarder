@@ -148,7 +148,7 @@ val BARK_LEVEL_MAP = mapOf(
 )
 
 //发送通道
-const val TYPE_DINGDING = 0
+const val TYPE_DINGTALK_GROUP_ROBOT = 0
 const val TYPE_EMAIL = 1
 const val TYPE_BARK = 2
 const val TYPE_WEBHOOK = 3
@@ -160,8 +160,9 @@ const val TYPE_SMS = 8
 const val TYPE_FEISHU = 9
 const val TYPE_PUSHPLUS = 10
 const val TYPE_GOTIFY = 11
+const val TYPE_DINGTALK_INNER_ROBOT = 12
 var SENDER_FRAGMENT_LIST = listOf(
-    PageInfo(getString(R.string.dingtalk_robot), "com.idormy.sms.forwarder.fragment.senders.DingtalkFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_dingtalk),
+    PageInfo(getString(R.string.dingtalk_robot), "com.idormy.sms.forwarder.fragment.senders.DingtalkGroupRobotFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_dingtalk),
     PageInfo(getString(R.string.email), "com.idormy.sms.forwarder.fragment.senders.EmailFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_email),
     PageInfo(getString(R.string.bark), "com.idormy.sms.forwarder.fragment.senders.BarkFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_bark),
     PageInfo(getString(R.string.webhook), "com.idormy.sms.forwarder.fragment.senders.WebhookFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_webhook),
@@ -173,6 +174,7 @@ var SENDER_FRAGMENT_LIST = listOf(
     PageInfo(getString(R.string.feishu), "com.idormy.sms.forwarder.fragment.senders.FeishuFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_feishu),
     PageInfo(getString(R.string.pushplus), "com.idormy.sms.forwarder.fragment.senders.PushplusFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_pushplus),
     PageInfo(getString(R.string.gotify), "com.idormy.sms.forwarder.fragment.senders.GotifyFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_gotify),
+    PageInfo(getString(R.string.dingtalk_inner_robot), "com.idormy.sms.forwarder.fragment.senders.DingtalkInnerRobotFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_dingtalk_inner),
 )
 
 //前台服务

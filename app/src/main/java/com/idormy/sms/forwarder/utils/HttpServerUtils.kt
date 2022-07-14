@@ -3,6 +3,7 @@ package com.idormy.sms.forwarder.utils
 
 import android.text.TextUtils
 import android.util.Base64
+import android.util.Log
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.Core
@@ -136,7 +137,11 @@ class HttpServerUtils private constructor() {
             }
 
             val sign = calcSign(req.timestamp.toString(), signSecret.toString())
-            if (sign != req.sign) throw HttpException(500, getString(R.string.sign_verify_failed))
+            if (sign != req.sign) {
+                Log.e("calcSign", sign)
+                Log.e("reqSign", req.sign.toString())
+                throw HttpException(500, getString(R.string.sign_verify_failed))
+            }
         }
 
         //判断版本是否一致

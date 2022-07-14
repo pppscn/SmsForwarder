@@ -23,7 +23,7 @@ data class Sender(
     companion object {
 
         fun getImageId(type: Int): Int = when (type) {
-            TYPE_DINGDING -> R.drawable.icon_dingtalk
+            TYPE_DINGTALK_GROUP_ROBOT -> R.drawable.icon_dingtalk
             TYPE_EMAIL -> R.drawable.icon_email
             TYPE_BARK -> R.drawable.icon_bark
             TYPE_WEBHOOK -> R.drawable.icon_webhook
@@ -35,6 +35,7 @@ data class Sender(
             TYPE_PUSHPLUS -> R.drawable.icon_pushplus
             TYPE_GOTIFY -> R.drawable.icon_gotify
             TYPE_SMS -> R.drawable.icon_sms
+            TYPE_DINGTALK_INNER_ROBOT -> R.drawable.icon_dingtalk_inner
             else -> R.drawable.icon_sms
         }
 
@@ -42,7 +43,7 @@ data class Sender(
 
     val imageId: Int
         get() = when (type) {
-            TYPE_DINGDING -> R.drawable.icon_dingtalk
+            TYPE_DINGTALK_GROUP_ROBOT -> R.drawable.icon_dingtalk
             TYPE_EMAIL -> R.drawable.icon_email
             TYPE_BARK -> R.drawable.icon_bark
             TYPE_WEBHOOK -> R.drawable.icon_webhook
@@ -54,6 +55,7 @@ data class Sender(
             TYPE_PUSHPLUS -> R.drawable.icon_pushplus
             TYPE_GOTIFY -> R.drawable.icon_gotify
             TYPE_SMS -> R.drawable.icon_sms
+            TYPE_DINGTALK_INNER_ROBOT -> R.drawable.icon_dingtalk_inner
             else -> R.drawable.icon_sms
         }
 

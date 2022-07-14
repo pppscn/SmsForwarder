@@ -15,11 +15,11 @@ import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.database.entity.Sender
 import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
 import com.idormy.sms.forwarder.database.viewmodel.SenderViewModel
-import com.idormy.sms.forwarder.databinding.FragmentSendersDingtalkBinding
+import com.idormy.sms.forwarder.databinding.FragmentSendersDingtalkGroupRobotBinding
 import com.idormy.sms.forwarder.entity.MsgInfo
-import com.idormy.sms.forwarder.entity.setting.DingtalkSetting
+import com.idormy.sms.forwarder.entity.setting.DingtalkGroupRobotSetting
 import com.idormy.sms.forwarder.utils.*
-import com.idormy.sms.forwarder.utils.sender.DingtalkUtils
+import com.idormy.sms.forwarder.utils.sender.DingtalkGroupRobotUtils
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
@@ -34,11 +34,11 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
-@Page(name = "钉钉机器人")
+@Page(name = "钉钉群机器人")
 @Suppress("PrivatePropertyName")
-class DingtalkFragment : BaseFragment<FragmentSendersDingtalkBinding?>(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+class DingtalkGroupRobotFragment : BaseFragment<FragmentSendersDingtalkGroupRobotBinding?>(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
-    private val TAG: String = DingtalkFragment::class.java.simpleName
+    private val TAG: String = DingtalkGroupRobotFragment::class.java.simpleName
     var titleBar: TitleBar? = null
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
     private var mCountDownHelper: CountDownButtonHelper? = null
@@ -62,8 +62,8 @@ class DingtalkFragment : BaseFragment<FragmentSendersDingtalkBinding?>(), View.O
     override fun viewBindingInflate(
         inflater: LayoutInflater,
         container: ViewGroup,
-    ): FragmentSendersDingtalkBinding {
-        return FragmentSendersDingtalkBinding.inflate(inflater, container, false)
+    ): FragmentSendersDingtalkGroupRobotBinding {
+        return FragmentSendersDingtalkGroupRobotBinding.inflate(inflater, container, false)
     }
 
     override fun initTitle(): TitleBar? {
@@ -117,7 +117,7 @@ class DingtalkFragment : BaseFragment<FragmentSendersDingtalkBinding?>(), View.O
                     }
                     binding!!.etName.setText(sender.name)
                     binding!!.sbEnable.isChecked = sender.status == 1
-                    val settingVo = Gson().fromJson(sender.jsonSetting, DingtalkSetting::class.java)
+                    val settingVo = Gson().fromJson(sender.jsonSetting, DingtalkGroupRobotSetting::class.java)
                     Log.d(TAG, settingVo.toString())
                     if (settingVo != null) {
                         binding!!.etToken.setText(settingVo.token)
@@ -164,7 +164,7 @@ class DingtalkFragment : BaseFragment<FragmentSendersDingtalkBinding?>(), View.O
                             val settingVo = checkSetting()
                             Log.d(TAG, settingVo.toString())
                             val msgInfo = MsgInfo("sms", getString(R.string.test_phone_num), getString(R.string.test_sender_sms), Date(), getString(R.string.test_sim_info))
-                            DingtalkUtils.sendMsg(settingVo, msgInfo)
+                            DingtalkGroupRobotUtils.sendMsg(settingVo, msgInfo)
                         } catch (e: Exception) {
                             e.printStackTrace()
                             if (Looper.myLooper() == null) Looper.prepare()
@@ -217,7 +217,7 @@ class DingtalkFragment : BaseFragment<FragmentSendersDingtalkBinding?>(), View.O
         }
     }
 
-    private fun checkSetting(): DingtalkSetting {
+    private fun checkSetting(): DingtalkGroupRobotSetting {
         val token = binding!!.etToken.text.toString().trim()
         if (CommonUtils.checkUrl(token, true)) {
             throw Exception(getString(R.string.invalid_token))
@@ -230,7 +230,7 @@ class DingtalkFragment : BaseFragment<FragmentSendersDingtalkBinding?>(), View.O
             throw Exception(getString(R.string.invalid_at_mobiles))
         }*/
 
-        return DingtalkSetting(token, secret, atAll, atMobiles)
+        return DingtalkGroupRobotSetting(token, secret, atAll, atMobiles)
     }
 
     override fun onDestroyView() {

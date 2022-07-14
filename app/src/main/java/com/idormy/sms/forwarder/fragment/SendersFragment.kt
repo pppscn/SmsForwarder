@@ -95,7 +95,7 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(), SenderPagingAda
             R.id.iv_copy -> {
                 PageOption.to(
                     when (item.type) {
-                        TYPE_DINGDING -> DingtalkFragment::class.java
+                        TYPE_DINGTALK_GROUP_ROBOT -> DingtalkGroupRobotFragment::class.java
                         TYPE_EMAIL -> EmailFragment::class.java
                         TYPE_BARK -> BarkFragment::class.java
                         TYPE_WEBHOOK -> WebhookFragment::class.java
@@ -107,7 +107,8 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(), SenderPagingAda
                         TYPE_FEISHU -> FeishuFragment::class.java
                         TYPE_PUSHPLUS -> PushplusFragment::class.java
                         TYPE_GOTIFY -> GotifyFragment::class.java
-                        else -> DingtalkFragment::class.java
+                        TYPE_DINGTALK_INNER_ROBOT -> DingtalkInnerRobotFragment::class.java
+                        else -> DingtalkGroupRobotFragment::class.java
                     }
                 ).setNewActivity(true)
                     .putLong(KEY_SENDER_ID, item.id)
@@ -118,7 +119,7 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(), SenderPagingAda
             R.id.iv_edit -> {
                 PageOption.to(
                     when (item.type) {
-                        TYPE_DINGDING -> DingtalkFragment::class.java
+                        TYPE_DINGTALK_GROUP_ROBOT -> DingtalkGroupRobotFragment::class.java
                         TYPE_EMAIL -> EmailFragment::class.java
                         TYPE_BARK -> BarkFragment::class.java
                         TYPE_WEBHOOK -> WebhookFragment::class.java
@@ -130,7 +131,8 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(), SenderPagingAda
                         TYPE_FEISHU -> FeishuFragment::class.java
                         TYPE_PUSHPLUS -> PushplusFragment::class.java
                         TYPE_GOTIFY -> GotifyFragment::class.java
-                        else -> DingtalkFragment::class.java
+                        TYPE_DINGTALK_INNER_ROBOT -> DingtalkInnerRobotFragment::class.java
+                        else -> DingtalkGroupRobotFragment::class.java
                     }
                 ).setNewActivity(true)
                     .putLong(KEY_SENDER_ID, item.id)

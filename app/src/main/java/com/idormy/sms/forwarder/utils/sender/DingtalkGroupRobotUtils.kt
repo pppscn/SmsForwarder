@@ -7,7 +7,7 @@ import com.google.gson.Gson
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.result.DingtalkResult
-import com.idormy.sms.forwarder.entity.setting.DingtalkSetting
+import com.idormy.sms.forwarder.entity.setting.DingtalkGroupRobotSetting
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.xuexiang.xhttp2.XHttp
@@ -19,14 +19,15 @@ import java.nio.charset.StandardCharsets
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
+//钉钉群自定义机器人
 @Suppress("PrivatePropertyName", "UNUSED_PARAMETER")
-class DingtalkUtils private constructor() {
+class DingtalkGroupRobotUtils private constructor() {
     companion object {
 
-        private val TAG: String = DingtalkUtils::class.java.simpleName
+        private val TAG: String = DingtalkGroupRobotUtils::class.java.simpleName
 
         fun sendMsg(
-            setting: DingtalkSetting,
+            setting: DingtalkGroupRobotSetting,
             msgInfo: MsgInfo,
             rule: Rule?,
             logId: Long?,
@@ -114,7 +115,7 @@ class DingtalkUtils private constructor() {
 
         }
 
-        fun sendMsg(setting: DingtalkSetting, msgInfo: MsgInfo) {
+        fun sendMsg(setting: DingtalkGroupRobotSetting, msgInfo: MsgInfo) {
             sendMsg(setting, msgInfo, null, null)
         }
     }

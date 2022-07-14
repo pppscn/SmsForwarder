@@ -256,7 +256,7 @@
     <string name="delete_sender_toast">该条发送通道已经删除！</string>
     <string name="add_sender_title">选择发送通道类型</string>
     <string name="not_supported">暂不支持这种转发</string>
-    <string name="setdingdingtitle">设置钉钉机器人</string>
+    <string name="setdingdingtitle">设置钉钉群机器人</string>
     <string name="setemailtitle">设置邮箱</string>
     <string name="setwebnotifytitle">设置Webhook</string>
     <string name="setqywxgrouprobottitle">设置企业微信群机器人</string>
@@ -287,6 +287,7 @@
     <string name="invalid_webhook">WebHook为空 或 不是有效URL</string>
     <string name="invalid_at_mobiles">指定成员 不能为空 或者 选择@all</string>
     <string name="invalid_wework_agent">企业ID、AgentID、Secret都不能为空</string>
+    <string name="invalid_dingtalk_inner_robot">AgentId、AppKey、AppSecret、UserIds都不能为空</string>
     <string name="invalid_phone_num">接收手机号不能为空</string>
     <string name="invalid_multi_match">多重匹配规则的第 %s 行格式有误</string>
     <string name="invalid_regex_replace">正则替换内容的第 %s 行格式有误</string>
@@ -315,6 +316,7 @@
     <string name="specified_member">指定成员</string>
     <string name="at_all">\@all</string>
     <string name="specified_member_tips">Tip：接收消息的成员ID列表（多个接收者用‘|’分隔，最多支持1000个）</string>
+    <string name="specified_member_tips2">Tip：接收用户的userid，每次最多传20个（用‘|’分隔）</string>
     <string name="server_chan_send_key">SendKey</string>
     <string name="server_chan_channel">消息通道</string>
     <string name="server_chan_channel_tips">提示：动态指定，支持最多两个通道，用竖线|隔开</string>
@@ -466,7 +468,8 @@
     <string name="priority">优先级（1 – 9）</string>
     <string name="_5">5</string>
     <string name="sb_rule_status">启用该条转发规则</string>
-    <string name="dingtalk_robot">钉钉机器人</string>
+    <string name="dingtalk_robot">钉钉群机器人</string>
+    <string name="dingtalk_inner_robot">钉钉企业机器人</string>
     <string name="email">电子邮箱</string>
     <string name="bark">Bark</string>
     <string name="webhook">Webhook</string>
@@ -875,4 +878,8 @@
     <string name="silent_time_period">免打扰(禁用转发)时间段</string>
     <string name="silent_time_period_tips">结束时间小于开始时间则跨天；相等则禁用</string>
     <string name="download_frpc_tips">是否立即下载，并重启加载？</string>
+    <string name="appkey">AppKey</string>
+    <string name="appsecret">AppSecret</string>
+    <string name="sampleText">文本类型</string>
+    <string name="sampleMarkdown">Markdown类型</string>
 </resources>

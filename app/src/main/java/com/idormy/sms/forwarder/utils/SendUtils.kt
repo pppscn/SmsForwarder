@@ -71,9 +71,9 @@ object SendUtils {
     fun sendMsgSender(msgInfo: MsgInfo, rule: Rule, sender: Sender, logId: Long) {
         try {
             when (sender.type) {
-                TYPE_DINGDING -> {
-                    val settingVo = Gson().fromJson(sender.jsonSetting, DingtalkSetting::class.java)
-                    DingtalkUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                TYPE_DINGTALK_GROUP_ROBOT -> {
+                    val settingVo = Gson().fromJson(sender.jsonSetting, DingtalkGroupRobotSetting::class.java)
+                    DingtalkGroupRobotUtils.sendMsg(settingVo, msgInfo, rule, logId)
                 }
                 TYPE_EMAIL -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, EmailSetting::class.java)
