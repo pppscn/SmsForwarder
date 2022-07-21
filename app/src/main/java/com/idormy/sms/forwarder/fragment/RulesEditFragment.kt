@@ -307,7 +307,8 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                     }
 
                     for (sender in senderList) {
-                        senderSpinnerList.add(SenderAdapterItem(sender.name, sender.imageId, sender.id, sender.status))
+                        val name = if (sender.name.length > 20) sender.name.substring(0, 19) else sender.name
+                        senderSpinnerList.add(SenderAdapterItem(name, sender.imageId, sender.id, sender.status))
                     }
                     senderSpinnerAdapter = SenderSpinnerAdapter(senderSpinnerList)
                         //.setTextColor(ResUtils.getColor(R.color.green))
