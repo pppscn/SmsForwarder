@@ -52,6 +52,7 @@ class GotifyUtils {
             request.params("title", title)
                 .params("message", content)
                 .params("priority", setting.priority)
+                .ignoreHttpsCert() //忽略https证书
                 .keepJson(true)
                 .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
                 .cacheMode(CacheMode.NO_CACHE)
