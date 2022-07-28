@@ -782,6 +782,8 @@
     <string name="api_contact_query_tips">远程查联系人列表</string>
     <string name="api_battery_query">远程查电量</string>
     <string name="api_battery_query_tips">远程查询手机电量与电池状态</string>
+    <string name="api_wol">远程WOL</string>
+    <string name="api_wol_tips">远程打开启用LAN唤醒功能(Wake-On-LAN)的设备</string>
 
     <string name="sim_slot">发送卡槽</string>
     <string name="phone_numbers">手机号码</string>
@@ -882,4 +884,13 @@
     <string name="appsecret">AppSecret</string>
     <string name="sampleText">文本类型</string>
     <string name="sampleMarkdown">Markdown类型</string>
+    <string name="ip_hint">请输入IP地址，例如：192.168.168.168</string>
+    <string name="ip_error">IP地址格式错误，例如：192.168.168.168</string>
+    <string name="ip_regex">^((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])$</string>
+    <string name="mac_hint">请输入网卡mac，例如：AA:BB:CC:DD:EE:FF</string>
+    <string name="mac_error">网卡mac格式错误，例如：AA:BB:CC:DD:EE:FF</string>
+    <string name="mac_regex">^((([a-fA-F0-9]{2}:){5})|(([a-fA-F0-9]{2}-){5}))[a-fA-F0-9]{2}$</string>
+    <string name="ip">IP地址</string>
+    <string name="mac">网卡MAC</string>
+    <string name="no_wol_history">暂无历史记录，WOL发送成功后自动加入</string>
 </resources>

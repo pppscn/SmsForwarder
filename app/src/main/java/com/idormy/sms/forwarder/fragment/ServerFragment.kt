@@ -119,6 +119,11 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
             HttpServerUtils.enableApiBatteryQuery = isChecked
         }
 
+        binding!!.sbApiWol.isChecked = HttpServerUtils.enableApiWol
+        binding!!.sbApiWol.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            HttpServerUtils.enableApiWol = isChecked
+        }
+
     }
 
     @SingleClick

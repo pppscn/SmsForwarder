@@ -112,6 +112,22 @@ class HttpServerUtils private constructor() {
                 MMKVUtils.put(SP_ENABLE_API_BATTERY_QUERY, enableApiQueryBattery)
             }
 
+        //是否启用远程WOL
+        @JvmStatic
+        var enableApiWol: Boolean
+            get() = MMKVUtils.getBoolean(SP_ENABLE_API_WOL, false)
+            set(enableApiWol) {
+                MMKVUtils.put(SP_ENABLE_API_WOL, enableApiWol)
+            }
+
+        //WOL历史记录
+        @JvmStatic
+        var wolHistory: String?
+            get() = MMKVUtils.getString(SP_WOL_HISTORY, "")
+            set(wolHistory) {
+                MMKVUtils.put(SP_WOL_HISTORY, wolHistory)
+            }
+
         //计算签名
         fun calcSign(timestamp: String, signSecret: String): String {
             val stringToSign = "$timestamp\n" + signSecret

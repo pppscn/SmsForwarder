@@ -781,6 +781,8 @@
     <string name="api_contact_query_tips">Remotely check contact list</string>
     <string name="api_battery_query">Query Battery</string>
     <string name="api_battery_query_tips">Remotely query mobile phone power and battery status</string>
+    <string name="api_wol">Remotely WOL</string>
+    <string name="api_wol_tips">Turn on your Wake-On-LAN enabled devices remotely</string>
 
     <string name="sim_slot">Sim Slot</string>
     <string name="phone_numbers">Phone Numbers</string>
@@ -844,8 +846,8 @@
     <string name="over_level_max">[Battery Warning] The battery warning limit has been exceeded, please unplug the charger!%s</string>
     <string name="reach_level_min">[Battery Warning] The lower limit of the battery warning has been reached, please charge it in time!%s</string>
     <string name="reach_level_max">[Battery Warning] The upper limit of battery warning has been reached, please unplug the charger!%s</string>
-    <string name="battery_status_changed">【充电状态】发生变化：</string>
-    <string name="no_indentation_allowed_on_the_first_line">第一行不允许缩进</string>
+    <string name="battery_status_changed">[Charging status] changes:</string>
+    <string name="no_indentation_allowed_on_the_first_line">No indentation allowed on the first line</string>
     <string name="sign_required">The server enables the signing key, and the sign node required</string>
     <string name="timestamp_required">The server enables the signing key, and the timestamp node required</string>
     <string name="sign_verify_failed">Sign verify failed</string>
@@ -881,4 +883,13 @@
     <string name="appsecret">AppSecret</string>
     <string name="sampleText">Sample Text</string>
     <string name="sampleMarkdown">Sample Markdown</string>
+    <string name="ip_hint">Please enter an IP address, eg. 192.168.168.168</string>
+    <string name="ip_error">Malformed IP address, eg. 192.168.168.168</string>
+    <string name="ip_regex">^((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])$</string>
+    <string name="mac_hint">Please enter the network card mac, eg. AA:BB:CC:DD:EE:FF</string>
+    <string name="mac_error">The network card mac format is incorrect, eg. AA:BB:CC:DD:EE:FF</string>
+    <string name="mac_regex">^((([a-fA-F0-9]{2}:){5})|(([a-fA-F0-9]{2}-){5}))[a-fA-F0-9]{2}$</string>
+    <string name="ip">IP</string>
+    <string name="mac">MAC</string>
+    <string name="no_wol_history">There is no history record, WOL will be added automatically after successful sending</string>
 </resources>

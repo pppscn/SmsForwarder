@@ -240,6 +240,8 @@ const val SP_ENABLE_API_SMS_QUERY = "enable_api_sms_query"
 const val SP_ENABLE_API_CALL_QUERY = "enable_api_call_query"
 const val SP_ENABLE_API_CONTACT_QUERY = "enable_api_contact_query"
 const val SP_ENABLE_API_BATTERY_QUERY = "enable_api_battery_query"
+const val SP_ENABLE_API_WOL = "enable_api_wol"
+const val SP_WOL_HISTORY = "wol_history"
 const val SP_SERVER_ADDRESS = "server_address"
 const val SP_SERVER_HISTORY = "server_history"
 const val SP_CLIENT_SIGN_KEY = "client_sign_key"
@@ -250,4 +252,5 @@ var CLIENT_FRAGMENT_LIST = listOf(
     PageInfo(getString(R.string.api_call_query), "com.idormy.sms.forwarder.fragment.client.CallQueryFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_call_query),
     PageInfo(getString(R.string.api_contact_query), "com.idormy.sms.forwarder.fragment.client.ContactQueryFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_contact_query),
     PageInfo(getString(R.string.api_battery_query), "com.idormy.sms.forwarder.fragment.client.BatteryQueryFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_battery_query),
+    PageInfo(getString(R.string.api_wol), "com.idormy.sms.forwarder.fragment.client.WolSendFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_wol),
 )
