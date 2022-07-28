@@ -251,6 +251,9 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
 
         val atAll = binding!!.sbAtAll.isChecked
         val toUser = binding!!.etToUser.text.toString().trim()
+        if (!atAll && TextUtils.isEmpty(toUser)) {
+            throw Exception(getString(R.string.invalid_at_mobiles))
+        }
 
         val proxyType: Proxy.Type = when (binding!!.rgProxyType.checkedRadioButtonId) {
             R.id.rb_proxyHttp -> Proxy.Type.HTTP
