@@ -114,17 +114,17 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
                     msgMap["sign"] = HttpServerUtils.calcSign(timestamp.toString(), clientSignKey.toString())
                 }
 
-                val ip = binding!!.etIp.text.toString()
-                val ipRegex = getString(R.string.ip_regex).toRegex()
-                if (!ipRegex.matches(ip)) {
-                    XToastUtils.error(ResUtils.getString(R.string.ip_error))
-                    return
-                }
-
                 val mac = binding!!.etMac.text.toString()
                 val macRegex = getString(R.string.mac_regex).toRegex()
                 if (!macRegex.matches(mac)) {
                     XToastUtils.error(ResUtils.getString(R.string.mac_error))
+                    return
+                }
+
+                val ip = binding!!.etIp.text.toString()
+                val ipRegex = getString(R.string.ip_regex).toRegex()
+                if (!TextUtils.isEmpty(ip) && !ipRegex.matches(ip)) {
+                    XToastUtils.error(ResUtils.getString(R.string.ip_error))
                     return
                 }
 
@@ -156,7 +156,7 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
                                 if (resp.code == 200) {
                                     XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
                                     //添加到历史记录
-                                    wolHistory[ip] = mac
+                                    wolHistory[mac] = ip
                                     HttpServerUtils.wolHistory = Gson().toJson(wolHistory)
                                 } else {
                                     XToastUtils.error(ResUtils.getString(R.string.request_failed) + resp.msg)

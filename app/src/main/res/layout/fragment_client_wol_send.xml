@@ -36,17 +36,17 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/ip" />
+                    android:text="@string/mac" />
 
                 <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                    android:id="@+id/et_ip"
+                    android:id="@+id/et_mac"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/ip_hint"
+                    android:hint="@string/mac_hint"
                     android:singleLine="true"
                     app:met_clearButton="true"
-                    app:met_errorMessage="@string/ip_error"
-                    app:met_regexp="@string/ip_regex"
+                    app:met_errorMessage="@string/mac_error"
+                    app:met_regexp="@string/mac_regex"
                     app:met_validateOnFocusLost="true" />
 
             </LinearLayout>
@@ -60,17 +60,17 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/mac" />
+                    android:text="@string/ip" />
 
                 <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                    android:id="@+id/et_mac"
+                    android:id="@+id/et_ip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/mac_hint"
+                    android:hint="@string/ip_hint"
                     android:singleLine="true"
                     app:met_clearButton="true"
-                    app:met_errorMessage="@string/mac_error"
-                    app:met_regexp="@string/mac_regex"
+                    app:met_errorMessage="@string/ip_error"
+                    app:met_regexp="@string/ip_regex"
                     app:met_validateOnFocusLost="true" />
 
             </LinearLayout>

@@ -5,6 +5,7 @@ import android.os.StrictMode.ThreadPolicy
 import android.util.Log
 import com.idormy.sms.forwarder.server.model.BaseRequest
 import com.idormy.sms.forwarder.server.model.WolData
+import com.xuexiang.xrouter.utils.TextUtils
 import com.yanzhenjie.andserver.annotation.*
 import java.net.DatagramPacket
 import java.net.DatagramSocket
@@ -38,8 +39,12 @@ class WolController {
                     System.arraycopy(macBytes, 0, bytes, i, macBytes.size)
                     i += macBytes.size
                 }
-                val address: InetAddress = InetAddress.getByName(wolData.ip)
-                val packet = DatagramPacket(bytes, bytes.size, address, 9)
+                val packet = if (TextUtils.isEmpty(wolData.ip)) {
+                    val address: InetAddress = InetAddress.getByName(wolData.ip)
+                    DatagramPacket(bytes, bytes.size, address, 9)
+                } else {
+                    DatagramPacket(bytes, bytes.size)
+                }
                 socket.send(packet)
                 Log.d(TAG, "Wake-on-LAN packet sent.")
             } catch (e: Exception) {
