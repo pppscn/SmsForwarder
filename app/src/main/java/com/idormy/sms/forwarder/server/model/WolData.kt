@@ -8,4 +8,6 @@ data class WolData(
     var mac: String,
     @SerializedName("ip")
     var ip: String = "",
+    @SerializedName("port")
+    var port: Int = 9,
 ) : Serializable

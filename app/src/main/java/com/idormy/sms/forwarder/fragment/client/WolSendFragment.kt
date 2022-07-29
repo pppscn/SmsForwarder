@@ -88,8 +88,8 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
                     .items(wolHistory.keys)
                     .itemsCallbackSingleChoice(0) { _: MaterialDialog?, _: View?, _: Int, text: CharSequence ->
                         //XToastUtils.info("$which: $text")
-                        binding!!.etIp.setText(text)
-                        binding!!.etMac.setText(wolHistory[text])
+                        binding!!.etMac.setText(text)
+                        binding!!.etIp.setText(wolHistory[text])
                         true // allow selection
                     }
                     .positiveText(R.string.select)
@@ -128,9 +128,17 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
                     return
                 }
 
+                val port = binding!!.etPort.text.toString()
+                val portRegex = getString(R.string.wol_port_regex).toRegex()
+                if (!TextUtils.isEmpty(port) && !portRegex.matches(port)) {
+                    XToastUtils.error(ResUtils.getString(R.string.wol_port_error))
+                    return
+                }
+
                 val dataMap: MutableMap<String, Any> = mutableMapOf()
                 dataMap["ip"] = ip
                 dataMap["mac"] = mac
+                dataMap["port"] = port
                 msgMap["data"] = dataMap
 
                 val requestMsg: String = Gson().toJson(msgMap)

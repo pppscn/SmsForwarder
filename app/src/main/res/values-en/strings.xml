@@ -883,13 +883,16 @@
     <string name="appsecret">AppSecret</string>
     <string name="sampleText">Sample Text</string>
     <string name="sampleMarkdown">Sample Markdown</string>
-    <string name="ip_hint">Please enter an IP address, eg. 192.168.168.168</string>
+    <string name="ip_hint">IP address/broadcast address, eg. 192.168.1.255</string>
     <string name="ip_error">Malformed IP address, eg. 192.168.168.168</string>
     <string name="ip_regex">^((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])$</string>
-    <string name="mac_hint">Please enter the network card mac, eg. AA:BB:CC:DD:EE:FF</string>
+    <string name="mac_hint">Network card mac, eg. AA:BB:CC:DD:EE:FF</string>
     <string name="mac_error">The network card mac format is incorrect, eg. AA:BB:CC:DD:EE:FF</string>
     <string name="mac_regex">^((([a-fA-F0-9]{2}:){5})|(([a-fA-F0-9]{2}-){5}))[a-fA-F0-9]{2}$</string>
     <string name="ip">IP</string>
     <string name="mac">MAC</string>
     <string name="no_wol_history">There is no history record, WOL will be added automatically after successful sending</string>
+    <string name="wol_port_hint">WOL is generally sent over port 7 or port 9</string>
+    <string name="wol_port_error">Port number value range: 1~65535</string>
+    <string name="wol_port_regex">^([0-9]|[1-9]\\d|[1-9]\\d{2}|[1-9]\\d{3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])$</string>
 </resources>

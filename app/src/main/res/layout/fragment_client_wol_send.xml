@@ -75,6 +75,31 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                style="@style/senderBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/port" />
+
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_port"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/wol_port_hint"
+                    android:singleLine="true"
+                    android:value="9"
+                    app:met_clearButton="true"
+                    app:met_errorMessage="@string/wol_port_error"
+                    app:met_regexp="@string/wol_port_regex"
+                    app:met_validateOnFocusLost="true" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

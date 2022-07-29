@@ -2,7 +2,7 @@ package com.idormy.sms.forwarder.server.component
 
 import android.text.TextUtils
 import android.util.Log
-import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.idormy.sms.forwarder.server.model.BaseRequest
 import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.yanzhenjie.andserver.annotation.Converter
@@ -36,8 +36,12 @@ class AppMessageConverter : MessageConverter {
         val json = if (charset == null) IOUtils.toString(stream) else IOUtils.toString(stream, charset)
         Log.d(TAG, "Json: $json")
 
-        //TODO:待迁移kotlinx.serialization，type转换问题
-        val t: T? = Gson().fromJson(json, type)
+        //修改接口数据中的null、“”为默认值
+        val builder = GsonBuilder()
+        builder.registerTypeAdapter(Int::class.java, IntegerDefaultAdapter())
+        builder.registerTypeAdapter(String::class.java, StringDefaultAdapter())
+        val gson = builder.create()
+        val t: T? = gson.fromJson(json, type)
         Log.d(TAG, "Bean: $t")
 
         //校验时间戳（时间误差不能超过1小时）&& 签名

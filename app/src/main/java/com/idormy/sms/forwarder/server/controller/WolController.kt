@@ -39,13 +39,12 @@ class WolController {
                     System.arraycopy(macBytes, 0, bytes, i, macBytes.size)
                     i += macBytes.size
                 }
-                val packet = if (TextUtils.isEmpty(wolData.ip)) {
-                    val address: InetAddress = InetAddress.getByName(wolData.ip)
-                    DatagramPacket(bytes, bytes.size, address, 9)
-                } else {
-                    DatagramPacket(bytes, bytes.size)
-                }
+                val host = if (TextUtils.isEmpty(wolData.ip)) "230.0.0.1" else wolData.ip
+                val port = if (wolData.port > 0) wolData.port else 9
+                val address: InetAddress = InetAddress.getByName(host)
+                val packet = DatagramPacket(bytes, bytes.size, address, port)
                 socket.send(packet)
+                socket.close()
                 Log.d(TAG, "Wake-on-LAN packet sent.")
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to send Wake-on-LAN packet: $e")
