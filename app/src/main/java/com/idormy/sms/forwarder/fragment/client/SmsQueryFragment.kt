@@ -124,7 +124,6 @@ class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
         binding!!.tabBar.setOnTabClickListener { _, position ->
             //XToastUtils.toast("点击了$title--$position")
             smsType = position + 1
-            pageNum = 1
             loadRemoteData(true)
             binding!!.recyclerView.scrollToPosition(0)
         }
@@ -170,7 +169,6 @@ class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
         //下拉刷新
         binding!!.refreshLayout.setOnRefreshListener { refreshLayout: RefreshLayout ->
             refreshLayout.layout.postDelayed({
-                pageNum = 1
                 loadRemoteData(true)
             }, 1000)
         }
@@ -196,12 +194,7 @@ class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
             msgMap["sign"] = HttpServerUtils.calcSign(timestamp.toString(), clientSignKey.toString())
         }
 
-        /*val dataMap: MutableMap<String, Any> = mutableMapOf()
-        dataMap["type"] = smsType
-        dataMap["page_num"] = pageNum
-        dataMap["page_size"] = pageSize
-        dataMap["keyword"] = keyword
-        msgMap["data"] = dataMap*/
+        if (refresh) pageNum = 1
         msgMap["data"] = SmsQueryData(smsType, pageNum, pageSize, keyword)
 
         val requestMsg: String = Gson().toJson(msgMap)
@@ -212,9 +205,6 @@ class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
             .keepJson(true)
             .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
             .cacheMode(CacheMode.NO_CACHE)
-            //.retryCount(SettingUtils.requestRetryTimes) //超时重试的次数
-            //.retryDelay(SettingUtils.requestDelayTime) //超时重试的延迟时间
-            //.retryIncreaseDelay(SettingUtils.requestDelayTime) //超时重试叠加延时
             .timeStamp(true)
             .execute(object : SimpleCallBack<String>() {
 

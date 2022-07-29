@@ -134,7 +134,6 @@ class CallQueryFragment : BaseFragment<FragmentClientCallQueryBinding?>() {
         binding!!.tabBar.setOnTabClickListener { _, position ->
             //XToastUtils.toast("点击了$title--$position")
             callType = 3 - position
-            pageNum = 1
             loadRemoteData(true)
             binding!!.recyclerView.scrollToPosition(0)
         }
@@ -180,7 +179,6 @@ class CallQueryFragment : BaseFragment<FragmentClientCallQueryBinding?>() {
         //下拉刷新
         binding!!.refreshLayout.setOnRefreshListener { refreshLayout: RefreshLayout ->
             refreshLayout.layout.postDelayed({
-                pageNum = 1
                 loadRemoteData(true)
             }, 1000)
         }
@@ -206,11 +204,7 @@ class CallQueryFragment : BaseFragment<FragmentClientCallQueryBinding?>() {
             msgMap["sign"] = HttpServerUtils.calcSign(timestamp.toString(), clientSignKey.toString())
         }
 
-        /*val dataMap: MutableMap<String, Any> = mutableMapOf()
-        dataMap["type"] = callType
-        dataMap["page_num"] = pageNum
-        dataMap["page_size"] = pageSize
-        msgMap["data"] = dataMap*/
+        if (refresh) pageNum = 1
         msgMap["data"] = CallQueryData(callType, pageNum, pageSize, keyword)
 
         val requestMsg: String = Gson().toJson(msgMap)
@@ -221,9 +215,6 @@ class CallQueryFragment : BaseFragment<FragmentClientCallQueryBinding?>() {
             .keepJson(true)
             .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
             .cacheMode(CacheMode.NO_CACHE)
-            //.retryCount(SettingUtils.requestRetryTimes) //超时重试的次数
-            //.retryDelay(SettingUtils.requestDelayTime) //超时重试的延迟时间
-            //.retryIncreaseDelay(SettingUtils.requestDelayTime) //超时重试叠加延时
             .timeStamp(true)
             .execute(object : SimpleCallBack<String>() {
 
