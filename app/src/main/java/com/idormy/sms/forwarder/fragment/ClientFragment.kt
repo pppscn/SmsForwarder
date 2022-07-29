@@ -53,7 +53,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
         appContext = requireActivity().application as App
 
         //测试按钮增加倒计时，避免重复点击
-        mCountDownHelper = CountDownButtonHelper(binding!!.btnServerTest, SettingUtils.requestTimeout)
+        mCountDownHelper = CountDownButtonHelper(binding!!.btnServerTest, 3)
         mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
             override fun onCountDown(time: Int) {
                 binding!!.btnServerTest.text = String.format(getString(R.string.seconds_n), time)
@@ -184,6 +184,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
                                 || (item.name == ResUtils.getString(R.string.api_call_query) && !serverConfig!!.enableApiCallQuery)
                                 || (item.name == ResUtils.getString(R.string.api_contact_query) && !serverConfig!!.enableApiContactQuery)
                                 || (item.name == ResUtils.getString(R.string.api_battery_query) && !serverConfig!!.enableApiBatteryQuery)
+                                || (item.name == ResUtils.getString(R.string.api_wol) && !serverConfig!!.enableApiWol)
                         )
             ) {
                 XToastUtils.error(getString(R.string.disabled_on_the_server))

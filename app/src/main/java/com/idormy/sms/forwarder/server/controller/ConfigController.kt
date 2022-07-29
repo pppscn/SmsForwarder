@@ -36,6 +36,7 @@ class ConfigController {
             HttpServerUtils.enableApiCallQuery,
             HttpServerUtils.enableApiContactQuery,
             HttpServerUtils.enableApiBatteryQuery,
+            HttpServerUtils.enableApiWol,
             SettingUtils.extraDeviceMark.toString(),
             SettingUtils.extraSim1.toString(),
             SettingUtils.extraSim2.toString(),
