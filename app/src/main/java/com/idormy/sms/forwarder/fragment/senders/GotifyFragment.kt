@@ -132,6 +132,10 @@ class GotifyFragment : BaseFragment<FragmentSendersGotifyBinding?>(), View.OnCli
         binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
+        binding!!.btInsertSender.setOnClickListener(this)
+        binding!!.btInsertExtra.setOnClickListener(this)
+        binding!!.btInsertTime.setOnClickListener(this)
+        binding!!.btInsertDeviceName.setOnClickListener(this)
     }
 
     @SingleClick
