@@ -1,4 +1,4 @@
-name: Delete old workflow runs
+name: Delete Workflow
 on:
   schedule:
     - cron: '59 15 * * 7' #每周天在国际标准时间15点59分(北京时间+8，即 23:59)
@@ -7,7 +7,7 @@ on:
       root_sol:
         description: "Workflow Title"
         required: true
-        default: "Delete old workflow runs"
+        default: "Delete Workflow"
 
 jobs:
   del_runs:
@@ -26,4 +26,4 @@ jobs:
           token: ${{ github.token }}
           repository: ${{ github.repository }}
           keep_minimum_runs: 1
-          delete_workflow_pattern: 'Delete old workflow runs'
+          delete_workflow_pattern: 'Delete Workflow'
