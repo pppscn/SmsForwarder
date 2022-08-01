@@ -134,7 +134,7 @@ class EmailUtils {
                 password = setting.pwd.toString()
                 toAddress = toAddressList
                 subject = title
-                content = message
+                content = message.replace("\n", "<br>")
                 openSSL = setting.ssl == true
                 startTls = setting.startTls == true
             }
