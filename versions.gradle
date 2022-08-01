@@ -39,7 +39,7 @@ versions.kotlin = '1.6.21'
 //========xlibrary start========//
 
 versions.xui = "1.2.0" //1.1.9
-versions.xupdate = "2.1.1"
+versions.xupdate = "2.1.3"
 versions.xaop = "1.1.0"
 versions.xutil = "2.0.0"
 versions.xhttp2 = "2.0.6"//2.0.4
