@@ -1,7 +1,7 @@
 name: Delete old workflow runs
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '59 15 * * 7' #每周天在国际标准时间15点59分(北京时间+8，即 23:59)
   workflow_dispatch:
     inputs:
       root_sol:
@@ -13,19 +13,17 @@ jobs:
   del_runs:
     runs-on: ubuntu-latest
     steps:
-      - name: Delete Nightly Build
+      - name: Delete Weekly Build
         uses: Mattraks/delete-workflow-runs@v2
         with:
           token: ${{ github.token }}
           repository: ${{ github.repository }}
-          retain_days: 1
           keep_minimum_runs: 1
-          delete_workflow_pattern: 'Nightly Build'
+          delete_workflow_pattern: 'Weekly Build'
       - name: Delete Self
         uses: Mattraks/delete-workflow-runs@v2
         with:
           token: ${{ github.token }}
           repository: ${{ github.repository }}
-          retain_days: 1
           keep_minimum_runs: 1
           delete_workflow_pattern: 'Delete old workflow runs'
