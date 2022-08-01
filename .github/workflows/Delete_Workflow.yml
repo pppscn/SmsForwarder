@@ -1,7 +1,7 @@
 name: Delete Workflow
 on:
   schedule:
-    - cron: '59 15 * * 7' #每周天在国际标准时间15点59分(北京时间+8，即 23:59)
+    - cron: '59 15 * * 0' #每周天在国际标准时间15点59分(北京时间+8，即 23:59)
   workflow_dispatch:
     inputs:
       root_sol:

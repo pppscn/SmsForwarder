@@ -3,7 +3,7 @@ name: Weekly Build
 # 触发器
 on:
   schedule:
-    - cron: '0 15 * * 7' #每周天在国际标准时间15点(北京时间+8，即 23:00)
+    - cron: '0 15 * * 0' #每周天在国际标准时间15点(北京时间+8，即 23:00)
   workflow_dispatch:
     inputs:
       root_sol:
