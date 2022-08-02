@@ -1,7 +1,6 @@
 package com.idormy.sms.forwarder.service
 
 import android.content.ComponentName
-import android.content.Context
 import android.os.Build
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
@@ -23,15 +22,8 @@ import java.util.*
 @Suppress("PrivatePropertyName", "DEPRECATION")
 class NotifyService : NotificationListenerService()/*, LifecycleOwner*/ {
 
-    private lateinit var context: Context
-
     /*private val mRegistry = LifecycleRegistry(this)*/
     private val TAG: String = "NotifyService"
-
-    override fun onCreate() {
-        super.onCreate()
-        context = applicationContext
-    }
 
     override fun onListenerConnected() {
         //super.onListenerConnected()
@@ -97,7 +89,7 @@ class NotifyService : NotificationListenerService()/*, LifecycleOwner*/ {
                     )
                 )
                 .build()
-            WorkManager.getInstance(context).enqueue(request)
+            WorkManager.getInstance(applicationContext).enqueue(request)
 
             //TODO：收不到返回信息，自动消除待解决
             /*WorkManager.getInstance(context).getWorkInfoByIdLiveData(request.id)
