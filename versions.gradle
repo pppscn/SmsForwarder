@@ -30,9 +30,9 @@ versions.rxandroid = "2.1.1"
 versions.rxbinding = "2.2.0"
 versions.butterknife = "10.2.3"
 versions.runner = "1.4.0"
-versions.gson = "2.9.0"
-versions.okhttp3 = "3.12.13" //不可升级，支持 API 19 3.14.9
-versions.leakcanary = "2.8.1"
+versions.gson = "2.9.1" //https://github.com/google/gson
+versions.okhttp3 = "3.12.13" //不可升级，为了支持 API 19
+versions.leakcanary = "2.9.1" //https://github.com/square/leakcanary
 versions.lifecycle = "2.2.0"
 versions.kotlin = '1.6.21'
 
