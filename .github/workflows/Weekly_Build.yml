@@ -24,7 +24,7 @@ jobs:
           token: ${{ github.token }}
           repository: ${{ github.repository }}
           retain_days: 0 # 全部删除只留正在跑的一条
-          keep_minimum_runs: 1
+          keep_minimum_runs: 0 # 全部删除只留正在跑的一条
           delete_workflow_pattern: 'Weekly Build'
       # 设置jdk环境为11
       - name: set up JDK 11
