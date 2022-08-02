@@ -13,18 +13,21 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-    #     if: github.event.repository.owner.id == github.event.sender.id
-
-    # 设置jdk环境为11
     steps:
-      - uses: actions/checkout@v2
+      # 删除旧的工作流
+      - name: Delete Weekly Build
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          keep_minimum_runs: 1
+          delete_workflow_pattern: 'Weekly Build'
+      # 设置jdk环境为11
       - name: set up JDK 11
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      #         ref: dev
       # 获取打包秘钥
       - name: Checkout Android Keystore
         uses: actions/checkout@v2
