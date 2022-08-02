@@ -19,6 +19,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # 检出代码
+      - uses: actions/checkout@v2
       # 设置jdk环境为11
       - name: set up JDK 11
         uses: actions/setup-java@v1
