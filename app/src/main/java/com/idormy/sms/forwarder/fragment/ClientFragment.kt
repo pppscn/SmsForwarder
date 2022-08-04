@@ -231,6 +231,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
 
                 override fun onError(e: ApiException) {
                     XToastUtils.error(e.displayMessage)
+                    if (needToast) mCountDownHelper?.finish()
                 }
 
                 override fun onSuccess(response: String) {
@@ -250,6 +251,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
                         e.printStackTrace()
                         if (needToast) XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
                     }
+                    if (needToast) mCountDownHelper?.finish()
                 }
 
             })

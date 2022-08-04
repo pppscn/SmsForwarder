@@ -209,6 +209,7 @@ const val EVENT_UPDATE_NOTIFY = "key_notify"
 const val KEY_SENDER_ID = "key_sender_id"
 const val KEY_SENDER_TYPE = "key_sender_type"
 const val KEY_SENDER_CLONE = "key_sender_clone"
+const val KEY_SENDER_TEST = "key_sender_test"
 
 const val KEY_RULE_ID = "key_rule_id"
 const val KEY_RULE_TYPE = "key_rule_type"

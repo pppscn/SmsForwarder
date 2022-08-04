@@ -21,6 +21,7 @@ import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.TelegramSetting
 import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.utils.sender.TelegramUtils
+import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
@@ -152,6 +153,7 @@ class TelegramFragment : BaseFragment<FragmentSendersTelegramBinding?>(), View.O
                 binding!!.layoutProxyAuthenticator.visibility = View.GONE
             }
         }
+        LiveEventBus.get(KEY_SENDER_TEST, String::class.java).observe(this) { mCountDownHelper?.finish() }
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
@@ -177,6 +179,7 @@ class TelegramFragment : BaseFragment<FragmentSendersTelegramBinding?>(), View.O
                             XToastUtils.error(e.message.toString())
                             Looper.loop()
                         }
+                        LiveEventBus.get(KEY_SENDER_TEST, String::class.java).post("finish")
                     }.start()
                     return
                 }

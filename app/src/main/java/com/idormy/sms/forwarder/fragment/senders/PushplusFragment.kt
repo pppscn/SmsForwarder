@@ -21,6 +21,7 @@ import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.PushplusSetting
 import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.utils.sender.PushplusUtils
+import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
@@ -140,6 +141,10 @@ class PushplusFragment : BaseFragment<FragmentSendersPushplusBinding?>(), View.O
     }
 
     override fun initListeners() {
+        binding!!.btInsertSender.setOnClickListener(this)
+        binding!!.btInsertExtra.setOnClickListener(this)
+        binding!!.btInsertTime.setOnClickListener(this)
+        binding!!.btInsertDeviceName.setOnClickListener(this)
         binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
@@ -152,6 +157,7 @@ class PushplusFragment : BaseFragment<FragmentSendersPushplusBinding?>(), View.O
                 binding!!.layoutPlusTwo.visibility = View.VISIBLE
             }
         }
+        LiveEventBus.get(KEY_SENDER_TEST, String::class.java).observe(this) { mCountDownHelper?.finish() }
     }
 
     @SingleClick
@@ -189,6 +195,7 @@ class PushplusFragment : BaseFragment<FragmentSendersPushplusBinding?>(), View.O
                             XToastUtils.error(e.message.toString())
                             Looper.loop()
                         }
+                        LiveEventBus.get(KEY_SENDER_TEST, String::class.java).post("finish")
                     }.start()
                     return
                 }

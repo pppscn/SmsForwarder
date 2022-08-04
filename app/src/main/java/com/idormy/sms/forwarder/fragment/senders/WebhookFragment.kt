@@ -22,6 +22,7 @@ import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.WebhookSetting
 import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.utils.sender.WebhookUtils
+import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
@@ -143,6 +144,7 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
         binding!!.btnAddHeader.setOnClickListener { addHeaderItemLinearLayout(headerItemMap, binding!!.layoutHeaders, null, null) }
+        LiveEventBus.get(KEY_SENDER_TEST, String::class.java).observe(this) { mCountDownHelper?.finish() }
     }
 
     @SingleClick
@@ -163,6 +165,7 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
                             XToastUtils.error(e.message.toString())
                             Looper.loop()
                         }
+                        LiveEventBus.get(KEY_SENDER_TEST, String::class.java).post("finish")
                     }.start()
                     return
                 }

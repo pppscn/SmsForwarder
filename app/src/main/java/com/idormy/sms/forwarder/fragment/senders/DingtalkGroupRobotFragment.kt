@@ -20,6 +20,7 @@ import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.DingtalkGroupRobotSetting
 import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.utils.sender.DingtalkGroupRobotUtils
+import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
@@ -141,6 +142,7 @@ class DingtalkGroupRobotFragment : BaseFragment<FragmentSendersDingtalkGroupRobo
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
         binding!!.sbAtAll.setOnCheckedChangeListener(this)
+        LiveEventBus.get(KEY_SENDER_TEST, String::class.java).observe(this) { mCountDownHelper?.finish() }
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
@@ -171,6 +173,7 @@ class DingtalkGroupRobotFragment : BaseFragment<FragmentSendersDingtalkGroupRobo
                             XToastUtils.error(e.message.toString())
                             Looper.loop()
                         }
+                        LiveEventBus.get(KEY_SENDER_TEST, String::class.java).post("finish")
                     }.start()
                     return
                 }

@@ -22,6 +22,7 @@ import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.WeworkAgentSetting
 import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.utils.sender.WeworkAgentUtils
+import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
@@ -156,6 +157,7 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
                 binding!!.layoutProxyAuthenticator.visibility = View.GONE
             }
         }
+        LiveEventBus.get(KEY_SENDER_TEST, String::class.java).observe(this) { mCountDownHelper?.finish() }
     }
 
     @SuppressLint("SetTextI18n")
@@ -195,6 +197,7 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
                             XToastUtils.error(e.message.toString())
                             Looper.loop()
                         }
+                        LiveEventBus.get(KEY_SENDER_TEST, String::class.java).post("finish")
                     }.start()
                     return
                 }

@@ -155,6 +155,7 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
 
                         override fun onError(e: ApiException) {
                             XToastUtils.error(e.displayMessage)
+                            mCountDownHelper?.finish()
                         }
 
                         override fun onSuccess(response: String) {
@@ -173,6 +174,7 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
                                 e.printStackTrace()
                                 XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
                             }
+                            mCountDownHelper?.finish()
                         }
 
                     })

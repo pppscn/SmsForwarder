@@ -23,6 +23,7 @@ import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.DingtalkInnerRobotSetting
 import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.utils.sender.DingtalkInnerRobotUtils
+import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
@@ -164,6 +165,7 @@ class DingtalkInnerRobotFragment : BaseFragment<FragmentSendersDingtalkInnerRobo
         binding!!.rgMsgType.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
             binding!!.layoutCustomTemplate.visibility = if (checkedId == R.id.rb_msg_type_markdown) View.VISIBLE else View.GONE
         }
+        LiveEventBus.get(KEY_SENDER_TEST, String::class.java).observe(this) { mCountDownHelper?.finish() }
     }
 
     @SuppressLint("SetTextI18n")
@@ -211,6 +213,7 @@ class DingtalkInnerRobotFragment : BaseFragment<FragmentSendersDingtalkInnerRobo
                             XToastUtils.error(e.message.toString())
                             Looper.loop()
                         }
+                        LiveEventBus.get(KEY_SENDER_TEST, String::class.java).post("finish")
                     }.start()
                     return
                 }
