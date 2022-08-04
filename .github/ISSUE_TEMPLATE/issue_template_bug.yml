@@ -13,8 +13,8 @@ body:
   - type: dropdown
     id: similar-issues
     attributes:
-      label: 是否有人曾提过类似的问题【必答】：是/否（看看曾经有人提过类似的问题，先参考一下别人是怎么解决的）
-      description: Whether someone has raised similar issues [Required]: yes/no (see if someone has raised similar issues, first refer to how others solved it)
+      label: 是否有人曾提过类似的问题【必答】
+      description: Whether someone has raised similar issues [Required]
       options:
         - 否（No）
         - 是（Yes）
@@ -23,8 +23,8 @@ body:
   - type: dropdown
     id: latest-version
     attributes:
-      label: 升级到最新的版本是否存在这个问题【必答】：是/否（如果用的是旧版本的话，建议升级看问题是否还存在）
-      description: Is there this problem when upgrading to the latest version [Required]: yes/no (if you are using an old version, it is recommended to upgrade to see if the problem still exists)
+      label: 升级到最新的版本是否存在这个问题【必答】
+      description: Is there this problem when upgrading to the latest version [Required]
       options:
         - 否（No）
         - 是（Yes）
@@ -33,8 +33,8 @@ body:
   - type: dropdown
     id: read-wiki
     attributes:
-      label: 是否已经查阅Wiki文档还未能解决的【必答】：是/否（Wiki提供最常见的问题解答，以及排查流程，可以看看是否有自己想要的）
-      description: Whether you have consulted the Wiki documentation that has not been resolved [Required]: yes/no (Wiki provides the most common questions and answers, as well as the troubleshooting process, you can see if you have what you want)
+      label: 是否已经查阅Wiki文档还未能解决的【必答】
+      description: Whether you have consulted the Wiki documentation that has not been resolved [Required]
       options:
         - 否（No）
         - 是（Yes）
@@ -61,7 +61,7 @@ body:
     attributes:
       label: 复现步骤【必填】
       description: Reproduction steps [Required]
-      placeholder: 注意：目前不受理没有复现步骤的 Bug 单 (Note: Bug tickets without reproduction steps are currently not accepted)
+      placeholder: 注意：目前不受理没有复现步骤的 Bug 单 (Note：Bug tickets without reproduction steps are currently not accepted)
     validations:
       required: true
   - type: dropdown
@@ -87,7 +87,7 @@ body:
     attributes:
       label: 出现问题的安卓版本【必填】
       description: Android version in question [Required]
-      placeholder: 请填写出现问题的 Android 版本（例如：Android 12）、系统版本（例如：MIUI 13）（Please fill in the Android version in question (eg: Android 12), system version (eg: MIUI 13)）
+      placeholder: 请填写出现问题的 Android 版本（例如：Android 12）、系统版本（例如：MIUI 13）（Please fill in the Android version in question (eg：Android 12), system version (eg：MIUI 13)）
     validations:
       required: true
   - type: textarea
