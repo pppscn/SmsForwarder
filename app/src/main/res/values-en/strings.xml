@@ -233,9 +233,9 @@
     <string name="match_sim_slot">SIM Slot</string>
     <string name="match_field">Field</string>
     <string name="phone_number">Phone No.</string>
-    <string name="package_name">PackageName</string>
+    <string name="package_name">PkgName</string>
     <string name="sms_content">SMS</string>
-    <string name="inform_content">Notify Content</string>
+    <string name="inform_content">Notice</string>
     <string name="multiple_matches">Multiple</string>
     <string name="match_type">Type</string>
     <string name="btn_is">Is</string>
@@ -245,7 +245,7 @@
     <string name="btn_end_with">End With</string>
     <string name="btn_regex">Regex Match</string>
     <string name="match_value">Value</string>
-    <string name="switch_rule_status">Enable this forwarding rule</string>
+    <string name="switch_rule_status">Enable This Forwarding Rule</string>
     <string name="invalid_rule_status">The forwarding rule is disabled</string>
     <string name="invalid_match_value">The matched value cannot be null</string>
     <!--SenderActivity-->
@@ -311,27 +311,27 @@
     <string name="Corp_ID">Corp ID</string>
     <string name="Agent_ID">Agent ID</string>
     <string name="App_Secret">App Secret</string>
-    <string name="is_at_all">Is at all</string>
+    <string name="is_at_all">Is At All</string>
     <string name="specified_member">Specified Member</string>
     <string name="at_all">\@all</string>
     <string name="specified_member_tips">Tip: List of member IDs that receive messages (multiple recipients are separated by \'|\', up to 1000)</string>
     <string name="specified_member_tips2">Tip: The userid of the user who receives the message, up to 20 at a time (separated by \'|\')</string>
     <string name="server_chan_send_key">SendKey</string>
-    <string name="server_chan_channel">Message channel</string>
+    <string name="server_chan_channel">Message Channel</string>
     <string name="server_chan_channel_tips">Tip: Dynamically specified, supports up to two channels, separated by a vertical bar |</string>
     <string name="server_chan_channel_hint">Optional, for example: to send service number and enterprise WeChat application, then fill in 9|66</string>
     <string name="server_chan_openid">CC OpenID</string>
     <string name="server_chan_openid_tips">Tip: Only test accounts and Wework application message channels are supported</string>
     <string name="server_chan_openid_hint">Optional, multiple openids are separated by commas</string>
-    <string name="TelegramApiToken">ApiToken or Custom proxy address (starting with http)</string>
+    <string name="TelegramApiToken">ApiToken or Custom Proxy Address (startwith http)</string>
     <string name="TelegramChatId">ChatId</string>
     <string name="Method" formatted="false">Method</string>
 
     <string name="SmsSimSlot">SIM Slot</string>
     <string name="same_source">Same source</string>
-    <string name="SmsMobiles">Receive mobile phone numbers</string>
-    <string name="SmsMobilesTips">Separated by, e.g. 15888888888;19999999999</string>
-    <string name="OnlyNoNetwork">Enable when no network is available</string>
+    <string name="SmsMobiles">Receive Mobile Phone Numbers</string>
+    <string name="SmsMobilesTips">Separated by ; , e.g. 15888888888;19999999999</string>
+    <string name="OnlyNoNetwork">Enable only when no network</string>
     <!--SettingActivity-->
     <string name="notify_content">Notify Content</string>
     <string name="device_name">Device Name</string>
@@ -354,7 +354,7 @@
     <string name="not_user_present">Not User Present</string>
     <string name="enable_custom_templates">Global Custom Template</string>
     <string name="enable_custom_templates_tips">Priority: custom template for forwarding rules > Global custom template > System default</string>
-    <string name="enable_regex_replace">Enable regular replacement content</string>
+    <string name="enable_regex_replace">Enable Regular Replacement Content</string>
     <string name="enable_regex_replace_tips">Format: RegularExpression===ReplacementResult,One rule per line.\ne.g. (\\d{3})\\d+(\\d{4})===$1****$2</string>
     <string name="enable_exclude_from_recents">Hide from recent Apps</string>
     <string name="enable_exclude_from_recents_tips">Enable to hide SmsForwarder from recent Apps to keep it alive</string>
@@ -513,8 +513,8 @@
     <string name="custom_settings_tips">Please fill in the remarks manually or click the refresh button to get it automatically</string>
     <string name="times">,</string>
     <string name="interval">Interval</string>
-    <string name="timeout">timeout</string>
-    <string name="seconds">sec</string>
+    <string name="timeout">Timeout</string>
+    <string name="seconds">s</string>
     <string name="seconds_n">%s sec</string>
     <string name="retry">Retry</string>
     <string name="test_sender_sms">[Test Channel] Congratulations, the sending channel test is successful, please continue to add forwarding rules!</string>
@@ -606,7 +606,7 @@
     <string name="toast_denied_never">Permanently denied authorization, go to system settings to manually grant permissions?</string>
     <string name="toast_denied">Failed to obtain necessary permissions, APP function may be limited!</string>
     <string name="tips_first_time">\n&#160;&#160;&#160;&#160;首次使用请按照1234步骤顺序设置，数字点亮表示该步骤已设置(4点亮表示有成功日志)！\n\n&#160;&#160;&#160;&#160;根据以往用户反馈，90%的新用户最终排查结果都是手机权限设置问题，5%的用户是APP保活问题，其他问题排查参考Wiki中的常见问题（APP右上角使用帮助入口）\n\n&#160;&#160;&#160;&#160;强烈建议: 手动排查一下系统设置: 自启动、电源策略、APP的权限，把所有权限打开（始终允许，不要“使用中允许”，MIUI系统就全部变绿），特别是一些国产定制系统加入隐私保护、验证码保护等（例如: MIUI 系统的 空白通行证）\n\n&#160;&#160;&#160;&#160;请选择是否立即“前往系统设置”检查，或“稍后自行处理”？</string>
-    <string name="play_silence_music">Play Silent Music In The Background</string>
+    <string name="play_silence_music">Play Silent Music</string>
     <string name="play_silence_music_tips">Play silent music to keep running in the background, which may consume more power, enable it on demand</string>
     <string name="one_pixel">One Pixel</string>
     <string name="one_pixel_activity">One Pixel Activity</string>
@@ -661,15 +661,15 @@
     <string name="bark_server_error">The Url format is wrong, for example: https://api.day.app/XXXXXXXX/</string>
     <string name="bark_group">Group Name</string>
     <string name="bark_group_tips">Optional, eg: SmsForwarder</string>
-    <string name="bark_icon">Message icon</string>
+    <string name="bark_icon">Message Icon</string>
     <string name="bark_icon_tips">Optional, fill in Url, the picture should not be too big</string>
-    <string name="bark_sound">Message sound</string>
+    <string name="bark_sound">Message Sound</string>
     <string name="bark_sound_tips">Optional, for example: minuet.caf</string>
-    <string name="bark_badge">Message badge</string>
+    <string name="bark_badge">Message Badge</string>
     <string name="bark_badge_tips">Optional, eg: 888</string>
-    <string name="bark_url">Message link</string>
+    <string name="bark_url">Message Link</string>
     <string name="bark_url_tips">Optional, for example: https://github.com/pppscn/SmsForwarder</string>
-    <string name="bark_level">Notification level</string>
+    <string name="bark_level">Notification Level</string>
     <string name="bark_level_active">Immediately display notifications</string>
     <string name="bark_level_timeSensitive">Time-sensitive notifications that can be displayed in a focused state</string>
     <string name="bark_level_passive">Only added to the notification list, no screen reminder</string>
@@ -765,7 +765,7 @@
     <string name="server_settings_tips">It is recommended to enable signature settings, click "Random" to generate and copy to clipboard</string>
     <string name="sign_key">Sign Key</string>
     <string name="sign_key_tips">Key generated and copied to clipboard</string>
-    <string name="copy">Copy</string>
+    <string name="copy" tools:ignore="PrivateResource">Copy</string>
     <string name="random">Random</string>
     <string name="enable_function">Enable Function</string>
     <string name="enable_function_tips">Select the features you want to enable remote control as needed</string>
@@ -816,8 +816,8 @@
     <string name="battery_health">Health: %s</string>
     <string name="battery_plugged">Plugged: %s</string>
 
-    <string name="server_history">Server History</string>
-    <string name="server_test">Server Test</string>
+    <string name="server_history">History</string>
+    <string name="server_test">Login</string>
     <string name="invalid_service_address">Invalid service address\nFormat: http://127.0.0.1:5000 or https://smsf.demo.com</string>
     <string name="click_test_button_first">Click the test button first, to get the list of features enabled by the server</string>
     <string name="disabled_on_the_server">Disable this feature on the server</string>
@@ -861,7 +861,7 @@
     <string name="contact_keyword_hint">Pure numbers match numbers / non-numbers match names</string>
     <string name="call_keyword_hint">Input keyword to fuzzy match mobile phone number</string>
     <string name="server_settings_tips2">Fill two items according to the config of server, the signature key is optional</string>
-    <string name="service_address">Service Address</string>
+    <string name="service_address">Server Url</string>
     <string name="service_address_hint">E.g: http://127.0.0.1:5000</string>
     <string name="features_list">Features List</string>
     <string name="pure_client_mode">Directly To Client</string>
@@ -876,13 +876,13 @@
     <string name="load_app_list_toast">A type must be selected when enabling asynchronous loading of the list of installed apps</string>
     <string name="no_server_history">There is no history record, it will be added automatically after the interface test is passed</string>
     <string name="select_time_period">Select Time Period</string>
-    <string name="silent_time_period">Silent (disable forwarding) time period</string>
+    <string name="silent_time_period">Disable forwarding period</string>
     <string name="silent_time_period_tips">If the end time is less than the start time, it will span days; if it is equal, it will be disabled</string>
     <string name="download_frpc_tips">Do you want to download and restart to load!</string>
     <string name="appkey">AppKey</string>
     <string name="appsecret">AppSecret</string>
-    <string name="sampleText">Sample Text</string>
-    <string name="sampleMarkdown">Sample Markdown</string>
+    <string name="sampleText">Text</string>
+    <string name="sampleMarkdown">Markdown</string>
     <string name="ip_hint">IP address/broadcast address, eg. 192.168.1.255</string>
     <string name="ip_error">Malformed IP address, eg. 192.168.168.168</string>
     <string name="ip_regex">^((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])$</string>

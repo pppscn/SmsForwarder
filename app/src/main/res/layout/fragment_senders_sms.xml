@@ -93,37 +93,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="bottom"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/SmsMobiles"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:gravity="start"
-                        android:maxEms="8"
-                        android:maxLines="1"
-                        android:text="@string/SmsMobilesTips"
-                        android:textSize="10sp"
-                        tools:ignore="SmallSp" />
-
-                </LinearLayout>
+                    android:text="@string/SmsMobiles"
+                    android:textStyle="bold" />
 
                 <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                     android:id="@+id/et_mobiles"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="@string/SmsMobilesTips"
                     android:singleLine="true"
                     app:met_clearButton="true" />
 
