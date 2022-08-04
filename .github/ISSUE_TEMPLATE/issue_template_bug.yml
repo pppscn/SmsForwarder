@@ -13,8 +13,8 @@ body:
   - type: dropdown
     id: similar-issues
     attributes:
-      label: 是否有人曾提过类似的问题【必答】
-      description: Whether someone has raised similar issues [Required]
+      label: 是否有人曾提过类似的问题
+      description: Whether someone has raised similar issues
       options:
         - 否（No）
         - 是（Yes）
@@ -23,8 +23,8 @@ body:
   - type: dropdown
     id: latest-version
     attributes:
-      label: 升级到最新的版本是否存在这个问题【必答】
-      description: Is there this problem when upgrading to the latest version [Required]
+      label: 升级到最新的版本是否存在这个问题
+      description: Is there this problem when upgrading to the latest version
       options:
         - 否（No）
         - 是（Yes）
@@ -33,8 +33,8 @@ body:
   - type: dropdown
     id: read-wiki
     attributes:
-      label: 是否已经查阅Wiki文档还未能解决的【必答】
-      description: Whether you have consulted the Wiki documentation that has not been resolved [Required]
+      label: 是否已经查阅Wiki文档还未能解决的
+      description: Whether you have consulted the Wiki documentation that has not been resolved
       options:
         - 否（No）
         - 是（Yes）
@@ -43,32 +43,32 @@ body:
   - type: input
     id: app-version
     attributes:
-      label: APP版本【必填】
-      description: APP Version [Required]
+      label: APP版本
+      description: APP Version
       placeholder: v3.x.x
     validations:
       required: true
   - type: textarea
     id: problem
     attributes:
-      label: 问题描述【必填】
-      description: Description of the problem [Required]
+      label: 问题描述
+      description: Description of the problem
       placeholder: 你可以描述APP有什么令你不满意的地方（You can describe what dissatisfied you about the app）
     validations:
       required: true
   - type: textarea
     id: reproduction-steps
     attributes:
-      label: 复现步骤【必填】
-      description: Reproduction steps [Required]
+      label: 复现步骤
+      description: Reproduction steps
       placeholder: 注意：目前不受理没有复现步骤的 Bug 单 (Note：Bug tickets without reproduction steps are currently not accepted)
     validations:
       required: true
   - type: dropdown
     id: required
     attributes:
-      label: 是否必现【必填】
-      description: Whether it is required [Required]
+      label: 是否必现
+      description: Whether it is required
       options:
         - 否（No）
         - 是（Yes）
@@ -77,16 +77,16 @@ body:
   - type: input
     id: brand-model
     attributes:
-      label: 出现问题的手机信息【必填】
-      description: The mobile phone information with the problem [Required]
+      label: 出现问题的手机信息
+      description: The mobile phone information with the problem
       placeholder: 请填写出现问题的品牌和机型（Please fill in the brand and model of the problem）
     validations:
       required: true
   - type: input
     id: android-version
     attributes:
-      label: 出现问题的安卓版本、系统版本【必填】
-      description: Android version, system version in question [Required]
+      label: 出现问题的安卓版本、系统版本
+      description: Android version, system version in question
       placeholder: 例如：Android 12、MIUI 13
     validations:
       required: true

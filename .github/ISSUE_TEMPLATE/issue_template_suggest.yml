@@ -13,8 +13,8 @@ body:
   - type: dropdown
     id: similar-issues
     attributes:
-      label: 是否有人曾提过类似的问题？【必答】
-      description: Has anyone asked a similar question before? 【Required】
+      label: 是否有人曾提过类似的问题？
+      description: Has anyone asked a similar question before?
       options:
         - 否（No）
         - 是（Yes）
@@ -23,8 +23,8 @@ body:
   - type: textarea
     id: suggestion
     attributes:
-      label: 你觉得APP有什么不足之处？【必答】
-      description: What do you think is the inadequacy of the APP? 【Required】
+      label: 你觉得APP有什么不足之处？
+      description: What do you think is the inadequacy of the APP?
       placeholder: 你可以描述APP有什么令你不满意的地方（You can describe what dissatisfied you about the app）
     validations:
       required: true

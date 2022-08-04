@@ -1,11 +1,11 @@
 blank_issues_enabled: false
 contact_links:
+  - name: SmsForwarder 使用流程与问题排查流程
+    url: https://camo.githubusercontent.com/3387767d81ab00f787e62b17304c8b85a51151cdbc66dc022a49875d0529f6e8/68747470733a2f2f696d616765732e67697465652e636f6d2f75706c6f6164732f696d616765732f323032322f303733302f3231343331345f62323338396561655f31363237332e706e67
+    about: 新用户必看！
   - name: GitHub Wiki
     url: https://github.com/pppscn/SmsForwarder/wiki
     about: 新用户必看！
-  - name: Gitee Wiki
-    url: https://gitee.com/pp/SmsForwarder/wikis/pages
-    about: 新用户必看！
-  - name: SmsForwarder 使用流程与问题排查流程
-    url: https://camo.githubusercontent.com/3387767d81ab00f787e62b17304c8b85a51151cdbc66dc022a49875d0529f6e8/68747470733a2f2f696d616765732e67697465652e636f6d2f75706c6f6164732f696d616765732f323032322f303733302f3231343331345f62323338396561655f31363237332e706e67
+  - name: 【必读】常见问题
+    url: https://github.com/pppscn/SmsForwarder/wiki/%E3%80%90%E5%BF%85%E8%AF%BB%E3%80%91%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98
     about: 新用户必看！
