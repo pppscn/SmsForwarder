@@ -85,9 +85,9 @@ body:
   - type: input
     id: android-version
     attributes:
-      label: 出现问题的安卓版本【必填】
-      description: Android version in question [Required]
-      placeholder: 请填写出现问题的 Android 版本（例如：Android 12）、系统版本（例如：MIUI 13）（Please fill in the Android version in question (eg：Android 12), system version (eg：MIUI 13)）
+      label: 出现问题的安卓版本、系统版本【必填】
+      description: Android version, system version in question [Required]
+      placeholder: 例如：Android 12、MIUI 13
     validations:
       required: true
   - type: textarea
@@ -107,4 +107,4 @@ body:
     attributes:
       label: 提供解决方案
       description: Provide a solution
-      placeholder: 如果已经解决了的话，此项不强制 (if it has been solved, this is not mandatory)
+      placeholder: 如果已经解决了的话可以写下你的解决方法，此项不强制 (if it has been solved, this is not mandatory)
