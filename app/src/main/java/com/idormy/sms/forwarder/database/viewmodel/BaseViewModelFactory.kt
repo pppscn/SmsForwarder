@@ -7,7 +7,7 @@ import com.idormy.sms.forwarder.database.AppDatabase
 
 class BaseViewModelFactory(private val context: Context?) : ViewModelProvider.Factory {
 
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
 
         if (context == null) throw IllegalArgumentException("Context CAN NOT BE null")
 

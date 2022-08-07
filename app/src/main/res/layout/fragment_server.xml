@@ -119,7 +119,7 @@
                             app:sb_ripple_color="@color/white"
                             app:sb_ripple_duration="500"
                             app:sb_shape_type="rectangle"
-                            tools:ignore="SmallSp" />
+                            tools:ignore="PrivateResource,SmallSp" />
 
                     </LinearLayout>
 
