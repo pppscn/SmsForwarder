@@ -119,7 +119,13 @@ object SendUtils {
                     val settingVo = Gson().fromJson(sender.jsonSetting, GotifySetting::class.java)
                     GotifyUtils.sendMsg(settingVo, msgInfo, rule, logId)
                 }
-                else -> {}
+                TYPE_DINGTALK_INNER_ROBOT -> {
+                    val settingVo = Gson().fromJson(sender.jsonSetting, DingtalkInnerRobotSetting::class.java)
+                    DingtalkInnerRobotUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                }
+                else -> {
+                    updateLogs(logId, 0, "未知发送通道")
+                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
