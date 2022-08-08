@@ -285,7 +285,7 @@
     <string name="invalid_openid">多个 openid 用 , 隔开</string>
     <string name="invalid_webserver">WebServer为空 或 不是有效URL</string>
     <string name="invalid_webhook">WebHook为空 或 不是有效URL</string>
-    <string name="invalid_at_mobiles">指定成员 不能为空 或者 选择@all</string>
+    <string name="invalid_at_mobiles">指定成员/指定部门/指定标签 不能为空 或者 选择@all</string>
     <string name="invalid_wework_agent">企业ID、AgentID、Secret都不能为空</string>
     <string name="invalid_dingtalk_inner_robot">AgentId、AppKey、AppSecret、UserIds都不能为空</string>
     <string name="invalid_phone_num">接收手机号不能为空</string>
@@ -316,6 +316,12 @@
     <string name="specified_member">指定成员</string>
     <string name="at_all">\@all</string>
     <string name="specified_member_tips">Tip：接收消息的成员ID列表（多个接收者用‘|’分隔，最多支持1000个）</string>
+    <string name="touser">指定成员</string>
+    <string name="toparty">指定部门</string>
+    <string name="totag">指定标签</string>
+    <string name="touser_tips">Tip：接收消息的成员ID列表（多个接收者用‘|’分隔，最多支持1000个）</string>
+    <string name="toparty_tips">Tip：接收消息的部门ID列表（多个接收者用‘|’分隔，最多支持1000个）</string>
+    <string name="totag_tips">Tip：接收消息的标签ID列表（多个接收者用‘|’分隔，最多支持1000个）</string>
     <string name="specified_member_tips2">Tip：接收用户的userid，每次最多传20个（用‘|’分隔）</string>
     <string name="server_chan_send_key">SendKey</string>
     <string name="server_chan_channel">消息通道</string>

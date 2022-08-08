@@ -10,6 +10,8 @@ data class WeworkAgentSetting(
     val secret: String = "",
     val atAll: Boolean? = false,
     val toUser: String? = "@all",
+    val toParty: String? = "",
+    val toTag: String? = "",
     val proxyType: Proxy.Type = Proxy.Type.DIRECT,
     val proxyHost: String? = "",
     val proxyPort: String? = "",

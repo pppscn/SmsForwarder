@@ -129,6 +129,11 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
                         binding!!.etSecret.setText(settingVo.secret)
                         binding!!.sbAtAll.isChecked = settingVo.atAll == true
                         binding!!.etToUser.setText(settingVo.toUser)
+                        binding!!.etToParty.setText(settingVo.toParty)
+                        binding!!.etToTag.setText(settingVo.toTag)
+                        binding!!.layoutToUser.visibility = if (settingVo.atAll == true) View.GONE else View.VISIBLE
+                        binding!!.layoutToParty.visibility = if (settingVo.atAll == true) View.GONE else View.VISIBLE
+                        binding!!.layoutToTag.visibility = if (settingVo.atAll == true) View.GONE else View.VISIBLE
                         binding!!.rgProxyType.check(settingVo.getProxyTypeCheckId())
                         binding!!.etProxyHost.setText(settingVo.proxyHost)
                         binding!!.etProxyPort.setText(settingVo.proxyPort)
@@ -166,10 +171,18 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
             R.id.sb_at_all -> {
                 if (isChecked) {
                     binding!!.etToUser.setText("@all")
+                    binding!!.etToParty.setText("")
+                    binding!!.etToTag.setText("")
                     binding!!.layoutToUser.visibility = View.GONE
+                    binding!!.layoutToParty.visibility = View.GONE
+                    binding!!.layoutToTag.visibility = View.GONE
                 } else {
                     binding!!.etToUser.setText("")
+                    binding!!.etToParty.setText("")
+                    binding!!.etToTag.setText("")
                     binding!!.layoutToUser.visibility = View.VISIBLE
+                    binding!!.layoutToParty.visibility = View.VISIBLE
+                    binding!!.layoutToTag.visibility = View.VISIBLE
                 }
             }
             R.id.sb_proxyAuthenticator -> {
@@ -254,7 +267,9 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
 
         val atAll = binding!!.sbAtAll.isChecked
         val toUser = binding!!.etToUser.text.toString().trim()
-        if (!atAll && TextUtils.isEmpty(toUser)) {
+        val toParty = binding!!.etToParty.text.toString().trim()
+        val toTag = binding!!.etToTag.text.toString().trim()
+        if (!atAll && TextUtils.isEmpty(toUser) && TextUtils.isEmpty(toParty) && TextUtils.isEmpty(toTag)) {
             throw Exception(getString(R.string.invalid_at_mobiles))
         }
 
@@ -277,7 +292,7 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
             throw Exception(getString(R.string.invalid_username_or_password))
         }
 
-        return WeworkAgentSetting(corpID, agentID, secret, atAll, toUser, proxyType, proxyHost, proxyPort, proxyAuthenticator, proxyUsername, proxyPassword)
+        return WeworkAgentSetting(corpID, agentID, secret, atAll, toUser, toParty, toTag, proxyType, proxyHost, proxyPort, proxyAuthenticator, proxyUsername, proxyPassword)
     }
 
     override fun onDestroyView() {

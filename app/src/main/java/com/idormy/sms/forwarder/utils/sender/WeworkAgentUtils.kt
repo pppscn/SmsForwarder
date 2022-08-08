@@ -135,6 +135,8 @@ class WeworkAgentUtils private constructor() {
 
             val textMsgMap: MutableMap<String, Any> = mutableMapOf()
             textMsgMap["touser"] = setting.toUser.toString()
+            textMsgMap["toparty"] = setting.toParty.toString()
+            textMsgMap["totag"] = setting.toTag.toString()
             textMsgMap["msgtype"] = "text"
             textMsgMap["agentid"] = setting.agentID
             val textText: MutableMap<String, Any> = mutableMapOf()
