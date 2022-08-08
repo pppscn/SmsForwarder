@@ -41,17 +41,17 @@
                 <RadioGroup
                     android:id="@+id/rg_sim_slot"
                     style="@style/rg_style"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <RadioButton
                         android:id="@+id/rb_sim_slot_1"
-                        style="@style/rg_rb_style"
+                        style="@style/rg_rb_style_match"
                         android:checked="true"
                         android:text="@string/sim1" />
 
                     <RadioButton
                         android:id="@+id/rb_sim_slot_2"
-                        style="@style/rg_rb_style"
+                        style="@style/rg_rb_style_match"
                         android:text="@string/sim2" />
 
                 </RadioGroup>

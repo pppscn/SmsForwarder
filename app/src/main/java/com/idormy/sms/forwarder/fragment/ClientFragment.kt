@@ -137,12 +137,18 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
                 }
                 Log.d(TAG, "serverHistory = $serverHistory")
 
-                MaterialDialog.Builder(context!!)
+                MaterialDialog.Builder(requireContext())
                     .title(R.string.server_history)
                     .items(serverHistory.keys)
                     .itemsCallbackSingleChoice(0) { _: MaterialDialog?, _: View?, _: Int, text: CharSequence ->
                         //XToastUtils.info("$which: $text")
-                        binding!!.etServerAddress.setText(text)
+                        val matches = Regex("【(.*)】(.*)", RegexOption.IGNORE_CASE).findAll(text).toList().flatMap(MatchResult::groupValues)
+                        Log.i(TAG, "matches = $matches")
+                        if (matches.isNotEmpty()) {
+                            binding!!.etServerAddress.setText(matches[2])
+                        } else {
+                            binding!!.etServerAddress.setText(text)
+                        }
                         binding!!.etSignKey.setText(serverHistory[text])
                         true // allow selection
                     }
@@ -241,9 +247,13 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(),
                         if (resp.code == 200) {
                             serverConfig = resp.data!!
                             if (needToast) XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
+                            //删除3.0.8之前保存的记录
+                            serverHistory.remove(HttpServerUtils.serverAddress.toString())
                             //添加到历史记录
-                            serverHistory[HttpServerUtils.serverAddress.toString()] = HttpServerUtils.clientSignKey ?: ""
+                            val key = "【${serverConfig?.extraDeviceMark}】${HttpServerUtils.serverAddress.toString()}"
+                            serverHistory[key] = HttpServerUtils.clientSignKey ?: ""
                             HttpServerUtils.serverHistory = Gson().toJson(serverHistory)
+                            HttpServerUtils.serverConfig = Gson().toJson(serverConfig)
                         } else {
                             if (needToast) XToastUtils.error(ResUtils.getString(R.string.request_failed) + resp.msg)
                         }

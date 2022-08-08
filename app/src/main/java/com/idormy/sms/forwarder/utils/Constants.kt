@@ -245,6 +245,7 @@ const val SP_ENABLE_API_WOL = "enable_api_wol"
 const val SP_WOL_HISTORY = "wol_history"
 const val SP_SERVER_ADDRESS = "server_address"
 const val SP_SERVER_HISTORY = "server_history"
+const val SP_SERVER_CONFIG = "server_config"
 const val SP_CLIENT_SIGN_KEY = "client_sign_key"
 var CLIENT_FRAGMENT_LIST = listOf(
     PageInfo(getString(R.string.api_clone), "com.idormy.sms.forwarder.fragment.client.CloneFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_clone),

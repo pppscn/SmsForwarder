@@ -56,6 +56,14 @@ class HttpServerUtils private constructor() {
                 MMKVUtils.put(SP_SERVER_HISTORY, serverHistory)
             }
 
+        //服务端配置
+        @JvmStatic
+        var serverConfig: String?
+            get() = MMKVUtils.getString(SP_SERVER_CONFIG, "")
+            set(serverConfig) {
+                MMKVUtils.put(SP_SERVER_CONFIG, serverConfig)
+            }
+
         //客户端签名密钥
         @JvmStatic
         var clientSignKey: String?

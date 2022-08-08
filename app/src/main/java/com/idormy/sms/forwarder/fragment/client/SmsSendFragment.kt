@@ -10,6 +10,7 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentClientSmsSendBinding
 import com.idormy.sms.forwarder.server.model.BaseResponse
+import com.idormy.sms.forwarder.server.model.ConfigData
 import com.idormy.sms.forwarder.utils.*
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
@@ -56,6 +57,14 @@ class SmsSendFragment : BaseFragment<FragmentClientSmsSendBinding?>(), View.OnCl
                 binding!!.btnSubmit.text = getString(R.string.send)
             }
         })
+
+        //卡槽信息
+        val serverConfigStr = HttpServerUtils.serverConfig
+        if (!TextUtils.isEmpty(serverConfigStr)) {
+            val serverConfig: ConfigData = Gson().fromJson(serverConfigStr, object : TypeToken<ConfigData>() {}.type)
+            binding!!.rbSimSlot1.text = "SIM1：" + serverConfig.extraSim1
+            binding!!.rbSimSlot2.text = "SIM2：" + serverConfig.extraSim2
+        }
     }
 
     override fun initListeners() {
