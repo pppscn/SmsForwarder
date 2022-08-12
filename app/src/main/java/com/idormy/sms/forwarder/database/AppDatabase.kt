@@ -57,6 +57,10 @@ server_addr = 88.88.88.88
 server_port = 8888
 #可选，建议启用
 token = 888888888
+#连接服务端的超时时间（增大时间避免frpc在网络未就绪的情况下启动失败）
+dial_server_timeout = 60
+#第一次登陆失败后是否退出
+login_fail_exit = false
 
 #[二选一即可]每台机器不可重复，通过 http://88.88.88.88:5000 访问
 [SmsForwarder-TCP]
@@ -178,6 +182,10 @@ server_addr = 88.88.88.88
 server_port = 8888
 #可选，建议启用
 token = 888888888
+#连接服务端的超时时间（增大时间避免frpc在网络未就绪的情况下启动失败）
+dial_server_timeout = 60
+#第一次登陆失败后是否退出
+login_fail_exit = false
 
 #[二选一即可]每台机器不可重复，通过 http://88.88.88.88:5000 访问
 [SmsForwarder-TCP]
