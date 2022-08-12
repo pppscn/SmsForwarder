@@ -901,4 +901,10 @@
     <string name="wol_port_hint">WOL is generally sent over port 7 or port 9</string>
     <string name="wol_port_error">Port number value range: 1~65535</string>
     <string name="wol_port_regex">^([0-9]|[1-9]\\d|[1-9]\\d{2}|[1-9]\\d{3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])$</string>
+    <string name="select_directory">Select Dir</string>
+    <string name="web_client">Web Client</string>
+    <string name="restarting_httpserver">Restarting HttpServer</string>
+    <string name="download_first">Download and unzip to:\n%s</string>
+    <string name="root_directory">Root Directory:\n%s</string>
+    <string name="select_web_client_directory">Select WebClient Directory</string>
 </resources>

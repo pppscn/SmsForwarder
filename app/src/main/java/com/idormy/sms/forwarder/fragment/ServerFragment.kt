@@ -1,6 +1,7 @@
 package com.idormy.sms.forwarder.fragment
 
 import android.content.Intent
+import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
@@ -25,10 +26,13 @@ import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.button.SmoothCheckBox
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xutil.app.ServiceUtils
 import com.xuexiang.xutil.net.NetworkUtils
 import com.xuexiang.xutil.system.ClipboardUtils
+import java.io.File
 import java.net.InetAddress
+
 
 @Suppress("PrivatePropertyName")
 @Page(name = "主动控制·服务端")
@@ -66,7 +70,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
     override fun initListeners() {
         binding!!.tvServerTips.setOnClickListener(this)
         binding!!.ivCopy.setOnClickListener(this)
-        binding!!.toggleServerBtn.setOnClickListener(this)
+        binding!!.btnToggleServer.setOnClickListener(this)
 
         binding!!.scbServerAutorun.isChecked = HttpServerUtils.enableServerAutorun
         binding!!.scbServerAutorun.setOnCheckedChangeListener { _: SmoothCheckBox, isChecked: Boolean ->
@@ -76,12 +80,21 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
         handler.post(runnable)
 
         binding!!.btnSignKey.setOnClickListener(this)
+        binding!!.btnPathPicker.setOnClickListener(this)
         binding!!.etSignKey.setText(HttpServerUtils.serverSignKey)
         binding!!.etSignKey.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
                 HttpServerUtils.serverSignKey = binding!!.etSignKey.text.toString().trim()
+            }
+        })
+        binding!!.etWebPath.setText(HttpServerUtils.serverWebPath)
+        binding!!.etWebPath.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                HttpServerUtils.serverWebPath = binding!!.etWebPath.text.toString().trim()
             }
         })
 
@@ -129,7 +142,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
     @SingleClick
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.toggle_server_btn -> {
+            R.id.btn_toggle_server -> {
                 //检查权限是否获取
                 checkSendSmsPermission()
                 checkReadSmsPermission()
@@ -153,6 +166,36 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 ClipboardUtils.copyText(url)
                 XToastUtils.info(String.format(getString(R.string.copied_to_clipboard), url))
             }
+            R.id.btn_path_picker -> {
+                val downloadPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
+                val dirList = listSubDir(downloadPath)
+                if (dirList.isEmpty()) {
+                    XToastUtils.error(String.format(getString(R.string.download_first), downloadPath))
+                    return
+                }
+                MaterialDialog.Builder(requireContext())
+                    .title(getString(R.string.select_web_client_directory))
+                    .content(String.format(getString(R.string.root_directory), downloadPath))
+                    .items(dirList)
+                    .itemsCallbackSingleChoice(0) { _: MaterialDialog?, _: View?, _: Int, text: CharSequence ->
+                        val webPath = "$downloadPath/$text"
+                        binding!!.etWebPath.setText(webPath)
+                        HttpServerUtils.serverWebPath = webPath
+
+                        XToastUtils.info(getString(R.string.restarting_httpserver))
+                        if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
+                            appContext?.stopService(Intent(appContext, HttpService::class.java))
+                            appContext?.startService(Intent(appContext, HttpService::class.java))
+                        } else {
+                            appContext?.startService(Intent(appContext, HttpService::class.java))
+                        }
+                        refreshButtonText()
+                        true // allow selection
+                    }
+                    .positiveText(R.string.select)
+                    .negativeText(R.string.cancel)
+                    .show()
+            }
             else -> {}
         }
     }
@@ -160,7 +203,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
     //刷新按钮
     private fun refreshButtonText() {
         if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
-            binding!!.toggleServerBtn.text = resources.getText(R.string.stop_server)
+            binding!!.btnToggleServer.text = resources.getText(R.string.stop_server)
             binding!!.ivCopy.visibility = View.VISIBLE
             try {
                 inetAddress = NetworkUtils.getLocalInetAddress()
@@ -171,7 +214,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 binding!!.tvServerTips.text = getString(R.string.http_server_running, "127.0.0.1", HTTP_SERVER_PORT)
             }
         } else {
-            binding!!.toggleServerBtn.text = resources.getText(R.string.start_server)
+            binding!!.btnToggleServer.text = resources.getText(R.string.start_server)
             binding!!.tvServerTips.text = getString(R.string.http_server_stopped)
             binding!!.ivCopy.visibility = View.GONE
         }
@@ -280,6 +323,20 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
         super.onDestroy()
         //取消定时器
         handler.removeCallbacks(runnable)
+    }
+
+    //获取Download的子目录
+    private fun listSubDir(downloadPath: String): List<String> {
+        val dirList = mutableListOf<String>()
+        val downloadDir = File(downloadPath)
+        val files = downloadDir.listFiles() ?: return dirList
+
+        for (file in files) {
+            if (file.isDirectory && !file.name.startsWith(".") && !file.name.startsWith("leakcanary-")) {
+                dirList.add(file.name)
+            }
+        }
+        return dirList
     }
 
 }

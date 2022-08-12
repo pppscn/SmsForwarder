@@ -235,6 +235,7 @@ const val HTTP_FAILURE_CODE: Int = 500
 const val SP_ENABLE_SERVER = "enable_server"
 const val SP_ENABLE_SERVER_AUTORUN = "enable_server_autorun"
 const val SP_SERVER_SIGN_KEY = "server_sign_key"
+const val SP_SERVER_WEB_PATH = "server_web_path"
 const val SP_ENABLE_API_CLONE = "enable_api_clone"
 const val SP_ENABLE_API_SMS_SEND = "enable_api_sms_send"
 const val SP_ENABLE_API_SMS_QUERY = "enable_api_sms_query"

@@ -95,16 +95,6 @@
                             android:textSize="10sp"
                             tools:ignore="SmallSp" />
 
-                        <!--<ImageView
-                            android:id="@+id/iv_copy"
-                            android:layout_width="@dimen/config_margin_16dp"
-                            android:layout_height="@dimen/config_margin_16dp"
-                            android:layout_marginStart="5dp"
-                            android:src="@drawable/ic_copy"
-                            android:visibility="gone"
-                            app:tint="@color/colorStart"
-                            tools:ignore="ContentDescription" />-->
-
                         <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
                             android:id="@+id/iv_copy"
                             android:layout_width="wrap_content"
@@ -126,7 +116,7 @@
                 </LinearLayout>
 
                 <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                    android:id="@+id/toggle_server_btn"
+                    android:id="@+id/btn_toggle_server"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -171,6 +161,44 @@
                     android:gravity="center"
                     android:padding="5dp"
                     android:text="@string/random"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    app:sb_color_unpressed="@color/colorPrimary"
+                    app:sb_ripple_color="@color/white"
+                    app:sb_ripple_duration="500"
+                    app:sb_shape_type="rectangle"
+                    tools:ignore="SmallSp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/settingBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingEnd="15dp"
+                tools:ignore="RtlSymmetry">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/web_client"
+                    android:textStyle="bold" />
+
+                <com.xuexiang.xui.widget.edittext.ClearEditText
+                    android:id="@+id/et_web_path"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1" />
+
+                <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                    android:id="@+id/btn_path_picker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/select_directory"
                     android:textColor="@color/white"
                     android:textSize="10sp"
                     app:sb_color_unpressed="@color/colorPrimary"
