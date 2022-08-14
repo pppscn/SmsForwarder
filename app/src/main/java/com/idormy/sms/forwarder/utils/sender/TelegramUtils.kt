@@ -52,7 +52,7 @@ class TelegramUtils private constructor() {
             } else {
                 val bodyMap: MutableMap<String, Any> = mutableMapOf()
                 bodyMap["chat_id"] = setting.chatId
-                bodyMap["text"] = content
+                bodyMap["text"] = htmlEncode(content)
                 bodyMap["parse_mode"] = "HTML"
                 bodyMap["disable_web_page_preview"] = "true"
                 val requestMsg: String = Gson().toJson(bodyMap)
@@ -131,6 +131,24 @@ class TelegramUtils private constructor() {
 
         fun sendMsg(setting: TelegramSetting, msgInfo: MsgInfo) {
             sendMsg(setting, msgInfo, null, null)
+        }
+
+        private fun htmlEncode(source: String?): String {
+            if (source == null) {
+                return ""
+            }
+            val buffer = StringBuffer()
+            for (element in source) {
+                when (element) {
+                    '<' -> buffer.append("&lt;")
+                    '>' -> buffer.append("&gt;")
+                    '&' -> buffer.append("&amp;")
+                    '"' -> buffer.append("&quot;")
+                    //10, 13 -> buffer.append("\n")
+                    else -> buffer.append(element)
+                }
+            }
+            return buffer.toString()
         }
     }
 }
