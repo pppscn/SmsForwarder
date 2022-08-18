@@ -36,6 +36,7 @@ data class Sender(
             TYPE_GOTIFY -> R.drawable.icon_gotify
             TYPE_SMS -> R.drawable.icon_sms
             TYPE_DINGTALK_INNER_ROBOT -> R.drawable.icon_dingtalk_inner
+            TYPE_FEISHU_APP -> R.drawable.icon_feishu_app
             else -> R.drawable.icon_sms
         }
 
@@ -56,6 +57,7 @@ data class Sender(
             TYPE_GOTIFY -> R.drawable.icon_gotify
             TYPE_SMS -> R.drawable.icon_sms
             TYPE_DINGTALK_INNER_ROBOT -> R.drawable.icon_dingtalk_inner
+            TYPE_FEISHU_APP -> R.drawable.icon_feishu_app
             else -> R.drawable.icon_sms
         }
 

@@ -10,7 +10,7 @@
 
 SmsForwarder - Not only forwarding text messages, but also a must-have for backup devices!
 
-listens to SMS, incoming calls, and App notifications on Android mobile devices, and forward according to user defined rules to another App/device, including DingTalk, WeCom and WeCom Group Bot, Feishi Bot, E-mail, Bark, Webhook, Telegram Bot, ServerChan, PushPlus, SMS, etc.
+listens to SMS, incoming calls, and App notifications on Android mobile devices, and forward according to user defined rules to another App/device, including DingTalk, WeCom and WeCom Group Bot, Feishu App and Feishu Group Bot, E-mail, Bark, Webhook, Telegram Bot, ServerChan, PushPlus, SMS, etc.
 
 Including active control of the server and client, allowing you to easily and remotely send text messages, check text messages, check calls, check the phone book, check the battery, etc.
 

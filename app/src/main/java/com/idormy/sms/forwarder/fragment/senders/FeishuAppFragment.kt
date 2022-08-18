@@ -15,11 +15,11 @@ import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.database.entity.Sender
 import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
 import com.idormy.sms.forwarder.database.viewmodel.SenderViewModel
-import com.idormy.sms.forwarder.databinding.FragmentSendersFeishuBinding
+import com.idormy.sms.forwarder.databinding.FragmentSendersFeishuAppBinding
 import com.idormy.sms.forwarder.entity.MsgInfo
-import com.idormy.sms.forwarder.entity.setting.FeishuSetting
+import com.idormy.sms.forwarder.entity.setting.FeishuAppSetting
 import com.idormy.sms.forwarder.utils.*
-import com.idormy.sms.forwarder.utils.sender.FeishuUtils
+import com.idormy.sms.forwarder.utils.sender.FeishuAppUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
@@ -35,11 +35,11 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
-@Page(name = "飞书群机器人")
+@Page(name = "飞书企业应用")
 @Suppress("PrivatePropertyName")
-class FeishuFragment : BaseFragment<FragmentSendersFeishuBinding?>(), View.OnClickListener {
+class FeishuAppFragment : BaseFragment<FragmentSendersFeishuAppBinding?>(), View.OnClickListener {
 
-    private val TAG: String = FeishuFragment::class.java.simpleName
+    private val TAG: String = FeishuAppFragment::class.java.simpleName
     var titleBar: TitleBar? = null
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
     private var mCountDownHelper: CountDownButtonHelper? = null
@@ -63,12 +63,12 @@ class FeishuFragment : BaseFragment<FragmentSendersFeishuBinding?>(), View.OnCli
     override fun viewBindingInflate(
         inflater: LayoutInflater,
         container: ViewGroup,
-    ): FragmentSendersFeishuBinding {
-        return FragmentSendersFeishuBinding.inflate(inflater, container, false)
+    ): FragmentSendersFeishuAppBinding {
+        return FragmentSendersFeishuAppBinding.inflate(inflater, container, false)
     }
 
     override fun initTitle(): TitleBar? {
-        titleBar = super.initTitle()!!.setImmersive(false).setTitle(R.string.feishu)
+        titleBar = super.initTitle()!!.setImmersive(false).setTitle(R.string.feishu_app)
         return titleBar
     }
 
@@ -118,11 +118,12 @@ class FeishuFragment : BaseFragment<FragmentSendersFeishuBinding?>(), View.OnCli
                     }
                     binding!!.etName.setText(sender.name)
                     binding!!.sbEnable.isChecked = sender.status == 1
-                    val settingVo = Gson().fromJson(sender.jsonSetting, FeishuSetting::class.java)
+                    val settingVo = Gson().fromJson(sender.jsonSetting, FeishuAppSetting::class.java)
                     Log.d(TAG, settingVo.toString())
                     if (settingVo != null) {
-                        binding!!.etWebhook.setText(settingVo.webhook)
-                        binding!!.etSecret.setText(settingVo.secret)
+                        binding!!.etAppId.setText(settingVo.appId)
+                        binding!!.etAppSecret.setText(settingVo.appSecret)
+                        binding!!.etUserId.setText(settingVo.receiveId)
                         binding!!.rgMsgType.check(settingVo.getMsgTypeCheckId())
                         binding!!.etTitleTemplate.setText(settingVo.titleTemplate)
                     }
@@ -169,7 +170,7 @@ class FeishuFragment : BaseFragment<FragmentSendersFeishuBinding?>(), View.OnCli
                             val settingVo = checkSetting()
                             Log.d(TAG, settingVo.toString())
                             val msgInfo = MsgInfo("sms", getString(R.string.test_phone_num), getString(R.string.test_sender_sms), Date(), getString(R.string.test_sim_info))
-                            FeishuUtils.sendMsg(settingVo, msgInfo)
+                            FeishuAppUtils.sendMsg(settingVo, msgInfo)
                         } catch (e: Exception) {
                             e.printStackTrace()
                             if (Looper.myLooper() == null) Looper.prepare()
@@ -223,17 +224,18 @@ class FeishuFragment : BaseFragment<FragmentSendersFeishuBinding?>(), View.OnCli
         }
     }
 
-    private fun checkSetting(): FeishuSetting {
-        val webhook = binding!!.etWebhook.text.toString().trim()
-        if (!CommonUtils.checkUrl(webhook, false)) {
-            throw Exception(getString(R.string.invalid_webhook))
+    private fun checkSetting(): FeishuAppSetting {
+        val appId = binding!!.etAppId.text.toString().trim()
+        val appSecret = binding!!.etAppSecret.text.toString().trim()
+        val receiveId = binding!!.etUserId.text.toString().trim()
+        if (TextUtils.isEmpty(appId) || TextUtils.isEmpty(appSecret) || TextUtils.isEmpty(receiveId)) {
+            throw Exception(getString(R.string.invalid_feishu_app_parameter))
         }
 
-        val secret = binding!!.etSecret.text.toString().trim()
         val msgType = if (binding!!.rgMsgType.checkedRadioButtonId == R.id.rb_msg_type_interactive) "interactive" else "text"
         val title = binding!!.etTitleTemplate.text.toString().trim()
 
-        return FeishuSetting(webhook, secret, msgType, title)
+        return FeishuAppSetting(appId, appSecret, receiveId, msgType, title)
     }
 
     override fun onDestroyView() {

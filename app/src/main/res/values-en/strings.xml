@@ -485,6 +485,7 @@
     <string name="telegram">Telegram Bot</string>
     <string name="sms_menu">SMS</string>
     <string name="feishu">FeiShu Bot</string>
+    <string name="feishu_app">FeiShu App</string>
     <string name="pushplus">PushPlus</string>
     <string name="gotify">Gotify</string>
     <string name="_0">0</string>
@@ -892,20 +893,24 @@
     <string name="sampleMarkdown">Markdown</string>
     <string name="ip_hint">IP address/broadcast address, eg. 192.168.1.255</string>
     <string name="ip_error">Malformed IP address, eg. 192.168.168.168</string>
-    <string name="ip_regex">^((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])$</string>
+    <string name="ip_regex" tools:ignore="TypographyDashes">^((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])$</string>
     <string name="mac_hint">Network card mac, eg. AA:BB:CC:DD:EE:FF</string>
     <string name="mac_error">The network card mac format is incorrect, eg. AA:BB:CC:DD:EE:FF</string>
-    <string name="mac_regex">^((([a-fA-F0-9]{2}:){5})|(([a-fA-F0-9]{2}-){5}))[a-fA-F0-9]{2}$</string>
+    <string name="mac_regex" tools:ignore="TypographyDashes">^((([a-fA-F0-9]{2}:){5})|(([a-fA-F0-9]{2}-){5}))[a-fA-F0-9]{2}$</string>
     <string name="ip">IP</string>
     <string name="mac">MAC</string>
     <string name="no_wol_history">There is no history record, WOL will be added automatically after successful sending</string>
     <string name="wol_port_hint">WOL is generally sent over port 7 or port 9</string>
     <string name="wol_port_error">Port number value range: 1~65535</string>
-    <string name="wol_port_regex">^([0-9]|[1-9]\\d|[1-9]\\d{2}|[1-9]\\d{3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])$</string>
+    <string name="wol_port_regex" tools:ignore="TypographyDashes">^([0-9]|[1-9]\\d|[1-9]\\d{2}|[1-9]\\d{3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])$</string>
     <string name="select_directory">Select Dir</string>
     <string name="web_client">Web Client</string>
     <string name="restarting_httpserver">Restarting HttpServer</string>
     <string name="download_first">Download and unzip to:\n%s</string>
     <string name="root_directory">Root Directory:\n%s</string>
     <string name="select_web_client_directory">Select WebClient Directory</string>
+    <string name="invalid_feishu_app_parameter">AppId/AppSecret/UserId cannot be empty</string>
+    <string name="app_id">App ID</string>
+    <string name="app_secret">App Secret</string>
+    <string name="user_id">User ID</string>
 </resources>

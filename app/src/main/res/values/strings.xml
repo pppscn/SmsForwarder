@@ -266,7 +266,7 @@
     <string name="setserverchantitle">设置Server酱·Turbo版</string>
     <string name="settelegramtitle">设置Telegram机器人</string>
     <string name="setsmstitle">设置SMS</string>
-    <string name="setfeishutitle">设置飞书机器人</string>
+    <string name="setfeishutitle">设置飞书群机器人</string>
     <string name="setpushplustitle">设置PushPlus</string>
     <string name="setgotifytitle">设置Gotify</string>
     <string name="test_phone_num">19999999999</string>
@@ -485,7 +485,8 @@
     <string name="server_chan">Server酱·Turbo版</string>
     <string name="telegram">Telegram机器人</string>
     <string name="sms_menu">手机短信</string>
-    <string name="feishu">飞书机器人</string>
+    <string name="feishu">飞书群机器人</string>
+    <string name="feishu_app">飞书企业应用</string>
     <string name="pushplus">PushPlus</string>
     <string name="gotify">Gotify</string>
     <string name="_0">0</string>
@@ -771,7 +772,7 @@
     <string name="http_server_stopped">HttpServer已停止</string>
     <string name="server_settings">服务端设置</string>
     <string name="server_settings_tips">建议启用签名设置、点击“随机”自动生成并复制到剪贴板</string>
-    <string name="copy">复制</string>
+    <string name="copy" tools:ignore="PrivateResource">复制</string>
     <string name="random">随机生成</string>
     <string name="sign_key">签名密钥</string>
     <string name="sign_key_tips">已生成密钥，并复制到剪贴板</string>
@@ -893,20 +894,24 @@
     <string name="sampleMarkdown">Markdown类型</string>
     <string name="ip_hint">可选，主机IP/广播地址，例如：192.168.1.255</string>
     <string name="ip_error">IP地址格式错误，例如：192.168.168.168</string>
-    <string name="ip_regex">^((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])$</string>
+    <string name="ip_regex" tools:ignore="TypographyDashes">^((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])$</string>
     <string name="mac_hint">必填，网卡mac，例如：AA:BB:CC:DD:EE:FF</string>
     <string name="mac_error">网卡mac格式错误，例如：AA:BB:CC:DD:EE:FF</string>
-    <string name="mac_regex">^((([a-fA-F0-9]{2}:){5})|(([a-fA-F0-9]{2}-){5}))[a-fA-F0-9]{2}$</string>
+    <string name="mac_regex" tools:ignore="TypographyDashes">^((([a-fA-F0-9]{2}:){5})|(([a-fA-F0-9]{2}-){5}))[a-fA-F0-9]{2}$</string>
     <string name="ip">主机IP/广播地址</string>
     <string name="mac">网卡MAC</string>
     <string name="no_wol_history">暂无历史记录，WOL发送成功后自动加入</string>
     <string name="wol_port_hint">可选，WOL一般透过端口7或端口9进行发送</string>
     <string name="wol_port_error">端口号取值范围：1~65535</string>
-    <string name="wol_port_regex">^([0-9]|[1-9]\\d|[1-9]\\d{2}|[1-9]\\d{3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])$</string>
+    <string name="wol_port_regex" tools:ignore="TypographyDashes">^([0-9]|[1-9]\\d|[1-9]\\d{2}|[1-9]\\d{3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])$</string>
     <string name="select_directory">选择目录</string>
     <string name="web_client">Web客户端</string>
     <string name="restarting_httpserver">正在重启HttpServer</string>
     <string name="download_first">请先下载Web客户端并解压到：\n%s</string>
     <string name="root_directory">根目录：\n%s</string>
     <string name="select_web_client_directory">选择Web客户端目录</string>
+    <string name="invalid_feishu_app_parameter">AppId/AppSecret/UserId都不能为空</string>
+    <string name="app_id">App ID</string>
+    <string name="app_secret">App Secret</string>
+    <string name="user_id">User ID</string>
 </resources>

@@ -161,6 +161,7 @@ const val TYPE_FEISHU = 9
 const val TYPE_PUSHPLUS = 10
 const val TYPE_GOTIFY = 11
 const val TYPE_DINGTALK_INNER_ROBOT = 12
+const val TYPE_FEISHU_APP = 13
 var SENDER_FRAGMENT_LIST = listOf(
     PageInfo(getString(R.string.dingtalk_robot), "com.idormy.sms.forwarder.fragment.senders.DingtalkGroupRobotFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_dingtalk),
     PageInfo(getString(R.string.email), "com.idormy.sms.forwarder.fragment.senders.EmailFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_email),
@@ -175,6 +176,7 @@ var SENDER_FRAGMENT_LIST = listOf(
     PageInfo(getString(R.string.pushplus), "com.idormy.sms.forwarder.fragment.senders.PushplusFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_pushplus),
     PageInfo(getString(R.string.gotify), "com.idormy.sms.forwarder.fragment.senders.GotifyFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_gotify),
     PageInfo(getString(R.string.dingtalk_inner_robot), "com.idormy.sms.forwarder.fragment.senders.DingtalkInnerRobotFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_dingtalk_inner),
+    PageInfo(getString(R.string.feishu_app), "com.idormy.sms.forwarder.fragment.senders.FeishuAppFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_feishu_app),
 )
 
 //前台服务
