@@ -565,12 +565,16 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
         val rgSimSlot = dialogTest.findViewById<RadioGroup>(R.id.rg_sim_slot)
         val tvFrom = dialogTest.findViewById<TextView>(R.id.tv_from)
         val etFrom = dialogTest.findViewById<EditText>(R.id.et_from)
+        val tvTitle = dialogTest.findViewById<TextView>(R.id.tv_title)
+        val etTitle = dialogTest.findViewById<EditText>(R.id.et_title)
         val tvContent = dialogTest.findViewById<TextView>(R.id.tv_content)
         val etContent = dialogTest.findViewById<EditText>(R.id.et_content)
 
         if ("app" == ruleType) {
             tvSimSlot.visibility = View.GONE
             rgSimSlot.visibility = View.GONE
+            tvTitle.visibility = View.VISIBLE
+            etTitle.visibility = View.VISIBLE
             tvFrom.setText(R.string.test_package_name)
             tvContent.setText(R.string.test_inform_content)
         } else if ("call" == ruleType) {
@@ -592,7 +596,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
             .positiveText(R.string.action_test)
             .onPositive { _: MaterialDialog?, _: DialogAction? ->
                 try {
-                    val simSlot = when (rgSimSlot.checkedRadioButtonId) {
+                    val simSlot = when (if (ruleType == "app") -1 else rgSimSlot.checkedRadioButtonId) {
                         R.id.rb_sim_slot_1 -> 0
                         R.id.rb_sim_slot_2 -> 1
                         else -> -1
@@ -608,7 +612,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                     val simInfo = when (simSlot) {
                         0 -> "SIM1_" + SettingUtils.extraSim1
                         1 -> "SIM2_" + SettingUtils.extraSim2
-                        else -> ""
+                        else -> etTitle.text.toString()
                     }
 
                     val msgInfo = MsgInfo(ruleType, etFrom.text.toString(), etContent.text.toString(), Date(), simInfo, simSlot)
