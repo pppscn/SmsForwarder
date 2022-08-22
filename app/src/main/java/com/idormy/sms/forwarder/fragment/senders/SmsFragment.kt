@@ -155,6 +155,7 @@ class SmsFragment : BaseFragment<FragmentSendersSmsBinding?>(), View.OnClickList
     }
 
     override fun initListeners() {
+        binding!!.btInsertSender.setOnClickListener(this)
         binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
@@ -165,6 +166,10 @@ class SmsFragment : BaseFragment<FragmentSendersSmsBinding?>(), View.OnClickList
     override fun onClick(v: View) {
         try {
             when (v.id) {
+                R.id.bt_insert_sender -> {
+                    CommonUtils.insertOrReplaceText2Cursor(binding!!.etMobiles, getString(R.string.tag_from))
+                    return
+                }
                 R.id.btn_test -> {
                     mCountDownHelper?.start()
                     Thread {

@@ -99,13 +99,33 @@
                     android:text="@string/SmsMobiles"
                     android:textStyle="bold" />
 
-                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                    android:id="@+id/et_mobiles"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/SmsMobilesTips"
-                    android:singleLine="true"
-                    app:met_clearButton="true" />
+                    android:orientation="horizontal">
+
+                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                        android:id="@+id/et_mobiles"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:singleLine="true"
+                        app:met_clearButton="true" />
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/bt_insert_sender"
+                        style="@style/insertButtonStyle"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/insert_sender" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/SmsMobilesTips"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
 
             </LinearLayout>
 

@@ -337,7 +337,7 @@
     <string name="SmsSimSlot">SIM Slot</string>
     <string name="same_source">Same source</string>
     <string name="SmsMobiles">Receive Mobile Phone Numbers</string>
-    <string name="SmsMobilesTips">Separated by ; , e.g. 15888888888;19999999999</string>
+    <string name="SmsMobilesTips">Tips:\n1.Separated by ; , e.g. 15888888888;19999999999\n2.Allow to insert `{{FROM}}` tag to realize SMS auto-reply (SMS/Call scenario)</string>
     <string name="OnlyNoNetwork">Enable only when no network</string>
     <!--SettingActivity-->
     <string name="notify_content">Notify Content</string>

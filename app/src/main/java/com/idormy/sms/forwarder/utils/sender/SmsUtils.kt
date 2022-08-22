@@ -54,9 +54,12 @@ class SmsUtils {
             }
             Log.d(TAG, App.SimInfoList.toString())
 
+            //替换 {{来源号码}} 标签
+            val mobiles = setting.mobiles.replace(ResUtils.getString(R.string.tag_from), msgInfo.from)
+
             //TODO：取不到卡槽信息时，采用默认卡槽发送
             val mSubscriptionId: Int = App.SimInfoList[simSlotIndex]?.mSubscriptionId ?: -1
-            val res: String? = PhoneUtils.sendSms(mSubscriptionId, setting.mobiles, content)
+            val res: String? = PhoneUtils.sendSms(mSubscriptionId, mobiles, content)
             if (res == null) {
                 SendUtils.updateLogs(logId, 2, ResUtils.getString(R.string.request_succeeded))
             } else {

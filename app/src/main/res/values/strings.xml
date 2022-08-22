@@ -338,7 +338,7 @@
     <string name="SmsSimSlot">发送卡槽</string>
     <string name="same_source">原进原出</string>
     <string name="SmsMobiles">接收手机</string>
-    <string name="SmsMobilesTips">多个号码以半角分号分隔，例如：15888888888;19999999999</string>
+    <string name="SmsMobilesTips">Tips：\n1.多个号码以半角分号分隔，例如：15888888888;19999999999\n2.允许插入`{{来源号码}}`标签来实现短信自动回复（短信/来电场景）</string>
     <string name="OnlyNoNetwork">仅当无网络时启用</string>
     <!--SettingActivity-->
     <string name="notify_content">通知文案</string>
