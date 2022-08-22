@@ -32,6 +32,11 @@ class TelegramUtils private constructor() {
             rule: Rule?,
             logId: Long?,
         ) {
+            if (setting.method == null || setting.method == "POST") {
+                msgInfo.content = htmlEncode(msgInfo.content)
+                msgInfo.simInfo = htmlEncode(msgInfo.simInfo)
+            }
+
             val content: String = if (rule != null) {
                 msgInfo.getContentForSend(rule.smsTemplate, rule.regexReplace)
             } else {
@@ -52,7 +57,7 @@ class TelegramUtils private constructor() {
             } else {
                 val bodyMap: MutableMap<String, Any> = mutableMapOf()
                 bodyMap["chat_id"] = setting.chatId
-                bodyMap["text"] = htmlEncode(content)
+                bodyMap["text"] = content
                 bodyMap["parse_mode"] = "HTML"
                 bodyMap["disable_web_page_preview"] = "true"
                 val requestMsg: String = Gson().toJson(bodyMap)
@@ -100,7 +105,7 @@ class TelegramUtils private constructor() {
             }
 
             request.keepJson(true)
-                .ignoreHttpsCert()
+                //.ignoreHttpsCert()
                 .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
                 .cacheMode(CacheMode.NO_CACHE)
                 .retryCount(SettingUtils.requestRetryTimes) //超时重试的次数
