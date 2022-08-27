@@ -56,7 +56,7 @@ server_addr = 88.88.88.88
 #frps服务端公网端口
 server_port = 8888
 #可选，建议启用
-token = 888888888
+token = 88888888
 #连接服务端的超时时间（增大时间避免frpc在网络未就绪的情况下启动失败）
 dial_server_timeout = 60
 #第一次登陆失败后是否退出
@@ -181,7 +181,7 @@ server_addr = 88.88.88.88
 #frps服务端公网端口
 server_port = 8888
 #可选，建议启用
-token = 888888888
+token = 88888888
 #连接服务端的超时时间（增大时间避免frpc在网络未就绪的情况下启动失败）
 dial_server_timeout = 60
 #第一次登陆失败后是否退出
