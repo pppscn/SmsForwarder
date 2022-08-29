@@ -107,7 +107,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/mandatory_type"
+                            android:text="@string/type"
                             android:textSize="10sp"
                             android:textStyle="bold"
                             tools:ignore="SmallSp" />
@@ -121,37 +121,51 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="2dp"
+                            android:singleLine="true"
                             android:text="@string/missed_call"
-                            android:textSize="11sp" />
+                            android:textSize="10sp" />
 
                         <com.xuexiang.xui.widget.button.SmoothCheckBox
                             android:id="@+id/scb_call_type1"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
-                            android:layout_marginStart="5dp"
+                            android:layout_marginStart="3dp"
                             app:scb_color_checked="@color/colorPrimary" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="2dp"
+                            android:singleLine="true"
                             android:text="@string/received_call"
-                            android:textSize="11sp" />
+                            android:textSize="10sp" />
 
                         <com.xuexiang.xui.widget.button.SmoothCheckBox
                             android:id="@+id/scb_call_type2"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
-                            android:layout_marginStart="5dp"
+                            android:layout_marginStart="3dp"
                             app:scb_color_checked="@color/colorPrimary" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="2dp"
+                            android:singleLine="true"
                             android:text="@string/local_outgoing_call"
-                            android:textSize="11sp" />
+                            android:textSize="10sp" />
+
+                        <com.xuexiang.xui.widget.button.SmoothCheckBox
+                            android:id="@+id/scb_call_type4"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginStart="3dp"
+                            app:scb_color_checked="@color/colorPrimary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:text="@string/incoming_call"
+                            android:textSize="10sp" />
 
                     </LinearLayout>
 
@@ -215,9 +229,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="2dp"
                             android:text="@string/cancel_app_notify"
-                            android:textSize="11sp" />
+                            android:textSize="10sp" />
 
                         <com.xuexiang.xui.widget.button.SmoothCheckBox
                             android:id="@+id/scb_not_user_present"
@@ -229,9 +242,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="2dp"
                             android:text="@string/not_user_present"
-                            android:textSize="11sp" />
+                            android:textSize="10sp" />
 
                     </LinearLayout>
 
@@ -293,10 +305,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="2dp"
                             android:checked="true"
                             android:text="@string/user_app"
-                            android:textSize="11sp" />
+                            android:textSize="10sp" />
 
                         <com.xuexiang.xui.widget.button.SmoothCheckBox
                             android:id="@+id/scb_load_system_app"
@@ -308,9 +319,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="2dp"
                             android:text="@string/system_app"
-                            android:textSize="11sp" />
+                            android:textSize="10sp" />
 
                     </LinearLayout>
 
@@ -531,9 +541,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
                     android:text="@string/keep_reminding"
-                    android:textSize="11sp" />
+                    android:textSize="10sp" />
 
             </LinearLayout>
 
@@ -804,9 +813,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="2dp"
                             android:text="@string/play_silence_music"
-                            android:textSize="11sp" />
+                            android:textSize="10sp" />
 
                         <LinearLayout
                             android:id="@+id/layout_one_pixel_activity"
@@ -824,9 +832,8 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="2dp"
                                 android:text="@string/one_pixel_activity"
-                                android:textSize="11sp" />
+                                android:textSize="10sp" />
 
                         </LinearLayout>
 

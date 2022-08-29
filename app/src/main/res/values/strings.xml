@@ -504,8 +504,11 @@
     <string name="forwarding_function_tips">总开关，请根据实际需要，启用对应的转发功能</string>
     <string name="call_date">通话时间：</string>
     <string name="call_duration">通话时长：</string>
+    <string name="ring_duration">响铃时长：</string>
+    <string name="type">类型：</string>
     <string name="mandatory_type">通话类型：</string>
     <string name="missed_call">未接来电</string>
+    <string name="incoming_call">来电提醒</string>
     <string name="received_call">已接来电</string>
     <string name="local_outgoing_call">本机去电</string>
     <string name="optional_action">可选操作：</string>

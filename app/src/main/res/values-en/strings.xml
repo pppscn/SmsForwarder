@@ -503,8 +503,11 @@
     <string name="forwarding_function_tips">Main switch: Enable the forwarding function as required</string>
     <string name="call_date">Call date: </string>
     <string name="call_duration">Call duration: </string>
+    <string name="ring_duration">Ring duration: </string>
+    <string name="type">Type: </string>
     <string name="mandatory_type">Call type: </string>
     <string name="missed_call">Missed</string>
+    <string name="incoming_call">Incoming</string>
     <string name="received_call">Received</string>
     <string name="local_outgoing_call">Call out</string>
     <string name="optional_action">Optional: </string>

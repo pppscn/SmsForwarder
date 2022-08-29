@@ -61,6 +61,14 @@ class SettingUtils private constructor() {
                 MMKVUtils.put(SP_ENABLE_CALL_TYPE_3, enableCallType3)
             }
 
+        //是否转发通话——来电提醒
+        @JvmStatic
+        var enableCallType4: Boolean
+            get() = MMKVUtils.getBoolean(SP_ENABLE_CALL_TYPE_4, false)
+            set(enableCallType4) {
+                MMKVUtils.put(SP_ENABLE_CALL_TYPE_4, enableCallType4)
+            }
+
         //是否转发应用通知
         @JvmStatic
         var enableAppNotify: Boolean

@@ -78,7 +78,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         //转发短信广播
         switchEnableSms(binding!!.sbEnableSms)
         //转发通话记录
-        switchEnablePhone(binding!!.sbEnablePhone, binding!!.scbCallType1, binding!!.scbCallType2, binding!!.scbCallType3)
+        switchEnablePhone(binding!!.sbEnablePhone, binding!!.scbCallType1, binding!!.scbCallType2, binding!!.scbCallType3, binding!!.scbCallType4)
         //转发应用通知
         switchEnableAppNotify(binding!!.sbEnableAppNotify, binding!!.scbCancelAppNotify, binding!!.scbNotUserPresent)
         //启动时异步获取已安装App信息
@@ -266,13 +266,14 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //转发通话
     @SuppressLint("UseSwitchCompatOrMaterialCode")
-    fun switchEnablePhone(sbEnablePhone: SwitchButton, scbCallType1: SmoothCheckBox, scbCallType2: SmoothCheckBox, scbCallType3: SmoothCheckBox) {
+    fun switchEnablePhone(sbEnablePhone: SwitchButton, scbCallType1: SmoothCheckBox, scbCallType2: SmoothCheckBox, scbCallType3: SmoothCheckBox, scbCallType4: SmoothCheckBox) {
         sbEnablePhone.isChecked = SettingUtils.enablePhone
         scbCallType1.isChecked = SettingUtils.enableCallType1
         scbCallType2.isChecked = SettingUtils.enableCallType2
         scbCallType3.isChecked = SettingUtils.enableCallType3
+        scbCallType4.isChecked = SettingUtils.enableCallType4
         sbEnablePhone.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            if (isChecked && !SettingUtils.enableCallType1 && !SettingUtils.enableCallType2 && !SettingUtils.enableCallType3) {
+            if (isChecked && !SettingUtils.enableCallType1 && !SettingUtils.enableCallType2 && !SettingUtils.enableCallType3 && !SettingUtils.enableCallType4) {
                 XToastUtils.info(R.string.enable_phone_fw_tips)
                 SettingUtils.enablePhone = false
                 sbEnablePhone.isChecked = false
@@ -315,7 +316,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         }
         scbCallType1.setOnCheckedChangeListener { _: SmoothCheckBox, isChecked: Boolean ->
             SettingUtils.enableCallType1 = isChecked
-            if (!isChecked && !SettingUtils.enableCallType1 && !SettingUtils.enableCallType2 && !SettingUtils.enableCallType3) {
+            if (!isChecked && !SettingUtils.enableCallType1 && !SettingUtils.enableCallType2 && !SettingUtils.enableCallType3 && !SettingUtils.enableCallType4) {
                 XToastUtils.info(R.string.enable_phone_fw_tips)
                 SettingUtils.enablePhone = false
                 sbEnablePhone.isChecked = false
@@ -323,7 +324,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         }
         scbCallType2.setOnCheckedChangeListener { _: SmoothCheckBox, isChecked: Boolean ->
             SettingUtils.enableCallType2 = isChecked
-            if (!isChecked && !SettingUtils.enableCallType1 && !SettingUtils.enableCallType2 && !SettingUtils.enableCallType3) {
+            if (!isChecked && !SettingUtils.enableCallType1 && !SettingUtils.enableCallType2 && !SettingUtils.enableCallType3 && !SettingUtils.enableCallType4) {
                 XToastUtils.info(R.string.enable_phone_fw_tips)
                 SettingUtils.enablePhone = false
                 sbEnablePhone.isChecked = false
@@ -331,7 +332,15 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         }
         scbCallType3.setOnCheckedChangeListener { _: SmoothCheckBox, isChecked: Boolean ->
             SettingUtils.enableCallType3 = isChecked
-            if (!isChecked && !SettingUtils.enableCallType1 && !SettingUtils.enableCallType2 && !SettingUtils.enableCallType3) {
+            if (!isChecked && !SettingUtils.enableCallType1 && !SettingUtils.enableCallType2 && !SettingUtils.enableCallType3 && !SettingUtils.enableCallType4) {
+                XToastUtils.info(R.string.enable_phone_fw_tips)
+                SettingUtils.enablePhone = false
+                sbEnablePhone.isChecked = false
+            }
+        }
+        scbCallType4.setOnCheckedChangeListener { _: SmoothCheckBox, isChecked: Boolean ->
+            SettingUtils.enableCallType4 = isChecked
+            if (!isChecked && !SettingUtils.enableCallType1 && !SettingUtils.enableCallType2 && !SettingUtils.enableCallType3 && !SettingUtils.enableCallType4) {
                 XToastUtils.info(R.string.enable_phone_fw_tips)
                 SettingUtils.enablePhone = false
                 sbEnablePhone.isChecked = false

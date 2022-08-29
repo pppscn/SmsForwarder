@@ -307,13 +307,21 @@ class PhoneUtils private constructor() {
             sb.append(ResUtils.getString(R.string.linkman)).append(callInfo.name).append("\n")
             if (!TextUtils.isEmpty(callInfo.viaNumber)) sb.append(ResUtils.getString(R.string.via_number)).append(callInfo.viaNumber).append("\n")
             if (callInfo.dateLong > 0L) sb.append(ResUtils.getString(R.string.call_date)).append(DateUtils.millis2String(callInfo.dateLong, SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()))).append("\n")
-            if (callInfo.duration > 0) sb.append(ResUtils.getString(R.string.call_duration)).append(callInfo.duration).append("s\n")
+            if (callInfo.duration > 0) {
+                if (callInfo.type == 3) {
+                    sb.append(ResUtils.getString(R.string.ring_duration))
+                } else {
+                    sb.append(ResUtils.getString(R.string.call_duration))
+                }
+                sb.append(callInfo.duration).append("s\n")
+            }
             sb.append(ResUtils.getString(R.string.mandatory_type))
-            //通话类型：1.呼入 2.呼出 3.未接
+            //通话类型：1.呼入 2.呼出 3.未接 4.来电提醒
             when (callInfo.type) {
                 1 -> sb.append(ResUtils.getString(R.string.received_call))
                 2 -> sb.append(ResUtils.getString(R.string.local_outgoing_call))
-                else -> sb.append(ResUtils.getString(R.string.missed_call))
+                3 -> sb.append(ResUtils.getString(R.string.missed_call))
+                else -> sb.append(ResUtils.getString(R.string.incoming_call))
             }
             return sb.toString()
         }
