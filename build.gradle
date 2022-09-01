@@ -17,7 +17,7 @@ buildscript {
             classpath deps.booster.task_resource_deredundancy
         }
         //AndServer
-        classpath 'com.yanzhenjie.andserver:plugin:2.1.10'
+        classpath 'cn.ppps.andserver:plugin:2.1.11'
     }
 }
 
