@@ -190,9 +190,13 @@ ext.isRelease = this.&isRelease
 //默认添加代码仓库路径
 static def addRepos(RepositoryHandler handler) {
     handler.mavenLocal()
-    handler.google { url 'https://maven.aliyun.com/repository/google' }
-    handler.mavenCentral { url 'https://maven.aliyun.com/repository/central' }
+    //handler.google { url 'https://maven.aliyun.com/repository/google' }
+    //handler.mavenCentral { url 'https://maven.aliyun.com/repository/central' }
+    handler.google()
+    handler.mavenCentral()
     handler.maven { url "https://jitpack.io" }
+    handler.maven { url 'https://maven.aliyun.com/repository/google' }
+    handler.maven { url 'https://maven.aliyun.com/repository/central' }
     handler.maven { url 'https://maven.aliyun.com/repository/public' }
     handler.maven { url "https://repo1.maven.org/maven2/" }
     handler.maven { url 'https://oss.sonatype.org/content/repositories/public' }
