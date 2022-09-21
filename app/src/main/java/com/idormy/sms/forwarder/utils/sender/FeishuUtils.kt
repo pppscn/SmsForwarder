@@ -151,7 +151,7 @@ class FeishuUtils private constructor() {
                         Log.i(TAG, response)
 
                         val resp = Gson().fromJson(response, FeishuResult::class.java)
-                        if (resp.code == 0L) {
+                        if (resp?.code == 0L) {
                             SendUtils.updateLogs(logId, 2, response)
                         } else {
                             SendUtils.updateLogs(logId, 0, response)

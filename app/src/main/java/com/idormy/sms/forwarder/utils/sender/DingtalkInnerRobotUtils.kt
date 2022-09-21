@@ -112,7 +112,7 @@ class DingtalkInnerRobotUtils private constructor() {
                         Log.i(TAG, response)
 
                         val resp = Gson().fromJson(response, DingtalkInnerRobotResult::class.java)
-                        if (!TextUtils.isEmpty(resp.accessToken)) {
+                        if (!TextUtils.isEmpty(resp?.accessToken)) {
                             MMKVUtils.put("accessToken_" + setting.agentID, resp.accessToken)
                             MMKVUtils.put("expiresIn_" + setting.agentID, System.currentTimeMillis() + ((resp.expireIn ?: 7200) - 120) * 1000L) //提前2分钟过期
                             sendTextMsg(setting, msgInfo, rule, logId)
@@ -224,7 +224,7 @@ class DingtalkInnerRobotUtils private constructor() {
                         Log.i(TAG, response)
 
                         val resp = Gson().fromJson(response, DingtalkInnerRobotResult::class.java)
-                        if (!TextUtils.isEmpty(resp.processQueryKey)) {
+                        if (!TextUtils.isEmpty(resp?.processQueryKey)) {
                             SendUtils.updateLogs(logId, 2, response)
                         } else {
                             SendUtils.updateLogs(logId, 0, response)

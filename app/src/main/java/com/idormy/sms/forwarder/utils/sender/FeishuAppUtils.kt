@@ -64,7 +64,7 @@ class FeishuAppUtils private constructor() {
                         Log.i(TAG, response)
 
                         val resp = Gson().fromJson(response, FeishuAppResult::class.java)
-                        if (!TextUtils.isEmpty(resp.tenant_access_token)) {
+                        if (!TextUtils.isEmpty(resp?.tenant_access_token)) {
                             MMKVUtils.put("feishu_access_token_" + setting.appId, resp.tenant_access_token)
                             MMKVUtils.put("feishu_expires_in_" + setting.appId, System.currentTimeMillis() + ((resp.expire ?: 7010) - 120) * 1000L) //提前2分钟过期
                             sendTextMsg(setting, msgInfo, rule, logId)
@@ -138,7 +138,7 @@ class FeishuAppUtils private constructor() {
                         //Log.d(TAG, "cipherSuite=" + response.handshake().cipherSuite().toString())
 
                         val resp = Gson().fromJson(response, FeishuAppResult::class.java)
-                        if (resp.code == 0L) {
+                        if (resp?.code == 0L) {
                             SendUtils.updateLogs(logId, 2, response)
                         } else {
                             SendUtils.updateLogs(logId, 0, response)

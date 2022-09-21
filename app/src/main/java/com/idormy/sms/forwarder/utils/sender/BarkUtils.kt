@@ -93,7 +93,7 @@ class BarkUtils {
                         Log.i(TAG, response)
 
                         val resp = Gson().fromJson(response, BarkResult::class.java)
-                        if (resp.code == 200L) {
+                        if (resp?.code == 200L) {
                             SendUtils.updateLogs(logId, 2, response)
                         } else {
                             SendUtils.updateLogs(logId, 0, response)

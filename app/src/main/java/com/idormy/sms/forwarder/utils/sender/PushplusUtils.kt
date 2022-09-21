@@ -87,7 +87,7 @@ class PushplusUtils private constructor() {
                         Log.i(TAG, response)
 
                         val resp = Gson().fromJson(response, PushplusResult::class.java)
-                        if (resp.code == 200L) {
+                        if (resp?.code == 200L) {
                             SendUtils.updateLogs(logId, 2, response)
                         } else {
                             SendUtils.updateLogs(logId, 0, response)

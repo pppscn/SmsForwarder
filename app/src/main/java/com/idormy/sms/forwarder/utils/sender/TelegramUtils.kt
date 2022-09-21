@@ -123,7 +123,7 @@ class TelegramUtils private constructor() {
                         Log.i(TAG, response)
 
                         val resp = Gson().fromJson(response, TelegramResult::class.java)
-                        if (resp.ok == true) {
+                        if (resp?.ok == true) {
                             SendUtils.updateLogs(logId, 2, response)
                         } else {
                             SendUtils.updateLogs(logId, 0, response)

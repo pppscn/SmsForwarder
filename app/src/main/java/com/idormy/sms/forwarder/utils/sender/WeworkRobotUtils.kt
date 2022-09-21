@@ -64,7 +64,7 @@ class WeworkRobotUtils private constructor() {
                         Log.i(TAG, response)
 
                         val resp = Gson().fromJson(response, WeworkRobotResult::class.java)
-                        if (resp.errcode == 0L) {
+                        if (resp?.errcode == 0L) {
                             SendUtils.updateLogs(logId, 2, response)
                         } else {
                             SendUtils.updateLogs(logId, 0, response)

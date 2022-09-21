@@ -107,7 +107,7 @@ class WeworkAgentUtils private constructor() {
                         Log.i(TAG, response)
 
                         val resp = Gson().fromJson(response, WeworkAgentResult::class.java)
-                        if (resp.errcode == 0L) {
+                        if (resp?.errcode == 0L) {
                             MMKVUtils.put("access_token_" + setting.agentID, resp.access_token)
                             MMKVUtils.put("expires_in_" + setting.agentID, System.currentTimeMillis() + ((resp.expires_in ?: 7200) - 120) * 1000L) //提前2分钟过期
                             sendTextMsg(setting, msgInfo, rule, logId)
@@ -208,7 +208,7 @@ class WeworkAgentUtils private constructor() {
                         Log.i(TAG, response)
 
                         val resp = Gson().fromJson(response, DingtalkResult::class.java)
-                        if (resp.errcode == 0L) {
+                        if (resp?.errcode == 0L) {
                             SendUtils.updateLogs(logId, 2, response)
                         } else {
                             SendUtils.updateLogs(logId, 0, response)
