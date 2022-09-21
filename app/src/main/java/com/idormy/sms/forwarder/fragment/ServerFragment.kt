@@ -162,7 +162,9 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 XToastUtils.info(getString(R.string.sign_key_tips))
             }
             R.id.tv_server_tips, R.id.iv_copy -> {
-                val url = if (inetAddress != null) "http://${inetAddress?.hostAddress}:5000" else "http://127.0.0.1:5000"
+                var hostAddress: String = if (inetAddress != null) "${inetAddress?.hostAddress}" else "127.0.0.1"
+                hostAddress = if (hostAddress.indexOf(':', 0, false) > 0) "[${hostAddress}]" else hostAddress
+                val url = "http://${hostAddress}:5000"
                 ClipboardUtils.copyText(url)
                 XToastUtils.info(String.format(getString(R.string.copied_to_clipboard), url))
             }
@@ -208,7 +210,6 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
             try {
                 inetAddress = NetworkUtils.getLocalInetAddress()
                 binding!!.tvServerTips.text = getString(R.string.http_server_running, inetAddress!!.hostAddress, HTTP_SERVER_PORT)
-
             } catch (e: Exception) {
                 e.printStackTrace()
                 binding!!.tvServerTips.text = getString(R.string.http_server_running, "127.0.0.1", HTTP_SERVER_PORT)
