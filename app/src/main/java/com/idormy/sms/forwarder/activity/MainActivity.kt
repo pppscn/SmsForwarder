@@ -204,10 +204,10 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
                     getString(R.string.menu_rules) == item.title -> binding!!.includeMain.toolbar.inflateMenu(
                         R.menu.menu_rules
                     )
-                    getString(R.string.menu_rules) == item.title -> binding!!.includeMain.toolbar.inflateMenu(
+                    getString(R.string.menu_senders) == item.title -> binding!!.includeMain.toolbar.inflateMenu(
                         R.menu.menu_senders
                     )
-                    getString(R.string.menu_rules) == item.title -> binding!!.includeMain.toolbar.inflateMenu(
+                    getString(R.string.menu_settings) == item.title -> binding!!.includeMain.toolbar.inflateMenu(
                         R.menu.menu_settings
                     )
                     else -> binding!!.includeMain.toolbar.inflateMenu(R.menu.menu_logs)
