@@ -617,7 +617,7 @@
     <string name="toast_granted_part">获取部分权限成功，但部分权限未正常授予，APP部分功能可能受限！</string>
     <string name="toast_denied_never">被永久拒绝授权，前往系统设置手动授予权限？</string>
     <string name="toast_denied">获取必需的权限失败，APP功能可能受限！</string>
-    <string name="tips_first_time">\n&#160;&#160;&#160;&#160;首次使用请按照1234步骤顺序设置，数字点亮表示该步骤已设置(4点亮表示有成功日志)！\n\n&#160;&#160;&#160;&#160;根据以往用户反馈，90%的新用户最终排查结果都是手机权限设置问题，5%的用户是APP保活问题，其他问题排查参考Wiki中的常见问题（APP右上角使用帮助入口）\n\n&#160;&#160;&#160;&#160;强烈建议：手动排查一下系统设置：自启动、电源策略、APP的权限，把所有权限打开（始终允许，不要“使用中允许”，MIUI系统就全部变绿），特别是一些国产定制系统加入隐私保护、验证码保护等（例如：MIUI 系统的 空白通行证）\n\n&#160;&#160;&#160;&#160;请选择是否立即“前往系统设置”检查，或“稍后自行处理”？</string>
+    <string name="tips_first_time" formatted="false">\n&#160;&#160;&#160;&#160;首次使用请按照1234步骤顺序设置，数字点亮表示该步骤已设置(4点亮表示有成功日志)！\n\n&#160;&#160;&#160;&#160;根据以往用户反馈，90%的新用户最终排查结果都是手机权限设置问题，5%的用户是APP保活问题，其他问题排查参考Wiki中的常见问题（APP右上角使用帮助入口）\n\n&#160;&#160;&#160;&#160;强烈建议：手动排查一下系统设置：自启动、电源策略、APP的权限，把所有权限打开（始终允许，不要“使用中允许”，MIUI系统就全部变绿），特别是一些国产定制系统加入隐私保护、验证码保护等（例如：MIUI 系统的 空白通行证）\n\n&#160;&#160;&#160;&#160;请选择是否立即“前往系统设置”检查，或“稍后自行处理”？</string>
     <string name="play_silence_music">后台播放无声音乐</string>
     <string name="play_silence_music_tips">【按需启用】播放无声音乐让后台一直运行，可能比较耗电</string>
     <string name="one_pixel">1像素</string>
@@ -685,7 +685,7 @@
     <string name="bark_level_active">立即亮屏显示通知</string>
     <string name="bark_level_timeSensitive">时效性通知，可在专注状态下显示通知</string>
     <string name="bark_level_passive">仅添加到通知列表，不会亮屏提醒</string>
-    <string name="bark_url_regex" tools:ignore="TypographyDashes"><![CDATA[^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]]]></string>
+    <string name="bark_url_regex" tools:ignore="TypographyDashes" formatted="false"><![CDATA[^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]]]></string>
     <string name="bark_url_error">Url格式错误</string>
 
     <string name="from_email_hint">填写 @ 前面的用户名</string>
@@ -700,7 +700,7 @@
     <string name="webhook_server">Webhook Server</string>
     <string name="webhook_server_tips">例如：https://a.b.com/msg?token=xyz</string>
     <string name="webhook_params">Params</string>
-    <string name="webhook_params_tips">例如：payload=%7B%22text%22%3A%22[msg]%22%7D [msg]将被替换成短信内容。\n支持Json格式，例如：{\"text\":\"[msg]\"}。\n注意：除JSON格式外，msg会自动进行UTF-8编码</string>
+    <string name="webhook_params_tips" formatted="false">例如：payload=%7B%22text%22%3A%22[msg]%22%7D [msg]将被替换成短信内容。\n支持Json格式，例如：{\"text\":\"[msg]\"}。\n注意：除JSON格式外，msg会自动进行UTF-8编码</string>
     <string name="webhook_secret">Secret：置空则不计算sign</string>
     <string name="headers">Headers</string>
     <string name="header_key">Key</string>
@@ -840,7 +840,7 @@
     <string name="remote_sms">远程发短信：</string>
     <string name="clear">清除</string>
     <string name="storage_permission_tips">未授权储存权限，该功能无法使用！</string>
-    <string name="contact_info">姓名：%s\n号码：%s</string>
+    <string name="contact_info" formatted="false">姓名：%s\n号码：%s</string>
     <string name="card_slot_does_not_match">卡槽未匹配中规则</string>
     <string name="unmatched_rule">未匹配中规则</string>
     <string name="copied_to_clipboard">已复制到剪贴板:\n%s</string>
@@ -865,7 +865,7 @@
     <string name="sign_verify_failed">签名校验失败</string>
     <string name="version_code_required">version_code节点必传</string>
     <string name="inconsistent_version">客户端与服务端的App版本不一致</string>
-    <string name="timestamp_verify_failed">timestamp校验失败，与服务器时间(%s)误差不能超过1小时(diffTime=%s)</string>
+    <string name="timestamp_verify_failed" formatted="false">timestamp校验失败，与服务器时间(%s)误差不能超过1小时(diffTime=%s)</string>
 
     <string name="main_title">主标题</string>
     <string name="subtitle">副标题</string>

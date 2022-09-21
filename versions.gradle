@@ -5,13 +5,13 @@ def build_versions = [:]
 build_versions.version_code = 47
 build_versions.version_name = "3.0.9"
 build_versions.min_sdk = 19
-build_versions.target_sdk = 32
-build_versions.build_tools = "32.0.0"
+build_versions.target_sdk = 33
+build_versions.build_tools = "33.0.0"
 ext.build_versions = build_versions
 
 ext.deps = [:]
 def versions = [:]
-versions.android_gradle_plugin = '7.1.3'
+versions.android_gradle_plugin = '7.3.0'
 versions.android_maven_gradle_plugin = "2.1"
 versions.gradle_bintray_plugin = "1.8.0"
 versions.booster = "3.1.0"
@@ -215,7 +215,7 @@ project.buildscript.configurations.each { configuration ->
         //XRouter插件
         configuration.dependencies.add(dependencies.create(deps.xlibrary.xrouter_plugin))
         //AspectJX
-        configuration.dependencies.add(dependencies.create('com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.10'))
+        //configuration.dependencies.add(dependencies.create('com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.10'))
         //kotlin插件
         configuration.dependencies.add(dependencies.create("org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"))
     }

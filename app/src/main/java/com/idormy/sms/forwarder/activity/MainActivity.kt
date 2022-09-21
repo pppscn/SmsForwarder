@@ -146,7 +146,12 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
                     R.id.nav_frpc -> {
                         if (!FileUtils.isFileExists(filesDir.absolutePath + "/libs/libgojni.so")) {
                             MaterialDialog.Builder(this)
-                                .title(String.format(getString(R.string.frpclib_download_title), FRPC_LIB_VERSION))
+                                .title(
+                                    String.format(
+                                        getString(R.string.frpclib_download_title),
+                                        FRPC_LIB_VERSION
+                                    )
+                                )
                                 .content(R.string.download_frpc_tips)
                                 .positiveText(R.string.lab_yes)
                                 .negativeText(R.string.lab_no)
@@ -196,9 +201,15 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
                 binding!!.includeMain.toolbar.title = item.title
                 binding!!.includeMain.toolbar.menu.clear()
                 when {
-                    item.title.equals(getString(R.string.menu_rules)) -> binding!!.includeMain.toolbar.inflateMenu(R.menu.menu_rules)
-                    item.title.equals(getString(R.string.menu_senders)) -> binding!!.includeMain.toolbar.inflateMenu(R.menu.menu_senders)
-                    item.title.equals(getString(R.string.menu_settings)) -> binding!!.includeMain.toolbar.inflateMenu(R.menu.menu_settings)
+                    getString(R.string.menu_rules) == item.title -> binding!!.includeMain.toolbar.inflateMenu(
+                        R.menu.menu_rules
+                    )
+                    getString(R.string.menu_rules) == item.title -> binding!!.includeMain.toolbar.inflateMenu(
+                        R.menu.menu_senders
+                    )
+                    getString(R.string.menu_rules) == item.title -> binding!!.includeMain.toolbar.inflateMenu(
+                        R.menu.menu_settings
+                    )
                     else -> binding!!.includeMain.toolbar.inflateMenu(R.menu.menu_logs)
                 }
                 item.isChecked = true
@@ -232,11 +243,12 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
      * @return
      */
     private fun handleNavigationItemSelected(menuItem: MenuItem): Boolean {
-        val index = CollectionUtils.arrayIndexOf(mTitles, menuItem.title)
-        if (index != -1) {
-            binding!!.includeMain.toolbar.title = menuItem.title
-            binding!!.includeMain.viewPager.setCurrentItem(index, false)
-            return true
+        for (index in mTitles.indices) {
+            if (mTitles[index] == menuItem.title) {
+                binding!!.includeMain.toolbar.title = menuItem.title
+                binding!!.includeMain.viewPager.setCurrentItem(index, false)
+                return true
+            }
         }
         return false
     }
@@ -273,7 +285,8 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
             }
             R.id.action_add_sender -> {
                 val dialog = BottomSheetDialog(this)
-                val view: View = LayoutInflater.from(this).inflate(R.layout.dialog_sender_bottom_sheet, null)
+                val view: View =
+                    LayoutInflater.from(this).inflate(R.layout.dialog_sender_bottom_sheet, null)
                 val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
 
                 WidgetUtils.initGridRecyclerView(recyclerView, 4, DensityUtils.dp2px(1f))
@@ -312,12 +325,13 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
      * @return
      */
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-        val index = CollectionUtils.arrayIndexOf(mTitles, menuItem.title)
-        if (index != -1) {
-            binding!!.includeMain.toolbar.title = menuItem.title
-            binding!!.includeMain.viewPager.setCurrentItem(index, false)
-            updateSideNavStatus(menuItem)
-            return true
+        for (index in mTitles.indices) {
+            if (mTitles[index] == menuItem.title) {
+                binding!!.includeMain.toolbar.title = menuItem.title
+                binding!!.includeMain.viewPager.setCurrentItem(index, false)
+                updateSideNavStatus(menuItem)
+                return true
+            }
         }
         return false
     }

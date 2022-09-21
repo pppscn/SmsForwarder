@@ -1,6 +1,6 @@
 apply plugin: 'com.xuexiang.xrouter'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'android-aspectjx'
+//apply plugin: 'android-aspectjx'
 apply plugin: 'com.xuexiang.xaop'
 
 //自动添加依赖
@@ -53,6 +53,6 @@ configurations.all {
 }
 
 // 这里需要修改包名
-aspectjx {
-    include 'com.idormy.sms.forwarder'
-}
+//aspectjx {
+//    include 'com.idormy.sms.forwarder'
+//}

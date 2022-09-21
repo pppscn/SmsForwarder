@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.idormy.sms.forwarder"
     android:installLocation="internalOnly">
 
     <uses-permission
@@ -56,7 +55,6 @@
 
     <application
         android:name=".App"
-        android:allowBackup="true"
         android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
         android:fullBackupContent="@xml/backup_descriptor"
         android:hardwareAccelerated="true"
@@ -70,8 +68,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="adjustPan|stateHidden"
-        tools:ignore="DataExtractionRules,LockedOrientationActivity,UnusedAttribute"
-        tools:replace="android:allowBackup">
+        tools:ignore="DataExtractionRules,LockedOrientationActivity,UnusedAttribute">
 
         <meta-data
             android:name="ScopedStorage"
