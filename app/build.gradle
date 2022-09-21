@@ -216,7 +216,7 @@ dependencies {
     implementation 'com.zzhoujay.richtext:richtext:3.0.8'
 
     //美团多渠道打包
-    implementation 'com.meituan.android.walle:library:1.1.6'
+    //implementation 'com.meituan.android.walle:library:1.1.6'
 
     api("androidx.work:work-multiprocess:2.7.1")
     api("androidx.work:work-runtime-ktx:2.7.1")
@@ -250,7 +250,7 @@ dependencies {
     testImplementation "androidx.paging:paging-common-ktx:$paging_version"
 
     //权限请求框架：https://github.com/getActivity/XXPermissions
-    implementation 'com.github.getActivity:XXPermissions:15.0'
+    implementation 'com.github.getActivity:XXPermissions:16.2'
 
     def mail_version = '1.6.7'
     implementation "com.sun.mail:android-mail:$mail_version"
@@ -267,6 +267,6 @@ dependencies {
 //自动添加X-Library依赖
 apply from: 'x-library.gradle'
 //walle多渠道打包
-apply from: 'multiple-channel.gradle'
+//apply from: 'multiple-channel.gradle'
 
 

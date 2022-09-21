@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.idormy.sms.forwarder.BuildConfig
 import com.idormy.sms.forwarder.utils.SettingUtils.Companion.isAgreePrivacy
-import com.meituan.android.walle.WalleChannelReader
+//import com.meituan.android.walle.WalleChannelReader
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 import com.xuexiang.xui.XUI
@@ -79,7 +79,8 @@ class UMengInit private constructor() {
          * @return
          */
         private fun getChannel(context: Context?): String? {
-            return WalleChannelReader.getChannel(context!!, DEFAULT_CHANNEL_ID)
+            //return WalleChannelReader.getChannel(context!!, DEFAULT_CHANNEL_ID)
+            return DEFAULT_CHANNEL_ID
         }
     }
 

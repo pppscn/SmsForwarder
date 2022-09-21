@@ -649,7 +649,7 @@
     <string name="no">No</string>
     <string name="unknown">---</string>
     <string name="refresh">刷新</string>
-    <string name="tip_can_not_get_sim_infos">请确认应用权限【获取手机信息】为【始终允许】</string>
+    <string name="tip_can_not_get_sim_infos">请确认应用权限【获取手机信息】为【始终允许】或手动填写</string>
     <string name="tip_can_not_get_sim_info">未获取到卡槽%s中的SIM卡信息</string>
     <string name="add">添加</string>
     <string name="check_update">检查更新</string>
