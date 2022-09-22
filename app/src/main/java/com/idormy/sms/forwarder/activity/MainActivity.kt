@@ -47,6 +47,7 @@ import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.GravityEnum
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xutil.file.FileUtils
+import com.xuexiang.xutil.net.NetworkUtils
 import frpclib.Frpclib
 import io.reactivex.CompletableObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -118,8 +119,11 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
     }
 
     private fun initData() {
-        showTips(this)
-        XUpdateInit.checkUpdate(this, false)
+        //仅当有WIFI网络时自动检查更新/获取提示
+        if (NetworkUtils.isWifi() && NetworkUtils.isHaveInternet()) {
+            showTips(this)
+            XUpdateInit.checkUpdate(this, false)
+        }
     }
 
     fun initListeners() {
