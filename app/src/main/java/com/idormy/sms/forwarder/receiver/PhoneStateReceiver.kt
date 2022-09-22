@@ -21,7 +21,6 @@ import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.Worker
 import com.idormy.sms.forwarder.workers.SendWorker
-import com.xuexiang.xutil.resource.ResUtils
 import com.xuexiang.xutil.resource.ResUtils.getString
 import java.util.*
 
@@ -40,7 +39,11 @@ class PhoneStateReceiver : BroadcastReceiver() {
             if (TelephonyManager.ACTION_PHONE_STATE_CHANGED != intent.action) return
 
             //权限判断
-            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) return
+            if (ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.READ_PHONE_STATE
+                ) != PackageManager.PERMISSION_GRANTED
+            ) return
 
             //获取来电号码
             val number = intent.extras!!.getString(TelephonyManager.EXTRA_INCOMING_NUMBER)
@@ -80,11 +83,12 @@ class PhoneStateReceiver : BroadcastReceiver() {
                 //来电提醒
                 if (!TextUtils.isEmpty(number) && SettingUtils.enableCallType4) {
                     val contacts = PhoneUtils.getContactByNumber(number)
-                    val contactName = if (contacts.isNotEmpty()) contacts[0].name else getString(R.string.unknown_number)
+                    val contactName =
+                        if (contacts.isNotEmpty()) contacts[0].name else getString(R.string.unknown_number)
 
                     val sb = StringBuilder()
                     sb.append(getString(R.string.linkman)).append(contactName).append("\n")
-                    sb.append(ResUtils.getString(R.string.mandatory_type))
+                    sb.append(getString(R.string.mandatory_type))
                     sb.append(getString(R.string.incoming_call))
 
                     val msgInfo = MsgInfo("call", number.toString(), sb.toString(), Date(), "", -1)
@@ -117,15 +121,27 @@ class PhoneStateReceiver : BroadcastReceiver() {
                 when {
                     lastState == TelephonyManager.CALL_STATE_RINGING -> {
                         Log.d(TAG, "来电未接")
-                        sendReceiveCallMsg(context, 3, MMKVUtils.getString("CALL_SAVED_NUMBER", null))
+                        sendReceiveCallMsg(
+                            context,
+                            3,
+                            MMKVUtils.getString("CALL_SAVED_NUMBER", null)
+                        )
                     }
                     MMKVUtils.getBoolean("CALL_IS_INCOMING", false) -> {
                         Log.d(TAG, "来电挂机")
-                        sendReceiveCallMsg(context, 1, MMKVUtils.getString("CALL_SAVED_NUMBER", null))
+                        sendReceiveCallMsg(
+                            context,
+                            1,
+                            MMKVUtils.getString("CALL_SAVED_NUMBER", null)
+                        )
                     }
                     else -> {
                         Log.d(TAG, "去电挂机")
-                        sendReceiveCallMsg(context, 2, MMKVUtils.getString("CALL_SAVED_NUMBER", null))
+                        sendReceiveCallMsg(
+                            context,
+                            2,
+                            MMKVUtils.getString("CALL_SAVED_NUMBER", null)
+                        )
                     }
                 }
         }
@@ -161,10 +177,18 @@ class PhoneStateReceiver : BroadcastReceiver() {
         //获取联系人姓名
         if (TextUtils.isEmpty(callInfo.name)) {
             val contacts = PhoneUtils.getContactByNumber(phoneNumber)
-            callInfo.name = if (contacts.isNotEmpty()) contacts[0].name else getString(R.string.unknown_number)
+            callInfo.name =
+                if (contacts.isNotEmpty()) contacts[0].name else getString(R.string.unknown_number)
         }
 
-        val msgInfo = MsgInfo("call", callInfo.number, PhoneUtils.getCallMsg(callInfo), Date(), simInfo, simSlot)
+        val msgInfo = MsgInfo(
+            "call",
+            callInfo.number,
+            PhoneUtils.getCallMsg(callInfo),
+            Date(),
+            simInfo,
+            simSlot
+        )
         val request = OneTimeWorkRequestBuilder<SendWorker>()
             .setInputData(
                 workDataOf(

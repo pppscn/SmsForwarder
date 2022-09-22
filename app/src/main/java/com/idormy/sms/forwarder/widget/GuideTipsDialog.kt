@@ -65,7 +65,7 @@ class GuideTipsDialog(context: Context?, tips: List<TipInfo>) :
      */
     private fun updateTips(tips: List<TipInfo>) {
         mTips = tips
-        if (mTips != null && mTips!!.isNotEmpty() && mTvContent != null) {
+        if (mTips!!.isNotEmpty() && mTvContent != null) {
             mIndex = 0
             showRichText(mTips!![mIndex])
         }

@@ -11,7 +11,8 @@
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="72dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
         <com.xuexiang.xui.widget.alpha.XUIAlphaImageView
             android:id="@+id/iv_close"

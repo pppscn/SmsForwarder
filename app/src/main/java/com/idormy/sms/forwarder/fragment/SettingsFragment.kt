@@ -635,7 +635,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                     KeepAliveUtils.ignoreBatteryOptimization(requireActivity())
                 } else if (isChecked) {
                     XToastUtils.info(R.string.isIgnored)
-                    sbBatterySetting.isChecked = isIgnoreBatteryOptimization
+                    sbBatterySetting.isChecked = true
                 } else {
                     XToastUtils.info(R.string.isIgnored2)
                     sbBatterySetting.isChecked = isIgnoreBatteryOptimization

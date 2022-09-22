@@ -51,7 +51,8 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
     override fun initViews() {
         //发送按钮增加倒计时，避免重复点击
         mCountDownHelper = CountDownButtonHelper(binding!!.btnSubmit, SettingUtils.requestTimeout)
-        mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
+        mCountDownHelper!!.setOnCountDownListener(object :
+            CountDownButtonHelper.OnCountDownListener {
             override fun onCountDown(time: Int) {
                 binding!!.btnSubmit.text = String.format(getString(R.string.seconds_n), time)
             }
@@ -64,7 +65,8 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
         //取出历史记录
         val history = HttpServerUtils.wolHistory
         if (!TextUtils.isEmpty(history)) {
-            wolHistory = Gson().fromJson(history, object : TypeToken<MutableMap<String, String>>() {}.type)
+            wolHistory =
+                Gson().fromJson(history, object : TypeToken<MutableMap<String, String>>() {}.type)
         }
     }
 
@@ -83,7 +85,7 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
                 }
                 Log.d(TAG, "wolHistory = $wolHistory")
 
-                MaterialDialog.Builder(context!!)
+                MaterialDialog.Builder(requireContext())
                     .title(R.string.server_history)
                     .items(wolHistory.keys)
                     .itemsCallbackSingleChoice(0) { _: MaterialDialog?, _: View?, _: Int, text: CharSequence ->
@@ -111,7 +113,8 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
                 msgMap["timestamp"] = timestamp
                 val clientSignKey = HttpServerUtils.clientSignKey
                 if (!TextUtils.isEmpty(clientSignKey)) {
-                    msgMap["sign"] = HttpServerUtils.calcSign(timestamp.toString(), clientSignKey.toString())
+                    msgMap["sign"] =
+                        HttpServerUtils.calcSign(timestamp.toString(), clientSignKey.toString())
                 }
 
                 val mac = binding!!.etMac.text.toString()
@@ -161,7 +164,10 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
                         override fun onSuccess(response: String) {
                             Log.i(TAG, response)
                             try {
-                                val resp: BaseResponse<String> = Gson().fromJson(response, object : TypeToken<BaseResponse<String>>() {}.type)
+                                val resp: BaseResponse<String> = Gson().fromJson(
+                                    response,
+                                    object : TypeToken<BaseResponse<String>>() {}.type
+                                )
                                 if (resp.code == 200) {
                                     XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
                                     //添加到历史记录

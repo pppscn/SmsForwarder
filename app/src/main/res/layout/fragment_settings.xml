@@ -123,7 +123,8 @@
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:text="@string/missed_call"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            tools:ignore="SmallSp" />
 
                         <com.xuexiang.xui.widget.button.SmoothCheckBox
                             android:id="@+id/scb_call_type1"
@@ -137,7 +138,8 @@
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:text="@string/received_call"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            tools:ignore="SmallSp" />
 
                         <com.xuexiang.xui.widget.button.SmoothCheckBox
                             android:id="@+id/scb_call_type2"
@@ -151,7 +153,8 @@
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:text="@string/local_outgoing_call"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            tools:ignore="SmallSp" />
 
                         <com.xuexiang.xui.widget.button.SmoothCheckBox
                             android:id="@+id/scb_call_type4"
@@ -165,7 +168,8 @@
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:text="@string/incoming_call"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            tools:ignore="SmallSp" />
 
                     </LinearLayout>
 
@@ -230,7 +234,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/cancel_app_notify"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            tools:ignore="SmallSp" />
 
                         <com.xuexiang.xui.widget.button.SmoothCheckBox
                             android:id="@+id/scb_not_user_present"
@@ -243,7 +248,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/not_user_present"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            tools:ignore="SmallSp" />
 
                     </LinearLayout>
 
@@ -307,7 +313,8 @@
                             android:layout_height="wrap_content"
                             android:checked="true"
                             android:text="@string/user_app"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            tools:ignore="SmallSp" />
 
                         <com.xuexiang.xui.widget.button.SmoothCheckBox
                             android:id="@+id/scb_load_system_app"
@@ -320,7 +327,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/system_app"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            tools:ignore="SmallSp" />
 
                     </LinearLayout>
 
@@ -589,7 +597,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/keep_reminding"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
 
             </LinearLayout>
 
@@ -861,7 +870,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/play_silence_music"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            tools:ignore="SmallSp" />
 
                         <LinearLayout
                             android:id="@+id/layout_one_pixel_activity"
@@ -880,7 +890,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/one_pixel_activity"
-                                android:textSize="10sp" />
+                                android:textSize="10sp"
+                                tools:ignore="SmallSp" />
 
                         </LinearLayout>
 

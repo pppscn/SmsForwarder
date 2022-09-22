@@ -34,7 +34,7 @@ object MailUtil {
         properties["mail.smtp.auth"] = "true"
         properties["mail.smtp.ssl.enable"] = mail.openSSL
         if (mail.startTls) {
-            properties["mail.smtp.starttls.enable"] = mail.startTls
+            properties["mail.smtp.starttls.enable"] = true
         }
         if (mail.openSSL) {
             properties["mail.smtp.socketFactory.class"] = mail.sslFactory
@@ -94,7 +94,10 @@ object MailUtil {
             // 邮件正文
             val textBodyPart = MimeBodyPart()
             if (mail.content is Spanned) {
-                textBodyPart.setContent(Html.toHtml(mail.content as Spanned), "text/html;charset=UTF-8")
+                textBodyPart.setContent(
+                    Html.toHtml(mail.content as Spanned),
+                    "text/html;charset=UTF-8"
+                )
             } else {
                 textBodyPart.setContent(mail.content, "text/html;charset=UTF-8")
             }

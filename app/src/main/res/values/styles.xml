@@ -17,8 +17,12 @@
 
     <style name="AppTheme.Launch">
         <item name="xui_config_color_splash_bg">@color/xui_config_color_white</item>
-        <item name="xui_config_app_logo_bottom" tools:ignore="PrivateResource">@dimen/xui_config_app_logo_bottom</item>
-        <item name="xui_config_company_logo_bottom" tools:ignore="PrivateResource">@dimen/xui_config_company_logo_bottom</item>
+        <item name="xui_config_app_logo_bottom" tools:ignore="PrivateResource">
+            @dimen/xui_config_app_logo_bottom
+        </item>
+        <item name="xui_config_company_logo_bottom" tools:ignore="PrivateResource">
+            @dimen/xui_config_company_logo_bottom
+        </item>
         <item name="android:windowBackground">@drawable/xui_config_bg_splash</item>
         <item name="android:windowFullscreen">true</item>
     </style>
@@ -43,7 +47,7 @@
         <!--无标题-->
         <item name="android:windowNoTitle">true</item>　　　　　
         <!--是否浮现在activity之上-->
-        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsFloating" tools:ignore="TranslucentOrientation">true</item>
         <!--是否半透明-->
         <item name="android:windowIsTranslucent">true</item>
         <!--是否有覆盖-->

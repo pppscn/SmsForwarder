@@ -44,7 +44,14 @@ import com.xuexiang.xutil.net.JsonUtil
  * @author xuexiang
  * @since 2019/1/4 下午11:13
  */
-@Suppress("unused", "MemberVisibilityCanBePrivate", "ProtectedInFinal", "NAME_SHADOWING", "UNUSED_PARAMETER", "OVERRIDE_DEPRECATION")
+@Suppress(
+    "unused",
+    "MemberVisibilityCanBePrivate",
+    "ProtectedInFinal",
+    "NAME_SHADOWING",
+    "UNUSED_PARAMETER",
+    "OVERRIDE_DEPRECATION"
+)
 class AgentWebFragment : Fragment(), FragmentKeyDown {
     private var mBackImageView: ImageView? = null
     private var mLineView: View? = null
@@ -372,11 +379,11 @@ class AgentWebFragment : Fragment(), FragmentKeyDown {
         override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
             Log.i(TAG, "mUrl:$url onPageStarted  target:$url")
             timer[url] = System.currentTimeMillis()
-            if (url == url) {
-                pageNavigator(View.GONE)
-            } else {
-                pageNavigator(View.VISIBLE)
-            }
+            //if (url == url) {
+            //    pageNavigator(View.GONE)
+            //} else {
+            pageNavigator(View.VISIBLE)
+            //}
         }
 
         override fun onPageFinished(view: WebView, url: String) {
@@ -495,7 +502,8 @@ class AgentWebFragment : Fragment(), FragmentKeyDown {
      * @param text
      */
     private fun toCopy(context: Context?, text: String) {
-        val manager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val manager =
+            requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         manager.setPrimaryClip(ClipData.newPlainText(null, text))
     }
 

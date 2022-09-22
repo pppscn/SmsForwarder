@@ -203,11 +203,11 @@ dependencies {
     implementation 'com.github.xuexiangjys.AgentWeb:agentweb-core:1.0.0'
     implementation 'com.github.xuexiangjys.AgentWeb:agentweb-download:1.0.0'//选填
     //腾讯的键值对存储mmkv：https://github.com/Tencent/MMKV
-    implementation 'com.tencent:mmkv:1.2.13'
+    implementation 'com.tencent:mmkv:1.2.14'
     //屏幕适配AutoSize：https://github.com/JessYanCoding/AndroidAutoSize
     implementation 'me.jessyan:autosize:1.2.1'
     //umeng统计
-    implementation 'com.umeng.umsdk:common:9.5.0'
+    implementation 'com.umeng.umsdk:common:9.5.2'
     implementation 'com.umeng.umsdk:asms:1.6.3'
 
     //预加载占位控件

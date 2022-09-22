@@ -360,11 +360,11 @@ class XPageWebViewFragment : BaseFragment<FragmentAgentwebBinding?>(), View.OnCl
 
         override fun onPageStarted(view: WebView, url: String, favicon: Bitmap) {
             mTimer[url] = System.currentTimeMillis()
-            if (url == url) {
-                pageNavigator(View.GONE)
-            } else {
-                pageNavigator(View.VISIBLE)
-            }
+            //if (url == url) {
+            //    pageNavigator(View.GONE)
+            //} else {
+            pageNavigator(View.VISIBLE)
+            //}
         }
 
         override fun onPageFinished(view: WebView, url: String) {
@@ -480,7 +480,8 @@ class XPageWebViewFragment : BaseFragment<FragmentAgentwebBinding?>(), View.OnCl
      * @param text
      */
     private fun toCopy(context: Context?, text: String) {
-        val manager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val manager =
+            requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         manager.setPrimaryClip(ClipData.newPlainText(null, text))
     }
 

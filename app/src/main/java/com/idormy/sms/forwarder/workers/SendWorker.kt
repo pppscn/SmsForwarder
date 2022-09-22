@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.workers
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
@@ -23,6 +24,7 @@ class SendWorker(
     workerParams: WorkerParameters,
 ) : CoroutineWorker(context, workerParams) {
 
+    @SuppressLint("SimpleDateFormat")
     override suspend fun doWork(): Result {
 
         return withContext(Dispatchers.IO) {
@@ -41,8 +43,10 @@ class SendWorker(
 
                     val dateFmt = SimpleDateFormat("yyyy-MM-dd")
                     val mTimeOption = DataProvider.timePeriodOption
-                    val periodStartStr = dateFmt.format(periodStartDay) + " " + mTimeOption[SettingUtils.silentPeriodStart] + ":00"
-                    val periodEndStr = dateFmt.format(periodStartEnd) + " " + mTimeOption[SettingUtils.silentPeriodEnd] + ":00"
+                    val periodStartStr =
+                        dateFmt.format(periodStartDay) + " " + mTimeOption[SettingUtils.silentPeriodStart] + ":00"
+                    val periodEndStr =
+                        dateFmt.format(periodStartEnd) + " " + mTimeOption[SettingUtils.silentPeriodEnd] + ":00"
 
                     val timeFmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
                     val periodStart = timeFmt.parse(periodStartStr, ParsePosition(0)).time
@@ -75,14 +79,22 @@ class SendWorker(
 
                 //【注意】卡槽id：-1=获取失败、0=卡槽1、1=卡槽2，但是 Rule 表里存的是 SIM1/SIM2
                 val simSlot = "SIM" + (msgInfo.simSlot + 1)
-                val ruleList: List<RuleAndSender> = Core.rule.getRuleAndSender(msgInfo.type, 1, simSlot)
+                val ruleList: List<RuleAndSender> =
+                    Core.rule.getRuleAndSender(msgInfo.type, 1, simSlot)
                 if (ruleList.isEmpty()) {
                     return@withContext Result.failure(workDataOf("send" to "failed"))
                 }
 
                 for (rule in ruleList) {
                     if (!rule.rule.checkMsg(msgInfo)) continue
-                    val log = Logs(0, msgInfo.type, msgInfo.from, msgInfo.content, rule.rule.id, msgInfo.simInfo)
+                    val log = Logs(
+                        0,
+                        msgInfo.type,
+                        msgInfo.from,
+                        msgInfo.content,
+                        rule.rule.id,
+                        msgInfo.simInfo
+                    )
                     val logId = Core.logs.insert(log)
                     SendUtils.sendMsgSender(msgInfo, rule.rule, rule.sender, logId)
                 }

@@ -78,7 +78,7 @@ class UMengInit private constructor() {
          * @param context
          * @return
          */
-        private fun getChannel(context: Context?): String? {
+        private fun getChannel(context: Context?): String {
             //return WalleChannelReader.getChannel(context!!, DEFAULT_CHANNEL_ID)
             return DEFAULT_CHANNEL_ID
         }

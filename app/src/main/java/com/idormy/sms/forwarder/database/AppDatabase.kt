@@ -44,13 +44,13 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
         private fun buildDatabase(context: Context): AppDatabase {
-            var builder = Room.databaseBuilder(
+            val builder = Room.databaseBuilder(
                 context.applicationContext,
                 AppDatabase::class.java,
                 DATABASE_NAME
             )
                 .allowMainThreadQueries() //TODO:允许主线程访问，后面再优化
-                .addCallback(object : RoomDatabase.Callback() {
+                .addCallback(object : Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         //fillInDb(context.applicationContext)
                         db.execSQL(

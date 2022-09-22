@@ -166,8 +166,6 @@
 -dontwarn com.squareup.okhttp3.**
 -keep class com.squareup.okhttp3.** { *;}
 -dontwarn okio.**
--dontwarn javax.annotation.Nullable
--dontwarn javax.annotation.ParametersAreNonnullByDefault
 -dontwarn javax.annotation.**
 
 #如果用到Gson解析包的，直接添加下面这几行就能成功混淆，不然会报错
@@ -208,8 +206,6 @@
 #}
 
 -dontwarn okio.**
--dontwarn javax.annotation.Nullable
--dontwarn javax.annotation.ParametersAreNonnullByDefault
 -dontwarn javax.annotation.**
 
 # fastjson

@@ -166,7 +166,7 @@
                     android:inputType="number"
                     android:maxLength="1"
                     android:singleLine="true"
-                    android:text="1"
+                    android:text="@string/_1"
                     app:met_clearButton="true" />
 
             </LinearLayout>

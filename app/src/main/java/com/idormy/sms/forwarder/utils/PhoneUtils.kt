@@ -230,7 +230,10 @@ class PhoneUtils private constructor() {
                 Log.i(TAG, "cursor count:" + cursor.count)
 
                 // 避免超过总数后循环取出
-                if (cursor.count == 0 || offset >= cursor.count) return callInfoList
+                if (cursor.count == 0 || offset >= cursor.count) {
+                    cursor.close()
+                    return callInfoList
+                }
 
                 if (cursor.moveToFirst()) {
                     Log.d(TAG, "Call ColumnNames=${cursor.columnNames.contentToString()}")
@@ -328,7 +331,10 @@ class PhoneUtils private constructor() {
                 Log.i(TAG, "cursor count:" + cursor.count)
 
                 // 避免超过总数后循环取出
-                if (cursor.count == 0 || offset >= cursor.count) return contactInfoList
+                if (cursor.count == 0 || offset >= cursor.count) {
+                    cursor.close()
+                    return contactInfoList
+                }
 
                 if (cursor.moveToFirst()) {
                     val displayNameIndex =
@@ -424,7 +430,10 @@ class PhoneUtils private constructor() {
                     selectionArgs.toTypedArray(),
                     "date desc"
                 ) ?: return smsInfoList
-                if (offset >= cursorTotal.count) return smsInfoList
+                if (offset >= cursorTotal.count) {
+                    cursorTotal.close()
+                    return smsInfoList
+                }
 
                 val cursor = Core.app.contentResolver.query(
                     Uri.parse("content://sms/"),
@@ -435,7 +444,10 @@ class PhoneUtils private constructor() {
                 ) ?: return smsInfoList
 
                 Log.i(TAG, "cursor count:" + cursor.count)
-                if (cursor.count == 0) return smsInfoList
+                if (cursor.count == 0) {
+                    cursor.close()
+                    return smsInfoList
+                }
 
                 if (cursor.moveToFirst()) {
                     Log.d(TAG, "SMS ColumnNames=${cursor.columnNames.contentToString()}")
@@ -474,6 +486,8 @@ class PhoneUtils private constructor() {
                         ) else -1
                         smsInfoList.add(smsInfo)
                     } while (cursor.moveToNext())
+
+                    if (!cursorTotal.isClosed) cursorTotal.close()
                     if (!cursor.isClosed) cursor.close()
                 }
             } catch (e: java.lang.Exception) {
