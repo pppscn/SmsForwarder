@@ -11,10 +11,11 @@ data class WebhookSetting(
     val headers: Map<String, String>?,
 ) : Serializable {
     fun getMethodCheckId(): Int {
-        return if (method == null || method == "POST") {
-            R.id.rb_method_post
-        } else {
-            R.id.rb_method_get
+        return when (method) {
+            null, "POST" -> R.id.rb_method_post
+            "PUT" -> R.id.rb_method_put
+            "PATCH" -> R.id.rb_method_patch
+            else -> R.id.rb_method_get
         }
     }
 }

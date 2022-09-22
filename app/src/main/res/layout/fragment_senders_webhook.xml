@@ -81,6 +81,18 @@
                         android:layout_height="wrap_content"
                         android:text="@string/get" />
 
+                    <RadioButton
+                        android:id="@+id/rb_method_put"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/put" />
+
+                    <RadioButton
+                        android:id="@+id/rb_method_patch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/patch" />
+
                 </RadioGroup>
 
             </LinearLayout>

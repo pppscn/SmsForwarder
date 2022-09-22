@@ -49,13 +49,19 @@ class WebhookUtils {
             val deviceMark: String = SettingUtils.extraDeviceMark ?: ""
             val appVersion: String = AppUtils.getAppVersionName()
             val simInfo: String = msgInfo.simInfo
-            @SuppressLint("SimpleDateFormat") val receiveTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()) //smsVo.getDate()
+            @SuppressLint("SimpleDateFormat") val receiveTime =
+                SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()) //smsVo.getDate()
 
             var sign = ""
             if (!TextUtils.isEmpty(setting.secret)) {
                 val stringToSign = "$timestamp\n" + setting.secret
                 val mac = Mac.getInstance("HmacSHA256")
-                mac.init(SecretKeySpec(setting.secret?.toByteArray(StandardCharsets.UTF_8), "HmacSHA256"))
+                mac.init(
+                    SecretKeySpec(
+                        setting.secret?.toByteArray(StandardCharsets.UTF_8),
+                        "HmacSHA256"
+                    )
+                )
                 val signData = mac.doFinal(stringToSign.toByteArray(StandardCharsets.UTF_8))
                 sign = URLEncoder.encode(String(Base64.encode(signData, Base64.NO_WRAP)), "UTF-8")
             }
@@ -64,7 +70,8 @@ class WebhookUtils {
 
             //支持HTTP基本认证(Basic Authentication)
             val regex = "^(https?://)([^:]+):([^@]+)@(.+)"
-            val matches = Regex(regex, RegexOption.IGNORE_CASE).findAll(requestUrl).toList().flatMap(MatchResult::groupValues)
+            val matches = Regex(regex, RegexOption.IGNORE_CASE).findAll(requestUrl).toList()
+                .flatMap(MatchResult::groupValues)
             Log.i(TAG, "matches = $matches")
             if (matches.isNotEmpty()) {
                 requestUrl = matches[1] + matches[4]
@@ -72,7 +79,10 @@ class WebhookUtils {
             }
 
             val request = if (setting.method == "GET" && TextUtils.isEmpty(webParams)) {
-                setting.webServer += (if (setting.webServer.contains("?")) "&" else "?") + "from=" + URLEncoder.encode(from, "UTF-8")
+                setting.webServer += (if (setting.webServer.contains("?")) "&" else "?") + "from=" + URLEncoder.encode(
+                    from,
+                    "UTF-8"
+                )
                 requestUrl += "&content=" + URLEncoder.encode(content, "UTF-8")
                 if (!TextUtils.isEmpty(sign)) {
                     requestUrl += "&timestamp=$timestamp"
@@ -114,29 +124,39 @@ class WebhookUtils {
                     .replace("[receive_time]", receiveTime)
                     .replace("[timestamp]", timestamp.toString())
                     .replace("[sign]", sign)
-                Log.d(TAG, "method = POST, Url = $requestUrl, bodyMsg = $bodyMsg")
-                XHttp.post(requestUrl).keepJson(true).upJson(bodyMsg)
+                Log.d(TAG, "method = ${setting.method}, Url = $requestUrl, bodyMsg = $bodyMsg")
+                when (setting.method) {
+                    "PUT" -> XHttp.put(requestUrl).keepJson(true).upJson(bodyMsg)
+                    "PATCH" -> XHttp.patch(requestUrl).keepJson(true).upJson(bodyMsg)
+                    else -> XHttp.post(requestUrl).keepJson(true).upJson(bodyMsg)
+                }
             } else {
                 if (webParams == null || webParams.isEmpty()) {
                     webParams = "from=[from]&content=[content]&timestamp=[timestamp]"
                     if (!TextUtils.isEmpty(sign)) webParams += "&sign=[sign]"
                 }
-
-                val postRequest = XHttp.post(requestUrl).keepJson(true)
+                Log.d(TAG, "method = ${setting.method}, Url = $requestUrl")
+                val postRequest = when (setting.method) {
+                    "PUT" -> XHttp.put(requestUrl).keepJson(true)
+                    "PATCH" -> XHttp.patch(requestUrl).keepJson(true)
+                    else -> XHttp.post(requestUrl).keepJson(true)
+                }
                 webParams.split("&").forEach {
                     val param = it.split("=")
                     if (param.size == 2) {
-                        postRequest.params(param[0], param[1].replace("[from]", from)
-                            .replace("[content]", content)
-                            .replace("[msg]", content)
-                            .replace("[org_content]", orgContent)
-                            .replace("[device_mark]", deviceMark)
-                            .replace("[app_version]", appVersion)
-                            .replace("[title]", simInfo)
-                            .replace("[card_slot]", simInfo)
-                            .replace("[receive_time]", receiveTime)
-                            .replace("[timestamp]", timestamp.toString())
-                            .replace("[sign]", sign))
+                        postRequest.params(
+                            param[0], param[1].replace("[from]", from)
+                                .replace("[content]", content)
+                                .replace("[msg]", content)
+                                .replace("[org_content]", orgContent)
+                                .replace("[device_mark]", deviceMark)
+                                .replace("[app_version]", appVersion)
+                                .replace("[title]", simInfo)
+                                .replace("[card_slot]", simInfo)
+                                .replace("[receive_time]", receiveTime)
+                                .replace("[timestamp]", timestamp.toString())
+                                .replace("[sign]", sign)
+                        )
                     }
                 }
                 postRequest

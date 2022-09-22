@@ -395,6 +395,8 @@
     <string name="mu_rule_app_tips">Example of multiple matching rules: (see wiki for syntax)\n\nAND IS PACKAGE_NAME EQUALS com.tencent.mm\n[space]OR IS PACKAGE_NAME EQUALS com.tencent.mm\nAND IS INFORM_CONTENT CONTAIN arrears\n\nThe above rules mean: Receive an APP notification, and (the APP package name is com.tencent.mm or the APP package name is com.tencent.mm), and the content of the notification includes forwarding the notification when the payment is in arrears\n\nNote: The space at the beginning of each line represents the level, too complex multiple rules may lead to a large memory usage!</string>
     <string name="post">POST</string>
     <string name="get">GET</string>
+    <string name="put">PUT</string>
+    <string name="patch">PATCH</string>
     <!--CloneActivity-->
     <string name="local_ip">Local IP: </string>
     <string name="operating_instruction">Instructions: \n[Note] The APP version of the sender and receiver must be the same!\n1. Please keep the SOURCE and DESTINATION phones in the same Wi-Fi network, and do not turn on isolation. \n2. Tap "Send" on SOURCE mobile phone, and get "server IP" \n3. After filling in "Server IP" on DESTINATION phone, tap "Receive". \n [NOTE:] sender(s), forwarding rule(s) and log(s) will be overwritten after cloning!</string> <!-- 原文是“新旧手机”，英文翻译中处理为“源”手机和“目标”手机，因为担心“新旧”的表述引起混淆（有没一种可能就是用户就是用从新手机的设备复制到旧手机上去呢？）。 -->
