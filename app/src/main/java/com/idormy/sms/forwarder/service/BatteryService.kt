@@ -13,6 +13,7 @@ import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.utils.BatteryUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
@@ -58,6 +59,13 @@ class BatteryService : Service() {
     private val batteryReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         @SuppressLint("DefaultLocale")
         override fun onReceive(context: Context, intent: Intent) {
+            //自动删除N天前的转发记录
+            if (SettingUtils.autoCleanLogsDays > 0) {
+                Log.d(TAG, "自动删除N天前的转发记录")
+                val cal = Calendar.getInstance()
+                cal.add(Calendar.DAY_OF_MONTH, 0 - SettingUtils.autoCleanLogsDays)
+                Core.logs.deleteTimeAgo(cal.timeInMillis)
+            }
 
             //电量发生变化
             val levelCur: Int = intent.getIntExtra("level", 0)
@@ -93,7 +101,9 @@ class BatteryService : Service() {
                 if (status != oldStatus) {
                     var msg: String = BatteryUtils.getBatteryInfo(intent).toString()
                     SettingUtils.batteryStatus = status
-                    msg = getString(R.string.battery_status_changed) + BatteryUtils.getStatus(oldStatus) + " → " + BatteryUtils.getStatus(status) + msg
+                    msg = getString(R.string.battery_status_changed) + BatteryUtils.getStatus(
+                        oldStatus
+                    ) + " → " + BatteryUtils.getStatus(status) + msg
                     sendMessage(context, msg)
                 }
             }
@@ -104,7 +114,14 @@ class BatteryService : Service() {
     private fun sendMessage(context: Context, msg: String) {
         Log.i(TAG, msg)
         try {
-            val msgInfo = MsgInfo("app", "88888888", msg, Date(), getString(R.string.battery_status_monitor), -1)
+            val msgInfo = MsgInfo(
+                "app",
+                "88888888",
+                msg,
+                Date(),
+                getString(R.string.battery_status_monitor),
+                -1
+            )
             val request = OneTimeWorkRequestBuilder<SendWorker>()
                 .setInputData(
                     workDataOf(

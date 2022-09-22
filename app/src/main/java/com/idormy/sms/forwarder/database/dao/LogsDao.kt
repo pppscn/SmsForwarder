@@ -22,6 +22,9 @@ interface LogsDao {
     @Query("DELETE FROM Logs where type=:type")
     fun deleteAll(type: String): Completable
 
+    @Query("DELETE FROM Logs where time<:time")
+    fun deleteTimeAgo(time: Long)
+
     @Update
     fun update(logs: Logs): Completable
 

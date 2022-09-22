@@ -12,8 +12,14 @@ class LogsRepository(private val logsDao: LogsDao) {
     }
 
     @WorkerThread
+    fun deleteTimeAgo(time: Long) {
+        logsDao.deleteTimeAgo(time)
+    }
+
+    @WorkerThread
     suspend fun insert(logs: Logs): Long = logsDao.insert(logs)
 
     @WorkerThread
-    fun updateStatus(id: Long, status: Int, response: String): Int = logsDao.updateStatus(id, status, response)
+    fun updateStatus(id: Long, status: Int, response: String): Int =
+        logsDao.updateStatus(id, status, response)
 }

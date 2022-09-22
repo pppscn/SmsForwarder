@@ -7,6 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.idormy.sms.forwarder.BuildConfig
 import com.idormy.sms.forwarder.database.dao.FrpcDao
 import com.idormy.sms.forwarder.database.dao.LogsDao
 import com.idormy.sms.forwarder.database.dao.RuleDao
@@ -43,7 +44,11 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
         private fun buildDatabase(context: Context): AppDatabase {
-            return Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, DATABASE_NAME)
+            var builder = Room.databaseBuilder(
+                context.applicationContext,
+                AppDatabase::class.java,
+                DATABASE_NAME
+            )
                 .allowMainThreadQueries() //TODO:允许主线程访问，后面再优化
                 .addCallback(object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
@@ -93,10 +98,14 @@ custom_domains = smsf.demo.com
                     MIGRATION_8_9,
                     MIGRATION_9_10,
                 )
-                .setQueryCallback({ sqlQuery, bindArgs ->
+
+            if (BuildConfig.DEBUG) {
+                builder.setQueryCallback({ sqlQuery, bindArgs ->
                     println("SQL_QUERY: $sqlQuery\nBIND_ARGS: $bindArgs")
                 }, Executors.newSingleThreadExecutor())
-                .build()
+            }
+
+            return builder.build()
         }
 
         //转发日志添加SIM卡槽信息

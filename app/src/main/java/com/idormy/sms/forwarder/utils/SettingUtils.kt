@@ -141,6 +141,14 @@ class SettingUtils private constructor() {
                 MMKVUtils.put(SP_SILENT_PERIOD_END, silentPeriodEnd)
             }
 
+        //自动删除N天前的转发记录
+        @JvmStatic
+        var autoCleanLogsDays: Int
+            get() = MMKVUtils.getInt(SP_AUTO_CLEAN_LOGS_DAYS, 0)
+            set(autoCleanLogsDays) {
+                MMKVUtils.put(SP_AUTO_CLEAN_LOGS_DAYS, autoCleanLogsDays)
+            }
+
         //是否监听电池状态变化
         @JvmStatic
         var enableBatteryReceiver: Boolean

@@ -684,7 +684,7 @@
     <string name="bark_level_active">Immediately display notifications</string>
     <string name="bark_level_timeSensitive">Time-sensitive notifications that can be displayed in a focused state</string>
     <string name="bark_level_passive">Only added to the notification list, no screen reminder</string>
-    <string name="bark_url_regex" tools:ignore="TypographyDashes" formatted="false"><![CDATA[^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]]]></string>
+    <string name="bark_url_regex" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]]]></string>
     <string name="bark_url_error">Url format error</string>
 
     <string name="from_email_hint">Fill in the username before @</string>
@@ -916,4 +916,7 @@
     <string name="app_id">App ID</string>
     <string name="app_secret">App Secret</string>
     <string name="user_id">User ID</string>
+    <string name="auto_clean_logs">Auto delete logs N days ago</string>
+    <string name="auto_clean_logs_tips">0=disabled, scan when battery change</string>
+    <string name="day">天</string>
 </resources>

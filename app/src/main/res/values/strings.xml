@@ -685,7 +685,7 @@
     <string name="bark_level_active">立即亮屏显示通知</string>
     <string name="bark_level_timeSensitive">时效性通知，可在专注状态下显示通知</string>
     <string name="bark_level_passive">仅添加到通知列表，不会亮屏提醒</string>
-    <string name="bark_url_regex" tools:ignore="TypographyDashes" formatted="false"><![CDATA[^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]]]></string>
+    <string name="bark_url_regex" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]]]></string>
     <string name="bark_url_error">Url格式错误</string>
 
     <string name="from_email_hint">填写 @ 前面的用户名</string>
@@ -917,4 +917,7 @@
     <string name="app_id">App ID</string>
     <string name="app_secret">App Secret</string>
     <string name="user_id">User ID</string>
+    <string name="auto_clean_logs">自动删除N天前的转发记录</string>
+    <string name="auto_clean_logs_tips">0=禁用，触发机制：每次电量变化时扫描</string>
+    <string name="day">天</string>
 </resources>

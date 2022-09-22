@@ -42,6 +42,7 @@ const val ENABLE_LOAD_SYSTEM_APP_LIST = "enable_load_system_app_list"
 const val SP_DUPLICATE_MESSAGES_LIMITS = "duplicate_messages_limits"
 const val SP_SILENT_PERIOD_START = "silent_period_start"
 const val SP_SILENT_PERIOD_END = "silent_period_end"
+const val SP_AUTO_CLEAN_LOGS_DAYS = "auto_clean_logs_days"
 
 const val SP_BATTERY_RECEIVER = "enable_battery_receiver"
 const val SP_BATTERY_STATUS = "battery_status"
@@ -164,20 +165,104 @@ const val TYPE_GOTIFY = 11
 const val TYPE_DINGTALK_INNER_ROBOT = 12
 const val TYPE_FEISHU_APP = 13
 var SENDER_FRAGMENT_LIST = listOf(
-    PageInfo(getString(R.string.dingtalk_robot), "com.idormy.sms.forwarder.fragment.senders.DingtalkGroupRobotFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_dingtalk),
-    PageInfo(getString(R.string.email), "com.idormy.sms.forwarder.fragment.senders.EmailFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_email),
-    PageInfo(getString(R.string.bark), "com.idormy.sms.forwarder.fragment.senders.BarkFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_bark),
-    PageInfo(getString(R.string.webhook), "com.idormy.sms.forwarder.fragment.senders.WebhookFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_webhook),
-    PageInfo(getString(R.string.wework_robot), "com.idormy.sms.forwarder.fragment.senders.WeworkRobotFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_wework_robot),
-    PageInfo(getString(R.string.wework_agent), "com.idormy.sms.forwarder.fragment.senders.WeworkAgentFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_wework_agent),
-    PageInfo(getString(R.string.server_chan), "com.idormy.sms.forwarder.fragment.senders.ServerchanFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_serverchan),
-    PageInfo(getString(R.string.telegram), "com.idormy.sms.forwarder.fragment.senders.TelegramFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_telegram),
-    PageInfo(getString(R.string.sms_menu), "com.idormy.sms.forwarder.fragment.senders.SmsFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_sms),
-    PageInfo(getString(R.string.feishu), "com.idormy.sms.forwarder.fragment.senders.FeishuFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_feishu),
-    PageInfo(getString(R.string.pushplus), "com.idormy.sms.forwarder.fragment.senders.PushplusFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_pushplus),
-    PageInfo(getString(R.string.gotify), "com.idormy.sms.forwarder.fragment.senders.GotifyFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_gotify),
-    PageInfo(getString(R.string.dingtalk_inner_robot), "com.idormy.sms.forwarder.fragment.senders.DingtalkInnerRobotFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_dingtalk_inner),
-    PageInfo(getString(R.string.feishu_app), "com.idormy.sms.forwarder.fragment.senders.FeishuAppFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_feishu_app),
+    PageInfo(
+        getString(R.string.dingtalk_robot),
+        "com.idormy.sms.forwarder.fragment.senders.DingtalkGroupRobotFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_dingtalk
+    ),
+    PageInfo(
+        getString(R.string.email),
+        "com.idormy.sms.forwarder.fragment.senders.EmailFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_email
+    ),
+    PageInfo(
+        getString(R.string.bark),
+        "com.idormy.sms.forwarder.fragment.senders.BarkFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_bark
+    ),
+    PageInfo(
+        getString(R.string.webhook),
+        "com.idormy.sms.forwarder.fragment.senders.WebhookFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_webhook
+    ),
+    PageInfo(
+        getString(R.string.wework_robot),
+        "com.idormy.sms.forwarder.fragment.senders.WeworkRobotFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_wework_robot
+    ),
+    PageInfo(
+        getString(R.string.wework_agent),
+        "com.idormy.sms.forwarder.fragment.senders.WeworkAgentFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_wework_agent
+    ),
+    PageInfo(
+        getString(R.string.server_chan),
+        "com.idormy.sms.forwarder.fragment.senders.ServerchanFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_serverchan
+    ),
+    PageInfo(
+        getString(R.string.telegram),
+        "com.idormy.sms.forwarder.fragment.senders.TelegramFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_telegram
+    ),
+    PageInfo(
+        getString(R.string.sms_menu),
+        "com.idormy.sms.forwarder.fragment.senders.SmsFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_sms
+    ),
+    PageInfo(
+        getString(R.string.feishu),
+        "com.idormy.sms.forwarder.fragment.senders.FeishuFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_feishu
+    ),
+    PageInfo(
+        getString(R.string.pushplus),
+        "com.idormy.sms.forwarder.fragment.senders.PushplusFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_pushplus
+    ),
+    PageInfo(
+        getString(R.string.gotify),
+        "com.idormy.sms.forwarder.fragment.senders.GotifyFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_gotify
+    ),
+    PageInfo(
+        getString(R.string.dingtalk_inner_robot),
+        "com.idormy.sms.forwarder.fragment.senders.DingtalkInnerRobotFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_dingtalk_inner
+    ),
+    PageInfo(
+        getString(R.string.feishu_app),
+        "com.idormy.sms.forwarder.fragment.senders.FeishuAppFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_feishu_app
+    ),
 )
 
 //前台服务
@@ -252,11 +337,53 @@ const val SP_SERVER_HISTORY = "server_history"
 const val SP_SERVER_CONFIG = "server_config"
 const val SP_CLIENT_SIGN_KEY = "client_sign_key"
 var CLIENT_FRAGMENT_LIST = listOf(
-    PageInfo(getString(R.string.api_clone), "com.idormy.sms.forwarder.fragment.client.CloneFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_clone),
-    PageInfo(getString(R.string.api_sms_send), "com.idormy.sms.forwarder.fragment.client.SmsSendFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_sms_send),
-    PageInfo(getString(R.string.api_sms_query), "com.idormy.sms.forwarder.fragment.client.SmsQueryFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_sms_query),
-    PageInfo(getString(R.string.api_call_query), "com.idormy.sms.forwarder.fragment.client.CallQueryFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_call_query),
-    PageInfo(getString(R.string.api_contact_query), "com.idormy.sms.forwarder.fragment.client.ContactQueryFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_contact_query),
-    PageInfo(getString(R.string.api_battery_query), "com.idormy.sms.forwarder.fragment.client.BatteryQueryFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_battery_query),
-    PageInfo(getString(R.string.api_wol), "com.idormy.sms.forwarder.fragment.client.WolSendFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_wol),
+    PageInfo(
+        getString(R.string.api_clone),
+        "com.idormy.sms.forwarder.fragment.client.CloneFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_api_clone
+    ),
+    PageInfo(
+        getString(R.string.api_sms_send),
+        "com.idormy.sms.forwarder.fragment.client.SmsSendFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_api_sms_send
+    ),
+    PageInfo(
+        getString(R.string.api_sms_query),
+        "com.idormy.sms.forwarder.fragment.client.SmsQueryFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_api_sms_query
+    ),
+    PageInfo(
+        getString(R.string.api_call_query),
+        "com.idormy.sms.forwarder.fragment.client.CallQueryFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_api_call_query
+    ),
+    PageInfo(
+        getString(R.string.api_contact_query),
+        "com.idormy.sms.forwarder.fragment.client.ContactQueryFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_api_contact_query
+    ),
+    PageInfo(
+        getString(R.string.api_battery_query),
+        "com.idormy.sms.forwarder.fragment.client.BatteryQueryFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_api_battery_query
+    ),
+    PageInfo(
+        getString(R.string.api_wol),
+        "com.idormy.sms.forwarder.fragment.client.WolSendFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_api_wol
+    ),
 )
