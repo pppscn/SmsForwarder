@@ -81,7 +81,8 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
     override fun initViews() {
         //测试按钮增加倒计时，避免重复点击
         mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, SettingUtils.requestTimeout)
-        mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
+        mCountDownHelper!!.setOnCountDownListener(object :
+            CountDownButtonHelper.OnCountDownListener {
             override fun onCountDown(time: Int) {
                 binding!!.btnTest.text = String.format(getString(R.string.seconds_n), time)
             }
@@ -131,7 +132,12 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
                         //set header
                         if (settingVo.headers != null) {
                             for ((key, value) in settingVo.headers) {
-                                addHeaderItemLinearLayout(headerItemMap, binding!!.layoutHeaders, key, value)
+                                addHeaderItemLinearLayout(
+                                    headerItemMap,
+                                    binding!!.layoutHeaders,
+                                    key,
+                                    value
+                                )
                             }
                         }
                     }
@@ -143,8 +149,16 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
         binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
-        binding!!.btnAddHeader.setOnClickListener { addHeaderItemLinearLayout(headerItemMap, binding!!.layoutHeaders, null, null) }
-        LiveEventBus.get(KEY_SENDER_TEST, String::class.java).observe(this) { mCountDownHelper?.finish() }
+        binding!!.btnAddHeader.setOnClickListener {
+            addHeaderItemLinearLayout(
+                headerItemMap,
+                binding!!.layoutHeaders,
+                null,
+                null
+            )
+        }
+        LiveEventBus.get(KEY_SENDER_TEST, String::class.java)
+            .observe(this) { mCountDownHelper?.finish() }
     }
 
     @SingleClick
@@ -157,7 +171,13 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
                         try {
                             val settingVo = checkSetting()
                             Log.d(TAG, settingVo.toString())
-                            val msgInfo = MsgInfo("sms", getString(R.string.test_phone_num), getString(R.string.test_sender_sms), Date(), getString(R.string.test_sim_info))
+                            val msgInfo = MsgInfo(
+                                "sms",
+                                getString(R.string.test_phone_num),
+                                getString(R.string.test_sender_sms),
+                                Date(),
+                                getString(R.string.test_sim_info)
+                            )
                             WebhookUtils.sendMsg(settingVo, msgInfo)
                         } catch (e: Exception) {
                             e.printStackTrace()
@@ -197,7 +217,8 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
                     val status = if (binding!!.sbEnable.isChecked) 1 else 0
                     val settingVo = checkSetting()
                     if (isClone) senderId = 0
-                    val senderNew = Sender(senderId, senderType, name, Gson().toJson(settingVo), status)
+                    val senderNew =
+                        Sender(senderId, senderType, name, Gson().toJson(settingVo), status)
                     Log.d(TAG, senderNew.toString())
 
                     viewModel.insertOrUpdate(senderNew)
@@ -218,7 +239,12 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
             throw Exception(getString(R.string.invalid_webserver))
         }
 
-        val method = if (binding!!.rgMethod.checkedRadioButtonId == R.id.rb_method_get) "GET" else "POST"
+        val method = when (binding!!.rgMethod.checkedRadioButtonId) {
+            R.id.rb_method_get -> "GET"
+            R.id.rb_method_put -> "PUT"
+            R.id.rb_method_patch -> "PATCH"
+            else -> "POST"
+        }
         val secret = binding!!.etSecret.text.toString().trim()
         val webParams = binding!!.etWebParams.text.toString().trim()
         val headers = getHeadersFromHeaderItemMap(headerItemMap)
@@ -238,12 +264,21 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
      * @param key                          header的key，为空则不设置
      * @param value                        header的value，为空则不设置
      */
-    private fun addHeaderItemLinearLayout(headerItemMap: MutableMap<Int, LinearLayout>, linearLayoutWebNotifyHeaders: LinearLayout, key: String?, value: String?) {
-        val linearLayoutItemAddHeader = View.inflate(requireContext(), R.layout.item_add_header, null) as LinearLayout
-        val imageViewRemoveHeader = linearLayoutItemAddHeader.findViewById<ImageView>(R.id.imageViewRemoveHeader)
+    private fun addHeaderItemLinearLayout(
+        headerItemMap: MutableMap<Int, LinearLayout>,
+        linearLayoutWebNotifyHeaders: LinearLayout,
+        key: String?,
+        value: String?
+    ) {
+        val linearLayoutItemAddHeader =
+            View.inflate(requireContext(), R.layout.item_add_header, null) as LinearLayout
+        val imageViewRemoveHeader =
+            linearLayoutItemAddHeader.findViewById<ImageView>(R.id.imageViewRemoveHeader)
         if (key != null && value != null) {
-            val editTextHeaderKey = linearLayoutItemAddHeader.findViewById<EditText>(R.id.editTextHeaderKey)
-            val editTextHeaderValue = linearLayoutItemAddHeader.findViewById<EditText>(R.id.editTextHeaderValue)
+            val editTextHeaderKey =
+                linearLayoutItemAddHeader.findViewById<EditText>(R.id.editTextHeaderKey)
+            val editTextHeaderValue =
+                linearLayoutItemAddHeader.findViewById<EditText>(R.id.editTextHeaderValue)
             editTextHeaderKey.setText(key)
             editTextHeaderValue.setText(value)
         }
