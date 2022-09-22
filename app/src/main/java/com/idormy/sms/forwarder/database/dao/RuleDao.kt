@@ -46,6 +46,10 @@ interface RuleDao {
     @Query("SELECT * FROM Rule where type=:type and status=:status and (sim_slot='ALL' or sim_slot=:simSlot)")
     suspend fun getRuleAndSender(type: String, status: Int, simSlot: String): List<RuleAndSender>
 
+    @Transaction
+    @Query("SELECT * FROM Rule where type=:type and status=:status and (sim_slot='ALL' or sim_slot=:simSlot)")
+    fun getRuleList(type: String, status: Int, simSlot: String): List<Rule>
+
     //TODO:允许主线程访问，后面再优化
     @Query("SELECT * FROM Rule ORDER BY id ASC")
     fun getAll(): List<Rule>

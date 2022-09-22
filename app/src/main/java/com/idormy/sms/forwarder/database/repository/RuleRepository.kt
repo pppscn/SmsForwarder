@@ -26,6 +26,8 @@ class RuleRepository(
 
     suspend fun getRuleAndSender(type: String, status: Int, simSlot: String) = ruleDao.getRuleAndSender(type, status, simSlot)
 
+    fun getRuleList(type: String, status: Int, simSlot: String) = ruleDao.getRuleList(type, status, simSlot)
+
     @WorkerThread
     fun update(rule: Rule) = ruleDao.update(rule)
 

@@ -46,7 +46,6 @@ import com.xuexiang.xui.utils.WidgetUtils
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.GravityEnum
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
-import com.xuexiang.xutil.common.CollectionUtils
 import com.xuexiang.xutil.file.FileUtils
 import frpclib.Frpclib
 import io.reactivex.CompletableObserver
@@ -200,14 +199,14 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
                 val item = binding!!.includeMain.bottomNavigation.menu.getItem(position)
                 binding!!.includeMain.toolbar.title = item.title
                 binding!!.includeMain.toolbar.menu.clear()
-                when {
-                    getString(R.string.menu_rules) == item.title -> binding!!.includeMain.toolbar.inflateMenu(
+                when (item.title) {
+                    getString(R.string.menu_rules) -> binding!!.includeMain.toolbar.inflateMenu(
                         R.menu.menu_rules
                     )
-                    getString(R.string.menu_senders) == item.title -> binding!!.includeMain.toolbar.inflateMenu(
+                    getString(R.string.menu_senders) -> binding!!.includeMain.toolbar.inflateMenu(
                         R.menu.menu_senders
                     )
-                    getString(R.string.menu_settings) == item.title -> binding!!.includeMain.toolbar.inflateMenu(
+                    getString(R.string.menu_settings) -> binding!!.includeMain.toolbar.inflateMenu(
                         R.menu.menu_settings
                     )
                     else -> binding!!.includeMain.toolbar.inflateMenu(R.menu.menu_logs)
@@ -349,6 +348,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
     }
 
     //按返回键不退出回到桌面
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         val intent = Intent(Intent.ACTION_MAIN)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK

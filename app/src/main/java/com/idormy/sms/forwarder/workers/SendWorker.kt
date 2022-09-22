@@ -73,7 +73,6 @@ class SendWorker(
                     HistoryUtils.put(key, timestamp)
                 }
 
-                //val sendSbnId = inputData.getInt(Worker.sendSbnId, 0)
                 //【注意】卡槽id：-1=获取失败、0=卡槽1、1=卡槽2，但是 Rule 表里存的是 SIM1/SIM2
                 val simSlot = "SIM" + (msgInfo.simSlot + 1)
                 val ruleList: List<RuleAndSender> = Core.rule.getRuleAndSender(msgInfo.type, 1, simSlot)
@@ -81,20 +80,12 @@ class SendWorker(
                     return@withContext Result.failure(workDataOf("send" to "failed"))
                 }
 
-                //var matchNum = 0
                 for (rule in ruleList) {
                     if (!rule.rule.checkMsg(msgInfo)) continue
-                    //matchNum++
                     val log = Logs(0, msgInfo.type, msgInfo.from, msgInfo.content, rule.rule.id, msgInfo.simInfo)
                     val logId = Core.logs.insert(log)
                     SendUtils.sendMsgSender(msgInfo, rule.rule, rule.sender, logId)
                 }
-
-                //TODO:自动消除通知
-                /*if (matchNum > 0 && sendSbnId != 0 && SettingUtils.enableCancelAppNotify) {
-                    Log.e("SendWorker", "自动消除通知")
-                    return@withContext Result.success(workDataOf("matchNum" to matchNum))
-                }*/
 
             } catch (e: Exception) {
                 e.printStackTrace()
