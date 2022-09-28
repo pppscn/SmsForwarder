@@ -4,13 +4,13 @@
 #包名不混合大小写
 -dontusemixedcaseclassnames
 #不去忽略非公共的库类
--dontskipnonpubliclibraryclasses
+#-dontskipnonpubliclibraryclasses
 # 指定不去忽略非公共的库的类的成员
--dontskipnonpubliclibraryclassmembers
+#-dontskipnonpubliclibraryclassmembers
 #优化  不优化输入的类文件
 -dontoptimize
 #预校验
--dontpreverify
+#-dontpreverify
 #混淆时是否记录日志
 -verbose
 # 混淆时所采用的算法
@@ -22,7 +22,7 @@
 
 ##记录生成的日志数据,gradle build时在本项目根目录输出##
 #apk 包内所有 class 的内部结构
--dump class_files.txt
+#-dump class_files.txt
 #未混淆的类和成员
 -printseeds seeds.txt
 #列出从 apk 中删除的代码
@@ -138,12 +138,12 @@
 -keep class microsoft.aspnet.signalr.** { *; }
 
 # 极光推送混淆
--dontoptimize
--dontpreverify
--dontwarn cn.jpush.**
--keep class cn.jpush.** { *; }
--dontwarn cn.jiguang.**
--keep class cn.jiguang.** { *; }
+#-dontoptimize
+#-dontpreverify
+#-dontwarn cn.jpush.**
+#-keep class cn.jpush.** { *; }
+#-dontwarn cn.jiguang.**
+#-keep class cn.jiguang.** { *; }
 
 # 数据库框架OrmLite
 -keepattributes *DatabaseField*
