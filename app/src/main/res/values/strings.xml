@@ -274,7 +274,8 @@
     <string name="failed_to_fwd">发送失败：</string>
     <string name="invalid_name">通道名称不能为空</string>
     <string name="invalid_token">token不合法</string>
-    <string name="invalid_email">邮箱参数不完整</string>
+    <string name="invalid_email">发件邮箱/登录密码/收件地址不可为空</string>
+    <string name="invalid_email_server">服务器信息的主机/端口不可为空</string>
     <string name="invalid_bark_icon">消息图标不是有效URL</string>
     <string name="invalid_bark_url">消息链接不是有效URL</string>
     <string name="invalid_bark_server">bark-server为空 或 不是有效URL</string>

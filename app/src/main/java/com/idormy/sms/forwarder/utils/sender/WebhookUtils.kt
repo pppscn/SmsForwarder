@@ -141,7 +141,7 @@ class WebhookUtils {
                     "PATCH" -> XHttp.patch(requestUrl).keepJson(true)
                     else -> XHttp.post(requestUrl).keepJson(true)
                 }
-                webParams.split("&").forEach {
+                webParams.trim('&').split("&").forEach {
                     val param = it.split("=")
                     if (param.size == 2) {
                         postRequest.params(

@@ -155,7 +155,7 @@ class DingtalkInnerRobotUtils private constructor() {
 
             val textMsgMap: MutableMap<String, Any> = mutableMapOf()
             textMsgMap["robotCode"] = setting.appKey
-            textMsgMap["userIds"] = setting.userIds.split('|').toTypedArray()
+            textMsgMap["userIds"] = setting.userIds.replace("[,，;；|]".toRegex(), "|").trim('|').split('|').toTypedArray()
             textMsgMap["msgKey"] = setting.msgKey
             textMsgMap["msgParam"] = Gson().toJson(msgParam)
 

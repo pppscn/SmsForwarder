@@ -284,6 +284,12 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
         val startTls = binding!!.sbStartTls.isChecked
         val toEmail = binding!!.etToEmail.text.toString().trim()
         val title = binding!!.etTitleTemplate.text.toString().trim()
+        if (TextUtils.isEmpty(fromEmail) || TextUtils.isEmpty(pwd) || TextUtils.isEmpty(toEmail)) {
+            throw Exception(getString(R.string.invalid_email))
+        }
+        if (mailType == getString(R.string.other_mail_type) && (TextUtils.isEmpty(host) || TextUtils.isEmpty(port))) {
+            throw Exception(getString(R.string.invalid_email_server))
+        }
 
         return EmailSetting(mailType, fromEmail, pwd, nickname, host, port, ssl, startTls, toEmail, title)
     }

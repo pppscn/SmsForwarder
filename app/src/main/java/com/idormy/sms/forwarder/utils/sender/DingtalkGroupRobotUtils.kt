@@ -66,8 +66,8 @@ class DingtalkGroupRobotUtils private constructor() {
             } else {
                 atMap["isAtAll"] = false
                 if (!TextUtils.isEmpty(setting.atMobiles)) {
-                    val atMobilesArray: Array<String>? = setting.atMobiles?.split(",".toRegex())?.toTypedArray()
-                    if (atMobilesArray != null) {
+                    val atMobilesArray: Array<String> = setting.atMobiles.toString().replace("[,，;；]".toRegex(), ",").trim(',').split(',').toTypedArray()
+                    if (atMobilesArray.isNotEmpty()) {
                         val atMobilesList: MutableList<String> = ArrayList()
                         for (atMobile in atMobilesArray) {
                             if (TextUtils.isDigitsOnly(atMobile)) {

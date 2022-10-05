@@ -274,6 +274,7 @@
     <string name="invalid_name">Channel name cannot be empty</string>
     <string name="invalid_token">invalid token</string>
     <string name="invalid_email">Email parameter is incomplete</string>
+    <string name="invalid_email_server">Email Server parameter is incomplete</string>
     <string name="invalid_bark_icon">The bark-icon is not a valid URL</string>
     <string name="invalid_bark_url">The bark-url is not a valid URL</string>
     <string name="invalid_bark_server">bark-server is empty or not a valid URL</string>

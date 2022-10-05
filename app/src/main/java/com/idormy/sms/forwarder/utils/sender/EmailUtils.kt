@@ -115,15 +115,7 @@ class EmailUtils {
             }
 
             //收件地址
-            val toAddressList = ArrayList<String>()
-            val emailArray = setting.toEmail.toString().split("[,，;；]".toRegex())
-            if (emailArray.isNotEmpty()) {
-                for (email in emailArray) {
-                    toAddressList.add(email)
-                }
-            } else {
-                toAddressList.add(setting.toEmail.toString())
-            }
+            val toAddressList = setting.toEmail.toString().replace("[,，;；]".toRegex(), ",").trim(',').split(',') as ArrayList<String>
 
             //创建邮箱
             val mail = Mail().apply {
