@@ -36,7 +36,6 @@ import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xutil.XUtil
 
-
 @Suppress("PrivatePropertyName", "PropertyName")
 @Page(name = "主动控制·客户端")
 class ClientFragment : BaseFragment<FragmentClientBinding?>(),
