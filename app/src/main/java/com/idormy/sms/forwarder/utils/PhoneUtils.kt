@@ -83,7 +83,7 @@ class PhoneUtils private constructor() {
                  }
 
              }
-             else  if (infoList.isEmpty()&&Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+             else  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
                     println("1.版本超过5.1，调用系统方法")
                     val mSubscriptionManager = XUtil.getContext()
                         .getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
