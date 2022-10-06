@@ -142,8 +142,12 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         editAddExtraDeviceMark(binding!!.etExtraDeviceMark)
         //SIM1备注
         editAddExtraSim1(binding!!.etExtraSim1)
+        //SIM1 sub id
+        editAddExtraSim1SubId(binding!!.etExtraSim1SubId)
         //SIM2备注
         editAddExtraSim2(binding!!.etExtraSim2)
+        //SIM2 sub id
+        editAddExtraSim2SubId(binding!!.etExtraSim2SubId)
         //通知内容
         editNotifyContent(binding!!.etNotifyContent)
 
@@ -799,6 +803,18 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         })
     }
 
+    //设置SIM1 subId
+    private fun editAddExtraSim1SubId(etExtraSim1SubId: EditText) {
+        etExtraSim1SubId.setText(SettingUtils.extraSim1)
+        etExtraSim1SubId.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                SettingUtils.extraSim1SubId = etExtraSim1SubId.text.toString().trim()
+            }
+        })
+    }
+
     //设置SIM2备注
     private fun editAddExtraSim2(etExtraSim2: EditText) {
         etExtraSim2.setText(SettingUtils.extraSim2)
@@ -811,6 +827,17 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         })
     }
 
+    //设置SIM1 subId
+    private fun editAddExtraSim2SubId(etExtraSim2SubId: EditText) {
+        etExtraSim2SubId.setText(SettingUtils.extraSim1)
+        etExtraSim2SubId.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                SettingUtils.extraSim2SubId = etExtraSim2SubId.text.toString().trim()
+            }
+        })
+    }
     //设置通知内容
     private fun editNotifyContent(etNotifyContent: EditText) {
         etNotifyContent.setText(SettingUtils.notifyContent)

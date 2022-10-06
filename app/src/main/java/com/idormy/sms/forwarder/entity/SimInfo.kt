@@ -23,6 +23,8 @@ data class SimInfo(
     //SIM的 Subscription Id (SIM插入顺序)
     @SerializedName("subscription_id")
     var mSubscriptionId: Int = 0,
+    //String类型-SIM的 Subscription Id (SIM插入顺序),用户获取后填充
+    var subscriptionId:String?="",
 ) : Serializable {
     override fun toString(): String {
         return "SimInfo{" +
@@ -32,6 +34,7 @@ data class SimInfo(
                 ", mNumber=" + mNumber +
                 ", mCountryIso=" + mCountryIso +
                 ", mSubscriptionId=" + mSubscriptionId +
+                ", subscriptionId=" + subscriptionId +
                 '}'
     }
 }

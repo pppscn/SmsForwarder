@@ -301,6 +301,14 @@ class SettingUtils private constructor() {
                 MMKVUtils.put(SP_EXTRA_SIM1, extraSim1)
             }
 
+        //SM1 subId备注
+        @JvmStatic
+        var extraSim1SubId: String?
+            get() = MMKVUtils.getString(SP_EXTRA_SIM1_SUBSCRIPTION_ID, "")
+            set(extraSim1SubId) {
+                MMKVUtils.put(SP_EXTRA_SIM1_SUBSCRIPTION_ID, extraSim1SubId)
+            }
+
         //SM2备注
         @JvmStatic
         var extraSim2: String?
@@ -308,7 +316,13 @@ class SettingUtils private constructor() {
             set(extraSim2) {
                 MMKVUtils.put(SP_EXTRA_SIM2, extraSim2)
             }
-
+        //SM1 subId备注
+        @JvmStatic
+        var extraSim2SubId: String?
+            get() = MMKVUtils.getString(SP_EXTRA_SIM2_SUBSCRIPTION_ID, "")
+            set(extraSim2SubId) {
+                MMKVUtils.put(SP_EXTRA_SIM2_SUBSCRIPTION_ID, extraSim2SubId)
+            }
         //是否启用自定义模板
         @JvmStatic
         var enableSmsTemplate: Boolean

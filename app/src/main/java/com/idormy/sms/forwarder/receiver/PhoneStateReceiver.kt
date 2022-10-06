@@ -1,10 +1,12 @@
 package com.idormy.sms.forwarder.receiver
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.nfc.Tag
 import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.util.Log
@@ -13,9 +15,11 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.google.gson.Gson
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.CallInfo
 import com.idormy.sms.forwarder.entity.MsgInfo
+import com.idormy.sms.forwarder.entity.SimInfo
 import com.idormy.sms.forwarder.utils.MMKVUtils
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
@@ -147,6 +151,7 @@ class PhoneStateReceiver : BroadcastReceiver() {
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun sendReceiveCallMsg(context: Context, callType: Int, phoneNumber: String?) {
         //必须休眠才能获取来电记录，否则可能获取到上一次通话的
         Thread.sleep(500)
@@ -173,7 +178,41 @@ class PhoneStateReceiver : BroadcastReceiver() {
             1 -> "SIM2_" + SettingUtils.extraSim2
             else -> ""
         }
-
+        //真正用于转发的卡槽信息
+        var  finalSiminfo=""
+        //获取不到卡槽信息后执行
+        if (TextUtils.isEmpty(simInfo)){
+           var  subscriptionId=callInfo.subscriptionId
+            Log.d(TAG,"subscriptionId=${subscriptionId}")
+            //已插入SIM卡信息
+          var  simInfoList=PhoneUtils.getSimMultiInfo()
+            Log.d(TAG, simInfoList.toString())
+            var  simIndex=-1
+            //遍历SimInfoList
+            for ((key,value) in simInfoList){
+               var  tempSimInfo=value
+               if (tempSimInfo.subscriptionId==subscriptionId){
+                   simIndex=key
+                   break
+               }
+            }
+            //重新获取simInfo
+           var simInfo_byUser = when (simIndex) {
+                0 -> "SIM1_" + SettingUtils.extraSim1
+                1 -> "SIM2_" + SettingUtils.extraSim2
+                else -> ""
+            }
+            //用户未配置sim sub id
+            if (TextUtils.isEmpty(simInfo_byUser)){
+                //把sub_id 返回给用户
+                simInfo_byUser="sim卡的subscription_id="+subscriptionId+"\n设备无法获取sim信息,请复制subscription_id保存到subscription_id输入框中.";
+                Log.d(TAG,"simInfo_byUser=${simInfo_byUser}")
+            }
+            finalSiminfo=simInfo_byUser
+        }else{
+            finalSiminfo=simInfo
+        }
+        Log.d(TAG,"最终使用的设备信息finalSiminfo=${finalSiminfo}")
         //获取联系人姓名
         if (TextUtils.isEmpty(callInfo.name)) {
             val contacts = PhoneUtils.getContactByNumber(phoneNumber)
@@ -186,7 +225,7 @@ class PhoneStateReceiver : BroadcastReceiver() {
             callInfo.number,
             PhoneUtils.getCallMsg(callInfo),
             Date(),
-            simInfo,
+            finalSiminfo,
             simSlot
         )
         val request = OneTimeWorkRequestBuilder<SendWorker>()

@@ -45,7 +45,6 @@ class PhoneUtils private constructor() {
         //获取多卡信息
         @SuppressLint("Range")
         fun getSimMultiInfo(): MutableMap<Int, SimInfo> {
-            this.getSimCardInfo()
             val infoList = HashMap<Int, SimInfo>()
             try {
              if (!TextUtils.isEmpty(SettingUtils.extraSim1.toString())||!TextUtils.isEmpty(SettingUtils.extraSim1.toString())){
@@ -61,6 +60,8 @@ class PhoneUtils private constructor() {
                      simInfo1.mNumber=et_extra_sim1
                      simInfo1.mCountryIso="cn"
                      simInfo1.mSubscriptionId=1
+                     simInfo1.subscriptionId=SettingUtils.extraSim1SubId.toString()
+                     Log.d(TAG,"extraSim1SubId:${SettingUtils.extraSim1SubId.toString()}")
                      //把卡放入
                      infoList[simInfo1.mSimSlotIndex] = simInfo1
                  }
@@ -75,6 +76,8 @@ class PhoneUtils private constructor() {
                      simInfo2.mNumber = et_extra_sim2
                      simInfo2.mCountryIso="cn"
                      simInfo2.mSubscriptionId=2
+                     simInfo2.subscriptionId=SettingUtils.extraSim2SubId.toString()
+                     Log.d(TAG,"extraSim2SubId:${SettingUtils.extraSim2SubId.toString()}")
                      //把所有卡放入
                      infoList[simInfo2.mSimSlotIndex] = simInfo2
                  }
@@ -244,10 +247,8 @@ class PhoneUtils private constructor() {
             offset: Int,
             phoneNumber: String?
         ): MutableList<CallInfo> {
-            this.getSimCardInfo()
             val callInfoList: MutableList<CallInfo> = mutableListOf()
             try {
-
                 var selection = "1=1"
                 val selectionArgs = ArrayList<String>()
                 if (type > 0) {
@@ -279,12 +280,8 @@ class PhoneUtils private constructor() {
 
                 if (cursor.moveToFirst()) {
                     Log.d(TAG, "Call ColumnNames=${cursor.columnNames.contentToString()}")
-                    Log.d(TAG, "subscription_id=${cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID)}")
-                    Log.d(TAG, "getLong=${cursor.getLong(cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID))}")
-                    Log.d(TAG, "getString=${cursor.getString(cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID))}")
-                    Log.d(TAG, "VIA_NUMBER=${cursor.getColumnIndex(CallLog.Calls.VIA_NUMBER)}")
-                    Log.d(TAG, "simid=${cursor.getColumnIndex("simid")}")
-
+                    var simSubId=cursor.getString(cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID))
+                    Log.d(TAG, "simSubId=${simSubId}")
                     val indexName = cursor.getColumnIndex(CallLog.Calls.CACHED_NAME)
                     val indexNumber = cursor.getColumnIndex(CallLog.Calls.NUMBER)
                     val indexDate = cursor.getColumnIndex(CallLog.Calls.DATE)
@@ -321,6 +318,8 @@ class PhoneUtils private constructor() {
                                     isSimId
                                 ) else -1 //卡槽id
                             )
+                            //传入simsubId
+                            callInfo.subscriptionId=simSubId
                             Log.d(TAG, callInfo.toString())
                             callInfoList.add(callInfo)
                             if (limit == 1) {
@@ -619,11 +618,6 @@ class PhoneUtils private constructor() {
             Log.d(TAG, "projection= $projection")
             val stringList = arrayOfNulls<String>(1)
             stringList[0] = projection
-//            stringList[1] = "data"
-//            for (element in stringList) {
-//                println(element)
-//            }
-            var selection = "1=1"
             //查询数据库所有sim卡信息
             try {
                 val cursor2 = Core.app.contentResolver.query(
@@ -634,7 +628,6 @@ class PhoneUtils private constructor() {
                     CallLog.Calls.DEFAULT_SORT_ORDER// + " limit $limit offset $offset"
                 ) ?: return "no find"
                 Log.i(TAG, "cursor2 count:" + cursor2?.count)
-                Log.i(TAG, "cursor2:" + cursor2)
                 val simCardIdList= ArrayList<String>()
                 if (null != cursor2) {
                     while (cursor2.moveToNext()) {
@@ -668,6 +661,13 @@ class PhoneUtils private constructor() {
                     println("=========")
                     println(item)
                 }
+
+                //拿到前面两个
+                var sub_id1=simCardIdList.get(0)
+                var sub_id2=simCardIdList.get(1)
+                Log.d(TAG,"sub_id1:${sub_id1}")
+                Log.d(TAG,"sub_id2:${sub_id2}")
+
                 //找到最新的两个。如果只有一个呢？
 //                Log.d(TAG, "subscription_id=${cursor2.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID)}")
 //                Log.d(TAG, "getLong=${cursor2.getLong(cursor2.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID))}")
