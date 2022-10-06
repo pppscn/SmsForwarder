@@ -33,6 +33,7 @@ import com.idormy.sms.forwarder.utils.*
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
+import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.button.SmoothCheckBox
 import com.xuexiang.xui.widget.button.switchbutton.SwitchButton
@@ -213,7 +214,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                     return
                 }
                 val simInfo: SimInfo? = App.SimInfoList[0]
-                binding!!.etExtraSim1.setText(simInfo?.mCarrierName.toString() + "_" + simInfo?.mNumber.toString())
+                if (!TextUtils.isEmpty(simInfo?.mCarrierName.toString())){
+                    binding!!.etExtraSim1.setText(simInfo?.mCarrierName.toString() + "_" + simInfo?.mNumber.toString())
+                }else {
+                    binding!!.etExtraSim1.setText(simInfo?.mNumber.toString())
+                }
                 return
             }
             R.id.btn_extra_sim2 -> {
@@ -233,8 +238,12 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                     return
                 }
                 val simInfo: SimInfo? = App.SimInfoList[1]
-                binding!!.etExtraSim2.setText(simInfo?.mCarrierName.toString() + "_" + simInfo?.mNumber.toString())
-                return
+                if (!TextUtils.isEmpty(simInfo?.mCarrierName.toString())){
+                    binding!!.etExtraSim2.setText(simInfo?.mCarrierName.toString() + "_" + simInfo?.mNumber.toString())
+                }else {
+                    binding!!.etExtraSim2.setText(simInfo?.mNumber.toString())
+                }
+                    return
             }
             R.id.bt_insert_sender -> {
                 CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_from))

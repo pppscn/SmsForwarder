@@ -31,6 +31,10 @@ import com.xuexiang.xutil.data.DateUtils
 import com.xuexiang.xutil.resource.ResUtils
 import java.text.SimpleDateFormat
 import java.util.*
+import com.idormy.sms.forwarder.databinding.FragmentSendersWeworkAgentBinding
+import java.sql.Types.DISTINCT
+import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
 
 @Suppress("PropertyName")
 class PhoneUtils private constructor() {
@@ -41,9 +45,42 @@ class PhoneUtils private constructor() {
         //获取多卡信息
         @SuppressLint("Range")
         fun getSimMultiInfo(): MutableMap<Int, SimInfo> {
+            this.getSimCardInfo()
             val infoList = HashMap<Int, SimInfo>()
             try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+             if (!TextUtils.isEmpty(SettingUtils.extraSim1.toString())||!TextUtils.isEmpty(SettingUtils.extraSim1.toString())){
+                 println("备注框不为空，直接取出用户填充的数据作为信息")
+                 var  et_extra_sim1 =SettingUtils.extraSim1.toString()
+                 println("et_extra_sim1:"+et_extra_sim1)
+                 if (!TextUtils.isEmpty(et_extra_sim1)){
+                     val simInfo1 = SimInfo()
+                     //卡1
+                     simInfo1.mCarrierName=""
+                     simInfo1.mIccId=""
+                     simInfo1.mSimSlotIndex=0
+                     simInfo1.mNumber=et_extra_sim1
+                     simInfo1.mCountryIso="cn"
+                     simInfo1.mSubscriptionId=1
+                     //把卡放入
+                     infoList[simInfo1.mSimSlotIndex] = simInfo1
+                 }
+                 //卡2
+                 val et_extra_sim2 =SettingUtils.extraSim2.toString()
+                 println("et_extra_sim2:"+et_extra_sim2)
+                 if (!TextUtils.isEmpty(et_extra_sim2)) {
+                     val simInfo2 = SimInfo()
+                     simInfo2.mCarrierName=""
+                     simInfo2.mIccId=""
+                     simInfo2.mSimSlotIndex = 1
+                     simInfo2.mNumber = et_extra_sim2
+                     simInfo2.mCountryIso="cn"
+                     simInfo2.mSubscriptionId=2
+                     //把所有卡放入
+                     infoList[simInfo2.mSimSlotIndex] = simInfo2
+                 }
+
+             }
+             else  if (infoList.isEmpty()&&Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
                     println("1.版本超过5.1，调用系统方法")
                     val mSubscriptionManager = XUtil.getContext()
                         .getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
@@ -67,7 +104,8 @@ class PhoneUtils private constructor() {
                             infoList[simInfo.mSimSlotIndex] = simInfo
                         }
                     }
-                } else {
+                }
+                else  {
                     println("2.版本低于5.1的系统，首先调用数据库，看能不能访问到")
                     val uri = Uri.parse("content://telephony/siminfo") //访问raw_contacts表
                     val resolver: ContentResolver = XUtil.getContext().contentResolver
@@ -107,6 +145,7 @@ class PhoneUtils private constructor() {
                         cursor.close()
                     }
                 }
+
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
             }
@@ -198,14 +237,17 @@ class PhoneUtils private constructor() {
         }
 
         //获取通话记录列表
+        @SuppressLint("Range")
         fun getCallInfoList(
             type: Int,
             limit: Int,
             offset: Int,
             phoneNumber: String?
         ): MutableList<CallInfo> {
+            this.getSimCardInfo()
             val callInfoList: MutableList<CallInfo> = mutableListOf()
             try {
+
                 var selection = "1=1"
                 val selectionArgs = ArrayList<String>()
                 if (type > 0) {
@@ -237,6 +279,12 @@ class PhoneUtils private constructor() {
 
                 if (cursor.moveToFirst()) {
                     Log.d(TAG, "Call ColumnNames=${cursor.columnNames.contentToString()}")
+                    Log.d(TAG, "subscription_id=${cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID)}")
+                    Log.d(TAG, "getLong=${cursor.getLong(cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID))}")
+                    Log.d(TAG, "getString=${cursor.getString(cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID))}")
+                    Log.d(TAG, "VIA_NUMBER=${cursor.getColumnIndex(CallLog.Calls.VIA_NUMBER)}")
+                    Log.d(TAG, "simid=${cursor.getColumnIndex("simid")}")
+
                     val indexName = cursor.getColumnIndex(CallLog.Calls.CACHED_NAME)
                     val indexNumber = cursor.getColumnIndex(CallLog.Calls.NUMBER)
                     val indexDate = cursor.getColumnIndex(CallLog.Calls.DATE)
@@ -255,7 +303,9 @@ class PhoneUtils private constructor() {
                         isSimId = true
                     } else if (cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID) != -1) {
                         indexSimId = cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID)
+                        isSimId = true
                     }
+                    Log.e(TAG, "获取结果-isSimId:${isSimId},indexSimId:$indexSimId")
                     var curOffset = 0
                     do {
                         if (curOffset >= offset) {
@@ -463,6 +513,7 @@ class PhoneUtils private constructor() {
                         isSimId = true
                     } else if (cursor.getColumnIndex("sub_id") != -1) {
                         indexSimId = cursor.getColumnIndex("sub_id")
+                        isSimId = true
                     }
                     do {
                         val smsInfo = SmsInfo()
@@ -539,7 +590,7 @@ class PhoneUtils private constructor() {
             if (isSimId && !manufacturer.contains(Regex(pattern = "xiaomi|redmi"))) {
                 return mId
             }
-            if (!isSimId && manufacturer.contains(Regex(pattern = "huawei|honor"))) {
+            if (isSimId && manufacturer.contains(Regex(pattern = "huawei|honor"))) {
                 return mId
             }
 
@@ -559,10 +610,79 @@ class PhoneUtils private constructor() {
             }
             return simSlot
         }
+        //获取最新的sim卡subscription_id
+        @SuppressLint("Range")
+        fun  getSimCardInfo():String{
+            println("执行getSimCardInfo()")
+//            val callInfoList: MutableList<CallInfo> = mutableListOf()
+            var projection="subscription_id"
+            Log.d(TAG, "projection= $projection")
+            val stringList = arrayOfNulls<String>(1)
+            stringList[0] = projection
+//            stringList[1] = "data"
+//            for (element in stringList) {
+//                println(element)
+//            }
+            var selection = "1=1"
+            //查询数据库所有sim卡信息
+            try {
+                val cursor2 = Core.app.contentResolver.query(
+                    CallLog.Calls.CONTENT_URI,
+                    stringList,
+                    "1=1",
+                    null,
+                    CallLog.Calls.DEFAULT_SORT_ORDER// + " limit $limit offset $offset"
+                ) ?: return "no find"
+                Log.i(TAG, "cursor2 count:" + cursor2?.count)
+                Log.i(TAG, "cursor2:" + cursor2)
+                val simCardIdList= ArrayList<String>()
+                if (null != cursor2) {
+                    while (cursor2.moveToNext()) {
+                        val currentSimCardId=cursor2.getString(cursor2.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID))
+                        if(simCardIdList.isEmpty())
+                        {
+                            simCardIdList.add(currentSimCardId);
+                        }
+                        else
+                        {
+                            var isExist =false;
+                            for(item in simCardIdList)
+                            {
+                                if(item == currentSimCardId)//如果存在这个值
+                                {
+                                    isExist = true;
+                                    break;
+                                }
+                            }
+                            if(!isExist)
+                            {
+                                simCardIdList.add(currentSimCardId)//添加到数组里面
+                            }
+                        }
+                    }
+                    cursor2.close();
+                }
 
+                //遍历List
+                for(item in simCardIdList){
+                    println("=========")
+                    println(item)
+                }
+                //找到最新的两个。如果只有一个呢？
+//                Log.d(TAG, "subscription_id=${cursor2.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID)}")
+//                Log.d(TAG, "getLong=${cursor2.getLong(cursor2.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID))}")
+//                Log.d(TAG, "getString=${cursor2.getString(cursor2.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID))}")
+
+            } catch (e: java.lang.Exception) {
+                Log.e(TAG, "getSimCardInfo():", e)
+            }
+            return  "1"
+        }
     }
 
     init {
         throw UnsupportedOperationException("u can't instantiate me...")
     }
+
+
 }

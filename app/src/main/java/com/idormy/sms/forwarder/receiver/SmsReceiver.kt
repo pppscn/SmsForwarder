@@ -69,12 +69,22 @@ class SmsReceiver : BroadcastReceiver() {
                 }
             }
             //获取卡槽信息
-            val simInfo = when (simSlot) {
+            Log.d(TAG, "simSlot = $simSlot")
+            var simIndex=0//默认卡1
+            if (simSlot!=-1){
+                simIndex=simSlot;
+            }else if (slot!=-1){
+                simIndex=slot
+            }else{
+                Log.d(TAG, "都获取不到卡槽信息下标，默认取0,simIndex = $simIndex")
+            }
+
+            val simInfo = when (simIndex) {
                 0 -> "SIM1_" + SettingUtils.extraSim1
                 1 -> "SIM2_" + SettingUtils.extraSim2
                 else -> ""
             }
-
+            Log.d(TAG, "获取的卡槽信息simInfo = $simInfo")
             val msgInfo = MsgInfo("sms", from, content, Date(), simInfo, simSlot)
             Log.d(TAG, "msgInfo = $msgInfo")
 
