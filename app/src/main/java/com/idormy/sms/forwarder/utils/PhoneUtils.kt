@@ -114,7 +114,7 @@ class PhoneUtils private constructor() {
                 e.printStackTrace()
             }
             Log.e(TAG, infoList.toString())
-            //仍然获取不到-->取出备注
+            //仍然获取不到/只获取到一个-->取出备注
             if (infoList.isEmpty() || infoList.size == 1) {
                 //为空，两个卡都没有
                 if (infoList.isEmpty()) {
@@ -159,44 +159,40 @@ class PhoneUtils private constructor() {
                         infoListIndex = key
                     }
                     Log.d(TAG, "infoListIndex:${infoListIndex}")
-                    //卡1存在，设置卡1
-                    if (infoListIndex == 0) {
-                        var et_extra_sim1 = SettingUtils.extraSim1.toString()
-                        if (!TextUtils.isEmpty(et_extra_sim1)) {
-                            val simInfo1 = SimInfo()
-                            //卡1
-                            simInfo1.mCarrierName = ""
-                            simInfo1.mIccId = ""
-                            simInfo1.mSimSlotIndex = 0
-                            simInfo1.mNumber = et_extra_sim1
-                            simInfo1.mCountryIso = "cn"
-                            simInfo1.mSubscriptionId = 1
-                            simInfo1.subscriptionId = SettingUtils.extraSim1SubId.toString()
-                            //把卡放入
-                            infoList[simInfo1.mSimSlotIndex] = simInfo1
-                        }
-                    } else {
-                        //卡2存在，设置卡2
-                        val et_extra_sim2 = SettingUtils.extraSim2.toString()
-                        if (!TextUtils.isEmpty(et_extra_sim2)) {
-                            val simInfo2 = SimInfo()
-                            simInfo2.mCarrierName = ""
-                            simInfo2.mIccId = ""
-                            simInfo2.mSimSlotIndex = 1
-                            simInfo2.mNumber = et_extra_sim2
-                            simInfo2.mCountryIso = "cn"
-                            simInfo2.mSubscriptionId = 2
-                            simInfo2.subscriptionId = SettingUtils.extraSim2SubId.toString()
-                            //把所有卡放入
-                            infoList[simInfo2.mSimSlotIndex] = simInfo2
-                        }
+                    //获取到卡1，且卡2备注信息不为空
+                    if (infoListIndex == 0 && !TextUtils.isEmpty(SettingUtils.extraSim2.toString())) {
+                        //卡1获取到，卡2备注不为空，创建卡2实体
+                        val simInfo2 = SimInfo()
+                        simInfo2.mCarrierName = ""
+                        simInfo2.mIccId = ""
+                        simInfo2.mSimSlotIndex = 1
+                        simInfo2.mNumber = SettingUtils.extraSim2
+                        simInfo2.mCountryIso = "cn"
+                        //10开头,区分,防止id碰撞
+                        simInfo2.mSubscriptionId = 102
+                        simInfo2.subscriptionId = SettingUtils.extraSim2SubId.toString()
+                        Log.d(TAG,"创建的simInfo2:${simInfo2.toString()}")
+                        infoList[simInfo2.mSimSlotIndex] = simInfo2
+                    } else if (infoListIndex == 1 && !TextUtils.isEmpty(SettingUtils.extraSim1.toString())) {
+                        //卡2获取到，卡1备注不为空，创建卡1实体
+                        val simInfo1 = SimInfo()
+                        simInfo1.mCarrierName = ""
+                        simInfo1.mIccId = ""
+                        simInfo1.mSimSlotIndex = 0
+                        simInfo1.mNumber = SettingUtils.extraSim1.toString()
+                        simInfo1.mCountryIso = "cn"
+                        //10开头,区分,防止id碰撞
+                        simInfo1.mSubscriptionId = 101
+                        simInfo1.subscriptionId = SettingUtils.extraSim1SubId.toString()
+                        Log.d(TAG,"创建的simInfo1:${simInfo1.toString()}")
+                        infoList[simInfo1.mSimSlotIndex] = simInfo1
                     }
                 }
             }
             //确认放入sub id
             for ((key, value) in infoList) {
                 if (TextUtils.isEmpty(value.subscriptionId) && (!TextUtils.isEmpty(SettingUtils.extraSim1SubId.toString()) || !TextUtils.isEmpty(
-                        SettingUtils.extraSim1SubId.toString()
+                        SettingUtils.extraSim2SubId.toString()
                     ))
                 ) {
                     if (key == 0) {
@@ -335,7 +331,7 @@ class PhoneUtils private constructor() {
                     Log.d(TAG, "Call ColumnNames=${cursor.columnNames.contentToString()}")
                     var simSubId =
                         cursor.getString(cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID))
-                    Log.d(TAG, "simSubId=${simSubId}")
+//                    Log.d(TAG, "simSubId=${simSubId}")
                     val indexName = cursor.getColumnIndex(CallLog.Calls.CACHED_NAME)
                     val indexNumber = cursor.getColumnIndex(CallLog.Calls.NUMBER)
                     val indexDate = cursor.getColumnIndex(CallLog.Calls.DATE)

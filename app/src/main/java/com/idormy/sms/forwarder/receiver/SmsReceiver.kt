@@ -70,13 +70,13 @@ class SmsReceiver : BroadcastReceiver() {
             }
             //获取卡槽信息
             Log.d(TAG, "simSlot = $simSlot")
-            var simIndex=0//默认卡1
+            var simIndex=-1
             if (simSlot!=-1){
                 simIndex=simSlot;
             }else if (slot!=-1){
                 simIndex=slot
             }else{
-                Log.d(TAG, "都获取不到卡槽信息下标，默认取0,simIndex = $simIndex")
+                Log.d(TAG, "都获取不到卡槽信息下标,simIndex = $simIndex")
             }
 
             val simInfo = when (simIndex) {
