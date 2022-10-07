@@ -69,52 +69,53 @@ class PhoneUtils private constructor() {
                             infoList[simInfo.mSimSlotIndex] = simInfo
                         }
                     }
-                }
+                }else
+                //改成如果法1获取不到则执行法2-->有些老机子安卓6+
+                //if (infoList.isEmpty())
+                    {
+                        println("2.版本低于5.1的系统，首先调用数据库，看能不能访问到")
+                        val uri = Uri.parse("content://telephony/siminfo") //访问raw_contacts表
+                        val resolver: ContentResolver = XUtil.getContext().contentResolver
+                        val cursor = resolver.query(
+                            uri,
+                            arrayOf(
+                                "_id",
+                                "icc_id",
+                                "sim_id",
+                                "display_name",
+                                "carrier_name",
+                                "name_source",
+                                "color",
+                                "number",
+                                "display_number_format",
+                                "data_roaming",
+                                "mcc",
+                                "mnc"
+                            ),
+                            null,
+                            null,
+                            null
+                        )
+                        if (cursor != null && cursor.moveToFirst()) {
+                            do {
+                                val simInfo = SimInfo()
+                                simInfo.mCarrierName =
+                                    cursor.getString(cursor.getColumnIndex("carrier_name"))
+                                simInfo.mIccId = cursor.getString(cursor.getColumnIndex("icc_id"))
+                                simInfo.mSimSlotIndex = cursor.getInt(cursor.getColumnIndex("sim_id"))
+                                simInfo.mNumber = cursor.getString(cursor.getColumnIndex("number"))
+                                simInfo.mCountryIso = cursor.getString(cursor.getColumnIndex("mcc"))
+                                //val id = cursor.getString(cursor.getColumnIndex("_id"))
+                                println(simInfo.toString())
+                                infoList[simInfo.mSimSlotIndex] = simInfo
+                            } while (cursor.moveToNext())
+                            cursor.close()
+                        }
+                    }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
             }
             Log.e(TAG, infoList.toString())
-            //改成如果法1获取不到则执行法2-->有些老机子安卓6+
-            if (infoList.isEmpty()){
-                println("2.版本低于5.1的系统，首先调用数据库，看能不能访问到")
-                val uri = Uri.parse("content://telephony/siminfo") //访问raw_contacts表
-                val resolver: ContentResolver = XUtil.getContext().contentResolver
-                val cursor = resolver.query(
-                    uri,
-                    arrayOf(
-                        "_id",
-                        "icc_id",
-                        "sim_id",
-                        "display_name",
-                        "carrier_name",
-                        "name_source",
-                        "color",
-                        "number",
-                        "display_number_format",
-                        "data_roaming",
-                        "mcc",
-                        "mnc"
-                    ),
-                    null,
-                    null,
-                    null
-                )
-                if (cursor != null && cursor.moveToFirst()) {
-                    do {
-                        val simInfo = SimInfo()
-                        simInfo.mCarrierName =
-                            cursor.getString(cursor.getColumnIndex("carrier_name"))
-                        simInfo.mIccId = cursor.getString(cursor.getColumnIndex("icc_id"))
-                        simInfo.mSimSlotIndex = cursor.getInt(cursor.getColumnIndex("sim_id"))
-                        simInfo.mNumber = cursor.getString(cursor.getColumnIndex("number"))
-                        simInfo.mCountryIso = cursor.getString(cursor.getColumnIndex("mcc"))
-                        //val id = cursor.getString(cursor.getColumnIndex("_id"))
-                        println(simInfo.toString())
-                        infoList[simInfo.mSimSlotIndex] = simInfo
-                    } while (cursor.moveToNext())
-                    cursor.close()
-                }
-            }
             //仍然获取不到/只获取到一个-->取出备注
             if (infoList.isEmpty() || infoList.size == 1) {
                 //为空，两个卡都没有
