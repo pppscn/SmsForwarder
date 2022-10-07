@@ -805,7 +805,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //设置SIM1 subId
     private fun editAddExtraSim1SubId(etExtraSim1SubId: EditText) {
-        etExtraSim1SubId.setText(SettingUtils.extraSim1)
+        etExtraSim1SubId.setText(SettingUtils.extraSim1SubId)
         etExtraSim1SubId.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
@@ -827,9 +827,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         })
     }
 
-    //设置SIM1 subId
+    //设置SIM2 subId
     private fun editAddExtraSim2SubId(etExtraSim2SubId: EditText) {
-        etExtraSim2SubId.setText(SettingUtils.extraSim1)
+        etExtraSim2SubId.setText(SettingUtils.extraSim2SubId)
         etExtraSim2SubId.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
