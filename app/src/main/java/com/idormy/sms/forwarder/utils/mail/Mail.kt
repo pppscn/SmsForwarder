@@ -14,7 +14,7 @@ data class Mail(
     var fromNickname: String = "", // 发件人昵称
     var password: String = "", // 发件箱授权码（密码）
 
-    var toAddress: ArrayList<String> = ArrayList(), // 直接收件人邮箱
+    var toAddress: List<String> = ArrayList(), // 直接收件人邮箱
     var ccAddress: ArrayList<String> = ArrayList(), // 抄送者邮箱
     var bccAddress: ArrayList<String> = ArrayList(), // 密送者邮箱
 
