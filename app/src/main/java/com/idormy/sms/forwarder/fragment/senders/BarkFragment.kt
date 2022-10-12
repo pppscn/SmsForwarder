@@ -258,7 +258,7 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
         val sound = binding!!.etSound.text.toString().trim()
         val badge = binding!!.etBadge.text.toString().trim()
         val url = binding!!.etUrl.text.toString().trim()
-        if (!CommonUtils.checkUrl(url, true)) {
+        if (!TextUtils.isEmpty(url) && !url.contains("[a-z]+://".toRegex())) {
             throw Exception(getString(R.string.invalid_bark_url))
         }
         val title = binding!!.etTitleTemplate.text.toString().trim()
