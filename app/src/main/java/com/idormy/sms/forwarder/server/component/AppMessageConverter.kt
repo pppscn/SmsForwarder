@@ -1,13 +1,17 @@
 package com.idormy.sms.forwarder.server.component
 
-import android.text.TextUtils
 import android.util.Log
 import com.google.gson.GsonBuilder
 import com.idormy.sms.forwarder.server.model.BaseRequest
+import com.idormy.sms.forwarder.utils.Base64
 import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.RSACrypt
+import com.xuexiang.xrouter.utils.TextUtils
 import com.yanzhenjie.andserver.annotation.Converter
+import com.yanzhenjie.andserver.error.HttpException
 import com.yanzhenjie.andserver.framework.MessageConverter
 import com.yanzhenjie.andserver.framework.body.JsonBody
+import com.yanzhenjie.andserver.framework.body.StringBody
 import com.yanzhenjie.andserver.http.ResponseBody
 import com.yanzhenjie.andserver.util.IOUtils
 import com.yanzhenjie.andserver.util.MediaType
@@ -25,7 +29,17 @@ class AppMessageConverter : MessageConverter {
 
     override fun convert(output: Any?, mediaType: MediaType?): ResponseBody {
         //返回统一结构报文
-        return JsonBody(HttpServerUtils.response(output))
+        var response = HttpServerUtils.response(output)
+        Log.d(TAG, "response: $response")
+
+        if (HttpServerUtils.safetyMeasures != 2) {
+            return JsonBody(response)
+        }
+
+        val privateKey = RSACrypt.getPrivateKey(HttpServerUtils.serverPrivateKey.toString())
+        response = Base64.encode(response.toByteArray())
+        response = RSACrypt.encryptByPrivateKey(response, privateKey)
+        return StringBody(response)
     }
 
     @Throws(IOException::class)
@@ -33,8 +47,20 @@ class AppMessageConverter : MessageConverter {
         val charset: Charset? = mediaType?.charset
         Log.d(TAG, "Charset: $charset")
 
-        val json = if (charset == null) IOUtils.toString(stream) else IOUtils.toString(stream, charset)
+        var json = if (charset == null) IOUtils.toString(stream) else IOUtils.toString(stream, charset)
         Log.d(TAG, "Json: $json")
+
+        if (HttpServerUtils.safetyMeasures == 2) {
+            if (TextUtils.isEmpty(HttpServerUtils.serverPrivateKey)) {
+                Log.e(TAG, "RSA解密失败: 私钥为空")
+                throw HttpException(500, "服务端未配置私钥")
+            }
+
+            val privateKey = RSACrypt.getPrivateKey(HttpServerUtils.serverPrivateKey.toString())
+            json = RSACrypt.decryptByPrivateKey(json, privateKey)
+            json = String(Base64.decode(json))
+            Log.d(TAG, "Json: $json")
+        }
 
         //修改接口数据中的null、“”为默认值
         val builder = GsonBuilder()
@@ -45,7 +71,7 @@ class AppMessageConverter : MessageConverter {
         Log.d(TAG, "Bean: $t")
 
         //校验时间戳（时间误差不能超过1小时）&& 签名
-        if (!TextUtils.isEmpty(HttpServerUtils.serverSignKey)) {
+        if (HttpServerUtils.safetyMeasures == 1) {
             HttpServerUtils.checkSign(t as BaseRequest<*>)
         }
 

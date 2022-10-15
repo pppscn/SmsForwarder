@@ -10,9 +10,7 @@ import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentClientBatteryQueryBinding
 import com.idormy.sms.forwarder.entity.BatteryInfo
 import com.idormy.sms.forwarder.server.model.BaseResponse
-import com.idormy.sms.forwarder.utils.HttpServerUtils
-import com.idormy.sms.forwarder.utils.SettingUtils
-import com.idormy.sms.forwarder.utils.XToastUtils
+import com.idormy.sms.forwarder.utils.*
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
@@ -60,53 +58,71 @@ class BatteryQueryFragment : BaseFragment<FragmentClientBatteryQueryBinding?>() 
         val dataMap: MutableMap<String, Any> = mutableMapOf()
         msgMap["data"] = dataMap
 
-        val requestMsg: String = Gson().toJson(msgMap)
+        var requestMsg: String = Gson().toJson(msgMap)
         Log.i(TAG, "requestMsg:$requestMsg")
 
-        XHttp.post(requestUrl)
-            .upJson(requestMsg)
+        val postRequest = XHttp.post(requestUrl)
             .keepJson(true)
             .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
             .cacheMode(CacheMode.NO_CACHE)
-            //.retryCount(SettingUtils.requestRetryTimes) //超时重试的次数
-            //.retryDelay(SettingUtils.requestDelayTime) //超时重试的延迟时间
-            //.retryIncreaseDelay(SettingUtils.requestDelayTime) //超时重试叠加延时
             .timeStamp(true)
-            .execute(object : SimpleCallBack<String>() {
 
-                override fun onError(e: ApiException) {
-                    XToastUtils.error(e.displayMessage)
-                }
+        if (HttpServerUtils.clientSafetyMeasures == 2) {
+            val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
+            try {
+                requestMsg = Base64.encode(requestMsg.toByteArray())
+                requestMsg = RSACrypt.encryptByPublicKey(requestMsg, publicKey)
+                Log.i(TAG, "requestMsg: $requestMsg")
+            } catch (e: Exception) {
+                XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
+                e.printStackTrace()
+                return
+            }
+            postRequest.upString(requestMsg)
+        } else {
+            postRequest.upJson(requestMsg)
+        }
 
-                override fun onSuccess(response: String) {
-                    Log.i(TAG, response)
-                    try {
-                        val resp: BaseResponse<BatteryInfo> = Gson().fromJson(response, object : TypeToken<BaseResponse<BatteryInfo>>() {}.type)
-                        if (resp.code == 200) {
-                            XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
-                            val batteryInfo = resp.data ?: return
+        postRequest.execute(object : SimpleCallBack<String>() {
+            override fun onError(e: ApiException) {
+                XToastUtils.error(e.displayMessage)
+            }
 
-                            val groupListView = binding!!.infoList
-                            val section = XUIGroupListView.newSection(context)
-                            section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_level), batteryInfo.level))) {}
-                            if (batteryInfo.scale != "") section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_scale), batteryInfo.scale))) {}
-                            if (batteryInfo.voltage != "") section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_voltage), batteryInfo.voltage))) {}
-                            if (batteryInfo.temperature != "") section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_temperature), batteryInfo.temperature))) {}
-                            section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_status), batteryInfo.status))) {}
-                            section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_health), batteryInfo.health))) {}
-                            section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_plugged), batteryInfo.plugged))) {}
-                            section.addTo(groupListView)
-
-                        } else {
-                            XToastUtils.error(ResUtils.getString(R.string.request_failed) + resp.msg)
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
+            override fun onSuccess(response: String) {
+                Log.i(TAG, response)
+                try {
+                    var json = response
+                    if (HttpServerUtils.clientSafetyMeasures == 2) {
+                        val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
+                        json = RSACrypt.decryptByPublicKey(json, publicKey)
+                        json = String(Base64.decode(json))
                     }
-                }
+                    val resp: BaseResponse<BatteryInfo> = Gson().fromJson(json, object : TypeToken<BaseResponse<BatteryInfo>>() {}.type)
+                    if (resp.code == 200) {
+                        XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
+                        val batteryInfo = resp.data ?: return
 
-            })
+                        val groupListView = binding!!.infoList
+                        val section = XUIGroupListView.newSection(context)
+                        section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_level), batteryInfo.level))) {}
+                        if (batteryInfo.scale != "") section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_scale), batteryInfo.scale))) {}
+                        if (batteryInfo.voltage != "") section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_voltage), batteryInfo.voltage))) {}
+                        if (batteryInfo.temperature != "") section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_temperature), batteryInfo.temperature))) {}
+                        section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_status), batteryInfo.status))) {}
+                        section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_health), batteryInfo.health))) {}
+                        section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_plugged), batteryInfo.plugged))) {}
+                        section.addTo(groupListView)
+
+                    } else {
+                        XToastUtils.error(ResUtils.getString(R.string.request_failed) + resp.msg)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
+                }
+            }
+        })
+
     }
 
 }

@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import android.widget.RadioGroup
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
@@ -18,20 +19,19 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentServerBinding
 import com.idormy.sms.forwarder.service.HttpService
-import com.idormy.sms.forwarder.utils.HTTP_SERVER_PORT
-import com.idormy.sms.forwarder.utils.HttpServerUtils
-import com.idormy.sms.forwarder.utils.RandomUtils
-import com.idormy.sms.forwarder.utils.XToastUtils
+import com.idormy.sms.forwarder.utils.*
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.button.SmoothCheckBox
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
+import com.xuexiang.xui.widget.picker.XSeekBar
 import com.xuexiang.xutil.app.ServiceUtils
 import com.xuexiang.xutil.net.NetworkUtils
 import com.xuexiang.xutil.system.ClipboardUtils
 import java.io.File
 import java.net.InetAddress
+import java.security.KeyPairGenerator
 
 
 @Suppress("PrivatePropertyName")
@@ -79,6 +79,65 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
         //启动更新UI定时器
         handler.post(runnable)
 
+        //安全措施
+        var safetyMeasuresId = R.id.rb_safety_measures_none
+        when (HttpServerUtils.safetyMeasures) {
+            1 -> {
+                safetyMeasuresId = R.id.rb_safety_measures_sign
+                binding!!.layoutSignKey.visibility = View.VISIBLE
+                binding!!.layoutTimeTolerance.visibility = View.VISIBLE
+            }
+            2 -> {
+                safetyMeasuresId = R.id.rb_safety_measures_rsa
+                binding!!.layoutPrivateKey.visibility = View.VISIBLE
+                binding!!.layoutPublicKey.visibility = View.VISIBLE
+            }
+            else -> {}
+        }
+        binding!!.rgSafetyMeasures.check(safetyMeasuresId)
+        binding!!.rgSafetyMeasures.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
+            var safetyMeasures = 0
+            binding!!.layoutSignKey.visibility = View.GONE
+            binding!!.layoutTimeTolerance.visibility = View.GONE
+            binding!!.layoutPrivateKey.visibility = View.GONE
+            binding!!.layoutPublicKey.visibility = View.GONE
+            when (checkedId) {
+                R.id.rb_safety_measures_sign -> {
+                    safetyMeasures = 1
+                    binding!!.layoutSignKey.visibility = View.VISIBLE
+                    binding!!.layoutTimeTolerance.visibility = View.VISIBLE
+                }
+                R.id.rb_safety_measures_rsa -> {
+                    safetyMeasures = 2
+                    binding!!.layoutPrivateKey.visibility = View.VISIBLE
+                    binding!!.layoutPublicKey.visibility = View.VISIBLE
+                }
+                else -> {}
+            }
+            HttpServerUtils.safetyMeasures = safetyMeasures
+        }
+
+        //RSA公私钥
+        binding!!.btnCopyPublicKey.setOnClickListener(this)
+        binding!!.btnGenerateKey.setOnClickListener(this)
+        binding!!.etPublicKey.setText(HttpServerUtils.serverPublicKey)
+        binding!!.etPublicKey.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                HttpServerUtils.serverPublicKey = binding!!.etPublicKey.text.toString().trim()
+            }
+        })
+        binding!!.etPrivateKey.setText(HttpServerUtils.serverPrivateKey)
+        binding!!.etPrivateKey.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                HttpServerUtils.serverPrivateKey = binding!!.etPrivateKey.text.toString().trim()
+            }
+        })
+
+        //签名密钥
         binding!!.btnSignKey.setOnClickListener(this)
         binding!!.btnPathPicker.setOnClickListener(this)
         binding!!.etSignKey.setText(HttpServerUtils.serverSignKey)
@@ -89,6 +148,13 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 HttpServerUtils.serverSignKey = binding!!.etSignKey.text.toString().trim()
             }
         })
+        //时间容差
+        binding!!.xsbTimeTolerance.setDefaultValue(HttpServerUtils.timeTolerance)
+        binding!!.xsbTimeTolerance.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
+            HttpServerUtils.timeTolerance = newValue
+        }
+
+        //web客户端
         binding!!.etWebPath.setText(HttpServerUtils.serverWebPath)
         binding!!.etWebPath.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -154,6 +220,29 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                     appContext?.startService(Intent(appContext, HttpService::class.java))
                 }
                 refreshButtonText()
+            }
+            R.id.btn_generate_key -> {
+                val generator = KeyPairGenerator.getInstance("RSA") //密钥生成器
+                generator.initialize(2048)
+                val keyPair = generator.genKeyPair()
+                val publicKey = keyPair.public
+                val privateKey = keyPair.private
+
+                val publicKeyEncoded = Base64.encode(publicKey.encoded)
+                val privateKeyEncoded = Base64.encode(privateKey.encoded)
+
+                println("publicKey=$publicKeyEncoded")
+                println("privateKey=$privateKeyEncoded")
+
+                binding!!.etPublicKey.setText(publicKeyEncoded)
+                binding!!.etPrivateKey.setText(privateKeyEncoded)
+
+                ClipboardUtils.copyText(publicKeyEncoded)
+                XToastUtils.info(getString(R.string.rsa_key_tips))
+            }
+            R.id.btn_copy_public_key -> {
+                ClipboardUtils.copyText(binding!!.etPublicKey.text)
+                XToastUtils.info(getString(R.string.rsa_key_tips2))
             }
             R.id.btn_sign_key -> {
                 val sign = RandomUtils.getRandomNumbersAndLetters(16)

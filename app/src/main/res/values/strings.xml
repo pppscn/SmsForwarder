@@ -781,6 +781,8 @@
     <string name="copy" tools:ignore="PrivateResource">复制</string>
     <string name="random">随机生成</string>
     <string name="sign_key">签名密钥</string>
+    <string name="rsa_key_tips">已生成公私钥对，并复制公钥到剪贴板</string>
+    <string name="rsa_key_tips2">已复制公钥到剪贴板</string>
     <string name="sign_key_tips">已生成密钥，并复制到剪贴板</string>
     <string name="enable_function">启用功能</string>
     <string name="enable_function_tips">按需选择您要启用远程控制的功能</string>
@@ -832,9 +834,9 @@
     <string name="battery_plugged">充电器：%s</string>
 
     <string name="server_history">历史记录</string>
-    <string name="server_test">测试接口</string>
+    <string name="server_test">登录服务</string>
     <string name="invalid_service_address">无效的服务地址！\n格式：http://127.0.0.1:5000 或 https://smsf.demo.com</string>
-    <string name="click_test_button_first">请先点击【测试接口】按钮，获取服务端已启用的功能列表</string>
+    <string name="click_test_button_first">请先点击【登录服务】按钮，获取服务端已启用的功能列表</string>
     <string name="disabled_on_the_server">服务端禁用此功能</string>
     <string name="frpc_failed_to_run">Frpc运行失败</string>
     <string name="successfully_deleted">删除成功</string>
@@ -868,7 +870,7 @@
     <string name="sign_verify_failed">签名校验失败</string>
     <string name="version_code_required">version_code节点必传</string>
     <string name="inconsistent_version">客户端与服务端的App版本不一致</string>
-    <string name="timestamp_verify_failed" formatted="false">timestamp校验失败，与服务器时间(%s)误差不能超过1小时(diffTime=%s)</string>
+    <string name="timestamp_verify_failed" formatted="false">timestamp校验失败，与服务器时间(%s)误差不能超过%s秒(diffTime=%s)</string>
 
     <string name="main_title">主标题</string>
     <string name="subtitle">副标题</string>
@@ -923,4 +925,17 @@
     <string name="auto_clean_logs">自动删除N天前的转发记录</string>
     <string name="auto_clean_logs_tips">0=禁用，触发机制：每次电量变化时扫描</string>
     <string name="day">天</string>
+    <string name="safety_measures">安全措施</string>
+    <string name="safety_measures_none">不需要</string>
+    <string name="safety_measures_sign">校验签名</string>
+    <string name="safety_measures_encrypt">加密传输</string>
+    <string name="web_path_tips">参见 Github Wiki，下载到 Download 目录</string>
+    <string name="time_tolerance">客户端与服务端时间容差</string>
+    <string name="time_tolerance_tips">尽量缩短时间容差，避免请求重放攻击</string>
+    <string name="private_key">RSA私钥</string>
+    <string name="private_key_tips">RSA私钥用在服务端：服务端应答报文私钥加密，客户端公钥解密</string>
+    <string name="generate_key">生成密钥</string>
+    <string name="public_key">RSA公钥</string>
+    <string name="public_key_tips">RSA公钥用在客户端：客户端请求报文公钥加密，服务端私钥解密</string>
+    <string name="copy_public_key">复制公钥</string>
 </resources>

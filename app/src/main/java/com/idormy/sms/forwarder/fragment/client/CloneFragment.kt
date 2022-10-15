@@ -18,10 +18,8 @@ import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentClientCloneBinding
 import com.idormy.sms.forwarder.entity.CloneInfo
 import com.idormy.sms.forwarder.server.model.BaseResponse
-import com.idormy.sms.forwarder.utils.CommonUtils
-import com.idormy.sms.forwarder.utils.HttpServerUtils
-import com.idormy.sms.forwarder.utils.SettingUtils
-import com.idormy.sms.forwarder.utils.XToastUtils
+import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.Base64
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
@@ -181,12 +179,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                         XToastUtils.error(getString(R.string.export_failed))
                     }
                 } catch (e: Exception) {
-                    XToastUtils.error(
-                        String.format(
-                            getString(R.string.export_failed_tips),
-                            e.message
-                        )
-                    )
+                    XToastUtils.error(String.format(getString(R.string.export_failed_tips), e.message))
                 }
             }
             //导入配置
@@ -225,12 +218,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                         XToastUtils.error(getString(R.string.import_failed))
                     }
                 } catch (e: Exception) {
-                    XToastUtils.error(
-                        String.format(
-                            getString(R.string.import_failed_tips),
-                            e.message
-                        )
-                    )
+                    XToastUtils.error(String.format(getString(R.string.import_failed_tips), e.message))
                 }
             }
         }
@@ -258,43 +246,59 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
         }
         msgMap["data"] = HttpServerUtils.exportSettings()
 
-        val requestMsg: String = Gson().toJson(msgMap)
+        var requestMsg: String = Gson().toJson(msgMap)
         Log.i(TAG, "requestMsg:$requestMsg")
 
-        XHttp.post(requestUrl)
-            .upJson(requestMsg)
+        val postRequest = XHttp.post(requestUrl)
             .keepJson(true)
             .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
             .cacheMode(CacheMode.NO_CACHE)
-            //.retryCount(SettingUtils.requestRetryTimes) //超时重试的次数
-            //.retryDelay(SettingUtils.requestDelayTime) //超时重试的延迟时间
-            //.retryIncreaseDelay(SettingUtils.requestDelayTime) //超时重试叠加延时
             .timeStamp(true)
-            .execute(object : SimpleCallBack<String>() {
 
-                override fun onError(e: ApiException) {
-                    XToastUtils.error(e.displayMessage)
-                }
+        if (HttpServerUtils.clientSafetyMeasures == 2) {
+            val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
+            try {
+                requestMsg = Base64.encode(requestMsg.toByteArray())
+                requestMsg = RSACrypt.encryptByPublicKey(requestMsg, publicKey)
+                Log.i(TAG, "requestMsg: $requestMsg")
+            } catch (e: Exception) {
+                XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
+                e.printStackTrace()
+                return
+            }
+            postRequest.upString(requestMsg)
+        } else {
+            postRequest.upJson(requestMsg)
+        }
 
-                override fun onSuccess(response: String) {
-                    Log.i(TAG, response)
-                    try {
-                        val resp: BaseResponse<String> = Gson().fromJson(
-                            response,
-                            object : TypeToken<BaseResponse<String>>() {}.type
-                        )
-                        if (resp.code == 200) {
-                            XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
-                        } else {
-                            XToastUtils.error(ResUtils.getString(R.string.request_failed) + resp.msg)
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
+        postRequest.execute(object : SimpleCallBack<String>() {
+            override fun onError(e: ApiException) {
+                XToastUtils.error(e.displayMessage)
+                pushCountDownHelper?.finish()
+            }
+
+            override fun onSuccess(response: String) {
+                Log.i(TAG, response)
+                try {
+                    var json = response
+                    if (HttpServerUtils.clientSafetyMeasures == 2) {
+                        val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
+                        json = RSACrypt.decryptByPublicKey(json, publicKey)
+                        json = String(Base64.decode(json))
                     }
+                    val resp: BaseResponse<String> = Gson().fromJson(json, object : TypeToken<BaseResponse<String>>() {}.type)
+                    if (resp.code == 200) {
+                        XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
+                    } else {
+                        XToastUtils.error(ResUtils.getString(R.string.request_failed) + resp.msg)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
                 }
-
-            })
+                pushCountDownHelper?.finish()
+            }
+        })
 
     }
 
@@ -323,62 +327,80 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
         dataMap["version_code"] = AppUtils.getAppVersionCode()
         msgMap["data"] = dataMap
 
-        val requestMsg: String = Gson().toJson(msgMap)
+        var requestMsg: String = Gson().toJson(msgMap)
         Log.i(TAG, "requestMsg:$requestMsg")
 
-        XHttp.post(requestUrl)
-            .upJson(requestMsg)
+        val postRequest = XHttp.post(requestUrl)
             .keepJson(true)
             .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
             .cacheMode(CacheMode.NO_CACHE)
-            //.retryCount(SettingUtils.requestRetryTimes) //超时重试的次数
-            //.retryDelay(SettingUtils.requestDelayTime) //超时重试的延迟时间
-            //.retryIncreaseDelay(SettingUtils.requestDelayTime) //超时重试叠加延时
             .timeStamp(true)
-            .execute(object : SimpleCallBack<String>() {
 
-                override fun onError(e: ApiException) {
-                    XToastUtils.error(e.displayMessage)
-                }
+        if (HttpServerUtils.clientSafetyMeasures == 2) {
+            val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
+            try {
+                requestMsg = Base64.encode(requestMsg.toByteArray())
+                requestMsg = RSACrypt.encryptByPublicKey(requestMsg, publicKey)
+                Log.i(TAG, "requestMsg: $requestMsg")
+            } catch (e: Exception) {
+                XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
+                e.printStackTrace()
+                return
+            }
+            postRequest.upString(requestMsg)
+        } else {
+            postRequest.upJson(requestMsg)
+        }
 
-                override fun onSuccess(response: String) {
-                    Log.i(TAG, response)
-                    try {
-                        //替换Date字段为当前时间
-                        val builder = GsonBuilder()
-                        builder.registerTypeAdapter(
-                            Date::class.java,
-                            JsonDeserializer<Any?> { _, _, _ -> Date() })
-                        val gson = builder.create()
-                        val resp: BaseResponse<CloneInfo> = gson.fromJson(
-                            response,
-                            object : TypeToken<BaseResponse<CloneInfo>>() {}.type
-                        )
-                        if (resp.code == 200) {
-                            val cloneInfo = resp.data
-                            Log.d(TAG, "cloneInfo = $cloneInfo")
+        postRequest.execute(object : SimpleCallBack<String>() {
+            override fun onError(e: ApiException) {
+                XToastUtils.error(e.displayMessage)
+                exportCountDownHelper?.finish()
+            }
 
-                            if (cloneInfo == null) {
-                                XToastUtils.error(ResUtils.getString(R.string.request_failed))
-                                return
-                            }
-
-                            //判断版本是否一致
-                            HttpServerUtils.compareVersion(cloneInfo)
-
-                            if (HttpServerUtils.restoreSettings(cloneInfo)) {
-                                XToastUtils.success(getString(R.string.import_succeeded))
-                            }
-                        } else {
-                            XToastUtils.error(ResUtils.getString(R.string.request_failed) + resp.msg)
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
+            override fun onSuccess(response: String) {
+                Log.i(TAG, response)
+                try {
+                    var json = response
+                    if (HttpServerUtils.clientSafetyMeasures == 2) {
+                        val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
+                        json = RSACrypt.decryptByPublicKey(json, publicKey)
+                        json = String(Base64.decode(json))
                     }
-                }
 
-            })
+                    //替换Date字段为当前时间
+                    val builder = GsonBuilder()
+                    builder.registerTypeAdapter(
+                        Date::class.java,
+                        JsonDeserializer<Any?> { _, _, _ -> Date() })
+                    val gson = builder.create()
+                    val resp: BaseResponse<CloneInfo> = gson.fromJson(json, object : TypeToken<BaseResponse<CloneInfo>>() {}.type)
+                    if (resp.code == 200) {
+                        val cloneInfo = resp.data
+                        Log.d(TAG, "cloneInfo = $cloneInfo")
+
+                        if (cloneInfo == null) {
+                            XToastUtils.error(ResUtils.getString(R.string.request_failed))
+                            return
+                        }
+
+                        //判断版本是否一致
+                        HttpServerUtils.compareVersion(cloneInfo)
+
+                        if (HttpServerUtils.restoreSettings(cloneInfo)) {
+                            XToastUtils.success(getString(R.string.import_succeeded))
+                        }
+                    } else {
+                        XToastUtils.error(ResUtils.getString(R.string.request_failed) + resp.msg)
+                    }
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
+                }
+                exportCountDownHelper?.finish()
+            }
+        })
 
     }
 

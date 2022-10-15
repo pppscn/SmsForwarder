@@ -32,12 +32,44 @@ class HttpServerUtils private constructor() {
                 MMKVUtils.put(SP_ENABLE_SERVER_AUTORUN, enableServerAutorun)
             }
 
+        //服务端安全设置
+        @JvmStatic
+        var safetyMeasures: Int
+            get() = MMKVUtils.getInt(SP_SERVER_SAFETY_MEASURES, if (TextUtils.isEmpty(serverSignKey)) 0 else 1)
+            set(safetyMeasures) {
+                MMKVUtils.put(SP_SERVER_SAFETY_MEASURES, safetyMeasures)
+            }
+
+        //服务端RSA公钥
+        @JvmStatic
+        var serverPublicKey: String?
+            get() = MMKVUtils.getString(SP_SERVER_PUBLIC_KEY, "")
+            set(serverPublicKey) {
+                MMKVUtils.put(SP_SERVER_PUBLIC_KEY, serverPublicKey)
+            }
+
+        //服务端RSA私钥
+        @JvmStatic
+        var serverPrivateKey: String?
+            get() = MMKVUtils.getString(SP_SERVER_PRIVATE_KEY, "")
+            set(serverPrivateKey) {
+                MMKVUtils.put(SP_SERVER_PRIVATE_KEY, serverPrivateKey)
+            }
+
         //服务端签名密钥
         @JvmStatic
         var serverSignKey: String?
             get() = MMKVUtils.getString(SP_SERVER_SIGN_KEY, "")
             set(serverSignKey) {
                 MMKVUtils.put(SP_SERVER_SIGN_KEY, serverSignKey)
+            }
+
+        //时间容差
+        @JvmStatic
+        var timeTolerance: Int
+            get() = MMKVUtils.getInt(SP_SERVER_TIME_TOLERANCE, 600)
+            set(timeTolerance) {
+                MMKVUtils.put(SP_SERVER_TIME_TOLERANCE, timeTolerance)
             }
 
         //自定义web客户端目录
@@ -72,7 +104,15 @@ class HttpServerUtils private constructor() {
                 MMKVUtils.put(SP_SERVER_CONFIG, serverConfig)
             }
 
-        //客户端签名密钥
+        //服务端安全设置
+        @JvmStatic
+        var clientSafetyMeasures: Int
+            get() = MMKVUtils.getInt(SP_CLIENT_SAFETY_MEASURES, if (TextUtils.isEmpty(clientSignKey)) 0 else 1)
+            set(clientSafetyMeasures) {
+                MMKVUtils.put(SP_CLIENT_SAFETY_MEASURES, clientSafetyMeasures)
+            }
+
+        //客户端签名密钥/RSA公钥
         @JvmStatic
         var clientSignKey: String?
             get() = MMKVUtils.getString(SP_CLIENT_SIGN_KEY, "")
@@ -164,8 +204,9 @@ class HttpServerUtils private constructor() {
 
             val timestamp = System.currentTimeMillis()
             val diffTime = kotlin.math.abs(timestamp - req.timestamp)
-            if (diffTime > 3600000L) {
-                throw HttpException(500, String.format(getString(R.string.timestamp_verify_failed), timestamp, diffTime))
+            val tolerance = timeTolerance * 1000L
+            if (diffTime > tolerance) {
+                throw HttpException(500, String.format(getString(R.string.timestamp_verify_failed), timestamp, timeTolerance, diffTime))
             }
 
             val sign = calcSign(req.timestamp.toString(), signSecret.toString())
@@ -306,7 +347,7 @@ class HttpServerUtils private constructor() {
                 if (output != null) {
                     resp["data"] = output
                 }
-                if (!TextUtils.isEmpty(serverSignKey)) {
+                if (safetyMeasures == 1) {
                     resp["sign"] = calcSign(timestamp.toString(), serverSignKey.toString())
                 }
             }

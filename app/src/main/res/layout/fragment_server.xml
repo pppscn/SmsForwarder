@@ -87,19 +87,11 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/tv_server_tips"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/http_server_stopped"
-                            android:textSize="10sp"
-                            tools:ignore="SmallSp" />
-
                         <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
                             android:id="@+id/iv_copy"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
                             android:gravity="center"
                             android:padding="3dp"
                             android:text="@string/copy"
@@ -110,6 +102,14 @@
                             app:sb_ripple_duration="500"
                             app:sb_shape_type="rectangle"
                             tools:ignore="PrivateResource,SmallSp" />
+
+                        <TextView
+                            android:id="@+id/tv_server_tips"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/http_server_stopped"
+                            android:textSize="10sp"
+                            tools:ignore="SmallSp" />
 
                     </LinearLayout>
 
@@ -137,7 +137,54 @@
                 style="@style/settingBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/safety_measures"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/rg_safety_measures"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_safety_measures_none"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/safety_measures_none"
+                        android:textSize="11sp" />
+
+                    <RadioButton
+                        android:id="@+id/rb_safety_measures_sign"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/safety_measures_sign"
+                        android:textSize="11sp" />
+
+                    <RadioButton
+                        android:id="@+id/rb_safety_measures_rsa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/safety_measures_encrypt"
+                        android:textSize="11sp" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_sign_key"
+                style="@style/settingBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingEnd="15dp"
+                android:visibility="gone"
                 tools:ignore="RtlSymmetry">
 
                 <TextView
@@ -172,33 +219,142 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_time_tolerance"
                 style="@style/settingBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingEnd="15dp"
+                android:visibility="gone"
+                tools:ignore="RtlSymmetry">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/time_tolerance"
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/time_tolerance_tips"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+
+                </LinearLayout>
+
+                <com.xuexiang.xui.widget.picker.XSeekBar
+                    android:id="@+id/xsb_time_tolerance"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    app:xsb_max="600"
+                    app:xsb_min="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/seconds"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_private_key"
+                style="@style/settingBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingEnd="15dp"
+                android:visibility="gone"
                 tools:ignore="RtlSymmetry">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/web_client"
+                    android:text="@string/private_key"
                     android:textStyle="bold" />
 
-                <com.xuexiang.xui.widget.edittext.ClearEditText
-                    android:id="@+id/et_web_path"
+                <EditText
+                    android:id="@+id/et_private_key"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:gravity="top"
+                    android:hint="@string/private_key_tips"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine"
+                    android:maxLines="5"
+                    android:minLines="2"
+                    android:scrollbars="vertical"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
 
                 <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                    android:id="@+id/btn_path_picker"
+                    android:id="@+id/btn_generate_key"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="@string/select_directory"
+                    android:text="@string/generate_key"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    app:sb_color_unpressed="@color/colorPrimary"
+                    app:sb_ripple_color="@color/white"
+                    app:sb_ripple_duration="500"
+                    app:sb_shape_type="rectangle"
+                    tools:ignore="SmallSp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_public_key"
+                style="@style/settingBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingEnd="15dp"
+                android:visibility="gone"
+                tools:ignore="RtlSymmetry">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/public_key"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_public_key"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:gravity="top"
+                    android:hint="@string/public_key_tips"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine"
+                    android:maxLines="5"
+                    android:minLines="2"
+                    android:scrollbars="vertical"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+
+                <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                    android:id="@+id/btn_copy_public_key"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/copy_public_key"
                     android:textColor="@color/white"
                     android:textSize="10sp"
                     app:sb_color_unpressed="@color/colorPrimary"
@@ -231,6 +387,47 @@
                     android:text="@string/enable_function_tips"
                     android:textSize="10sp"
                     tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/settingBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingEnd="15dp"
+                tools:ignore="RtlSymmetry">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/web_client"
+                    android:textStyle="bold" />
+
+                <com.xuexiang.xui.widget.edittext.ClearEditText
+                    android:id="@+id/et_web_path"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:hint="@string/web_path_tips"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+
+                <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                    android:id="@+id/btn_path_picker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/select_directory"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    app:sb_color_unpressed="@color/colorPrimary"
+                    app:sb_ripple_color="@color/white"
+                    app:sb_ripple_duration="500"
+                    app:sb_shape_type="rectangle"
+                    tools:ignore="SmallSp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -459,7 +656,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/api_wol"
                         android:textStyle="bold"
-                        tools:ignore="RelativeOverlap" />
+                        tools:ignore="RelativeOverlap,TooManyViews" />
 
                     <TextView
                         android:layout_width="match_parent"

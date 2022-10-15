@@ -61,20 +61,55 @@
                     android:layout_weight="1"
                     android:hint="@string/service_address_hint" />
 
-                <com.xuexiang.xui.widget.button.ButtonView
-                    android:id="@+id/btn_server_history"
-                    style="@style/ButtonView.Gray"
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/settingBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:gravity="center"
-                    android:minWidth="70dp"
-                    android:padding="5dp"
-                    android:text="@string/server_history" />
+                    android:text="@string/safety_measures"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/rg_safety_measures"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_safety_measures_none"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/safety_measures_none"
+                        android:textSize="11sp" />
+
+                    <RadioButton
+                        android:id="@+id/rb_safety_measures_sign"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/safety_measures_sign"
+                        android:textSize="11sp" />
+
+                    <RadioButton
+                        android:id="@+id/rb_safety_measures_rsa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/safety_measures_encrypt"
+                        android:textSize="11sp" />
+
+                </RadioGroup>
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_sign_key"
                 style="@style/settingBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -82,24 +117,52 @@
                 tools:ignore="RtlSymmetry">
 
                 <TextView
+                    android:id="@+id/tv_sign_key"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sign_key"
                     android:textStyle="bold" />
 
-                <com.xuexiang.xui.widget.edittext.ClearEditText
+                <EditText
                     android:id="@+id/et_sign_key"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:gravity="top"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine"
+                    android:maxLines="5"
+                    android:minLines="1"
+                    android:scrollbars="vertical"
+                    android:textSize="10sp"
+                    tools:ignore="LabelFor,SmallSp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="10dp"
+                android:gravity="center_horizontal">
+
+                <com.xuexiang.xui.widget.button.ButtonView
+                    android:id="@+id/btn_server_history"
+                    style="@style/ButtonView.Gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:minWidth="70dp"
+                    android:padding="5dp"
+                    android:text="@string/server_history" />
 
                 <com.xuexiang.xui.widget.button.ButtonView
                     android:id="@+id/btn_server_test"
                     style="@style/ButtonView.Green"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="15dp"
                     android:gravity="center"
                     android:minWidth="70dp"
                     android:padding="5dp"

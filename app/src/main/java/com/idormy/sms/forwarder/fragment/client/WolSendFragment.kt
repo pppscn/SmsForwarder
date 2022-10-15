@@ -10,9 +10,7 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentClientWolSendBinding
 import com.idormy.sms.forwarder.server.model.BaseResponse
-import com.idormy.sms.forwarder.utils.HttpServerUtils
-import com.idormy.sms.forwarder.utils.SettingUtils
-import com.idormy.sms.forwarder.utils.XToastUtils
+import com.idormy.sms.forwarder.utils.*
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
@@ -144,46 +142,63 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
                 dataMap["port"] = port
                 msgMap["data"] = dataMap
 
-                val requestMsg: String = Gson().toJson(msgMap)
+                var requestMsg: String = Gson().toJson(msgMap)
                 Log.i(TAG, "requestMsg:$requestMsg")
 
-                mCountDownHelper?.start()
-                XHttp.post(requestUrl)
-                    .upJson(requestMsg)
+                val postRequest = XHttp.post(requestUrl)
                     .keepJson(true)
                     .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
                     .cacheMode(CacheMode.NO_CACHE)
                     .timeStamp(true)
-                    .execute(object : SimpleCallBack<String>() {
 
-                        override fun onError(e: ApiException) {
-                            XToastUtils.error(e.displayMessage)
-                            mCountDownHelper?.finish()
-                        }
+                if (HttpServerUtils.clientSafetyMeasures == 2) {
+                    val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
+                    try {
+                        requestMsg = Base64.encode(requestMsg.toByteArray())
+                        requestMsg = RSACrypt.encryptByPublicKey(requestMsg, publicKey)
+                        Log.i(TAG, "requestMsg: $requestMsg")
+                    } catch (e: Exception) {
+                        XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
+                        e.printStackTrace()
+                        return
+                    }
+                    postRequest.upString(requestMsg)
+                } else {
+                    postRequest.upJson(requestMsg)
+                }
 
-                        override fun onSuccess(response: String) {
-                            Log.i(TAG, response)
-                            try {
-                                val resp: BaseResponse<String> = Gson().fromJson(
-                                    response,
-                                    object : TypeToken<BaseResponse<String>>() {}.type
-                                )
-                                if (resp.code == 200) {
-                                    XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
-                                    //添加到历史记录
-                                    wolHistory[mac] = ip
-                                    HttpServerUtils.wolHistory = Gson().toJson(wolHistory)
-                                } else {
-                                    XToastUtils.error(ResUtils.getString(R.string.request_failed) + resp.msg)
-                                }
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                                XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
+                mCountDownHelper?.start()
+                postRequest.execute(object : SimpleCallBack<String>() {
+                    override fun onError(e: ApiException) {
+                        XToastUtils.error(e.displayMessage)
+                        mCountDownHelper?.finish()
+                    }
+
+                    override fun onSuccess(response: String) {
+                        Log.i(TAG, response)
+                        try {
+                            var json = response
+                            if (HttpServerUtils.clientSafetyMeasures == 2) {
+                                val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
+                                json = RSACrypt.decryptByPublicKey(json, publicKey)
+                                json = String(Base64.decode(json))
                             }
-                            mCountDownHelper?.finish()
+                            val resp: BaseResponse<String> = Gson().fromJson(json, object : TypeToken<BaseResponse<String>>() {}.type)
+                            if (resp.code == 200) {
+                                XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
+                                //添加到历史记录
+                                wolHistory[mac] = ip
+                                HttpServerUtils.wolHistory = Gson().toJson(wolHistory)
+                            } else {
+                                XToastUtils.error(ResUtils.getString(R.string.request_failed) + resp.msg)
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
                         }
-
-                    })
+                        mCountDownHelper?.finish()
+                    }
+                })
             }
             else -> {}
         }
