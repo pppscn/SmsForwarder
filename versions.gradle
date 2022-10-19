@@ -11,7 +11,7 @@ ext.build_versions = build_versions
 
 ext.deps = [:]
 def versions = [:]
-versions.android_gradle_plugin = '7.3.0'
+versions.android_gradle_plugin = '7.3.1'
 versions.android_maven_gradle_plugin = "2.1"
 versions.gradle_bintray_plugin = "1.8.0"
 versions.booster = "3.1.0"
