@@ -264,6 +264,9 @@ dependencies {
     //HTTP服务器：https://github.com/yanzhenjie/AndServer
     implementation 'cn.ppps.andserver:api:2.1.11'
     kapt 'cn.ppps.andserver:processor:2.1.11'
+
+    //国密算法SM4 的JAVA实现(基于BC实现)
+    api "org.bouncycastle:bcprov-jdk15on:1.69"
 }
 //自动添加X-Library依赖
 apply from: 'x-library.gradle'

@@ -67,42 +67,57 @@
                 style="@style/settingBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:paddingEnd="10dp"
+                tools:ignore="RtlSymmetry">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/safety_measures"
-                    android:textStyle="bold" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/safety_measures"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/safety_measures_tips"
+                        android:textSize="10sp"
+                        tools:ignore="SmallSp" />
+
+                </LinearLayout>
 
                 <RadioGroup
                     android:id="@+id/rg_safety_measures"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
+                    style="@style/rg_style"
                     android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/rb_safety_measures_none"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/rg_rb_style"
                         android:checked="true"
-                        android:text="@string/safety_measures_none"
-                        android:textSize="11sp" />
+                        android:text="@string/safety_measures_none" />
 
                     <RadioButton
                         android:id="@+id/rb_safety_measures_sign"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/safety_measures_sign"
-                        android:textSize="11sp" />
+                        style="@style/rg_rb_style"
+                        android:text="@string/safety_measures_sign" />
 
                     <RadioButton
                         android:id="@+id/rb_safety_measures_rsa"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/safety_measures_encrypt"
-                        android:textSize="11sp" />
+                        style="@style/rg_rb_style"
+                        android:text="@string/safety_measures_rsa" />
+
+                    <RadioButton
+                        android:id="@+id/rb_safety_measures_sm4"
+                        style="@style/rg_rb_style"
+                        android:text="@string/safety_measures_sm4" />
 
                 </RadioGroup>
 

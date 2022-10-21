@@ -325,6 +325,7 @@ const val SP_ENABLE_SERVER_AUTORUN = "enable_server_autorun"
 const val SP_SERVER_SAFETY_MEASURES = "server_safety_measures"
 const val SP_SERVER_SIGN_KEY = "server_sign_key"
 const val SP_SERVER_TIME_TOLERANCE = "server_time_tolerance"
+const val SP_SERVER_SM4_KEY = "server_sm4_key"
 const val SP_SERVER_PUBLIC_KEY = "server_public_key"
 const val SP_SERVER_PRIVATE_KEY = "server_private_key"
 const val SP_SERVER_WEB_PATH = "server_web_path"
@@ -341,6 +342,7 @@ const val SP_SERVER_HISTORY = "server_history"
 const val SP_SERVER_CONFIG = "server_config"
 const val SP_CLIENT_SAFETY_MEASURES = "client_safety_measures"
 const val SP_CLIENT_SIGN_KEY = "client_sign_key"
+
 var CLIENT_FRAGMENT_LIST = listOf(
     PageInfo(
         getString(R.string.api_clone),

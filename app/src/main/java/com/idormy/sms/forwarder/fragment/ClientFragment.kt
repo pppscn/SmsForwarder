@@ -36,6 +36,8 @@ import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xutil.XUtil
+import com.xuexiang.xutil.data.ConvertTools
+
 
 @Suppress("PrivatePropertyName", "PropertyName")
 @Page(name = "主动控制·客户端")
@@ -123,6 +125,10 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                 safetyMeasuresId = R.id.rb_safety_measures_rsa
                 binding!!.tvSignKey.text = getString(R.string.public_key)
             }
+            3 -> {
+                safetyMeasuresId = R.id.rb_safety_measures_sm4
+                binding!!.tvSignKey.text = getString(R.string.sm4_key)
+            }
             else -> {
                 binding!!.layoutSignKey.visibility = View.GONE
             }
@@ -130,19 +136,23 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
         binding!!.rgSafetyMeasures.check(safetyMeasuresId)
         binding!!.rgSafetyMeasures.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
             var safetyMeasures = 0
-            binding!!.layoutSignKey.visibility = View.GONE
+            binding!!.layoutSignKey.visibility = View.VISIBLE
             when (checkedId) {
                 R.id.rb_safety_measures_sign -> {
                     safetyMeasures = 1
                     binding!!.tvSignKey.text = getString(R.string.sign_key)
-                    binding!!.layoutSignKey.visibility = View.VISIBLE
                 }
                 R.id.rb_safety_measures_rsa -> {
                     safetyMeasures = 2
                     binding!!.tvSignKey.text = getString(R.string.public_key)
-                    binding!!.layoutSignKey.visibility = View.VISIBLE
                 }
-                else -> {}
+                R.id.rb_safety_measures_sm4 -> {
+                    safetyMeasures = 3
+                    binding!!.tvSignKey.text = getString(R.string.sm4_key)
+                }
+                else -> {
+                    binding!!.layoutSignKey.visibility = View.GONE
+                }
             }
             HttpServerUtils.clientSafetyMeasures = safetyMeasures
         }
@@ -194,6 +204,10 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                                 "2" -> {
                                     safetyMeasuresId = R.id.rb_safety_measures_rsa
                                     binding!!.tvSignKey.text = getString(R.string.public_key)
+                                }
+                                "3" -> {
+                                    safetyMeasuresId = R.id.rb_safety_measures_sm4
+                                    binding!!.tvSignKey.text = getString(R.string.sm4_key)
                                 }
                                 else -> {
                                     binding!!.tvSignKey.visibility = View.GONE
@@ -254,8 +268,8 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
         msgMap["timestamp"] = timestamp
 
         val clientSignKey = HttpServerUtils.clientSignKey.toString()
-        if ((HttpServerUtils.clientSafetyMeasures == 1 || HttpServerUtils.clientSafetyMeasures == 2) && TextUtils.isEmpty(clientSignKey)) {
-            if (needToast) XToastUtils.error("请输入签名密钥或RSA公钥")
+        if (HttpServerUtils.clientSafetyMeasures != 0 && TextUtils.isEmpty(clientSignKey)) {
+            if (needToast) XToastUtils.error("请输入签名密钥/RSA公钥/SM4密钥")
             return
         }
 
@@ -273,20 +287,37 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
             .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
             .cacheMode(CacheMode.NO_CACHE).timeStamp(true)
 
-        if (HttpServerUtils.clientSafetyMeasures == 2) {
-            val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
-            try {
-                requestMsg = Base64.encode(requestMsg.toByteArray())
-                requestMsg = RSACrypt.encryptByPublicKey(requestMsg, publicKey)
-                Log.i(TAG, "requestMsg: $requestMsg")
-            } catch (e: Exception) {
-                if (needToast) XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
-                e.printStackTrace()
-                return
+        when (HttpServerUtils.clientSafetyMeasures) {
+            2 -> {
+                try {
+                    val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
+                    requestMsg = Base64.encode(requestMsg.toByteArray())
+                    requestMsg = RSACrypt.encryptByPublicKey(requestMsg, publicKey)
+                    Log.i(TAG, "requestMsg: $requestMsg")
+                } catch (e: Exception) {
+                    if (needToast) XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
+                    e.printStackTrace()
+                    return
+                }
+                postRequest.upString(requestMsg)
             }
-            postRequest.upString(requestMsg)
-        } else {
-            postRequest.upJson(requestMsg)
+            3 -> {
+                try {
+                    val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey.toString())
+                    //requestMsg = Base64.encode(requestMsg.toByteArray())
+                    val encryptCBC = SM4Crypt.encrypt(requestMsg.toByteArray(), sm4Key)
+                    requestMsg = ConvertTools.bytes2HexString(encryptCBC)
+                    Log.i(TAG, "requestMsg: $requestMsg")
+                } catch (e: Exception) {
+                    if (needToast) XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
+                    e.printStackTrace()
+                    return
+                }
+                postRequest.upString(requestMsg)
+            }
+            else -> {
+                postRequest.upJson(requestMsg)
+            }
         }
 
         if (needToast) mCountDownHelper?.start()
@@ -304,6 +335,11 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                         val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
                         json = RSACrypt.decryptByPublicKey(json, publicKey)
                         json = String(Base64.decode(json))
+                    } else if (HttpServerUtils.clientSafetyMeasures == 3) {
+                        val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey.toString())
+                        val encryptCBC = ConvertTools.hexStringToByteArray(json)
+                        val decryptCBC = SM4Crypt.decrypt(encryptCBC, sm4Key)
+                        json = String(decryptCBC)
                     }
                     val resp: BaseResponse<ConfigData> = Gson().fromJson(json, object : TypeToken<BaseResponse<ConfigData>>() {}.type)
                     if (resp.code == 200) {

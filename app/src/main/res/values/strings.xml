@@ -877,7 +877,7 @@
     <string name="sms_keyword_hint">输入关键字模糊匹配短信内容</string>
     <string name="contact_keyword_hint">纯数字匹配号码/非数字匹配姓名</string>
     <string name="call_keyword_hint">输入关键字模糊匹配手机号码</string>
-    <string name="server_settings_tips2">按照主动控制·服务端的配置填写以下两项，签名密钥可选</string>
+    <string name="server_settings_tips2">按照主动控制·服务端的配置填写以下项目</string>
     <string name="service_address">服务地址</string>
     <string name="service_address_hint">例如：http://127.0.0.1:5000</string>
     <string name="features_list">功能列表</string>
@@ -926,9 +926,11 @@
     <string name="auto_clean_logs_tips">0=禁用，触发机制：每次电量变化时扫描</string>
     <string name="day">天</string>
     <string name="safety_measures">安全措施</string>
+    <string name="safety_measures_tips">客户端与服务端必须一致，强烈建议公网访问时启用加密</string>
     <string name="safety_measures_none">不需要</string>
     <string name="safety_measures_sign">校验签名</string>
-    <string name="safety_measures_encrypt">加密传输</string>
+    <string name="safety_measures_rsa">RSA加密</string>
+    <string name="safety_measures_sm4">SM4加密</string>
     <string name="web_path_tips">参见 Github Wiki，下载到 Download 目录</string>
     <string name="time_tolerance">客户端与服务端时间容差</string>
     <string name="time_tolerance_tips">尽量缩短时间容差，避免请求重放攻击</string>
@@ -938,4 +940,6 @@
     <string name="public_key">RSA公钥</string>
     <string name="public_key_tips">RSA公钥用在客户端：客户端请求报文公钥加密，服务端私钥解密</string>
     <string name="copy_public_key">复制公钥</string>
+    <string name="sm4_key">SM4密钥</string>
+    <string name="sm4_key_tips">客户端/服务端交互采用SM4加解密</string>
 </resources>

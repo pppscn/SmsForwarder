@@ -27,6 +27,7 @@ import com.xuexiang.xui.widget.button.SmoothCheckBox
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xui.widget.picker.XSeekBar
 import com.xuexiang.xutil.app.ServiceUtils
+import com.xuexiang.xutil.data.ConvertTools
 import com.xuexiang.xutil.net.NetworkUtils
 import com.xuexiang.xutil.system.ClipboardUtils
 import java.io.File
@@ -92,6 +93,10 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 binding!!.layoutPrivateKey.visibility = View.VISIBLE
                 binding!!.layoutPublicKey.visibility = View.VISIBLE
             }
+            3 -> {
+                safetyMeasuresId = R.id.rb_safety_measures_sm4
+                binding!!.layoutSm4Key.visibility = View.VISIBLE
+            }
             else -> {}
         }
         binding!!.rgSafetyMeasures.check(safetyMeasuresId)
@@ -101,6 +106,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
             binding!!.layoutTimeTolerance.visibility = View.GONE
             binding!!.layoutPrivateKey.visibility = View.GONE
             binding!!.layoutPublicKey.visibility = View.GONE
+            binding!!.layoutSm4Key.visibility = View.GONE
             when (checkedId) {
                 R.id.rb_safety_measures_sign -> {
                     safetyMeasures = 1
@@ -112,10 +118,25 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                     binding!!.layoutPrivateKey.visibility = View.VISIBLE
                     binding!!.layoutPublicKey.visibility = View.VISIBLE
                 }
+                R.id.rb_safety_measures_sm4 -> {
+                    safetyMeasures = 3
+                    binding!!.layoutSm4Key.visibility = View.VISIBLE
+                }
                 else -> {}
             }
             HttpServerUtils.safetyMeasures = safetyMeasures
         }
+
+        //SM4密钥
+        binding!!.btnSm4Key.setOnClickListener(this)
+        binding!!.etSm4Key.setText(HttpServerUtils.serverSm4Key)
+        binding!!.etSm4Key.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                HttpServerUtils.serverSm4Key = binding!!.etSm4Key.text.toString().trim()
+            }
+        })
 
         //RSA公私钥
         binding!!.btnCopyPublicKey.setOnClickListener(this)
@@ -220,6 +241,13 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                     appContext?.startService(Intent(appContext, HttpService::class.java))
                 }
                 refreshButtonText()
+            }
+            R.id.btn_sm4_key -> {
+                val key = ConvertTools.bytes2HexString(SM4Crypt.createSM4Key())
+                println("SM4密钥：$key")
+                ClipboardUtils.copyText(key)
+                binding!!.etSm4Key.setText(key)
+                XToastUtils.info(getString(R.string.sign_key_tips))
             }
             R.id.btn_generate_key -> {
                 val generator = KeyPairGenerator.getInstance("RSA") //密钥生成器

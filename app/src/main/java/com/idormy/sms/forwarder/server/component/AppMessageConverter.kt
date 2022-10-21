@@ -6,7 +6,9 @@ import com.idormy.sms.forwarder.server.model.BaseRequest
 import com.idormy.sms.forwarder.utils.Base64
 import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.RSACrypt
+import com.idormy.sms.forwarder.utils.SM4Crypt
 import com.xuexiang.xrouter.utils.TextUtils
+import com.xuexiang.xutil.data.ConvertTools
 import com.yanzhenjie.andserver.annotation.Converter
 import com.yanzhenjie.andserver.error.HttpException
 import com.yanzhenjie.andserver.framework.MessageConverter
@@ -32,14 +34,21 @@ class AppMessageConverter : MessageConverter {
         var response = HttpServerUtils.response(output)
         Log.d(TAG, "response: $response")
 
-        if (HttpServerUtils.safetyMeasures != 2) {
-            return JsonBody(response)
+        return when (HttpServerUtils.safetyMeasures) {
+            2 -> {
+                val privateKey = RSACrypt.getPrivateKey(HttpServerUtils.serverPrivateKey.toString())
+                response = Base64.encode(response.toByteArray())
+                response = RSACrypt.encryptByPrivateKey(response, privateKey)
+                StringBody(response)
+            }
+            3 -> {
+                val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.serverSm4Key.toString())
+                //response = Base64.encode(response.toByteArray())
+                val encryptCBC = SM4Crypt.encrypt(response.toByteArray(), sm4Key)
+                StringBody(ConvertTools.bytes2HexString(encryptCBC))
+            }
+            else -> JsonBody(response)
         }
-
-        val privateKey = RSACrypt.getPrivateKey(HttpServerUtils.serverPrivateKey.toString())
-        response = Base64.encode(response.toByteArray())
-        response = RSACrypt.encryptByPrivateKey(response, privateKey)
-        return StringBody(response)
     }
 
     @Throws(IOException::class)
@@ -59,6 +68,18 @@ class AppMessageConverter : MessageConverter {
             val privateKey = RSACrypt.getPrivateKey(HttpServerUtils.serverPrivateKey.toString())
             json = RSACrypt.decryptByPrivateKey(json, privateKey)
             json = String(Base64.decode(json))
+            Log.d(TAG, "Json: $json")
+        } else if (HttpServerUtils.safetyMeasures == 3) {
+            if (TextUtils.isEmpty(HttpServerUtils.serverSm4Key)) {
+                Log.e(TAG, "SM4解密失败: SM4密钥为空")
+                throw HttpException(500, "服务端未配置SM4密钥")
+            }
+
+            val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey.toString())
+            val encryptCBC = ConvertTools.hexStringToByteArray(json)
+            val decryptCBC = SM4Crypt.decrypt(encryptCBC, sm4Key)
+            //json = String(Base64.decode(decryptCBC.toString()))
+            json = String(decryptCBC)
             Log.d(TAG, "Json: $json")
         }
 

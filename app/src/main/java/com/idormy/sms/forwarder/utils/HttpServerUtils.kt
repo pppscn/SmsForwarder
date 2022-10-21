@@ -40,6 +40,14 @@ class HttpServerUtils private constructor() {
                 MMKVUtils.put(SP_SERVER_SAFETY_MEASURES, safetyMeasures)
             }
 
+        //服务端SM4密钥
+        @JvmStatic
+        var serverSm4Key: String?
+            get() = MMKVUtils.getString(SP_SERVER_SM4_KEY, "")
+            set(serverSm4Key) {
+                MMKVUtils.put(SP_SERVER_SM4_KEY, serverSm4Key)
+            }
+
         //服务端RSA公钥
         @JvmStatic
         var serverPublicKey: String?

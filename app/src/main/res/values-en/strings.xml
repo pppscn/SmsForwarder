@@ -876,7 +876,7 @@
     <string name="sms_keyword_hint">Input keywords to fuzzy match SMS content</string>
     <string name="contact_keyword_hint">Pure numbers match numbers / non-numbers match names</string>
     <string name="call_keyword_hint">Input keyword to fuzzy match mobile phone number</string>
-    <string name="server_settings_tips2">Fill two items according to the config of server, the signature key is optional</string>
+    <string name="server_settings_tips2">Fill these items according to the config of server</string>
     <string name="service_address">Server Url</string>
     <string name="service_address_hint">E.g: http://127.0.0.1:5000</string>
     <string name="features_list">Features List</string>
@@ -925,9 +925,11 @@
     <string name="auto_clean_logs_tips">0=disabled, scan when battery change</string>
     <string name="day">Day</string>
     <string name="safety_measures">Safety Measures</string>
+    <string name="safety_measures_tips">The client and server must be the same. It is strongly recommended to enable encryption when accessing the public network.</string>
     <string name="safety_measures_none">None</string>
     <string name="safety_measures_sign">Sign</string>
-    <string name="safety_measures_encrypt">Encrypt</string>
+    <string name="safety_measures_rsa">RSA Encrypt</string>
+    <string name="safety_measures_sm4">SM4 Encrypt</string>
     <string name="web_path_tips">See Github Wiki, download to Download directory</string>
     <string name="time_tolerance">Time Tolerance</string>
     <string name="time_tolerance_tips">Minimize time tolerance to avoid request replay attacks</string>
@@ -937,4 +939,6 @@
     <string name="public_key">Public Key</string>
     <string name="public_key_tips">Public key is used on the client: client request message public key encryption, server private key decryption</string>
     <string name="copy_public_key">Copy</string>
+    <string name="sm4_key">SM4 Key</string>
+    <string name="sm4_key_tips">Client or server interaction messages are all encrypted and decrypted using SM4</string>
 </resources>

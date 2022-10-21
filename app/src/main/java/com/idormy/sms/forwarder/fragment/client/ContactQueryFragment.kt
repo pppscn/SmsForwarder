@@ -36,6 +36,7 @@ import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.utils.SnackbarUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.searchview.MaterialSearchView
+import com.xuexiang.xutil.data.ConvertTools
 import com.xuexiang.xutil.system.ClipboardUtils
 import me.samlss.broccoli.Broccoli
 
@@ -199,20 +200,37 @@ class ContactQueryFragment : BaseFragment<FragmentClientContactQueryBinding?>() 
             .cacheMode(CacheMode.NO_CACHE)
             .timeStamp(true)
 
-        if (HttpServerUtils.clientSafetyMeasures == 2) {
-            val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
-            try {
-                requestMsg = Base64.encode(requestMsg.toByteArray())
-                requestMsg = RSACrypt.encryptByPublicKey(requestMsg, publicKey)
-                Log.i(TAG, "requestMsg: $requestMsg")
-            } catch (e: Exception) {
-                XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
-                e.printStackTrace()
-                return
+        when (HttpServerUtils.clientSafetyMeasures) {
+            2 -> {
+                val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
+                try {
+                    requestMsg = Base64.encode(requestMsg.toByteArray())
+                    requestMsg = RSACrypt.encryptByPublicKey(requestMsg, publicKey)
+                    Log.i(TAG, "requestMsg: $requestMsg")
+                } catch (e: Exception) {
+                    XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
+                    e.printStackTrace()
+                    return
+                }
+                postRequest.upString(requestMsg)
             }
-            postRequest.upString(requestMsg)
-        } else {
-            postRequest.upJson(requestMsg)
+            3 -> {
+                try {
+                    val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey.toString())
+                    //requestMsg = Base64.encode(requestMsg.toByteArray())
+                    val encryptCBC = SM4Crypt.encrypt(requestMsg.toByteArray(), sm4Key)
+                    requestMsg = ConvertTools.bytes2HexString(encryptCBC)
+                    Log.i(TAG, "requestMsg: $requestMsg")
+                } catch (e: Exception) {
+                    XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
+                    e.printStackTrace()
+                    return
+                }
+                postRequest.upString(requestMsg)
+            }
+            else -> {
+                postRequest.upJson(requestMsg)
+            }
         }
 
         postRequest.execute(object : SimpleCallBack<String>() {
@@ -228,6 +246,11 @@ class ContactQueryFragment : BaseFragment<FragmentClientContactQueryBinding?>() 
                         val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
                         json = RSACrypt.decryptByPublicKey(json, publicKey)
                         json = String(Base64.decode(json))
+                    } else if (HttpServerUtils.clientSafetyMeasures == 3) {
+                        val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey.toString())
+                        val encryptCBC = ConvertTools.hexStringToByteArray(json)
+                        val decryptCBC = SM4Crypt.decrypt(encryptCBC, sm4Key)
+                        json = String(decryptCBC)
                     }
                     val resp: BaseResponse<List<ContactInfo>?> = Gson().fromJson(json, object : TypeToken<BaseResponse<List<ContactInfo>?>>() {}.type)
                     if (resp.code == 200) {
