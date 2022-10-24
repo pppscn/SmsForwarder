@@ -13,6 +13,7 @@ import com.idormy.sms.forwarder.utils.CommonUtils.Companion.gotoProtocol
 import com.idormy.sms.forwarder.utils.CommonUtils.Companion.previewMarkdown
 import com.idormy.sms.forwarder.utils.CommonUtils.Companion.previewPicture
 import com.idormy.sms.forwarder.utils.HistoryUtils
+import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.idormy.sms.forwarder.utils.sdkinit.XUpdateInit
 import com.xuexiang.xaop.annotation.SingleClick
@@ -106,6 +107,7 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
             AgentWebActivity.goWeb(context, getString(R.string.url_add_qq_group_5))
         }
 
+        binding!!.menuWechatMiniprogram.setOnSuperTextViewClickListener(this)
         binding!!.menuDonation.setOnSuperTextViewClickListener(this)
         binding!!.menuWecomGroup.setOnSuperTextViewClickListener(this)
         binding!!.menuDingtalkGroup.setOnSuperTextViewClickListener(this)
@@ -119,6 +121,13 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
         when (v.id) {
             R.id.menu_donation -> {
                 previewMarkdown(this, getString(R.string.about_item_donation_link), getString(R.string.url_donation_link), false)
+            }
+            R.id.menu_wechat_miniprogram -> {
+                if (HttpServerUtils.safetyMeasures != 3) {
+                    XToastUtils.error("微信小程序只支持SM4加密传输！请前往主动控制·服务端修改安全措施！")
+                    //return
+                }
+                previewPicture(this, getString(R.string.url_wechat_miniprogram), null)
             }
             R.id.menu_wecom_group -> {
                 previewPicture(this, getString(R.string.url_wework_group), null)

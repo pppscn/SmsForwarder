@@ -95,6 +95,11 @@
 
             </com.xuexiang.xui.widget.textview.supertextview.SuperTextView>
 
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/menu_wechat_miniprogram"
+                style="@style/InfoItem.About"
+                app:sLeftTextString="@string/about_item_wechat_miniprogram" />
+
 
             <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                 android:id="@+id/menu_wecom_group"

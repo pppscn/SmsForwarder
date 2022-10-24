@@ -166,6 +166,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
             }
         })
 
+        binding!!.btnWechatMiniprogram.setOnClickListener(this)
         binding!!.btnServerHistory.setOnClickListener(this)
         binding!!.btnServerTest.setOnClickListener(this)
     }
@@ -173,6 +174,13 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
     @SingleClick
     override fun onClick(v: View) {
         when (v.id) {
+            R.id.btn_wechat_miniprogram -> {
+                if (HttpServerUtils.safetyMeasures != 3) {
+                    XToastUtils.error("微信小程序只支持SM4加密传输！请前往主动控制·服务端修改安全措施！")
+                    return
+                }
+                CommonUtils.previewPicture(this, getString(R.string.url_wechat_miniprogram), null)
+            }
             R.id.btn_server_history -> {
                 if (serverHistory.isEmpty()) {
                     XToastUtils.warning(getString(R.string.no_server_history))

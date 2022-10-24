@@ -26,6 +26,7 @@
     <string name="about_app_version">App Version: %s</string>
     <string name="about_cache_size">Cache Size: %s</string>
     <string name="about_frpc_version">Frpc Version：%s</string>
+    <string name="about_item_wechat_miniprogram">WeChat MiniProgram</string>
     <string name="about_cache_purged">Cache cleared</string>
     <string name="about_frpc_deleted">Frpc Deleted, App restarting</string>
     <string name="about_copyright">© %1$s PPPSCN All rights reserved.</string>
@@ -54,6 +55,7 @@
     <string name="url_dingtalk_group">https://gitee.com/pp/SmsForwarder/raw/main/pic/dingtalk.png</string>
     <string name="url_wework_group">https://gitee.com/pp/SmsForwarder/raw/main/pic/qywechat.png</string>
     <string name="url_qq_channel">https://qun.qq.com/qqweb/qunpro/share?_wv=3&amp;_wwv=128&amp;appChannel=share&amp;inviteCode=1W5aewP&amp;appChannel=share&amp;businessType=9&amp;from=246610&amp;biz=ka</string>
+    <string name="url_wechat_miniprogram">https://gitee.com/pp/SmsForwarder/raw/main/pic/wechat_miniprogram.jpg</string>
 
     <string name="lab_yes">Yes</string>
     <string name="lab_no">No</string>
