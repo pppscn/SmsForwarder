@@ -65,11 +65,9 @@ See more screenshots：https://github.com/pppscn/SmsForwarder/wiki
 + Submit an issue or Pull Request.
 + Join group chat (only Chinese groups/channels available currently)
 
-| DingTalk | QQ user group #1: 562854376 | QQ user group #2: 31330492 | WeCom |
-|  ----  |  ----  | ----  | ----  |
-| ![钉钉客户群](pic/dingtalk.png "钉钉客户群") | ![QQ交流群：562854376](pic/qqgroup_1.jpg "QQ交流群：562854376") | ![QQ交流群：31330492](pic/qqgroup_2.jpg "QQ交流群：31330492") | ![企业微信群](pic/qywechat.png "企业微信群") |
-
-PS.If the QQ group is full, please see the group introduction to join other groups
+| QQ Channel: q7oofwp13s | DingTalk | WeCom |
+|  ----  |  ----  | ----  |
+| ![QQ频道号: q7oofwp13s](pic/qq_channel.png "QQ频道号: q7oofwp13s") | ![钉钉客户群](pic/dingtalk.png "钉钉客户群") | ![企业微信群](pic/qywechat.png "企业微信群") |
 
 ## Acknowledgements
 

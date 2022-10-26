@@ -77,11 +77,9 @@
 + 提交issues 或 pr
 + 加入交流群（群内都是机油互帮互助，禁止发任何与SmsForwarder使用无关的内容）
 
-| 钉钉客户群 | QQ机油互助交流1群：562854376 | QQ机油互助交流2群：31330492 | 企业微信群 |
-|  ----  |  ----  | ----  | ----  |
-| ![钉钉客户群](pic/dingtalk.png "钉钉客户群") | ![QQ交流群：562854376](pic/qqgroup_1.jpg "QQ交流群：562854376") | ![QQ交流群：31330492](pic/qqgroup_2.jpg "QQ交流群：31330492") | ![企业微信群](pic/qywechat.png "企业微信群") |
-
-PS.如果QQ群已满员，请看群简介加入其他群
+| QQ频道号: q7oofwp13s | 钉钉客户群 | 企业微信群 |
+|  ----  |  ----  | ----  |
+| ![QQ频道号: q7oofwp13s](pic/qq_channel.png "QQ频道号: q7oofwp13s") | ![钉钉客户群](pic/dingtalk.png "钉钉客户群") | ![企业微信群](pic/qywechat.png "企业微信群") |
 
 ## 感谢
 
