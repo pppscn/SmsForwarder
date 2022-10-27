@@ -75,7 +75,7 @@ class AppMessageConverter : MessageConverter {
                 throw HttpException(500, "服务端未配置SM4密钥")
             }
 
-            val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey.toString())
+            val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.serverSm4Key.toString())
             val encryptCBC = ConvertTools.hexStringToByteArray(json)
             val decryptCBC = SM4Crypt.decrypt(encryptCBC, sm4Key)
             //json = String(Base64.decode(decryptCBC.toString()))
