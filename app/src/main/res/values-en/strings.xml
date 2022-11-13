@@ -373,6 +373,7 @@
     <string name="insert_sender">Phone</string>
     <string name="insert_sender_app">PackageName</string>
     <string name="insert_content">SMS</string>
+    <string name="insert_title_app">InformTitle</string>
     <string name="insert_content_app">InformContent</string>
     <string name="insert_extra">SIM</string>
     <string name="insert_time">Time</string>

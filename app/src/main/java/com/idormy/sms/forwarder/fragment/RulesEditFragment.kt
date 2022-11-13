@@ -101,6 +101,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 binding!!.rbPhone.visibility = View.GONE
                 binding!!.rbContent.visibility = View.GONE
                 binding!!.tvMuRuleTips.setText(R.string.mu_rule_app_tips)
+                binding!!.btInsertExtra.visibility = View.GONE
                 binding!!.btInsertSender.visibility = View.GONE
                 binding!!.btInsertContent.visibility = View.GONE
             }
@@ -112,6 +113,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 binding!!.rbMultiMatch.visibility = View.GONE
                 binding!!.btInsertContent.visibility = View.GONE
                 binding!!.btInsertSenderApp.visibility = View.GONE
+                binding!!.btInsertTitleApp.visibility = View.GONE
                 binding!!.btInsertContentApp.visibility = View.GONE
             }
             else -> {
@@ -119,6 +121,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 binding!!.rbPackageName.visibility = View.GONE
                 binding!!.rbInformContent.visibility = View.GONE
                 binding!!.btInsertSenderApp.visibility = View.GONE
+                binding!!.btInsertTitleApp.visibility = View.GONE
                 binding!!.btInsertContentApp.visibility = View.GONE
             }
         }
@@ -228,6 +231,10 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 }
                 R.id.bt_insert_sender_app -> {
                     CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_package_name))
+                    return
+                }
+                R.id.bt_insert_title_app -> {
+                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_title))
                     return
                 }
                 R.id.bt_insert_content_app -> {

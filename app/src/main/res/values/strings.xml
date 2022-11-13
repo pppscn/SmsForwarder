@@ -374,6 +374,7 @@
     <string name="insert_sender">来源号码</string>
     <string name="insert_sender_app">APP包名</string>
     <string name="insert_content">短信内容</string>
+    <string name="insert_title_app">通知内容</string>
     <string name="insert_content_app">通知内容</string>
     <string name="insert_extra">卡槽信息</string>
     <string name="insert_time">接收时间</string>

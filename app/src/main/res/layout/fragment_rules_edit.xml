@@ -368,6 +368,12 @@
                         android:text="@string/insert_sender_app" />
 
                     <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/bt_insert_title_app"
+                        style="@style/insertButtonStyle"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/insert_title_app" />
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
                         android:id="@+id/bt_insert_content_app"
                         style="@style/insertButtonStyle"
                         android:layout_marginStart="5dp"
