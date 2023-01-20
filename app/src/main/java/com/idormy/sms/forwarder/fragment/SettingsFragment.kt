@@ -72,7 +72,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         return null
     }
 
-    @SuppressLint("NewApi")
+    @SuppressLint("NewApi", "SetTextI18n")
     override fun initViews() {
 
         //转发短信广播
@@ -200,6 +200,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 App.SimInfoList = PhoneUtils.getSimMultiInfo()
                 if (App.SimInfoList.isEmpty()) {
                     XToastUtils.error(R.string.tip_can_not_get_sim_infos)
+                    XXPermissions.startPermissionActivity(
+                        requireContext(),
+                        "android.permission.READ_PHONE_STATE"
+                    )
                     return
                 }
                 Log.d(TAG, App.SimInfoList.toString())
@@ -220,6 +224,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 App.SimInfoList = PhoneUtils.getSimMultiInfo()
                 if (App.SimInfoList.isEmpty()) {
                     XToastUtils.error(R.string.tip_can_not_get_sim_infos)
+                    XXPermissions.startPermissionActivity(
+                        requireContext(),
+                        "android.permission.READ_PHONE_STATE"
+                    )
                     return
                 }
                 Log.d(TAG, App.SimInfoList.toString())
@@ -896,7 +904,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     }
 
     //Intent跳转到[自启动]页面全网最全适配机型解决方案
-    val hashMap = object : HashMap<String?, List<String?>?>() {
+    private val hashMap = object : HashMap<String?, List<String?>?>() {
         init {
             put(
                 "Xiaomi", listOf(

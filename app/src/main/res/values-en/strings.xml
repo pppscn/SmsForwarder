@@ -367,7 +367,7 @@
     <string name="enable_regex_replace">Enable Regular Replacement Content</string>
     <string name="enable_regex_replace_tips">Format: RegularExpression===ReplacementResult,One rule per line.\ne.g. (\\d{3})\\d+(\\d{4})===$1****$2</string>
     <string name="enable_exclude_from_recents">Hide from recent Apps</string>
-    <string name="enable_exclude_from_recents_tips">Enable to hide SmsForwarder from recent Apps to keep it alive</string>
+    <string name="enable_exclude_from_recents_tips">Please lock it first and then enable to hide</string>
     <string name="custom_template">Custom templates</string>
     <string name="custom_template_tips">Tip: Insert labels as needed; Leave blank to apply default template</string>
     <string name="insert_sender">Phone</string>

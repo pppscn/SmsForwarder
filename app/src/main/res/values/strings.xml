@@ -367,8 +367,8 @@
     <string name="enable_custom_templates_tips">优先级：转发规则的自定义模板 > 全局自定义模版 > 默认</string>
     <string name="enable_regex_replace">启用正则替换内容</string>
     <string name="enable_regex_replace_tips">格式：正则表达式===替换结果，每行一个规则.\n例如：(\\d{3})\\d{4}(\\d{4})===$1****$2</string>
-    <string name="enable_exclude_from_recents">不在最近任务列表中显示</string>
-    <string name="enable_exclude_from_recents_tips">开启后，有效避免手动误杀进程，利于保活</string>
+    <string name="enable_exclude_from_recents">在最近任务列表中隐藏</string>
+    <string name="enable_exclude_from_recents_tips">请先锁定后再开启隐藏，有效避免手动误杀进程</string>
     <string name="custom_template">转发信息模版</string>
     <string name="custom_template_tips">Tip：按需插入内容标签；留空使用默认模版</string>
     <string name="insert_sender">来源号码</string>
