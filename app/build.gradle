@@ -181,12 +181,12 @@ dependencies {
     implementation files('libs/frpclib.aar')
 
     testImplementation deps.junit
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation deps.espresso.core
 
     implementation 'androidx.core:core-ktx:1.9.0'
-    implementation "androidx.activity:activity-ktx:1.6.0"
-    implementation "androidx.fragment:fragment-ktx:1.5.3"
+    implementation "androidx.activity:activity-ktx:1.6.1"
+    implementation "androidx.fragment:fragment-ktx:1.5.4"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.preference:preference-ktx:1.2.0'
@@ -203,11 +203,11 @@ dependencies {
     implementation 'com.github.xuexiangjys.AgentWeb:agentweb-core:1.0.0'
     implementation 'com.github.xuexiangjys.AgentWeb:agentweb-download:1.0.0'//选填
     //腾讯的键值对存储mmkv：https://github.com/Tencent/MMKV
-    implementation 'com.tencent:mmkv:1.2.14'
+    implementation 'com.tencent:mmkv:1.2.15'
     //屏幕适配AutoSize：https://github.com/JessYanCoding/AndroidAutoSize
     implementation 'me.jessyan:autosize:1.2.1'
     //umeng统计
-    implementation 'com.umeng.umsdk:common:9.5.2'
+    implementation 'com.umeng.umsdk:common:9.5.4'
     implementation 'com.umeng.umsdk:asms:1.6.3'
 
     //预加载占位控件
@@ -231,7 +231,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     //CodeView：https://github.com/AmrDeveloper/CodeView
-    implementation 'com.github.AmrDeveloper:CodeView:1.3.5'
+    implementation 'com.github.AmrDeveloper:CodeView:1.3.7'
 
     //LiveEventBus：https://github.com/JeremyLiao/LiveEventBus
     implementation 'io.github.jeremyliao:live-event-bus-x:1.8.0'
@@ -251,7 +251,7 @@ dependencies {
     testImplementation "androidx.paging:paging-common-ktx:$paging_version"
 
     //权限请求框架：https://github.com/getActivity/XXPermissions
-    implementation 'com.github.getActivity:XXPermissions:16.2'
+    implementation 'com.github.getActivity:XXPermissions:16.6'
 
     def mail_version = '1.6.7'
     implementation "com.sun.mail:android-mail:$mail_version"
@@ -266,7 +266,7 @@ dependencies {
     kapt 'cn.ppps.andserver:processor:2.1.11'
 
     //国密算法SM4 的JAVA实现(基于BC实现)
-    api "org.bouncycastle:bcprov-jdk15on:1.69"
+    api 'org.bouncycastle:bcprov-jdk15on:1.70'
 }
 //自动添加X-Library依赖
 apply from: 'x-library.gradle'
