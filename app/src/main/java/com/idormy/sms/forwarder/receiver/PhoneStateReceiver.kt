@@ -16,10 +16,7 @@ import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.CallInfo
 import com.idormy.sms.forwarder.entity.MsgInfo
-import com.idormy.sms.forwarder.utils.MMKVUtils
-import com.idormy.sms.forwarder.utils.PhoneUtils
-import com.idormy.sms.forwarder.utils.SettingUtils
-import com.idormy.sms.forwarder.utils.Worker
+import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.workers.SendWorker
 import com.xuexiang.xutil.resource.ResUtils.getString
 import java.util.*
@@ -40,8 +37,7 @@ class PhoneStateReceiver : BroadcastReceiver() {
 
             //权限判断
             if (ActivityCompat.checkSelfPermission(
-                    context,
-                    Manifest.permission.READ_PHONE_STATE
+                    context, Manifest.permission.READ_PHONE_STATE
                 ) != PackageManager.PERMISSION_GRANTED
             ) return
 
@@ -66,25 +62,25 @@ class PhoneStateReceiver : BroadcastReceiver() {
     //Incoming call-  goes from IDLE to RINGING when it rings, to OFFHOOK when it's answered, to IDLE when its hung up
     //Outgoing call-  goes from IDLE to OFFHOOK when it dials out, to IDLE when hung up
     private fun onCallStateChanged(context: Context, state: Int, number: String?) {
-        val lastState = MMKVUtils.getInt("CALL_LAST_STATE", TelephonyManager.CALL_STATE_IDLE)
+        var lastState: Int by SharedPreference("CALL_LAST_STATE", TelephonyManager.CALL_STATE_IDLE)
         if (lastState == state || (state == TelephonyManager.CALL_STATE_RINGING && number == null)) {
             //No change, debounce extras
             return
         }
 
-        MMKVUtils.put("CALL_LAST_STATE", state)
+        lastState = state
+        var callIsIncoming: Boolean by SharedPreference("CALL_IS_INCOMING", false)
+        var callSavedNumber: String by SharedPreference("CALL_SAVED_NUMBER", "")
         when (state) {
             TelephonyManager.CALL_STATE_RINGING -> {
                 Log.d(TAG, "来电响铃")
-                MMKVUtils.put("CALL_IS_INCOMING", true)
-                //MMKVUtils.put("CALL_START_TIME", Date())
-                MMKVUtils.put("CALL_SAVED_NUMBER", number)
+                callIsIncoming = true
+                callSavedNumber = number.toString()
 
                 //来电提醒
                 if (!TextUtils.isEmpty(number) && SettingUtils.enableCallType4) {
                     val contacts = PhoneUtils.getContactByNumber(number)
-                    val contactName =
-                        if (contacts.isNotEmpty()) contacts[0].name else getString(R.string.unknown_number)
+                    val contactName = if (contacts.isNotEmpty()) contacts[0].name else getString(R.string.unknown_number)
 
                     val sb = StringBuilder()
                     sb.append(getString(R.string.linkman)).append(contactName).append("\n")
@@ -92,28 +88,24 @@ class PhoneStateReceiver : BroadcastReceiver() {
                     sb.append(getString(R.string.incoming_call))
 
                     val msgInfo = MsgInfo("call", number.toString(), sb.toString(), Date(), "", -1)
-                    val request = OneTimeWorkRequestBuilder<SendWorker>()
-                        .setInputData(
-                            workDataOf(
-                                Worker.sendMsgInfo to Gson().toJson(msgInfo)
-                            )
+                    val request = OneTimeWorkRequestBuilder<SendWorker>().setInputData(
+                        workDataOf(
+                            Worker.sendMsgInfo to Gson().toJson(msgInfo)
                         )
-                        .build()
+                    ).build()
                     WorkManager.getInstance(context).enqueue(request)
                 }
             }
             TelephonyManager.CALL_STATE_OFFHOOK ->
                 //Transition of ringing->offhook are pickups of incoming calls.  Nothing done on them
-                when {
+                callIsIncoming = when {
                     lastState != TelephonyManager.CALL_STATE_RINGING -> {
                         Log.d(TAG, "去电接通")
-                        MMKVUtils.put("CALL_IS_INCOMING", false)
-                        //MMKVUtils.put("CALL_START_TIME", Date())
+                        false
                     }
                     else -> {
                         Log.d(TAG, "来电接通")
-                        MMKVUtils.put("CALL_IS_INCOMING", true)
-                        //MMKVUtils.put("CALL_START_TIME", Date())
+                        true
                     }
                 }
             TelephonyManager.CALL_STATE_IDLE ->
@@ -121,27 +113,15 @@ class PhoneStateReceiver : BroadcastReceiver() {
                 when {
                     lastState == TelephonyManager.CALL_STATE_RINGING -> {
                         Log.d(TAG, "来电未接")
-                        sendReceiveCallMsg(
-                            context,
-                            3,
-                            MMKVUtils.getString("CALL_SAVED_NUMBER", null)
-                        )
+                        sendReceiveCallMsg(context, 3, callSavedNumber)
                     }
-                    MMKVUtils.getBoolean("CALL_IS_INCOMING", false) -> {
+                    callIsIncoming -> {
                         Log.d(TAG, "来电挂机")
-                        sendReceiveCallMsg(
-                            context,
-                            1,
-                            MMKVUtils.getString("CALL_SAVED_NUMBER", null)
-                        )
+                        sendReceiveCallMsg(context, 1, callSavedNumber)
                     }
                     else -> {
                         Log.d(TAG, "去电挂机")
-                        sendReceiveCallMsg(
-                            context,
-                            2,
-                            MMKVUtils.getString("CALL_SAVED_NUMBER", null)
-                        )
+                        sendReceiveCallMsg(context, 2, callSavedNumber)
                     }
                 }
         }
@@ -157,10 +137,7 @@ class PhoneStateReceiver : BroadcastReceiver() {
         if (callInfo?.number == null) return
 
         //判断是否开启该类型转发
-        if ((callInfo.type == 1 && !SettingUtils.enableCallType1)
-            || (callInfo.type == 2 && !SettingUtils.enableCallType2)
-            || (callInfo.type == 3 && !SettingUtils.enableCallType3)
-        ) {
+        if ((callInfo.type == 1 && !SettingUtils.enableCallType1) || (callInfo.type == 2 && !SettingUtils.enableCallType2) || (callInfo.type == 3 && !SettingUtils.enableCallType3)) {
             Log.w(TAG, "未开启该类型转发，type=" + callInfo.type)
             return
         }
@@ -177,25 +154,17 @@ class PhoneStateReceiver : BroadcastReceiver() {
         //获取联系人姓名
         if (TextUtils.isEmpty(callInfo.name)) {
             val contacts = PhoneUtils.getContactByNumber(phoneNumber)
-            callInfo.name =
-                if (contacts.isNotEmpty()) contacts[0].name else getString(R.string.unknown_number)
+            callInfo.name = if (contacts.isNotEmpty()) contacts[0].name else getString(R.string.unknown_number)
         }
 
         val msgInfo = MsgInfo(
-            "call",
-            callInfo.number,
-            PhoneUtils.getCallMsg(callInfo),
-            Date(),
-            simInfo,
-            simSlot
+            "call", callInfo.number, PhoneUtils.getCallMsg(callInfo), Date(), simInfo, simSlot
         )
-        val request = OneTimeWorkRequestBuilder<SendWorker>()
-            .setInputData(
-                workDataOf(
-                    Worker.sendMsgInfo to Gson().toJson(msgInfo)
-                )
+        val request = OneTimeWorkRequestBuilder<SendWorker>().setInputData(
+            workDataOf(
+                Worker.sendMsgInfo to Gson().toJson(msgInfo)
             )
-            .build()
+        ).build()
         WorkManager.getInstance(context).enqueue(request)
 
     }

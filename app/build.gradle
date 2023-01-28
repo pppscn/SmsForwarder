@@ -181,11 +181,11 @@ dependencies {
     implementation files('libs/frpclib.aar')
 
     testImplementation deps.junit
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation deps.espresso.core
 
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation "androidx.activity:activity-ktx:1.6.1"
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation "androidx.activity:activity-ktx:1.5.1"
     implementation "androidx.fragment:fragment-ktx:1.5.4"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'androidx.appcompat:appcompat:1.5.1'
@@ -202,8 +202,6 @@ dependencies {
     //WebView
     implementation 'com.github.xuexiangjys.AgentWeb:agentweb-core:1.0.0'
     implementation 'com.github.xuexiangjys.AgentWeb:agentweb-download:1.0.0'//选填
-    //腾讯的键值对存储mmkv：https://github.com/Tencent/MMKV
-    implementation 'com.tencent:mmkv:1.2.15'
     //屏幕适配AutoSize：https://github.com/JessYanCoding/AndroidAutoSize
     implementation 'me.jessyan:autosize:1.2.1'
     //umeng统计

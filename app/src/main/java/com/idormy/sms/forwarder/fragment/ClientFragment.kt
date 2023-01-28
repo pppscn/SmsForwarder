@@ -275,7 +275,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
         val timestamp = System.currentTimeMillis()
         msgMap["timestamp"] = timestamp
 
-        val clientSignKey = HttpServerUtils.clientSignKey.toString()
+        val clientSignKey = HttpServerUtils.clientSignKey
         if (HttpServerUtils.clientSafetyMeasures != 0 && TextUtils.isEmpty(clientSignKey)) {
             if (needToast) XToastUtils.error("请输入签名密钥/RSA公钥/SM4密钥")
             return
@@ -298,7 +298,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
         when (HttpServerUtils.clientSafetyMeasures) {
             2 -> {
                 try {
-                    val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
+                    val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey)
                     requestMsg = Base64.encode(requestMsg.toByteArray())
                     requestMsg = RSACrypt.encryptByPublicKey(requestMsg, publicKey)
                     Log.i(TAG, "requestMsg: $requestMsg")
@@ -311,7 +311,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
             }
             3 -> {
                 try {
-                    val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey.toString())
+                    val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
                     //requestMsg = Base64.encode(requestMsg.toByteArray())
                     val encryptCBC = SM4Crypt.encrypt(requestMsg.toByteArray(), sm4Key)
                     requestMsg = ConvertTools.bytes2HexString(encryptCBC)
@@ -340,11 +340,11 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                 try {
                     var json = response
                     if (HttpServerUtils.clientSafetyMeasures == 2) {
-                        val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
+                        val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey)
                         json = RSACrypt.decryptByPublicKey(json, publicKey)
                         json = String(Base64.decode(json))
                     } else if (HttpServerUtils.clientSafetyMeasures == 3) {
-                        val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey.toString())
+                        val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
                         val encryptCBC = ConvertTools.hexStringToByteArray(json)
                         val decryptCBC = SM4Crypt.decrypt(encryptCBC, sm4Key)
                         json = String(decryptCBC)
@@ -354,9 +354,9 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                         serverConfig = resp.data!!
                         if (needToast) XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
                         //删除3.0.8之前保存的记录
-                        serverHistory.remove(HttpServerUtils.serverAddress.toString())
+                        serverHistory.remove(HttpServerUtils.serverAddress)
                         //添加到历史记录
-                        val key = "【${serverConfig?.extraDeviceMark}】${HttpServerUtils.serverAddress.toString()}"
+                        val key = "【${serverConfig?.extraDeviceMark}】${HttpServerUtils.serverAddress}"
                         if (TextUtils.isEmpty(HttpServerUtils.clientSignKey)) {
                             serverHistory[key] = "SMSFORWARDER##" + HttpServerUtils.clientSafetyMeasures.toString()
                         } else {

@@ -43,17 +43,15 @@ class SendWorker(
 
                     val dateFmt = SimpleDateFormat("yyyy-MM-dd")
                     val mTimeOption = DataProvider.timePeriodOption
-                    val periodStartStr =
-                        dateFmt.format(periodStartDay) + " " + mTimeOption[SettingUtils.silentPeriodStart] + ":00"
-                    val periodEndStr =
-                        dateFmt.format(periodStartEnd) + " " + mTimeOption[SettingUtils.silentPeriodEnd] + ":00"
+                    val periodStartStr = dateFmt.format(periodStartDay) + " " + mTimeOption[SettingUtils.silentPeriodStart] + ":00"
+                    val periodEndStr = dateFmt.format(periodStartEnd) + " " + mTimeOption[SettingUtils.silentPeriodEnd] + ":00"
 
                     val timeFmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-                    val periodStart = timeFmt.parse(periodStartStr, ParsePosition(0)).time
-                    val periodEnd = timeFmt.parse(periodEndStr, ParsePosition(0)).time
+                    val periodStart = timeFmt.parse(periodStartStr, ParsePosition(0))?.time
+                    val periodEnd = timeFmt.parse(periodEndStr, ParsePosition(0))?.time
 
                     val now = System.currentTimeMillis()
-                    if (now in periodStart..periodEnd) {
+                    if (periodStart != null && periodEnd != null && now in periodStart..periodEnd) {
                         Log.e("SendWorker", "免打扰(禁用转发)时间段")
                         return@withContext Result.failure(workDataOf("send" to "failed"))
                     }
@@ -67,20 +65,17 @@ class SendWorker(
                 if (SettingUtils.duplicateMessagesLimits > 0) {
                     val key = CipherUtils.md5(msgInfo.type + msgInfo.from + msgInfo.content)
                     val timestamp: Long = System.currentTimeMillis() / 1000L
-                    if (HistoryUtils.containsKey(key)) {
-                        val timestampPrev = HistoryUtils.getLong(key, timestamp)
-                        if (timestamp - timestampPrev <= SettingUtils.duplicateMessagesLimits) {
-                            Log.e("SendWorker", "过滤重复消息机制")
-                            return@withContext Result.failure(workDataOf("send" to "failed"))
-                        }
+                    var timestampPrev: Long by HistoryUtils(key, timestamp)
+                    if (timestampPrev != timestamp && timestamp - timestampPrev <= SettingUtils.duplicateMessagesLimits) {
+                        Log.e("SendWorker", "过滤重复消息机制")
+                        return@withContext Result.failure(workDataOf("send" to "failed"))
                     }
-                    HistoryUtils.put(key, timestamp)
+                    timestampPrev = timestamp
                 }
 
                 //【注意】卡槽id：-1=获取失败、0=卡槽1、1=卡槽2，但是 Rule 表里存的是 SIM1/SIM2
                 val simSlot = "SIM" + (msgInfo.simSlot + 1)
-                val ruleList: List<RuleAndSender> =
-                    Core.rule.getRuleAndSender(msgInfo.type, 1, simSlot)
+                val ruleList: List<RuleAndSender> = Core.rule.getRuleAndSender(msgInfo.type, 1, simSlot)
                 if (ruleList.isEmpty()) {
                     return@withContext Result.failure(workDataOf("send" to "failed"))
                 }
@@ -88,12 +83,7 @@ class SendWorker(
                 for (rule in ruleList) {
                     if (!rule.rule.checkMsg(msgInfo)) continue
                     val log = Logs(
-                        0,
-                        msgInfo.type,
-                        msgInfo.from,
-                        msgInfo.content,
-                        rule.rule.id,
-                        msgInfo.simInfo
+                        0, msgInfo.type, msgInfo.from, msgInfo.content, rule.rule.id, msgInfo.simInfo
                     )
                     val logId = Core.logs.insert(log)
                     SendUtils.sendMsgSender(msgInfo, rule.rule, rule.sender, logId)

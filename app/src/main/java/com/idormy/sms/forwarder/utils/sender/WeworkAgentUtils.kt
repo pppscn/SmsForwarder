@@ -9,9 +9,9 @@ import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.result.DingtalkResult
 import com.idormy.sms.forwarder.entity.result.WeworkAgentResult
 import com.idormy.sms.forwarder.entity.setting.WeworkAgentSetting
-import com.idormy.sms.forwarder.utils.MMKVUtils
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.SharedPreference
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
@@ -39,8 +39,8 @@ class WeworkAgentUtils private constructor() {
             logId: Long?,
         ) {
 
-            val accessToken: String? = MMKVUtils.getString("access_token_" + setting.agentID, "")
-            val expiresIn: Long = MMKVUtils.getLong("expires_in_" + setting.agentID, 0L)
+            var accessToken: String by SharedPreference("access_token_" + setting.agentID, "")
+            var expiresIn: Long by SharedPreference("expires_in_" + setting.agentID, 0L)
             if (!TextUtils.isEmpty(accessToken) && expiresIn > System.currentTimeMillis()) {
                 return sendTextMsg(setting, msgInfo, rule, logId)
             }
@@ -53,9 +53,7 @@ class WeworkAgentUtils private constructor() {
             val request = XHttp.get(getTokenUrl)
 
             //设置代理
-            if ((setting.proxyType == Proxy.Type.HTTP || setting.proxyType == Proxy.Type.SOCKS)
-                && !TextUtils.isEmpty(setting.proxyHost) && !TextUtils.isEmpty(setting.proxyPort)
-            ) {
+            if ((setting.proxyType == Proxy.Type.HTTP || setting.proxyType == Proxy.Type.SOCKS) && !TextUtils.isEmpty(setting.proxyHost) && !TextUtils.isEmpty(setting.proxyPort)) {
                 //代理服务器的IP和端口号
                 Log.d(TAG, "proxyHost = ${setting.proxyHost}, proxyPort = ${setting.proxyPort}")
                 val proxyHost = if (NetworkUtils.isIP(setting.proxyHost)) setting.proxyHost else NetworkUtils.getDomainAddress(setting.proxyHost)
@@ -68,18 +66,14 @@ class WeworkAgentUtils private constructor() {
                 request.okproxy(Proxy(setting.proxyType, InetSocketAddress(proxyHost, proxyPort)))
 
                 //代理的鉴权账号密码
-                if (setting.proxyAuthenticator == true
-                    && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))
-                ) {
+                if (setting.proxyAuthenticator == true && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))) {
                     Log.i(TAG, "proxyUsername = ${setting.proxyUsername}, proxyPassword = ${setting.proxyPassword}")
 
                     if (setting.proxyType == Proxy.Type.HTTP) {
                         request.okproxyAuthenticator { _: Route?, response: Response ->
                             //设置代理服务器账号密码
                             val credential = Credentials.basic(setting.proxyUsername.toString(), setting.proxyPassword.toString())
-                            response.request().newBuilder()
-                                .header("Proxy-Authorization", credential)
-                                .build()
+                            response.request().newBuilder().header("Proxy-Authorization", credential).build()
                         }
                     } else {
                         Authenticator.setDefault(object : Authenticator() {
@@ -91,12 +85,8 @@ class WeworkAgentUtils private constructor() {
                 }
             }
 
-            request.keepJson(true)
-                .ignoreHttpsCert()
-                .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
-                .cacheMode(CacheMode.NO_CACHE)
-                .timeStamp(true)
-                .execute(object : SimpleCallBack<String>() {
+            request.keepJson(true).ignoreHttpsCert().timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
+                .cacheMode(CacheMode.NO_CACHE).timeStamp(true).execute(object : SimpleCallBack<String>() {
 
                     override fun onError(e: ApiException) {
                         Log.e(TAG, e.detailMessage)
@@ -108,8 +98,8 @@ class WeworkAgentUtils private constructor() {
 
                         val resp = Gson().fromJson(response, WeworkAgentResult::class.java)
                         if (resp?.errcode == 0L) {
-                            MMKVUtils.put("access_token_" + setting.agentID, resp.access_token)
-                            MMKVUtils.put("expires_in_" + setting.agentID, System.currentTimeMillis() + ((resp.expires_in ?: 7200) - 120) * 1000L) //提前2分钟过期
+                            accessToken = resp.access_token.toString()
+                            expiresIn = System.currentTimeMillis() + ((resp.expires_in ?: 7200) - 120) * 1000L //提前2分钟过期
                             sendTextMsg(setting, msgInfo, rule, logId)
                         } else {
                             SendUtils.updateLogs(logId, 0, String.format(getString(R.string.request_failed_tips), response))
@@ -142,7 +132,8 @@ class WeworkAgentUtils private constructor() {
             val textText: MutableMap<String, Any> = mutableMapOf()
             textText["content"] = content
             textMsgMap["text"] = textText
-            val requestUrl = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=" + MMKVUtils.getString("access_token_" + setting.agentID, "")
+            var accessToken: String by SharedPreference("access_token_" + setting.agentID, "")
+            val requestUrl = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=$accessToken"
             Log.i(TAG, "requestUrl:$requestUrl")
             val requestMsg: String = Gson().toJson(textMsgMap)
             Log.i(TAG, "requestMsg:$requestMsg")
@@ -150,9 +141,7 @@ class WeworkAgentUtils private constructor() {
             val request = XHttp.post(requestUrl)
 
             //设置代理
-            if ((setting.proxyType == Proxy.Type.HTTP || setting.proxyType == Proxy.Type.SOCKS)
-                && !TextUtils.isEmpty(setting.proxyHost) && !TextUtils.isEmpty(setting.proxyPort)
-            ) {
+            if ((setting.proxyType == Proxy.Type.HTTP || setting.proxyType == Proxy.Type.SOCKS) && !TextUtils.isEmpty(setting.proxyHost) && !TextUtils.isEmpty(setting.proxyPort)) {
                 //代理服务器的IP和端口号
                 Log.d(TAG, "proxyHost = ${setting.proxyHost}, proxyPort = ${setting.proxyPort}")
                 val proxyHost = if (NetworkUtils.isIP(setting.proxyHost)) setting.proxyHost else NetworkUtils.getDomainAddress(setting.proxyHost)
@@ -165,18 +154,14 @@ class WeworkAgentUtils private constructor() {
                 request.okproxy(Proxy(setting.proxyType, InetSocketAddress(proxyHost, proxyPort)))
 
                 //代理的鉴权账号密码
-                if (setting.proxyAuthenticator == true
-                    && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))
-                ) {
+                if (setting.proxyAuthenticator == true && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))) {
                     Log.i(TAG, "proxyUsername = ${setting.proxyUsername}, proxyPassword = ${setting.proxyPassword}")
 
                     if (setting.proxyType == Proxy.Type.HTTP) {
                         request.okproxyAuthenticator { _: Route?, response: Response ->
                             //设置代理服务器账号密码
                             val credential = Credentials.basic(setting.proxyUsername.toString(), setting.proxyPassword.toString())
-                            response.request().newBuilder()
-                                .header("Proxy-Authorization", credential)
-                                .build()
+                            response.request().newBuilder().header("Proxy-Authorization", credential).build()
                         }
                     } else {
                         Authenticator.setDefault(object : Authenticator() {
@@ -188,16 +173,11 @@ class WeworkAgentUtils private constructor() {
                 }
             }
 
-            request.upJson(requestMsg)
-                .keepJson(true)
-                .ignoreHttpsCert()
-                .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
-                .cacheMode(CacheMode.NO_CACHE)
-                .retryCount(SettingUtils.requestRetryTimes) //超时重试的次数
+            request.upJson(requestMsg).keepJson(true).ignoreHttpsCert().timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
+                .cacheMode(CacheMode.NO_CACHE).retryCount(SettingUtils.requestRetryTimes) //超时重试的次数
                 .retryDelay(SettingUtils.requestDelayTime) //超时重试的延迟时间
                 .retryIncreaseDelay(SettingUtils.requestDelayTime) //超时重试叠加延时
-                .timeStamp(true)
-                .execute(object : SimpleCallBack<String>() {
+                .timeStamp(true).execute(object : SimpleCallBack<String>() {
 
                     override fun onError(e: ApiException) {
                         Log.e(TAG, e.detailMessage)

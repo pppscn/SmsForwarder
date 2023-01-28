@@ -65,7 +65,7 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
             XUpdateInit.checkUpdate(requireContext(), true)
         }
         binding!!.btnCache.setOnClickListener {
-            HistoryUtils.clear()
+            HistoryUtils.clearPreference()
             CacheUtils.clearAllCache(requireContext())
             XToastUtils.success(R.string.about_cache_purged)
             binding!!.menuCache.setLeftString(String.format(resources.getString(R.string.about_cache_size), CacheUtils.getTotalCacheSize(requireContext())))

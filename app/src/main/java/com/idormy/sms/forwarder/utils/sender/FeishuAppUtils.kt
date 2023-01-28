@@ -8,9 +8,9 @@ import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.result.FeishuAppResult
 import com.idormy.sms.forwarder.entity.setting.FeishuAppSetting
-import com.idormy.sms.forwarder.utils.MMKVUtils
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.SharedPreference
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
@@ -31,8 +31,8 @@ class FeishuAppUtils private constructor() {
             logId: Long?,
         ) {
 
-            val accessToken: String? = MMKVUtils.getString("feishu_access_token_" + setting.appId, "")
-            val expiresIn: Long = MMKVUtils.getLong("feishu_expires_in_" + setting.appId, 0L)
+            var accessToken: String by SharedPreference("feishu_access_token_" + setting.appId, "")
+            var expiresIn: Long by SharedPreference("feishu_expires_in_" + setting.appId, 0L)
             if (!TextUtils.isEmpty(accessToken) && expiresIn > System.currentTimeMillis()) {
                 return sendTextMsg(setting, msgInfo, rule, logId)
             }
@@ -46,14 +46,8 @@ class FeishuAppUtils private constructor() {
             val requestMsg: String = Gson().toJson(msgMap)
             Log.i(TAG, "requestMsg:$requestMsg")
 
-            XHttp.post(requestUrl)
-                .upJson(requestMsg)
-                .keepJson(true)
-                .ignoreHttpsCert()
-                .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
-                .cacheMode(CacheMode.NO_CACHE)
-                .timeStamp(true)
-                .execute(object : SimpleCallBack<String>() {
+            XHttp.post(requestUrl).upJson(requestMsg).keepJson(true).ignoreHttpsCert().timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
+                .cacheMode(CacheMode.NO_CACHE).timeStamp(true).execute(object : SimpleCallBack<String>() {
 
                     override fun onError(e: ApiException) {
                         Log.e(TAG, e.detailMessage)
@@ -65,8 +59,8 @@ class FeishuAppUtils private constructor() {
 
                         val resp = Gson().fromJson(response, FeishuAppResult::class.java)
                         if (!TextUtils.isEmpty(resp?.tenant_access_token)) {
-                            MMKVUtils.put("feishu_access_token_" + setting.appId, resp.tenant_access_token)
-                            MMKVUtils.put("feishu_expires_in_" + setting.appId, System.currentTimeMillis() + ((resp.expire ?: 7010) - 120) * 1000L) //提前2分钟过期
+                            accessToken = resp.tenant_access_token.toString()
+                            expiresIn = System.currentTimeMillis() + ((resp.expire ?: 7010) - 120) * 1000L //提前2分钟过期
                             sendTextMsg(setting, msgInfo, rule, logId)
                         } else {
                             SendUtils.updateLogs(logId, 0, String.format(getString(R.string.request_failed_tips), response))
@@ -99,9 +93,7 @@ class FeishuAppUtils private constructor() {
                 } else {
                     msgInfo.getTitleForSend(setting.titleTemplate)
                 }
-                "{\"elements\":[{\"tag\":\"markdown\",\"content\":\"**[{{MSG_TITLE}}]({{MSG_URL}})**\\n --------------\\n{{MSG_CONTENT}}\"}]}".trimIndent().replace("{{MSG_TITLE}}", jsonInnerStr(title))
-                    .replace("{{MSG_URL}}", jsonInnerStr("https://github.com/pppscn/SmsForwarder"))
-                    .replace("{{MSG_CONTENT}}", jsonInnerStr(content))
+                "{\"elements\":[{\"tag\":\"markdown\",\"content\":\"**[{{MSG_TITLE}}]({{MSG_URL}})**\\n --------------\\n{{MSG_CONTENT}}\"}]}".trimIndent().replace("{{MSG_TITLE}}", jsonInnerStr(title)).replace("{{MSG_URL}}", jsonInnerStr("https://github.com/pppscn/SmsForwarder")).replace("{{MSG_CONTENT}}", jsonInnerStr(content))
             } else {
                 "{\"text\":\"{{MSG_CONTENT}}\"}".trimIndent().replace("{{MSG_CONTENT}}", jsonInnerStr(content))
             }
@@ -114,18 +106,14 @@ class FeishuAppUtils private constructor() {
             val requestMsg: String = Gson().toJson(textMsgMap)
             Log.i(TAG, "requestMsg:$requestMsg")
 
-            XHttp.post(requestUrl)
-                .upJson(requestMsg)
-                .headers("Authorization", "Bearer " + MMKVUtils.getString("feishu_access_token_" + setting.appId, ""))
-                .keepJson(true)
+            val accessToken: String by SharedPreference("feishu_access_token_" + setting.appId, "")
+            XHttp.post(requestUrl).upJson(requestMsg).headers("Authorization", "Bearer $accessToken").keepJson(true)
                 //.ignoreHttpsCert()
                 .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
-                .cacheMode(CacheMode.NO_CACHE)
-                .retryCount(SettingUtils.requestRetryTimes) //超时重试的次数
+                .cacheMode(CacheMode.NO_CACHE).retryCount(SettingUtils.requestRetryTimes) //超时重试的次数
                 .retryDelay(SettingUtils.requestDelayTime) //超时重试的延迟时间
                 .retryIncreaseDelay(SettingUtils.requestDelayTime) //超时重试叠加延时
-                .timeStamp(true)
-                .execute(object : SimpleCallBack<String>() {
+                .timeStamp(true).execute(object : SimpleCallBack<String>() {
 
                     override fun onError(e: ApiException) {
                         Log.e(TAG, e.detailMessage)

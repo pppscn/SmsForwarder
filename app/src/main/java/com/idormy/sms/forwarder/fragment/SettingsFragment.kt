@@ -79,23 +79,15 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         switchEnableSms(binding!!.sbEnableSms)
         //转发通话记录
         switchEnablePhone(
-            binding!!.sbEnablePhone,
-            binding!!.scbCallType1,
-            binding!!.scbCallType2,
-            binding!!.scbCallType3,
-            binding!!.scbCallType4
+            binding!!.sbEnablePhone, binding!!.scbCallType1, binding!!.scbCallType2, binding!!.scbCallType3, binding!!.scbCallType4
         )
         //转发应用通知
         switchEnableAppNotify(
-            binding!!.sbEnableAppNotify,
-            binding!!.scbCancelAppNotify,
-            binding!!.scbNotUserPresent
+            binding!!.sbEnableAppNotify, binding!!.scbCancelAppNotify, binding!!.scbNotUserPresent
         )
         //启动时异步获取已安装App信息
         switchEnableLoadAppList(
-            binding!!.sbEnableLoadAppList,
-            binding!!.scbLoadUserApp,
-            binding!!.scbLoadSystemApp
+            binding!!.sbEnableLoadAppList, binding!!.scbLoadUserApp, binding!!.scbLoadSystemApp
         )
         //过滤多久内重复消息
         binding!!.xsbDuplicateMessagesLimits.setDefaultValue(SettingUtils.duplicateMessagesLimits)
@@ -103,8 +95,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             SettingUtils.duplicateMessagesLimits = newValue
         }
         //免打扰(禁用转发)时间段
-        binding!!.tvSilentPeriod.text =
-            mTimeOption[SettingUtils.silentPeriodStart] + " ~ " + mTimeOption[SettingUtils.silentPeriodEnd]
+        binding!!.tvSilentPeriod.text = mTimeOption[SettingUtils.silentPeriodStart] + " ~ " + mTimeOption[SettingUtils.silentPeriodEnd]
         //自动删除N天前的转发记录
         binding!!.xsbAutoCleanLogs.setDefaultValue(SettingUtils.autoCleanLogsDays)
         binding!!.xsbAutoCleanLogs.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
@@ -129,9 +120,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
         //Cactus增强保活措施
         switchEnableCactus(
-            binding!!.sbEnableCactus,
-            binding!!.scbPlaySilenceMusic,
-            binding!!.scbOnePixelActivity
+            binding!!.sbEnableCactus, binding!!.scbPlaySilenceMusic, binding!!.scbOnePixelActivity
         )
 
         //接口请求失败重试时间间隔
@@ -176,21 +165,17 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         val etSmsTemplate: EditText = binding!!.etSmsTemplate
         when (v.id) {
             R.id.btn_silent_period -> {
-                OptionsPickerBuilder(
-                    context,
-                    OnOptionsSelectListener { _: View?, options1: Int, options2: Int, _: Int ->
-                        SettingUtils.silentPeriodStart = options1
-                        SettingUtils.silentPeriodEnd = options2
-                        val txt = mTimeOption[options1] + " ~ " + mTimeOption[options2]
-                        binding!!.tvSilentPeriod.text = txt
-                        XToastUtils.toast(txt)
-                        return@OnOptionsSelectListener false
-                    }).setTitleText(getString(R.string.select_time_period))
-                    .setSelectOptions(SettingUtils.silentPeriodStart, SettingUtils.silentPeriodEnd)
-                    .build<Any>().also {
-                        it.setNPicker(mTimeOption, mTimeOption)
-                        it.show()
-                    }
+                OptionsPickerBuilder(context, OnOptionsSelectListener { _: View?, options1: Int, options2: Int, _: Int ->
+                    SettingUtils.silentPeriodStart = options1
+                    SettingUtils.silentPeriodEnd = options2
+                    val txt = mTimeOption[options1] + " ~ " + mTimeOption[options2]
+                    binding!!.tvSilentPeriod.text = txt
+                    XToastUtils.toast(txt)
+                    return@OnOptionsSelectListener false
+                }).setTitleText(getString(R.string.select_time_period)).setSelectOptions(SettingUtils.silentPeriodStart, SettingUtils.silentPeriodEnd).build<Any>().also {
+                    it.setNPicker(mTimeOption, mTimeOption)
+                    it.show()
+                }
             }
             R.id.btn_extra_device_mark -> {
                 binding!!.etExtraDeviceMark.setText(PhoneUtils.getDeviceName())
@@ -201,8 +186,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 if (App.SimInfoList.isEmpty()) {
                     XToastUtils.error(R.string.tip_can_not_get_sim_infos)
                     XXPermissions.startPermissionActivity(
-                        requireContext(),
-                        "android.permission.READ_PHONE_STATE"
+                        requireContext(), "android.permission.READ_PHONE_STATE"
                     )
                     return
                 }
@@ -210,8 +194,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 if (!App.SimInfoList.containsKey(0)) {
                     XToastUtils.error(
                         String.format(
-                            getString(R.string.tip_can_not_get_sim_info),
-                            1
+                            getString(R.string.tip_can_not_get_sim_info), 1
                         )
                     )
                     return
@@ -225,8 +208,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 if (App.SimInfoList.isEmpty()) {
                     XToastUtils.error(R.string.tip_can_not_get_sim_infos)
                     XXPermissions.startPermissionActivity(
-                        requireContext(),
-                        "android.permission.READ_PHONE_STATE"
+                        requireContext(), "android.permission.READ_PHONE_STATE"
                     )
                     return
                 }
@@ -234,8 +216,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 if (!App.SimInfoList.containsKey(1)) {
                     XToastUtils.error(
                         String.format(
-                            getString(R.string.tip_can_not_get_sim_info),
-                            2
+                            getString(R.string.tip_can_not_get_sim_info), 2
                         )
                     )
                     return
@@ -254,22 +235,19 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             }
             R.id.bt_insert_extra -> {
                 CommonUtils.insertOrReplaceText2Cursor(
-                    etSmsTemplate,
-                    getString(R.string.tag_card_slot)
+                    etSmsTemplate, getString(R.string.tag_card_slot)
                 )
                 return
             }
             R.id.bt_insert_time -> {
                 CommonUtils.insertOrReplaceText2Cursor(
-                    etSmsTemplate,
-                    getString(R.string.tag_receive_time)
+                    etSmsTemplate, getString(R.string.tag_receive_time)
                 )
                 return
             }
             R.id.bt_insert_device_name -> {
                 CommonUtils.insertOrReplaceText2Cursor(
-                    etSmsTemplate,
-                    getString(R.string.tag_device_name)
+                    etSmsTemplate, getString(R.string.tag_device_name)
                 )
                 return
             }
@@ -291,8 +269,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                     // 发送短信
                     //.permission(Permission.SEND_SMS)
                     // 读取短信
-                    .permission(Permission.READ_SMS)
-                    .request(object : OnPermissionCallback {
+                    .permission(Permission.READ_SMS).request(object : OnPermissionCallback {
                         override fun onGranted(permissions: List<String>, all: Boolean) {
                             if (all) {
                                 XToastUtils.info(R.string.toast_granted_all)
@@ -320,11 +297,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     //转发通话
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     fun switchEnablePhone(
-        sbEnablePhone: SwitchButton,
-        scbCallType1: SmoothCheckBox,
-        scbCallType2: SmoothCheckBox,
-        scbCallType3: SmoothCheckBox,
-        scbCallType4: SmoothCheckBox
+        sbEnablePhone: SwitchButton, scbCallType1: SmoothCheckBox, scbCallType2: SmoothCheckBox, scbCallType3: SmoothCheckBox, scbCallType4: SmoothCheckBox
     ) {
         sbEnablePhone.isChecked = SettingUtils.enablePhone
         scbCallType1.isChecked = SettingUtils.enableCallType1
@@ -349,8 +322,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                     // 读取通话记录
                     .permission(Permission.READ_CALL_LOG)
                     // 读取联系人
-                    .permission(Permission.READ_CONTACTS)
-                    .request(object : OnPermissionCallback {
+                    .permission(Permission.READ_CONTACTS).request(object : OnPermissionCallback {
                         override fun onGranted(permissions: List<String>, all: Boolean) {
                             if (all) {
                                 XToastUtils.info(R.string.toast_granted_all)
@@ -410,9 +382,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     //转发应用通知
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     fun switchEnableAppNotify(
-        sbEnableAppNotify: SwitchButton,
-        scbCancelAppNotify: SmoothCheckBox,
-        scbNotUserPresent: SmoothCheckBox
+        sbEnableAppNotify: SwitchButton, scbCancelAppNotify: SmoothCheckBox, scbNotUserPresent: SmoothCheckBox
     ) {
         val layoutOptionalAction: LinearLayout = binding!!.layoutOptionalAction
         val isEnable: Boolean = SettingUtils.enableAppNotify
@@ -428,8 +398,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                     // 通知栏监听权限
                     .permission(Permission.BIND_NOTIFICATION_LISTENER_SERVICE)
                     // 通知栏权限
-                    .permission(Permission.NOTIFICATION_SERVICE)
-                    .request(object : OnPermissionCallback {
+                    .permission(Permission.NOTIFICATION_SERVICE).request(object : OnPermissionCallback {
                         override fun onGranted(permissions: List<String>, all: Boolean) {
                             SettingUtils.enableAppNotify = true
                             sbEnableAppNotify.isChecked = true
@@ -441,17 +410,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                             sbEnableAppNotify.isChecked = false
                             XToastUtils.error(R.string.tips_notification_listener)
                             // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                            MaterialDialog.Builder(context!!)
-                                .content(R.string.toast_denied_never)
-                                .positiveText(R.string.lab_yes)
-                                .negativeText(R.string.lab_no)
-                                .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                                    XXPermissions.startPermissionActivity(
-                                        requireContext(),
-                                        permissions
-                                    )
-                                }
-                                .show()
+                            MaterialDialog.Builder(context!!).content(R.string.toast_denied_never).positiveText(R.string.lab_yes).negativeText(R.string.lab_no).onPositive { _: MaterialDialog?, _: DialogAction? ->
+                                XXPermissions.startPermissionActivity(
+                                    requireContext(), permissions
+                                )
+                            }.show()
                         }
                     })
             }
@@ -469,9 +432,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     //启动时异步获取已安装App信息 (binding!!.sbEnableLoadAppList, binding!!.scbLoadUserApp, binding!!.scbLoadSystemApp)
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     fun switchEnableLoadAppList(
-        sbEnableLoadAppList: SwitchButton,
-        scbLoadUserApp: SmoothCheckBox,
-        scbLoadSystemApp: SmoothCheckBox
+        sbEnableLoadAppList: SwitchButton, scbLoadUserApp: SmoothCheckBox, scbLoadSystemApp: SmoothCheckBox
     ) {
         val isEnable: Boolean = SettingUtils.enableLoadAppList
         sbEnableLoadAppList.isChecked = isEnable
@@ -516,12 +477,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //设置低电量报警
     private fun editBatteryLevelAlarm(
-        xrsBatteryLevelAlarm: XRangeSlider,
-        scbBatteryLevelAlarmOnce: SmoothCheckBox
+        xrsBatteryLevelAlarm: XRangeSlider, scbBatteryLevelAlarmOnce: SmoothCheckBox
     ) {
         xrsBatteryLevelAlarm.setStartingMinMax(
-            SettingUtils.batteryLevelMin,
-            SettingUtils.batteryLevelMax
+            SettingUtils.batteryLevelMin, SettingUtils.batteryLevelMax
         )
         xrsBatteryLevelAlarm.setOnRangeSliderListener(object : OnRangeSliderListener {
             override fun onMaxChanged(slider: XRangeSlider, maxValue: Int) {
@@ -548,8 +507,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     fun switchBatteryCron(sbBatteryCron: SwitchButton) {
         sbBatteryCron.isChecked = SettingUtils.enableBatteryCron
-        binding!!.layoutBatteryCron.visibility =
-            if (SettingUtils.enableBatteryCron) View.VISIBLE else View.GONE
+        binding!!.layoutBatteryCron.visibility = if (SettingUtils.enableBatteryCron) View.VISIBLE else View.GONE
         sbBatteryCron.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             binding!!.layoutBatteryCron.visibility = if (isChecked) View.VISIBLE else View.GONE
             SettingUtils.enableBatteryCron = isChecked
@@ -560,8 +518,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //设置推送电池状态时机
     private fun editBatteryCronTiming(
-        etBatteryCronStartTime: EditText,
-        etBatteryCronInterval: EditText
+        etBatteryCronStartTime: EditText, etBatteryCronInterval: EditText
     ) {
         etBatteryCronStartTime.setText(SettingUtils.batteryCronStartTime)
         etBatteryCronStartTime.setOnClickListener {
@@ -573,12 +530,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 //BatteryReportCronTask.getSingleton().updateTimer()
             }
                 //.setTimeSelectChangeListener { date: Date? -> etBatteryCronStartTime.setText(DateUtils.date2String(date, DateUtils.HHmm.get())) }
-                .setType(false, false, false, true, true, false)
-                .setTitleText(getString(R.string.time_picker))
-                .setSubmitText(getString(R.string.ok))
-                .setCancelText(getString(R.string.cancel))
-                .setDate(calendar)
-                .build()
+                .setType(false, false, false, true, true, false).setTitleText(getString(R.string.time_picker)).setSubmitText(getString(R.string.ok)).setCancelText(getString(R.string.cancel)).setDate(calendar).build()
             mTimePicker.show()
         }
 
@@ -601,8 +553,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //开机启动
     private fun checkWithReboot(
-        @SuppressLint("UseSwitchCompatOrMaterialCode") sbWithReboot: SwitchButton,
-        tvAutoStartup: TextView
+        @SuppressLint("UseSwitchCompatOrMaterialCode") sbWithReboot: SwitchButton, tvAutoStartup: TextView
     ) {
         tvAutoStartup.text = getAutoStartTips()
 
@@ -610,12 +561,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         val cm = ComponentName(getAppPackageName(), BootReceiver::class.java.name)
         val pm: PackageManager = getPackageManager()
         val state = pm.getComponentEnabledSetting(cm)
-        sbWithReboot.isChecked =
-            (state != PackageManager.COMPONENT_ENABLED_STATE_DISABLED && state != PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER)
+        sbWithReboot.isChecked = !(state == PackageManager.COMPONENT_ENABLED_STATE_DISABLED || state == PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER)
         sbWithReboot.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             try {
-                val newState =
-                    if (isChecked) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+                val newState = if (isChecked) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED
                 pm.setComponentEnabledSetting(cm, newState, PackageManager.DONT_KILL_APP)
                 if (isChecked) startToAutoStartSetting(requireContext())
             } catch (e: Exception) {
@@ -635,8 +584,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         }
 
         try {
-            val isIgnoreBatteryOptimization: Boolean =
-                KeepAliveUtils.isIgnoreBatteryOptimization(requireActivity())
+            val isIgnoreBatteryOptimization: Boolean = KeepAliveUtils.isIgnoreBatteryOptimization(requireActivity())
             sbBatterySetting.isChecked = isIgnoreBatteryOptimization
             sbBatterySetting.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
                 if (isChecked && !isIgnoreBatteryOptimization) {
@@ -657,8 +605,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     //不在最近任务列表中显示
     @SuppressLint("ObsoleteSdkInt,UseSwitchCompatOrMaterialCode")
     fun switchExcludeFromRecents(
-        layoutExcludeFromRecents: LinearLayout,
-        sbExcludeFromRecents: SwitchButton
+        layoutExcludeFromRecents: LinearLayout, sbExcludeFromRecents: SwitchButton
     ) {
         //安卓6.0以下没有不在最近任务列表中显示
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -683,9 +630,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     //转发应用通知
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     fun switchEnableCactus(
-        sbEnableCactus: SwitchButton,
-        scbPlaySilenceMusic: SmoothCheckBox,
-        scbOnePixelActivity: SmoothCheckBox
+        sbEnableCactus: SwitchButton, scbPlaySilenceMusic: SmoothCheckBox, scbOnePixelActivity: SmoothCheckBox
     ) {
         val layoutCactusOptional: LinearLayout = binding!!.layoutCactusOptional
         val isEnable: Boolean = SettingUtils.enableCactus
@@ -716,9 +661,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //接口请求失败重试时间间隔
     private fun editRetryDelayTime(
-        etRetryTimes: EditText,
-        etDelayTime: EditText,
-        etTimeout: EditText
+        etRetryTimes: EditText, etDelayTime: EditText, etTimeout: EditText
     ) {
         etRetryTimes.setText(java.lang.String.valueOf(SettingUtils.requestRetryTimes))
         etRetryTimes.addTextChangedListener(object : TextWatcher {
@@ -818,8 +761,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
                 SettingUtils.notifyContent = etNotifyContent.text.toString().trim()
-                LiveEventBus.get(EVENT_UPDATE_NOTIFY, String::class.java)
-                    .post(SettingUtils.notifyContent.toString())
+                LiveEventBus.get(EVENT_UPDATE_NOTIFY, String::class.java).post(SettingUtils.notifyContent)
             }
         })
     }
@@ -875,14 +817,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         switchDirectlyToClient.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             SettingUtils.enablePureClientMode = isChecked
             if (isChecked) {
-                MaterialDialog.Builder(requireContext())
-                    .content(getString(R.string.enabling_pure_client_mode))
-                    .positiveText(R.string.lab_yes)
-                    .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                        XUtil.exitApp()
-                    }
-                    .negativeText(R.string.lab_no)
-                    .show()
+                MaterialDialog.Builder(requireContext()).content(getString(R.string.enabling_pure_client_mode)).positiveText(R.string.lab_yes).onPositive { _: MaterialDialog?, _: DialogAction? ->
+                    XUtil.exitApp()
+                }.negativeText(R.string.lab_no).show()
             }
         }
     }
@@ -914,37 +851,19 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             )
             put(
                 "samsung", listOf(
-                    "com.samsung.android.sm_cn/com.samsung.android.sm.ui.ram.AutoRunActivity",
-                    "com.samsung.android.sm_cn/com.samsung.android.sm.ui.appmanagement.AppManagementActivity",
-                    "com.samsung.android.sm_cn/com.samsung.android.sm.ui.cstyleboard.SmartManagerDashBoardActivity",
-                    "com.samsung.android.sm_cn/.ui.ram.RamActivity",
-                    "com.samsung.android.sm_cn/.app.dashboard.SmartManagerDashBoardActivity",
-                    "com.samsung.android.sm/com.samsung.android.sm.ui.ram.AutoRunActivity",
-                    "com.samsung.android.sm/com.samsung.android.sm.ui.appmanagement.AppManagementActivity",
-                    "com.samsung.android.sm/com.samsung.android.sm.ui.cstyleboard.SmartManagerDashBoardActivity",
-                    "com.samsung.android.sm/.ui.ram.RamActivity",
-                    "com.samsung.android.sm/.app.dashboard.SmartManagerDashBoardActivity",
-                    "com.samsung.android.lool/com.samsung.android.sm.ui.battery.BatteryActivity",
-                    "com.samsung.android.sm_cn",
-                    "com.samsung.android.sm"
+                    "com.samsung.android.sm_cn/com.samsung.android.sm.ui.ram.AutoRunActivity", "com.samsung.android.sm_cn/com.samsung.android.sm.ui.appmanagement.AppManagementActivity", "com.samsung.android.sm_cn/com.samsung.android.sm.ui.cstyleboard.SmartManagerDashBoardActivity", "com.samsung.android.sm_cn/.ui.ram.RamActivity", "com.samsung.android.sm_cn/.app.dashboard.SmartManagerDashBoardActivity", "com.samsung.android.sm/com.samsung.android.sm.ui.ram.AutoRunActivity", "com.samsung.android.sm/com.samsung.android.sm.ui.appmanagement.AppManagementActivity", "com.samsung.android.sm/com.samsung.android.sm.ui.cstyleboard.SmartManagerDashBoardActivity", "com.samsung.android.sm/.ui.ram.RamActivity", "com.samsung.android.sm/.app.dashboard.SmartManagerDashBoardActivity", "com.samsung.android.lool/com.samsung.android.sm.ui.battery.BatteryActivity", "com.samsung.android.sm_cn", "com.samsung.android.sm"
                 )
             )
             put(
                 "HUAWEI", listOf(
                     "com.huawei.systemmanager/.startupmgr.ui.StartupNormalAppListActivity",  //EMUI9.1.0(方舟,9.0)
-                    "com.huawei.systemmanager/.appcontrol.activity.StartupAppControlActivity",
-                    "com.huawei.systemmanager/.optimize.process.ProtectActivity",
-                    "com.huawei.systemmanager/.optimize.bootstart.BootStartActivity",
-                    "com.huawei.systemmanager" //最后一行可以写包名, 这样如果签名的类路径在某些新版本的ROM中没找到 就直接跳转到对应的安全中心/手机管家 首页.
+                    "com.huawei.systemmanager/.appcontrol.activity.StartupAppControlActivity", "com.huawei.systemmanager/.optimize.process.ProtectActivity", "com.huawei.systemmanager/.optimize.bootstart.BootStartActivity", "com.huawei.systemmanager" //最后一行可以写包名, 这样如果签名的类路径在某些新版本的ROM中没找到 就直接跳转到对应的安全中心/手机管家 首页.
                 )
             )
             put(
                 "vivo", listOf(
-                    "com.iqoo.secure/.ui.phoneoptimize.BgStartUpManager",
-                    "com.iqoo.secure/.safeguard.PurviewTabActivity",
-                    "com.vivo.permissionmanager/.activity.BgStartUpManagerActivity",  //"com.iqoo.secure/.ui.phoneoptimize.AddWhiteListActivity", //这是白名单, 不是自启动
-                    "com.iqoo.secure",
-                    "com.vivo.permissionmanager"
+                    "com.iqoo.secure/.ui.phoneoptimize.BgStartUpManager", "com.iqoo.secure/.safeguard.PurviewTabActivity", "com.vivo.permissionmanager/.activity.BgStartUpManagerActivity",  //"com.iqoo.secure/.ui.phoneoptimize.AddWhiteListActivity", //这是白名单, 不是自启动
+                    "com.iqoo.secure", "com.vivo.permissionmanager"
                 )
             )
             put(
@@ -956,95 +875,77 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             )
             put(
                 "OPPO", listOf(
-                    "com.coloros.safecenter/.startupapp.StartupAppListActivity",
-                    "com.coloros.safecenter/.permission.startup.StartupAppListActivity",
-                    "com.oppo.safe/.permission.startup.StartupAppListActivity",
-                    "com.coloros.oppoguardelf/com.coloros.powermanager.fuelgaue.PowerUsageModelActivity",
-                    "com.coloros.safecenter/com.coloros.privacypermissionsentry.PermissionTopActivity",
-                    "com.coloros.safecenter",
-                    "com.oppo.safe",
-                    "com.coloros.oppoguardelf"
+                    "com.coloros.safecenter/.startupapp.StartupAppListActivity", "com.coloros.safecenter/.permission.startup.StartupAppListActivity", "com.oppo.safe/.permission.startup.StartupAppListActivity", "com.coloros.oppoguardelf/com.coloros.powermanager.fuelgaue.PowerUsageModelActivity", "com.coloros.safecenter/com.coloros.privacypermissionsentry.PermissionTopActivity", "com.coloros.safecenter", "com.oppo.safe", "com.coloros.oppoguardelf"
                 )
             )
             put(
                 "oneplus", listOf(
-                    "com.oneplus.security/.chainlaunch.view.ChainLaunchAppListActivity",
-                    "com.oneplus.security"
+                    "com.oneplus.security/.chainlaunch.view.ChainLaunchAppListActivity", "com.oneplus.security"
                 )
             )
             put(
                 "letv", listOf(
-                    "com.letv.android.letvsafe/.AutobootManageActivity",
-                    "com.letv.android.letvsafe/.BackgroundAppManageActivity",  //应用保护
+                    "com.letv.android.letvsafe/.AutobootManageActivity", "com.letv.android.letvsafe/.BackgroundAppManageActivity",  //应用保护
                     "com.letv.android.letvsafe"
                 )
             )
             put(
                 "zte", listOf(
-                    "com.zte.heartyservice/.autorun.AppAutoRunManager",
-                    "com.zte.heartyservice"
+                    "com.zte.heartyservice/.autorun.AppAutoRunManager", "com.zte.heartyservice"
                 )
             )
 
             //金立
             put(
                 "F", listOf(
-                    "com.gionee.softmanager/.MainActivity",
-                    "com.gionee.softmanager"
+                    "com.gionee.softmanager/.MainActivity", "com.gionee.softmanager"
                 )
             )
 
             //以下为未确定(厂商名也不确定)
             put(
                 "smartisanos", listOf(
-                    "com.smartisanos.security/.invokeHistory.InvokeHistoryActivity",
-                    "com.smartisanos.security"
+                    "com.smartisanos.security/.invokeHistory.InvokeHistoryActivity", "com.smartisanos.security"
                 )
             )
 
             //360
             put(
                 "360", listOf(
-                    "com.yulong.android.coolsafe/.ui.activity.autorun.AutoRunListActivity",
-                    "com.yulong.android.coolsafe"
+                    "com.yulong.android.coolsafe/.ui.activity.autorun.AutoRunListActivity", "com.yulong.android.coolsafe"
                 )
             )
 
             //360
             put(
                 "ulong", listOf(
-                    "com.yulong.android.coolsafe/.ui.activity.autorun.AutoRunListActivity",
-                    "com.yulong.android.coolsafe"
+                    "com.yulong.android.coolsafe/.ui.activity.autorun.AutoRunListActivity", "com.yulong.android.coolsafe"
                 )
             )
 
             //酷派
             put(
                 "coolpad" /*厂商名称不确定是否正确*/, listOf(
-                    "com.yulong.android.security/com.yulong.android.seccenter.tabbarmain",
-                    "com.yulong.android.security"
+                    "com.yulong.android.security/com.yulong.android.seccenter.tabbarmain", "com.yulong.android.security"
                 )
             )
 
             //联想
             put(
                 "lenovo" /*厂商名称不确定是否正确*/, listOf(
-                    "com.lenovo.security/.purebackground.PureBackgroundActivity",
-                    "com.lenovo.security"
+                    "com.lenovo.security/.purebackground.PureBackgroundActivity", "com.lenovo.security"
                 )
             )
             put(
                 "htc" /*厂商名称不确定是否正确*/, listOf(
-                    "com.htc.pitroad/.landingpage.activity.LandingPageActivity",
-                    "com.htc.pitroad"
+                    "com.htc.pitroad/.landingpage.activity.LandingPageActivity", "com.htc.pitroad"
                 )
             )
 
             //华硕
             put(
                 "asus" /*厂商名称不确定是否正确*/, listOf(
-                    "com.asus.mobilemanager/.MainActivity",
-                    "com.asus.mobilemanager"
+                    "com.asus.mobilemanager/.MainActivity", "com.asus.mobilemanager"
                 )
             )
         }
@@ -1069,8 +970,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                             } else {
                                 //找不到? 网上的做法都是跳转到设置... 这基本上是没意义的 基本上自启动这个功能是第三方厂商自己写的安全管家类app
                                 //所以我是直接跳转到对应的安全管家/安全中心
-                                intent =
-                                    act?.let { context.packageManager.getLaunchIntentForPackage(it) }
+                                intent = act?.let { context.packageManager.getLaunchIntentForPackage(it) }
                             }
                             context.startActivity(intent)
                             has = true

@@ -184,7 +184,7 @@ class ContactQueryFragment : BaseFragment<FragmentClientContactQueryBinding?>() 
         msgMap["timestamp"] = timestamp
         val clientSignKey = HttpServerUtils.clientSignKey
         if (!TextUtils.isEmpty(clientSignKey)) {
-            msgMap["sign"] = HttpServerUtils.calcSign(timestamp.toString(), clientSignKey.toString())
+            msgMap["sign"] = HttpServerUtils.calcSign(timestamp.toString(), clientSignKey)
         }
         msgMap["data"] = if (keyword.isDigitsOnly())
             ContactQueryData(1, 20, keyword, null)
@@ -202,7 +202,7 @@ class ContactQueryFragment : BaseFragment<FragmentClientContactQueryBinding?>() 
 
         when (HttpServerUtils.clientSafetyMeasures) {
             2 -> {
-                val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
+                val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey)
                 try {
                     requestMsg = Base64.encode(requestMsg.toByteArray())
                     requestMsg = RSACrypt.encryptByPublicKey(requestMsg, publicKey)
@@ -216,7 +216,7 @@ class ContactQueryFragment : BaseFragment<FragmentClientContactQueryBinding?>() 
             }
             3 -> {
                 try {
-                    val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey.toString())
+                    val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
                     //requestMsg = Base64.encode(requestMsg.toByteArray())
                     val encryptCBC = SM4Crypt.encrypt(requestMsg.toByteArray(), sm4Key)
                     requestMsg = ConvertTools.bytes2HexString(encryptCBC)
@@ -243,11 +243,11 @@ class ContactQueryFragment : BaseFragment<FragmentClientContactQueryBinding?>() 
                 try {
                     var json = response
                     if (HttpServerUtils.clientSafetyMeasures == 2) {
-                        val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
+                        val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey)
                         json = RSACrypt.decryptByPublicKey(json, publicKey)
                         json = String(Base64.decode(json))
                     } else if (HttpServerUtils.clientSafetyMeasures == 3) {
-                        val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey.toString())
+                        val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
                         val encryptCBC = ConvertTools.hexStringToByteArray(json)
                         val decryptCBC = SM4Crypt.decrypt(encryptCBC, sm4Key)
                         json = String(decryptCBC)

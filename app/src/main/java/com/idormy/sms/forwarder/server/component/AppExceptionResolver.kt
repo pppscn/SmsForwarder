@@ -36,13 +36,13 @@ class AppExceptionResolver : ExceptionResolver {
         Log.d(TAG, "resp: $resp")
         when (HttpServerUtils.safetyMeasures) {
             2 -> {
-                val privateKey = RSACrypt.getPrivateKey(HttpServerUtils.serverPrivateKey.toString())
+                val privateKey = RSACrypt.getPrivateKey(HttpServerUtils.serverPrivateKey)
                 resp = Base64.encode(resp.toByteArray())
                 resp = RSACrypt.encryptByPrivateKey(resp, privateKey)
                 response.setBody(StringBody(resp))
             }
             3 -> {
-                val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.serverSm4Key.toString())
+                val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.serverSm4Key)
                 //response = Base64.encode(response.toByteArray())
                 val encryptCBC = SM4Crypt.encrypt(resp.toByteArray(), sm4Key)
                 response.setBody(StringBody(ConvertTools.bytes2HexString(encryptCBC)))

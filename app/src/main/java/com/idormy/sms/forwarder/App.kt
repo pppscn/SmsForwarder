@@ -173,7 +173,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
                     setChannelId(FRONT_CHANNEL_ID) //渠道Id
                     setChannelName(FRONT_CHANNEL_NAME) //渠道名
                     setTitle(getString(R.string.app_name))
-                    setContent(SettingUtils.notifyContent.toString())
+                    setContent(SettingUtils.notifyContent)
                     setSmallIcon(R.drawable.ic_forwarder)
                     setLargeIcon(R.mipmap.ic_launcher)
                     setPendingIntent(pendingIntent)
@@ -214,8 +214,10 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
      */
     private fun initLibs() {
         Core.init(this)
+        // 配置文件初始化
+        SharedPreference.init(applicationContext)
         // 转发历史工具类初始化
-        HistoryUtils.init(this)
+        HistoryUtils.init(applicationContext)
         // X系列基础库初始化
         XBasicLibInit.init(this)
         // 版本更新初始化

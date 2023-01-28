@@ -10,7 +10,7 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.http.api.ApiService.IGetService
 import com.idormy.sms.forwarder.core.http.callback.NoTipCallBack
 import com.idormy.sms.forwarder.core.http.entity.TipInfo
-import com.idormy.sms.forwarder.utils.MMKVUtils
+import com.idormy.sms.forwarder.utils.SharedPreference
 import com.xuexiang.constant.TimeConstants
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xhttp2.XHttp
@@ -175,11 +175,12 @@ class GuideTipsDialog(context: Context?, tips: List<TipInfo>) :
         }
 
         fun setIsIgnoreTips(isIgnore: Boolean): Boolean {
-            return MMKVUtils.put(KEY_IS_IGNORE_TIPS + AppUtils.getAppVersionCode(), isIgnore)
+            this.isIgnoreTips = isIgnore
+            return true
         }
 
-        val isIgnoreTips: Boolean
-            get() = MMKVUtils.getBoolean(KEY_IS_IGNORE_TIPS + AppUtils.getAppVersionCode(), false)
+        var isIgnoreTips: Boolean by SharedPreference(KEY_IS_IGNORE_TIPS + AppUtils.getAppVersionCode(), false)
+
     }
 
     init {

@@ -25,172 +25,67 @@ class HttpServerUtils private constructor() {
     companion object {
 
         //是否启用HttpServer开机自启
-        @JvmStatic
-        var enableServerAutorun: Boolean
-            get() = MMKVUtils.getBoolean(SP_ENABLE_SERVER_AUTORUN, false)
-            set(enableServerAutorun) {
-                MMKVUtils.put(SP_ENABLE_SERVER_AUTORUN, enableServerAutorun)
-            }
-
-        //服务端安全设置
-        @JvmStatic
-        var safetyMeasures: Int
-            get() = MMKVUtils.getInt(SP_SERVER_SAFETY_MEASURES, if (TextUtils.isEmpty(serverSignKey)) 0 else 1)
-            set(safetyMeasures) {
-                MMKVUtils.put(SP_SERVER_SAFETY_MEASURES, safetyMeasures)
-            }
-
-        //服务端SM4密钥
-        @JvmStatic
-        var serverSm4Key: String?
-            get() = MMKVUtils.getString(SP_SERVER_SM4_KEY, "")
-            set(serverSm4Key) {
-                MMKVUtils.put(SP_SERVER_SM4_KEY, serverSm4Key)
-            }
-
-        //服务端RSA公钥
-        @JvmStatic
-        var serverPublicKey: String?
-            get() = MMKVUtils.getString(SP_SERVER_PUBLIC_KEY, "")
-            set(serverPublicKey) {
-                MMKVUtils.put(SP_SERVER_PUBLIC_KEY, serverPublicKey)
-            }
-
-        //服务端RSA私钥
-        @JvmStatic
-        var serverPrivateKey: String?
-            get() = MMKVUtils.getString(SP_SERVER_PRIVATE_KEY, "")
-            set(serverPrivateKey) {
-                MMKVUtils.put(SP_SERVER_PRIVATE_KEY, serverPrivateKey)
-            }
+        var enableServerAutorun: Boolean by SharedPreference(SP_ENABLE_SERVER_AUTORUN, true)
 
         //服务端签名密钥
-        @JvmStatic
-        var serverSignKey: String?
-            get() = MMKVUtils.getString(SP_SERVER_SIGN_KEY, "")
-            set(serverSignKey) {
-                MMKVUtils.put(SP_SERVER_SIGN_KEY, serverSignKey)
-            }
-
-        //时间容差
-        @JvmStatic
-        var timeTolerance: Int
-            get() = MMKVUtils.getInt(SP_SERVER_TIME_TOLERANCE, 600)
-            set(timeTolerance) {
-                MMKVUtils.put(SP_SERVER_TIME_TOLERANCE, timeTolerance)
-            }
-
-        //自定义web客户端目录
-        @JvmStatic
-        var serverWebPath: String?
-            get() = MMKVUtils.getString(SP_SERVER_WEB_PATH, "")
-            set(serverWebPath) {
-                MMKVUtils.put(SP_SERVER_WEB_PATH, serverWebPath)
-            }
-
-        //服务地址
-        @JvmStatic
-        var serverAddress: String?
-            get() = MMKVUtils.getString(SP_SERVER_ADDRESS, "")
-            set(clientSignKey) {
-                MMKVUtils.put(SP_SERVER_ADDRESS, clientSignKey)
-            }
-
-        //服务地址历史记录
-        @JvmStatic
-        var serverHistory: String?
-            get() = MMKVUtils.getString(SP_SERVER_HISTORY, "")
-            set(serverHistory) {
-                MMKVUtils.put(SP_SERVER_HISTORY, serverHistory)
-            }
-
-        //服务端配置
-        @JvmStatic
-        var serverConfig: String?
-            get() = MMKVUtils.getString(SP_SERVER_CONFIG, "")
-            set(serverConfig) {
-                MMKVUtils.put(SP_SERVER_CONFIG, serverConfig)
-            }
+        var serverSignKey: String by SharedPreference(SP_SERVER_SIGN_KEY, "")
 
         //服务端安全设置
-        @JvmStatic
-        var clientSafetyMeasures: Int
-            get() = MMKVUtils.getInt(SP_CLIENT_SAFETY_MEASURES, if (TextUtils.isEmpty(clientSignKey)) 0 else 1)
-            set(clientSafetyMeasures) {
-                MMKVUtils.put(SP_CLIENT_SAFETY_MEASURES, clientSafetyMeasures)
-            }
+        var safetyMeasures: Int by SharedPreference(SP_SERVER_SAFETY_MEASURES, if (TextUtils.isEmpty(serverSignKey)) 0 else 1)
+
+        //服务端SM4密钥
+        var serverSm4Key: String by SharedPreference(SP_SERVER_SM4_KEY, "")
+
+        //服务端RSA公钥
+        var serverPublicKey: String by SharedPreference(SP_SERVER_PUBLIC_KEY, "")
+
+        //服务端RSA私钥
+        var serverPrivateKey: String by SharedPreference(SP_SERVER_PRIVATE_KEY, "")
+
+        //时间容差
+        var timeTolerance: Int by SharedPreference(SP_SERVER_TIME_TOLERANCE, 600)
+
+        //自定义web客户端目录
+        var serverWebPath: String by SharedPreference(SP_SERVER_WEB_PATH, "")
+
+        //服务地址
+        var serverAddress: String by SharedPreference(SP_SERVER_ADDRESS, "")
+
+        //服务地址历史记录
+        var serverHistory: String by SharedPreference(SP_SERVER_HISTORY, "")
+
+        //服务端配置
+        var serverConfig: String by SharedPreference(SP_SERVER_CONFIG, "")
 
         //客户端签名密钥/RSA公钥
-        @JvmStatic
-        var clientSignKey: String?
-            get() = MMKVUtils.getString(SP_CLIENT_SIGN_KEY, "")
-            set(clientSignKey) {
-                MMKVUtils.put(SP_CLIENT_SIGN_KEY, clientSignKey)
-            }
+        var clientSignKey: String by SharedPreference(SP_CLIENT_SIGN_KEY, "")
+
+        //服务端安全设置
+        var clientSafetyMeasures: Int by SharedPreference(SP_CLIENT_SAFETY_MEASURES, if (TextUtils.isEmpty(clientSignKey)) 0 else 1)
 
         //是否启用一键克隆
-        @JvmStatic
-        var enableApiClone: Boolean
-            get() = MMKVUtils.getBoolean(SP_ENABLE_API_CLONE, false)
-            set(enableApiClone) {
-                MMKVUtils.put(SP_ENABLE_API_CLONE, enableApiClone)
-            }
+        var enableApiClone: Boolean by SharedPreference(SP_ENABLE_API_CLONE, true)
 
         //是否启用远程发短信
-        @JvmStatic
-        var enableApiSmsSend: Boolean
-            get() = MMKVUtils.getBoolean(SP_ENABLE_API_SMS_SEND, false)
-            set(enableApiSendSms) {
-                MMKVUtils.put(SP_ENABLE_API_SMS_SEND, enableApiSendSms)
-            }
+        var enableApiSmsSend: Boolean by SharedPreference(SP_ENABLE_API_SMS_SEND, true)
 
         //是否启用远程查短信
-        @JvmStatic
-        var enableApiSmsQuery: Boolean
-            get() = MMKVUtils.getBoolean(SP_ENABLE_API_SMS_QUERY, false)
-            set(enableApiQuerySms) {
-                MMKVUtils.put(SP_ENABLE_API_SMS_QUERY, enableApiQuerySms)
-            }
+        var enableApiSmsQuery: Boolean by SharedPreference(SP_ENABLE_API_SMS_QUERY, true)
 
         //是否启用远程查通话
-        @JvmStatic
-        var enableApiCallQuery: Boolean
-            get() = MMKVUtils.getBoolean(SP_ENABLE_API_CALL_QUERY, false)
-            set(enableApiQueryCall) {
-                MMKVUtils.put(SP_ENABLE_API_CALL_QUERY, enableApiQueryCall)
-            }
+        var enableApiCallQuery: Boolean by SharedPreference(SP_ENABLE_API_CALL_QUERY, true)
 
         //是否启用远程查话簿
-        @JvmStatic
-        var enableApiContactQuery: Boolean
-            get() = MMKVUtils.getBoolean(SP_ENABLE_API_CONTACT_QUERY, false)
-            set(enableApiQueryLinkman) {
-                MMKVUtils.put(SP_ENABLE_API_CONTACT_QUERY, enableApiQueryLinkman)
-            }
+        var enableApiContactQuery: Boolean by SharedPreference(SP_ENABLE_API_CONTACT_QUERY, true)
 
         //是否启用远程查电量
-        @JvmStatic
-        var enableApiBatteryQuery: Boolean
-            get() = MMKVUtils.getBoolean(SP_ENABLE_API_BATTERY_QUERY, false)
-            set(enableApiQueryBattery) {
-                MMKVUtils.put(SP_ENABLE_API_BATTERY_QUERY, enableApiQueryBattery)
-            }
+        var enableApiBatteryQuery: Boolean by SharedPreference(SP_ENABLE_API_BATTERY_QUERY, true)
 
         //是否启用远程WOL
-        @JvmStatic
-        var enableApiWol: Boolean
-            get() = MMKVUtils.getBoolean(SP_ENABLE_API_WOL, false)
-            set(enableApiWol) {
-                MMKVUtils.put(SP_ENABLE_API_WOL, enableApiWol)
-            }
+        var enableApiWol: Boolean by SharedPreference(SP_ENABLE_API_WOL, true)
 
         //WOL历史记录
-        @JvmStatic
-        var wolHistory: String?
-            get() = MMKVUtils.getString(SP_WOL_HISTORY, "")
-            set(wolHistory) {
-                MMKVUtils.put(SP_WOL_HISTORY, wolHistory)
-            }
+        var wolHistory: String by SharedPreference(SP_WOL_HISTORY, "")
 
         //计算签名
         fun calcSign(timestamp: String, signSecret: String): String {
@@ -217,7 +112,7 @@ class HttpServerUtils private constructor() {
                 throw HttpException(500, String.format(getString(R.string.timestamp_verify_failed), timestamp, timeTolerance, diffTime))
             }
 
-            val sign = calcSign(req.timestamp.toString(), signSecret.toString())
+            val sign = calcSign(req.timestamp.toString(), signSecret)
             if (sign != req.sign) {
                 Log.e("calcSign", sign)
                 Log.e("reqSign", req.sign.toString())
@@ -298,7 +193,7 @@ class HttpServerUtils private constructor() {
                 SettingUtils.batteryLevelMax = cloneInfo.batteryLevelMax
                 SettingUtils.batteryLevelOnce = cloneInfo.batteryLevelOnce
                 SettingUtils.enableBatteryCron = cloneInfo.enableBatteryCron
-                SettingUtils.batteryCronStartTime = cloneInfo.batteryCronStartTime
+                SettingUtils.batteryCronStartTime = cloneInfo.batteryCronStartTime.toString()
                 SettingUtils.batteryCronInterval = cloneInfo.batteryCronInterval
                 SettingUtils.enableExcludeFromRecents = cloneInfo.enableExcludeFromRecents
                 SettingUtils.enableCactus = cloneInfo.enableCactus
@@ -307,9 +202,9 @@ class HttpServerUtils private constructor() {
                 SettingUtils.requestRetryTimes = cloneInfo.requestRetryTimes
                 SettingUtils.requestDelayTime = cloneInfo.requestDelayTime
                 SettingUtils.requestTimeout = cloneInfo.requestTimeout
-                SettingUtils.notifyContent = cloneInfo.notifyContent
+                SettingUtils.notifyContent = cloneInfo.notifyContent.toString()
                 SettingUtils.enableSmsTemplate = cloneInfo.enableSmsTemplate
-                SettingUtils.smsTemplate = cloneInfo.smsTemplate
+                SettingUtils.smsTemplate = cloneInfo.smsTemplate.toString()
                 SettingUtils.enableHelpTip = cloneInfo.enableHelpTip
                 SettingUtils.enablePureClientMode = cloneInfo.enablePureClientMode
                 //删除发送通道、转发规则、转发日志
@@ -356,7 +251,7 @@ class HttpServerUtils private constructor() {
                     resp["data"] = output
                 }
                 if (safetyMeasures == 1) {
-                    resp["sign"] = calcSign(timestamp.toString(), serverSignKey.toString())
+                    resp["sign"] = calcSign(timestamp.toString(), serverSignKey)
                 }
             }
 

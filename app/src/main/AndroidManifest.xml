@@ -58,6 +58,8 @@
     <application
         android:name=".App"
         android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
+        android:defaultToDeviceProtectedStorage="true"
+        android:directBootAware="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -215,6 +217,7 @@
 
         <receiver
             android:name=".receiver.BootReceiver"
+            android:defaultToDeviceProtectedStorage="true"
             android:directBootAware="true"
             android:exported="true"
             tools:ignore="IntentFilterExportedReceiver">

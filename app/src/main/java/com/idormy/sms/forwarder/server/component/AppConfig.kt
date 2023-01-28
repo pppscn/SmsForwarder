@@ -16,7 +16,7 @@ class AppConfig : WebConfig {
         val serverWebPath = HttpServerUtils.serverWebPath
         if (!TextUtils.isEmpty(serverWebPath)) {
             // 增加一个位于/sdcard/Download/目录下的网站
-            delegate.addWebsite(StorageWebsite(serverWebPath.toString()))
+            delegate.addWebsite(StorageWebsite(serverWebPath))
         } else {
             // 增加一个位于assets的web目录的网站
             delegate.addWebsite(AssetsWebsite(context, "/web/"))

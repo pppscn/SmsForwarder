@@ -8,9 +8,9 @@ import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.result.DingtalkInnerRobotResult
 import com.idormy.sms.forwarder.entity.setting.DingtalkInnerRobotSetting
-import com.idormy.sms.forwarder.utils.MMKVUtils
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.SharedPreference
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
@@ -38,9 +38,8 @@ class DingtalkInnerRobotUtils private constructor() {
             rule: Rule?,
             logId: Long?,
         ) {
-
-            val accessToken: String? = MMKVUtils.getString("accessToken_" + setting.agentID, "")
-            val expiresIn: Long = MMKVUtils.getLong("expiresIn_" + setting.agentID, 0L)
+            var accessToken: String by SharedPreference("accessToken_" + setting.agentID, "")
+            var expiresIn: Long by SharedPreference("expiresIn_" + setting.agentID, 0L)
             if (!TextUtils.isEmpty(accessToken) && expiresIn > System.currentTimeMillis()) {
                 return sendTextMsg(setting, msgInfo, rule, logId)
             }
@@ -57,9 +56,7 @@ class DingtalkInnerRobotUtils private constructor() {
             val request = XHttp.post(requestUrl)
 
             //设置代理
-            if ((setting.proxyType == Proxy.Type.HTTP || setting.proxyType == Proxy.Type.SOCKS)
-                && !TextUtils.isEmpty(setting.proxyHost) && !TextUtils.isEmpty(setting.proxyPort)
-            ) {
+            if ((setting.proxyType == Proxy.Type.HTTP || setting.proxyType == Proxy.Type.SOCKS) && !TextUtils.isEmpty(setting.proxyHost) && !TextUtils.isEmpty(setting.proxyPort)) {
                 //代理服务器的IP和端口号
                 Log.d(TAG, "proxyHost = ${setting.proxyHost}, proxyPort = ${setting.proxyPort}")
                 val proxyHost = if (NetworkUtils.isIP(setting.proxyHost)) setting.proxyHost else NetworkUtils.getDomainAddress(setting.proxyHost)
@@ -72,18 +69,14 @@ class DingtalkInnerRobotUtils private constructor() {
                 request.okproxy(Proxy(setting.proxyType, InetSocketAddress(proxyHost, proxyPort)))
 
                 //代理的鉴权账号密码
-                if (setting.proxyAuthenticator == true
-                    && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))
-                ) {
+                if (setting.proxyAuthenticator == true && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))) {
                     Log.i(TAG, "proxyUsername = ${setting.proxyUsername}, proxyPassword = ${setting.proxyPassword}")
 
                     if (setting.proxyType == Proxy.Type.HTTP) {
                         request.okproxyAuthenticator { _: Route?, response: Response ->
                             //设置代理服务器账号密码
                             val credential = Credentials.basic(setting.proxyUsername.toString(), setting.proxyPassword.toString())
-                            response.request().newBuilder()
-                                .header("Proxy-Authorization", credential)
-                                .build()
+                            response.request().newBuilder().header("Proxy-Authorization", credential).build()
                         }
                     } else {
                         Authenticator.setDefault(object : Authenticator() {
@@ -95,13 +88,8 @@ class DingtalkInnerRobotUtils private constructor() {
                 }
             }
 
-            request.upJson(requestMsg)
-                .keepJson(true)
-                .ignoreHttpsCert()
-                .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
-                .cacheMode(CacheMode.NO_CACHE)
-                .timeStamp(true)
-                .execute(object : SimpleCallBack<String>() {
+            request.upJson(requestMsg).keepJson(true).ignoreHttpsCert().timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
+                .cacheMode(CacheMode.NO_CACHE).timeStamp(true).execute(object : SimpleCallBack<String>() {
 
                     override fun onError(e: ApiException) {
                         Log.e(TAG, e.detailMessage)
@@ -113,8 +101,8 @@ class DingtalkInnerRobotUtils private constructor() {
 
                         val resp = Gson().fromJson(response, DingtalkInnerRobotResult::class.java)
                         if (!TextUtils.isEmpty(resp?.accessToken)) {
-                            MMKVUtils.put("accessToken_" + setting.agentID, resp.accessToken)
-                            MMKVUtils.put("expiresIn_" + setting.agentID, System.currentTimeMillis() + ((resp.expireIn ?: 7200) - 120) * 1000L) //提前2分钟过期
+                            accessToken = resp.accessToken.toString()
+                            expiresIn = System.currentTimeMillis() + ((resp.expireIn ?: 7200) - 120) * 1000L //提前2分钟过期
                             sendTextMsg(setting, msgInfo, rule, logId)
                         } else {
                             SendUtils.updateLogs(logId, 0, String.format(getString(R.string.request_failed_tips), response))
@@ -165,9 +153,7 @@ class DingtalkInnerRobotUtils private constructor() {
             val request = XHttp.post(requestUrl)
 
             //设置代理
-            if ((setting.proxyType == Proxy.Type.HTTP || setting.proxyType == Proxy.Type.SOCKS)
-                && !TextUtils.isEmpty(setting.proxyHost) && !TextUtils.isEmpty(setting.proxyPort)
-            ) {
+            if ((setting.proxyType == Proxy.Type.HTTP || setting.proxyType == Proxy.Type.SOCKS) && !TextUtils.isEmpty(setting.proxyHost) && !TextUtils.isEmpty(setting.proxyPort)) {
                 //代理服务器的IP和端口号
                 Log.d(TAG, "proxyHost = ${setting.proxyHost}, proxyPort = ${setting.proxyPort}")
                 val proxyHost = if (NetworkUtils.isIP(setting.proxyHost)) setting.proxyHost else NetworkUtils.getDomainAddress(setting.proxyHost)
@@ -180,18 +166,14 @@ class DingtalkInnerRobotUtils private constructor() {
                 request.okproxy(Proxy(setting.proxyType, InetSocketAddress(proxyHost, proxyPort)))
 
                 //代理的鉴权账号密码
-                if (setting.proxyAuthenticator == true
-                    && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))
-                ) {
+                if (setting.proxyAuthenticator == true && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))) {
                     Log.i(TAG, "proxyUsername = ${setting.proxyUsername}, proxyPassword = ${setting.proxyPassword}")
 
                     if (setting.proxyType == Proxy.Type.HTTP) {
                         request.okproxyAuthenticator { _: Route?, response: Response ->
                             //设置代理服务器账号密码
                             val credential = Credentials.basic(setting.proxyUsername.toString(), setting.proxyPassword.toString())
-                            response.request().newBuilder()
-                                .header("Proxy-Authorization", credential)
-                                .build()
+                            response.request().newBuilder().header("Proxy-Authorization", credential).build()
                         }
                     } else {
                         Authenticator.setDefault(object : Authenticator() {
@@ -203,17 +185,15 @@ class DingtalkInnerRobotUtils private constructor() {
                 }
             }
 
-            request.upJson(requestMsg)
-                .headers("x-acs-dingtalk-access-token", MMKVUtils.getString("accessToken_" + setting.agentID, ""))
+            val accessToken: String by SharedPreference("accessToken_" + setting.agentID, "")
+            request.upJson(requestMsg).headers("x-acs-dingtalk-access-token", accessToken)
                 .keepJson(true)
                 .ignoreHttpsCert()
                 .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
-                .cacheMode(CacheMode.NO_CACHE)
-                .retryCount(SettingUtils.requestRetryTimes) //超时重试的次数
+                .cacheMode(CacheMode.NO_CACHE).retryCount(SettingUtils.requestRetryTimes) //超时重试的次数
                 .retryDelay(SettingUtils.requestDelayTime) //超时重试的延迟时间
                 .retryIncreaseDelay(SettingUtils.requestDelayTime) //超时重试叠加延时
-                .timeStamp(true)
-                .execute(object : SimpleCallBack<String>() {
+                .timeStamp(true).execute(object : SimpleCallBack<String>() {
 
                     override fun onError(e: ApiException) {
                         Log.e(TAG, e.detailMessage)

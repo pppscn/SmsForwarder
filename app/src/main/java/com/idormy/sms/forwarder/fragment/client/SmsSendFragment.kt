@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.fragment.client
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -46,6 +47,7 @@ class SmsSendFragment : BaseFragment<FragmentClientSmsSendBinding?>(), View.OnCl
     /**
      * 初始化控件
      */
+    @SuppressLint("SetTextI18n")
     override fun initViews() {
         //发送按钮增加倒计时，避免重复点击
         mCountDownHelper = CountDownButtonHelper(binding!!.btnSubmit, SettingUtils.requestTimeout)
@@ -90,7 +92,7 @@ class SmsSendFragment : BaseFragment<FragmentClientSmsSendBinding?>(), View.OnCl
                 msgMap["timestamp"] = timestamp
                 val clientSignKey = HttpServerUtils.clientSignKey
                 if (!TextUtils.isEmpty(clientSignKey)) {
-                    msgMap["sign"] = HttpServerUtils.calcSign(timestamp.toString(), clientSignKey.toString())
+                    msgMap["sign"] = HttpServerUtils.calcSign(timestamp.toString(), clientSignKey)
                 }
 
                 val phoneNumbers = binding!!.etPhoneNumbers.text.toString()
@@ -124,7 +126,7 @@ class SmsSendFragment : BaseFragment<FragmentClientSmsSendBinding?>(), View.OnCl
 
                 when (HttpServerUtils.clientSafetyMeasures) {
                     2 -> {
-                        val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
+                        val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey)
                         try {
                             requestMsg = Base64.encode(requestMsg.toByteArray())
                             requestMsg = RSACrypt.encryptByPublicKey(requestMsg, publicKey)
@@ -138,7 +140,7 @@ class SmsSendFragment : BaseFragment<FragmentClientSmsSendBinding?>(), View.OnCl
                     }
                     3 -> {
                         try {
-                            val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey.toString())
+                            val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
                             //requestMsg = Base64.encode(requestMsg.toByteArray())
                             val encryptCBC = SM4Crypt.encrypt(requestMsg.toByteArray(), sm4Key)
                             requestMsg = ConvertTools.bytes2HexString(encryptCBC)
@@ -167,11 +169,11 @@ class SmsSendFragment : BaseFragment<FragmentClientSmsSendBinding?>(), View.OnCl
                         try {
                             var json = response
                             if (HttpServerUtils.clientSafetyMeasures == 2) {
-                                val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
+                                val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey)
                                 json = RSACrypt.decryptByPublicKey(json, publicKey)
                                 json = String(Base64.decode(json))
                             } else if (HttpServerUtils.clientSafetyMeasures == 3) {
-                                val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey.toString())
+                                val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
                                 val encryptCBC = ConvertTools.hexStringToByteArray(json)
                                 val decryptCBC = SM4Crypt.decrypt(encryptCBC, sm4Key)
                                 json = String(decryptCBC)
