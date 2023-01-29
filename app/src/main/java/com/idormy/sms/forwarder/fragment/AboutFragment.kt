@@ -91,21 +91,6 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
         binding!!.btnGitee.setOnClickListener {
             AgentWebActivity.goWeb(context, getString(R.string.url_project_gitee))
         }
-        binding!!.btnAddQqGroup1.setOnClickListener {
-            AgentWebActivity.goWeb(context, getString(R.string.url_add_qq_group_1))
-        }
-        binding!!.btnAddQqGroup2.setOnClickListener {
-            AgentWebActivity.goWeb(context, getString(R.string.url_add_qq_group_2))
-        }
-        binding!!.btnAddQqGroup3.setOnClickListener {
-            AgentWebActivity.goWeb(context, getString(R.string.url_add_qq_group_3))
-        }
-        binding!!.btnAddQqGroup4.setOnClickListener {
-            AgentWebActivity.goWeb(context, getString(R.string.url_add_qq_group_4))
-        }
-        binding!!.btnAddQqGroup5.setOnClickListener {
-            AgentWebActivity.goWeb(context, getString(R.string.url_add_qq_group_5))
-        }
 
         binding!!.menuWechatMiniprogram.setOnSuperTextViewClickListener(this)
         binding!!.menuDonation.setOnSuperTextViewClickListener(this)

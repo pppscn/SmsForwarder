@@ -37,21 +37,10 @@
     <string name="about_item_add_dingtalk_group">DingTalk Group</string>
     <string name="about_item_add_wework_group">Wework Group</string>
     <string name="about_item_add_qq_channel">QQ Channel</string>
-    <string name="about_item_add_qq_group">QQ Group</string>
-    <string name="about_item_add_qq_group_1">①</string>
-    <string name="about_item_add_qq_group_2">②</string>
-    <string name="about_item_add_qq_group_3">③</string>
-    <string name="about_item_add_qq_group_4">④</string>
-    <string name="about_item_add_qq_group_5">⑤</string>
     <string name="url_project_github">https://github.com/pppscn/SmsForwarder</string>
     <string name="url_project_gitee">https://gitee.com/pp/SmsForwarder</string>
     <string name="url_help">https://gitee.com/pp/SmsForwarder/wikis/pages</string>
     <string name="url_donation_link">https://gitee.com/pp/SmsForwarder.wiki/raw/master/%E6%89%93%E8%B5%8F%E5%90%8D%E5%8D%95.md</string>
-    <string name="url_add_qq_group_1">http://qm.qq.com/cgi-bin/qm/qr?k=Mj5m39bqy6eodOImrFLI19Tdeqvv-9zf</string>
-    <string name="url_add_qq_group_2">http://qm.qq.com/cgi-bin/qm/qr?k=jPXy4YaUzA7Uo0yPPbZXdkb66NS1smU_</string>
-    <string name="url_add_qq_group_3">https://qm.qq.com/cgi-bin/qm/qr?k=itGVH4lB-HLGyJGTfP_5rjyCQj6kgIBt</string>
-    <string name="url_add_qq_group_4">https://qm.qq.com/cgi-bin/qm/qr?k=83fYtikg2ARpUECsgJv9CcWTKQB74REK</string>
-    <string name="url_add_qq_group_5">https://qm.qq.com/cgi-bin/qm/qr?k=CcamLcA-QVN-KqCDjeMZqdTx8IGlJrVx</string>
     <string name="url_dingtalk_group">https://gitee.com/pp/SmsForwarder/raw/main/pic/dingtalk.png</string>
     <string name="url_wework_group">https://gitee.com/pp/SmsForwarder/raw/main/pic/qywechat.png</string>
     <string name="url_qq_channel">https://qun.qq.com/qqweb/qunpro/share?_wv=3&amp;_wwv=128&amp;appChannel=share&amp;inviteCode=1W5aewP&amp;appChannel=share&amp;businessType=9&amp;from=246610&amp;biz=ka</string>
