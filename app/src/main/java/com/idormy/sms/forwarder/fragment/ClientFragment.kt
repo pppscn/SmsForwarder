@@ -38,7 +38,6 @@ import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.data.ConvertTools
 
-
 @Suppress("PrivatePropertyName", "PropertyName")
 @Page(name = "主动控制·客户端")
 class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListener, RecyclerViewHolder.OnItemClickListener<PageInfo> {
@@ -88,7 +87,12 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                 override fun performAction(view: View) {
                     XToastUtils.success(getString(R.string.exit_pure_client_mode))
                     SettingUtils.enablePureClientMode = false
-                    XUtil.exitApp()
+                    try {
+                        Thread.sleep(500) //延迟500毫秒，避免退出时enablePureClientMode还没保存
+                        XUtil.exitApp()
+                    } catch (e: InterruptedException) {
+                        e.printStackTrace()
+                    }
                 }
             })
         } else {
@@ -290,9 +294,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
         var requestMsg: String = Gson().toJson(msgMap)
         Log.i(TAG, "requestMsg:$requestMsg")
 
-        val postRequest = XHttp.post(requestUrl)
-            .keepJson(true)
-            .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
+        val postRequest = XHttp.post(requestUrl).keepJson(true).timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
             .cacheMode(CacheMode.NO_CACHE).timeStamp(true)
 
         when (HttpServerUtils.clientSafetyMeasures) {

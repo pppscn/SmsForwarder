@@ -25,7 +25,7 @@ class HttpServerUtils private constructor() {
     companion object {
 
         //是否启用HttpServer开机自启
-        var enableServerAutorun: Boolean by SharedPreference(SP_ENABLE_SERVER_AUTORUN, true)
+        var enableServerAutorun: Boolean by SharedPreference(SP_ENABLE_SERVER_AUTORUN, false)
 
         //服务端签名密钥
         var serverSignKey: String by SharedPreference(SP_SERVER_SIGN_KEY, "")
@@ -49,7 +49,7 @@ class HttpServerUtils private constructor() {
         var serverWebPath: String by SharedPreference(SP_SERVER_WEB_PATH, "")
 
         //服务地址
-        var serverAddress: String by SharedPreference(SP_SERVER_ADDRESS, "")
+        var serverAddress: String by SharedPreference(SP_SERVER_ADDRESS, "http://127.0.0.1:5000")
 
         //服务地址历史记录
         var serverHistory: String by SharedPreference(SP_SERVER_HISTORY, "")
