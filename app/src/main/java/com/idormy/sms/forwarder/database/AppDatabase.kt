@@ -7,7 +7,6 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.idormy.sms.forwarder.BuildConfig
 import com.idormy.sms.forwarder.database.dao.FrpcDao
 import com.idormy.sms.forwarder.database.dao.LogsDao
 import com.idormy.sms.forwarder.database.dao.RuleDao
@@ -18,7 +17,6 @@ import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.database.entity.Sender
 import com.idormy.sms.forwarder.database.ext.Converters
 import com.idormy.sms.forwarder.utils.DATABASE_NAME
-import java.util.concurrent.Executors
 
 @Database(
     entities = [Frpc::class, Logs::class, Rule::class, Sender::class],
@@ -99,11 +97,11 @@ custom_domains = smsf.demo.com
                     MIGRATION_9_10,
                 )
 
-            if (BuildConfig.DEBUG) {
+            /*if (BuildConfig.DEBUG) {
                 builder.setQueryCallback({ sqlQuery, bindArgs ->
                     println("SQL_QUERY: $sqlQuery\nBIND_ARGS: $bindArgs")
                 }, Executors.newSingleThreadExecutor())
-            }
+            }*/
 
             return builder.build()
         }

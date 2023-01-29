@@ -184,11 +184,11 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation deps.espresso.core
 
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation "androidx.activity:activity-ktx:1.5.1"
-    implementation "androidx.fragment:fragment-ktx:1.5.4"
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.activity:activity-ktx:1.6.1'
+    implementation 'androidx.fragment:fragment-ktx:1.5.5'
     implementation "androidx.cardview:cardview:1.0.0"
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'androidx.preference:preference-ktx:1.2.0'
 
     //分包
@@ -221,7 +221,7 @@ dependencies {
     api("androidx.work:work-runtime-ktx:2.7.1")
 
     //Android Room
-    def room_version = '2.4.3'
+    def room_version = '2.5.0'
     implementation "androidx.room:room-ktx:$room_version"
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-paging:$room_version"

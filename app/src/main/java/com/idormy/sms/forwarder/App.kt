@@ -104,10 +104,12 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
             //动态加载FrpcLib
             val libPath = filesDir.absolutePath + "/libs"
             val soFile = File(libPath)
-            try {
-                TinkerLoadLibrary.installNativeLibraryPath(classLoader, soFile)
-            } catch (throwable: Throwable) {
-                Log.e("APP", throwable.message.toString())
+            if (soFile.exists()) {
+                try {
+                    TinkerLoadLibrary.installNativeLibraryPath(classLoader, soFile)
+                } catch (throwable: Throwable) {
+                    Log.e("APP", throwable.message.toString())
+                }
             }
 
             //启动前台服务
@@ -145,7 +147,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
                         Log.d("GlobalScope", "UserAppList = $UserAppList")
                         Log.d("GlobalScope", "SystemAppList = $SystemAppList")
                     }.onFailure {
-                        Log.e("GlobalScope", it.message.toString())
+                        //Log.e("GlobalScope", it.message.toString())
                     }
                 }
             }
