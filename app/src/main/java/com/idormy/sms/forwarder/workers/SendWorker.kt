@@ -83,7 +83,7 @@ class SendWorker(
                 for (rule in ruleList) {
                     if (!rule.rule.checkMsg(msgInfo)) continue
                     val log = Logs(
-                        0, msgInfo.type, msgInfo.from, msgInfo.content, rule.rule.id, msgInfo.simInfo
+                        0, msgInfo.type, msgInfo.from, msgInfo.content, rule.rule.id, msgInfo.simInfo, msgInfo.subId
                     )
                     val logId = Core.logs.insert(log)
                     SendUtils.sendMsgSender(msgInfo, rule.rule, rule.sender, logId)

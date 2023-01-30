@@ -34,9 +34,6 @@ class SmsReceiver : BroadcastReceiver() {
             //过滤广播
             if (intent.action != Telephony.Sms.Intents.SMS_RECEIVED_ACTION && intent.action != Telephony.Sms.Intents.SMS_DELIVER_ACTION) return
 
-            //权限判断
-            //if (ActivityCompat.checkSelfPermission(context, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) return
-
             var from = ""
             var content = ""
             for (smsMessage in Telephony.Sms.Intents.getMessagesFromIntent(intent)) {
@@ -46,12 +43,6 @@ class SmsReceiver : BroadcastReceiver() {
             Log.d(TAG, "from = $from")
             Log.d(TAG, "content = $content")
 
-            //获取卡槽信息
-            if (App.SimInfoList.isEmpty()) {
-                App.SimInfoList = PhoneUtils.getSimMultiInfo()
-            }
-            Log.e(TAG, "SimInfoList = " + App.SimInfoList.toString())
-
             //TODO：准确获取卡槽信息，目前测试结果只有 subscription 相对靠谱
             val slot = intent.extras?.getInt("slot") ?: -1
             val simId = intent.extras?.getInt("simId") ?: slot
@@ -60,14 +51,26 @@ class SmsReceiver : BroadcastReceiver() {
 
             //卡槽id：-1=获取失败、0=卡槽1、1=卡槽2
             var simSlot = -1
-            if (App.SimInfoList.isNotEmpty()) {
-                for (simInfo in App.SimInfoList.values) {
-                    if (simInfo.mSubscriptionId == subscription) {
-                        simSlot = simInfo.mSimSlotIndex
-                        break
+            //以自定义卡槽信息优先
+            if (SettingUtils.subidSim1 > 0 || SettingUtils.subidSim2 > 0) {
+                simSlot = if (subscription == SettingUtils.subidSim1) 0 else 1
+            } else {
+                //获取卡槽信息
+                if (App.SimInfoList.isEmpty()) {
+                    App.SimInfoList = PhoneUtils.getSimMultiInfo()
+                }
+                Log.d(TAG, "SimInfoList = " + App.SimInfoList.toString())
+
+                if (App.SimInfoList.isNotEmpty()) {
+                    for (simInfo in App.SimInfoList.values) {
+                        if (simInfo.mSubscriptionId == subscription) {
+                            simSlot = simInfo.mSimSlotIndex
+                            break
+                        }
                     }
                 }
             }
+
             //获取卡槽信息
             val simInfo = when (simSlot) {
                 0 -> "SIM1_" + SettingUtils.extraSim1
@@ -75,16 +78,14 @@ class SmsReceiver : BroadcastReceiver() {
                 else -> ""
             }
 
-            val msgInfo = MsgInfo("sms", from, content, Date(), simInfo, simSlot)
+            val msgInfo = MsgInfo("sms", from, content, Date(), simInfo, simSlot, subscription)
             Log.d(TAG, "msgInfo = $msgInfo")
 
-            val request = OneTimeWorkRequestBuilder<SendWorker>()
-                .setInputData(
-                    workDataOf(
-                        Worker.sendMsgInfo to Gson().toJson(msgInfo)
-                    )
+            val request = OneTimeWorkRequestBuilder<SendWorker>().setInputData(
+                workDataOf(
+                    Worker.sendMsgInfo to Gson().toJson(msgInfo)
                 )
-                .build()
+            ).build()
             WorkManager.getInstance(context).enqueue(request)
 
         } catch (e: Exception) {

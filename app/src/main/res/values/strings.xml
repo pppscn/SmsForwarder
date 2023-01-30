@@ -335,9 +335,12 @@
     <!--SettingActivity-->
     <string name="notify_content">通知文案</string>
     <string name="device_name">设备名称</string>
-    <string name="sim1_remark" tools:ignore="Typos">SIM1备注</string>
-    <string name="sim2_remark" tools:ignore="Typos">SIM2备注</string>
-    <string name="carrier_mobile">运营商_手机号</string>
+    <string name="sim_sub_id">卡槽主键</string>
+    <string name="sim1_remark" tools:ignore="Typos">SIM1主键/备注</string>
+    <string name="sim2_remark" tools:ignore="Typos">SIM2主键/备注</string>
+    <string name="carrier_mobile">序号/运营商_手机号</string>
+    <string name="tip_number_only_error_message">数字必须大于0!</string>
+    <string name="regexp_number_only">^[1-9]?\\d+$</string>
     <string name="low_power_alarm_threshold">安全电量范围(%)</string>
     <string name="low_power_alarm_threshold_tips">超出安全范围将发出预警</string>
     <string name="retry_interval">请求重试机制</string>
@@ -544,6 +547,7 @@
     <string name="tag_app_name">{{APP名称}}</string>
     <string name="tag_msg">{{通知内容}}</string>
     <string name="tag_card_slot">{{卡槽信息}}</string>
+    <string name="tag_card_subid">{{卡槽主键}}</string>
     <string name="tag_receive_time">{{接收时间}}</string>
     <string name="tag_device_name">{{设备名称}}</string>
     <string name="tag_app_version">{{当前应用版本号}}</string>

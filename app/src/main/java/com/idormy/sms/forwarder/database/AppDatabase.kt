@@ -20,7 +20,7 @@ import com.idormy.sms.forwarder.utils.DATABASE_NAME
 
 @Database(
     entities = [Frpc::class, Logs::class, Rule::class, Sender::class],
-    version = 10,
+    version = 11,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -95,6 +95,7 @@ custom_domains = smsf.demo.com
                     MIGRATION_7_8,
                     MIGRATION_8_9,
                     MIGRATION_9_10,
+                    MIGRATION_10_11,
                 )
 
             /*if (BuildConfig.DEBUG) {
@@ -277,6 +278,12 @@ CREATE TABLE "Sender" (
             }
         }
 
+        //转发日志添加SIM卡槽ID
+        private val MIGRATION_10_11 = object : Migration(10, 11) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("Alter table Logs add column sub_id INTEGER NOT NULL DEFAULT 0 ")
+            }
+        }
     }
 
 }

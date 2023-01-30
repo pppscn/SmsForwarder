@@ -1110,12 +1110,30 @@
                         tools:ignore="SmallSp" />
                 </LinearLayout>
 
-                <com.xuexiang.xui.widget.edittext.ClearEditText
-                    android:id="@+id/et_extra_sim1"
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_subid_sim1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:hint="@string/sim_sub_id"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    app:met_allowEmpty="false"
+                    app:met_autoValidate="true"
+                    app:met_errorMessage="@string/tip_number_only_error_message"
+                    app:met_regexp="@string/regexp_number_only"
+                    app:met_validateOnFocusLost="true" />
+
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_extra_sim1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_weight="3"
+                    android:hint="@string/custom_settings_tips"
+                    android:singleLine="true"
+                    app:met_clearButton="true" />
 
                 <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
                     android:id="@+id/btn_extra_sim1"
@@ -1161,12 +1179,30 @@
                         tools:ignore="SmallSp" />
                 </LinearLayout>
 
-                <com.xuexiang.xui.widget.edittext.ClearEditText
-                    android:id="@+id/et_extra_sim2"
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_subid_sim2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:hint="@string/sim_sub_id"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    app:met_allowEmpty="false"
+                    app:met_autoValidate="true"
+                    app:met_errorMessage="@string/tip_number_only_error_message"
+                    app:met_regexp="@string/regexp_number_only"
+                    app:met_validateOnFocusLost="true" />
+
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_extra_sim2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_weight="3"
+                    android:hint="@string/custom_settings_tips"
+                    android:singleLine="true"
+                    app:met_clearButton="true" />
 
                 <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
                     android:id="@+id/btn_extra_sim2"

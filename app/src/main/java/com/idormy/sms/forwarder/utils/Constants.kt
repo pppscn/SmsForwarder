@@ -65,6 +65,8 @@ const val SP_REQUEST_TIMEOUT = "request_timeout"
 
 const val SP_NOTIFY_CONTENT = "notify_content"
 const val SP_EXTRA_DEVICE_MARK = "extra_device_mark"
+const val SP_SUBID_SIM1 = "subid_sim1"
+const val SP_SUBID_SIM2 = "subid_sim2"
 const val SP_EXTRA_SIM1 = "extra_sim1"
 const val SP_EXTRA_SIM2 = "extra_sim2"
 const val SP_ENABLE_SMS_TEMPLATE = "enable_sms_template"

@@ -144,8 +144,8 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
                     runCatching {
                         get.await()
                         Log.d("GlobalScope", "AppUtils.getAppsInfo() Done")
-                        Log.d("GlobalScope", "UserAppList = $UserAppList")
-                        Log.d("GlobalScope", "SystemAppList = $SystemAppList")
+                        //Log.d("GlobalScope", "UserAppList = $UserAppList")
+                        //Log.d("GlobalScope", "SystemAppList = $SystemAppList")
                     }.onFailure {
                         //Log.e("GlobalScope", it.message.toString())
                     }

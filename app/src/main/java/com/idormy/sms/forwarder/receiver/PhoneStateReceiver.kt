@@ -51,79 +51,82 @@ class PhoneStateReceiver : BroadcastReceiver() {
                 TelephonyManager.EXTRA_STATE_RINGING -> state = TelephonyManager.CALL_STATE_RINGING
             }
             Log.d(TAG, "state=$state, number=$number")
+            var callSavedNumber: String by SharedPreference("CALL_SAVED_NUMBER", "")
+            if (!TextUtils.isEmpty(number)) callSavedNumber = number.toString()
 
-            onCallStateChanged(context, state, number)
+            //Incoming call-  goes from IDLE to RINGING when it rings, to OFFHOOK when it's answered, to IDLE when its hung up
+            //Outgoing call-  goes from IDLE to OFFHOOK when it dials out, to IDLE when hung up
+            var lastState: Int by SharedPreference("CALL_LAST_STATE", TelephonyManager.CALL_STATE_IDLE)
+            if (lastState == state || (state == TelephonyManager.CALL_STATE_RINGING && number == null)) {
+                //No change, debounce extras
+                Log.d(TAG, "状态没变，防止抖动")
+                return
+            }
+
+            lastState = state
+            var callIsIncoming: Boolean by SharedPreference("CALL_IS_INCOMING", false)
+            Log.d(TAG, "lastState=$lastState, callIsIncoming=$callIsIncoming, callSavedNumber=$callSavedNumber")
+
+            when (state) {
+                TelephonyManager.CALL_STATE_RINGING -> {
+                    Log.d(TAG, "电话响铃")
+                    callIsIncoming = true
+
+                    //来电提醒
+                    if (!TextUtils.isEmpty(number) && SettingUtils.enableCallType4) {
+                        val contacts = PhoneUtils.getContactByNumber(number)
+                        val contactName = if (contacts.isNotEmpty()) contacts[0].name else getString(R.string.unknown_number)
+
+                        val sb = StringBuilder()
+                        sb.append(getString(R.string.linkman)).append(contactName).append("\n")
+                        sb.append(getString(R.string.mandatory_type))
+                        sb.append(getString(R.string.incoming_call))
+
+                        val msgInfo = MsgInfo("call", number.toString(), sb.toString(), Date(), "", -1)
+                        val request = OneTimeWorkRequestBuilder<SendWorker>().setInputData(
+                            workDataOf(
+                                Worker.sendMsgInfo to Gson().toJson(msgInfo)
+                            )
+                        ).build()
+                        WorkManager.getInstance(context).enqueue(request)
+                    }
+                }
+                TelephonyManager.CALL_STATE_OFFHOOK ->
+                    //Transition of ringing->offhook are pickups of incoming calls.  Nothing done on them
+                    callIsIncoming = when {
+                        lastState != TelephonyManager.CALL_STATE_RINGING -> {
+                            Log.d(TAG, "去电接通")
+                            if (!TextUtils.isEmpty(number)) callSavedNumber = number.toString()
+                            false
+                        }
+                        else -> {
+                            Log.d(TAG, "来电接通")
+                            true
+                        }
+                    }
+                TelephonyManager.CALL_STATE_IDLE ->
+                    //Went to idle-  this is the end of a call.  What type depends on previous state(s)
+                    when {
+                        lastState == TelephonyManager.CALL_STATE_RINGING -> {
+                            Log.d(TAG, "来电未接")
+                            sendReceiveCallMsg(context, 3, callSavedNumber)
+                            callSavedNumber = ""
+                        }
+                        callIsIncoming -> {
+                            Log.d(TAG, "来电挂机")
+                            sendReceiveCallMsg(context, 1, callSavedNumber)
+                            callSavedNumber = ""
+                        }
+                        else -> {
+                            Log.d(TAG, "去电挂机")
+                            sendReceiveCallMsg(context, 2, callSavedNumber)
+                            callSavedNumber = ""
+                        }
+                    }
+            }
 
         } catch (e: Exception) {
             Log.e(TAG, e.message.toString())
-        }
-    }
-
-    //Incoming call-  goes from IDLE to RINGING when it rings, to OFFHOOK when it's answered, to IDLE when its hung up
-    //Outgoing call-  goes from IDLE to OFFHOOK when it dials out, to IDLE when hung up
-    private fun onCallStateChanged(context: Context, state: Int, number: String?) {
-        var lastState: Int by SharedPreference("CALL_LAST_STATE", TelephonyManager.CALL_STATE_IDLE)
-        if (lastState == state || (state == TelephonyManager.CALL_STATE_RINGING && number == null)) {
-            //No change, debounce extras
-            return
-        }
-
-        lastState = state
-        var callIsIncoming: Boolean by SharedPreference("CALL_IS_INCOMING", false)
-        var callSavedNumber: String by SharedPreference("CALL_SAVED_NUMBER", "")
-        when (state) {
-            TelephonyManager.CALL_STATE_RINGING -> {
-                Log.d(TAG, "来电响铃")
-                callIsIncoming = true
-                callSavedNumber = number.toString()
-
-                //来电提醒
-                if (!TextUtils.isEmpty(number) && SettingUtils.enableCallType4) {
-                    val contacts = PhoneUtils.getContactByNumber(number)
-                    val contactName = if (contacts.isNotEmpty()) contacts[0].name else getString(R.string.unknown_number)
-
-                    val sb = StringBuilder()
-                    sb.append(getString(R.string.linkman)).append(contactName).append("\n")
-                    sb.append(getString(R.string.mandatory_type))
-                    sb.append(getString(R.string.incoming_call))
-
-                    val msgInfo = MsgInfo("call", number.toString(), sb.toString(), Date(), "", -1)
-                    val request = OneTimeWorkRequestBuilder<SendWorker>().setInputData(
-                        workDataOf(
-                            Worker.sendMsgInfo to Gson().toJson(msgInfo)
-                        )
-                    ).build()
-                    WorkManager.getInstance(context).enqueue(request)
-                }
-            }
-            TelephonyManager.CALL_STATE_OFFHOOK ->
-                //Transition of ringing->offhook are pickups of incoming calls.  Nothing done on them
-                callIsIncoming = when {
-                    lastState != TelephonyManager.CALL_STATE_RINGING -> {
-                        Log.d(TAG, "去电接通")
-                        false
-                    }
-                    else -> {
-                        Log.d(TAG, "来电接通")
-                        true
-                    }
-                }
-            TelephonyManager.CALL_STATE_IDLE ->
-                //Went to idle-  this is the end of a call.  What type depends on previous state(s)
-                when {
-                    lastState == TelephonyManager.CALL_STATE_RINGING -> {
-                        Log.d(TAG, "来电未接")
-                        sendReceiveCallMsg(context, 3, callSavedNumber)
-                    }
-                    callIsIncoming -> {
-                        Log.d(TAG, "来电挂机")
-                        sendReceiveCallMsg(context, 1, callSavedNumber)
-                    }
-                    else -> {
-                        Log.d(TAG, "去电挂机")
-                        sendReceiveCallMsg(context, 2, callSavedNumber)
-                    }
-                }
         }
     }
 
@@ -158,7 +161,7 @@ class PhoneStateReceiver : BroadcastReceiver() {
         }
 
         val msgInfo = MsgInfo(
-            "call", callInfo.number, PhoneUtils.getCallMsg(callInfo), Date(), simInfo, simSlot
+            "call", callInfo.number, PhoneUtils.getCallMsg(callInfo), Date(), simInfo, simSlot, callInfo.subId
         )
         val request = OneTimeWorkRequestBuilder<SendWorker>().setInputData(
             workDataOf(

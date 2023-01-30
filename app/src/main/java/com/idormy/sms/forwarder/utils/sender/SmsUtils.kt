@@ -42,7 +42,7 @@ class SmsUtils {
             val content: String = if (rule != null) {
                 msgInfo.getContentForSend(rule.smsTemplate, rule.regexReplace)
             } else {
-                msgInfo.getContentForSend(SettingUtils.smsTemplate.toString())
+                msgInfo.getContentForSend(SettingUtils.smsTemplate)
             }
 
             //【注意】判断卡槽配置：0=原进原出、1=卡槽1、2=卡槽2

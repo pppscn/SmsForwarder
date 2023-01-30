@@ -23,6 +23,7 @@ data class MsgInfo(
     var date: Date,
     var simInfo: String,
     var simSlot: Int = -1, //卡槽id：-1=获取失败、0=卡槽1、1=卡槽2
+    var subId: Int = 0, //卡槽主键
 ) : Serializable {
 
     val titleForSend: String
@@ -36,13 +37,14 @@ data class MsgInfo(
     fun getTitleForSend(titleTemplate: String, regexReplace: String): String {
         var template = titleTemplate.replace("null", "")
         if (TextUtils.isEmpty(template)) template = getString(R.string.tag_from)
-        val deviceMark = extraDeviceMark!!.trim()
+        val deviceMark = extraDeviceMark.trim()
         val versionName = AppUtils.getAppVersionName()
         val titleForSend: String = template.replace(getString(R.string.tag_from), from)
             .replace(getString(R.string.tag_package_name), from)
             .replace(getString(R.string.tag_sms), content)
             .replace(getString(R.string.tag_msg), content)
             .replace(getString(R.string.tag_card_slot), simInfo)
+            .replace(getString(R.string.tag_card_subid), subId.toString())
             .replace(getString(R.string.tag_title), simInfo)
             .replace(getString(R.string.tag_receive_time), SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date))
             .replace(getString(R.string.tag_device_name), deviceMark)
@@ -60,10 +62,11 @@ data class MsgInfo(
 
     @SuppressLint("SimpleDateFormat")
     fun getContentForSend(ruleSmsTemplate: String, regexReplace: String): String {
-        val deviceMark = extraDeviceMark!!.trim()
+        val deviceMark = extraDeviceMark.trim()
         var customSmsTemplate: String = getString(R.string.tag_from).toString() + "\n" +
                 getString(R.string.tag_sms) + "\n" +
                 getString(R.string.tag_card_slot) + "\n" +
+                "SubId：" + getString(R.string.tag_card_subid) + "\n" +
                 getString(R.string.tag_receive_time) + "\n" +
                 getString(R.string.tag_device_name)
 
@@ -72,7 +75,7 @@ data class MsgInfo(
             customSmsTemplate = ruleSmsTemplate.replace("null", "")
         } else {
             val switchSmsTemplate = enableSmsTemplate
-            val smsTemplate = smsTemplate.toString().trim()
+            val smsTemplate = smsTemplate.trim()
             if (switchSmsTemplate && smsTemplate.isNotEmpty()) {
                 customSmsTemplate = smsTemplate.replace("null", "")
             }
@@ -83,6 +86,7 @@ data class MsgInfo(
             .replace(getString(R.string.tag_sms), content)
             .replace(getString(R.string.tag_msg), content)
             .replace(getString(R.string.tag_card_slot), simInfo)
+            .replace(getString(R.string.tag_card_subid), subId.toString())
             .replace(getString(R.string.tag_title), simInfo)
             .replace(getString(R.string.tag_receive_time), SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date))
             .replace(getString(R.string.tag_device_name), deviceMark)

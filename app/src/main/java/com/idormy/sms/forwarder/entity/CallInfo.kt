@@ -21,6 +21,9 @@ data class CallInfo(
     //卡槽ID： 0=Sim1, 1=Sim2, -1=获取失败
     @SerializedName("sim_id")
     var simId: Int = -1,
+    //卡槽主键
+    @SerializedName("sub_id")
+    var subId: Int = 0,
 ) : Serializable {
 
     val typeImageId: Int

@@ -45,14 +45,11 @@ class PhoneUtils private constructor() {
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
                     println("1.版本超过5.1，调用系统方法")
-                    val mSubscriptionManager = XUtil.getContext()
-                        .getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
+                    val mSubscriptionManager = XUtil.getContext().getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
                     ActivityCompat.checkSelfPermission(
-                        XUtil.getContext(),
-                        permission.READ_PHONE_STATE
+                        XUtil.getContext(), permission.READ_PHONE_STATE
                     )
-                    val activeSubscriptionInfoList: List<SubscriptionInfo>? =
-                        mSubscriptionManager.activeSubscriptionInfoList
+                    val activeSubscriptionInfoList: List<SubscriptionInfo>? = mSubscriptionManager.activeSubscriptionInfoList
                     if (activeSubscriptionInfoList != null && activeSubscriptionInfoList.isNotEmpty()) {
                         //1.1.1 有使用的卡，就遍历所有卡
                         for (subscriptionInfo in activeSubscriptionInfoList) {
@@ -72,30 +69,14 @@ class PhoneUtils private constructor() {
                     val uri = Uri.parse("content://telephony/siminfo") //访问raw_contacts表
                     val resolver: ContentResolver = XUtil.getContext().contentResolver
                     val cursor = resolver.query(
-                        uri,
-                        arrayOf(
-                            "_id",
-                            "icc_id",
-                            "sim_id",
-                            "display_name",
-                            "carrier_name",
-                            "name_source",
-                            "color",
-                            "number",
-                            "display_number_format",
-                            "data_roaming",
-                            "mcc",
-                            "mnc"
-                        ),
-                        null,
-                        null,
-                        null
+                        uri, arrayOf(
+                            "_id", "icc_id", "sim_id", "display_name", "carrier_name", "name_source", "color", "number", "display_number_format", "data_roaming", "mcc", "mnc"
+                        ), null, null, null
                     )
                     if (cursor != null && cursor.moveToFirst()) {
                         do {
                             val simInfo = SimInfo()
-                            simInfo.mCarrierName =
-                                cursor.getString(cursor.getColumnIndex("carrier_name"))
+                            simInfo.mCarrierName = cursor.getString(cursor.getColumnIndex("carrier_name"))
                             simInfo.mIccId = cursor.getString(cursor.getColumnIndex("icc_id"))
                             simInfo.mSimSlotIndex = cursor.getInt(cursor.getColumnIndex("sim_id"))
                             simInfo.mNumber = cursor.getString(cursor.getColumnIndex("number"))
@@ -141,15 +122,12 @@ class PhoneUtils private constructor() {
             val mobileArray = mobiles.split(";".toRegex()).toTypedArray()
             for (mobile in mobileArray) {
                 try {
-                    val sendFlags =
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_ONE_SHOT
-                    val sendPI =
-                        PendingIntent.getBroadcast(XUtil.getContext(), 0, Intent(), sendFlags)
+                    val sendFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_ONE_SHOT
+                    val sendPI = PendingIntent.getBroadcast(XUtil.getContext(), 0, Intent(), sendFlags)
 
-                    val smsManager =
-                        if (subId > -1 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) SmsManager.getSmsManagerForSubscriptionId(
-                            subId
-                        ) else SmsManager.getDefault()
+                    val smsManager = if (subId > -1 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) SmsManager.getSmsManagerForSubscriptionId(
+                        subId
+                    ) else SmsManager.getDefault()
                     // Android 5.1.1 以下使用反射指定卡槽
                     if (subId > -1 && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
                         Log.d(TAG, "Android 5.1.1 以下使用反射指定卡槽")
@@ -161,13 +139,9 @@ class PhoneUtils private constructor() {
 
                     // 切割长短信
                     if (message.length >= 70) {
-                        val deliverFlags =
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) PendingIntent.FLAG_IMMUTABLE else 0
+                        val deliverFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) PendingIntent.FLAG_IMMUTABLE else 0
                         val deliverPI = PendingIntent.getBroadcast(
-                            XUtil.getContext(),
-                            0,
-                            Intent("DELIVERED_SMS_ACTION"),
-                            deliverFlags
+                            XUtil.getContext(), 0, Intent("DELIVERED_SMS_ACTION"), deliverFlags
                         )
 
                         val sentPendingIntents = ArrayList<PendingIntent>()
@@ -179,11 +153,7 @@ class PhoneUtils private constructor() {
                             deliveredPendingIntents.add(i, deliverPI)
                         }
                         smsManager.sendMultipartTextMessage(
-                            mobile,
-                            null,
-                            divideContents,
-                            sentPendingIntents,
-                            deliveredPendingIntents
+                            mobile, null, divideContents, sentPendingIntents, deliveredPendingIntents
                         )
                     } else {
                         smsManager.sendTextMessage(mobile, null, message, sendPI, null)
@@ -199,10 +169,7 @@ class PhoneUtils private constructor() {
 
         //获取通话记录列表
         fun getCallInfoList(
-            type: Int,
-            limit: Int,
-            offset: Int,
-            phoneNumber: String?
+            type: Int, limit: Int, offset: Int, phoneNumber: String?
         ): MutableList<CallInfo> {
             val callInfoList: MutableList<CallInfo> = mutableListOf()
             try {
@@ -221,11 +188,7 @@ class PhoneUtils private constructor() {
 
                 //为了兼容性这里全部取出后手动分页
                 val cursor = Core.app.contentResolver.query(
-                    CallLog.Calls.CONTENT_URI,
-                    null,
-                    selection,
-                    selectionArgs.toTypedArray(),
-                    CallLog.Calls.DEFAULT_SORT_ORDER // + " limit $limit offset $offset"
+                    CallLog.Calls.CONTENT_URI, null, selection, selectionArgs.toTypedArray(), CallLog.Calls.DEFAULT_SORT_ORDER // + " limit $limit offset $offset"
                 ) ?: return callInfoList
                 Log.i(TAG, "cursor count:" + cursor.count)
 
@@ -242,20 +205,26 @@ class PhoneUtils private constructor() {
                     val indexDate = cursor.getColumnIndex(CallLog.Calls.DATE)
                     val indexDuration = cursor.getColumnIndex(CallLog.Calls.DURATION)
                     val indexType = cursor.getColumnIndex(CallLog.Calls.TYPE)
-                    val indexViaNumber =
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && cursor.getColumnIndex(
-                                "via_number"
-                            ) != -1
-                        ) cursor.getColumnIndex("via_number") else -1
-                    //TODO:卡槽识别，这里需要适配机型
+                    val indexViaNumber = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && cursor.getColumnIndex("via_number") != -1) cursor.getColumnIndex("via_number") else -1
+                    var indexSimId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID) else -1
+                    var indexSubId = indexSimId
+
+                    /**
+                     * TODO:卡槽识别，这里需要适配机型
+                     * MIUI系统：simid 字段实际为 subscription_id
+                     * EMUI系统：subscription_id 实际为 sim_id
+                     */
                     var isSimId = false
-                    var indexSimId = -1
-                    if (cursor.getColumnIndex("simid") != -1) { //MIUI系统必须用这个字段
-                        indexSimId = cursor.getColumnIndex("simid")
+                    val manufacturer = Build.MANUFACTURER.lowercase(Locale.getDefault())
+                    Log.i(TAG, "manufacturer = $manufacturer")
+                    if (manufacturer.contains(Regex(pattern = "xiaomi|redmi"))) {
+                        if (cursor.getColumnIndex("simid") != -1) indexSimId = cursor.getColumnIndex("simid")
+                        indexSubId = indexSimId
+                    } else if (manufacturer.contains(Regex(pattern = "huawei|honor"))) {
+                        indexSubId = -1 //TODO:暂时不支持华为
                         isSimId = true
-                    } else if (cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID) != -1) {
-                        indexSimId = cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID)
                     }
+
                     var curOffset = 0
                     do {
                         if (curOffset >= offset) {
@@ -266,10 +235,8 @@ class PhoneUtils private constructor() {
                                 cursor.getInt(indexDuration),  //获取通话时长，值为多少秒
                                 cursor.getInt(indexType),  //获取通话类型：1.呼入 2.呼出 3.未接
                                 if (indexViaNumber != -1) cursor.getString(indexViaNumber) else "",  //来源号码
-                                if (indexSimId != -1) getSimId(
-                                    cursor.getInt(indexSimId),
-                                    isSimId
-                                ) else -1 //卡槽id
+                                if (indexSimId != -1) getSimId(cursor.getInt(indexSimId), isSimId) else -1,  //卡槽ID： 0=Sim1, 1=Sim2, -1=获取失败
+                                if (indexSubId != -1) cursor.getInt(indexSubId) else 0,  //卡槽主键
                             )
                             Log.d(TAG, callInfo.toString())
                             callInfoList.add(callInfo)
@@ -300,10 +267,7 @@ class PhoneUtils private constructor() {
 
         //获取联系人列表
         fun getContactInfoList(
-            limit: Int,
-            offset: Int,
-            phoneNumber: String?,
-            name: String?
+            limit: Int, offset: Int, phoneNumber: String?, name: String?
         ): MutableList<ContactInfo> {
             val contactInfoList: MutableList<ContactInfo> = mutableListOf()
 
@@ -322,11 +286,7 @@ class PhoneUtils private constructor() {
                 Log.d(TAG, "selectionArgs = $selectionArgs")
 
                 val cursor = Core.app.contentResolver.query(
-                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                    null,
-                    selection,
-                    selectionArgs.toTypedArray(),
-                    ContactsContract.CommonDataKinds.Phone.SORT_KEY_PRIMARY
+                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, selection, selectionArgs.toTypedArray(), ContactsContract.CommonDataKinds.Phone.SORT_KEY_PRIMARY
                 ) ?: return contactInfoList
                 Log.i(TAG, "cursor count:" + cursor.count)
 
@@ -337,10 +297,8 @@ class PhoneUtils private constructor() {
                 }
 
                 if (cursor.moveToFirst()) {
-                    val displayNameIndex =
-                        cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
-                    val mobileNoIndex =
-                        cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
+                    val displayNameIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
+                    val mobileNoIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
                     do {
                         val contactInfo = ContactInfo(
                             cursor.getString(displayNameIndex),  //姓名
@@ -373,12 +331,10 @@ class PhoneUtils private constructor() {
         fun getCallMsg(callInfo: CallInfo): String {
             val sb = StringBuilder()
             sb.append(ResUtils.getString(R.string.linkman)).append(callInfo.name).append("\n")
-            if (!TextUtils.isEmpty(callInfo.viaNumber)) sb.append(ResUtils.getString(R.string.via_number))
-                .append(callInfo.viaNumber).append("\n")
+            if (!TextUtils.isEmpty(callInfo.viaNumber)) sb.append(ResUtils.getString(R.string.via_number)).append(callInfo.viaNumber).append("\n")
             if (callInfo.dateLong > 0L) sb.append(ResUtils.getString(R.string.call_date)).append(
                 DateUtils.millis2String(
-                    callInfo.dateLong,
-                    SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                    callInfo.dateLong, SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
                 )
             ).append("\n")
             if (callInfo.duration > 0) {
@@ -402,10 +358,7 @@ class PhoneUtils private constructor() {
 
         // 获取用户短信列表
         fun getSmsInfoList(
-            type: Int,
-            limit: Int,
-            offset: Int,
-            keyword: String
+            type: Int, limit: Int, offset: Int, keyword: String
         ): MutableList<SmsInfo> {
             val smsInfoList: MutableList<SmsInfo> = mutableListOf()
             try {
@@ -424,11 +377,7 @@ class PhoneUtils private constructor() {
 
                 // 避免超过总数后循环取出
                 val cursorTotal = Core.app.contentResolver.query(
-                    Uri.parse("content://sms/"),
-                    null,
-                    selection,
-                    selectionArgs.toTypedArray(),
-                    "date desc"
+                    Uri.parse("content://sms/"), null, selection, selectionArgs.toTypedArray(), "date desc"
                 ) ?: return smsInfoList
                 if (offset >= cursorTotal.count) {
                     cursorTotal.close()
@@ -436,11 +385,7 @@ class PhoneUtils private constructor() {
                 }
 
                 val cursor = Core.app.contentResolver.query(
-                    Uri.parse("content://sms/"),
-                    null,
-                    selection,
-                    selectionArgs.toTypedArray(),
-                    "date desc limit $limit offset $offset"
+                    Uri.parse("content://sms/"), null, selection, selectionArgs.toTypedArray(), "date desc limit $limit offset $offset"
                 ) ?: return smsInfoList
 
                 Log.i(TAG, "cursor count:" + cursor.count)
@@ -455,22 +400,30 @@ class PhoneUtils private constructor() {
                     val indexBody = cursor.getColumnIndex("body")
                     val indexDate = cursor.getColumnIndex("date")
                     val indexType = cursor.getColumnIndex("type")
-                    //TODO:卡槽识别，这里需要适配机型
+                    var indexSimId = cursor.getColumnIndex("sim_id")
+                    var indexSubId = cursor.getColumnIndex("sub_id")
+
+                    /**
+                     * TODO:卡槽识别，这里需要适配机型
+                     * MIUI系统：sim_id 字段实际为 subscription_id
+                     * EMUI系统：sub_id 实际为 sim_id
+                     */
                     var isSimId = false
-                    var indexSimId = -1
-                    if (cursor.getColumnIndex("sim_id") != -1) { //MIUI系统必须用这个字段
-                        indexSimId = cursor.getColumnIndex("sim_id")
-                        isSimId = true
-                    } else if (cursor.getColumnIndex("sub_id") != -1) {
+                    val manufacturer = Build.MANUFACTURER.lowercase(Locale.getDefault())
+                    Log.i(TAG, "manufacturer = $manufacturer")
+                    if (manufacturer.contains(Regex(pattern = "xiaomi|redmi"))) {
+                        indexSubId = cursor.getColumnIndex("sim_id")
+                    } else if (manufacturer.contains(Regex(pattern = "huawei|honor"))) {
                         indexSimId = cursor.getColumnIndex("sub_id")
+                        isSimId = true
                     }
+
                     do {
                         val smsInfo = SmsInfo()
                         val phoneNumber = cursor.getString(indexAddress)
                         // 根据手机号码查询用户名
                         val contacts = getContactByNumber(phoneNumber)
-                        smsInfo.name =
-                            if (contacts.isNotEmpty()) contacts[0].name else ResUtils.getString(R.string.unknown_number)
+                        smsInfo.name = if (contacts.isNotEmpty()) contacts[0].name else ResUtils.getString(R.string.unknown_number)
                         // 联系人号码
                         smsInfo.number = phoneNumber
                         // 短信内容
@@ -479,11 +432,11 @@ class PhoneUtils private constructor() {
                         smsInfo.date = cursor.getLong(indexDate)
                         // 短信类型: 1=接收, 2=发送
                         smsInfo.type = cursor.getInt(indexType)
-                        // 卡槽id
-                        smsInfo.simId = if (indexSimId != -1) getSimId(
-                            cursor.getInt(indexSimId),
-                            isSimId
-                        ) else -1
+                        // 卡槽ID： 0=Sim1, 1=Sim2, -1=获取失败
+                        smsInfo.simId = if (indexSimId != -1) getSimId(cursor.getInt(indexSimId), isSimId) else -1
+                        // 卡槽主键
+                        smsInfo.subId = if (indexSubId != -1) cursor.getInt(indexSubId) else 0
+
                         smsInfoList.add(smsInfo)
                     } while (cursor.moveToNext())
 
@@ -527,37 +480,27 @@ class PhoneUtils private constructor() {
          */
         private fun getSimId(mId: Int, isSimId: Boolean): Int {
             Log.i(TAG, "mId = $mId, isSimId = $isSimId")
-            //if (isSimId) return mId
+            if (isSimId) return mId
 
-            /**
-             * TODO:特别处理
-             * MIUI系统：simId 字段实际为 subscription_id
-             * EMUI系统：subscription_id 实际为 simId
-             */
-            val manufacturer = Build.MANUFACTURER.lowercase(Locale.getDefault())
-            Log.i(TAG, "manufacturer = $manufacturer")
-            if (isSimId && !manufacturer.contains(Regex(pattern = "xiaomi|redmi"))) {
-                return mId
-            }
-            if (!isSimId && manufacturer.contains(Regex(pattern = "huawei|honor"))) {
-                return mId
-            }
-
-            //获取卡槽信息
-            if (App.SimInfoList.isEmpty()) {
-                App.SimInfoList = getSimMultiInfo()
-            }
-            Log.i(TAG, "SimInfoList = " + App.SimInfoList.toString())
-
-            val simSlot = -1
-            if (App.SimInfoList.isEmpty()) return simSlot
-            for (simInfo in App.SimInfoList.values) {
-                if (simInfo.mSubscriptionId == mId && simInfo.mSimSlotIndex != -1) {
-                    Log.i(TAG, "simInfo = $simInfo")
-                    return simInfo.mSimSlotIndex
+            if (SettingUtils.subidSim1 > 0 || SettingUtils.subidSim2 > 0) {
+                return if (mId == SettingUtils.subidSim1) 0 else 1
+            } else {
+                //获取卡槽信息
+                if (App.SimInfoList.isEmpty()) {
+                    App.SimInfoList = getSimMultiInfo()
                 }
+                Log.i(TAG, "SimInfoList = " + App.SimInfoList.toString())
+
+                val simSlot = -1
+                if (App.SimInfoList.isEmpty()) return simSlot
+                for (simInfo in App.SimInfoList.values) {
+                    if (simInfo.mSubscriptionId == mId && simInfo.mSimSlotIndex != -1) {
+                        Log.i(TAG, "simInfo = $simInfo")
+                        return simInfo.mSimSlotIndex
+                    }
+                }
+                return simSlot
             }
-            return simSlot
         }
 
     }

@@ -334,9 +334,12 @@
     <!--SettingActivity-->
     <string name="notify_content">Notify Content</string>
     <string name="device_name">Device Name</string>
-    <string name="sim1_remark" tools:ignore="Typos">SIM1 Label</string>
-    <string name="sim2_remark" tools:ignore="Typos">SIM2 Label</string>
+    <string name="sim_sub_id">SIM1 SubId</string>
+    <string name="sim1_remark" tools:ignore="Typos">SIM1 SubId/Label</string>
+    <string name="sim2_remark" tools:ignore="Typos">SIM2 SubId/Label</string>
     <string name="carrier_mobile" tools:ignore="Typos">Label of SIM,\neg. AT&amp;T_88888888</string>
+    <string name="tip_number_only_error_message">Number must be greater than 0!</string>
+    <string name="regexp_number_only">^[1-9]?\\d+$</string>
     <string name="low_power_alarm_threshold">Low Power Alarm</string>
     <string name="low_power_alarm_threshold_tips">Value range: 0–99.\nLeft blank or 0 is disabled</string>
     <string name="retry_interval">Retry Interval</string>
@@ -543,6 +546,7 @@
     <string name="tag_app_name">{{APP_NAME}}</string>
     <string name="tag_msg">{{MSG}}</string>
     <string name="tag_card_slot">{{CARD_SLOT}}</string>
+    <string name="tag_card_subid">{{CARD_SUBID}}</string>
     <string name="tag_receive_time">{{RECEIVE_TIME}}</string>
     <string name="tag_device_name">{{DEVICE_NAME}}</string>
     <string name="tag_app_version">{{APP_VERSION}}</string>

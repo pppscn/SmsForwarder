@@ -114,6 +114,12 @@ class SettingUtils private constructor() {
         //设备名称
         var extraDeviceMark: String by SharedPreference(SP_EXTRA_DEVICE_MARK, "")
 
+        //SM1主键
+        var subidSim1: Int by SharedPreference(SP_SUBID_SIM1, 0)
+
+        //SM2主键
+        var subidSim2: Int by SharedPreference(SP_SUBID_SIM2, 0)
+
         //SM1备注
         var extraSim1: String by SharedPreference(SP_EXTRA_SIM1, "")
 

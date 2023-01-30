@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
@@ -128,6 +129,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
         //设备备注
         editAddExtraDeviceMark(binding!!.etExtraDeviceMark)
+        //SIM1主键
+        editAddSubidSim1(binding!!.etSubidSim1)
+        //SIM2主键
+        editAddSubidSim2(binding!!.etSubidSim2)
         //SIM1备注
         editAddExtraSim1(binding!!.etExtraSim1)
         //SIM2备注
@@ -200,6 +205,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                     return
                 }
                 val simInfo: SimInfo? = App.SimInfoList[0]
+                binding!!.etSubidSim1.setText(simInfo?.mSubscriptionId.toString())
                 binding!!.etExtraSim1.setText(simInfo?.mCarrierName.toString() + "_" + simInfo?.mNumber.toString())
                 return
             }
@@ -222,6 +228,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                     return
                 }
                 val simInfo: SimInfo? = App.SimInfoList[1]
+                binding!!.etSubidSim2.setText(simInfo?.mSubscriptionId.toString())
                 binding!!.etExtraSim2.setText(simInfo?.mCarrierName.toString() + "_" + simInfo?.mNumber.toString())
                 return
             }
@@ -729,6 +736,40 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         })
     }
 
+    //设置SIM1主键
+    private fun editAddSubidSim1(etSubidSim1: EditText) {
+        etSubidSim1.setText(SettingUtils.subidSim1.toString())
+        etSubidSim1.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                val v = etSubidSim1.text.toString()
+                SettingUtils.subidSim1 = if (!TextUtils.isEmpty(v)) {
+                    v.toInt()
+                } else {
+                    1
+                }
+            }
+        })
+    }
+
+    //设置SIM2主键
+    private fun editAddSubidSim2(etSubidSim2: EditText) {
+        etSubidSim2.setText(SettingUtils.subidSim2.toString())
+        etSubidSim2.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                val v = etSubidSim2.text.toString()
+                SettingUtils.subidSim2 = if (!TextUtils.isEmpty(v)) {
+                    v.toInt()
+                } else {
+                    2
+                }
+            }
+        })
+    }
+
     //设置SIM1备注
     private fun editAddExtraSim1(etExtraSim1: EditText) {
         etExtraSim1.setText(SettingUtils.extraSim1)
@@ -783,6 +824,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                     ${getString(R.string.tag_from)}
                     ${getString(R.string.tag_sms)}
                     ${getString(R.string.tag_card_slot)}
+                    SubId：${getString(R.string.tag_card_subid)}
                     ${getString(R.string.tag_receive_time)}
                     ${getString(R.string.tag_device_name)}
                     """.trimIndent()

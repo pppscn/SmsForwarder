@@ -31,6 +31,7 @@ data class Logs(
     @ColumnInfo(name = "content", defaultValue = "") var content: String,
     @ColumnInfo(name = "rule_id", defaultValue = "0") var ruleId: Long = 0,
     @ColumnInfo(name = "sim_info", defaultValue = "") var simInfo: String = "",
+    @ColumnInfo(name = "sub_id", defaultValue = "0") var subId: Int = 0,
     @ColumnInfo(name = "forward_status", defaultValue = "1") var forwardStatus: Int = 1,
     @ColumnInfo(name = "forward_response", defaultValue = "") var forwardResponse: String = "",
     @ColumnInfo(name = "time") var time: Date = Date(),
