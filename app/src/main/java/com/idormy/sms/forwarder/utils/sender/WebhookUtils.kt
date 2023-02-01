@@ -38,7 +38,7 @@ class WebhookUtils {
             val content: String = if (rule != null) {
                 msgInfo.getContentForSend(rule.smsTemplate, rule.regexReplace)
             } else {
-                msgInfo.getContentForSend(SettingUtils.smsTemplate.toString())
+                msgInfo.getContentForSend(SettingUtils.smsTemplate)
             }
 
             var requestUrl: String = setting.webServer //推送地址
@@ -46,7 +46,7 @@ class WebhookUtils {
 
             val timestamp = System.currentTimeMillis()
             val orgContent: String = msgInfo.content
-            val deviceMark: String = SettingUtils.extraDeviceMark ?: ""
+            val deviceMark: String = SettingUtils.extraDeviceMark
             val appVersion: String = AppUtils.getAppVersionName()
             val simInfo: String = msgInfo.simInfo
             @SuppressLint("SimpleDateFormat") val receiveTime =

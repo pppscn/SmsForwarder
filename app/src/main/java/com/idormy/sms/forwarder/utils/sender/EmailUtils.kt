@@ -31,7 +31,7 @@ class EmailUtils {
             val message: String = if (rule != null) {
                 msgInfo.getContentForSend(rule.smsTemplate, rule.regexReplace)
             } else {
-                msgInfo.getContentForSend(SettingUtils.smsTemplate.toString())
+                msgInfo.getContentForSend(SettingUtils.smsTemplate)
             }
 
             //常用邮箱类型的转换

@@ -84,7 +84,7 @@ class FeishuAppUtils private constructor() {
             val content: String = if (rule != null) {
                 msgInfo.getContentForSend(rule.smsTemplate, rule.regexReplace)
             } else {
-                msgInfo.getContentForSend(SettingUtils.smsTemplate.toString())
+                msgInfo.getContentForSend(SettingUtils.smsTemplate)
             }
 
             val msgContent = if ("interactive" == setting.msgType) {

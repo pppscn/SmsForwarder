@@ -120,7 +120,7 @@ class WeworkAgentUtils private constructor() {
             val content: String = if (rule != null) {
                 msgInfo.getContentForSend(rule.smsTemplate, rule.regexReplace)
             } else {
-                msgInfo.getContentForSend(SettingUtils.smsTemplate.toString())
+                msgInfo.getContentForSend(SettingUtils.smsTemplate)
             }
 
             val textMsgMap: MutableMap<String, Any> = mutableMapOf()
@@ -132,7 +132,7 @@ class WeworkAgentUtils private constructor() {
             val textText: MutableMap<String, Any> = mutableMapOf()
             textText["content"] = content
             textMsgMap["text"] = textText
-            var accessToken: String by SharedPreference("access_token_" + setting.agentID, "")
+            val accessToken: String by SharedPreference("access_token_" + setting.agentID, "")
             val requestUrl = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=$accessToken"
             Log.i(TAG, "requestUrl:$requestUrl")
             val requestMsg: String = Gson().toJson(textMsgMap)

@@ -126,7 +126,7 @@ class DingtalkInnerRobotUtils private constructor() {
             val content: String = if (rule != null) {
                 msgInfo.getContentForSend(rule.smsTemplate, rule.regexReplace)
             } else {
-                msgInfo.getContentForSend(SettingUtils.smsTemplate.toString())
+                msgInfo.getContentForSend(SettingUtils.smsTemplate)
             }
 
             val msgParam: MutableMap<String, Any> = mutableMapOf()

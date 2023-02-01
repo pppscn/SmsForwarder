@@ -162,7 +162,7 @@ class ForegroundService : Service() {
         // if (DeviceUtils.getDeviceBrand().contains("Xiaomi")) {
         builder.setContentTitle(getString(R.string.app_name))
         //}
-        builder.setContentText(SettingUtils.notifyContent.toString())
+        builder.setContentText(SettingUtils.notifyContent)
         builder.setWhen(System.currentTimeMillis())
         val activityIntent = Intent(this, MainActivity::class.java)
         val flags = if (Build.VERSION.SDK_INT >= 30) PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_UPDATE_CURRENT

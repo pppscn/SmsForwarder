@@ -340,7 +340,7 @@
     <string name="sim2_remark" tools:ignore="Typos">SIM2 SubId/Label</string>
     <string name="carrier_mobile" tools:ignore="Typos">Label of SIM,\neg. AT&amp;T_88888888</string>
     <string name="tip_number_only_error_message">Number must be greater than 0!</string>
-    <string name="regexp_number_only" tools:ignore="Typos">^[1-9]?\\d+$</string>
+    <string name="regexp_number_only" tools:ignore="TypographyDashes,Typos">^[1-9]?\\d+$</string>
     <string name="low_power_alarm_threshold">Low Power Alarm</string>
     <string name="low_power_alarm_threshold_tips">Value range: 0–99.\nLeft blank or 0 is disabled</string>
     <string name="retry_interval">Retry Interval</string>
