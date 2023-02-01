@@ -126,6 +126,10 @@ object SendUtils {
                     val settingVo = Gson().fromJson(sender.jsonSetting, FeishuAppSetting::class.java)
                     FeishuAppUtils.sendMsg(settingVo, msgInfo, rule, logId)
                 }
+                TYPE_URL_SCHEME -> {
+                    val settingVo = Gson().fromJson(sender.jsonSetting, UrlSchemeSetting::class.java)
+                    UrlSchemeUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                }
                 else -> {
                     updateLogs(logId, 0, "未知发送通道")
                 }

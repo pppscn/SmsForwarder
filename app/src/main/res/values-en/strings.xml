@@ -277,6 +277,7 @@
     <string name="invalid_openid">Multiple openids are separated by ,</string>
     <string name="invalid_webserver">WebServer is empty or not a valid URL</string>
     <string name="invalid_webhook">WebHook is empty or not a valid URL</string>
+    <string name="invalid_url_scheme">URL Scheme is empty or invalid</string>
     <string name="invalid_at_mobiles">toUser/toParty/toTag cannot be empty or select @all</string>
     <string name="invalid_wework_agent">CoreID, AgentID, and Secret cannot be empty</string>
     <string name="invalid_dingtalk_inner_robot">AgentId, AppKey, AppSecret, and UserIds cannot be empty</string>
@@ -334,12 +335,12 @@
     <!--SettingActivity-->
     <string name="notify_content">Notify Content</string>
     <string name="device_name">Device Name</string>
-    <string name="sim_sub_id">SIM1 SubId</string>
+    <string name="sim_sub_id">SIM SubId</string>
     <string name="sim1_remark" tools:ignore="Typos">SIM1 SubId/Label</string>
     <string name="sim2_remark" tools:ignore="Typos">SIM2 SubId/Label</string>
     <string name="carrier_mobile" tools:ignore="Typos">Label of SIM,\neg. AT&amp;T_88888888</string>
     <string name="tip_number_only_error_message">Number must be greater than 0!</string>
-    <string name="regexp_number_only">^[1-9]?\\d+$</string>
+    <string name="regexp_number_only" tools:ignore="Typos">^[1-9]?\\d+$</string>
     <string name="low_power_alarm_threshold">Low Power Alarm</string>
     <string name="low_power_alarm_threshold_tips">Value range: 0–99.\nLeft blank or 0 is disabled</string>
     <string name="retry_interval">Retry Interval</string>
@@ -694,6 +695,9 @@
 
     <string name="wework_webHook">WebHook</string>
     <string name="wework_webHook_tips">Example: https://qyapi.weixin.qq.com/cgixx?key=xxx</string>
+
+    <string name="url_scheme">URL Scheme</string>
+    <string name="url_scheme_tips">Example：myapp://api/add?&amp;type=0&amp;msg=[msg]</string>
 
     <string name="webhook_server">Webhook Server</string>
     <string name="webhook_server_tips">For example: https://a.b.com/msg?token=xyz</string>

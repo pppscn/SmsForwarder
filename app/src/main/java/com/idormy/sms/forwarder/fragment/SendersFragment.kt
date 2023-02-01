@@ -109,6 +109,7 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(), SenderPagingAda
                         TYPE_GOTIFY -> GotifyFragment::class.java
                         TYPE_DINGTALK_INNER_ROBOT -> DingtalkInnerRobotFragment::class.java
                         TYPE_FEISHU_APP -> FeishuAppFragment::class.java
+                        TYPE_URL_SCHEME -> UrlSchemeFragment::class.java
                         else -> DingtalkGroupRobotFragment::class.java
                     }
                 ).setNewActivity(true)
@@ -134,6 +135,7 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(), SenderPagingAda
                         TYPE_GOTIFY -> GotifyFragment::class.java
                         TYPE_DINGTALK_INNER_ROBOT -> DingtalkInnerRobotFragment::class.java
                         TYPE_FEISHU_APP -> FeishuAppFragment::class.java
+                        TYPE_URL_SCHEME -> UrlSchemeFragment::class.java
                         else -> DingtalkGroupRobotFragment::class.java
                     }
                 ).setNewActivity(true)

@@ -278,6 +278,7 @@
     <string name="invalid_openid">多个 openid 用 , 隔开</string>
     <string name="invalid_webserver">WebServer为空 或 不是有效URL</string>
     <string name="invalid_webhook">WebHook为空 或 不是有效URL</string>
+    <string name="invalid_url_scheme">URL Scheme 为空 或 无效</string>
     <string name="invalid_at_mobiles">指定成员/指定部门/指定标签 不能为空 或者 选择@all</string>
     <string name="invalid_wework_agent">企业ID、AgentID、Secret都不能为空</string>
     <string name="invalid_dingtalk_inner_robot">AgentId、AppKey、AppSecret、UserIds都不能为空</string>
@@ -340,7 +341,7 @@
     <string name="sim2_remark" tools:ignore="Typos">SIM2主键/备注</string>
     <string name="carrier_mobile">序号/运营商_手机号</string>
     <string name="tip_number_only_error_message">数字必须大于0!</string>
-    <string name="regexp_number_only">^[1-9]?\\d+$</string>
+    <string name="regexp_number_only" tools:ignore="Typos">^[1-9]?\\d+$</string>
     <string name="low_power_alarm_threshold">安全电量范围(%)</string>
     <string name="low_power_alarm_threshold_tips">超出安全范围将发出预警</string>
     <string name="retry_interval">请求重试机制</string>
@@ -695,6 +696,9 @@
 
     <string name="wework_webHook">WebHook地址</string>
     <string name="wework_webHook_tips">示例：https://qyapi.weixin.qq.com/cgixx?key=xxx</string>
+
+    <string name="url_scheme">URL Scheme</string>
+    <string name="url_scheme_tips">示例：myapp://api/add?&amp;type=0&amp;msg=[msg]</string>
 
     <string name="webhook_server">Webhook Server</string>
     <string name="webhook_server_tips">例如：https://a.b.com/msg?token=xyz</string>

@@ -249,6 +249,20 @@ class CommonUtils private constructor() {
             return mat.matches()
         }
 
+        //是否合法的URL Scheme
+        fun checkUrlScheme(urls: String?): Boolean {
+            return checkUrlScheme(urls, false)
+        }
+
+        //是否合法的URL Scheme
+        fun checkUrlScheme(urls: String?, emptyResult: Boolean): Boolean {
+            if (TextUtils.isEmpty(urls)) return emptyResult
+            val regex = "^[a-zA-Z0-9]+://[-a-zA-Z0-9+&@#/%?=~_|!:,.;\\[\\]]*[-a-zA-Z0-9+&@#/%=~_|\\[\\]]"
+            val pat = Pattern.compile(regex)
+            val mat = pat.matcher(urls?.trim() ?: "")
+            return mat.matches()
+        }
+
         //是否启用通知监听服务
         fun isNotificationListenerServiceEnabled(context: Context): Boolean {
             val packageNames = NotificationManagerCompat.getEnabledListenerPackages(context)
