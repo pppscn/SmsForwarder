@@ -7,21 +7,31 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.IBinder
+import android.text.TextUtils
 import android.util.Log
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.google.gson.Gson
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.Core
+import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.utils.BatteryUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.Worker
 import com.idormy.sms.forwarder.workers.SendWorker
+import com.xuexiang.xutil.file.FileUtils
+import frpclib.Frpclib
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import java.util.*
 
-@Suppress("DEPRECATION")
+@OptIn(DelicateCoroutinesApi::class)
+@Suppress("DEPRECATION", "DeferredResultUnused")
 class BatteryService : Service() {
 
     override fun onBind(intent: Intent): IBinder? {
@@ -65,6 +75,27 @@ class BatteryService : Service() {
                 val cal = Calendar.getInstance()
                 cal.add(Calendar.DAY_OF_MONTH, 0 - SettingUtils.autoCleanLogsDays)
                 Core.msg.deleteTimeAgo(cal.timeInMillis)
+            }
+
+            //守护自启动的Frpc
+            if (FileUtils.isFileExists(filesDir.absolutePath + "/libs/libgojni.so")) {
+                GlobalScope.async(Dispatchers.IO) {
+                    val frpcList = AppDatabase.getInstance(App.context).frpcDao().getAutorun()
+
+                    if (frpcList.isEmpty()) {
+                        Log.d(TAG, "没有自启动的Frpc")
+                        return@async
+                    }
+
+                    for (frpc in frpcList) {
+                        if (!Frpclib.isRunning(frpc.uid)) {
+                            val error = Frpclib.runContent(frpc.uid, frpc.config)
+                            if (!TextUtils.isEmpty(error)) {
+                                Log.e(TAG, error)
+                            }
+                        }
+                    }
+                }
             }
 
             //电量发生变化

@@ -28,7 +28,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 
-@Suppress("PrivatePropertyName", "DeferredResultUnused", "OPT_IN_USAGE")
+@Suppress("PrivatePropertyName", "DeferredResultUnused", "OPT_IN_USAGE", "DEPRECATION")
 class ForegroundService : Service() {
     private val TAG: String = "ForegroundService"
     private val compositeDisposable = CompositeDisposable()
