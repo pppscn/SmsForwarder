@@ -7,16 +7,14 @@ import androidx.core.content.ContextCompat
 import androidx.work.Configuration
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.BuildConfig
-import com.idormy.sms.forwarder.database.repository.FrpcRepository
-import com.idormy.sms.forwarder.database.repository.LogsRepository
-import com.idormy.sms.forwarder.database.repository.RuleRepository
-import com.idormy.sms.forwarder.database.repository.SenderRepository
+import com.idormy.sms.forwarder.database.repository.*
 import com.idormy.sms.forwarder.service.ForegroundService
 import kotlinx.coroutines.launch
 
 object Core : Configuration.Provider {
     lateinit var app: Application
     val frpc: FrpcRepository by lazy { (app as App).frpcRepository }
+    val msg: MsgRepository by lazy { (app as App).msgRepository }
     val logs: LogsRepository by lazy { (app as App).logsRepository }
     val rule: RuleRepository by lazy { (app as App).ruleRepository }
     val sender: SenderRepository by lazy { (app as App).senderRepository }

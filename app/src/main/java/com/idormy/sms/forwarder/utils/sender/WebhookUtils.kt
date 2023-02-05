@@ -32,7 +32,9 @@ class WebhookUtils {
             setting: WebhookSetting,
             msgInfo: MsgInfo,
             rule: Rule?,
-            logId: Long?,
+            senderIndex: Int = 0,
+            logId: Long = 0L,
+            msgId: Long = 0L
         ) {
             val from: String = msgInfo.from
             val content: String = if (rule != null) {
@@ -183,12 +185,15 @@ class WebhookUtils {
 
                     override fun onError(e: ApiException) {
                         Log.e(TAG, e.detailMessage)
-                        SendUtils.updateLogs(logId, 0, e.displayMessage)
+                        val status = 0
+                        SendUtils.updateLogs(logId, status, e.displayMessage)
+                        SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
                     }
 
                     override fun onSuccess(response: String) {
                         Log.i(TAG, response)
                         SendUtils.updateLogs(logId, 2, response)
+                        SendUtils.senderLogic(2, msgInfo, rule, senderIndex, msgId)
                     }
 
                 })
@@ -203,7 +208,7 @@ class WebhookUtils {
         }
 
         fun sendMsg(setting: WebhookSetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo, null, null)
+            sendMsg(setting, msgInfo)
         }
     }
 }

@@ -21,7 +21,9 @@ class EmailUtils {
             setting: EmailSetting,
             msgInfo: MsgInfo,
             rule: Rule?,
-            logId: Long?,
+            senderIndex: Int = 0,
+            logId: Long = 0L,
+            msgId: Long = 0L
         ) {
             val title: String = if (rule != null) {
                 msgInfo.getTitleForSend(setting.title.toString(), rule.regexReplace)
@@ -134,18 +136,21 @@ class EmailUtils {
             MailSender.getInstance().sendMail(mail, object : MailSender.OnMailSendListener {
                 override fun onError(e: Throwable) {
                     Log.e("MailSender", e.message.toString())
-                    SendUtils.updateLogs(logId, 0, e.message.toString())
+                    val status = 0
+                    SendUtils.updateLogs(logId, status, e.message.toString())
+                    SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
                 }
 
                 override fun onSuccess() {
                     SendUtils.updateLogs(logId, 2, ResUtils.getString(R.string.request_succeeded))
+                    SendUtils.senderLogic(2, msgInfo, rule, senderIndex, msgId)
                 }
             })
 
         }
 
         fun sendMsg(setting: EmailSetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo, null, null)
+            sendMsg(setting, msgInfo)
         }
     }
 }

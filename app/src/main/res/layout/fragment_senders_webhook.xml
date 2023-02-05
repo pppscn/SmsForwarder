@@ -65,7 +65,6 @@
                     android:id="@+id/rg_method"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -73,25 +72,41 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="@string/post" />
+                        android:scaleX="0.7"
+                        android:scaleY="0.7"
+                        android:text="@string/post"
+                        android:textSize="14sp"
+                        android:translationX="18dp" />
 
                     <RadioButton
                         android:id="@+id/rb_method_get"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/get" />
+                        android:scaleX="0.7"
+                        android:scaleY="0.7"
+                        android:text="@string/get"
+                        android:textSize="14sp"
+                        android:translationX="18dp" />
 
                     <RadioButton
                         android:id="@+id/rb_method_put"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/put" />
+                        android:scaleX="0.7"
+                        android:scaleY="0.7"
+                        android:text="@string/put"
+                        android:textSize="14sp"
+                        android:translationX="18dp" />
 
                     <RadioButton
                         android:id="@+id/rb_method_patch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/patch" />
+                        android:scaleX="0.7"
+                        android:scaleY="0.7"
+                        android:text="@string/patch"
+                        android:textSize="14sp"
+                        android:translationX="18dp" />
 
                 </RadioGroup>
 

@@ -1,6 +1,5 @@
 package com.idormy.sms.forwarder.fragment
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,7 @@ import com.alibaba.android.vlayout.VirtualLayoutManager
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.RulePagingAdapter
 import com.idormy.sms.forwarder.core.BaseFragment
-import com.idormy.sms.forwarder.database.entity.RuleAndSender
+import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
 import com.idormy.sms.forwarder.database.viewmodel.RuleViewModel
 import com.idormy.sms.forwarder.databinding.FragmentRulesBinding
@@ -92,22 +91,21 @@ class RulesFragment : BaseFragment<FragmentRulesBinding?>(), RulePagingAdapter.O
         binding!!.refreshLayout.autoRefresh()
     }
 
-    override fun onItemClicked(view: View?, item: RuleAndSender) {
-        Log.e(TAG, item.toString())
+    override fun onItemClicked(view: View?, item: Rule) {
         when (view?.id) {
             R.id.iv_copy -> {
                 PageOption.to(RulesEditFragment::class.java)
                     .setNewActivity(true)
-                    .putLong(KEY_RULE_ID, item.rule.id)
-                    .putString(KEY_RULE_TYPE, item.rule.type)
+                    .putLong(KEY_RULE_ID, item.id)
+                    .putString(KEY_RULE_TYPE, item.type)
                     .putBoolean(KEY_RULE_CLONE, true)
                     .open(this)
             }
             R.id.iv_edit -> {
                 PageOption.to(RulesEditFragment::class.java)
                     .setNewActivity(true)
-                    .putLong(KEY_RULE_ID, item.rule.id)
-                    .putString(KEY_RULE_TYPE, item.rule.type)
+                    .putLong(KEY_RULE_ID, item.id)
+                    .putString(KEY_RULE_TYPE, item.type)
                     .open(this)
             }
             R.id.iv_delete -> {
@@ -117,7 +115,7 @@ class RulesFragment : BaseFragment<FragmentRulesBinding?>(), RulePagingAdapter.O
                     .positiveText(R.string.lab_yes)
                     .negativeText(R.string.lab_no)
                     .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                        viewModel.delete(item.rule.id)
+                        viewModel.delete(item.id)
                         XToastUtils.success(R.string.delete_rule_toast)
                     }
                     .show()

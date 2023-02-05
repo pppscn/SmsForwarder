@@ -26,7 +26,9 @@ class UrlSchemeUtils private constructor() {
             setting: UrlSchemeSetting,
             msgInfo: MsgInfo,
             rule: Rule?,
-            logId: Long?,
+            senderIndex: Int = 0,
+            logId: Long = 0L,
+            msgId: Long = 0L
         ) {
             val from: String = msgInfo.from
             val content: String = if (rule != null) {
@@ -62,16 +64,18 @@ class UrlSchemeUtils private constructor() {
             try {
                 XUtil.getContext().startActivity(intent)
                 SendUtils.updateLogs(logId, 2, "调用成功")
+                SendUtils.senderLogic(2, msgInfo, rule, senderIndex, msgId)
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e(TAG, e.message.toString())
                 SendUtils.updateLogs(logId, 0, e.message.toString())
+                SendUtils.senderLogic(0, msgInfo, rule, senderIndex, msgId)
             }
 
         }
 
         fun sendMsg(setting: UrlSchemeSetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo, null, null)
+            sendMsg(setting, msgInfo)
         }
     }
 }

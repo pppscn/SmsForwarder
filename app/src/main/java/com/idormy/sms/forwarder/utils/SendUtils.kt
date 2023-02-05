@@ -9,11 +9,11 @@ import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.entity.LogsAndRuleAndSender
 import com.idormy.sms.forwarder.database.entity.Rule
-import com.idormy.sms.forwarder.database.entity.Sender
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.result.SendResponse
 import com.idormy.sms.forwarder.entity.setting.*
 import com.idormy.sms.forwarder.utils.sender.*
+import com.idormy.sms.forwarder.workers.SendLogicWorker
 import com.idormy.sms.forwarder.workers.SendWorker
 import com.idormy.sms.forwarder.workers.UpdateLogsWorker
 import com.xuexiang.xui.utils.ResUtils
@@ -23,13 +23,6 @@ import java.util.*
 
 object SendUtils {
     private const val TAG = "SendUtils"
-
-    //批量发送消息
-    /*fun sendMsgList(infoList: List<MsgInfo>, type: String) {
-        for (msgInfo in infoList) {
-            sendMsg(msgInfo, type)
-        }
-    }*/
 
     //发送消息
     fun sendMsg(msgInfo: MsgInfo) {
@@ -53,9 +46,9 @@ object SendUtils {
             e.printStackTrace()
             Date()
         }
-        val simInfo: String = item.logs.simInfo
+        val simInfo: String = item.msg.simInfo
         val simSlot: Int = if (simInfo.startsWith("SIM2")) 2 else 1
-        val msgInfo = MsgInfo(item.logs.type, item.logs.from, item.logs.content, date, simInfo, simSlot)
+        val msgInfo = MsgInfo(item.msg.type, item.msg.from, item.msg.content, date, simInfo, simSlot)
         Log.d(TAG, "resendMsg msgInfo:$msgInfo")
 
         if (rematch) {
@@ -63,72 +56,73 @@ object SendUtils {
             return
         }
 
-        sendMsgSender(msgInfo, item.relation.rule, item.relation.sender, item.logs.id)
+        //sendMsgSender(msgInfo, item.rule, item.sender, item.logs.id)
     }
 
     //匹配发送通道发送消息
-    fun sendMsgSender(msgInfo: MsgInfo, rule: Rule, sender: Sender, logId: Long) {
+    fun sendMsgSender(msgInfo: MsgInfo, rule: Rule, senderIndex: Int = 0, logId: Long = 0L, msgId: Long = 0L) {
         try {
+            val sender = rule.senderList[senderIndex]
             when (sender.type) {
                 TYPE_DINGTALK_GROUP_ROBOT -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, DingtalkGroupRobotSetting::class.java)
-                    DingtalkGroupRobotUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                    DingtalkGroupRobotUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
                 }
                 TYPE_EMAIL -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, EmailSetting::class.java)
-                    EmailUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                    EmailUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
                 }
                 TYPE_BARK -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, BarkSetting::class.java)
-                    BarkUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                    BarkUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
                 }
                 TYPE_WEBHOOK -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, WebhookSetting::class.java)
-                    WebhookUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                    WebhookUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
                 }
                 TYPE_WEWORK_ROBOT -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, WeworkRobotSetting::class.java)
-                    WeworkRobotUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                    WeworkRobotUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
                 }
                 TYPE_WEWORK_AGENT -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, WeworkAgentSetting::class.java)
-                    WeworkAgentUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                    WeworkAgentUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
                 }
                 TYPE_SERVERCHAN -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, ServerchanSetting::class.java)
-                    ServerchanUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                    ServerchanUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
                 }
                 TYPE_TELEGRAM -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, TelegramSetting::class.java)
-                    TelegramUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                    TelegramUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
                 }
                 TYPE_SMS -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, SmsSetting::class.java)
-                    SmsUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                    SmsUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
                 }
                 TYPE_FEISHU -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, FeishuSetting::class.java)
-                    FeishuUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                    FeishuUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
                 }
                 TYPE_PUSHPLUS -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, PushplusSetting::class.java)
-                    PushplusUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                    PushplusUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
                 }
                 TYPE_GOTIFY -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, GotifySetting::class.java)
-                    GotifyUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                    GotifyUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
                 }
                 TYPE_DINGTALK_INNER_ROBOT -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, DingtalkInnerRobotSetting::class.java)
-                    DingtalkInnerRobotUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                    DingtalkInnerRobotUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
                 }
                 TYPE_FEISHU_APP -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, FeishuAppSetting::class.java)
-                    FeishuAppUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                    FeishuAppUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
                 }
                 TYPE_URL_SCHEME -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, UrlSchemeSetting::class.java)
-                    UrlSchemeUtils.sendMsg(settingVo, msgInfo, rule, logId)
+                    UrlSchemeUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
                 }
                 else -> {
                     updateLogs(logId, 0, "未知发送通道")
@@ -137,6 +131,24 @@ object SendUtils {
         } catch (e: Exception) {
             e.printStackTrace()
             updateLogs(logId, 0, e.message.toString())
+        }
+    }
+
+    fun senderLogic(status: Int, msgInfo: MsgInfo, rule: Rule?, senderIndex: Int = 0, msgId: Long = 0L) {
+        if (rule == null) return
+        //发送通道执行逻辑：ALL=全部执行, UntilFail=失败即终止, UntilSuccess=成功即终止
+        if (senderIndex < rule.senderList.count() - 1 && ((status == 2 && rule.senderLogic == SENDER_LOGIC_UNTIL_FAIL) || (status == 0 && rule.senderLogic == SENDER_LOGIC_UNTIL_SUCCESS))) {
+            val request = OneTimeWorkRequestBuilder<SendLogicWorker>()
+                .setInputData(
+                    workDataOf(
+                        Worker.sendMsgInfo to Gson().toJson(msgInfo),
+                        Worker.ruleId to rule.id,
+                        Worker.senderIndex to senderIndex + 1,
+                        Worker.msgId to msgId,
+                    )
+                )
+                .build()
+            WorkManager.getInstance(XUtil.getContext()).enqueue(request)
         }
     }
 

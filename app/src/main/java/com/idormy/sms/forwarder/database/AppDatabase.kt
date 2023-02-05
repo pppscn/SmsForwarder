@@ -7,26 +7,22 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.idormy.sms.forwarder.database.dao.FrpcDao
-import com.idormy.sms.forwarder.database.dao.LogsDao
-import com.idormy.sms.forwarder.database.dao.RuleDao
-import com.idormy.sms.forwarder.database.dao.SenderDao
-import com.idormy.sms.forwarder.database.entity.Frpc
-import com.idormy.sms.forwarder.database.entity.Logs
-import com.idormy.sms.forwarder.database.entity.Rule
-import com.idormy.sms.forwarder.database.entity.Sender
-import com.idormy.sms.forwarder.database.ext.Converters
+import com.idormy.sms.forwarder.database.dao.*
+import com.idormy.sms.forwarder.database.entity.*
+import com.idormy.sms.forwarder.database.ext.ConvertersDate
 import com.idormy.sms.forwarder.utils.DATABASE_NAME
 
 @Database(
-    entities = [Frpc::class, Logs::class, Rule::class, Sender::class],
-    version = 11,
+    entities = [Frpc::class, Msg::class, Logs::class, Rule::class, Sender::class],
+    views = [LogsDetail::class],
+    version = 15,
     exportSchema = false
 )
-@TypeConverters(Converters::class)
+@TypeConverters(ConvertersDate::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun frpcDao(): FrpcDao
+    abstract fun msgDao(): MsgDao
     abstract fun logsDao(): LogsDao
     abstract fun ruleDao(): RuleDao
     abstract fun senderDao(): SenderDao
@@ -96,6 +92,10 @@ custom_domains = smsf.demo.com
                     MIGRATION_8_9,
                     MIGRATION_9_10,
                     MIGRATION_10_11,
+                    MIGRATION_11_12,
+                    MIGRATION_12_13,
+                    MIGRATION_13_14,
+                    MIGRATION_14_15,
                 )
 
             /*if (BuildConfig.DEBUG) {
@@ -281,9 +281,89 @@ CREATE TABLE "Sender" (
         //转发日志添加SIM卡槽ID
         private val MIGRATION_10_11 = object : Migration(10, 11) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("Alter table Logs add column sub_id INTEGER NOT NULL DEFAULT 0 ")
+                database.execSQL("Alter table Logs add column sub_id INTEGER NOT NULL DEFAULT 0")
             }
         }
+
+        //单个转发规则可绑定多个发送通道
+        private val MIGRATION_11_12 = object : Migration(11, 12) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("Alter table Logs add column sender_id INTEGER NOT NULL DEFAULT 0")
+                database.execSQL("Update Logs Set sender_id = (Select sender_id from Rule where Logs.rule_id = Rule.id)")
+                database.execSQL("Alter table Rule add column sender_list TEXT NOT NULL DEFAULT ''")
+                database.execSQL("Update Rule set sender_list = sender_id")
+                database.execSQL("CREATE INDEX \"index_Rule_sender_ids\" ON \"Rule\" ( \"sender_list\" ASC)")
+                //删除字段：sender_id
+                /*database.execSQL("Create table Rule_t as Select id,type,filed,check,value,sender_list,sms_template,regex_replace,sim_slot,status,time from Rule where 1 = 1")
+                database.execSQL("Drop table Rule")
+                database.execSQL("Alter table Rule_t rename to Rule")
+                database.execSQL("CREATE UNIQUE INDEX \"index_Rule_id\" ON \"Rule\" ( \"id\" ASC)")*/
+            }
+        }
+
+        //转发规则添加发送通道逻辑
+        private val MIGRATION_12_13 = object : Migration(12, 13) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("Alter table Rule add column sender_logic TEXT NOT NULL DEFAULT 'ALL'")
+            }
+        }
+
+        //分割Logs表
+        private val MIGRATION_13_14 = object : Migration(13, 14) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                //database.execSQL("Create table Msg as Select id,type,`from`,content,(case when sim_info like 'SIM1%' then '0' when sim_info like 'SIM2%' then '1' else '-1' end) as sim_slot,sim_info,sub_id,time from Logs where 1 = 1")
+                database.execSQL(
+                    """
+CREATE TABLE "Msg" (
+  "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  "type" TEXT NOT NULL DEFAULT 'sms',
+  "from" TEXT NOT NULL DEFAULT '',
+  "content" TEXT NOT NULL DEFAULT '',
+  "sim_slot" INTEGER NOT NULL DEFAULT -1,
+  "sim_info" TEXT NOT NULL DEFAULT '',
+  "sub_id" INTEGER NOT NULL DEFAULT 0,
+  "time" INTEGER NOT NULL
+)
+""".trimIndent()
+                )
+                database.execSQL("INSERT INTO Msg (id,type,`from`,content,sim_slot,sim_info,sub_id,time) Select id,type,`from`,content,(case when sim_info like 'SIM1%' then '0' when sim_info like 'SIM2%' then '1' else '-1' end) as sim_slot,sim_info,sub_id,time from Logs where 1 = 1")
+                database.execSQL("CREATE UNIQUE INDEX \"index_Msg_id\" ON \"Msg\" ( \"id\" ASC)")
+                database.execSQL("ALTER TABLE Logs RENAME TO Logs_old")
+                //database.execSQL("Create table Logs_new as Select id,id as msg_id,rule_id,sender_id,forward_status,forward_response,time from Logs where 1 = 1")
+                database.execSQL(
+                    """
+CREATE TABLE "Logs" (
+  "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  "type" TEXT NOT NULL DEFAULT 'sms',
+  "msg_id" INTEGER NOT NULL DEFAULT 0,
+  "rule_id" INTEGER NOT NULL DEFAULT 0,
+  "sender_id" INTEGER NOT NULL DEFAULT 0,
+  "forward_status" INTEGER NOT NULL DEFAULT 1,
+  "forward_response" TEXT NOT NULL DEFAULT '',
+  "time" INTEGER NOT NULL,
+  FOREIGN KEY ("msg_id") REFERENCES "Msg" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY ("rule_id") REFERENCES "Rule" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY ("sender_id") REFERENCES "Sender" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+""".trimIndent()
+                )
+                database.execSQL("INSERT INTO Logs (id,type,msg_id,rule_id,sender_id,forward_status,forward_response,time) SELECT id,type,id as msg_id,rule_id,sender_id,forward_status,forward_response,time FROM Logs_old")
+                database.execSQL("DROP TABLE Logs_old")
+                database.execSQL("CREATE UNIQUE INDEX \"index_Logs_id\" ON \"Logs\" ( \"id\" ASC)")
+                database.execSQL("CREATE INDEX \"index_Logs_msg_id\" ON \"Logs\" ( \"msg_id\" ASC)")
+                database.execSQL("CREATE INDEX \"index_Logs_rule_id\" ON \"Logs\" ( \"rule_id\" ASC)")
+                database.execSQL("CREATE INDEX \"index_Logs_sender_id\" ON \"Logs\" ( \"sender_id\" ASC)")
+            }
+        }
+
+        // 定义数据库迁移配置
+        private val MIGRATION_14_15 = object : Migration(14, 15) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                // 这里新建一个视图（视图名称要用两个半角的间隔号括起来）
+                database.execSQL("CREATE VIEW `LogsDetail` AS SELECT LOGS.id,LOGS.type,LOGS.msg_id,LOGS.rule_id,LOGS.sender_id,LOGS.forward_status,LOGS.forward_response,LOGS.TIME,Rule.filed AS rule_filed,Rule.`check` AS rule_check,Rule.value AS rule_value,Rule.sim_slot AS rule_sim_slot,Sender.type AS sender_type,Sender.NAME AS sender_name FROM LOGS  LEFT JOIN Rule ON LOGS.rule_id = Rule.id LEFT JOIN Sender ON LOGS.sender_id = Sender.id")
+            }
+        }
+
     }
 
 }

@@ -223,6 +223,10 @@
     <string name="test_package_name">测试模拟的APP包名</string>
     <string name="test_inform_title">测试模拟的通知标题</string>
     <string name="test_inform_content">测试模拟的通知内容</string>
+    <string name="sender_logic">执行逻辑</string>
+    <string name="sender_logic_all">全部执行</string>
+    <string name="sender_logic_until_fail">失败即止</string>
+    <string name="sender_logic_until_success">成功即止</string>
     <string name="match_sim_slot">匹配卡槽</string>
     <string name="match_field">匹配字段</string>
     <string name="phone_number">手机号</string>
@@ -841,6 +845,7 @@
     <string name="frpc_failed_to_run">Frpc运行失败</string>
     <string name="successfully_deleted">删除成功</string>
     <string name="sender_disabled_tips">【注意】该发送通道已经禁用，其关联的规则即便匹配上也不会发送！</string>
+    <string name="sender_contains_tips">【注意】该发送通道已经在列表中，无需重复添加！</string>
     <string name="local_call">本地呼叫：</string>
     <string name="remote_sms">远程发短信：</string>
     <string name="clear">清除</string>
@@ -942,4 +947,6 @@
     <string name="copy_public_key">复制公钥</string>
     <string name="sm4_key">SM4密钥</string>
     <string name="sm4_key_tips">客户端/服务端交互采用SM4加解密</string>
+
+    <string name="sender_del">删除发送通道</string>
 </resources>

@@ -269,7 +269,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
                     .negativeText(R.string.lab_no)
                     .onPositive { _: MaterialDialog?, _: DialogAction? ->
                         AppDatabase.getInstance(this)
-                            .logsDao()
+                            .msgDao()
                             .deleteAll(logsType)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())

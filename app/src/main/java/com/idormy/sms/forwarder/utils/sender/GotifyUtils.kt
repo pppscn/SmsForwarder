@@ -23,7 +23,9 @@ class GotifyUtils {
             setting: GotifySetting,
             msgInfo: MsgInfo,
             rule: Rule?,
-            logId: Long?,
+            senderIndex: Int = 0,
+            logId: Long = 0L,
+            msgId: Long = 0L
         ) {
             val title: String = if (rule != null) {
                 msgInfo.getTitleForSend(setting.title.toString(), rule.regexReplace)
@@ -64,18 +66,18 @@ class GotifyUtils {
 
                     override fun onError(e: ApiException) {
                         Log.e(TAG, e.detailMessage)
-                        SendUtils.updateLogs(logId, 0, e.displayMessage)
+                        val status = 0
+                        SendUtils.updateLogs(logId, status, e.displayMessage)
+                        SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
                     }
 
                     override fun onSuccess(response: String) {
                         Log.i(TAG, response)
 
                         val resp = Gson().fromJson(response, GotifyResult::class.java)
-                        if (resp?.id != null) {
-                            SendUtils.updateLogs(logId, 2, response)
-                        } else {
-                            SendUtils.updateLogs(logId, 0, response)
-                        }
+                        val status = if (resp?.id != null) 2 else 0
+                        SendUtils.updateLogs(logId, status, response)
+                        SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
                     }
 
                 })
@@ -83,7 +85,7 @@ class GotifyUtils {
         }
 
         fun sendMsg(setting: GotifySetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo, null, null)
+            sendMsg(setting, msgInfo)
         }
     }
 }

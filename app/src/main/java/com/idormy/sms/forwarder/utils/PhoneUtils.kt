@@ -187,9 +187,11 @@ class PhoneUtils private constructor() {
                 Log.d(TAG, "selectionArgs = $selectionArgs")
 
                 //为了兼容性这里全部取出后手动分页
-                val cursor = Core.app.contentResolver.query(
+                val cursor = (if (limit == 1) Core.app.contentResolver.query(
+                    CallLog.Calls.CONTENT_URI, null, selection, selectionArgs.toTypedArray(), CallLog.Calls.DEFAULT_SORT_ORDER + " limit $limit offset $offset"
+                ) else Core.app.contentResolver.query(
                     CallLog.Calls.CONTENT_URI, null, selection, selectionArgs.toTypedArray(), CallLog.Calls.DEFAULT_SORT_ORDER // + " limit $limit offset $offset"
-                ) ?: return callInfoList
+                )) ?: return callInfoList
                 Log.i(TAG, "cursor count:" + cursor.count)
 
                 // 避免超过总数后循环取出

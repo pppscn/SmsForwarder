@@ -12,6 +12,9 @@ object Worker {
     const val sendLogId = "send_log_id"
     const val sendSbnId = "send_sbn_id"
     const val updateLogs = "update_logs"
+    const val ruleId = "rule_id"
+    const val senderIndex = "sender_index"
+    const val msgId = "msg_id"
 }
 
 //初始化相关
@@ -103,6 +106,11 @@ const val CHECK_REGEX = "regex"
 const val CHECK_SIM_SLOT_ALL = "ALL"
 const val CHECK_SIM_SLOT_1 = "SIM1"
 const val CHECK_SIM_SLOT_2 = "SIM2"
+
+//发送通道执行逻辑：ALL=全部执行, UntilFail=失败即终止, UntilSuccess=成功即终止
+const val SENDER_LOGIC_ALL = "ALL"
+const val SENDER_LOGIC_UNTIL_FAIL = "UntilFail"
+const val SENDER_LOGIC_UNTIL_SUCCESS = "UntilSuccess"
 val TYPE_MAP = object : HashMap<String, String>() {
     init {
         put("sms", getString(R.string.rule_sms))

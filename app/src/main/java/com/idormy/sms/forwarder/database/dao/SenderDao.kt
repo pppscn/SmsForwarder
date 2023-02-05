@@ -25,6 +25,9 @@ interface SenderDao {
     @Query("SELECT * FROM Sender where id=:id")
     fun get(id: Long): Single<Sender>
 
+    @Query("SELECT * FROM Sender where id=:id")
+    fun getOne(id: Long): Sender
+
     @Query("SELECT count(*) FROM Sender where type=:type and status=:status")
     fun count(type: String, status: Int): Single<Int>
 

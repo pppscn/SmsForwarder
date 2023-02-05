@@ -17,6 +17,11 @@ class BaseViewModelFactory(private val context: Context?) : ViewModelProvider.Fa
                 @Suppress("UNCHECKED_CAST")
                 return FrpcViewModel(frpcDao) as T
             }
+            modelClass.isAssignableFrom(MsgViewModel::class.java) -> {
+                val msgDao = AppDatabase.getInstance(context).msgDao()
+                @Suppress("UNCHECKED_CAST")
+                return MsgViewModel(msgDao) as T
+            }
             modelClass.isAssignableFrom(LogsViewModel::class.java) -> {
                 val logDao = AppDatabase.getInstance(context).logsDao()
                 @Suppress("UNCHECKED_CAST")

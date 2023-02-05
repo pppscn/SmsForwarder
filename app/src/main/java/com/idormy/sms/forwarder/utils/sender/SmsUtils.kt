@@ -26,16 +26,20 @@ class SmsUtils {
             setting: SmsSetting,
             msgInfo: MsgInfo,
             rule: Rule?,
-            logId: Long?,
+            senderIndex: Int = 0,
+            logId: Long = 0L,
+            msgId: Long = 0L
         ) {
             //仅当无网络时启用 && 判断是否真实有网络
             if (setting.onlyNoNetwork == true && NetworkUtils.isHaveInternet() && NetworkUtils.isAvailableByPing()) {
                 SendUtils.updateLogs(logId, 0, ResUtils.getString(R.string.OnlyNoNetwork))
+                SendUtils.senderLogic(0, msgInfo, rule, senderIndex, msgId)
                 return
             }
 
             if (ActivityCompat.checkSelfPermission(XUtil.getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
                 SendUtils.updateLogs(logId, 0, ResUtils.getString(R.string.no_sms_sending_permission))
+                SendUtils.senderLogic(0, msgInfo, rule, senderIndex, msgId)
                 return
             }
 
@@ -62,13 +66,15 @@ class SmsUtils {
             val res: String? = PhoneUtils.sendSms(mSubscriptionId, mobiles, content)
             if (res == null) {
                 SendUtils.updateLogs(logId, 2, ResUtils.getString(R.string.request_succeeded))
+                SendUtils.senderLogic(2, msgInfo, rule, senderIndex, msgId)
             } else {
                 SendUtils.updateLogs(logId, 0, res)
+                SendUtils.senderLogic(0, msgInfo, rule, senderIndex, msgId)
             }
         }
 
         fun sendMsg(setting: SmsSetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo, null, null)
+            sendMsg(setting, msgInfo)
         }
     }
 }

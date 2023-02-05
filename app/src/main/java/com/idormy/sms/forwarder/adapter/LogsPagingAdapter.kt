@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.idormy.sms.forwarder.adapter.LogsPagingAdapter.MyViewHolder
 import com.idormy.sms.forwarder.database.entity.LogsAndRuleAndSender
-import com.idormy.sms.forwarder.database.entity.Sender
 import com.idormy.sms.forwarder.databinding.AdapterLogsCardViewListItemBinding
 import com.xuexiang.xutil.data.DateUtils
 
@@ -23,12 +22,12 @@ class LogsPagingAdapter(private val itemClickListener: OnItemClickListener) : Pa
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = getItem(position)
         if (item != null) {
-            holder.binding.tvFrom.text = item.logs.from
+            holder.binding.tvFrom.text = item.msg.from
             holder.binding.tvTime.text = DateUtils.getFriendlyTimeSpanByNow(item.logs.time)
-            holder.binding.tvContent.text = item.logs.content
-            holder.binding.ivSenderImage.setImageResource(Sender.getImageId(item.relation.sender.type))
-            holder.binding.ivStatusImage.setImageResource(item.logs.statusImageId)
-            holder.binding.ivSimImage.setImageResource(item.logs.simImageId)
+            holder.binding.tvContent.text = item.msg.content
+            //holder.binding.ivSenderImage.setImageResource(Sender.getImageId(item.sender.type))
+            //holder.binding.ivStatusImage.setImageResource(item.logs.statusImageId)
+            holder.binding.ivSimImage.setImageResource(item.msg.simImageId)
 
             holder.binding.cardView.setOnClickListener { view: View? ->
                 itemClickListener.onItemClicked(view, item)

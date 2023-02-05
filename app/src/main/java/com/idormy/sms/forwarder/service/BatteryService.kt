@@ -64,7 +64,7 @@ class BatteryService : Service() {
                 Log.d(TAG, "自动删除N天前的转发记录")
                 val cal = Calendar.getInstance()
                 cal.add(Calendar.DAY_OF_MONTH, 0 - SettingUtils.autoCleanLogsDays)
-                Core.logs.deleteTimeAgo(cal.timeInMillis)
+                Core.msg.deleteTimeAgo(cal.timeInMillis)
             }
 
             //电量发生变化

@@ -23,7 +23,9 @@ class WeworkRobotUtils private constructor() {
             setting: WeworkRobotSetting,
             msgInfo: MsgInfo,
             rule: Rule?,
-            logId: Long?,
+            senderIndex: Int = 0,
+            logId: Long = 0L,
+            msgId: Long = 0L
         ) {
             val content: String = if (rule != null) {
                 msgInfo.getContentForSend(rule.smsTemplate, rule.regexReplace)
@@ -58,17 +60,16 @@ class WeworkRobotUtils private constructor() {
                     override fun onError(e: ApiException) {
                         Log.e(TAG, e.detailMessage)
                         SendUtils.updateLogs(logId, 0, e.displayMessage)
+                        SendUtils.senderLogic(0, msgInfo, rule, senderIndex, msgId)
                     }
 
                     override fun onSuccess(response: String) {
                         Log.i(TAG, response)
 
                         val resp = Gson().fromJson(response, WeworkRobotResult::class.java)
-                        if (resp?.errcode == 0L) {
-                            SendUtils.updateLogs(logId, 2, response)
-                        } else {
-                            SendUtils.updateLogs(logId, 0, response)
-                        }
+                        val status = if (resp?.errcode == 0L) 2 else 0
+                        SendUtils.updateLogs(logId, status, response)
+                        SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
                     }
 
                 })
@@ -76,7 +77,7 @@ class WeworkRobotUtils private constructor() {
         }
 
         fun sendMsg(setting: WeworkRobotSetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo, null, null)
+            sendMsg(setting, msgInfo)
         }
     }
 }

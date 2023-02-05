@@ -24,6 +24,9 @@ class RuleRepository(
     @WorkerThread
     fun get(id: Long) = ruleDao.get(id)
 
+    @WorkerThread
+    fun getOne(id: Long) = ruleDao.getOne(id)
+
     suspend fun getRuleAndSender(type: String, status: Int, simSlot: String) = ruleDao.getRuleAndSender(type, status, simSlot)
 
     fun getRuleList(type: String, status: Int, simSlot: String) = ruleDao.getRuleList(type, status, simSlot)

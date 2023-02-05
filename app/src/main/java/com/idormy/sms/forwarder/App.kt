@@ -17,10 +17,7 @@ import com.gyf.cactus.ext.cactus
 import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.AppDatabase
-import com.idormy.sms.forwarder.database.repository.FrpcRepository
-import com.idormy.sms.forwarder.database.repository.LogsRepository
-import com.idormy.sms.forwarder.database.repository.RuleRepository
-import com.idormy.sms.forwarder.database.repository.SenderRepository
+import com.idormy.sms.forwarder.database.repository.*
 import com.idormy.sms.forwarder.entity.SimInfo
 import com.idormy.sms.forwarder.receiver.CactusReceiver
 import com.idormy.sms.forwarder.service.BatteryService
@@ -48,6 +45,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
     val applicationScope = CoroutineScope(SupervisorJob())
     val database by lazy { AppDatabase.getInstance(this) }
     val frpcRepository by lazy { FrpcRepository(database.frpcDao()) }
+    val msgRepository by lazy { MsgRepository(database.msgDao()) }
     val logsRepository by lazy { LogsRepository(database.logsDao()) }
     val ruleRepository by lazy { RuleRepository(database.ruleDao()) }
     val senderRepository by lazy { SenderRepository(database.senderDao()) }

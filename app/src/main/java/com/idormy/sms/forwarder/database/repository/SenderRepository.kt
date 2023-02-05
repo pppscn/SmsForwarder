@@ -20,6 +20,8 @@ class SenderRepository(private val senderDao: SenderDao) {
 
     fun get(id: Long) = senderDao.get(id)
 
+    fun getOne(id: Long) = senderDao.getOne(id)
+
     fun update(sender: Sender) = senderDao.update(sender)
 
     val count: Flow<Long> = senderDao.getOnCount()

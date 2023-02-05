@@ -25,6 +25,9 @@ interface RuleDao {
     @Query("SELECT * FROM Rule where id=:id")
     fun get(id: Long): Single<Rule>
 
+    @Query("SELECT * FROM Rule where id=:id")
+    fun getOne(id: Long): Rule
+
     @Query("SELECT count(*) FROM Rule where type=:type and status=:status")
     fun count(type: String, status: Int): Single<Int>
 
@@ -40,7 +43,7 @@ interface RuleDao {
 
     @Transaction
     @Query("SELECT * FROM Rule where type=:type ORDER BY id DESC")
-    fun pagingSource(type: String): PagingSource<Int, RuleAndSender>
+    fun pagingSource(type: String): PagingSource<Int, Rule>
 
     @Transaction
     @Query("SELECT * FROM Rule where type=:type and status=:status and (sim_slot='ALL' or sim_slot=:simSlot)")

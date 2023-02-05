@@ -9,7 +9,8 @@ import androidx.work.workDataOf
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.Logs
-import com.idormy.sms.forwarder.database.entity.RuleAndSender
+import com.idormy.sms.forwarder.database.entity.Msg
+import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.utils.*
 import com.xuexiang.xutil.security.CipherUtils
@@ -55,7 +56,6 @@ class SendWorker(
                         Log.e("SendWorker", "免打扰(禁用转发)时间段")
                         return@withContext Result.failure(workDataOf("send" to "failed"))
                     }
-
                 }
 
                 val msgInfoJson = inputData.getString(Worker.sendMsgInfo)
@@ -75,18 +75,22 @@ class SendWorker(
 
                 //【注意】卡槽id：-1=获取失败、0=卡槽1、1=卡槽2，但是 Rule 表里存的是 SIM1/SIM2
                 val simSlot = "SIM" + (msgInfo.simSlot + 1)
-                val ruleList: List<RuleAndSender> = Core.rule.getRuleAndSender(msgInfo.type, 1, simSlot)
+                val ruleList: List<Rule> = Core.rule.getRuleList(msgInfo.type, 1, simSlot)
                 if (ruleList.isEmpty()) {
                     return@withContext Result.failure(workDataOf("send" to "failed"))
                 }
 
+                val msg = Msg(0, msgInfo.type, msgInfo.from, msgInfo.content, msgInfo.simSlot, msgInfo.simInfo, msgInfo.subId)
+                val msgId = Core.msg.insert(msg)
+
                 for (rule in ruleList) {
-                    if (!rule.rule.checkMsg(msgInfo)) continue
-                    val log = Logs(
-                        0, msgInfo.type, msgInfo.from, msgInfo.content, rule.rule.id, msgInfo.simInfo, msgInfo.subId
-                    )
+                    Log.d("SendWorker", rule.toString())
+                    if (!rule.checkMsg(msgInfo)) continue
+
+                    val sender = rule.senderList[0]
+                    val log = Logs(0, msgInfo.type, msgId, rule.id, sender.id)
                     val logId = Core.logs.insert(log)
-                    SendUtils.sendMsgSender(msgInfo, rule.rule, rule.sender, logId)
+                    SendUtils.sendMsgSender(msgInfo, rule, 0, logId, msgId)
                 }
 
             } catch (e: Exception) {

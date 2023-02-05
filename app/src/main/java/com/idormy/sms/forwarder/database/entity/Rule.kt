@@ -4,6 +4,7 @@ import android.os.Parcelable
 import android.util.Log
 import androidx.room.*
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.database.ext.ConvertersSenderList
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.utils.*
 import com.xuexiang.xui.utils.ResUtils.getString
@@ -26,9 +27,11 @@ import java.util.regex.PatternSyntaxException
     ],
     indices = [
         Index(value = ["id"], unique = true),
-        Index(value = ["sender_id"])
+        Index(value = ["sender_id"]),
+        Index(value = ["sender_list"])
     ]
 )
+@TypeConverters(ConvertersSenderList::class)
 data class Rule(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id") var id: Long,
@@ -42,6 +45,8 @@ data class Rule(
     @ColumnInfo(name = "sim_slot", defaultValue = "ALL") var simSlot: String = "",
     @ColumnInfo(name = "status", defaultValue = "1") var status: Int = 1,
     @ColumnInfo(name = "time") var time: Date = Date(),
+    @ColumnInfo(name = "sender_list", defaultValue = "") var senderList: List<Sender>,
+    @ColumnInfo(name = "sender_logic", defaultValue = "ALL") var senderLogic: String = "ALL",
 ) : Parcelable {
 
     companion object {
@@ -86,6 +91,14 @@ data class Rule(
             STATUS_OFF -> R.drawable.icon_off
             else -> R.drawable.icon_on
         }
+
+    fun getSenderLogicCheckId(): Int {
+        return when (senderLogic) {
+            SENDER_LOGIC_UNTIL_FAIL -> R.id.rb_sender_logic_until_fail
+            SENDER_LOGIC_UNTIL_SUCCESS -> R.id.rb_sender_logic_until_success
+            else -> R.id.rb_sender_logic_all
+        }
+    }
 
     fun getSimSlotCheckId(): Int {
         return when (simSlot) {

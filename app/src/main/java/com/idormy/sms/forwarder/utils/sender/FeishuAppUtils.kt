@@ -28,13 +28,15 @@ class FeishuAppUtils private constructor() {
             setting: FeishuAppSetting,
             msgInfo: MsgInfo,
             rule: Rule?,
-            logId: Long?,
+            senderIndex: Int = 0,
+            logId: Long = 0L,
+            msgId: Long = 0L
         ) {
 
             var accessToken: String by SharedPreference("feishu_access_token_" + setting.appId, "")
             var expiresIn: Long by SharedPreference("feishu_expires_in_" + setting.appId, 0L)
             if (!TextUtils.isEmpty(accessToken) && expiresIn > System.currentTimeMillis()) {
-                return sendTextMsg(setting, msgInfo, rule, logId)
+                return sendTextMsg(setting, msgInfo, rule, senderIndex, logId, msgId)
             }
 
             val requestUrl = "https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal"
@@ -51,7 +53,9 @@ class FeishuAppUtils private constructor() {
 
                     override fun onError(e: ApiException) {
                         Log.e(TAG, e.detailMessage)
-                        SendUtils.updateLogs(logId, 0, e.displayMessage)
+                        val status = 0
+                        SendUtils.updateLogs(logId, status, e.displayMessage)
+                        SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
                     }
 
                     override fun onSuccess(response: String) {
@@ -61,9 +65,10 @@ class FeishuAppUtils private constructor() {
                         if (!TextUtils.isEmpty(resp?.tenant_access_token)) {
                             accessToken = resp.tenant_access_token.toString()
                             expiresIn = System.currentTimeMillis() + ((resp.expire ?: 7010) - 120) * 1000L //提前2分钟过期
-                            sendTextMsg(setting, msgInfo, rule, logId)
+                            sendTextMsg(setting, msgInfo, rule, senderIndex, logId, msgId)
                         } else {
                             SendUtils.updateLogs(logId, 0, String.format(getString(R.string.request_failed_tips), response))
+                            SendUtils.senderLogic(0, msgInfo, rule, senderIndex, msgId)
                         }
                     }
 
@@ -76,7 +81,9 @@ class FeishuAppUtils private constructor() {
             setting: FeishuAppSetting,
             msgInfo: MsgInfo,
             rule: Rule?,
-            logId: Long?,
+            senderIndex: Int = 0,
+            logId: Long = 0L,
+            msgId: Long = 0L
         ) {
             val requestUrl = "https://open.feishu.cn/open-apis/im/v1/messages?receive_id_type=user_id"
             Log.d(TAG, "requestUrl：$requestUrl")
@@ -117,7 +124,9 @@ class FeishuAppUtils private constructor() {
 
                     override fun onError(e: ApiException) {
                         Log.e(TAG, e.detailMessage)
-                        SendUtils.updateLogs(logId, 0, e.displayMessage)
+                        val status = 0
+                        SendUtils.updateLogs(logId, status, e.displayMessage)
+                        SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
                     }
 
                     override fun onSuccess(response: String) {
@@ -126,18 +135,16 @@ class FeishuAppUtils private constructor() {
                         //Log.d(TAG, "cipherSuite=" + response.handshake().cipherSuite().toString())
 
                         val resp = Gson().fromJson(response, FeishuAppResult::class.java)
-                        if (resp?.code == 0L) {
-                            SendUtils.updateLogs(logId, 2, response)
-                        } else {
-                            SendUtils.updateLogs(logId, 0, response)
-                        }
+                        val status = if (resp?.code == 0L) 2 else 0
+                        SendUtils.updateLogs(logId, status, response)
+                        SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
                     }
 
                 })
         }
 
         fun sendMsg(setting: FeishuAppSetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo, null, null)
+            sendMsg(setting, msgInfo)
         }
 
         private fun jsonInnerStr(string: String?): String {
