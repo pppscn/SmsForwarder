@@ -101,6 +101,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -240,80 +241,134 @@
             <LinearLayout
                 style="@style/settingBarStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/forward_app_notify"
-                        android:textStyle="bold"
-                        tools:ignore="RelativeOverlap" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/forward_app_notify_tips"
-                        android:textSize="9sp"
-                        tools:ignore="SmallSp" />
+                    android:orientation="horizontal">
 
                     <LinearLayout
-                        android:id="@+id/layout_optional_action"
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/optional_action"
-                            android:textSize="10sp"
+                            android:text="@string/forward_app_notify"
                             android:textStyle="bold"
-                            tools:ignore="SmallSp" />
-
-                        <com.xuexiang.xui.widget.button.SmoothCheckBox
-                            android:id="@+id/scb_cancel_app_notify"
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            app:scb_color_checked="@color/colorPrimary" />
+                            tools:ignore="RelativeOverlap" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/cancel_app_notify"
-                            android:textSize="10sp"
+                            android:text="@string/forward_app_notify_tips"
+                            android:textSize="9sp"
                             tools:ignore="SmallSp" />
 
-                        <com.xuexiang.xui.widget.button.SmoothCheckBox
-                            android:id="@+id/scb_not_user_present"
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:layout_marginStart="5dp"
-                            app:scb_color_checked="@color/colorPrimary" />
+                        <LinearLayout
+                            android:id="@+id/layout_optional_action"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/optional_action"
+                                android:textSize="10sp"
+                                android:textStyle="bold"
+                                tools:ignore="SmallSp" />
+
+                            <com.xuexiang.xui.widget.button.SmoothCheckBox
+                                android:id="@+id/scb_cancel_app_notify"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                app:scb_color_checked="@color/colorPrimary" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/cancel_app_notify"
+                                android:textSize="10sp"
+                                tools:ignore="SmallSp" />
+
+                            <com.xuexiang.xui.widget.button.SmoothCheckBox
+                                android:id="@+id/scb_not_user_present"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_marginStart="5dp"
+                                app:scb_color_checked="@color/colorPrimary" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/not_user_present"
+                                android:textSize="10sp"
+                                tools:ignore="SmallSp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                        android:id="@+id/sb_enable_app_notify"
+                        style="@style/SwitchButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_app_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingEnd="10dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="2"
+                        android:text="@string/extra_app"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                            android:id="@+id/et_app_list"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/not_user_present"
-                            android:textSize="10sp"
-                            tools:ignore="SmallSp" />
+                            android:hint="@string/extra_app_hint"
+                            android:inputType="textMultiLine"
+                            app:met_clearButton="true" />
+
+                        <com.xuexiang.xui.widget.spinner.editspinner.EditSpinner
+                            android:id="@+id/sp_app"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:visibility="gone"
+                            app:es_hint="@string/choose_app_hint"
+                            app:es_maxLength="20"
+                            app:es_maxLine="1" />
 
                     </LinearLayout>
 
                 </LinearLayout>
-
-                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
-                    android:id="@+id/sb_enable_app_notify"
-                    style="@style/SwitchButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 

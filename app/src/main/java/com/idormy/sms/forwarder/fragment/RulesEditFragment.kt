@@ -37,10 +37,7 @@ import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.*
 
 @Page(name = "转发规则·编辑器")
@@ -411,6 +408,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
     }
 
     //初始化APP下拉列表
+    @OptIn(DelicateCoroutinesApi::class)
     private fun initAppSpinner() {
         if (ruleType != "app") return
 

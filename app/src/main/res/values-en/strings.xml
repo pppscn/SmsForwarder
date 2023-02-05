@@ -721,7 +721,9 @@
     <string name="feishu_secret_hint">Group Robot → Security Settings → Signature Verification</string>
     <string name="pushplus_token_hint">Please go to the corresponding official website to obtain</string>
     <string name="choose_sender">Drop-down selection, keyword fuzzy match</string>
-    <string name="choose_app">Installed apps</string>
+    <string name="choose_app">Installed Apps</string>
+    <string name="extra_app">Extra Apps</string>
+    <string name="extra_app_hint">One package name per line\nEnable async loading of the App list for selection.</string>
     <string name="choose_app_hint">Drop-down selection to get package name, keyword fuzzy matching APP name</string>
     <string name="regex_multi_match" tools:ignore="TypographyDashes">^\\s*(AND|OR)\\s(IS|NOTIS)\\s(PHONE_NUM|PACKAGE_NAME|MSG_CONTENT|INFORM_CONTENT|INFORM_TITLE|CARD_SLOT)\\s(EQUALS|CONTAIN|NOTCONTAIN|STARTWITH|ENDWITH|REGEX)\\s(.*)$</string>
     <string name="privacy_content_1">Welcome to</string>

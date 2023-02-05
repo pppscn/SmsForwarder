@@ -55,6 +55,21 @@ class NotifyService : NotificationListenerService() {
             if (sbn!!.notification == null) return
             if (sbn.notification.extras == null) return
 
+            //自动消除额外APP通知
+            if (!TextUtils.isEmpty(SettingUtils.cancelExtraAppNotify)) {
+                for (app in SettingUtils.cancelExtraAppNotify.split("\n")) {
+                    if (sbn.packageName == app.trim()) {
+                        Log.d(TAG, "自动消除额外APP通知：$app")
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            cancelNotification(sbn.key)
+                        } else {
+                            cancelNotification(sbn.packageName, sbn.tag, sbn.id)
+                        }
+                        break
+                    }
+                }
+            }
+
             //仅锁屏状态转发APP通知
             if (SettingUtils.enableNotUserPresent && !ScreenUtils.isScreenLock()) return
 
@@ -97,13 +112,11 @@ class NotifyService : NotificationListenerService() {
                 }
             }
 
-            val request = OneTimeWorkRequestBuilder<SendWorker>()
-                .setInputData(
-                    workDataOf(
-                        Worker.sendMsgInfo to Gson().toJson(msgInfo),
-                    )
+            val request = OneTimeWorkRequestBuilder<SendWorker>().setInputData(
+                workDataOf(
+                    Worker.sendMsgInfo to Gson().toJson(msgInfo),
                 )
-                .build()
+            ).build()
             WorkManager.getInstance(applicationContext).enqueue(request)
 
         } catch (e: Exception) {
