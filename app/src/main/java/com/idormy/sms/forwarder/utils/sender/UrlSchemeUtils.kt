@@ -25,7 +25,7 @@ class UrlSchemeUtils private constructor() {
         fun sendMsg(
             setting: UrlSchemeSetting,
             msgInfo: MsgInfo,
-            rule: Rule?,
+            rule: Rule? = null,
             senderIndex: Int = 0,
             logId: Long = 0L,
             msgId: Long = 0L
@@ -74,8 +74,5 @@ class UrlSchemeUtils private constructor() {
 
         }
 
-        fun sendMsg(setting: UrlSchemeSetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo)
-        }
     }
 }

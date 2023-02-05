@@ -23,7 +23,7 @@ class ServerchanUtils {
         fun sendMsg(
             setting: ServerchanSetting,
             msgInfo: MsgInfo,
-            rule: Rule?,
+            rule: Rule? = null,
             senderIndex: Int = 0,
             logId: Long = 0L,
             msgId: Long = 0L
@@ -77,8 +77,5 @@ class ServerchanUtils {
 
         }
 
-        fun sendMsg(setting: ServerchanSetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo)
-        }
     }
 }

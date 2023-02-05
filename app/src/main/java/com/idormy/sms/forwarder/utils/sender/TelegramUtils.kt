@@ -29,7 +29,7 @@ class TelegramUtils private constructor() {
         fun sendMsg(
             setting: TelegramSetting,
             msgInfo: MsgInfo,
-            rule: Rule?,
+            rule: Rule? = null,
             senderIndex: Int = 0,
             logId: Long = 0L,
             msgId: Long = 0L
@@ -134,10 +134,6 @@ class TelegramUtils private constructor() {
 
                 })
 
-        }
-
-        fun sendMsg(setting: TelegramSetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo)
         }
 
         private fun htmlEncode(source: String?): String {

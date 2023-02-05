@@ -22,7 +22,7 @@ class WeworkRobotUtils private constructor() {
         fun sendMsg(
             setting: WeworkRobotSetting,
             msgInfo: MsgInfo,
-            rule: Rule?,
+            rule: Rule? = null,
             senderIndex: Int = 0,
             logId: Long = 0L,
             msgId: Long = 0L
@@ -76,8 +76,5 @@ class WeworkRobotUtils private constructor() {
 
         }
 
-        fun sendMsg(setting: WeworkRobotSetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo)
-        }
     }
 }

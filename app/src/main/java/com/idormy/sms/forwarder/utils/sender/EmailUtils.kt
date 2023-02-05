@@ -20,7 +20,7 @@ class EmailUtils {
         fun sendMsg(
             setting: EmailSetting,
             msgInfo: MsgInfo,
-            rule: Rule?,
+            rule: Rule? = null,
             senderIndex: Int = 0,
             logId: Long = 0L,
             msgId: Long = 0L
@@ -149,8 +149,5 @@ class EmailUtils {
 
         }
 
-        fun sendMsg(setting: EmailSetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo)
-        }
     }
 }

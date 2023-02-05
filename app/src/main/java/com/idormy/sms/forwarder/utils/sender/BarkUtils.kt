@@ -24,7 +24,7 @@ class BarkUtils {
         fun sendMsg(
             setting: BarkSetting,
             msgInfo: MsgInfo,
-            rule: Rule?,
+            rule: Rule? = null,
             senderIndex: Int = 0,
             logId: Long = 0L,
             msgId: Long = 0L
@@ -107,8 +107,5 @@ class BarkUtils {
 
         }
 
-        fun sendMsg(setting: BarkSetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo)
-        }
     }
 }

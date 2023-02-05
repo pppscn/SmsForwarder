@@ -35,7 +35,7 @@ class DingtalkInnerRobotUtils private constructor() {
         fun sendMsg(
             setting: DingtalkInnerRobotSetting,
             msgInfo: MsgInfo,
-            rule: Rule?,
+            rule: Rule? = null,
             senderIndex: Int = 0,
             logId: Long = 0L,
             msgId: Long = 0L
@@ -122,7 +122,7 @@ class DingtalkInnerRobotUtils private constructor() {
         private fun sendTextMsg(
             setting: DingtalkInnerRobotSetting,
             msgInfo: MsgInfo,
-            rule: Rule?,
+            rule: Rule? = null,
             senderIndex: Int = 0,
             logId: Long = 0L,
             msgId: Long = 0L
@@ -219,10 +219,6 @@ class DingtalkInnerRobotUtils private constructor() {
                     }
 
                 })
-        }
-
-        fun sendMsg(setting: DingtalkInnerRobotSetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo)
         }
 
     }

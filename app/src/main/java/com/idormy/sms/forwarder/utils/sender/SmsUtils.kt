@@ -25,7 +25,7 @@ class SmsUtils {
         fun sendMsg(
             setting: SmsSetting,
             msgInfo: MsgInfo,
-            rule: Rule?,
+            rule: Rule? = null,
             senderIndex: Int = 0,
             logId: Long = 0L,
             msgId: Long = 0L
@@ -73,8 +73,5 @@ class SmsUtils {
             }
         }
 
-        fun sendMsg(setting: SmsSetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo)
-        }
     }
 }

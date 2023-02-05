@@ -35,7 +35,7 @@ class WeworkAgentUtils private constructor() {
         fun sendMsg(
             setting: WeworkAgentSetting,
             msgInfo: MsgInfo,
-            rule: Rule?,
+            rule: Rule? = null,
             senderIndex: Int = 0,
             logId: Long = 0L,
             msgId: Long = 0L
@@ -119,7 +119,7 @@ class WeworkAgentUtils private constructor() {
         private fun sendTextMsg(
             setting: WeworkAgentSetting,
             msgInfo: MsgInfo,
-            rule: Rule?,
+            rule: Rule? = null,
             senderIndex: Int = 0,
             logId: Long = 0L,
             msgId: Long = 0L
@@ -203,10 +203,6 @@ class WeworkAgentUtils private constructor() {
                     }
 
                 })
-        }
-
-        fun sendMsg(setting: WeworkAgentSetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo)
         }
 
     }

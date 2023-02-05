@@ -27,7 +27,7 @@ class FeishuAppUtils private constructor() {
         fun sendMsg(
             setting: FeishuAppSetting,
             msgInfo: MsgInfo,
-            rule: Rule?,
+            rule: Rule? = null,
             senderIndex: Int = 0,
             logId: Long = 0L,
             msgId: Long = 0L
@@ -80,7 +80,7 @@ class FeishuAppUtils private constructor() {
         private fun sendTextMsg(
             setting: FeishuAppSetting,
             msgInfo: MsgInfo,
-            rule: Rule?,
+            rule: Rule? = null,
             senderIndex: Int = 0,
             logId: Long = 0L,
             msgId: Long = 0L
@@ -141,10 +141,6 @@ class FeishuAppUtils private constructor() {
                     }
 
                 })
-        }
-
-        fun sendMsg(setting: FeishuAppSetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo)
         }
 
         private fun jsonInnerStr(string: String?): String {

@@ -82,7 +82,7 @@ class FeishuUtils private constructor() {
         fun sendMsg(
             setting: FeishuSetting,
             msgInfo: MsgInfo,
-            rule: Rule?,
+            rule: Rule? = null,
             senderIndex: Int = 0,
             logId: Long = 0L,
             msgId: Long = 0L
@@ -182,8 +182,5 @@ class FeishuUtils private constructor() {
             return if (jsonStr.length >= 2) jsonStr.substring(1, jsonStr.length - 1) else jsonStr
         }
 
-        fun sendMsg(setting: FeishuSetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo)
-        }
     }
 }
