@@ -222,6 +222,10 @@
     <string name="test_package_name">Test PackageName</string>
     <string name="test_inform_title">Test Notify Title</string>
     <string name="test_inform_content">Test Notify Content</string>
+    <string name="sender_logic">Run Logic</string>
+    <string name="sender_logic_all">All Run</string>
+    <string name="sender_logic_until_fail">Run Until Fail</string>
+    <string name="sender_logic_until_success">Run Until Success</string>
     <string name="match_sim_slot">SIM Slot</string>
     <string name="match_field">Field</string>
     <string name="phone_number">Phone No.</string>
@@ -505,10 +509,13 @@
     <string name="ring_duration">Ring duration: </string>
     <string name="type">Type: </string>
     <string name="mandatory_type">Call type: </string>
+    <string name="incoming_call_received">Incoming Received</string>
+    <string name="incoming_call_answered">Incoming Answered</string>
+    <string name="incoming_call_ended">Incoming Ended</string>
+    <string name="outgoing_call_started">Outgoing Started</string>
+    <string name="outgoing_call_ended">Outgoing Ended</string>
     <string name="missed_call">Missed</string>
-    <string name="incoming_call">Incoming</string>
-    <string name="received_call">Received</string>
-    <string name="local_outgoing_call">Call out</string>
+    <string name="unknown_call">Unknown</string>
     <string name="optional_action">Optional: </string>
     <string name="optional_type">Optional: </string>
     <string name="active_request">Active request</string>
@@ -840,6 +847,7 @@
     <string name="frpc_failed_to_run">Frpc failed to run</string>
     <string name="successfully_deleted">Successfully deleted</string>
     <string name="sender_disabled_tips">[Note] The sending channel has been disabled, and its associated rules will not be sent even if they match!</string>
+    <string name="sender_contains_tips">[Note] The sending channel is already in the list, no need to add it again!</string>
     <string name="local_call">Local Call:</string>
     <string name="remote_sms">Remote SMS：</string>
     <string name="clear">Clear</string>
@@ -941,4 +949,6 @@
     <string name="copy_public_key">Copy</string>
     <string name="sm4_key">SM4 Key</string>
     <string name="sm4_key_tips">Client or server interaction messages are all encrypted and decrypted using SM4</string>
+
+    <string name="sender_del">Del Sender</string>
 </resources>

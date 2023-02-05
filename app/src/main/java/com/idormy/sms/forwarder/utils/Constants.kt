@@ -33,6 +33,8 @@ const val SP_ENABLE_CALL_TYPE_1 = "enable_call_type_1"
 const val SP_ENABLE_CALL_TYPE_2 = "enable_call_type_2"
 const val SP_ENABLE_CALL_TYPE_3 = "enable_call_type_3"
 const val SP_ENABLE_CALL_TYPE_4 = "enable_call_type_4"
+const val SP_ENABLE_CALL_TYPE_5 = "enable_call_type_5"
+const val SP_ENABLE_CALL_TYPE_6 = "enable_call_type_6"
 
 const val SP_ENABLE_APP_NOTIFY = "enable_app_notify"
 const val SP_ENABLE_CANCEL_APP_NOTIFY = "enable_cancel_app_notify"

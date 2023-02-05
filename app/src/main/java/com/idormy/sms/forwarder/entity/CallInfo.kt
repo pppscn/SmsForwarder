@@ -13,7 +13,7 @@ data class CallInfo(
     var dateLong: Long = 0L,
     //获取通话时长，值为多少秒
     var duration: Int = 0,
-    //通话类型：1=呼入, 2=呼出, 3=未接, 4=未接提醒
+    //通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
     var type: Int = 1,
     //被呼号码
     @SerializedName("via_number")

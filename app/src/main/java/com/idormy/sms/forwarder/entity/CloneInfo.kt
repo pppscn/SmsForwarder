@@ -21,6 +21,12 @@ data class CloneInfo(
     var callType2: Boolean = false,
     @SerializedName("call_type3")
     var callType3: Boolean = false,
+    @SerializedName("call_type4")
+    var callType4: Boolean = false,
+    @SerializedName("call_type5")
+    var callType5: Boolean = false,
+    @SerializedName("call_type6")
+    var callType6: Boolean = false,
     @SerializedName("enable_app_notify")
     var enableAppNotify: Boolean = false,
     @SerializedName("cancel_app_notify")

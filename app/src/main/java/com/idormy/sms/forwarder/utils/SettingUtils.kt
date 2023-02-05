@@ -18,10 +18,10 @@ class SettingUtils private constructor() {
         //是否转发通话
         var enablePhone: Boolean by SharedPreference(SP_ENABLE_PHONE, false)
 
-        //是否转发通话——已接来电
+        //是否转发通话——来电挂机
         var enableCallType1: Boolean by SharedPreference(SP_ENABLE_CALL_TYPE_1, false)
 
-        //是否转发通话——本机去电
+        //是否转发通话——去电挂机
         var enableCallType2: Boolean by SharedPreference(SP_ENABLE_CALL_TYPE_2, false)
 
         //是否转发通话——未接来电
@@ -29,6 +29,12 @@ class SettingUtils private constructor() {
 
         //是否转发通话——来电提醒
         var enableCallType4: Boolean by SharedPreference(SP_ENABLE_CALL_TYPE_4, false)
+
+        //是否转发通话——来电接通
+        var enableCallType5: Boolean by SharedPreference(SP_ENABLE_CALL_TYPE_5, false)
+
+        //是否转发通话——去电拨出
+        var enableCallType6: Boolean by SharedPreference(SP_ENABLE_CALL_TYPE_6, false)
 
         //是否转发应用通知
         var enableAppNotify: Boolean by SharedPreference(SP_ENABLE_APP_NOTIFY, false)

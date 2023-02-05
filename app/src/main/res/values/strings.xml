@@ -510,10 +510,13 @@
     <string name="ring_duration">响铃时长：</string>
     <string name="type">类型：</string>
     <string name="mandatory_type">通话类型：</string>
+    <string name="incoming_call_received">来电提醒</string>
+    <string name="incoming_call_answered">来电接通</string>
+    <string name="incoming_call_ended">来电挂机</string>
+    <string name="outgoing_call_started">去电拨出</string>
+    <string name="outgoing_call_ended">去电挂机</string>
     <string name="missed_call">未接来电</string>
-    <string name="incoming_call">来电提醒</string>
-    <string name="received_call">已接来电</string>
-    <string name="local_outgoing_call">本机去电</string>
+    <string name="unknown_call">未知通话</string>
     <string name="optional_action">可选操作：</string>
     <string name="optional_type">可选类型：</string>
     <string name="active_request">主动请求</string>

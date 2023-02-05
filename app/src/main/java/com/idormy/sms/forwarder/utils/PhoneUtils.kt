@@ -187,11 +187,9 @@ class PhoneUtils private constructor() {
                 Log.d(TAG, "selectionArgs = $selectionArgs")
 
                 //为了兼容性这里全部取出后手动分页
-                val cursor = (if (limit == 1) Core.app.contentResolver.query(
-                    CallLog.Calls.CONTENT_URI, null, selection, selectionArgs.toTypedArray(), CallLog.Calls.DEFAULT_SORT_ORDER + " limit $limit offset $offset"
-                ) else Core.app.contentResolver.query(
+                val cursor = Core.app.contentResolver.query(
                     CallLog.Calls.CONTENT_URI, null, selection, selectionArgs.toTypedArray(), CallLog.Calls.DEFAULT_SORT_ORDER // + " limit $limit offset $offset"
-                )) ?: return callInfoList
+                ) ?: return callInfoList
                 Log.i(TAG, "cursor count:" + cursor.count)
 
                 // 避免超过总数后循环取出
@@ -348,12 +346,15 @@ class PhoneUtils private constructor() {
                 sb.append(callInfo.duration).append("s\n")
             }
             sb.append(ResUtils.getString(R.string.mandatory_type))
-            //通话类型：1.呼入 2.呼出 3.未接 4.来电提醒
+            //通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
             when (callInfo.type) {
-                1 -> sb.append(ResUtils.getString(R.string.received_call))
-                2 -> sb.append(ResUtils.getString(R.string.local_outgoing_call))
+                1 -> sb.append(ResUtils.getString(R.string.incoming_call_ended))
+                2 -> sb.append(ResUtils.getString(R.string.outgoing_call_ended))
                 3 -> sb.append(ResUtils.getString(R.string.missed_call))
-                else -> sb.append(ResUtils.getString(R.string.incoming_call))
+                4 -> sb.append(ResUtils.getString(R.string.incoming_call_received))
+                5 -> sb.append(ResUtils.getString(R.string.incoming_call_answered))
+                6 -> sb.append(ResUtils.getString(R.string.outgoing_call_started))
+                else -> sb.append(ResUtils.getString(R.string.unknown_call))
             }
             return sb.toString()
         }

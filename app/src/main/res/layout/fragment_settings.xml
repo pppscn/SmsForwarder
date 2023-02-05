@@ -100,76 +100,130 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="25dp"
+                        android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/type"
+                            android:text="@string/mandatory_type"
                             android:textSize="10sp"
                             android:textStyle="bold"
                             tools:ignore="SmallSp" />
 
-                        <com.xuexiang.xui.widget.button.SmoothCheckBox
-                            android:id="@+id/scb_call_type3"
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            app:scb_color_checked="@color/colorPrimary" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:text="@string/missed_call"
-                            android:textSize="10sp"
-                            tools:ignore="SmallSp" />
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-                        <com.xuexiang.xui.widget.button.SmoothCheckBox
-                            android:id="@+id/scb_call_type1"
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:layout_marginStart="3dp"
-                            app:scb_color_checked="@color/colorPrimary" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:text="@string/received_call"
-                            android:textSize="10sp"
-                            tools:ignore="SmallSp" />
+                                <com.xuexiang.xui.widget.button.SmoothCheckBox
+                                    android:id="@+id/scb_call_type3"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    app:scb_color_checked="@color/colorPrimary" />
 
-                        <com.xuexiang.xui.widget.button.SmoothCheckBox
-                            android:id="@+id/scb_call_type2"
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:layout_marginStart="3dp"
-                            app:scb_color_checked="@color/colorPrimary" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/missed_call"
+                                    android:textSize="10sp"
+                                    tools:ignore="SmallSp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:text="@string/local_outgoing_call"
-                            android:textSize="10sp"
-                            tools:ignore="SmallSp" />
+                                <com.xuexiang.xui.widget.button.SmoothCheckBox
+                                    android:id="@+id/scb_call_type1"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_marginStart="5dp"
+                                    app:scb_color_checked="@color/colorPrimary" />
 
-                        <com.xuexiang.xui.widget.button.SmoothCheckBox
-                            android:id="@+id/scb_call_type4"
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:layout_marginStart="3dp"
-                            app:scb_color_checked="@color/colorPrimary" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/incoming_call_ended"
+                                    android:textSize="10sp"
+                                    tools:ignore="SmallSp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:text="@string/incoming_call"
-                            android:textSize="10sp"
-                            tools:ignore="SmallSp" />
+                                <com.xuexiang.xui.widget.button.SmoothCheckBox
+                                    android:id="@+id/scb_call_type2"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_marginStart="5dp"
+                                    app:scb_color_checked="@color/colorPrimary" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/outgoing_call_ended"
+                                    android:textSize="10sp"
+                                    tools:ignore="SmallSp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <com.xuexiang.xui.widget.button.SmoothCheckBox
+                                    android:id="@+id/scb_call_type4"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    app:scb_color_checked="@color/colorPrimary" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/incoming_call_received"
+                                    android:textSize="10sp"
+                                    tools:ignore="SmallSp" />
+
+                                <com.xuexiang.xui.widget.button.SmoothCheckBox
+                                    android:id="@+id/scb_call_type5"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_marginStart="5dp"
+                                    app:scb_color_checked="@color/colorPrimary" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/incoming_call_answered"
+                                    android:textSize="10sp"
+                                    tools:ignore="SmallSp" />
+
+                                <com.xuexiang.xui.widget.button.SmoothCheckBox
+                                    android:id="@+id/scb_call_type6"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_marginStart="5dp"
+                                    app:scb_color_checked="@color/colorPrimary" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/outgoing_call_started"
+                                    android:textSize="10sp"
+                                    tools:ignore="SmallSp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 

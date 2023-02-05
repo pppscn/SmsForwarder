@@ -242,11 +242,12 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".receiver.PhoneStateReceiver"
+            android:name=".receiver.CallReceiver"
             android:exported="true"
             tools:ignore="IntentFilterExportedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
             </intent-filter>
         </receiver>
     </application>
