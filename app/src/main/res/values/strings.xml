@@ -809,6 +809,13 @@
     <string name="api_battery_query_tips">远程查询手机电量与电池状态</string>
     <string name="api_wol">远程WOL</string>
     <string name="api_wol_tips">远程打开启用LAN唤醒功能(Wake-On-LAN)的设备</string>
+    <string name="api_location">远程找手机</string>
+    <string name="api_location_tips">远程查询手机定位，方便找回手机/防止老少走丢</string>
+    <string name="location_longitude">经度：%s</string>
+    <string name="location_latitude">维度：%s</string>
+    <string name="location_address">地址：%s</string>
+    <string name="location_time">时间：%s</string>
+    <string name="location_provider">供应商：%s</string>
 
     <string name="sim_slot">发送卡槽</string>
     <string name="phone_numbers">手机号码</string>

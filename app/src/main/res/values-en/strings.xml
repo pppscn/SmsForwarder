@@ -808,6 +808,13 @@
     <string name="api_battery_query_tips">Remotely query mobile phone power and battery status</string>
     <string name="api_wol">Remotely WOL</string>
     <string name="api_wol_tips">Turn on your Wake-On-LAN enabled devices remotely</string>
+    <string name="api_location">Location</string>
+    <string name="api_location_tips">Remote query mobile phone location</string>
+    <string name="location_longitude">Longitude：%s</string>
+    <string name="location_latitude">Latitude：%s</string>
+    <string name="location_address">Address：%s</string>
+    <string name="location_time">Time：%s</string>
+    <string name="location_provider">Provider：%s</string>
 
     <string name="sim_slot">Sim Slot</string>
     <string name="phone_numbers">Phone Numbers</string>

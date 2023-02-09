@@ -357,6 +357,8 @@ const val SP_ENABLE_API_CALL_QUERY = "enable_api_call_query"
 const val SP_ENABLE_API_CONTACT_QUERY = "enable_api_contact_query"
 const val SP_ENABLE_API_BATTERY_QUERY = "enable_api_battery_query"
 const val SP_ENABLE_API_WOL = "enable_api_wol"
+const val SP_ENABLE_API_LOCATION = "enable_api_location"
+const val SP_API_LOCATION_CACHE = "api_location_cache"
 const val SP_WOL_HISTORY = "wol_history"
 const val SP_SERVER_ADDRESS = "server_address"
 const val SP_SERVER_HISTORY = "server_history"
@@ -413,5 +415,12 @@ var CLIENT_FRAGMENT_LIST = listOf(
         "{\"\":\"\"}",
         CoreAnim.slide,
         R.drawable.icon_api_wol
+    ),
+    PageInfo(
+        getString(R.string.api_location),
+        "com.idormy.sms.forwarder.fragment.client.LocationFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_api_location
     ),
 )

@@ -19,6 +19,8 @@ data class ConfigData(
     var enableApiBatteryQuery: Boolean = false,
     @SerializedName("enable_api_wol")
     var enableApiWol: Boolean = false,
+    @SerializedName("enable_api_location")
+    var enableApiLocation: Boolean = false,
     @SerializedName("extra_device_mark")
     var extraDeviceMark: String = "",
     @SerializedName("extra_sim1")

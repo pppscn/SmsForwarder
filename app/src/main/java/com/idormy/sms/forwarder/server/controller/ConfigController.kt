@@ -37,6 +37,7 @@ class ConfigController {
             HttpServerUtils.enableApiContactQuery,
             HttpServerUtils.enableApiBatteryQuery,
             HttpServerUtils.enableApiWol,
+            HttpServerUtils.enableApiLocation,
             SettingUtils.extraDeviceMark,
             SettingUtils.extraSim1,
             SettingUtils.extraSim2,

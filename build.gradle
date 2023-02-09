@@ -48,4 +48,3 @@ task clean(type: Delete) {
         }
     }
 }
-

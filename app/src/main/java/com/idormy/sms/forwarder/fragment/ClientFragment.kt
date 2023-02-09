@@ -259,12 +259,12 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                 XToastUtils.error(getString(R.string.click_test_button_first))
                 return
             }
-            if (serverConfig != null && ((item.name == ResUtils.getString(R.string.api_sms_send) && !serverConfig!!.enableApiSmsSend) || (item.name == ResUtils.getString(R.string.api_sms_query) && !serverConfig!!.enableApiSmsQuery) || (item.name == ResUtils.getString(R.string.api_call_query) && !serverConfig!!.enableApiCallQuery) || (item.name == ResUtils.getString(R.string.api_contact_query) && !serverConfig!!.enableApiContactQuery) || (item.name == ResUtils.getString(R.string.api_battery_query) && !serverConfig!!.enableApiBatteryQuery) || (item.name == ResUtils.getString(R.string.api_wol) && !serverConfig!!.enableApiWol))) {
+            if (serverConfig != null && ((item.name == ResUtils.getString(R.string.api_sms_send) && !serverConfig!!.enableApiSmsSend) || (item.name == ResUtils.getString(R.string.api_sms_query) && !serverConfig!!.enableApiSmsQuery) || (item.name == ResUtils.getString(R.string.api_call_query) && !serverConfig!!.enableApiCallQuery) || (item.name == ResUtils.getString(R.string.api_contact_query) && !serverConfig!!.enableApiContactQuery) || (item.name == ResUtils.getString(R.string.api_battery_query) && !serverConfig!!.enableApiBatteryQuery) || (item.name == ResUtils.getString(R.string.api_wol) && !serverConfig!!.enableApiWol) || (item.name == ResUtils.getString(R.string.api_location) && !serverConfig!!.enableApiLocation))) {
                 XToastUtils.error(getString(R.string.disabled_on_the_server))
                 return
             }
-            @Suppress("UNCHECKED_CAST") PageOption.to(Class.forName(item.classPath) as Class<XPageFragment>) //跳转的fragment
-                .setNewActivity(true).open(this)
+            @Suppress("UNCHECKED_CAST")
+            PageOption.to(Class.forName(item.classPath) as Class<XPageFragment>).setNewActivity(true).open(this)
         } catch (e: Exception) {
             e.printStackTrace()
             XToastUtils.error(e.message.toString())

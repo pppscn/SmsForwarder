@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -224,6 +225,18 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
             HttpServerUtils.enableApiWol = isChecked
         }
 
+        binding!!.sbApiLocation.isChecked = HttpServerUtils.enableApiLocation
+        binding!!.sbApiLocation.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            HttpServerUtils.enableApiLocation = isChecked
+            if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
+                Log.d("ServerFragment", "onClick: 重启服务")
+                appContext?.stopService(Intent(appContext, HttpService::class.java))
+                Thread.sleep(500)
+                appContext?.startService(Intent(appContext, HttpService::class.java))
+                refreshButtonText()
+            }
+        }
+
     }
 
     @SingleClick
@@ -235,6 +248,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 checkReadSmsPermission()
                 checkCallPermission()
                 checkContactsPermission()
+                checkLocationPermission()
                 if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
                     appContext?.stopService(Intent(appContext, HttpService::class.java))
                 } else {
@@ -292,28 +306,21 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                     XToastUtils.error(String.format(getString(R.string.download_first), downloadPath))
                     return
                 }
-                MaterialDialog.Builder(requireContext())
-                    .title(getString(R.string.select_web_client_directory))
-                    .content(String.format(getString(R.string.root_directory), downloadPath))
-                    .items(dirList)
-                    .itemsCallbackSingleChoice(0) { _: MaterialDialog?, _: View?, _: Int, text: CharSequence ->
-                        val webPath = "$downloadPath/$text"
-                        binding!!.etWebPath.setText(webPath)
-                        HttpServerUtils.serverWebPath = webPath
+                MaterialDialog.Builder(requireContext()).title(getString(R.string.select_web_client_directory)).content(String.format(getString(R.string.root_directory), downloadPath)).items(dirList).itemsCallbackSingleChoice(0) { _: MaterialDialog?, _: View?, _: Int, text: CharSequence ->
+                    val webPath = "$downloadPath/$text"
+                    binding!!.etWebPath.setText(webPath)
+                    HttpServerUtils.serverWebPath = webPath
 
-                        XToastUtils.info(getString(R.string.restarting_httpserver))
-                        if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
-                            appContext?.stopService(Intent(appContext, HttpService::class.java))
-                            appContext?.startService(Intent(appContext, HttpService::class.java))
-                        } else {
-                            appContext?.startService(Intent(appContext, HttpService::class.java))
-                        }
-                        refreshButtonText()
-                        true // allow selection
+                    XToastUtils.info(getString(R.string.restarting_httpserver))
+                    if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
+                        appContext?.stopService(Intent(appContext, HttpService::class.java))
+                        appContext?.startService(Intent(appContext, HttpService::class.java))
+                    } else {
+                        appContext?.startService(Intent(appContext, HttpService::class.java))
                     }
-                    .positiveText(R.string.select)
-                    .negativeText(R.string.cancel)
-                    .show()
+                    refreshButtonText()
+                    true // allow selection
+                }.positiveText(R.string.select).negativeText(R.string.cancel).show()
             }
             else -> {}
         }
@@ -342,8 +349,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
     private fun checkSendSmsPermission() {
         XXPermissions.with(this)
             // 发送短信
-            .permission(Permission.SEND_SMS)
-            .request(object : OnPermissionCallback {
+            .permission(Permission.SEND_SMS).request(object : OnPermissionCallback {
                 override fun onGranted(permissions: List<String>, all: Boolean) {
                 }
 
@@ -369,8 +375,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
             // 发送短信
             .permission(Permission.SEND_SMS)
             // 读取短信
-            .permission(Permission.READ_SMS)
-            .request(object : OnPermissionCallback {
+            .permission(Permission.READ_SMS).request(object : OnPermissionCallback {
                 override fun onGranted(permissions: List<String>, all: Boolean) {
                 }
 
@@ -396,8 +401,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
             // 读取手机号码
             .permission(Permission.READ_PHONE_NUMBERS)
             // 读取通话记录
-            .permission(Permission.READ_CALL_LOG)
-            .request(object : OnPermissionCallback {
+            .permission(Permission.READ_CALL_LOG).request(object : OnPermissionCallback {
                 override fun onGranted(permissions: List<String>, all: Boolean) {
                 }
 
@@ -417,24 +421,42 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
 
     //联系人权限
     private fun checkContactsPermission() {
-        XXPermissions.with(this)
-            .permission(*Permission.Group.CONTACTS)
-            .request(object : OnPermissionCallback {
-                override fun onGranted(permissions: List<String>, all: Boolean) {
-                }
+        XXPermissions.with(this).permission(*Permission.Group.CONTACTS).request(object : OnPermissionCallback {
+            override fun onGranted(permissions: List<String>, all: Boolean) {
+            }
 
-                override fun onDenied(permissions: List<String>, never: Boolean) {
-                    if (never) {
-                        XToastUtils.error(R.string.toast_denied_never)
-                        // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                        XXPermissions.startPermissionActivity(requireContext(), permissions)
-                    } else {
-                        XToastUtils.error(R.string.toast_denied)
-                    }
-                    HttpServerUtils.enableApiContactQuery = false
-                    binding!!.sbApiQueryContacts.isChecked = false
+            override fun onDenied(permissions: List<String>, never: Boolean) {
+                if (never) {
+                    XToastUtils.error(R.string.toast_denied_never)
+                    // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                    XXPermissions.startPermissionActivity(requireContext(), permissions)
+                } else {
+                    XToastUtils.error(R.string.toast_denied)
                 }
-            })
+                HttpServerUtils.enableApiContactQuery = false
+                binding!!.sbApiQueryContacts.isChecked = false
+            }
+        })
+    }
+
+    //联系人权限
+    private fun checkLocationPermission() {
+        XXPermissions.with(this).permission(Permission.ACCESS_COARSE_LOCATION).permission(Permission.ACCESS_FINE_LOCATION).permission(Permission.ACCESS_BACKGROUND_LOCATION).request(object : OnPermissionCallback {
+            override fun onGranted(permissions: List<String>, all: Boolean) {
+            }
+
+            override fun onDenied(permissions: List<String>, never: Boolean) {
+                if (never) {
+                    XToastUtils.error(R.string.toast_denied_never)
+                    // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                    XXPermissions.startPermissionActivity(requireContext(), permissions)
+                } else {
+                    XToastUtils.error(R.string.toast_denied)
+                }
+                HttpServerUtils.enableApiLocation = false
+                binding!!.sbApiLocation.isChecked = false
+            }
+        })
     }
 
     override fun onDestroy() {

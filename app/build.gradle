@@ -265,10 +265,11 @@ dependencies {
 
     //国密算法SM4 的JAVA实现(基于BC实现)
     api 'org.bouncycastle:bcprov-jdk15on:1.70'
+
+    //Location 是一个通过 Android 自带的 LocationManager 来实现的定位功能：https://github.com/jenly1314/Location
+    implementation 'com.github.pppscn:location:1.0.0'
 }
 //自动添加X-Library依赖
 apply from: 'x-library.gradle'
 //walle多渠道打包
 //apply from: 'multiple-channel.gradle'
-
-

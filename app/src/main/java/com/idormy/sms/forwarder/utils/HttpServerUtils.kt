@@ -8,6 +8,7 @@ import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.entity.CloneInfo
+import com.idormy.sms.forwarder.entity.LocationInfo
 import com.idormy.sms.forwarder.server.model.BaseRequest
 import com.xuexiang.xui.utils.ResUtils.getString
 import com.xuexiang.xutil.app.AppUtils
@@ -83,6 +84,12 @@ class HttpServerUtils private constructor() {
 
         //是否启用远程WOL
         var enableApiWol: Boolean by SharedPreference(SP_ENABLE_API_WOL, true)
+
+        //是否启用远程找手机
+        var enableApiLocation: Boolean by SharedPreference(SP_ENABLE_API_LOCATION, true)
+
+        //远程找手机定位缓存
+        var apiLocationCache: LocationInfo by SharedPreference(SP_API_LOCATION_CACHE, LocationInfo())
 
         //WOL历史记录
         var wolHistory: String by SharedPreference(SP_WOL_HISTORY, "")
