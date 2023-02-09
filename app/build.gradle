@@ -71,8 +71,16 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            // 调试模式开关
+            debuggable false
+            jniDebuggable false
+            // 压缩对齐开关
+            zipAlignEnabled true
+            // 移除无用的资源
             shrinkResources true
+            // 代码混淆开关
+            minifyEnabled true
+            // 混淆配置
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             if (isNeedPackage.toBoolean()) {
                 signingConfig signingConfigs.release
@@ -94,8 +102,16 @@ android {
             }
         }
         debug {
-            minifyEnabled true
+            // 调试模式开关
+            debuggable true
+            jniDebuggable true
+            // 压缩对齐开关
+            zipAlignEnabled true
+            // 移除无用的资源
             shrinkResources true
+            // 代码混淆开关
+            minifyEnabled true
+            // 混淆配置
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             if (isNeedPackage.toBoolean()) {
                 signingConfig signingConfigs.release
@@ -116,13 +132,6 @@ android {
                 buildConfigField "String", "APP_ID_UMENG", '"60254fc7425ec25f10f4293e"'
             }
         }
-        /*debug {
-            debuggable true
-            minifyEnabled false
-
-            signingConfig signingConfigs.debug
-            buildConfigField "String", "APP_ID_UMENG", '"60254fc7425ec25f10f4293e"'
-        }*/
     }
 
     //ABI配置——按CPU架构分别打包
@@ -149,6 +158,7 @@ android {
             excludes += ['META-INF/DEPENDENCIES.txt', 'META-INF/LICENSE.txt', 'META-INF/NOTICE.txt', 'META-INF/NOTICE', 'META-INF/LICENSE', 'META-INF/DEPENDENCIES', 'META-INF/notice.txt', 'META-INF/license.txt', 'META-INF/dependencies.txt', 'META-INF/LGPL2.1']
         }
     }
+
     android.applicationVariants.all { variant ->
         // Assigns a different version code for each output APK.
         variant.outputs.each {
@@ -161,7 +171,6 @@ android {
                 output.outputFileName = "SmsForwarder_${variant.name}_${versionName}_${output.versionCode}_${date}_${abiName}.apk"
         }
     }
-
 
     sourceSets {
         main {
@@ -205,7 +214,7 @@ dependencies {
     //屏幕适配AutoSize：https://github.com/JessYanCoding/AndroidAutoSize
     implementation 'me.jessyan:autosize:1.2.1'
     //umeng统计
-    implementation 'com.umeng.umsdk:common:9.5.4'
+    implementation 'com.umeng.umsdk:common:9.5.6'
     implementation 'com.umeng.umsdk:asms:1.6.3'
 
     //预加载占位控件
@@ -268,6 +277,9 @@ dependencies {
 
     //Location 是一个通过 Android 自带的 LocationManager 来实现的定位功能：https://github.com/jenly1314/Location
     implementation 'com.github.pppscn:location:1.0.0'
+
+    //跨平台socket通信统一接口：https://gitee.com/xuankaicat/kmnkt
+    //implementation 'com.github.pppscn.kmnkt:socket:2.0.0-alpha06'
 }
 //自动添加X-Library依赖
 apply from: 'x-library.gradle'

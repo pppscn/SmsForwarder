@@ -36,6 +36,23 @@ allprojects {
         maven { url 'https://oss.sonatype.org/content/repositories/public' }
         maven { url "https://jitpack.io" }
     }
+
+    // 设置全局编码
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    // 设置文档编码
+    tasks.withType(Javadoc) {
+        options {
+            encoding 'UTF-8'
+            charSet 'UTF-8'
+            links 'http://docs.oracle.com/javase/7/docs/api'
+        }
+    }
+
+    // 将构建文件统一输出到项目根目录下的 build 文件夹
+    setBuildDir(new File(rootDir, "build/${path.replaceAll(':', '/')}"))
 }
 
 task clean(type: Delete) {
