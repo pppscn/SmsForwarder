@@ -35,10 +35,13 @@ class LoggerInterceptor : HandlerInterceptor {
             //判断是否开启该功能
             if (
                 (httpPath.startsWith("/clone") && !HttpServerUtils.enableApiClone)
-                || (httpPath.startsWith("/sms/send") && !HttpServerUtils.enableApiSmsSend)
                 || (httpPath.startsWith("/sms/query") && !HttpServerUtils.enableApiSmsQuery)
+                || (httpPath.startsWith("/sms/send") && !HttpServerUtils.enableApiSmsSend)
                 || (httpPath.startsWith("/call/query") && !HttpServerUtils.enableApiCallQuery)
                 || (httpPath.startsWith("/contact/query") && !HttpServerUtils.enableApiContactQuery)
+                || (httpPath.startsWith("/contact/add") && !HttpServerUtils.enableApiContactAdd)
+                || (httpPath.startsWith("/wol/send") && !HttpServerUtils.enableApiWol)
+                || (httpPath.startsWith("/location/query") && !HttpServerUtils.enableApiLocation)
                 || (httpPath.startsWith("/battery/query") && !HttpServerUtils.enableApiBatteryQuery)
             ) {
                 throw HttpException(500, getString(R.string.disabled_on_the_server))

@@ -215,6 +215,12 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
             if (isChecked) checkContactsPermission()
         }
 
+        binding!!.sbApiAddContacts.isChecked = HttpServerUtils.enableApiContactAdd
+        binding!!.sbApiAddContacts.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            HttpServerUtils.enableApiContactAdd = isChecked
+            if (isChecked) checkContactsPermission()
+        }
+
         binding!!.sbApiQueryBattery.isChecked = HttpServerUtils.enableApiBatteryQuery
         binding!!.sbApiQueryBattery.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             HttpServerUtils.enableApiBatteryQuery = isChecked
@@ -435,6 +441,8 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 }
                 HttpServerUtils.enableApiContactQuery = false
                 binding!!.sbApiQueryContacts.isChecked = false
+                HttpServerUtils.enableApiContactAdd = false
+                binding!!.sbApiAddContacts.isChecked = false
             }
         })
     }

@@ -356,6 +356,7 @@ const val SP_ENABLE_API_SMS_SEND = "enable_api_sms_send"
 const val SP_ENABLE_API_SMS_QUERY = "enable_api_sms_query"
 const val SP_ENABLE_API_CALL_QUERY = "enable_api_call_query"
 const val SP_ENABLE_API_CONTACT_QUERY = "enable_api_contact_query"
+const val SP_ENABLE_API_CONTACT_ADD = "enable_api_contact_add"
 const val SP_ENABLE_API_BATTERY_QUERY = "enable_api_battery_query"
 const val SP_ENABLE_API_WOL = "enable_api_wol"
 const val SP_ENABLE_API_LOCATION = "enable_api_location"
@@ -376,18 +377,18 @@ var CLIENT_FRAGMENT_LIST = listOf(
         R.drawable.icon_api_clone
     ),
     PageInfo(
-        getString(R.string.api_sms_send),
-        "com.idormy.sms.forwarder.fragment.client.SmsSendFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_api_sms_send
-    ),
-    PageInfo(
         getString(R.string.api_sms_query),
         "com.idormy.sms.forwarder.fragment.client.SmsQueryFragment",
         "{\"\":\"\"}",
         CoreAnim.slide,
         R.drawable.icon_api_sms_query
+    ),
+    PageInfo(
+        getString(R.string.api_sms_send),
+        "com.idormy.sms.forwarder.fragment.client.SmsSendFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_api_sms_send
     ),
     PageInfo(
         getString(R.string.api_call_query),
@@ -404,11 +405,11 @@ var CLIENT_FRAGMENT_LIST = listOf(
         R.drawable.icon_api_contact_query
     ),
     PageInfo(
-        getString(R.string.api_battery_query),
-        "com.idormy.sms.forwarder.fragment.client.BatteryQueryFragment",
+        getString(R.string.api_contact_add),
+        "com.idormy.sms.forwarder.fragment.client.ContactAddFragment",
         "{\"\":\"\"}",
         CoreAnim.slide,
-        R.drawable.icon_api_battery_query
+        R.drawable.icon_api_contact_add
     ),
     PageInfo(
         getString(R.string.api_wol),
@@ -423,5 +424,12 @@ var CLIENT_FRAGMENT_LIST = listOf(
         "{\"\":\"\"}",
         CoreAnim.slide,
         R.drawable.icon_api_location
+    ),
+    PageInfo(
+        getString(R.string.api_battery_query),
+        "com.idormy.sms.forwarder.fragment.client.BatteryQueryFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_api_battery_query
     ),
 )

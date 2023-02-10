@@ -35,6 +35,7 @@ class ConfigController {
             HttpServerUtils.enableApiSmsQuery,
             HttpServerUtils.enableApiCallQuery,
             HttpServerUtils.enableApiContactQuery,
+            HttpServerUtils.enableApiContactAdd,
             HttpServerUtils.enableApiBatteryQuery,
             HttpServerUtils.enableApiWol,
             HttpServerUtils.enableApiLocation,

@@ -15,6 +15,8 @@ data class ConfigData(
     var enableApiCallQuery: Boolean = false,
     @SerializedName("enable_api_contact_query")
     var enableApiContactQuery: Boolean = false,
+    @SerializedName("enable_api_contact_add")
+    var enableApiContactAdd: Boolean = false,
     @SerializedName("enable_api_battery_query")
     var enableApiBatteryQuery: Boolean = false,
     @SerializedName("enable_api_wol")

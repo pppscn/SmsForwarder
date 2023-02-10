@@ -805,6 +805,8 @@
     <string name="api_call_query_tips">远程查通话记录，包括来电、去电、未接电话</string>
     <string name="api_contact_query">远程查话簿</string>
     <string name="api_contact_query_tips">远程查联系人列表</string>
+    <string name="api_contact_add">远程加话簿</string>
+    <string name="api_contact_add_tips">远程添加联系人</string>
     <string name="api_battery_query">远程查电量</string>
     <string name="api_battery_query_tips">远程查询手机电量与电池状态</string>
     <string name="api_wol">远程WOL</string>
@@ -818,6 +820,8 @@
     <string name="location_provider">供应商：%s</string>
 
     <string name="sim_slot">发送卡槽</string>
+    <string name="display_name">姓名</string>
+    <string name="display_name_hint">选填，通讯录显示名称</string>
     <string name="phone_numbers">手机号码</string>
     <string name="phone_numbers_hint">必填，多个手机号用半角分号分隔</string>
     <string name="phone_numbers_error">手机号码格式错误，例：15888888888;19999999999</string>

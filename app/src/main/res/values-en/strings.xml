@@ -804,6 +804,8 @@
     <string name="api_call_query_tips">Remotely check call records, including incoming calls, outgoing calls, and missed calls</string>
     <string name="api_contact_query">Query Linkman</string>
     <string name="api_contact_query_tips">Remotely check contact list</string>
+    <string name="api_contact_add">Add Linkman</string>
+    <string name="api_contact_add_tips">Remotely add contact</string>
     <string name="api_battery_query">Query Battery</string>
     <string name="api_battery_query_tips">Remotely query mobile phone power and battery status</string>
     <string name="api_wol">Remotely WOL</string>
@@ -817,6 +819,8 @@
     <string name="location_provider">Provider：%s</string>
 
     <string name="sim_slot">Sim Slot</string>
+    <string name="display_name">Display Name</string>
+    <string name="display_name_hint">Optional, address book display name</string>
     <string name="phone_numbers">Phone Numbers</string>
     <string name="phone_numbers_hint">Required, separate multiple phone numbers with semicolons</string>
     <string name="phone_numbers_error">Invalid Phone Numbers, eg. 15888888888;19999999999</string>

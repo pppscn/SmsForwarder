@@ -79,6 +79,9 @@ class HttpServerUtils private constructor() {
         //是否启用远程查话簿
         var enableApiContactQuery: Boolean by SharedPreference(SP_ENABLE_API_CONTACT_QUERY, true)
 
+        //是否启用远程加话簿
+        var enableApiContactAdd: Boolean by SharedPreference(SP_ENABLE_API_CONTACT_ADD, true)
+
         //是否启用远程查电量
         var enableApiBatteryQuery: Boolean by SharedPreference(SP_ENABLE_API_BATTERY_QUERY, true)
 
