@@ -46,5 +46,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: SmsForwarder Weekly Build
-          path: build/outputs/apk/release/*.apk
+          path: build/app/outputs/apk/release/*.apk
           if-no-files-found: error
