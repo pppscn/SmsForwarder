@@ -57,7 +57,7 @@ class HttpService : Service(), Server.ServerListener {
                 .setMinTime(10000)//设置位置更新最小时间间隔（单位：毫秒）； 默认间隔：10000毫秒，最小间隔：1000毫秒
                 .setMinDistance(0)//设置位置更新最小距离（单位：米）；默认距离：0米
                 .setOnceLocation(false)//设置是否只定位一次，默认为 false，当设置为 true 时，则只定位一次后，会自动停止定位
-                .setLastKnownLocation(true)//设置是否获取最后一次缓存的已知位置，默认为 true
+                .setLastKnownLocation(false)//设置是否获取最后一次缓存的已知位置，默认为 true
             //设置定位配置参数
             locationClient.setLocationOption(locationOption)
             locationClient.startLocation()

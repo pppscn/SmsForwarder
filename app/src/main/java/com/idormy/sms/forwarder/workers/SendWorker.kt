@@ -80,13 +80,18 @@ class SendWorker(
                     return@withContext Result.failure(workDataOf("send" to "failed"))
                 }
 
-                val msg = Msg(0, msgInfo.type, msgInfo.from, msgInfo.content, msgInfo.simSlot, msgInfo.simInfo, msgInfo.subId)
-                val msgId = Core.msg.insert(msg)
-
+                val ruleListMatched: MutableList<Rule> = mutableListOf()
                 for (rule in ruleList) {
                     Log.d("SendWorker", rule.toString())
-                    if (!rule.checkMsg(msgInfo)) continue
+                    if (rule.checkMsg(msgInfo)) ruleListMatched.add(rule)
+                }
+                if (ruleListMatched.isEmpty()) {
+                    return@withContext Result.failure(workDataOf("send" to "failed"))
+                }
 
+                val msg = Msg(0, msgInfo.type, msgInfo.from, msgInfo.content, msgInfo.simSlot, msgInfo.simInfo, msgInfo.subId)
+                val msgId = Core.msg.insert(msg)
+                for (rule in ruleListMatched) {
                     val sender = rule.senderList[0]
                     val log = Logs(0, msgInfo.type, msgId, rule.id, sender.id)
                     val logId = Core.logs.insert(log)
