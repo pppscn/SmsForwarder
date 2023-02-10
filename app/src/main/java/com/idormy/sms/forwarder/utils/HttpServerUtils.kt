@@ -89,7 +89,7 @@ class HttpServerUtils private constructor() {
         var enableApiWol: Boolean by SharedPreference(SP_ENABLE_API_WOL, true)
 
         //是否启用远程找手机
-        var enableApiLocation: Boolean by SharedPreference(SP_ENABLE_API_LOCATION, true)
+        var enableApiLocation: Boolean by SharedPreference(SP_ENABLE_API_LOCATION, false)
 
         //远程找手机定位缓存
         var apiLocationCache: LocationInfo by SharedPreference(SP_API_LOCATION_CACHE, LocationInfo())
