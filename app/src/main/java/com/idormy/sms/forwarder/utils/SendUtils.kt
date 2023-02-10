@@ -7,7 +7,8 @@ import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
-import com.idormy.sms.forwarder.database.entity.LogsAndRuleAndSender
+import com.idormy.sms.forwarder.core.Core
+import com.idormy.sms.forwarder.database.entity.MsgAndLogs
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.result.SendResponse
@@ -24,39 +25,38 @@ import java.util.*
 object SendUtils {
     private const val TAG = "SendUtils"
 
-    //发送消息
-    fun sendMsg(msgInfo: MsgInfo) {
-        val request = OneTimeWorkRequestBuilder<SendWorker>()
-            .setInputData(workDataOf(Worker.sendMsgInfo to Gson().toJson(msgInfo)))
-            .build()
+    //重新匹配规则并发送消息
+    fun rematchSendMsg(item: MsgAndLogs) {
+        val msgInfo = MsgInfo(item.msg.type, item.msg.from, item.msg.content, Date(), item.msg.simInfo, item.msg.simSlot, item.msg.subId)
+        Log.d(TAG, "msgInfo = $msgInfo")
+
+        val request = OneTimeWorkRequestBuilder<SendWorker>().setInputData(
+            workDataOf(
+                Worker.sendMsgInfo to Gson().toJson(msgInfo)
+            )
+        ).build()
         WorkManager.getInstance(XUtil.getContext()).enqueue(request)
     }
 
-    /**
-     * 重发消息：从日志获取消息内容并尝试重发
-     * 根据当前rule和sender来重发，而不是失败时设置的规则
-     */
-    fun resendMsg(item: LogsAndRuleAndSender, rematch: Boolean) {
-        Log.d(TAG, item.logs.toString())
+    //重试发送消息
+    fun retrySendMsg(logId: Long) {
+        val item = Core.logs.getOne(logId)
 
-        val date: Date = try {
-            //DateUtils.string2Date(item.logs.time.toString(), SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()))
-            item.logs.time
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Date()
-        }
-        val simInfo: String = item.msg.simInfo
-        val simSlot: Int = if (simInfo.startsWith("SIM2")) 2 else 1
-        val msgInfo = MsgInfo(item.msg.type, item.msg.from, item.msg.content, date, simInfo, simSlot)
-        Log.d(TAG, "resendMsg msgInfo:$msgInfo")
+        val msgInfo = MsgInfo(item.msg.type, item.msg.from, item.msg.content, Date(), item.msg.simInfo, item.msg.simSlot, item.msg.subId)
+        Log.d(TAG, "msgInfo = $msgInfo")
 
-        if (rematch) {
-            sendMsg(msgInfo)
-            return
+        var senderIndex = 0
+        for (sender in item.rule.senderList) {
+            if (item.logs.senderId == sender.id) {
+                Log.d(TAG, "sender = $sender")
+                senderIndex = item.rule.senderList.indexOf(sender)
+                break
+            }
         }
 
-        //sendMsgSender(msgInfo, item.rule, item.sender, item.logs.id)
+        var rule = item.rule
+        rule.senderLogic = SENDER_LOGIC_RETRY
+        sendMsgSender(msgInfo, rule, senderIndex, logId, item.msg.id)
     }
 
     //匹配发送通道发送消息
@@ -134,20 +134,19 @@ object SendUtils {
         }
     }
 
+    //发送通道执行逻辑：ALL=全部执行, UntilFail=失败即终止, UntilSuccess=成功即终止, Retry=重试发送
     fun senderLogic(status: Int, msgInfo: MsgInfo, rule: Rule?, senderIndex: Int = 0, msgId: Long = 0L) {
-        if (rule == null) return
-        //发送通道执行逻辑：ALL=全部执行, UntilFail=失败即终止, UntilSuccess=成功即终止
-        if (senderIndex < rule.senderList.count() - 1 && ((status == 2 && rule.senderLogic == SENDER_LOGIC_UNTIL_FAIL) || (status == 0 && rule.senderLogic == SENDER_LOGIC_UNTIL_SUCCESS))) {
-            val request = OneTimeWorkRequestBuilder<SendLogicWorker>()
-                .setInputData(
-                    workDataOf(
-                        Worker.sendMsgInfo to Gson().toJson(msgInfo),
-                        Worker.ruleId to rule.id,
-                        Worker.senderIndex to senderIndex + 1,
-                        Worker.msgId to msgId,
-                    )
+        if (rule == null || rule.senderLogic == SENDER_LOGIC_RETRY) return
+
+        if (senderIndex < rule.senderList.count() - 1 && (rule.senderLogic == SENDER_LOGIC_ALL || (status == 2 && rule.senderLogic == SENDER_LOGIC_UNTIL_FAIL) || (status == 0 && rule.senderLogic == SENDER_LOGIC_UNTIL_SUCCESS))) {
+            val request = OneTimeWorkRequestBuilder<SendLogicWorker>().setInputData(
+                workDataOf(
+                    Worker.sendMsgInfo to Gson().toJson(msgInfo),
+                    Worker.ruleId to rule.id,
+                    Worker.senderIndex to senderIndex + 1,
+                    Worker.msgId to msgId,
                 )
-                .build()
+            ).build()
             WorkManager.getInstance(XUtil.getContext()).enqueue(request)
         }
     }
@@ -168,13 +167,11 @@ object SendUtils {
         }
 
         val sendResponse = SendResponse(logId, status, response)
-        val request = OneTimeWorkRequestBuilder<UpdateLogsWorker>()
-            .setInputData(
-                workDataOf(
-                    Worker.updateLogs to Gson().toJson(sendResponse)
-                )
+        val request = OneTimeWorkRequestBuilder<UpdateLogsWorker>().setInputData(
+            workDataOf(
+                Worker.updateLogs to Gson().toJson(sendResponse)
             )
-            .build()
+        ).build()
         WorkManager.getInstance(XUtil.getContext()).enqueue(request)
     }
 

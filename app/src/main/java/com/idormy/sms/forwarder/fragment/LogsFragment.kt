@@ -21,6 +21,7 @@ import com.idormy.sms.forwarder.database.viewmodel.MsgViewModel
 import com.idormy.sms.forwarder.databinding.FragmentLogsBinding
 import com.idormy.sms.forwarder.utils.EVENT_UPDATE_LOGS_TYPE
 import com.idormy.sms.forwarder.utils.FORWARD_STATUS_MAP
+import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -123,7 +124,7 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
             .neutralColor(ResUtils.getColors(R.color.red))
             .onNeutral { _: MaterialDialog?, _: DialogAction? ->
                 XToastUtils.toast(R.string.rematch_toast)
-                //SendUtils.resendMsg(item, true)
+                SendUtils.rematchSendMsg(item)
             }
             .show()
     }
@@ -150,7 +151,7 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
             .negativeText(R.string.resend)
             .onNegative { _: MaterialDialog?, _: DialogAction? ->
                 XToastUtils.toast(R.string.resend_toast)
-                //SendUtils.resendMsg(item, false)
+                SendUtils.retrySendMsg(item.id)
             }
             .show()
     }

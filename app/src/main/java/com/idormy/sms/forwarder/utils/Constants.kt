@@ -114,6 +114,7 @@ const val CHECK_SIM_SLOT_2 = "SIM2"
 const val SENDER_LOGIC_ALL = "ALL"
 const val SENDER_LOGIC_UNTIL_FAIL = "UntilFail"
 const val SENDER_LOGIC_UNTIL_SUCCESS = "UntilSuccess"
+const val SENDER_LOGIC_RETRY = "Retry"
 val TYPE_MAP = object : HashMap<String, String>() {
     init {
         put("sms", getString(R.string.rule_sms))
