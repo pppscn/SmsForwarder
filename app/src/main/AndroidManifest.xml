@@ -39,6 +39,7 @@
     <uses-permission
         android:name="android.permission.BATTERY_STATS"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission
         android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
         tools:ignore="ProtectedPermissions" />
