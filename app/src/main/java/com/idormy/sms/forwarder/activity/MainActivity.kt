@@ -18,6 +18,9 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.gyf.cactus.ext.cactusUpdateNotification
+import com.hjq.permissions.OnPermissionCallback
+import com.hjq.permissions.Permission
+import com.hjq.permissions.XXPermissions
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.WidgetItemAdapter
@@ -26,6 +29,7 @@ import com.idormy.sms.forwarder.core.webview.AgentWebActivity
 import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.databinding.ActivityMainBinding
 import com.idormy.sms.forwarder.fragment.*
+import com.idormy.sms.forwarder.service.ForegroundService
 import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.utils.sdkinit.XUpdateInit
 import com.idormy.sms.forwarder.widget.GuideTipsDialog.Companion.showTips
@@ -88,6 +92,27 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
                 }
             }
         }
+
+        //检查通知权限是否获取
+        XXPermissions.with(this)
+            .permission(Permission.NOTIFICATION_SERVICE)
+            .permission(Permission.POST_NOTIFICATIONS)
+            .request(OnPermissionCallback { _, allGranted ->
+                if (!allGranted) {
+                    XToastUtils.error(R.string.tips_notification)
+                    return@OnPermissionCallback
+                }
+
+                //启动前台服务
+                if (!ForegroundService.isRunning) {
+                    val intent = Intent(this, ForegroundService::class.java)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        startForegroundService(intent)
+                    } else {
+                        startService(intent)
+                    }
+                }
+            })
     }
 
     override val isSupportSlideBack: Boolean

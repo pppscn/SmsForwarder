@@ -59,7 +59,7 @@
     <string name="lab_still_disagree">仍不同意</string>
     <string name="title_reminder">温馨提示</string>
     <string name="content_think_about_it_again">要不要再想想</string>
-    <string name="content_privacy_explain_again">我们非常重视对你个人信息的保护，承诺严格按照《%s隐私权政策》保护及处理你的信息。如果你不同意该政策，很遗憾我们将无法为你提供服务</string>
+    <string name="content_privacy_explain_again">我们非常重视对你个人信息的保护，承诺严格按照《%s隐私权政策》保护及处理你的信息。\n\n如果你不同意该政策，很遗憾我们将无法为你提供服务！</string>
     <string name="lab_privacy_name">《%s隐私权政策》</string>
 
     <!-- 登录   -->
@@ -437,6 +437,7 @@
     <string name="user_app">用户应用</string>
     <string name="system_app">系统应用</string>
     <string name="tips_battery_optimization">请将省电优化设置为无限制(不优化)，有利于《短信转发器》保活！</string>
+    <string name="tips_notification">请先授予发送通知权限，有利于《短信转发器》保活！</string>
     <string name="tips_notification_listener">请先授予《短信转发器》通知使用权，否则无法转发APP通知，已经自动关闭转发!</string>
     <string name="notification_listener_service_enabled">通知服务已开启</string>
     <string name="notification_listener_service_disabled">通知服务未开启</string>
@@ -759,7 +760,8 @@
     <string name="privacy_content_3">为了更好地保护你的权益，同时遵守相关监管的要求，我们将通过 </string>
     <string name="privacy_content_4"> 向你说明我们会如何收集、存储、保护、使用及对外提供你的信息，并说明你享有的权利。\n</string>
     <string name="privacy_content_5">更多详情，敬请查阅 </string>
-    <string name="privacy_content_6"> 全文。</string>
+    <string name="privacy_content_6">全文。\n\n</string>
+    <string name="privacy_content_7">请先授予发送通知权限，有利于《短信转发器》保活！</string>
     <string name="other_login_methods">其他登录方式</string>
     <string name="request_succeeded">请求成功</string>
     <string name="request_failed">请求失败：</string>

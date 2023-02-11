@@ -434,27 +434,18 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             if (isChecked) {
                 //检查权限是否获取
                 XXPermissions.with(this)
-                    // 通知栏监听权限
                     .permission(Permission.BIND_NOTIFICATION_LISTENER_SERVICE)
-                    // 通知栏权限
-                    .permission(Permission.NOTIFICATION_SERVICE).request(object : OnPermissionCallback {
-                        override fun onGranted(permissions: List<String>, all: Boolean) {
-                            SettingUtils.enableAppNotify = true
-                            sbEnableAppNotify.isChecked = true
-                            CommonUtils.toggleNotificationListenerService(requireContext())
-                        }
-
-                        override fun onDenied(permissions: List<String>, never: Boolean) {
+                    .request(OnPermissionCallback { _, allGranted ->
+                        if (!allGranted) {
                             SettingUtils.enableAppNotify = false
                             sbEnableAppNotify.isChecked = false
                             XToastUtils.error(R.string.tips_notification_listener)
-                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                            MaterialDialog.Builder(context!!).content(R.string.toast_denied_never).positiveText(R.string.lab_yes).negativeText(R.string.lab_no).onPositive { _: MaterialDialog?, _: DialogAction? ->
-                                XXPermissions.startPermissionActivity(
-                                    requireContext(), permissions
-                                )
-                            }.show()
+                            return@OnPermissionCallback
                         }
+
+                        SettingUtils.enableAppNotify = true
+                        sbEnableAppNotify.isChecked = true
+                        CommonUtils.toggleNotificationListenerService(requireContext())
                     })
             }
         }

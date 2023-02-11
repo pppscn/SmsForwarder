@@ -99,7 +99,7 @@ class CommonUtils private constructor() {
          * @return 隐私政策说明
          */
         private fun getPrivacyContent(context: Context): SpannableStringBuilder {
-            return SpannableStringBuilder().append("    ").append(ResUtils.getString(R.string.privacy_content_1)).append(" ").append(ResUtils.getString(R.string.app_name)).append("!\n").append("    ").append(ResUtils.getString(R.string.privacy_content_2)).append("    ").append(ResUtils.getString(R.string.privacy_content_3)).append(getPrivacyLink(context, PRIVACY_URL)).append(ResUtils.getString(R.string.privacy_content_4)).append("    ").append(ResUtils.getString(R.string.privacy_content_5)).append(getPrivacyLink(context, PRIVACY_URL)).append(ResUtils.getString(R.string.privacy_content_6))
+            return SpannableStringBuilder().append("    ").append(ResUtils.getString(R.string.privacy_content_1)).append(" ").append(ResUtils.getString(R.string.app_name)).append("!\n").append("    ").append(ResUtils.getString(R.string.privacy_content_2)).append("    ").append(ResUtils.getString(R.string.privacy_content_3)).append(getPrivacyLink(context, PRIVACY_URL)).append(ResUtils.getString(R.string.privacy_content_4)).append("    ").append(ResUtils.getString(R.string.privacy_content_5)).append(getPrivacyLink(context, PRIVACY_URL)).append(ResUtils.getString(R.string.privacy_content_6)).append("    ").append(ResUtils.getString(R.string.privacy_content_7))
         }
 
         /**

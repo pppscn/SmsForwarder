@@ -59,7 +59,7 @@
     <string name="lab_still_disagree">Still disagree</string>
     <string name="title_reminder">Reminder</string>
     <string name="content_think_about_it_again">Think about it again</string>
-    <string name="content_privacy_explain_again">We attach great importance to the protection of your personal information, and promise to protect and process your information strictly in accordance with the \"%s Privacy Policy\". If you do not agree to this policy, unfortunately we will not be able to serve you.</string>
+    <string name="content_privacy_explain_again">We attach great importance to the protection of your personal information, and promise to protect and process your information strictly in accordance with the \"%s Privacy Policy\". \n\nIf you do not agree to this policy, unfortunately we will not be able to serve you.</string>
     <string name="lab_privacy_name">\"%s Privacy Policy\"</string>
 
     <!-- 登录   -->
@@ -436,6 +436,7 @@
     <string name="user_app">User App</string>
     <string name="system_app">System App</string>
     <string name="tips_battery_optimization">Please deactivate power optimization for SmsForwarder, in order to keep the App alive!</string>
+    <string name="tips_notification">Please grant Notification permission, in order to keep the App alive!</string>
     <string name="tips_notification_listener">Please grant Notification reading permission to SmsForwarder, before other Apps\'s notification could be forwarded. Forwarding automatically canceled!</string>
     <string name="notification_listener_service_enabled">The notification service is enabled</string>
     <string name="notification_listener_service_disabled">The notification service is disabled</string>
@@ -758,7 +759,8 @@
     <string name="privacy_content_3">In order to better protect your rights and comply with relevant regulatory requirements, we will pass "</string>
     <string name="privacy_content_4">" Explain to you how we collect, store, protect, use and make your information available externally, and explain your rights.\n</string>
     <string name="privacy_content_5">For more details, please check "</string>
-    <string name="privacy_content_6">" full text.</string>
+    <string name="privacy_content_6">"full text.\n\n</string>
+    <string name="privacy_content_7">"Please grant Notification permission, in order to keep the App alive!</string>
     <string name="other_login_methods">Other login methods</string>
     <string name="request_succeeded">Request succeeded</string>
     <string name="request_failed">Request failed: </string>
