@@ -146,7 +146,7 @@ android {
     def abiCodes = ['universal': 1, 'armeabi-v7a': 2, 'arm64-v8a': 3, 'x86': 4, 'x86_64': 5]
     packagingOptions {
         //去除FrpcLib的so，用时下载并动态加载
-        if (isNeedPackage.toBoolean()) {
+        if (excludeFrpclib.toBoolean()) {
             exclude 'lib/armeabi-v7a/libgojni.so'
             exclude 'lib/arm64-v8a/libgojni.so'
             exclude 'lib/x86/libgojni.so'
