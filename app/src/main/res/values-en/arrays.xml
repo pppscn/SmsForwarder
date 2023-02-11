@@ -143,4 +143,16 @@
         <item>Beagle</item>
     </string-array>
 
+    <string-array name="charsets">
+        <item>UTF-8</item>
+        <item>US-ASCII</item>
+        <item>ISO-8859-1</item>
+        <item>UTF-16</item>
+        <item>UTF-16BE</item>
+        <item>UTF-16LE</item>
+        <item>UTF-32</item>
+        <item>UTF-32LE</item>
+        <item>UTF-32BE</item>
+    </string-array>
+
 </resources>

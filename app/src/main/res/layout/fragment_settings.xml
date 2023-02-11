@@ -331,7 +331,8 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingEnd="10dp"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    tools:ignore="RtlSymmetry">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -1056,6 +1057,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:autofillHints=""
+                    android:digits="0123456789"
                     android:inputType="number"
                     android:maxLength="2"
                     android:maxLines="1"
@@ -1085,6 +1087,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:autofillHints=""
+                    android:digits="0123456789"
                     android:inputType="number"
                     android:maxLength="2"
                     android:maxLines="1"
@@ -1114,6 +1117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:autofillHints=""
+                    android:digits="0123456789"
                     android:inputType="number"
                     android:maxLength="2"
                     android:maxLines="1"

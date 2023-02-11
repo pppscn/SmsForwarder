@@ -188,6 +188,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //frpc
     implementation files('libs/frpclib.aar')
+    //kmnkt是基于Kotlin Multiplatform的跨平台socket通信统一接口。支持Android目标与JVM目标，支持UDP/TCP/MQTT协议使用同一套接口实现
+    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
+    implementation files('libs/socket.aar')
 
     testImplementation deps.junit
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

@@ -54,7 +54,7 @@ object SendUtils {
             }
         }
 
-        var rule = item.rule
+        val rule = item.rule
         rule.senderLogic = SENDER_LOGIC_RETRY
         sendMsgSender(msgInfo, rule, senderIndex, logId, item.msg.id)
     }
@@ -123,6 +123,10 @@ object SendUtils {
                 TYPE_URL_SCHEME -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, UrlSchemeSetting::class.java)
                     UrlSchemeUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
+                }
+                TYPE_SOCKET -> {
+                    val settingVo = Gson().fromJson(sender.jsonSetting, SocketSetting::class.java)
+                    SocketUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
                 }
                 else -> {
                     updateLogs(logId, 0, "未知发送通道")

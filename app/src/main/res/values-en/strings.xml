@@ -398,6 +398,9 @@
     <string name="get">GET</string>
     <string name="put">PUT</string>
     <string name="patch">PATCH</string>
+    <string name="udp">UDP</string>
+    <string name="tcp">TCP</string>
+    <string name="mqtt">MQTT</string>
     <!--CloneActivity-->
     <string name="local_ip">Local IP: </string>
     <string name="operating_instruction">Instructions: \n[Note] The APP version of the sender and receiver must be the same!\n1. Please keep the SOURCE and DESTINATION phones in the same Wi-Fi network, and do not turn on isolation. \n2. Tap "Send" on SOURCE mobile phone, and get "server IP" \n3. After filling in "Server IP" on DESTINATION phone, tap "Receive". \n [NOTE:] sender(s), forwarding rule(s) and log(s) will be overwritten after cloning!</string> <!-- 原文是“新旧手机”，英文翻译中处理为“源”手机和“目标”手机，因为担心“新旧”的表述引起混淆（有没一种可能就是用户就是用从新手机的设备复制到旧手机上去呢？）。 -->
@@ -410,8 +413,12 @@
     <string name="old_mobile_phone">Old Phone</string>
     <string name="new_mobile_phone">New Phone</string>
     <string name="server_ip">Server IP: </string>
+    <string name="server_address">Host：</string>
+    <string name="server_port">Port: </string>
     <string name="point">.</string>
-    <string name="invalid_ip">Please enter a valid IP address</string>
+    <string name="invalid_ip">Please enter a valid IP or domain</string>
+    <string name="invalid_mqtt_message_topic">Please enter a valid message topic</string>
+    <string name="invalid_port">Please enter a valid port</string>
     <string name="server_has_started">The server is started successfully</string>
     <string name="server_has_stopped">The server has been stopped</string>
     <string name="sender_cannot_receive">This mobile phone is the SOURCE and cannot receive files.</string>
@@ -467,6 +474,18 @@
     <string name="proxy_authenticator">Proxy Authenticator</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="in_charset">In Charset</string>
+    <string name="out_charset">Out Charset</string>
+    <string name="in_message_topic">In Message Topic</string>
+    <string name="in_message_topic_hint">Receive messages on the corresponding topic</string>
+    <string name="out_message_topic">Out Message Topic</string>
+    <string name="out_message_topic_hint">Send a message on the corresponding topic</string>
+    <string name="uri_type">Uri Type</string>
+    <string name="uri_type_hint">Optional, default is tcp</string>
+    <string name="path">Path</string>
+    <string name="path_hint">Used to set the uri when communicating using ws</string>
+    <string name="client_id">Client Id</string>
+    <string name="client_id_hint">Random value if empty</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="agree">Agree</string>
     <string name="refuse">Refuse</string>
@@ -706,10 +725,18 @@
     <string name="url_scheme">URL Scheme</string>
     <string name="url_scheme_tips">Example：myapp://api/add?&amp;type=0&amp;msg=[msg]</string>
 
+    <string name="socket">Socket</string>
+    <string name="socket_tips">Example：myapp://api/add?&amp;type=0&amp;msg=[msg]</string>
+    <string name="socket_address">服务地址</string>
+    <string name="socket_address_tips">IP 或 域名</string>
+    <string name="socket_port">端口</string>
+    <string name="socket_port_tips">取值范围：1-65535</string>
+
     <string name="webhook_server">Webhook Server</string>
     <string name="webhook_server_tips">For example: https://a.b.com/msg?token=xyz</string>
     <string name="webhook_params">Params</string>
-    <string name="webhook_params_tips" formatted="false">For example: payload=%7B%22text%22%3A%22[msg]%22%7D [msg] will be replaced with SMS content.\nJson format is supported, for example: {\"text\":\"[msg]\"}.\nNote: msg is automatically UTF-8 encoded except in JSON format</string>
+    <string name="msg_template">Msg Template</string>
+    <string name="webhook_params_tips" formatted="false">For example: payload=%7B%22text%22%3A%22[msg]%22%7D [msg] will be replaced with SMS content.\nJson format is supported, for example: {\"text\":\"[msg]\"}.\nNote: msg is automatically URLEncoder except in JSON format</string>
     <string name="webhook_secret">Secret: If it is empty, the sign will not be calculated</string>
     <string name="headers">Headers</string>
     <string name="header_key">Key</string>

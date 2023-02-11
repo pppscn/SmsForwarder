@@ -179,6 +179,7 @@ const val TYPE_GOTIFY = 11
 const val TYPE_DINGTALK_INNER_ROBOT = 12
 const val TYPE_FEISHU_APP = 13
 const val TYPE_URL_SCHEME = 14
+const val TYPE_SOCKET = 15
 var SENDER_FRAGMENT_LIST = listOf(
     PageInfo(
         getString(R.string.dingtalk_robot),
@@ -284,6 +285,13 @@ var SENDER_FRAGMENT_LIST = listOf(
         "{\"\":\"\"}",
         CoreAnim.slide,
         R.drawable.icon_url_scheme
+    ),
+    PageInfo(
+        getString(R.string.socket),
+        "com.idormy.sms.forwarder.fragment.senders.SocketFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_socket
     ),
 )
 

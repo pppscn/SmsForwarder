@@ -10,7 +10,7 @@ class ConvertersSenderList {
 
     @TypeConverter
     fun stringToObject(value: String): List<Sender> {
-        var senderList: MutableList<Sender> = mutableListOf()
+        val senderList: MutableList<Sender> = mutableListOf()
         value.split(",").map { it.trim() }.forEach {
             val sender = Core.sender.getOne(it.toLong())
             senderList.add(sender)
@@ -20,7 +20,7 @@ class ConvertersSenderList {
 
     @TypeConverter
     fun objectToString(list: List<Sender>): String {
-        var senderList = ArrayList<Long>()
+        val senderList = ArrayList<Long>()
         list.forEach {
             senderList += it.id
         }

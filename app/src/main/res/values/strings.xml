@@ -399,6 +399,9 @@
     <string name="get">GET</string>
     <string name="put">PUT</string>
     <string name="patch">PATCH</string>
+    <string name="udp">UDP</string>
+    <string name="tcp">TCP</string>
+    <string name="mqtt">MQTT</string>
     <!--CloneActivity-->
     <string name="local_ip">本机IP：</string>
     <string name="operating_instruction">严正声明：\n该功能仅限个人新旧手机切换使用，用于非法用途后果自负！\n\n操作说明：\n1.新旧手机连接同一个WiFi网络(禁用AP隔离)，如需穿透内网请先配置Frpc\n2.【二选一】旧手机点【推送】按钮，将本机的配置推送到服务端\n3.【二选一】新手机点【拉取】按钮，将拉取服务端的配置到本机\n\n注意事项：\n1.客户端与服务端的APP版本必须一致，才能克隆!\n2.导入成功后，发送通道、转发规则将完全被覆盖，清空历史记录！\n3.主动请求、保活措施、个性设置不在克隆范围</string>
@@ -411,8 +414,12 @@
     <string name="old_mobile_phone">我是旧手机</string>
     <string name="new_mobile_phone">我是新手机</string>
     <string name="server_ip">服务端IP：</string>
+    <string name="server_address">主机：</string>
+    <string name="server_port">端口：</string>
     <string name="point">.</string>
-    <string name="invalid_ip">请输入合法的IP地址</string>
+    <string name="invalid_ip">请输入合法的IP或域名</string>
+    <string name="invalid_mqtt_message_topic">请输入合法的输入/输出信息主题</string>
+    <string name="invalid_port">请输入合法的端口号</string>
     <string name="server_has_started">服务端已启动</string>
     <string name="server_has_stopped">服务端已停止</string>
     <string name="sender_cannot_receive">本手机是发送端，不可接收文件，请先停止服务端！</string>
@@ -468,6 +475,18 @@
     <string name="proxy_authenticator">代理身份验证</string>
     <string name="username">用户</string>
     <string name="password">密码</string>
+    <string name="in_charset">输入编码</string>
+    <string name="out_charset">输出编码</string>
+    <string name="in_message_topic">输入消息主题</string>
+    <string name="in_message_topic_hint">接收对应主题的消息</string>
+    <string name="out_message_topic">输出消息主题</string>
+    <string name="out_message_topic_hint">发送对应主题的消息</string>
+    <string name="uri_type">通信方式</string>
+    <string name="uri_type_hint">可选，默认为tcp</string>
+    <string name="path">通信路径</string>
+    <string name="path_hint">用于在使用ws进行通信时设置uri</string>
+    <string name="client_id">客户端ID</string>
+    <string name="client_id_hint">如果为空则为随机值</string>
     <string name="privacy_policy">隐私政策</string>
     <string name="agree">同意</string>
     <string name="refuse">拒绝</string>
@@ -707,10 +726,18 @@
     <string name="url_scheme">URL Scheme</string>
     <string name="url_scheme_tips">示例：myapp://api/add?&amp;type=0&amp;msg=[msg]</string>
 
+    <string name="socket">Socket</string>
+    <string name="socket_tips">示例：myapp://api/add?&amp;type=0&amp;msg=[msg]</string>
+    <string name="socket_address">服务地址</string>
+    <string name="socket_address_tips">IP 或 域名</string>
+    <string name="socket_port">端口</string>
+    <string name="socket_port_tips">取值范围：1-65535</string>
+
     <string name="webhook_server">Webhook Server</string>
     <string name="webhook_server_tips">例如：https://a.b.com/msg?token=xyz</string>
-    <string name="webhook_params">Params</string>
-    <string name="webhook_params_tips" formatted="false">例如：payload=%7B%22text%22%3A%22[msg]%22%7D [msg]将被替换成短信内容。\n支持Json格式，例如：{\"text\":\"[msg]\"}。\n注意：除JSON格式外，msg会自动进行UTF-8编码</string>
+    <string name="webhook_params">消息模板</string>
+    <string name="msg_template">Params</string>
+    <string name="webhook_params_tips" formatted="false">例如：payload=%7B%22text%22%3A%22[msg]%22%7D [msg]将被替换成短信内容。\n支持Json格式，例如：{\"text\":\"[msg]\"}。\n注意：除JSON格式外，msg会自动进行URLEncoder</string>
     <string name="webhook_secret">Secret：置空则不计算sign</string>
     <string name="headers">Headers</string>
     <string name="header_key">Key</string>

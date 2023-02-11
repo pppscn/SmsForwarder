@@ -54,6 +54,7 @@ data class LogsDetail(
             TYPE_DINGTALK_INNER_ROBOT -> R.drawable.icon_dingtalk_inner
             TYPE_FEISHU_APP -> R.drawable.icon_feishu_app
             TYPE_URL_SCHEME -> R.drawable.icon_url_scheme
+            TYPE_SOCKET -> R.drawable.icon_socket
             else -> R.drawable.icon_sms
         }
 }

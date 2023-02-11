@@ -60,49 +60,34 @@ class CommonUtils private constructor() {
         @Suppress("SameParameterValue", "NAME_SHADOWING")
         @JvmStatic
         fun showPrivacyDialog(context: Context, submitListener: SingleButtonCallback?): Dialog {
-            val dialog =
-                MaterialDialog.Builder(context).title(R.string.title_reminder).autoDismiss(false)
-                    .cancelable(false)
-                    .positiveText(R.string.lab_agree)
-                    .onPositive { dialog1: MaterialDialog, which: DialogAction? ->
-                        if (submitListener != null) {
-                            submitListener.onClick(dialog1, which!!)
-                        } else {
-                            dialog1.dismiss()
-                        }
-                    }
-                    .negativeText(R.string.lab_disagree).onNegative { dialog, _ ->
+            val dialog = MaterialDialog.Builder(context).title(R.string.title_reminder).autoDismiss(false).cancelable(false).positiveText(R.string.lab_agree).onPositive { dialog1: MaterialDialog, which: DialogAction? ->
+                if (submitListener != null) {
+                    submitListener.onClick(dialog1, which!!)
+                } else {
+                    dialog1.dismiss()
+                }
+            }.negativeText(R.string.lab_disagree).onNegative { dialog, _ ->
+                dialog.dismiss()
+                DialogLoader.getInstance().showConfirmDialog(
+                    context, ResUtils.getString(R.string.title_reminder), String.format(
+                        ResUtils.getString(R.string.content_privacy_explain_again), ResUtils.getString(R.string.app_name)
+                    ), ResUtils.getString(R.string.lab_look_again), { dialog, _ ->
                         dialog.dismiss()
-                        DialogLoader.getInstance().showConfirmDialog(
-                            context,
-                            ResUtils.getString(R.string.title_reminder),
-                            String.format(
-                                ResUtils.getString(R.string.content_privacy_explain_again),
-                                ResUtils.getString(R.string.app_name)
-                            ),
-                            ResUtils.getString(R.string.lab_look_again),
-                            { dialog, _ ->
-                                dialog.dismiss()
-                                showPrivacyDialog(context, submitListener)
-                            },
-                            ResUtils.getString(R.string.lab_still_disagree)
-                        ) { dialog, _ ->
+                        showPrivacyDialog(context, submitListener)
+                    }, ResUtils.getString(R.string.lab_still_disagree)
+                ) { dialog, _ ->
+                    dialog.dismiss()
+                    DialogLoader.getInstance().showConfirmDialog(
+                        context, ResUtils.getString(R.string.content_think_about_it_again), ResUtils.getString(R.string.lab_look_again), { dialog, _ ->
                             dialog.dismiss()
-                            DialogLoader.getInstance().showConfirmDialog(
-                                context,
-                                ResUtils.getString(R.string.content_think_about_it_again),
-                                ResUtils.getString(R.string.lab_look_again),
-                                { dialog, _ ->
-                                    dialog.dismiss()
-                                    showPrivacyDialog(context, submitListener)
-                                },
-                                ResUtils.getString(R.string.lab_exit_app)
-                            ) { dialog, _ ->
-                                dialog.dismiss()
-                                XUtil.exitApp()
-                            }
-                        }
-                    }.build()
+                            showPrivacyDialog(context, submitListener)
+                        }, ResUtils.getString(R.string.lab_exit_app)
+                    ) { dialog, _ ->
+                        dialog.dismiss()
+                        XUtil.exitApp()
+                    }
+                }
+            }.build()
             dialog.setContent(getPrivacyContent(context))
             //开始响应点击事件
             dialog.contentView!!.movementMethod = LinkMovementMethod.getInstance()
@@ -114,15 +99,7 @@ class CommonUtils private constructor() {
          * @return 隐私政策说明
          */
         private fun getPrivacyContent(context: Context): SpannableStringBuilder {
-            return SpannableStringBuilder()
-                .append("    ").append(ResUtils.getString(R.string.privacy_content_1)).append(" ").append(ResUtils.getString(R.string.app_name)).append("!\n")
-                .append("    ").append(ResUtils.getString(R.string.privacy_content_2))
-                .append("    ").append(ResUtils.getString(R.string.privacy_content_3))
-                .append(getPrivacyLink(context, PRIVACY_URL))
-                .append(ResUtils.getString(R.string.privacy_content_4))
-                .append("    ").append(ResUtils.getString(R.string.privacy_content_5))
-                .append(getPrivacyLink(context, PRIVACY_URL))
-                .append(ResUtils.getString(R.string.privacy_content_6))
+            return SpannableStringBuilder().append("    ").append(ResUtils.getString(R.string.privacy_content_1)).append(" ").append(ResUtils.getString(R.string.app_name)).append("!\n").append("    ").append(ResUtils.getString(R.string.privacy_content_2)).append("    ").append(ResUtils.getString(R.string.privacy_content_3)).append(getPrivacyLink(context, PRIVACY_URL)).append(ResUtils.getString(R.string.privacy_content_4)).append("    ").append(ResUtils.getString(R.string.privacy_content_5)).append(getPrivacyLink(context, PRIVACY_URL)).append(ResUtils.getString(R.string.privacy_content_6))
         }
 
         /**
@@ -132,8 +109,7 @@ class CommonUtils private constructor() {
         @Suppress("SameParameterValue")
         private fun getPrivacyLink(context: Context, privacyUrl: String): SpannableString {
             val privacyName = String.format(
-                ResUtils.getString(R.string.lab_privacy_name),
-                ResUtils.getString(R.string.app_name)
+                ResUtils.getString(R.string.lab_privacy_name), ResUtils.getString(R.string.app_name)
             )
             val spannableString = SpannableString(privacyName)
             spannableString.setSpan(object : ClickableSpan() {
@@ -165,15 +141,11 @@ class CommonUtils private constructor() {
          */
         @JvmStatic
         fun gotoProtocol(fragment: XPageFragment?, isPrivacy: Boolean, isImmersive: Boolean) {
-            PageOption.to(ServiceProtocolFragment::class.java)
-                .putString(
-                    ServiceProtocolFragment.KEY_PROTOCOL_TITLE,
-                    if (isPrivacy) ResUtils.getString(R.string.title_privacy_protocol) else ResUtils.getString(
-                        R.string.title_user_protocol
-                    )
+            PageOption.to(ServiceProtocolFragment::class.java).putString(
+                ServiceProtocolFragment.KEY_PROTOCOL_TITLE, if (isPrivacy) ResUtils.getString(R.string.title_privacy_protocol) else ResUtils.getString(
+                    R.string.title_user_protocol
                 )
-                .putBoolean(ServiceProtocolFragment.KEY_IS_IMMERSIVE, isImmersive)
-                .open(fragment!!)
+            ).putBoolean(ServiceProtocolFragment.KEY_IS_IMMERSIVE, isImmersive).open(fragment!!)
         }
 
         /**
@@ -210,13 +182,7 @@ class CommonUtils private constructor() {
             }
             val bounds = Rect()
             view?.getGlobalVisibleRect(bounds)
-            PreviewBuilder.from(fragment)
-                .setImgs(ImageInfo.newInstance(url, bounds))
-                .setCurrentIndex(0)
-                .setSingleFling(true)
-                .setProgressColor(R.color.xui_config_color_main_theme)
-                .setType(PreviewBuilder.IndicatorType.Number)
-                .start()
+            PreviewBuilder.from(fragment).setImgs(ImageInfo.newInstance(url, bounds)).setCurrentIndex(0).setSingleFling(true).setProgressColor(R.color.xui_config_color_main_theme).setType(PreviewBuilder.IndicatorType.Number).start()
         }
 
         /**
@@ -228,11 +194,7 @@ class CommonUtils private constructor() {
          */
         @JvmStatic
         fun previewMarkdown(fragment: XPageFragment?, title: String, url: String, isImmersive: Boolean) {
-            PageOption.to(MarkdownFragment::class.java)
-                .putString(MarkdownFragment.KEY_MD_TITLE, title)
-                .putString(MarkdownFragment.KEY_MD_URL, url)
-                .putBoolean(MarkdownFragment.KEY_IS_IMMERSIVE, isImmersive)
-                .open(fragment!!)
+            PageOption.to(MarkdownFragment::class.java).putString(MarkdownFragment.KEY_MD_TITLE, title).putString(MarkdownFragment.KEY_MD_URL, url).putBoolean(MarkdownFragment.KEY_IS_IMMERSIVE, isImmersive).open(fragment!!)
         }
 
         //是否合法的url
@@ -243,7 +205,7 @@ class CommonUtils private constructor() {
         //是否合法的url
         fun checkUrl(urls: String?, emptyResult: Boolean): Boolean {
             if (TextUtils.isEmpty(urls)) return emptyResult
-            val regex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;\\[\\]]*[-a-zA-Z0-9+&@#/%=~_|\\[\\]]"
+            val regex = "^(https?|ftp|file)://[-a-zA-Z\\d+&@#/%?=~_|!:,.;\\[\\]]*[-a-zA-Z\\d+&@#/%=~_|\\[\\]]"
             val pat = Pattern.compile(regex)
             val mat = pat.matcher(urls?.trim() ?: "")
             return mat.matches()
@@ -257,10 +219,39 @@ class CommonUtils private constructor() {
         //是否合法的URL Scheme
         fun checkUrlScheme(urls: String?, emptyResult: Boolean): Boolean {
             if (TextUtils.isEmpty(urls)) return emptyResult
-            val regex = "^[a-zA-Z0-9]+://[-a-zA-Z0-9+&@#/%?=~_|!:,.;\\[\\]]*[-a-zA-Z0-9+&@#/%=~_|\\[\\]]"
+            val regex = "^[a-zA-Z\\d]+://[-a-zA-Z\\d+&@#/%?=~_|!:,.;\\[\\]]*[-a-zA-Z\\d+&@#/%=~_|\\[\\]]"
             val pat = Pattern.compile(regex)
             val mat = pat.matcher(urls?.trim() ?: "")
             return mat.matches()
+        }
+
+        //是否合法的IP地址
+        fun checkIP(IP: String): String {
+            if (TextUtils.isEmpty(IP)) return "Neither"
+
+            if (IP.contains(".")) {
+                val chunkIPv4 = "([\\d]|[1-9][\\d]|1[\\d][\\d]|2[0-4][\\d]|25[0-5])"
+                val pattenIPv4 = Pattern.compile("^($chunkIPv4\\.){3}$chunkIPv4$")
+                return if (pattenIPv4.matcher(IP).matches()) "IPv4" else "Neither"
+            } else if (IP.contains(":")) {
+                val chunkIPv6 = "([\\da-fA-F]{1,4})"
+                val pattenIPv6 = Pattern.compile("^($chunkIPv6\\:){7}$chunkIPv6$")
+                return if (pattenIPv6.matcher(IP).matches()) "IPv6" else "Neither"
+            }
+            return "Neither"
+        }
+
+        //是否合法的域名
+        fun checkDomain(domain: String): Boolean {
+            val pattenDomain = Pattern.compile("^(?=^.{3,255}$)(?:(?:(?:[a-zA-Z\\d]|[a-zA-Z\\d][a-zA-Z\\d\\-]*[a-zA-Z\\d])\\.){1,126}(?:[A-Za-z\\d]|[A-Za-z\\d][A-Za-z\\d\\-]*[A-Za-z\\d]))$")
+            return pattenDomain.matcher(domain).matches()
+        }
+
+        //是否合法的端口号
+        fun checkPort(port: String): Boolean {
+            if (TextUtils.isEmpty(port)) return false
+            val pattenPort = Pattern.compile("^((6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])|[0-5]?\\d{0,4})$")
+            return pattenPort.matcher(port).matches()
         }
 
         //是否启用通知监听服务
@@ -273,12 +264,10 @@ class CommonUtils private constructor() {
         fun toggleNotificationListenerService(context: Context) {
             val pm = context.packageManager
             pm.setComponentEnabledSetting(
-                ComponentName(context.applicationContext, NotifyService::class.java),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
+                ComponentName(context.applicationContext, NotifyService::class.java), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
             )
             pm.setComponentEnabledSetting(
-                ComponentName(context.applicationContext, NotifyService::class.java),
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP
+                ComponentName(context.applicationContext, NotifyService::class.java), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP
             )
         }
 

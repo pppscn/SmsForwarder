@@ -282,6 +282,8 @@
 -keep class javax.activation.** { *;}
 -keep class com.smailnet.emailkit.** { *;}
 -keep class com.idormy.sms.forwarder.utils.mail.** {*;}
+-keep class com.gitee.xuankaicat.kmnkt.** {*;}
+-keep class org.eclipse.paho.client.** {*;}
 
 -keep public class com.xuexiang.xrouter.routes.**{*;}
 -keep class * implements com.xuexiang.xrouter.facade.template.ISyringe{*;}
