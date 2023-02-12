@@ -40,7 +40,7 @@ configurations.each { configuration ->
         configuration.dependencies.add(dependencies.create(deps.xlibrary.xrouter_compiler))
     }
 
-    if (configuration.name == "debugImplementation") {
+    if (isNeedLeakcanary.toBoolean() && configuration.name == "debugImplementation") {
         //内存泄漏监测leak
         configuration.dependencies.add(dependencies.create(deps.leakcanary))
     }
