@@ -44,7 +44,7 @@
 
 ## 界面预览：
 
-![界面预览](https://images.gitee.com/uploads/images/2022/0606/133422_808b4589_16273.png "界面预览.png")
+![界面预览](https://foruda.gitee.com/images/1676172337910608171/1b2e15db_16273.jpeg "界面预览.jpg")
 
 更多截图参见 https://github.com/pppscn/SmsForwarder/wiki
 
