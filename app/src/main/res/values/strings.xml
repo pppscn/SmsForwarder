@@ -994,4 +994,6 @@
     <string name="sm4_key_tips">客户端/服务端交互采用SM4加解密</string>
 
     <string name="sender_del">删除发送通道</string>
+    <string name="sender_disabled">发送通道已禁用</string>
+    <string name="unknown_sender">未知发送通道</string>
 </resources>

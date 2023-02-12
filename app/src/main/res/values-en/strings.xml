@@ -993,4 +993,6 @@
     <string name="sm4_key_tips">Client or server interaction messages are all encrypted and decrypted using SM4</string>
 
     <string name="sender_del">Del Sender</string>
+    <string name="sender_disabled">Sender is disabled</string>
+    <string name="unknown_sender">Unknown sender</string>
 </resources>

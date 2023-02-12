@@ -21,7 +21,6 @@ import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xutil.XUtil
 import java.util.*
 
-
 object SendUtils {
     private const val TAG = "SendUtils"
 
@@ -63,6 +62,12 @@ object SendUtils {
     fun sendMsgSender(msgInfo: MsgInfo, rule: Rule, senderIndex: Int = 0, logId: Long = 0L, msgId: Long = 0L) {
         try {
             val sender = rule.senderList[senderIndex]
+            if (sender.status != 1) {
+                Log.d(TAG, "sender = $sender is disabled")
+                updateLogs(logId, 0, ResUtils.getString(R.string.sender_disabled))
+                senderLogic(0, msgInfo, rule, senderIndex, msgId)
+                return
+            }
             when (sender.type) {
                 TYPE_DINGTALK_GROUP_ROBOT -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, DingtalkGroupRobotSetting::class.java)
@@ -129,12 +134,14 @@ object SendUtils {
                     SocketUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
                 }
                 else -> {
-                    updateLogs(logId, 0, "未知发送通道")
+                    updateLogs(logId, 0, ResUtils.getString(R.string.unknown_sender))
+                    senderLogic(0, msgInfo, rule, senderIndex, msgId)
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
             updateLogs(logId, 0, e.message.toString())
+            senderLogic(0, msgInfo, rule, senderIndex, msgId)
         }
     }
 
