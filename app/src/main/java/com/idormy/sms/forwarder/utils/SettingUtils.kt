@@ -40,10 +40,10 @@ class SettingUtils private constructor() {
         var enableAppNotify: Boolean by SharedPreference(SP_ENABLE_APP_NOTIFY, false)
 
         //是否转发应用通知——自动消除通知
-        var enableCancelAppNotify: Boolean by SharedPreference(SP_CANCEL_EXTRA_APP_NOTIFY, false)
+        var enableCancelAppNotify: Boolean by SharedPreference(SP_ENABLE_CANCEL_APP_NOTIFY, false)
 
         //是否转发应用通知——自动消除额外APP通知
-        var cancelExtraAppNotify: String by SharedPreference(SP_BATTERY_CRON_START_TIME, "")
+        var cancelExtraAppNotify: String by SharedPreference(SP_CANCEL_EXTRA_APP_NOTIFY, "")
 
         //是否转发应用通知——仅锁屏状态
         var enableNotUserPresent: Boolean by SharedPreference(SP_ENABLE_NOT_USER_PRESENT, false)

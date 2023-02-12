@@ -31,6 +31,8 @@ data class CloneInfo(
     var enableAppNotify: Boolean = false,
     @SerializedName("cancel_app_notify")
     var cancelAppNotify: Boolean = false,
+    @SerializedName("cancel_extra_app_notify")
+    var cancelExtraAppNotify: String? = null,
     @SerializedName("enable_not_user_present")
     var enableNotUserPresent: Boolean = false,
     @SerializedName("enable_load_app_list")

@@ -154,6 +154,7 @@ class HttpServerUtils private constructor() {
             cloneInfo.callType6 = SettingUtils.enableCallType6
             cloneInfo.enableAppNotify = SettingUtils.enableAppNotify
             cloneInfo.cancelAppNotify = SettingUtils.enableCancelAppNotify
+            cloneInfo.cancelExtraAppNotify = SettingUtils.cancelExtraAppNotify
             cloneInfo.enableNotUserPresent = SettingUtils.enableNotUserPresent
             cloneInfo.enableLoadAppList = SettingUtils.enableLoadAppList
             cloneInfo.enableLoadUserAppList = SettingUtils.enableLoadUserAppList
@@ -199,6 +200,7 @@ class HttpServerUtils private constructor() {
                 SettingUtils.enableCallType6 = cloneInfo.callType6
                 SettingUtils.enableAppNotify = cloneInfo.enableAppNotify
                 SettingUtils.enableCancelAppNotify = cloneInfo.cancelAppNotify
+                SettingUtils.cancelExtraAppNotify = cloneInfo.cancelExtraAppNotify.toString()
                 SettingUtils.enableNotUserPresent = cloneInfo.enableNotUserPresent
                 SettingUtils.enableLoadAppList = cloneInfo.enableLoadAppList
                 SettingUtils.enableLoadUserAppList = cloneInfo.enableLoadUserAppList
