@@ -62,12 +62,17 @@ class SendWorker(
                 val msgInfo = Gson().fromJson(msgInfoJson, MsgInfo::class.java)
 
                 // 过滤重复消息机制
-                if (SettingUtils.duplicateMessagesLimits > 0) {
+                var duplicateMessagesLimits = SettingUtils.duplicateMessagesLimits * 1000L
+                // 电池状态监听/网络状态监控 默认开启1秒去重
+                if (duplicateMessagesLimits == 0L && (msgInfo.from == "88888888" || msgInfo.from == "77777777")) duplicateMessagesLimits = 1000L
+                if (duplicateMessagesLimits > 0L) {
                     val key = CipherUtils.md5(msgInfo.type + msgInfo.from + msgInfo.content)
-                    val timestamp: Long = System.currentTimeMillis() / 1000L
+                    val timestamp: Long = System.currentTimeMillis()
                     var timestampPrev: Long by HistoryUtils(key, timestamp)
-                    if (timestampPrev != timestamp && timestamp - timestampPrev <= SettingUtils.duplicateMessagesLimits) {
+                    Log.d("SendWorker", "duplicateMessagesLimits=$duplicateMessagesLimits, timestamp=$timestamp, timestampPrev=$timestampPrev, msgInfo=$msgInfo")
+                    if (timestampPrev != timestamp && timestamp - timestampPrev <= duplicateMessagesLimits) {
                         Log.e("SendWorker", "过滤重复消息机制")
+                        timestampPrev = timestamp
                         return@withContext Result.failure(workDataOf("send" to "failed"))
                     }
                     timestampPrev = timestamp
