@@ -200,7 +200,7 @@ dependencies {
     implementation 'androidx.activity:activity-ktx:1.6.1'
     implementation 'androidx.fragment:fragment-ktx:1.5.5'
     implementation "androidx.cardview:cardview:1.0.0"
-    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.preference:preference-ktx:1.2.0'
 
     //分包
@@ -229,8 +229,9 @@ dependencies {
     //美团多渠道打包
     //implementation 'com.meituan.android.walle:library:1.1.6'
 
-    api("androidx.work:work-multiprocess:2.7.1")
-    api("androidx.work:work-runtime-ktx:2.7.1")
+    def work_version = '2.8.0'
+    api("androidx.work:work-multiprocess:$work_version")
+    api("androidx.work:work-runtime-ktx:$work_version")
 
     //Android Room
     def room_version = '2.5.0'
@@ -272,8 +273,8 @@ dependencies {
     implementation 'com.gyf.cactus:cactus:1.1.3-beta13'
 
     //HTTP服务器：https://github.com/yanzhenjie/AndServer
-    implementation 'cn.ppps.andserver:api:2.1.11'
-    kapt 'cn.ppps.andserver:processor:2.1.11'
+    implementation 'cn.ppps.andserver:api:2.1.12'
+    kapt 'cn.ppps.andserver:processor:2.1.12'
 
     //国密算法SM4 的JAVA实现(基于BC实现)
     api 'org.bouncycastle:bcprov-jdk15on:1.70'
