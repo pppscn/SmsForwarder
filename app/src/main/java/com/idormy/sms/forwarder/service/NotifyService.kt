@@ -48,9 +48,6 @@ class NotifyService : NotificationListenerService() {
             //纯客户端模式
             if (SettingUtils.enablePureClientMode) return
 
-            //总开关
-            if (!SettingUtils.enableAppNotify) return
-
             //异常通知跳过
             if (sbn!!.notification == null) return
             if (sbn.notification.extras == null) return
@@ -69,6 +66,9 @@ class NotifyService : NotificationListenerService() {
                     }
                 }
             }
+
+            //总开关
+            if (!SettingUtils.enableAppNotify) return
 
             //仅锁屏状态转发APP通知
             if (SettingUtils.enableNotUserPresent && !ScreenUtils.isScreenLock()) return

@@ -28,6 +28,7 @@ import com.xuexiang.xui.utils.ThemeUtils
 import com.xuexiang.xui.utils.WidgetUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.dialog.LoadingDialog
+import com.xuexiang.xutil.system.ClipboardUtils
 import frpclib.Frpclib
 import io.reactivex.CompletableObserver
 import io.reactivex.Observer
@@ -60,22 +61,19 @@ class FrpcFragment : BaseFragment<FragmentFrpcsBinding?>(), FrpcPagingAdapter.On
         titleBar!!.addAction(object : TitleBar.ImageAction(R.drawable.ic_add) {
             @SingleClick
             override fun performAction(view: View) {
-                FrpcUtils.getStringFromRaw(context!!, R.raw.frpc)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(object : Observer<String?> {
-                        override fun onSubscribe(d: Disposable) {}
-                        override fun onNext(content: String) {
-                            LiveEventBus.get<Frpc>(INTENT_FRPC_EDIT_FILE).post(Frpc(content))
-                            PageOption.to(FrpcEditFragment::class.java).setNewActivity(true).open((context as XPageActivity?)!!)
-                        }
+                FrpcUtils.getStringFromRaw(context!!, R.raw.frpc).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : Observer<String?> {
+                    override fun onSubscribe(d: Disposable) {}
+                    override fun onNext(content: String) {
+                        LiveEventBus.get<Frpc>(INTENT_FRPC_EDIT_FILE).post(Frpc(content))
+                        PageOption.to(FrpcEditFragment::class.java).setNewActivity(true).open((context as XPageActivity?)!!)
+                    }
 
-                        override fun onError(e: Throwable) {
-                            e.message?.let { XToastUtils.error(it) }
-                        }
+                    override fun onError(e: Throwable) {
+                        e.message?.let { XToastUtils.error(it) }
+                    }
 
-                        override fun onComplete() {}
-                    })
+                    override fun onComplete() {}
+                })
             }
         })
         return titleBar
@@ -118,7 +116,6 @@ class FrpcFragment : BaseFragment<FragmentFrpcsBinding?>(), FrpcPagingAdapter.On
         //运行出错时间
         LiveEventBus.get(EVENT_FRPC_RUNNING_ERROR, String::class.java).observe(this) {
             XToastUtils.error(getString(R.string.frpc_failed_to_run))
-            //FrpcUtils.checkAndStopService(requireContext())
             adapter.refresh()
         }
 
@@ -129,30 +126,29 @@ class FrpcFragment : BaseFragment<FragmentFrpcsBinding?>(), FrpcPagingAdapter.On
     }
 
     override fun onItemClicked(view: View?, item: Frpc) {
-        val id = view?.id
-        if (id == R.id.iv_play) {
-            //if (!FrpcUtils.isServiceRunning(ForegroundService::class.java.name, requireContext())) {
-            if (!ForegroundService.isRunning) {
-                val intent = Intent(requireContext(), ForegroundService::class.java)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    requireContext().startForegroundService(intent)
-                } else {
-                    requireContext().startService(intent)
+        when (val id = view?.id) {
+            R.id.iv_copy -> {
+                ClipboardUtils.copyText(item.uid)
+                XToastUtils.info(String.format(getString(R.string.copied_to_clipboard), item.uid))
+            }
+            R.id.iv_play -> {
+                if (!ForegroundService.isRunning) {
+                    val intent = Intent(requireContext(), ForegroundService::class.java)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        requireContext().startForegroundService(intent)
+                    } else {
+                        requireContext().startService(intent)
+                    }
                 }
-            }
 
-            if (Frpclib.isRunning(item.uid)) {
-                Frpclib.close(item.uid)
-                item.setConnecting(false)
-                LiveEventBus.get<Frpc>(EVENT_FRPC_UPDATE_CONFIG).post(item)
-                //FrpcUtils.checkAndStopService(requireContext())
-                return
-            }
+                if (Frpclib.isRunning(item.uid)) {
+                    Frpclib.close(item.uid)
+                    item.setConnecting(false)
+                    LiveEventBus.get<Frpc>(EVENT_FRPC_UPDATE_CONFIG).post(item)
+                    return
+                }
 
-            FrpcUtils.waitService(ForegroundService::class.java.name, requireContext())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : CompletableObserver {
+                FrpcUtils.waitService(ForegroundService::class.java.name, requireContext()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : CompletableObserver {
                     var mLoadingDialog: LoadingDialog = WidgetUtils.getLoadingDialog(context!!).setIconScale(0.4f).setLoadingSpeed(8)
 
                     override fun onSubscribe(d: Disposable) {
@@ -177,22 +173,27 @@ class FrpcFragment : BaseFragment<FragmentFrpcsBinding?>(), FrpcPagingAdapter.On
                         LiveEventBus.get<Frpc>(EVENT_FRPC_UPDATE_CONFIG).post(item)
                     }
                 })
-        } else {
-            //编辑或删除需要先停止客户端
-            if (Frpclib.isRunning(item.uid)) {
-                XToastUtils.warning(R.string.tipServiceRunning)
-                return
             }
-            if (id == R.id.iv_edit) {
-                LiveEventBus.get<Frpc>(INTENT_FRPC_EDIT_FILE).post(item)
-                openNewPage(FrpcEditFragment::class.java)
-            } else if (id == R.id.iv_delete) {
-                try {
-                    viewModel.delete(item)
-                    LiveEventBus.get<Frpc>(EVENT_FRPC_DELETE_CONFIG).post(item)
-                    XToastUtils.success(getString(R.string.successfully_deleted))
-                } catch (e: Exception) {
-                    e.message?.let { XToastUtils.error(it) }
+            else -> {
+                //编辑或删除需要先停止客户端
+                if (Frpclib.isRunning(item.uid)) {
+                    XToastUtils.warning(R.string.tipServiceRunning)
+                    return
+                }
+                when (id) {
+                    R.id.iv_edit -> {
+                        LiveEventBus.get<Frpc>(INTENT_FRPC_EDIT_FILE).post(item)
+                        openNewPage(FrpcEditFragment::class.java)
+                    }
+                    R.id.iv_delete -> {
+                        try {
+                            viewModel.delete(item)
+                            LiveEventBus.get<Frpc>(EVENT_FRPC_DELETE_CONFIG).post(item)
+                            XToastUtils.success(getString(R.string.successfully_deleted))
+                        } catch (e: Exception) {
+                            e.message?.let { XToastUtils.error(it) }
+                        }
+                    }
                 }
             }
         }

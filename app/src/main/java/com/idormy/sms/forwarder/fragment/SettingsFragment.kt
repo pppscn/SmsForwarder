@@ -97,6 +97,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         switchEnableAppNotify(
             binding!!.sbEnableAppNotify, binding!!.scbCancelAppNotify, binding!!.scbNotUserPresent
         )
+
+        //短信指令
+        switchEnableSmsCommand(binding!!.sbEnableSmsCommand, binding!!.etSafePhone)
+
         //设置自动消除额外APP通知
         editExtraAppList(binding!!.etAppList)
         //启动时异步获取已安装App信息
@@ -440,12 +444,12 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
         val layoutOptionalAction: LinearLayout = binding!!.layoutOptionalAction
         layoutOptionalAction.visibility = if (isEnable) View.VISIBLE else View.GONE
-        val layoutAppList: LinearLayout = binding!!.layoutAppList
-        layoutAppList.visibility = if (isEnable) View.VISIBLE else View.GONE
+        //val layoutAppList: LinearLayout = binding!!.layoutAppList
+        //layoutAppList.visibility = if (isEnable) View.VISIBLE else View.GONE
 
         sbEnableAppNotify.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             layoutOptionalAction.visibility = if (isChecked) View.VISIBLE else View.GONE
-            layoutAppList.visibility = if (isChecked) View.VISIBLE else View.GONE
+            //layoutAppList.visibility = if (isChecked) View.VISIBLE else View.GONE
             SettingUtils.enableAppNotify = isChecked
             if (isChecked) {
                 //检查权限是否获取
@@ -471,6 +475,57 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         scbNotUserPresent.setOnCheckedChangeListener { _: SmoothCheckBox, isChecked: Boolean ->
             SettingUtils.enableNotUserPresent = isChecked
         }
+    }
+
+    //接受短信指令
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    fun switchEnableSmsCommand(sbEnableSmsCommand: SwitchButton, etSafePhone: EditText) {
+        sbEnableSmsCommand.isChecked = SettingUtils.enableSmsCommand
+        etSafePhone.visibility = if (SettingUtils.enableSmsCommand) View.VISIBLE else View.GONE
+
+        sbEnableSmsCommand.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            SettingUtils.enableSmsCommand = isChecked
+            etSafePhone.visibility = if (isChecked) View.VISIBLE else View.GONE
+            if (isChecked) {
+                //检查权限是否获取
+                XXPermissions.with(this)
+                    // 接收短信
+                    .permission(Permission.RECEIVE_SMS)
+                    // 发送短信
+                    //.permission(Permission.SEND_SMS)
+                    // 读取短信
+                    .permission(Permission.READ_SMS).request(object : OnPermissionCallback {
+                        override fun onGranted(permissions: List<String>, all: Boolean) {
+                            if (all) {
+                                XToastUtils.info(R.string.toast_granted_all)
+                            } else {
+                                XToastUtils.info(R.string.toast_granted_part)
+                            }
+                        }
+
+                        override fun onDenied(permissions: List<String>, never: Boolean) {
+                            if (never) {
+                                XToastUtils.info(R.string.toast_denied_never)
+                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                XXPermissions.startPermissionActivity(requireContext(), permissions)
+                            } else {
+                                XToastUtils.info(R.string.toast_denied)
+                            }
+                            SettingUtils.enableSmsCommand = false
+                            sbEnableSmsCommand.isChecked = false
+                        }
+                    })
+            }
+        }
+
+        etSafePhone.setText(SettingUtils.smsCommandSafePhone)
+        etSafePhone.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                SettingUtils.smsCommandSafePhone = etSafePhone.text.toString().trim().removeSuffix("\n")
+            }
+        })
     }
 
     //设置自动消除额外APP通知

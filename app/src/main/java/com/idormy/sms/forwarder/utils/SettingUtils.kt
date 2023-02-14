@@ -39,6 +39,10 @@ class SettingUtils private constructor() {
         //是否转发应用通知
         var enableAppNotify: Boolean by SharedPreference(SP_ENABLE_APP_NOTIFY, false)
 
+        //是否接受短信指令
+        var enableSmsCommand: Boolean by SharedPreference(SP_ENABLE_SMS_COMMAND, false)
+        var smsCommandSafePhone: String by SharedPreference(SP_SMS_COMMAND_SAFE_PHONE, "")
+
         //是否转发应用通知——自动消除通知
         var enableCancelAppNotify: Boolean by SharedPreference(SP_ENABLE_CANCEL_APP_NOTIFY, false)
 

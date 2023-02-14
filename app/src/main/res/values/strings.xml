@@ -354,6 +354,10 @@
     <string name="filtering_duplicate_messages_tips">0=禁用，判断重复：类型+来源+内容</string>
     <string name="forward_sms">转发短信广播</string>
     <string name="forward_sms_tips">请授予读取短信、通知类短信、发送短信等权限，关闭验证码保护</string>
+    <string name="sms_command">短信指令</string>
+    <string name="sms_command_tips">根据短信指令开关对应功能，指令格式：smsf#功能名#动作名</string>
+    <string name="safe_phone">安全手机</string>
+    <string name="safe_phone_tips">仅处理指定手机请求，多个手机以逗号分隔</string>
     <string name="forward_missed_calls">转发通话记录</string>
     <string name="forward_missed_calls_tips">请授予读取通话记录、联系人等权限，并选择转发类型，再开启</string>
     <string name="forward_app_notify">转发应用通知</string>
@@ -525,6 +529,8 @@
     <string name="todo">TODO</string>
     <string name="forwarding_function">转发功能</string>
     <string name="forwarding_function_tips">总开关，请根据实际需要，启用对应的转发功能</string>
+    <string name="extra_function">增强功能</string>
+    <string name="extra_function_tips">请根据实际需要，启用对应的增强设置</string>
     <string name="call_date">通话时间：</string>
     <string name="call_duration">通话时长：</string>
     <string name="ring_duration">响铃时长：</string>
@@ -544,11 +550,11 @@
     <string name="httpserver">被动接收本地 HttpServer</string>
     <string name="httpserver_tips">WiFi网络下可用，启动后局域网内其他机器可直接调用本机接口</string>
     <string name="network_state_monitor">网络状态监控</string>
-    <string name="network_state_monitor_tips">【注意】需要手动创建APP转发规则，包名：77777777</string>
+    <string name="network_state_monitor_tips">需要手动创建APP转发规则，包名：77777777</string>
     <string name="network_state_change_remind">网络状态改变提醒</string>
     <string name="network_state_change_remind_tips">网络状态改变(连接方式/IP变化)时发出通知</string>
     <string name="battery_monitor">电池监控</string>
-    <string name="battery_monitor_tips">【注意】需要手动创建APP转发规则，包名：88888888</string>
+    <string name="battery_monitor_tips">需要手动创建APP转发规则，包名：88888888</string>
     <string name="keep_alive">保活措施</string>
     <string name="keep_alive_tips">建议开启前三项授权或设置，不要禁用通知栏，避免APP被杀</string>
     <string name="custom_settings">个性设置</string>

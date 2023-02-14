@@ -8,6 +8,7 @@
     android:orientation="vertical"
     tools:ignore="TooManyViews">
 
+
     <androidx.core.widget.NestedScrollView style="@style/ScrollViewStyle">
 
         <LinearLayout
@@ -242,118 +243,32 @@
                 style="@style/settingBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/forward_app_notify"
-                            android:textStyle="bold"
-                            tools:ignore="RelativeOverlap" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/forward_app_notify_tips"
-                            android:textSize="9sp"
-                            tools:ignore="SmallSp" />
-
-                        <LinearLayout
-                            android:id="@+id/layout_optional_action"
-                            android:layout_width="match_parent"
-                            android:layout_height="25dp"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:visibility="gone">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/optional_action"
-                                android:textSize="10sp"
-                                android:textStyle="bold"
-                                tools:ignore="SmallSp" />
-
-                            <com.xuexiang.xui.widget.button.SmoothCheckBox
-                                android:id="@+id/scb_cancel_app_notify"
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                app:scb_color_checked="@color/colorPrimary" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/cancel_app_notify"
-                                android:textSize="10sp"
-                                tools:ignore="SmallSp" />
-
-                            <com.xuexiang.xui.widget.button.SmoothCheckBox
-                                android:id="@+id/scb_not_user_present"
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                android:layout_marginStart="5dp"
-                                app:scb_color_checked="@color/colorPrimary" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/not_user_present"
-                                android:textSize="10sp"
-                                tools:ignore="SmallSp" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
-                        android:id="@+id/sb_enable_app_notify"
-                        style="@style/SwitchButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/layout_app_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:paddingEnd="10dp"
-                    android:visibility="gone"
-                    tools:ignore="RtlSymmetry">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/extra_app"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:text="@string/forward_app_notify"
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
 
-                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                        android:id="@+id/et_app_list"
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/extra_app_hint"
-                        android:inputType="textMultiLine"
-                        app:met_clearButton="true" />
+                        android:text="@string/forward_app_notify_tips"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
 
                     <LinearLayout
-                        android:id="@+id/layout_sp_app"
+                        android:id="@+id/layout_optional_action"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
+                        android:layout_height="25dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:visibility="gone">
@@ -361,22 +276,114 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/choose_app"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                            android:text="@string/optional_action"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            tools:ignore="SmallSp" />
 
-                        <com.xuexiang.xui.widget.spinner.editspinner.EditSpinner
-                            android:id="@+id/sp_app"
-                            android:layout_width="match_parent"
+                        <com.xuexiang.xui.widget.button.SmoothCheckBox
+                            android:id="@+id/scb_cancel_app_notify"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            app:scb_color_checked="@color/colorPrimary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="@string/cancel_app_notify"
+                            android:textSize="10sp"
+                            tools:ignore="SmallSp" />
+
+                        <com.xuexiang.xui.widget.button.SmoothCheckBox
+                            android:id="@+id/scb_not_user_present"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
                             android:layout_marginStart="5dp"
-                            app:es_hint="@string/choose_app_hint"
-                            app:es_maxLength="20"
-                            app:es_maxLine="1" />
+                            app:scb_color_checked="@color/colorPrimary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/not_user_present"
+                            android:textSize="10sp"
+                            tools:ignore="SmallSp" />
 
                     </LinearLayout>
 
                 </LinearLayout>
+
+                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                    android:id="@+id/sb_enable_app_notify"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/extra_function"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/extra_function_tips"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/settingBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sms_command"
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sms_command_tips"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+
+                    <com.xuexiang.xui.widget.edittext.ClearEditText
+                        android:id="@+id/et_safe_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/safe_phone_tips"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                    android:id="@+id/sb_enable_sms_command"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -456,6 +463,58 @@
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_app_list"
+                style="@style/settingBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/extra_app"
+                    android:textStyle="bold"
+                    tools:ignore="RelativeOverlap" />
+
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_app_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/extra_app_hint"
+                    android:inputType="textMultiLine"
+                    app:met_clearButton="true" />
+
+                <LinearLayout
+                    android:id="@+id/layout_sp_app"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/choose_app"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <com.xuexiang.xui.widget.spinner.editspinner.EditSpinner
+                        android:id="@+id/sp_app"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        app:es_hint="@string/choose_app_hint"
+                        app:es_maxLength="20"
+                        app:es_maxLine="1" />
+
+                </LinearLayout>
 
             </LinearLayout>
 

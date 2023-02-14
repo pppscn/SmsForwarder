@@ -180,6 +180,8 @@ class HttpServerUtils private constructor() {
             cloneInfo.smsTemplate = SettingUtils.smsTemplate
             cloneInfo.enableHelpTip = SettingUtils.enableHelpTip
             cloneInfo.enablePureClientMode = SettingUtils.enablePureClientMode
+            cloneInfo.enableSmsCommand = SettingUtils.enableSmsCommand
+            cloneInfo.smsCommandSafePhone = SettingUtils.smsCommandSafePhone
             cloneInfo.senderList = Core.sender.all
             cloneInfo.ruleList = Core.rule.all
             cloneInfo.frpcList = Core.frpc.all
@@ -227,6 +229,8 @@ class HttpServerUtils private constructor() {
                 SettingUtils.smsTemplate = cloneInfo.smsTemplate.toString()
                 SettingUtils.enableHelpTip = cloneInfo.enableHelpTip
                 SettingUtils.enablePureClientMode = cloneInfo.enablePureClientMode
+                SettingUtils.enableSmsCommand = cloneInfo.enableSmsCommand
+                SettingUtils.smsCommandSafePhone = cloneInfo.smsCommandSafePhone.toString()
                 //删除发送通道、转发规则、转发日志
                 Core.sender.deleteAll()
                 //发送通道

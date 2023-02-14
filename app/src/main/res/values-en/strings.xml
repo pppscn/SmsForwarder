@@ -353,6 +353,10 @@
     <string name="filtering_duplicate_messages_tips">0=disabled, judge duplicate: type+source+content</string>
     <string name="forward_sms">Forward Sms</string>
     <string name="forward_sms_tips">Main switch, requires permissions to read and sned SMS messages, especially verification SMS texts.</string>
+    <string name="sms_command">Sms Command</string>
+    <string name="sms_command_tips">Open the HttpServer or FRPC by the SMS command</string>
+    <string name="safe_phone">Safe Phone</string>
+    <string name="safe_phone_tips">Only handle requests from specified phones</string>
     <string name="forward_missed_calls">Forward Calls Log</string>
     <string name="forward_missed_calls_tips">Main switch, requires permissions to read call log and contacts.</string>
     <string name="forward_app_notify">Forward App Notify</string>
@@ -524,6 +528,8 @@
     <string name="todo">TODO</string>
     <string name="forwarding_function">Forwarding Function</string>
     <string name="forwarding_function_tips">Main switch: Enable the forwarding function as required</string>
+    <string name="extra_function">Extra Function</string>
+    <string name="extra_function_tips">Enable the extra function as required</string>
     <string name="call_date">Call date: </string>
     <string name="call_duration">Call duration: </string>
     <string name="ring_duration">Ring duration: </string>

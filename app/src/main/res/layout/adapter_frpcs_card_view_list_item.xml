@@ -17,6 +17,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -41,39 +43,81 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_name"
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:lines="1"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp" />
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_play"
-            android:layout_width="@dimen/card_view_image_size"
-            android:layout_height="@dimen/card_view_image_size"
-            android:padding="@dimen/card_view_image_padding"
-            app:tint="@color/colorStart"
-            tools:ignore="ContentDescription" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/iv_edit"
-            android:layout_width="@dimen/card_view_image_size"
-            android:layout_height="@dimen/card_view_image_size"
-            android:padding="@dimen/card_view_image_padding"
-            app:tint="@color/toast_info_color"
-            tools:ignore="ContentDescription,PrivateResource" />
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:paddingEnd="15dp"
+                    tools:ignore="RtlSymmetry" />
 
-        <ImageView
-            android:id="@+id/iv_delete"
-            android:layout_width="@dimen/card_view_image_size"
-            android:layout_height="@dimen/card_view_image_size"
-            android:padding="@dimen/card_view_image_padding"
-            app:tint="@color/toast_error_color"
-            tools:ignore="ContentDescription,PrivateResource" />
+                <ImageView
+                    android:id="@+id/iv_play"
+                    android:layout_width="@dimen/card_view_image_size"
+                    android:layout_height="@dimen/card_view_image_size"
+                    android:padding="@dimen/card_view_image_padding"
+                    app:tint="@color/colorStart"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/iv_edit"
+                    android:layout_width="@dimen/card_view_image_size"
+                    android:layout_height="@dimen/card_view_image_size"
+                    android:padding="@dimen/card_view_image_padding"
+                    app:tint="@color/toast_info_color"
+                    tools:ignore="ContentDescription,PrivateResource" />
+
+                <ImageView
+                    android:id="@+id/iv_delete"
+                    android:layout_width="@dimen/card_view_image_size"
+                    android:layout_height="@dimen/card_view_image_size"
+                    android:padding="@dimen/card_view_image_padding"
+                    app:tint="@color/toast_error_color"
+                    tools:ignore="ContentDescription,PrivateResource" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:id="@+id/iv_copy"
+                    android:layout_width="@dimen/config_padding_18dp"
+                    android:layout_height="@dimen/config_padding_18dp"
+                    app:tint="@color/colorStart"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/tv_uid"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:lines="1"
+                    android:textSize="11sp"
+                    tools:ignore="SmallSp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
