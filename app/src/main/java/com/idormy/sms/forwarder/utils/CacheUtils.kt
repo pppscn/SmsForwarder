@@ -5,6 +5,7 @@ import android.os.Environment
 import java.io.File
 import java.math.BigDecimal
 
+@Suppress("DEPRECATION")
 class CacheUtils private constructor() {
     companion object {
         /**

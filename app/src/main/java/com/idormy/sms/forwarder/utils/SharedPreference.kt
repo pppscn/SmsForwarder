@@ -7,6 +7,7 @@ import java.io.*
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
+@Suppress("unused", "UNCHECKED_CAST")
 class SharedPreference<T>(private val name: String, private val default: T) : ReadWriteProperty<Any?, T> {
 
     companion object {

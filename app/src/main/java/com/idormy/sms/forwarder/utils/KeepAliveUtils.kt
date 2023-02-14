@@ -12,6 +12,7 @@ import android.provider.Settings
 import androidx.annotation.RequiresApi
 import com.idormy.sms.forwarder.R
 
+@Suppress("DEPRECATION")
 class KeepAliveUtils private constructor() {
 
     companion object {

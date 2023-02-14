@@ -3,6 +3,7 @@ package com.idormy.sms.forwarder.entity.setting
 import com.idormy.sms.forwarder.R
 import java.io.Serializable
 
+@Suppress("SENSELESS_COMPARISON")
 data class FeishuAppSetting(
     var appId: String = "",
     val appSecret: String = "",

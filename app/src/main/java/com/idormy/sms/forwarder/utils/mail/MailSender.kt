@@ -22,10 +22,12 @@ object MailSender {
      * 发送邮件
      */
     fun sendMail(mail: Mail, onMailSendListener: OnMailSendListener? = null) {
+        @Suppress("OPT_IN_USAGE")
         val send = GlobalScope.async(Dispatchers.IO) {
             Transport.send(MailUtil.createMailMessage(mail))
         }
 
+        @Suppress("OPT_IN_USAGE")
         GlobalScope.launch(Dispatchers.Main) {
             runCatching {
                 send.await()

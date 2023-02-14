@@ -32,7 +32,7 @@ import com.xuexiang.xutil.resource.ResUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Suppress("PropertyName")
+@Suppress("PropertyName", "DEPRECATION")
 class PhoneUtils private constructor() {
 
     companion object {

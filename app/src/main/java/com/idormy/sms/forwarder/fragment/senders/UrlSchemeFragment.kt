@@ -39,7 +39,7 @@ import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 @Page(name = "URL Scheme")
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 class UrlSchemeFragment : BaseFragment<FragmentSendersUrlSchemeBinding?>(), View.OnClickListener {
 
     private val TAG: String = UrlSchemeFragment::class.java.simpleName

@@ -13,7 +13,7 @@ import com.xuexiang.xui.widget.imageview.preview.enitity.IPreviewInfo
  * @author xuexiang
  * @since 2018/12/7 下午5:34
  */
-@Suppress("unused")
+@Suppress("unused", "DEPRECATION")
 data class ImageInfo(
     //图片地址
     var mUrl: String,

@@ -41,7 +41,7 @@ class UMengInit private constructor() {
                 return
             }
             UMConfigure.setLogEnabled(false)
-            UMConfigure.preInit(application, BuildConfig.APP_ID_UMENG, getChannel(application))
+            UMConfigure.preInit(application, BuildConfig.APP_ID_UMENG, getChannel()) //getChannel(application)
             // 用户同意了隐私协议
             if (isAgreePrivacy) {
                 realInit(application)
@@ -62,7 +62,7 @@ class UMengInit private constructor() {
             UMConfigure.init(
                 application,
                 BuildConfig.APP_ID_UMENG,
-                getChannel(application),
+                getChannel(), //getChannel(application)
                 UMConfigure.DEVICE_TYPE_PHONE,
                 ""
             )
@@ -78,7 +78,7 @@ class UMengInit private constructor() {
          * @param context
          * @return
          */
-        private fun getChannel(context: Context?): String {
+        private fun getChannel(): String { //context: Context?
             //return WalleChannelReader.getChannel(context!!, DEFAULT_CHANNEL_ID)
             return DEFAULT_CHANNEL_ID
         }

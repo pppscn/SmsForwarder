@@ -4,7 +4,7 @@ buildscript {
     apply from: './versions.gradle'
     addRepos(repositories) //增加代码仓库
     dependencies {
-        classpath "com.android.tools.build:gradle:$versions.android_gradle_plugin"
+        classpath deps.android_gradle_plugin
         classpath deps.android_maven_gradle_plugin
         //图片压缩
         classpath 'com.chenenyu:img-optimizer:1.2.0'
@@ -58,9 +58,9 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 
-    FileTree tree = fileTree(dir: rootProject.getRootDir())
-    tree.each { File file ->
-        if (file.toString().contains("ajcore") && file.toString().endsWith(".txt")) {
+    FileTree rootTree = fileTree(dir: rootDir)
+    rootTree.each { File file ->
+        if ((file.toString().contains("ajcore") || file.toString().contains("mapping") || file.toString().contains("seeds") || file.toString().contains("unused")) && file.toString().endsWith(".txt")) {
             delete file
         }
     }

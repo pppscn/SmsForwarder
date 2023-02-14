@@ -291,3 +291,10 @@
 -keep interface * implements com.xuexiang.xrouter.facade.template.IProvider
 # 如果使用了 单类注入，即不定义接口实现 IProvider，需添加下面规则，保护实现
 -keep class * implements com.xuexiang.xrouter.facade.template.IProvider
+
+-dontwarn com.alipay.sdk.**
+-dontwarn com.android.org.conscrypt.**
+-dontwarn java.awt.image.**
+-dontwarn javax.lang.model.**
+-dontwarn javax.naming.**
+-dontwarn javax.naming.directory.**
