@@ -8,6 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.spinner.AppListAdapterItem
@@ -23,6 +26,8 @@ import com.idormy.sms.forwarder.database.viewmodel.RuleViewModel
 import com.idormy.sms.forwarder.databinding.FragmentRulesEditBinding
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.workers.LoadAppListWorker
+import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
@@ -32,7 +37,7 @@ import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
-import com.xuexiang.xutil.app.AppUtils
+import com.xuexiang.xutil.XUtil
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -61,6 +66,10 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
     //已安装App信息列表
     private val appListSpinnerList = ArrayList<AppListAdapterItem>()
     private lateinit var appListSpinnerAdapter: AppListSpinnerAdapter<*>
+    private val appListObserver = Observer { it: String ->
+        Log.d(TAG, "EVENT_LOAD_APP_LIST: $it")
+        initAppSpinner()
+    }
 
     @JvmField
     @AutoWired(name = KEY_RULE_ID)
@@ -105,6 +114,10 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 binding!!.btInsertExtra.visibility = View.GONE
                 binding!!.btInsertSender.visibility = View.GONE
                 binding!!.btInsertContent.visibility = View.GONE
+                //初始化APP下拉列表
+                initAppSpinner()
+                //监听已安装App信息列表加载完成事件
+                LiveEventBus.get(EVENT_LOAD_APP_LIST, String::class.java).observeStickyForever(appListObserver)
             }
             "call" -> {
                 titleBar?.setTitle(R.string.call_rule)
@@ -136,8 +149,6 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
             initForm()
         }
 
-        //初始化APP下拉列表
-        initAppSpinner()
     }
 
     override fun initListeners() {
@@ -408,68 +419,48 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
     }
 
     //初始化APP下拉列表
-    @OptIn(DelicateCoroutinesApi::class)
     private fun initAppSpinner() {
         if (ruleType != "app") return
 
         //未开启异步获取已安装App信息开关时，规则编辑不显示已安装APP下拉框
         if (!SettingUtils.enableLoadUserAppList && !SettingUtils.enableLoadSystemAppList) return
 
-        val get = GlobalScope.async(Dispatchers.IO) {
-            if ((SettingUtils.enableLoadUserAppList && App.UserAppList.isEmpty()) || (SettingUtils.enableLoadSystemAppList && App.SystemAppList.isEmpty())) {
-                App.UserAppList.clear()
-                App.SystemAppList.clear()
-                val appInfoList = AppUtils.getAppsInfo()
-                for (appInfo in appInfoList) {
-                    if (appInfo.isSystem) {
-                        App.SystemAppList.add(appInfo)
-                    } else {
-                        App.UserAppList.add(appInfo)
-                    }
-                }
-                App.UserAppList.sortBy { appInfo -> appInfo.name }
-                App.SystemAppList.sortBy { appInfo -> appInfo.name }
+        if (App.UserAppList.isEmpty() && App.SystemAppList.isEmpty()) {
+            XToastUtils.info(getString(R.string.loading_app_list))
+            val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
+            WorkManager.getInstance(XUtil.getContext()).enqueue(request)
+            return
+        }
+
+        appListSpinnerList.clear()
+        if (SettingUtils.enableLoadUserAppList) {
+            for (appInfo in App.UserAppList) {
+                if (TextUtils.isEmpty(appInfo.packageName)) continue
+                appListSpinnerList.add(AppListAdapterItem(appInfo.name, appInfo.icon, appInfo.packageName))
             }
         }
-        GlobalScope.launch(Dispatchers.Main) {
-            runCatching {
-                get.await()
-                if (App.UserAppList.isEmpty() && App.SystemAppList.isEmpty()) return@runCatching
-
-                appListSpinnerList.clear()
-                if (SettingUtils.enableLoadUserAppList) {
-                    for (appInfo in App.UserAppList) {
-                        appListSpinnerList.add(AppListAdapterItem(appInfo.name, appInfo.icon, appInfo.packageName))
-                    }
-                }
-                if (SettingUtils.enableLoadSystemAppList) {
-                    for (appInfo in App.SystemAppList) {
-                        appListSpinnerList.add(AppListAdapterItem(appInfo.name, appInfo.icon, appInfo.packageName))
-                    }
-                }
-
-                //列表为空也不显示下拉框
-                if (appListSpinnerList.isEmpty()) return@runCatching
-
-                appListSpinnerAdapter = AppListSpinnerAdapter(appListSpinnerList)
-                    //.setTextColor(ResUtils.getColor(R.color.green))
-                    //.setTextSize(12F)
-                    .setIsFilterKey(true).setFilterColor("#EF5362").setBackgroundSelector(R.drawable.selector_custom_spinner_bg)
-                binding!!.spApp.setAdapter(appListSpinnerAdapter)
-                binding!!.spApp.setOnItemClickListener { _: AdapterView<*>, _: View, position: Int, _: Long ->
-                    try {
-                        //val appInfo = appListSpinnerList[position]
-                        val appInfo = appListSpinnerAdapter.getItemSource(position) as AppListAdapterItem
-                        CommonUtils.insertOrReplaceText2Cursor(binding!!.etValue, appInfo.packageName.toString())
-                    } catch (e: Exception) {
-                        XToastUtils.error(e.message.toString())
-                    }
-                }
-                binding!!.layoutAppList.visibility = View.VISIBLE
-            }.onFailure {
-                Log.e("GlobalScope", it.message.toString())
+        if (SettingUtils.enableLoadSystemAppList) {
+            for (appInfo in App.SystemAppList) {
+                if (TextUtils.isEmpty(appInfo.packageName)) continue
+                appListSpinnerList.add(AppListAdapterItem(appInfo.name, appInfo.icon, appInfo.packageName))
             }
         }
+
+        //列表为空也不显示下拉框
+        if (appListSpinnerList.isEmpty()) return
+
+        appListSpinnerAdapter = AppListSpinnerAdapter(appListSpinnerList).setIsFilterKey(true).setFilterColor("#EF5362").setBackgroundSelector(R.drawable.selector_custom_spinner_bg)
+        binding!!.spApp.setAdapter(appListSpinnerAdapter)
+        binding!!.spApp.setOnItemClickListener { _: AdapterView<*>, _: View, position: Int, _: Long ->
+            try {
+                val appInfo = appListSpinnerAdapter.getItemSource(position) as AppListAdapterItem
+                CommonUtils.insertOrReplaceText2Cursor(binding!!.etValue, appInfo.packageName.toString())
+            } catch (e: Exception) {
+                XToastUtils.error(e.message.toString())
+            }
+        }
+        binding!!.layoutAppList.visibility = View.VISIBLE
+
     }
 
     //初始化表单

@@ -329,40 +329,47 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:paddingEnd="10dp"
                     android:visibility="gone"
                     tools:ignore="RtlSymmetry">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ems="2"
                         android:text="@string/extra_app"
                         android:textSize="12sp"
                         android:textStyle="bold" />
 
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                        android:id="@+id/et_app_list"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:hint="@string/extra_app_hint"
+                        android:inputType="textMultiLine"
+                        app:met_clearButton="true" />
 
-                        <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                            android:id="@+id/et_app_list"
-                            android:layout_width="match_parent"
+                    <LinearLayout
+                        android:id="@+id/layout_sp_app"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint="@string/extra_app_hint"
-                            android:inputType="textMultiLine"
-                            app:met_clearButton="true" />
+                            android:text="@string/choose_app"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
 
                         <com.xuexiang.xui.widget.spinner.editspinner.EditSpinner
                             android:id="@+id/sp_app"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:visibility="gone"
+                            android:layout_marginStart="5dp"
                             app:es_hint="@string/choose_app_hint"
                             app:es_maxLength="20"
                             app:es_maxLine="1" />
@@ -597,6 +604,64 @@
                     android:text="@string/day"
                     android:textSize="12sp"
                     android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/network_state_monitor"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/network_state_monitor_tips"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/settingBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/network_state_change_remind"
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/network_state_change_remind_tips"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+                </LinearLayout>
+
+                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                    android:id="@+id/sb_network_state_receiver"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 

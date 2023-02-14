@@ -543,6 +543,10 @@
     <string name="active_request_tips">通过 被动接收 或者 主动轮询 获取指令，从而操作本机</string>
     <string name="httpserver">被动接收本地 HttpServer</string>
     <string name="httpserver_tips">WiFi网络下可用，启动后局域网内其他机器可直接调用本机接口</string>
+    <string name="network_state_monitor">网络状态监控</string>
+    <string name="network_state_monitor_tips">【注意】需要手动创建APP转发规则，包名：77777777</string>
+    <string name="network_state_change_remind">网络状态改变提醒</string>
+    <string name="network_state_change_remind_tips">网络状态改变(连接方式/IP变化)时发出通知</string>
     <string name="battery_monitor">电池监控</string>
     <string name="battery_monitor_tips">【注意】需要手动创建APP转发规则，包名：88888888</string>
     <string name="keep_alive">保活措施</string>
@@ -996,4 +1000,8 @@
     <string name="sender_del">删除发送通道</string>
     <string name="sender_disabled">发送通道已禁用</string>
     <string name="unknown_sender">未知发送通道</string>
+    <string name="network_type">网络类型</string>
+    <string name="operator_name">运营商</string>
+    <string name="host_address">本地IP</string>
+    <string name="loading_app_list">正在异步加载应用列表...</string>
 </resources>

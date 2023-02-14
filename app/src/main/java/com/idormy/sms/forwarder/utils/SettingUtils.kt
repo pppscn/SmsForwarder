@@ -69,6 +69,9 @@ class SettingUtils private constructor() {
         //自动删除N天前的转发记录
         var autoCleanLogsDays: Int by SharedPreference(SP_AUTO_CLEAN_LOGS_DAYS, 0)
 
+        //是否监听网络状态变化
+        var enableNetworkStateReceiver: Boolean by SharedPreference(SP_NET_STATE_RECEIVER, false)
+
         //是否监听电池状态变化
         var enableBatteryReceiver: Boolean by SharedPreference(SP_BATTERY_RECEIVER, false)
 

@@ -18,6 +18,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.Observer
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
@@ -30,6 +33,7 @@ import com.idormy.sms.forwarder.databinding.FragmentSettingsBinding
 import com.idormy.sms.forwarder.entity.SimInfo
 import com.idormy.sms.forwarder.receiver.BootReceiver
 import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.workers.LoadAppListWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
@@ -46,12 +50,10 @@ import com.xuexiang.xui.widget.picker.widget.builder.TimePickerBuilder
 import com.xuexiang.xui.widget.picker.widget.listener.OnOptionsSelectListener
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.XUtil.getPackageManager
-import com.xuexiang.xutil.app.AppUtils
 import com.xuexiang.xutil.app.AppUtils.getAppPackageName
 import com.xuexiang.xutil.data.DateUtils
 import kotlinx.coroutines.*
 import java.util.*
-
 
 @Suppress("PropertyName", "SpellCheckingInspection")
 @Page(name = "通用设置")
@@ -63,6 +65,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     //已安装App信息列表
     private val appListSpinnerList = ArrayList<AppListAdapterItem>()
     private lateinit var appListSpinnerAdapter: AppListSpinnerAdapter<*>
+    private val appListObserver = Observer { it: String ->
+        Log.d(TAG, "EVENT_LOAD_APP_LIST: $it")
+        initAppSpinner()
+    }
 
     override fun viewBindingInflate(
         inflater: LayoutInflater,
@@ -109,6 +115,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         binding!!.xsbAutoCleanLogs.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
             SettingUtils.autoCleanLogsDays = newValue
         }
+
+        //监听网络状态变化
+        switchNetworkStateReceiver(binding!!.sbNetworkStateReceiver)
 
         //监听电池状态变化
         switchBatteryReceiver(binding!!.sbBatteryReceiver)
@@ -157,7 +166,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
         //纯客户端模式
         switchDirectlyToClient(binding!!.sbDirectlyToClient)
+    }
 
+    override fun onResume() {
+        super.onResume()
         //初始化APP下拉列表
         initAppSpinner()
     }
@@ -172,6 +184,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         binding!!.btInsertExtra.setOnClickListener(this)
         binding!!.btInsertTime.setOnClickListener(this)
         binding!!.btInsertDeviceName.setOnClickListener(this)
+
+        //监听已安装App信息列表加载完成事件
+        LiveEventBus.get(EVENT_LOAD_APP_LIST, String::class.java).observeStickyForever(appListObserver)
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -433,20 +449,18 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             SettingUtils.enableAppNotify = isChecked
             if (isChecked) {
                 //检查权限是否获取
-                XXPermissions.with(this)
-                    .permission(Permission.BIND_NOTIFICATION_LISTENER_SERVICE)
-                    .request(OnPermissionCallback { _, allGranted ->
-                        if (!allGranted) {
-                            SettingUtils.enableAppNotify = false
-                            sbEnableAppNotify.isChecked = false
-                            XToastUtils.error(R.string.tips_notification_listener)
-                            return@OnPermissionCallback
-                        }
+                XXPermissions.with(this).permission(Permission.BIND_NOTIFICATION_LISTENER_SERVICE).request(OnPermissionCallback { _, allGranted ->
+                    if (!allGranted) {
+                        SettingUtils.enableAppNotify = false
+                        sbEnableAppNotify.isChecked = false
+                        XToastUtils.error(R.string.tips_notification_listener)
+                        return@OnPermissionCallback
+                    }
 
-                        SettingUtils.enableAppNotify = true
-                        sbEnableAppNotify.isChecked = true
-                        CommonUtils.toggleNotificationListenerService(requireContext())
-                    })
+                    SettingUtils.enableAppNotify = true
+                    sbEnableAppNotify.isChecked = true
+                    CommonUtils.toggleNotificationListenerService(requireContext())
+                })
             }
         }
         scbCancelAppNotify.isChecked = SettingUtils.enableCancelAppNotify
@@ -487,6 +501,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 return@setOnCheckedChangeListener
             }
             SettingUtils.enableLoadAppList = isChecked
+
+            XToastUtils.info(getString(R.string.loading_app_list))
+            val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
+            WorkManager.getInstance(XUtil.getContext()).enqueue(request)
         }
         scbLoadUserApp.isChecked = SettingUtils.enableLoadUserAppList
         scbLoadUserApp.setOnCheckedChangeListener { _: SmoothCheckBox, isChecked: Boolean ->
@@ -495,6 +513,13 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 sbEnableLoadAppList.isChecked = false
                 SettingUtils.enableLoadAppList = false
                 XToastUtils.error(getString(R.string.load_app_list_toast))
+            }
+            if (isChecked && SettingUtils.enableLoadAppList && App.UserAppList.isEmpty()) {
+                XToastUtils.info(getString(R.string.loading_app_list))
+                val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
+                WorkManager.getInstance(XUtil.getContext()).enqueue(request)
+            } else {
+                initAppSpinner()
             }
         }
         scbLoadSystemApp.isChecked = SettingUtils.enableLoadSystemAppList
@@ -505,6 +530,22 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 SettingUtils.enableLoadAppList = false
                 XToastUtils.error(getString(R.string.load_app_list_toast))
             }
+            if (isChecked && SettingUtils.enableLoadAppList && App.SystemAppList.isEmpty()) {
+                XToastUtils.info(getString(R.string.loading_app_list))
+                val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
+                WorkManager.getInstance(XUtil.getContext()).enqueue(request)
+            } else {
+                initAppSpinner()
+            }
+        }
+    }
+
+    //监听网络状态变化
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    fun switchNetworkStateReceiver(sbNetworkStateReceiver: SwitchButton) {
+        sbNetworkStateReceiver.isChecked = SettingUtils.enableNetworkStateReceiver
+        sbNetworkStateReceiver.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            SettingUtils.enableNetworkStateReceiver = isChecked
         }
     }
 
@@ -553,8 +594,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         sbBatteryCron.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             binding!!.layoutBatteryCron.visibility = if (isChecked) View.VISIBLE else View.GONE
             SettingUtils.enableBatteryCron = isChecked
-            //TODO:BatteryReportCronTask
-            //BatteryReportCronTask.getSingleton().updateTimer()
         }
     }
 
@@ -568,11 +607,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             calendar.time = DateUtils.getNowDate()
             val mTimePicker = TimePickerBuilder(context) { date: Date?, _: View? ->
                 etBatteryCronStartTime.setText(DateUtils.date2String(date, DateUtils.HHmm.get()))
-                //TODO:BatteryReportCronTask
-                //BatteryReportCronTask.getSingleton().updateTimer()
-            }
-                //.setTimeSelectChangeListener { date: Date? -> etBatteryCronStartTime.setText(DateUtils.date2String(date, DateUtils.HHmm.get())) }
-                .setType(false, false, false, true, true, false).setTitleText(getString(R.string.time_picker)).setSubmitText(getString(R.string.ok)).setCancelText(getString(R.string.cancel)).setDate(calendar).build()
+            }.setType(false, false, false, true, true, false).setTitleText(getString(R.string.time_picker)).setSubmitText(getString(R.string.ok)).setCancelText(getString(R.string.cancel)).setDate(calendar).build()
             mTimePicker.show()
         }
 
@@ -1077,68 +1112,47 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     }
 
     //初始化APP下拉列表
-    @OptIn(DelicateCoroutinesApi::class)
     private fun initAppSpinner() {
-        if (!SettingUtils.enableAppNotify) return
 
-        //未开启异步获取已安装App信息开关时，规则编辑不显示已安装APP下拉框
+        //未开启异步获取已安装App信息开关时，不显示已安装APP下拉框
         if (!SettingUtils.enableLoadUserAppList && !SettingUtils.enableLoadSystemAppList) return
 
-        val get = GlobalScope.async(Dispatchers.IO) {
-            if ((SettingUtils.enableLoadUserAppList && App.UserAppList.isEmpty()) || (SettingUtils.enableLoadSystemAppList && App.SystemAppList.isEmpty())) {
-                App.UserAppList.clear()
-                App.SystemAppList.clear()
-                val appInfoList = AppUtils.getAppsInfo()
-                for (appInfo in appInfoList) {
-                    if (appInfo.isSystem) {
-                        App.SystemAppList.add(appInfo)
-                    } else {
-                        App.UserAppList.add(appInfo)
-                    }
-                }
-                App.UserAppList.sortBy { appInfo -> appInfo.name }
-                App.SystemAppList.sortBy { appInfo -> appInfo.name }
+        if (App.UserAppList.isEmpty() && App.SystemAppList.isEmpty()) {
+            //XToastUtils.info(getString(R.string.loading_app_list))
+            val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
+            WorkManager.getInstance(XUtil.getContext()).enqueue(request)
+            return
+        }
+
+        appListSpinnerList.clear()
+        if (SettingUtils.enableLoadUserAppList) {
+            for (appInfo in App.UserAppList) {
+                if (TextUtils.isEmpty(appInfo.packageName)) continue
+                appListSpinnerList.add(AppListAdapterItem(appInfo.name, appInfo.icon, appInfo.packageName))
             }
         }
-        GlobalScope.launch(Dispatchers.Main) {
-            runCatching {
-                get.await()
-                if (App.UserAppList.isEmpty() && App.SystemAppList.isEmpty()) return@runCatching
-
-                appListSpinnerList.clear()
-                if (SettingUtils.enableLoadUserAppList) {
-                    for (appInfo in App.UserAppList) {
-                        appListSpinnerList.add(AppListAdapterItem(appInfo.name, appInfo.icon, appInfo.packageName))
-                    }
-                }
-                if (SettingUtils.enableLoadSystemAppList) {
-                    for (appInfo in App.SystemAppList) {
-                        appListSpinnerList.add(AppListAdapterItem(appInfo.name, appInfo.icon, appInfo.packageName))
-                    }
-                }
-
-                //列表为空也不显示下拉框
-                if (appListSpinnerList.isEmpty()) return@runCatching
-
-                appListSpinnerAdapter = AppListSpinnerAdapter(appListSpinnerList)
-                    //.setTextColor(ResUtils.getColor(R.color.green))
-                    //.setTextSize(12F)
-                    .setIsFilterKey(true).setFilterColor("#EF5362").setBackgroundSelector(R.drawable.selector_custom_spinner_bg)
-                binding!!.spApp.setAdapter(appListSpinnerAdapter)
-                binding!!.spApp.setOnItemClickListener { _: AdapterView<*>, _: View, position: Int, _: Long ->
-                    try {
-                        //val appInfo = appListSpinnerList[position]
-                        val appInfo = appListSpinnerAdapter.getItemSource(position) as AppListAdapterItem
-                        CommonUtils.insertOrReplaceText2Cursor(binding!!.etAppList, appInfo.packageName.toString() + "\n")
-                    } catch (e: Exception) {
-                        XToastUtils.error(e.message.toString())
-                    }
-                }
-                binding!!.spApp.visibility = View.VISIBLE
-            }.onFailure {
-                Log.e("GlobalScope", it.message.toString())
+        if (SettingUtils.enableLoadSystemAppList) {
+            for (appInfo in App.SystemAppList) {
+                if (TextUtils.isEmpty(appInfo.packageName)) continue
+                appListSpinnerList.add(AppListAdapterItem(appInfo.name, appInfo.icon, appInfo.packageName))
             }
         }
+
+        //列表为空也不显示下拉框
+        if (appListSpinnerList.isEmpty()) return
+
+        appListSpinnerAdapter = AppListSpinnerAdapter(appListSpinnerList).setIsFilterKey(true).setFilterColor("#EF5362").setBackgroundSelector(R.drawable.selector_custom_spinner_bg)
+        binding!!.spApp.setAdapter(appListSpinnerAdapter)
+        binding!!.spApp.setOnItemClickListener { _: AdapterView<*>, _: View, position: Int, _: Long ->
+            try {
+                val appInfo = appListSpinnerAdapter.getItemSource(position) as AppListAdapterItem
+                CommonUtils.insertOrReplaceText2Cursor(binding!!.etAppList, appInfo.packageName.toString() + "\n")
+            } catch (e: Exception) {
+                XToastUtils.error(e.message.toString())
+            }
+        }
+        binding!!.layoutSpApp.visibility = View.VISIBLE
+
     }
 
 }

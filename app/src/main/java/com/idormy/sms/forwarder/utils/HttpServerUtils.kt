@@ -160,6 +160,7 @@ class HttpServerUtils private constructor() {
             cloneInfo.enableLoadUserAppList = SettingUtils.enableLoadUserAppList
             cloneInfo.enableLoadSystemAppList = SettingUtils.enableLoadSystemAppList
             cloneInfo.duplicateMessagesLimits = SettingUtils.duplicateMessagesLimits
+            cloneInfo.enableNetworkStateReceiver = SettingUtils.enableNetworkStateReceiver
             cloneInfo.enableBatteryReceiver = SettingUtils.enableBatteryReceiver
             cloneInfo.batteryLevelMin = SettingUtils.batteryLevelMin
             cloneInfo.batteryLevelMax = SettingUtils.batteryLevelMax
@@ -206,6 +207,7 @@ class HttpServerUtils private constructor() {
                 SettingUtils.enableLoadUserAppList = cloneInfo.enableLoadUserAppList
                 SettingUtils.enableLoadSystemAppList = cloneInfo.enableLoadSystemAppList
                 SettingUtils.duplicateMessagesLimits = cloneInfo.duplicateMessagesLimits
+                SettingUtils.enableNetworkStateReceiver = cloneInfo.enableNetworkStateReceiver
                 SettingUtils.enableBatteryReceiver = cloneInfo.enableBatteryReceiver
                 SettingUtils.batteryLevelMin = cloneInfo.batteryLevelMin
                 SettingUtils.batteryLevelMax = cloneInfo.batteryLevelMax

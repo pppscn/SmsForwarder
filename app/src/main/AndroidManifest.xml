@@ -203,6 +203,9 @@
             android:name=".service.HttpService"
             android:enabled="true" />
         <service
+            android:name=".service.NetworkStateService"
+            android:enabled="true" />
+        <service
             android:name=".service.BatteryService"
             android:enabled="true" />
         <service

@@ -23,6 +23,7 @@ import com.idormy.sms.forwarder.receiver.CactusReceiver
 import com.idormy.sms.forwarder.service.BatteryService
 import com.idormy.sms.forwarder.service.ForegroundService
 import com.idormy.sms.forwarder.service.HttpService
+import com.idormy.sms.forwarder.service.NetworkStateService
 import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.utils.sdkinit.UMengInit
 import com.idormy.sms.forwarder.utils.sdkinit.XBasicLibInit
@@ -60,6 +61,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         var SimInfoList: MutableMap<Int, SimInfo> = mutableMapOf()
 
         //已安装App信息
+        var LoadingAppList = false
         var UserAppList: MutableList<AppUtils.AppInfo> = mutableListOf()
         var SystemAppList: MutableList<AppUtils.AppInfo> = mutableListOf()
 
@@ -118,37 +120,13 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
                 startService(intent)
             }
 
+            //网络状态监听
+            val networkStateServiceIntent = Intent(this, NetworkStateService::class.java)
+            startService(networkStateServiceIntent)
+
             //电池状态监听
             val batteryServiceIntent = Intent(this, BatteryService::class.java)
             startService(batteryServiceIntent)
-
-            //异步获取所有已安装 App 信息
-            if (SettingUtils.enableLoadAppList) {
-                val enableLoadUserAppList = SettingUtils.enableLoadUserAppList
-                val enableLoadSystemAppList = SettingUtils.enableLoadSystemAppList
-                val get = GlobalScope.async(Dispatchers.IO) {
-                    val appInfoList = AppUtils.getAppsInfo()
-                    for (appInfo in appInfoList) {
-                        if (appInfo.isSystem && enableLoadSystemAppList) {
-                            SystemAppList.add(appInfo)
-                        } else if (enableLoadUserAppList) {
-                            UserAppList.add(appInfo)
-                        }
-                    }
-                    UserAppList.sortBy { appInfo -> appInfo.name }
-                    SystemAppList.sortBy { appInfo -> appInfo.name }
-                }
-                GlobalScope.launch(Dispatchers.Main) {
-                    runCatching {
-                        get.await()
-                        Log.d("GlobalScope", "AppUtils.getAppsInfo() Done")
-                        //Log.d("GlobalScope", "UserAppList = $UserAppList")
-                        //Log.d("GlobalScope", "SystemAppList = $SystemAppList")
-                    }.onFailure {
-                        //Log.e("GlobalScope", it.message.toString())
-                    }
-                }
-            }
 
             //启动HttpServer
             if (HttpServerUtils.enableServerAutorun) {

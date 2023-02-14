@@ -10,12 +10,16 @@ import android.text.TextUtils
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.Observer
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.workers.LoadAppListWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
+import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.file.FileUtils
 import frpclib.Frpclib
 import io.reactivex.Single
@@ -84,6 +88,12 @@ class ForegroundService : Service() {
             //开关通知监听服务
             if (SettingUtils.enableAppNotify && CommonUtils.isNotificationListenerServiceEnabled(this)) {
                 CommonUtils.toggleNotificationListenerService(this)
+            }
+
+            //异步获取所有已安装 App 信息
+            if (SettingUtils.enableLoadAppList) {
+                val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
+                WorkManager.getInstance(XUtil.getContext()).enqueue(request)
             }
 
             if (FileUtils.isFileExists(filesDir.absolutePath + "/libs/libgojni.so")) {

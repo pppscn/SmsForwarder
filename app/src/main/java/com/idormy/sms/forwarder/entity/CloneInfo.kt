@@ -43,6 +43,8 @@ data class CloneInfo(
     var enableLoadSystemAppList: Boolean = false,
     @SerializedName("duplicate_messages_limits")
     var duplicateMessagesLimits: Int = 0,
+    @SerializedName("enable_network_state_receiver")
+    var enableNetworkStateReceiver: Boolean = false,
     @SerializedName("enable_battery_receiver")
     var enableBatteryReceiver: Boolean = false,
     @SerializedName("battery_level_min")

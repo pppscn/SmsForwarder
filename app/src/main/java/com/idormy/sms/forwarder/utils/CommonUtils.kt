@@ -36,13 +36,11 @@ import com.xuexiang.xui.widget.imageview.preview.PreviewBuilder
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.common.StringUtils
 import java.util.regex.Pattern
-import kotlin.math.max
-import kotlin.math.min
 
 /**
  * 常用工具类
  */
-@Suppress("RegExpRedundantEscape", "unused")
+@Suppress("RegExpRedundantEscape", "unused", "RegExpUnnecessaryNonCapturingGroup")
 class CommonUtils private constructor() {
     companion object {
         /**
@@ -161,11 +159,19 @@ class CommonUtils private constructor() {
 
         //焦点位置插入文本
         fun insertOrReplaceText2Cursor(editText: EditText, str: String) {
+            if (TextUtils.isEmpty(str)) return
+
+            //避免出错：java.lang.IndexOutOfBoundsException: setSpan (36 ... 36) ends beyond length 20
+            if (str.length > 20) {
+                editText.text.append(str)
+                return
+            }
+
             editText.isFocusable = true
             editText.requestFocus()
-            val start = max(editText.selectionStart, 0)
-            val end = max(editText.selectionEnd, 0)
-            editText.text.replace(min(start, end), max(start, end), str, 0, str.length)
+            val nSection: Int = editText.selectionStart
+            editText.text.insert(nSection, str)
+            editText.setSelection(nSection + str.length)
         }
 
         //==========图片预览===========//

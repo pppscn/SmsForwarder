@@ -2,16 +2,23 @@ package com.idormy.sms.forwarder.fragment
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.AppListAdapter
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentAppListBinding
+import com.idormy.sms.forwarder.utils.EVENT_LOAD_APP_LIST
 import com.idormy.sms.forwarder.utils.XToastUtils
+import com.idormy.sms.forwarder.workers.LoadAppListWorker
+import com.jeremyliao.liveeventbus.LiveEventBus
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import com.xuexiang.xaop.annotation.SingleClick
@@ -21,12 +28,19 @@ import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.utils.ThemeUtils
 import com.xuexiang.xui.utils.WidgetUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
+import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.app.AppUtils
 
+@Suppress("PrivatePropertyName")
 @Page(name = "应用列表")
 class AppListFragment : BaseFragment<FragmentAppListBinding?>() {
 
+    private val TAG: String = AppListFragment::class.java.simpleName
     var appListAdapter: AppListAdapter? = null
+    private val appListObserver = Observer { it: String ->
+        Log.d(TAG, "EVENT_LOAD_APP_LIST: $it")
+        appListAdapter?.refresh(getAppsList(false))
+    }
     private var currentType: String = "user"
 
     override fun viewBindingInflate(
@@ -95,6 +109,8 @@ class AppListFragment : BaseFragment<FragmentAppListBinding?>() {
         binding!!.refreshLayout.setDisableContentWhenLoading(true)
         appListAdapter?.refresh(getAppsList(false))
         binding!!.refreshLayout.finishRefresh()
+        //监听已安装App信息列表加载完成事件
+        LiveEventBus.get(EVENT_LOAD_APP_LIST, String::class.java).observeStickyForever(appListObserver)
     }
 
     override fun onDestroyView() {
@@ -104,18 +120,9 @@ class AppListFragment : BaseFragment<FragmentAppListBinding?>() {
 
     private fun getAppsList(refresh: Boolean): MutableList<AppUtils.AppInfo> {
         if (refresh || (currentType == "user" && App.UserAppList.isEmpty()) || (currentType == "system" && App.SystemAppList.isEmpty())) {
-            App.UserAppList.clear()
-            App.SystemAppList.clear()
-            val appInfoList = AppUtils.getAppsInfo()
-            for (appInfo in appInfoList) {
-                if (appInfo.isSystem) {
-                    App.SystemAppList.add(appInfo)
-                } else {
-                    App.UserAppList.add(appInfo)
-                }
-            }
-            App.UserAppList.sortBy { appInfo -> appInfo.name }
-            App.SystemAppList.sortBy { appInfo -> appInfo.name }
+            XToastUtils.info(getString(R.string.loading_app_list))
+            val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
+            WorkManager.getInstance(XUtil.getContext()).enqueue(request)
         }
 
         return if (currentType == "system") App.SystemAppList else App.UserAppList

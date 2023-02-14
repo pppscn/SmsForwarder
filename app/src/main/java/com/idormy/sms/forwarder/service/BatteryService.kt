@@ -69,6 +69,9 @@ class BatteryService : Service() {
     private val batteryReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         @SuppressLint("DefaultLocale")
         override fun onReceive(context: Context, intent: Intent) {
+
+            if (intent.action != Intent.ACTION_BATTERY_CHANGED) return
+
             //自动删除N天前的转发记录
             if (SettingUtils.autoCleanLogsDays > 0) {
                 Log.d(TAG, "自动删除N天前的转发记录")
@@ -145,21 +148,12 @@ class BatteryService : Service() {
     private fun sendMessage(context: Context, msg: String) {
         Log.i(TAG, msg)
         try {
-            val msgInfo = MsgInfo(
-                "app",
-                "88888888",
-                msg,
-                Date(),
-                getString(R.string.battery_status_monitor),
-                -1
-            )
-            val request = OneTimeWorkRequestBuilder<SendWorker>()
-                .setInputData(
-                    workDataOf(
-                        Worker.sendMsgInfo to Gson().toJson(msgInfo),
-                    )
+            val msgInfo = MsgInfo("app", "88888888", msg, Date(), getString(R.string.battery_status_monitor), -1)
+            val request = OneTimeWorkRequestBuilder<SendWorker>().setInputData(
+                workDataOf(
+                    Worker.sendMsgInfo to Gson().toJson(msgInfo),
                 )
-                .build()
+            ).build()
             WorkManager.getInstance(context).enqueue(request)
         } catch (e: Exception) {
             Log.e(TAG, "getLog e:" + e.message)

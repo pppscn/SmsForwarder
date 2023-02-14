@@ -50,6 +50,8 @@ const val SP_SILENT_PERIOD_START = "silent_period_start"
 const val SP_SILENT_PERIOD_END = "silent_period_end"
 const val SP_AUTO_CLEAN_LOGS_DAYS = "auto_clean_logs_days"
 
+const val SP_NET_STATE_RECEIVER = "enable_network_state_receiver"
+
 const val SP_BATTERY_RECEIVER = "enable_battery_receiver"
 const val SP_BATTERY_STATUS = "battery_status"
 const val SP_BATTERY_LEVEL_MIN = "battery_level_min"
@@ -332,6 +334,8 @@ const val KEY_SENDER_TEST = "key_sender_test"
 const val KEY_RULE_ID = "key_rule_id"
 const val KEY_RULE_TYPE = "key_rule_type"
 const val KEY_RULE_CLONE = "key_rule_clone"
+
+const val EVENT_LOAD_APP_LIST = "EVENT_LOAD_APP_LIST"
 
 const val EVENT_KEY_SIM_SLOT = "EVENT_KEY_SIM_SLOT"
 const val EVENT_KEY_PHONE_NUMBERS = "EVENT_KEY_PHONE_NUMBERS"
