@@ -863,7 +863,7 @@
     <string name="phone_numbers">Phone Numbers</string>
     <string name="phone_numbers_hint">Required, separate multiple phone numbers with semicolons</string>
     <string name="phone_numbers_error">Invalid Phone Numbers, eg. 15888888888;19999999999</string>
-    <string name="phone_numbers_regex">^\\d{5,20}(;\\d{5,20})*$</string>
+    <string name="phone_numbers_regex">^\\d+(;\\d+)*$</string>
     <string name="msg_content">Msg Content</string>
     <string name="msg_content_hint">Required, one entry within 70 characters, more than 70 characters, one entry for every additional 64 characters</string>
     <string name="msg_content_error">Msg Content cannot be empty, up to 390 characters (6 SMS)</string>

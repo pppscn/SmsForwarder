@@ -864,7 +864,7 @@
     <string name="phone_numbers">手机号码</string>
     <string name="phone_numbers_hint">必填，多个手机号用半角分号分隔</string>
     <string name="phone_numbers_error">手机号码格式错误，例：15888888888;19999999999</string>
-    <string name="phone_numbers_regex">^([+]?\\d{5,20})(;[+]?\\d{5,20})*$</string>
+    <string name="phone_numbers_regex">^([+]?\\d+)(;[+]?\\d+)*$</string>
     <string name="msg_content">短信内容</string>
     <string name="msg_content_hint">必填，70个字符内算一条，超过70个字符，每增加64字符累加1条</string>
     <string name="msg_content_error">短信内容不能为空，最多390字符（6条短信）</string>
