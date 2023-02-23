@@ -24,4 +24,8 @@ class LogsRepository(private val logsDao: LogsDao) {
         logsDao.updateStatus(id, status, response)
 
     fun getOne(id: Long) = logsDao.getOne(id)
+
+    fun deleteAll() {
+        logsDao.deleteAll()
+    }
 }

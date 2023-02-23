@@ -447,10 +447,18 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
                     val destFile = File("$libPath/libgojni.so")
                     FileUtils.moveFile(srcFile, destFile, null)
 
-                    val intent: Intent? = packageManager.getLaunchIntentForPackage(packageName)
-                    intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(intent)
-                    android.os.Process.killProcess(android.os.Process.myPid()) //杀掉以前进程
+                    MaterialDialog.Builder(this@MainActivity)
+                        .iconRes(R.drawable.ic_menu_frpc)
+                        .title(R.string.menu_frpc)
+                        .content(R.string.download_frpc_tips2)
+                        .cancelable(false)
+                        .positiveText(R.string.confirm)
+                        .onPositive { _: MaterialDialog?, _: DialogAction? ->
+                            val intent = Intent(App.context, MainActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            startActivity(intent)
+                        }
+                        .show()
                 }
             })
 

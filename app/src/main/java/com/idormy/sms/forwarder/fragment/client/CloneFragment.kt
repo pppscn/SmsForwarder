@@ -1,6 +1,7 @@
 package com.idormy.sms.forwarder.fragment.client
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,7 +14,9 @@ import com.google.gson.reflect.TypeToken
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentClientCloneBinding
 import com.idormy.sms.forwarder.entity.CloneInfo
@@ -30,6 +33,8 @@ import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
+import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xutil.app.AppUtils
 import com.xuexiang.xutil.data.ConvertTools
 import com.xuexiang.xutil.file.FileIOUtils
@@ -70,12 +75,10 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
         // 申请储存权限
         XXPermissions.with(this)
             //.permission(*Permission.Group.STORAGE)
-            .permission(Permission.MANAGE_EXTERNAL_STORAGE)
-            .request(object : OnPermissionCallback {
+            .permission(Permission.MANAGE_EXTERNAL_STORAGE).request(object : OnPermissionCallback {
                 @SuppressLint("SetTextI18n")
                 override fun onGranted(permissions: List<String>, all: Boolean) {
-                    backupPath =
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
+                    backupPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
                     binding!!.tvBackupPath.text = backupPath + File.separator + backupFile
                 }
 
@@ -105,8 +108,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
 
         //按钮增加倒计时，避免重复点击
         pushCountDownHelper = CountDownButtonHelper(binding!!.btnPush, SettingUtils.requestTimeout)
-        pushCountDownHelper!!.setOnCountDownListener(object :
-            CountDownButtonHelper.OnCountDownListener {
+        pushCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
             override fun onCountDown(time: Int) {
                 binding!!.btnPush.text = String.format(getString(R.string.seconds_n), time)
             }
@@ -116,8 +118,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
             }
         })
         pullCountDownHelper = CountDownButtonHelper(binding!!.btnPull, SettingUtils.requestTimeout)
-        pullCountDownHelper!!.setOnCountDownListener(object :
-            CountDownButtonHelper.OnCountDownListener {
+        pullCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
             override fun onCountDown(time: Int) {
                 binding!!.btnPull.text = String.format(getString(R.string.seconds_n), time)
             }
@@ -127,8 +128,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
             }
         })
         exportCountDownHelper = CountDownButtonHelper(binding!!.btnExport, 3)
-        exportCountDownHelper!!.setOnCountDownListener(object :
-            CountDownButtonHelper.OnCountDownListener {
+        exportCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
             override fun onCountDown(time: Int) {
                 binding!!.btnExport.text = String.format(getString(R.string.seconds_n), time)
             }
@@ -138,8 +138,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
             }
         })
         importCountDownHelper = CountDownButtonHelper(binding!!.btnImport, 3)
-        importCountDownHelper!!.setOnCountDownListener(object :
-            CountDownButtonHelper.OnCountDownListener {
+        importCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
             override fun onCountDown(time: Int) {
                 binding!!.btnImport.text = String.format(getString(R.string.seconds_n), time)
             }
@@ -203,9 +202,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
 
                     //替换Date字段为当前时间
                     val builder = GsonBuilder()
-                    builder.registerTypeAdapter(
-                        Date::class.java,
-                        JsonDeserializer<Any?> { _, _, _ -> Date() })
+                    builder.registerTypeAdapter(Date::class.java, JsonDeserializer<Any?> { _, _, _ -> Date() })
                     val gson = builder.create()
                     val cloneInfo = gson.fromJson(jsonStr, CloneInfo::class.java)
                     Log.d(TAG, "cloneInfo = $cloneInfo")
@@ -214,7 +211,18 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                     HttpServerUtils.compareVersion(cloneInfo)
 
                     if (HttpServerUtils.restoreSettings(cloneInfo)) {
-                        XToastUtils.success(getString(R.string.import_succeeded))
+                        MaterialDialog.Builder(requireContext())
+                            .iconRes(R.drawable.icon_api_clone)
+                            .title(R.string.clone)
+                            .content(R.string.import_succeeded)
+                            .cancelable(false)
+                            .positiveText(R.string.confirm)
+                            .onPositive { _: MaterialDialog?, _: DialogAction? ->
+                                val intent = Intent(App.context, MainActivity::class.java)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                startActivity(intent)
+                            }
+                            .show()
                     } else {
                         XToastUtils.error(getString(R.string.import_failed))
                     }
@@ -242,19 +250,15 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
         msgMap["timestamp"] = timestamp
         val clientSignKey = HttpServerUtils.clientSignKey
         if (!TextUtils.isEmpty(clientSignKey)) {
-            msgMap["sign"] =
-                HttpServerUtils.calcSign(timestamp.toString(), clientSignKey)
+            msgMap["sign"] = HttpServerUtils.calcSign(timestamp.toString(), clientSignKey)
         }
         msgMap["data"] = HttpServerUtils.exportSettings()
 
         var requestMsg: String = Gson().toJson(msgMap)
         Log.i(TAG, "requestMsg:$requestMsg")
 
-        val postRequest = XHttp.post(requestUrl)
-            .keepJson(true)
-            .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
-            .cacheMode(CacheMode.NO_CACHE)
-            .timeStamp(true)
+        val postRequest = XHttp.post(requestUrl).keepJson(true).timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
+            .cacheMode(CacheMode.NO_CACHE).timeStamp(true)
 
         when (HttpServerUtils.clientSafetyMeasures) {
             2 -> {
@@ -342,8 +346,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
         msgMap["timestamp"] = timestamp
         val clientSignKey = HttpServerUtils.clientSignKey
         if (!TextUtils.isEmpty(clientSignKey)) {
-            msgMap["sign"] =
-                HttpServerUtils.calcSign(timestamp.toString(), clientSignKey)
+            msgMap["sign"] = HttpServerUtils.calcSign(timestamp.toString(), clientSignKey)
         }
 
         val dataMap: MutableMap<String, Any> = mutableMapOf()
@@ -353,11 +356,8 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
         var requestMsg: String = Gson().toJson(msgMap)
         Log.i(TAG, "requestMsg:$requestMsg")
 
-        val postRequest = XHttp.post(requestUrl)
-            .keepJson(true)
-            .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
-            .cacheMode(CacheMode.NO_CACHE)
-            .timeStamp(true)
+        val postRequest = XHttp.post(requestUrl).keepJson(true).timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
+            .cacheMode(CacheMode.NO_CACHE).timeStamp(true)
 
         when (HttpServerUtils.clientSafetyMeasures) {
             2 -> {
@@ -415,9 +415,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
 
                     //替换Date字段为当前时间
                     val builder = GsonBuilder()
-                    builder.registerTypeAdapter(
-                        Date::class.java,
-                        JsonDeserializer<Any?> { _, _, _ -> Date() })
+                    builder.registerTypeAdapter(Date::class.java, JsonDeserializer<Any?> { _, _, _ -> Date() })
                     val gson = builder.create()
                     val resp: BaseResponse<CloneInfo> = gson.fromJson(json, object : TypeToken<BaseResponse<CloneInfo>>() {}.type)
                     if (resp.code == 200) {

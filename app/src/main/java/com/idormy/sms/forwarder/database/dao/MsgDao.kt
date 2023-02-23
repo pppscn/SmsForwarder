@@ -22,6 +22,9 @@ interface MsgDao {
     @Query("DELETE FROM Msg where type=:type")
     fun deleteAll(type: String): Completable
 
+    @Query("DELETE FROM Msg")
+    fun deleteAll()
+
     @Query("DELETE FROM Msg where time<:time")
     fun deleteTimeAgo(time: Long)
 

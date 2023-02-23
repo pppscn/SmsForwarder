@@ -27,6 +27,67 @@ class SharedPreference<T>(private val name: String, private val default: T) : Re
 
         //根据key删除存储数据
         fun clearPreference(key: String) = preference.edit().remove(key).commit()
+
+        //导出全部数据
+        fun exportPreference(): String {
+            return serialize(preference.all)
+        }
+
+        //导入全部数据
+        fun importPreference(data: String) {
+            val map = deSerialization<Map<String, Any>>(data)
+            val editor = preference.edit()
+            for ((key, value) in map) {
+                when (value) {
+                    is Long -> editor.putLong(key, value)
+                    is Int -> editor.putInt(key, value)
+                    is String -> editor.putString(key, value)
+                    is Boolean -> editor.putBoolean(key, value)
+                    is Float -> editor.putFloat(key, value)
+                    else -> editor.putString(key, serialize(value))
+                }
+            }
+            editor.apply()
+        }
+
+        /**
+         * 序列化对象
+         * @throws IOException
+         */
+        @Throws(IOException::class)
+        private fun <T> serialize(obj: T): String {
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            val objectOutputStream = ObjectOutputStream(
+                byteArrayOutputStream
+            )
+            objectOutputStream.writeObject(obj)
+            var serStr = byteArrayOutputStream.toString("ISO-8859-1")
+            serStr = java.net.URLEncoder.encode(serStr, "UTF-8")
+            objectOutputStream.close()
+            byteArrayOutputStream.close()
+            return serStr
+        }
+
+        /**
+         * 反序列化对象
+         * @param str
+         * @throws IOException
+         * @throws ClassNotFoundException
+         */
+        @Throws(IOException::class, ClassNotFoundException::class)
+        private fun <T> deSerialization(str: String): T {
+            val redStr = java.net.URLDecoder.decode(str, "UTF-8")
+            val byteArrayInputStream = ByteArrayInputStream(
+                redStr.toByteArray(charset("ISO-8859-1"))
+            )
+            val objectInputStream = ObjectInputStream(
+                byteArrayInputStream
+            )
+            val obj = objectInputStream.readObject() as T
+            objectInputStream.close()
+            byteArrayInputStream.close()
+            return obj
+        }
     }
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
@@ -66,44 +127,5 @@ class SharedPreference<T>(private val name: String, private val default: T) : Re
             //else -> throw IllegalArgumentException("This type can be saved into Preferences")
             else -> putString(name, serialize(value))
         }.apply()
-    }
-
-    /**
-     * 序列化对象
-     * @throws IOException
-     */
-    @Throws(IOException::class)
-    private fun <T> serialize(obj: T): String {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        val objectOutputStream = ObjectOutputStream(
-            byteArrayOutputStream
-        )
-        objectOutputStream.writeObject(obj)
-        var serStr = byteArrayOutputStream.toString("ISO-8859-1")
-        serStr = java.net.URLEncoder.encode(serStr, "UTF-8")
-        objectOutputStream.close()
-        byteArrayOutputStream.close()
-        return serStr
-    }
-
-    /**
-     * 反序列化对象
-     * @param str
-     * @throws IOException
-     * @throws ClassNotFoundException
-     */
-    @Throws(IOException::class, ClassNotFoundException::class)
-    private fun <T> deSerialization(str: String): T {
-        val redStr = java.net.URLDecoder.decode(str, "UTF-8")
-        val byteArrayInputStream = ByteArrayInputStream(
-            redStr.toByteArray(charset("ISO-8859-1"))
-        )
-        val objectInputStream = ObjectInputStream(
-            byteArrayInputStream
-        )
-        val obj = objectInputStream.readObject() as T
-        objectInputStream.close()
-        byteArrayInputStream.close()
-        return obj
     }
 }

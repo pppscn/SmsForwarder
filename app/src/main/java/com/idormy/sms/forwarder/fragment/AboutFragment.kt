@@ -4,7 +4,9 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.core.webview.AgentWebActivity
 import com.idormy.sms.forwarder.databinding.FragmentAboutBinding
@@ -19,6 +21,8 @@ import com.idormy.sms.forwarder.utils.sdkinit.XUpdateInit
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xui.widget.actionbar.TitleBar
+import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView
 import com.xuexiang.xutil.app.AppUtils
 import com.xuexiang.xutil.file.FileUtils
@@ -74,12 +78,18 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
             try {
                 val soFile = File(context?.filesDir?.absolutePath + "/libs/libgojni.so")
                 if (soFile.exists()) soFile.delete()
-                XToastUtils.success(R.string.about_frpc_deleted)
-
-                val intent: Intent? = context?.packageManager?.getLaunchIntentForPackage(context?.packageName.toString())
-                intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(intent)
-                android.os.Process.killProcess(android.os.Process.myPid()) //杀掉以前进程
+                MaterialDialog.Builder(requireContext())
+                    .iconRes(R.drawable.ic_menu_frpc)
+                    .title(R.string.menu_frpc)
+                    .content(R.string.about_frpc_deleted)
+                    .cancelable(false)
+                    .positiveText(R.string.confirm)
+                    .onPositive { _: MaterialDialog?, _: DialogAction? ->
+                        val intent = Intent(App.context, MainActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        startActivity(intent)
+                    }
+                    .show()
             } catch (e: Exception) {
                 e.printStackTrace()
                 XToastUtils.error(e.message.toString())

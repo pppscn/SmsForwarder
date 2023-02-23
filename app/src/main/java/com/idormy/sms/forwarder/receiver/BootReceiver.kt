@@ -18,9 +18,8 @@ class BootReceiver : BroadcastReceiver() {
             try {
                 Log.d(TAG, "强制重启APP一次")
                 val intent1 = Intent(context, SplashActivity::class.java)
-                intent1.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 context.startActivity(intent1)
-                android.os.Process.killProcess(android.os.Process.myPid()) //杀掉以前进程
             } catch (e: Exception) {
                 e.printStackTrace()
             }

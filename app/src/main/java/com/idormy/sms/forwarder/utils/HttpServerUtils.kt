@@ -144,48 +144,10 @@ class HttpServerUtils private constructor() {
             val cloneInfo = CloneInfo()
             cloneInfo.versionCode = AppUtils.getAppVersionCode()
             cloneInfo.versionName = AppUtils.getAppVersionName()
-            cloneInfo.enableSms = SettingUtils.enableSms
-            cloneInfo.enablePhone = SettingUtils.enablePhone
-            cloneInfo.callType1 = SettingUtils.enableCallType1
-            cloneInfo.callType2 = SettingUtils.enableCallType2
-            cloneInfo.callType3 = SettingUtils.enableCallType3
-            cloneInfo.callType4 = SettingUtils.enableCallType4
-            cloneInfo.callType5 = SettingUtils.enableCallType5
-            cloneInfo.callType6 = SettingUtils.enableCallType6
-            cloneInfo.enableAppNotify = SettingUtils.enableAppNotify
-            cloneInfo.cancelAppNotify = SettingUtils.enableCancelAppNotify
-            cloneInfo.cancelExtraAppNotify = SettingUtils.cancelExtraAppNotify
-            cloneInfo.enableNotUserPresent = SettingUtils.enableNotUserPresent
-            cloneInfo.enableLoadAppList = SettingUtils.enableLoadAppList
-            cloneInfo.enableLoadUserAppList = SettingUtils.enableLoadUserAppList
-            cloneInfo.enableLoadSystemAppList = SettingUtils.enableLoadSystemAppList
-            cloneInfo.duplicateMessagesLimits = SettingUtils.duplicateMessagesLimits
-            cloneInfo.enableNetworkStateReceiver = SettingUtils.enableNetworkStateReceiver
-            cloneInfo.enableBatteryReceiver = SettingUtils.enableBatteryReceiver
-            cloneInfo.batteryLevelMin = SettingUtils.batteryLevelMin
-            cloneInfo.batteryLevelMax = SettingUtils.batteryLevelMax
-            cloneInfo.batteryLevelOnce = SettingUtils.batteryLevelOnce
-            cloneInfo.enableBatteryCron = SettingUtils.enableBatteryCron
-            cloneInfo.batteryCronStartTime = SettingUtils.batteryCronStartTime
-            cloneInfo.batteryCronInterval = SettingUtils.batteryCronInterval
-            cloneInfo.enableExcludeFromRecents = SettingUtils.enableExcludeFromRecents
-            cloneInfo.enableCactus = SettingUtils.enableCactus
-            cloneInfo.enablePlaySilenceMusic = SettingUtils.enablePlaySilenceMusic
-            cloneInfo.enableOnePixelActivity = SettingUtils.enableOnePixelActivity
-            cloneInfo.requestRetryTimes = SettingUtils.requestRetryTimes
-            cloneInfo.requestDelayTime = SettingUtils.requestDelayTime
-            cloneInfo.requestTimeout = SettingUtils.requestTimeout
-            cloneInfo.notifyContent = SettingUtils.notifyContent
-            cloneInfo.enableSmsTemplate = SettingUtils.enableSmsTemplate
-            cloneInfo.smsTemplate = SettingUtils.smsTemplate
-            cloneInfo.enableHelpTip = SettingUtils.enableHelpTip
-            cloneInfo.enablePureClientMode = SettingUtils.enablePureClientMode
-            cloneInfo.enableSmsCommand = SettingUtils.enableSmsCommand
-            cloneInfo.smsCommandSafePhone = SettingUtils.smsCommandSafePhone
+            cloneInfo.settings = SharedPreference.exportPreference()
             cloneInfo.senderList = Core.sender.all
             cloneInfo.ruleList = Core.rule.all
             cloneInfo.frpcList = Core.frpc.all
-
             return cloneInfo
         }
 
@@ -193,53 +155,26 @@ class HttpServerUtils private constructor() {
         fun restoreSettings(cloneInfo: CloneInfo): Boolean {
             return try {
                 //应用配置
-                SettingUtils.enableSms = cloneInfo.enableSms
-                SettingUtils.enablePhone = cloneInfo.enablePhone
-                SettingUtils.enableCallType1 = cloneInfo.callType1
-                SettingUtils.enableCallType2 = cloneInfo.callType2
-                SettingUtils.enableCallType3 = cloneInfo.callType3
-                SettingUtils.enableCallType4 = cloneInfo.callType4
-                SettingUtils.enableCallType5 = cloneInfo.callType5
-                SettingUtils.enableCallType6 = cloneInfo.callType6
-                SettingUtils.enableAppNotify = cloneInfo.enableAppNotify
-                SettingUtils.enableCancelAppNotify = cloneInfo.cancelAppNotify
-                SettingUtils.cancelExtraAppNotify = cloneInfo.cancelExtraAppNotify.toString()
-                SettingUtils.enableNotUserPresent = cloneInfo.enableNotUserPresent
-                SettingUtils.enableLoadAppList = cloneInfo.enableLoadAppList
-                SettingUtils.enableLoadUserAppList = cloneInfo.enableLoadUserAppList
-                SettingUtils.enableLoadSystemAppList = cloneInfo.enableLoadSystemAppList
-                SettingUtils.duplicateMessagesLimits = cloneInfo.duplicateMessagesLimits
-                SettingUtils.enableNetworkStateReceiver = cloneInfo.enableNetworkStateReceiver
-                SettingUtils.enableBatteryReceiver = cloneInfo.enableBatteryReceiver
-                SettingUtils.batteryLevelMin = cloneInfo.batteryLevelMin
-                SettingUtils.batteryLevelMax = cloneInfo.batteryLevelMax
-                SettingUtils.batteryLevelOnce = cloneInfo.batteryLevelOnce
-                SettingUtils.enableBatteryCron = cloneInfo.enableBatteryCron
-                SettingUtils.batteryCronStartTime = cloneInfo.batteryCronStartTime.toString()
-                SettingUtils.batteryCronInterval = cloneInfo.batteryCronInterval
-                SettingUtils.enableExcludeFromRecents = cloneInfo.enableExcludeFromRecents
-                SettingUtils.enableCactus = cloneInfo.enableCactus
-                SettingUtils.enablePlaySilenceMusic = cloneInfo.enablePlaySilenceMusic
-                SettingUtils.enableOnePixelActivity = cloneInfo.enableOnePixelActivity
-                SettingUtils.requestRetryTimes = cloneInfo.requestRetryTimes
-                SettingUtils.requestDelayTime = cloneInfo.requestDelayTime
-                SettingUtils.requestTimeout = cloneInfo.requestTimeout
-                SettingUtils.notifyContent = cloneInfo.notifyContent.toString()
-                SettingUtils.enableSmsTemplate = cloneInfo.enableSmsTemplate
-                SettingUtils.smsTemplate = cloneInfo.smsTemplate.toString()
-                SettingUtils.enableHelpTip = cloneInfo.enableHelpTip
-                SettingUtils.enablePureClientMode = cloneInfo.enablePureClientMode
-                SettingUtils.enableSmsCommand = cloneInfo.enableSmsCommand
-                SettingUtils.smsCommandSafePhone = cloneInfo.smsCommandSafePhone.toString()
-                //删除发送通道、转发规则、转发日志
-                Core.sender.deleteAll()
+                SharedPreference.clearPreference()
+                SharedPreference.importPreference(cloneInfo.settings)
+                //需要排除的配置
+                SettingUtils.extraDeviceMark = ""
+                SettingUtils.subidSim1 = 0
+                SettingUtils.extraSim1 = ""
+                SettingUtils.subidSim2 = 0
+                SettingUtils.extraSim2 = ""
+                //删除消息与转发日志
+                Core.logs.deleteAll()
+                Core.msg.deleteAll()
                 //发送通道
+                Core.sender.deleteAll()
                 if (!cloneInfo.senderList.isNullOrEmpty()) {
                     for (sender in cloneInfo.senderList!!) {
                         Core.sender.insert(sender)
                     }
                 }
                 //转发规则
+                Core.rule.deleteAll()
                 if (!cloneInfo.ruleList.isNullOrEmpty()) {
                     for (rule in cloneInfo.ruleList!!) {
                         Core.rule.insert(rule)

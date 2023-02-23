@@ -19,6 +19,9 @@ interface RuleDao {
     @Query("DELETE FROM Rule where id=:id")
     fun delete(id: Long)
 
+    @Query("DELETE FROM Rule")
+    fun deleteAll()
+
     @Update
     fun update(rule: Rule)
 
