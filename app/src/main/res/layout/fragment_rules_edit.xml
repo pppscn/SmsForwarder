@@ -276,6 +276,7 @@
                     android:id="@+id/et_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="@string/match_value_tips"
                     android:inputType="textMultiLine"
                     app:met_clearButton="true" />
 

@@ -242,6 +242,7 @@
     <string name="btn_end_with">结尾</string>
     <string name="btn_regex">正则匹配</string>
     <string name="match_value">匹配的值</string>
+    <string name="match_value_tips">如需匹配多个关键词，请用 正则匹配 或 多重匹配</string>
     <string name="switch_rule_status">启用该条转发规则</string>
     <string name="invalid_rule_status">该条转发规则已禁用</string>
     <string name="invalid_match_value">匹配的值不可为空</string>
@@ -375,7 +376,7 @@
     <string name="insert_sender">来源号码</string>
     <string name="insert_sender_app">APP包名</string>
     <string name="insert_content">短信内容</string>
-    <string name="insert_title_app">通知内容</string>
+    <string name="insert_title_app">通知标题</string>
     <string name="insert_content_app">通知内容</string>
     <string name="insert_extra">卡槽信息</string>
     <string name="insert_time">接收时间</string>

@@ -241,6 +241,7 @@
     <string name="btn_end_with">End With</string>
     <string name="btn_regex">Regex Match</string>
     <string name="match_value">Value</string>
+    <string name="match_value_tips">If you need to match multiple keywords, please use regular or multiple match</string>
     <string name="switch_rule_status">Enable This Forwarding Rule</string>
     <string name="invalid_rule_status">The forwarding rule is disabled</string>
     <string name="invalid_match_value">The matched value cannot be null</string>
