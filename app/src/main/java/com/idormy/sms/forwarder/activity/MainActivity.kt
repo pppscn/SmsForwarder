@@ -105,11 +105,12 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
 
                 //启动前台服务
                 if (!ForegroundService.isRunning) {
-                    val intent = Intent(this, ForegroundService::class.java)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        startForegroundService(intent)
-                    } else {
-                        startService(intent)
+                    Intent(this, ForegroundService::class.java).also {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            startForegroundService(it)
+                        } else {
+                            startService(it)
+                        }
                     }
                 }
             })

@@ -236,9 +236,11 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
             HttpServerUtils.enableApiLocation = isChecked
             if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
                 Log.d("ServerFragment", "onClick: 重启服务")
-                appContext?.stopService(Intent(appContext, HttpService::class.java))
-                Thread.sleep(500)
-                appContext?.startService(Intent(appContext, HttpService::class.java))
+                Intent(appContext, HttpService::class.java).also {
+                    appContext?.stopService(it)
+                    Thread.sleep(500)
+                    appContext?.startService(it)
+                }
                 refreshButtonText()
             }
         }
@@ -255,10 +257,12 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 checkCallPermission()
                 checkContactsPermission()
                 checkLocationPermission()
-                if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
-                    appContext?.stopService(Intent(appContext, HttpService::class.java))
-                } else {
-                    appContext?.startService(Intent(appContext, HttpService::class.java))
+                Intent(appContext, HttpService::class.java).also {
+                    if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
+                        appContext?.stopService(it)
+                    } else {
+                        appContext?.startService(it)
+                    }
                 }
                 refreshButtonText()
             }
@@ -318,11 +322,14 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                     HttpServerUtils.serverWebPath = webPath
 
                     XToastUtils.info(getString(R.string.restarting_httpserver))
-                    if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
-                        appContext?.stopService(Intent(appContext, HttpService::class.java))
-                        appContext?.startService(Intent(appContext, HttpService::class.java))
-                    } else {
-                        appContext?.startService(Intent(appContext, HttpService::class.java))
+                    Intent(appContext, HttpService::class.java).also {
+                        if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
+                            appContext?.stopService(it)
+                            Thread.sleep(500)
+                            appContext?.startService(it)
+                        } else {
+                            appContext?.startService(it)
+                        }
                     }
                     refreshButtonText()
                     true // allow selection

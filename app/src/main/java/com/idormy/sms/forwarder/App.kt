@@ -113,24 +113,29 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
             }
 
             //启动前台服务
-            val intent = Intent(this, ForegroundService::class.java)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundService(intent)
-            } else {
-                startService(intent)
+            Intent(this, ForegroundService::class.java).also {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService(it)
+                } else {
+                    startService(it)
+                }
             }
 
             //网络状态监听
-            val networkStateServiceIntent = Intent(this, NetworkStateService::class.java)
-            startService(networkStateServiceIntent)
+            Intent(this, NetworkStateService::class.java).also {
+                startService(it)
+            }
 
             //电池状态监听
-            val batteryServiceIntent = Intent(this, BatteryService::class.java)
-            startService(batteryServiceIntent)
+            Intent(this, BatteryService::class.java).also {
+                startService(it)
+            }
 
             //启动HttpServer
             if (HttpServerUtils.enableServerAutorun) {
-                startService(Intent(this, HttpService::class.java))
+                Intent(this, HttpService::class.java).also {
+                    startService(it)
+                }
             }
 
             //Cactus 集成双进程前台服务，JobScheduler，onePix(一像素)，WorkManager，无声音乐
@@ -218,19 +223,15 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         }
         mLastTimer.postValue(dateFormat.format(Date(CactusSave.lastTimer * 1000)))
         mEndDate.postValue(CactusSave.endDate)
-        mDisposable = Observable.interval(1, TimeUnit.SECONDS)
-            .map {
-                oldTimer + it
+        mDisposable = Observable.interval(1, TimeUnit.SECONDS).map {
+            oldTimer + it
+        }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe { aLong ->
+            CactusSave.timer = aLong
+            CactusSave.date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).run {
+                format(Date())
             }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { aLong ->
-                CactusSave.timer = aLong
-                CactusSave.date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).run {
-                    format(Date())
-                }
-                mTimer.value = dateFormat.format(Date(aLong * 1000))
-            }
+            mTimer.value = dateFormat.format(Date(aLong * 1000))
+        }
     }
 
     override fun onStop() {

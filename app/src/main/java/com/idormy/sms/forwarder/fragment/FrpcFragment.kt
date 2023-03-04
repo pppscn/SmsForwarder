@@ -133,11 +133,12 @@ class FrpcFragment : BaseFragment<FragmentFrpcsBinding?>(), FrpcPagingAdapter.On
             }
             R.id.iv_play -> {
                 if (!ForegroundService.isRunning) {
-                    val intent = Intent(requireContext(), ForegroundService::class.java)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        requireContext().startForegroundService(intent)
-                    } else {
-                        requireContext().startService(intent)
+                    Intent(requireContext(), ForegroundService::class.java).also {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            requireContext().startForegroundService(it)
+                        } else {
+                            requireContext().startService(it)
+                        }
                     }
                 }
 
