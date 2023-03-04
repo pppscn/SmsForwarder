@@ -19,6 +19,7 @@ import com.idormy.sms.forwarder.utils.Worker
 import com.idormy.sms.forwarder.workers.SendWorker
 import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xutil.file.FileUtils
+import com.xuexiang.xutil.system.DeviceUtils
 import frpclib.Frpclib
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -192,10 +193,22 @@ class SmsReceiver : BroadcastReceiver() {
                 }
             }
             "httpserver" -> {
-                if (action == "start") {
-                    context.startService(Intent(context, HttpService::class.java))
-                } else if (action == "stop") {
-                    context.stopService(Intent(context, HttpService::class.java))
+                Intent(context, HttpService::class.java).also {
+                    if (action == "start") {
+                        context.startService(it)
+                    } else if (action == "stop") {
+                        context.stopService(it)
+                    }
+                }
+            }
+            "system" -> {
+                //判断是否已root
+                if (!DeviceUtils.isDeviceRooted()) return
+
+                if (action == "reboot") {
+                    DeviceUtils.reboot()
+                } else if (action == "shutdown") {
+                    DeviceUtils.shutdown()
                 }
             }
         }
