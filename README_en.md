@@ -36,7 +36,7 @@ Including active control of the server and client, allowing you to easily and re
 
 ## Screenshots :
 
-![界面预览](https://foruda.gitee.com/images/1676172337910608171/1b2e15db_16273.jpeg "界面预览.jpg")
+![界面预览](pic/界面预览.jpeg "界面预览.jpg")
 
 See more screenshots：https://github.com/pppscn/SmsForwarder/wiki
 
@@ -55,6 +55,8 @@ See more screenshots：https://github.com/pppscn/SmsForwarder/wiki
 > ⚠ GitHub: https://github.com/pppscn/SmsForwarder/wiki
 
 > ⚠ Gitee: https://gitee.com/pp/SmsForwarder/wikis/pages
+
+![使用流程与问题排查流程](pic/使用流程与问题排查流程.png "使用流程与问题排查流程.png")
 
 --------
 
