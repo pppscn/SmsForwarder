@@ -20,7 +20,7 @@
 
 > 2、如果目前`v2.x`用的好好的没必要升级（之前也是这么建议大家的，没必要每版必跟，除非你急需新功能）
 
-> 3、`v3.x` 适配 Android 4.4 ~ 12.0
+> 3、`v3.x` 适配 Android 4.4 ~ 13.0
 
 --------
 
@@ -32,7 +32,7 @@
 
 * 如果任何单位或个人认为该项目的代码/APK可能涉嫌侵犯其权利，则应及时通知并提供身份证明，所有权证明，我们将在收到认证文件后删除相关代码/APK。
 
-* 隐私声明：SmsForwarder 不会收集任何您的隐私数据！！！APP启动时发送版本信息发送到友盟统计；手动检查新版本时发送版本号用于检查新版本；除此之外，没有任何数据！！！
+* 隐私声明：**SmsForwarder 不会收集任何您的隐私数据！！！**APP启动时发送版本信息发送到友盟统计；手动检查新版本时发送版本号用于检查新版本；除此之外，没有任何数据！！！
 
 --------
 
@@ -58,8 +58,6 @@
 
 > ⚠ 网盘下载：https://wws.lanzoui.com/b025yl86h 访问密码：`pppscn`
 
-> ⚠ 酷安应用市场：https://www.coolapk.com/apk/com.idormy.sms.forwarder
-
 --------
 
 ## 使用文档【新用户必看！】
@@ -78,7 +76,7 @@
 + 加入交流群（群内都是机油互帮互助，禁止发任何与SmsForwarder使用无关的内容）
 
 | QQ频道号: q7oofwp13s | 钉钉客户群 | 企业微信群 |
-|  ----  |  ----  | ----  |
+|  :--:  |  :--:  | :--:  |
 | ![QQ频道号: q7oofwp13s](pic/qq_channel.png "QQ频道号: q7oofwp13s") | ![钉钉客户群](pic/dingtalk.png "钉钉客户群") | ![企业微信群](pic/qywechat.png "企业微信群") |
 
 ## 感谢
@@ -92,7 +90,9 @@
 + https://github.com/mainfunx/frpc_android (内网穿透)
 + https://github.com/gyf-dev/Cactus (保活措施)
 + https://github.com/yanzhenjie/AndServer (HttpServer)
-+ [<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg?_ga=2.126618957.1361252949.1638261367-1417196221.1635638144&_gl=1*1pfl3dq*_ga*MTQxNzE5NjIyMS4xNjM1NjM4MTQ0*_ga_V0XZL7QHEB*MTYzODMzMjA4OC43LjAuMTYzODMzMjA5Ny4w" alt="GitHub license" style="zoom:50%;" />](https://jb.gg/OpenSourceSupport)  (License Certificate for JetBrains All Products Pack)
++ https://github.com/jenly1314/Location (Location)
++ https://gitee.com/xuankaicat/kmnkt (socket通信)
++ [<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg?_ga=2.126618957.1361252949.1638261367-1417196221.1635638144&_gl=1*1pfl3dq*_ga*MTQxNzE5NjIyMS4xNjM1NjM4MTQ0*_ga_V0XZL7QHEB*MTYzODMzMjA4OC43LjAuMTYzODMzMjA5Ny4w" alt="GitHub license" style="width：96px" width="96" />](https://jb.gg/OpenSourceSupport)  (License Certificate for JetBrains All Products Pack)
 
 --------
 
