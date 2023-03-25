@@ -571,6 +571,8 @@
     <string name="resend">Resend</string>
     <string name="rematch">Rematch</string>
     <string name="from">From: </string>
+    <string name="title">Title: </string>
+    <string name="schema">Schema: </string>
     <string name="msg">Msg: </string>
     <string name="slot">Slot: </string>
     <string name="rule">Rule: </string>
@@ -590,6 +592,7 @@
     <string name="tag_device_name">{{DEVICE_NAME}}</string>
     <string name="tag_app_version">{{APP_VERSION}}</string>
     <string name="tag_title">{{TITLE}}</string>
+    <string name="tag_schema">{{SCHEMA}}</string>
     <string name="rule_sms">SMS</string>
     <string name="rule_call">CALL</string>
     <string name="rule_app">APP</string>
@@ -724,6 +727,12 @@
     <string name="bark_level_passive">Only added to the notification list, no screen reminder</string>
     <string name="bark_url_regex" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]]]></string>
     <string name="bark_url_error">Url format error</string>
+    <string name="bark_key">AES Key</string>
+    <string name="bark_key_tips">Fill in 16 chars to enable push encryption</string>
+    <string name="bark_iv">AES iv</string>
+    <string name="bark_iv_tips">Fill in 16 chars to enable push encryption</string>
+    <string name="bark_key_regex" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^[a-zA-Z0-9]{16}]]></string>
+    <string name="bark_key_error">AES Key and iv must be 16 characters</string>
 
     <string name="from_email_hint">Fill in the username before @</string>
     <string name="from_email_full_hint">Fill in the format: AAA@BBB.CCC</string>

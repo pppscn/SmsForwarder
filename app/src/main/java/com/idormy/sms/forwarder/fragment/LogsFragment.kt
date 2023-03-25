@@ -105,8 +105,19 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
 
         val detailStr = StringBuilder()
         detailStr.append(ResUtils.getString(R.string.from)).append(item.msg.from).append("\n\n")
-        detailStr.append(ResUtils.getString(R.string.msg)).append(item.msg.content).append("\n\n")
-        if (!TextUtils.isEmpty(item.msg.simInfo)) detailStr.append(ResUtils.getString(R.string.slot)).append(item.msg.simInfo).append("\n\n")
+        if (!TextUtils.isEmpty(item.msg.simInfo)) {
+            if (item.msg.type == "app") {
+                val splitSimInfo = item.msg.simInfo.split("#####")
+                val title = splitSimInfo.getOrElse(0) { item.msg.simInfo }
+                val schema = splitSimInfo.getOrElse(1) { "" }
+                detailStr.append(ResUtils.getString(R.string.title)).append(title).append("\n\n")
+                detailStr.append(ResUtils.getString(R.string.msg)).append(item.msg.content).append("\n\n")
+                if (!TextUtils.isEmpty(schema) && schema != "null") detailStr.append(ResUtils.getString(R.string.schema)).append(schema).append("\n\n")
+            } else {
+                detailStr.append(ResUtils.getString(R.string.msg)).append(item.msg.content).append("\n\n")
+                detailStr.append(ResUtils.getString(R.string.slot)).append(item.msg.simInfo).append("\n\n")
+            }
+        }
         @SuppressLint("SimpleDateFormat") val utcFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         detailStr.append(ResUtils.getString(R.string.time)).append(DateUtils.date2String(item.msg.time, utcFormatter))
 

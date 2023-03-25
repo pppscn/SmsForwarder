@@ -90,6 +90,12 @@ class NotifyService : NotificationListenerService() {
             if (text.isEmpty() && sbn.notification.tickerText != null) {
                 text = sbn.notification.tickerText.toString()
             }
+            //通知Schema
+            val schema = sbn.notification.extras["android.template"].toString()//.substringBefore('/')
+            Log.d(TAG, "schema=$schema")
+            if (!TextUtils.isEmpty(schema)) {
+                title += "#####$schema"
+            }
 
             //不处理空消息（标题跟内容都为空）
             if (TextUtils.isEmpty(title) && TextUtils.isEmpty(text)) return

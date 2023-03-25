@@ -572,6 +572,8 @@
     <string name="resend">重发消息</string>
     <string name="rematch">重新匹配规则</string>
     <string name="from">来源：</string>
+    <string name="title">标题：</string>
+    <string name="schema">Schema：</string>
     <string name="msg">消息：</string>
     <string name="slot">卡槽：</string>
     <string name="rule">规则：</string>
@@ -591,6 +593,7 @@
     <string name="tag_device_name">{{设备名称}}</string>
     <string name="tag_app_version">{{当前应用版本号}}</string>
     <string name="tag_title">{{通知标题}}</string>
+    <string name="tag_schema">{{通知Schema}}</string>
     <string name="rule_sms">短信</string>
     <string name="rule_call">来电</string>
     <string name="rule_app">应用</string>
@@ -725,6 +728,12 @@
     <string name="bark_level_passive">仅添加到通知列表，不会亮屏提醒</string>
     <string name="bark_url_regex" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]]]></string>
     <string name="bark_url_error">Url格式错误</string>
+    <string name="bark_key">加密密钥</string>
+    <string name="bark_key_tips">填写16个字符，以启用推送加密</string>
+    <string name="bark_iv">偏移向量</string>
+    <string name="bark_iv_tips">填写16个字符，以启用推送加密</string>
+    <string name="bark_key_regex" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^([a-zA-Z0-9]{16})? $]]></string>
+    <string name="bark_key_error">加密密钥和偏移向量必须同时是16个字符</string>
 
     <string name="from_email_hint">填写 @ 前面的用户名</string>
     <string name="from_email_full_hint">填写格式: AAA@BBB.CCC</string>
