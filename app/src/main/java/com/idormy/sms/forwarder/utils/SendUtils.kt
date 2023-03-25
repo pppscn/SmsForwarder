@@ -19,14 +19,13 @@ import com.idormy.sms.forwarder.workers.SendWorker
 import com.idormy.sms.forwarder.workers.UpdateLogsWorker
 import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xutil.XUtil
-import java.util.*
 
 object SendUtils {
     private const val TAG = "SendUtils"
 
     //重新匹配规则并发送消息
     fun rematchSendMsg(item: MsgAndLogs) {
-        val msgInfo = MsgInfo(item.msg.type, item.msg.from, item.msg.content, Date(), item.msg.simInfo, item.msg.simSlot, item.msg.subId)
+        val msgInfo = MsgInfo(item.msg.type, item.msg.from, item.msg.content, item.msg.time, item.msg.simInfo, item.msg.simSlot, item.msg.subId)
         Log.d(TAG, "msgInfo = $msgInfo")
 
         val request = OneTimeWorkRequestBuilder<SendWorker>().setInputData(
@@ -41,7 +40,7 @@ object SendUtils {
     fun retrySendMsg(logId: Long) {
         val item = Core.logs.getOne(logId)
 
-        val msgInfo = MsgInfo(item.msg.type, item.msg.from, item.msg.content, Date(), item.msg.simInfo, item.msg.simSlot, item.msg.subId)
+        val msgInfo = MsgInfo(item.msg.type, item.msg.from, item.msg.content, item.msg.time, item.msg.simInfo, item.msg.simSlot, item.msg.subId)
         Log.d(TAG, "msgInfo = $msgInfo")
 
         var senderIndex = 0
