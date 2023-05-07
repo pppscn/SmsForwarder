@@ -726,6 +726,7 @@
     <string name="bark_level_timeSensitive">Time-sensitive notifications that can be displayed in a focused state</string>
     <string name="bark_level_passive">Only added to the notification list, no screen reminder</string>
     <string name="bark_url_regex" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]]]></string>
+    <string name="bark_url_regex2" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^[a-z]+://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]]]></string>
     <string name="bark_url_error">Url format error</string>
     <string name="bark_key">AES Key</string>
     <string name="bark_key_tips">Fill in 16 chars to enable push encryption</string>

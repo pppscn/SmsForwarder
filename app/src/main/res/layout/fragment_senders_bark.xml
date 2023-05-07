@@ -210,7 +210,7 @@
                     android:singleLine="true"
                     app:met_clearButton="true"
                     app:met_errorMessage="@string/bark_url_error"
-                    app:met_regexp="@string/bark_url_regex"
+                    app:met_regexp="@string/bark_url_regex2"
                     app:met_validateOnFocusLost="true" />
 
             </LinearLayout>

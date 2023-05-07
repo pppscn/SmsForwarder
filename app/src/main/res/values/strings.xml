@@ -727,6 +727,7 @@
     <string name="bark_level_timeSensitive">时效性通知，可在专注状态下显示通知</string>
     <string name="bark_level_passive">仅添加到通知列表，不会亮屏提醒</string>
     <string name="bark_url_regex" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]]]></string>
+    <string name="bark_url_regex2" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^[a-z]+://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]]]></string>
     <string name="bark_url_error">Url格式错误</string>
     <string name="bark_key">加密密钥</string>
     <string name="bark_key_tips">填写16个字符，以启用推送加密</string>
