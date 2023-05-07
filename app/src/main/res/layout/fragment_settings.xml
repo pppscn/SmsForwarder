@@ -1145,6 +1145,7 @@
                 style="@style/settingBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:baselineAligned="false"
                 android:paddingEnd="15dp"
                 tools:ignore="RtlSymmetry">
 
@@ -1167,95 +1168,106 @@
                         tools:ignore="SmallSp" />
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/retry"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/et_retry_times"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:autofillHints=""
-                    android:digits="0123456789"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:maxLines="1"
-                    android:text="@string/_0"
-                    android:textAlignment="center"
-                    android:textSize="12sp"
-                    tools:ignore="LabelFor" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/times"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/interval"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/retry"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/et_delay_time"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:autofillHints=""
-                    android:digits="0123456789"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:maxLines="1"
-                    android:text="@string/_1"
-                    android:textAlignment="center"
-                    android:textSize="12sp"
-                    tools:ignore="LabelFor" />
+                        <com.xuexiang.xui.widget.picker.XSeekBar
+                            android:id="@+id/xsb_retry_times"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1"
+                            app:xsb_max="30"
+                            app:xsb_min="0" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/seconds"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/times"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/timeout"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/et_timeout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:autofillHints=""
-                    android:digits="0123456789"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:maxLines="1"
-                    android:text="@string/_10"
-                    android:textAlignment="center"
-                    android:textSize="12sp"
-                    tools:ignore="LabelFor" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/interval"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/seconds"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                        <com.xuexiang.xui.widget.picker.XSeekBar
+                            android:id="@+id/xsb_delay_time"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1"
+                            app:xsb_max="99"
+                            app:xsb_min="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/seconds"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/timeout"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <com.xuexiang.xui.widget.picker.XSeekBar
+                            android:id="@+id/xsb_timeout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1"
+                            app:xsb_max="99"
+                            app:xsb_min="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/seconds"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 

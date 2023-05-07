@@ -145,7 +145,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         )
 
         //接口请求失败重试时间间隔
-        editRetryDelayTime(binding!!.etRetryTimes, binding!!.etDelayTime, binding!!.etTimeout)
+        editRetryDelayTime(binding!!.xsbRetryTimes, binding!!.xsbDelayTime, binding!!.xsbTimeout)
 
         //设备备注
         editAddExtraDeviceMark(binding!!.etExtraDeviceMark)
@@ -793,60 +793,20 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //接口请求失败重试时间间隔
     private fun editRetryDelayTime(
-        etRetryTimes: EditText, etDelayTime: EditText, etTimeout: EditText
+        xsbRetryTimes: XSeekBar, xsbDelayTime: XSeekBar, xsbTimeout: XSeekBar
     ) {
-        etRetryTimes.setText(java.lang.String.valueOf(SettingUtils.requestRetryTimes))
-        etRetryTimes.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                val retryTimes = etRetryTimes.text.toString().trim()
-                if (retryTimes.isNotEmpty()) {
-                    SettingUtils.requestRetryTimes = retryTimes.toInt()
-                } else {
-                    etRetryTimes.setText("0")
-                    SettingUtils.requestRetryTimes = 0
-                }
-            }
-        })
-        etDelayTime.setText(java.lang.String.valueOf(SettingUtils.requestDelayTime))
-        etDelayTime.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                val delayTime = etDelayTime.text.toString().trim()
-                if (delayTime.isNotEmpty()) {
-                    SettingUtils.requestDelayTime = delayTime.toInt()
-                    if (SettingUtils.requestDelayTime < 1) {
-                        etDelayTime.setText("1")
-                        XToastUtils.error(R.string.invalid_delay_time)
-                    }
-                } else {
-                    XToastUtils.warning(R.string.invalid_delay_time)
-                    etDelayTime.setText("1")
-                    SettingUtils.requestDelayTime = 1
-                }
-            }
-        })
-        etTimeout.setText(java.lang.String.valueOf(SettingUtils.requestTimeout))
-        etTimeout.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                val timeout = etTimeout.text.toString().trim()
-                if (timeout.isNotEmpty()) {
-                    SettingUtils.requestTimeout = timeout.toInt()
-                    if (SettingUtils.requestTimeout < 1) {
-                        etTimeout.setText("1")
-                        XToastUtils.error(R.string.invalid_timeout)
-                    }
-                } else {
-                    XToastUtils.warning(R.string.invalid_timeout)
-                    etTimeout.setText("1")
-                    SettingUtils.requestTimeout = 1
-                }
-            }
-        })
+        xsbRetryTimes.setDefaultValue(SettingUtils.requestRetryTimes)
+        xsbRetryTimes.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
+            SettingUtils.requestRetryTimes = newValue
+        }
+        xsbDelayTime.setDefaultValue(SettingUtils.requestDelayTime)
+        xsbDelayTime.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
+            SettingUtils.requestDelayTime = newValue
+        }
+        xsbTimeout.setDefaultValue(SettingUtils.requestTimeout)
+        xsbTimeout.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
+            SettingUtils.requestTimeout = newValue
+        }
     }
 
     //设置设备名称
