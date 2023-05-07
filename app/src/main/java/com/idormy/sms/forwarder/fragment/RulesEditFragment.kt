@@ -46,7 +46,7 @@ import kotlinx.coroutines.*
 import java.util.*
 
 @Page(name = "转发规则·编辑器")
-@Suppress("PrivatePropertyName", "CAST_NEVER_SUCCEEDS")
+@Suppress("PrivatePropertyName")
 class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private val TAG: String = RulesEditFragment::class.java.simpleName
@@ -155,6 +155,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
         binding!!.btInsertSender.setOnClickListener(this)
         binding!!.btInsertContent.setOnClickListener(this)
         binding!!.btInsertSenderApp.setOnClickListener(this)
+        binding!!.btInsertTitleApp.setOnClickListener(this)
         binding!!.btInsertContentApp.setOnClickListener(this)
         binding!!.btInsertExtra.setOnClickListener(this)
         binding!!.btInsertTime.setOnClickListener(this)
