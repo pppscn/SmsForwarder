@@ -121,6 +121,7 @@ class WeworkRobotFragment : BaseFragment<FragmentSendersWeworkRobotBinding?>(), 
                     Log.d(TAG, settingVo.toString())
                     if (settingVo != null) {
                         binding!!.etWebHook.setText(settingVo.webHook)
+                        binding!!.rgMsgType.check(settingVo.getMsgTypeCheckId())
                     }
                 }
             })
@@ -155,6 +156,7 @@ class WeworkRobotFragment : BaseFragment<FragmentSendersWeworkRobotBinding?>(), 
                     }.start()
                     return
                 }
+
                 R.id.btn_del -> {
                     if (senderId <= 0 || isClone) {
                         popToBack()
@@ -174,6 +176,7 @@ class WeworkRobotFragment : BaseFragment<FragmentSendersWeworkRobotBinding?>(), 
                         .show()
                     return
                 }
+
                 R.id.btn_save -> {
                     val name = binding!!.etName.text.toString().trim()
                     if (TextUtils.isEmpty(name)) {
@@ -203,8 +206,8 @@ class WeworkRobotFragment : BaseFragment<FragmentSendersWeworkRobotBinding?>(), 
         if (!CommonUtils.checkUrl(webHook, false)) {
             throw Exception(getString(R.string.invalid_webhook))
         }
-
-        return WeworkRobotSetting(webHook)
+        val msgType = if (binding!!.rgMsgType.checkedRadioButtonId == R.id.rb_msg_type_markdown) "markdown" else "text"
+        return WeworkRobotSetting(webHook, msgType)
     }
 
     override fun onDestroyView() {

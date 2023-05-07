@@ -77,6 +77,42 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                style="@style/senderBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wework_msg_type"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/rg_msg_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_msg_type_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/wework_msg_type_text" />
+
+                    <RadioButton
+                        android:id="@+id/rb_msg_type_markdown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/wework_msg_type_markdown" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

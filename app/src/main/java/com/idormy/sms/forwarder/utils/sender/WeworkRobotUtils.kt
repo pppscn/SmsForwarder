@@ -13,7 +13,6 @@ import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
 
-@Suppress("PrivatePropertyName", "UNUSED_PARAMETER")
 class WeworkRobotUtils private constructor() {
     companion object {
 
@@ -37,11 +36,17 @@ class WeworkRobotUtils private constructor() {
             Log.i(TAG, "requestUrl:$requestUrl")
 
             val msgMap: MutableMap<String, Any> = mutableMapOf()
-            msgMap["msgtype"] = "text"
+            msgMap["msgtype"] = setting.msgType
 
-            val textText: MutableMap<String, Any> = mutableMapOf()
-            textText["content"] = content
-            msgMap["text"] = textText
+            if (setting.msgType == "markdown") {
+                val markdownText: MutableMap<String, Any> = mutableMapOf()
+                markdownText["content"] = content
+                msgMap["markdown"] = markdownText
+            } else {
+                val textText: MutableMap<String, Any> = mutableMapOf()
+                textText["content"] = content
+                msgMap["text"] = textText
+            }
 
             val requestMsg: String = Gson().toJson(msgMap)
             Log.i(TAG, "requestMsg:$requestMsg")

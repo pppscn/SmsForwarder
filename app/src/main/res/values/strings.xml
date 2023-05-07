@@ -744,6 +744,9 @@
 
     <string name="wework_webHook">WebHook地址</string>
     <string name="wework_webHook_tips">示例：https://qyapi.weixin.qq.com/cgixx?key=xxx</string>
+    <string name="wework_msg_type">消息类型</string>
+    <string name="wework_msg_type_text">纯文本</string>
+    <string name="wework_msg_type_markdown">markdown</string>
 
     <string name="url_scheme">URL Scheme</string>
     <string name="url_scheme_tips">示例：myapp://api/add?&amp;type=0&amp;msg=[msg]</string>

@@ -559,10 +559,10 @@
     <string name="keep_alive_tips">It is recommended to open the first three switch, do not disable the notification bar, to avoid APP being killed</string>
     <string name="custom_settings">Custom Settings</string>
     <string name="custom_settings_tips">Please fill in the remarks manually or click the refresh button to get it automatically</string>
-    <string name="times">,</string>
+    <string name="times">times</string>
     <string name="interval">Interval</string>
     <string name="timeout">Timeout</string>
-    <string name="seconds">s</string>
+    <string name="seconds">secs</string>
     <string name="seconds_n">%s sec</string>
     <string name="retry">Retry</string>
     <string name="test_sender_sms">[Test Channel] Congratulations, the sending channel test is successful, please continue to add forwarding rules!</string>
@@ -743,6 +743,9 @@
 
     <string name="wework_webHook">WebHook</string>
     <string name="wework_webHook_tips">Example: https://qyapi.weixin.qq.com/cgixx?key=xxx</string>
+    <string name="wework_msg_type">Msg Type</string>
+    <string name="wework_msg_type_text">Text</string>
+    <string name="wework_msg_type_markdown">Markdown</string>
 
     <string name="url_scheme">URL Scheme</string>
     <string name="url_scheme_tips">Example：myapp://api/add?&amp;type=0&amp;msg=[msg]</string>
