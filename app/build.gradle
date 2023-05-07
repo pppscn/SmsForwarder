@@ -168,7 +168,7 @@ android {
                 def abiName = output.getFilter(com.android.build.OutputFile.ABI)
                 if (abiName == null) abiName = "universal"
                 output.versionCodeOverride = abiCodes.get(abiName, 0) * 100000 + variant.versionCode
-                output.outputFileName = "SmsForwarder_${variant.name}_${versionName}_${output.versionCode}_${date}_${abiName}.apk"
+                output.outputFileName = "SmsF_${versionName}_${output.versionCode}_${abiName}_${date}_${variant.name}.apk"
         }
     }
 
