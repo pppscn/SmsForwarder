@@ -109,10 +109,10 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
             if (item.msg.type == "app") {
                 val splitSimInfo = item.msg.simInfo.split("#####")
                 val title = splitSimInfo.getOrElse(0) { item.msg.simInfo }
-                val schema = splitSimInfo.getOrElse(1) { "" }
+                val scheme = splitSimInfo.getOrElse(1) { "" }
                 detailStr.append(ResUtils.getString(R.string.title)).append(title).append("\n\n")
                 detailStr.append(ResUtils.getString(R.string.msg)).append(item.msg.content).append("\n\n")
-                if (!TextUtils.isEmpty(schema) && schema != "null") detailStr.append(ResUtils.getString(R.string.schema)).append(schema).append("\n\n")
+                if (!TextUtils.isEmpty(scheme) && scheme != "null") detailStr.append(ResUtils.getString(R.string.scheme)).append(scheme).append("\n\n")
             } else {
                 detailStr.append(ResUtils.getString(R.string.msg)).append(item.msg.content).append("\n\n")
                 detailStr.append(ResUtils.getString(R.string.slot)).append(item.msg.simInfo).append("\n\n")

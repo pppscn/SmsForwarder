@@ -41,7 +41,7 @@ data class MsgInfo(
         val versionName = AppUtils.getAppVersionName()
         val splitSimInfo = simInfo.split("#####")
         val title = splitSimInfo.getOrElse(0) { simInfo }
-        val schema = splitSimInfo.getOrElse(1) { "" }
+        val scheme = splitSimInfo.getOrElse(1) { "" }
         val titleForSend: String = template.replace(getString(R.string.tag_from), from)
             .replace(getString(R.string.tag_package_name), from)
             .replace(getString(R.string.tag_sms), content)
@@ -49,7 +49,7 @@ data class MsgInfo(
             .replace(getString(R.string.tag_card_slot), title)
             .replace(getString(R.string.tag_card_subid), subId.toString())
             .replace(getString(R.string.tag_title), title)
-            .replace(getString(R.string.tag_schema), schema)
+            .replace(getString(R.string.tag_scheme), scheme)
             .replace(getString(R.string.tag_receive_time), SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date))
             .replace(getString(R.string.tag_device_name), deviceMark)
             .replace(getString(R.string.tag_app_version), versionName)
@@ -87,7 +87,7 @@ data class MsgInfo(
         val versionName = AppUtils.getAppVersionName()
         val splitSimInfo = simInfo.split("#####")
         val title = splitSimInfo.getOrElse(0) { simInfo }
-        val schema = splitSimInfo.getOrElse(1) { "" }
+        val scheme = splitSimInfo.getOrElse(1) { "" }
         val smsVoForSend: String = customSmsTemplate.replace(getString(R.string.tag_from), from)
             .replace(getString(R.string.tag_package_name), from)
             .replace(getString(R.string.tag_sms), content)
@@ -95,7 +95,7 @@ data class MsgInfo(
             .replace(getString(R.string.tag_card_slot), title)
             .replace(getString(R.string.tag_card_subid), subId.toString())
             .replace(getString(R.string.tag_title), title)
-            .replace(getString(R.string.tag_schema), schema)
+            .replace(getString(R.string.tag_scheme), scheme)
             .replace(getString(R.string.tag_receive_time), SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date))
             .replace(getString(R.string.tag_device_name), deviceMark)
             .replace(getString(R.string.tag_app_version), versionName)

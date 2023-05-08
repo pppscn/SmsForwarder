@@ -572,7 +572,7 @@
     <string name="rematch">Rematch</string>
     <string name="from">From: </string>
     <string name="title">Title: </string>
-    <string name="schema">Schema: </string>
+    <string name="scheme">Scheme: </string>
     <string name="msg">Msg: </string>
     <string name="slot">Slot: </string>
     <string name="rule">Rule: </string>
@@ -592,7 +592,7 @@
     <string name="tag_device_name">{{DEVICE_NAME}}</string>
     <string name="tag_app_version">{{APP_VERSION}}</string>
     <string name="tag_title">{{TITLE}}</string>
-    <string name="tag_schema">{{SCHEMA}}</string>
+    <string name="tag_scheme">{{SCHEME}}</string>
     <string name="rule_sms">SMS</string>
     <string name="rule_call">CALL</string>
     <string name="rule_app">APP</string>

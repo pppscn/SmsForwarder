@@ -573,7 +573,7 @@
     <string name="rematch">重新匹配规则</string>
     <string name="from">来源：</string>
     <string name="title">标题：</string>
-    <string name="schema">Schema：</string>
+    <string name="scheme">Scheme：</string>
     <string name="msg">消息：</string>
     <string name="slot">卡槽：</string>
     <string name="rule">规则：</string>
@@ -593,7 +593,7 @@
     <string name="tag_device_name">{{设备名称}}</string>
     <string name="tag_app_version">{{当前应用版本号}}</string>
     <string name="tag_title">{{通知标题}}</string>
-    <string name="tag_schema">{{通知Schema}}</string>
+    <string name="tag_scheme">{{通知Scheme}}</string>
     <string name="rule_sms">短信</string>
     <string name="rule_call">来电</string>
     <string name="rule_app">应用</string>
