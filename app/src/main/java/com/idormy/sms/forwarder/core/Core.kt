@@ -11,6 +11,7 @@ import com.idormy.sms.forwarder.database.repository.*
 import com.idormy.sms.forwarder.service.ForegroundService
 import kotlinx.coroutines.launch
 
+@Suppress("unused")
 object Core : Configuration.Provider {
     lateinit var app: Application
     val frpc: FrpcRepository by lazy { (app as App).frpcRepository }

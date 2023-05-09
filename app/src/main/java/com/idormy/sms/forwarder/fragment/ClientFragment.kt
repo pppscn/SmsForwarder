@@ -38,7 +38,7 @@ import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.data.ConvertTools
 
-@Suppress("PrivatePropertyName", "PropertyName")
+@Suppress("PropertyName")
 @Page(name = "主动控制·客户端")
 class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListener, RecyclerViewHolder.OnItemClickListener<PageInfo> {
 

@@ -29,7 +29,7 @@ import java.util.*
 
 //短信广播
 @OptIn(DelicateCoroutinesApi::class)
-@Suppress("PrivatePropertyName", "DEPRECATION", "DeferredResultUnused", "SENSELESS_COMPARISON")
+@Suppress("PrivatePropertyName", "DeferredResultUnused", "SENSELESS_COMPARISON")
 class SmsReceiver : BroadcastReceiver() {
 
     private var TAG = "SmsReceiver"

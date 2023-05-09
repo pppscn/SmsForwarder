@@ -35,8 +35,6 @@ import java.io.File
 import java.net.InetAddress
 import java.security.KeyPairGenerator
 
-
-@Suppress("PrivatePropertyName")
 @Page(name = "主动控制·服务端")
 class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListener {
 

@@ -9,11 +9,6 @@ class AppListAdapterItem {
     var name: String = ""
     var icon: Drawable? = null
     var packageName: String? = null
-    //var packagePath: String? = null
-    //var versionName: String? = null
-    //var versionCode: Int = 0
-    //var isSystem: Boolean = false
-
 
     constructor(name: String, icon: Drawable?, packageName: String?) {
         this.name = name

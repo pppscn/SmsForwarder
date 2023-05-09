@@ -15,8 +15,6 @@ import java.net.URLEncoder
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-@Suppress("PrivatePropertyName", "UNUSED_PARAMETER")
 class UrlSchemeUtils private constructor() {
     companion object {
 

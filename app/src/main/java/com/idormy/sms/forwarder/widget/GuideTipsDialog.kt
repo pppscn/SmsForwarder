@@ -167,7 +167,7 @@ class GuideTipsDialog(context: Context?, tips: List<TipInfo>) :
             ).tips, object : NoTipCallBack<List<TipInfo>>() {
                 @Throws(Throwable::class)
                 override fun onSuccess(response: List<TipInfo>?) {
-                    if (response != null && response.isNotEmpty()) {
+                    if (!response.isNullOrEmpty()) {
                         GuideTipsDialog(context, response).show()
                     }
                 }

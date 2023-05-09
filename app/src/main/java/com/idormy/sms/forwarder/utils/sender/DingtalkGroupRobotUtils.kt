@@ -20,7 +20,6 @@ import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
 //钉钉群自定义机器人
-@Suppress("PrivatePropertyName", "UNUSED_PARAMETER")
 class DingtalkGroupRobotUtils private constructor() {
     companion object {
 

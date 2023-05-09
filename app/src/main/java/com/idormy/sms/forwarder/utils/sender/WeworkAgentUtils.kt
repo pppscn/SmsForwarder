@@ -26,7 +26,6 @@ import java.net.InetSocketAddress
 import java.net.PasswordAuthentication
 import java.net.Proxy
 
-@Suppress("PrivatePropertyName", "UNUSED_PARAMETER")
 class WeworkAgentUtils private constructor() {
     companion object {
 

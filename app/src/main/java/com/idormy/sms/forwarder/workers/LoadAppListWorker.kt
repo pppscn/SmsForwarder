@@ -39,7 +39,7 @@ class LoadAppListWorker(
 
         LiveEventBus.get(EVENT_LOAD_APP_LIST, String::class.java).post("finish")
         App.LoadingAppList = false
-        Log.d("LoadAppListWorker", "LoadAppListWorker finish, App.LoadingAppList=${App.LoadingAppList}")
+        Log.d("LoadAppListWorker", "LoadAppListWorker finish")
 
         return@withContext Result.success()
     }

@@ -19,7 +19,6 @@ import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-@Suppress("PrivatePropertyName", "UNUSED_PARAMETER")
 class FeishuUtils private constructor() {
     companion object {
 

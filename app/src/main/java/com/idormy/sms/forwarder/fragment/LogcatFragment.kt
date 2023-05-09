@@ -21,7 +21,6 @@ import io.reactivex.schedulers.Schedulers
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-@Suppress("PrivatePropertyName")
 @Page(name = "Logcat")
 class LogcatFragment : BaseFragment<FragmentLogcatBinding?>() {
 

@@ -22,7 +22,6 @@ import java.io.InputStream
 import java.lang.reflect.Type
 import java.nio.charset.Charset
 
-
 @Suppress("PrivatePropertyName")
 @Converter
 class AppMessageConverter : MessageConverter {

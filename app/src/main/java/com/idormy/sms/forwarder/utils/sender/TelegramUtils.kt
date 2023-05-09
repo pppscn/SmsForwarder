@@ -19,8 +19,6 @@ import okhttp3.Response
 import okhttp3.Route
 import java.net.*
 
-
-@Suppress("PrivatePropertyName", "UNUSED_PARAMETER", "unused")
 class TelegramUtils private constructor() {
     companion object {
 

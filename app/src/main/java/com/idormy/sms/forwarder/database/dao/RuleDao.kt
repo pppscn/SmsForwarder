@@ -3,7 +3,7 @@ package com.idormy.sms.forwarder.database.dao
 import androidx.paging.PagingSource
 import androidx.room.*
 import com.idormy.sms.forwarder.database.entity.Rule
-import com.idormy.sms.forwarder.database.entity.RuleAndSender
+//import com.idormy.sms.forwarder.database.entity.RuleAndSender
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -48,9 +48,9 @@ interface RuleDao {
     @Query("SELECT * FROM Rule where type=:type ORDER BY id DESC")
     fun pagingSource(type: String): PagingSource<Int, Rule>
 
-    @Transaction
-    @Query("SELECT * FROM Rule where type=:type and status=:status and (sim_slot='ALL' or sim_slot=:simSlot)")
-    suspend fun getRuleAndSender(type: String, status: Int, simSlot: String): List<RuleAndSender>
+    //@Transaction
+    //@Query("SELECT * FROM Rule where type=:type and status=:status and (sim_slot='ALL' or sim_slot=:simSlot)")
+    //suspend fun getRuleAndSender(type: String, status: Int, simSlot: String): List<RuleAndSender>
 
     @Transaction
     @Query("SELECT * FROM Rule where type=:type and status=:status and (sim_slot='ALL' or sim_slot=:simSlot)")

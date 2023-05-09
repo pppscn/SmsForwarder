@@ -13,7 +13,6 @@ import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
 
-@Suppress("PrivatePropertyName", "UNUSED_PARAMETER", "unused")
 class GotifyUtils {
     companion object {
 

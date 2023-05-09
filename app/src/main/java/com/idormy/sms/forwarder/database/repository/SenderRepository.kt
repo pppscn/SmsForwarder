@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 class SenderRepository(private val senderDao: SenderDao) {
 
-    var listener: Listener? = null
+    private var listener: Listener? = null
 
     @WorkerThread
     fun insert(sender: Sender) = senderDao.insert(sender)

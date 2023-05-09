@@ -27,7 +27,7 @@ import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
 
-@Suppress("PrivatePropertyName", "DEPRECATION")
+@Suppress("DEPRECATION")
 @Page(name = "Frp内网穿透·编辑配置")
 class FrpcEditFragment : BaseFragment<FragmentFrpcEditBinding?>() {
 

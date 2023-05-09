@@ -254,7 +254,7 @@ class XPageWebViewFragment : BaseFragment<FragmentAgentwebBinding?>(), View.OnCl
      *
      * @return IAgentWebSettings
      */
-    val settings: IAgentWebSettings<*>
+    private val settings: IAgentWebSettings<*>
         get() = object : AbsAgentWebSettings() {
             private val mAgentWeb: AgentWeb? = null
             override fun bindAgentWebSupport(agentWeb: AgentWeb) {

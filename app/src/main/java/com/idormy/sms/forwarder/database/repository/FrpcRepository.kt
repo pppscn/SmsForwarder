@@ -8,7 +8,7 @@ class FrpcRepository(
     private val frpcDao: FrpcDao,
 ) {
 
-    var listener: Listener? = null
+    //var listener: Listener? = null
 
     @WorkerThread
     fun insert(frpc: Frpc) {

@@ -31,7 +31,7 @@ import kotlinx.coroutines.async
 import java.util.*
 
 @OptIn(DelicateCoroutinesApi::class)
-@Suppress("DEPRECATION", "DeferredResultUnused")
+@Suppress("DeferredResultUnused")
 class BatteryService : Service() {
 
     override fun onBind(intent: Intent): IBinder? {

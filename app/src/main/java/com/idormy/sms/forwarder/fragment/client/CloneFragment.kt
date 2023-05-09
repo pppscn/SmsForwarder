@@ -42,7 +42,6 @@ import com.xuexiang.xutil.file.FileUtils
 import java.io.File
 import java.util.*
 
-
 @Suppress("PropertyName")
 @Page(name = "一键换新机")
 class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickListener {

@@ -10,7 +10,7 @@ import com.yanzhenjie.andserver.annotation.*
 import java.util.*
 
 @SuppressLint("SimpleDateFormat")
-@Suppress("PrivatePropertyName", "DEPRECATION")
+@Suppress("PrivatePropertyName")
 @RestController
 @RequestMapping(path = ["/location"])
 class LocationController {

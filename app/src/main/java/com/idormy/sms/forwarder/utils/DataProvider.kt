@@ -57,8 +57,7 @@ object DataProvider {
      * @param interval 时间间隔（分钟）
      * @return
      */
-    @Suppress("UNCHECKED_CAST")
-    fun getTimePeriod(totalHour: Int, interval: Int): List<String> {
+    private fun getTimePeriod(totalHour: Int, interval: Int): List<String> {
         val list: MutableList<String> = ArrayList()
         var point: Int
         var hour: Int

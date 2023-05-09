@@ -16,7 +16,6 @@ import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.net.NetworkUtils
 
-@Suppress("PrivatePropertyName", "UNUSED_PARAMETER", "unused")
 class SmsUtils {
     companion object {
 

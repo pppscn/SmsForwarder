@@ -40,7 +40,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-@Suppress("PrivatePropertyName")
 class App : Application(), CactusCallback, Configuration.Provider by Core {
 
     val applicationScope = CoroutineScope(SupervisorJob())

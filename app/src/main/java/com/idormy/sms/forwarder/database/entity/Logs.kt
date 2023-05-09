@@ -49,16 +49,4 @@ data class Logs(
     @ColumnInfo(name = "forward_status", defaultValue = "1") var forwardStatus: Int = 1,
     @ColumnInfo(name = "forward_response", defaultValue = "") var forwardResponse: String = "",
     @ColumnInfo(name = "time") var time: Date = Date(),
-) : Parcelable {
-
-    val statusImageId: Int
-        get() {
-            if (forwardStatus == 1) {
-                return R.drawable.ic_round_warning
-            } else if (forwardStatus == 2) {
-                return R.drawable.ic_round_check
-            }
-            return R.drawable.ic_round_cancel
-        }
-
-}
+) : Parcelable

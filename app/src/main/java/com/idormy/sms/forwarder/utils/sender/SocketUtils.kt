@@ -23,7 +23,6 @@ import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-@Suppress("PrivatePropertyName", "UNUSED_PARAMETER", "unused")
 class SocketUtils {
     companion object {
 

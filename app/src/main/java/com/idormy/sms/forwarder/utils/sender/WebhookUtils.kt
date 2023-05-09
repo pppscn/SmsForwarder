@@ -22,7 +22,6 @@ import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-@Suppress("PrivatePropertyName", "UNUSED_PARAMETER", "unused")
 class WebhookUtils {
     companion object {
 
@@ -114,7 +113,7 @@ class WebhookUtils {
                 }
                 Log.d(TAG, "method = GET, Url = $requestUrl")
                 XHttp.get(requestUrl).keepJson(true)
-            } else if (webParams != null && webParams.isNotEmpty() && webParams.startsWith("{")) {
+            } else if (!webParams.isNullOrEmpty() && webParams.startsWith("{")) {
                 val bodyMsg = webParams.replace("[from]", from)
                     .replace("[content]", escapeJson(content))
                     .replace("[msg]", escapeJson(content))
@@ -133,7 +132,7 @@ class WebhookUtils {
                     else -> XHttp.post(requestUrl).keepJson(true).upJson(bodyMsg)
                 }
             } else {
-                if (webParams == null || webParams.isEmpty()) {
+                if (webParams.isNullOrEmpty()) {
                     webParams = "from=[from]&content=[content]&timestamp=[timestamp]"
                     if (!TextUtils.isEmpty(sign)) webParams += "&sign=[sign]"
                 }

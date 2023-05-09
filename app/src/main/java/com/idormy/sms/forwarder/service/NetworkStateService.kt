@@ -22,7 +22,7 @@ import com.xuexiang.xutil.app.ServiceUtils
 import com.xuexiang.xutil.net.NetworkUtils
 import java.util.*
 
-@Suppress("DEPRECATION", "DeferredResultUnused")
+@Suppress("DEPRECATION")
 class NetworkStateService : Service() {
 
     override fun onBind(intent: Intent): IBinder? {

@@ -11,11 +11,10 @@ import com.idormy.sms.forwarder.utils.mail.Mail
 import com.idormy.sms.forwarder.utils.mail.MailSender
 import com.xuexiang.xui.utils.ResUtils
 
-@Suppress("PrivatePropertyName", "UNUSED_PARAMETER", "unused")
 class EmailUtils {
     companion object {
 
-        private val TAG: String = EmailUtils::class.java.simpleName
+        //private val TAG: String = EmailUtils::class.java.simpleName
 
         fun sendMsg(
             setting: EmailSetting,

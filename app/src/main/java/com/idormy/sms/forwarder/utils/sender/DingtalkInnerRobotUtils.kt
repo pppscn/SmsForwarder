@@ -26,7 +26,6 @@ import java.net.PasswordAuthentication
 import java.net.Proxy
 
 //钉钉企业内机器人
-@Suppress("PrivatePropertyName", "UNUSED_PARAMETER")
 class DingtalkInnerRobotUtils private constructor() {
     companion object {
 

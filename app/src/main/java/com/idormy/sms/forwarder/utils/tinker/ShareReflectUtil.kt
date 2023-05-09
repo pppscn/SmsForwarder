@@ -6,7 +6,7 @@ import java.lang.reflect.Constructor
 import java.lang.reflect.Field
 import java.lang.reflect.Method
 
-@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS", "UNCHECKED_CAST", "SENSELESS_COMPARISON", "unused")
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS", "UNCHECKED_CAST", "unused")
 object ShareReflectUtil {
     /**
      * Locates a given field anywhere in the class inheritance hierarchy.

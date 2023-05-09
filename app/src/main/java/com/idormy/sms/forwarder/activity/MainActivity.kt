@@ -59,7 +59,6 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.io.File
 
-
 @Suppress("DEPRECATION", "PrivatePropertyName")
 class MainActivity : BaseActivity<ActivityMainBinding?>(),
     View.OnClickListener,

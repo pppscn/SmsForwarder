@@ -8,7 +8,7 @@ class RuleRepository(
     private val ruleDao: RuleDao,
 ) {
 
-    var listener: Listener? = null
+    private var listener: Listener? = null
 
     @WorkerThread
     fun insert(rule: Rule) {
@@ -27,7 +27,7 @@ class RuleRepository(
     @WorkerThread
     fun getOne(id: Long) = ruleDao.getOne(id)
 
-    suspend fun getRuleAndSender(type: String, status: Int, simSlot: String) = ruleDao.getRuleAndSender(type, status, simSlot)
+    //suspend fun getRuleAndSender(type: String, status: Int, simSlot: String) = ruleDao.getRuleAndSender(type, status, simSlot)
 
     fun getRuleList(type: String, status: Int, simSlot: String) = ruleDao.getRuleList(type, status, simSlot)
 

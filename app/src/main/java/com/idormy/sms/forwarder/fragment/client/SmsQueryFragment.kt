@@ -41,7 +41,6 @@ import com.xuexiang.xutil.data.ConvertTools
 import com.xuexiang.xutil.data.DateUtils
 import me.samlss.broccoli.Broccoli
 
-
 @Suppress("PropertyName")
 @Page(name = "远程查短信")
 class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {

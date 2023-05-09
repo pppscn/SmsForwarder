@@ -40,7 +40,6 @@ import com.xuexiang.xutil.data.ConvertTools
 import com.xuexiang.xutil.system.ClipboardUtils
 import me.samlss.broccoli.Broccoli
 
-
 @Suppress("PropertyName")
 @Page(name = "远程查话簿")
 class ContactQueryFragment : BaseFragment<FragmentClientContactQueryBinding?>() {

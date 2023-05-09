@@ -38,7 +38,6 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-
 @Suppress("DEPRECATION")
 @Page(name = "Frp内网穿透")
 class FrpcFragment : BaseFragment<FragmentFrpcsBinding?>(), FrpcPagingAdapter.OnItemClickListener {

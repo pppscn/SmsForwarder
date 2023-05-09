@@ -15,7 +15,6 @@ import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
 import java.util.regex.Pattern
 
-@Suppress("PrivatePropertyName", "UNUSED_PARAMETER", "unused")
 class BarkUtils {
     companion object {
 

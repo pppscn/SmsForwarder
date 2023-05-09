@@ -18,7 +18,7 @@ import com.xuexiang.xui.utils.CollectionUtils
 import com.xuexiang.xui.widget.spinner.editspinner.BaseEditSpinnerAdapter
 import com.xuexiang.xui.widget.spinner.editspinner.EditSpinnerFilter
 
-@Suppress("unused", "NAME_SHADOWING", "SENSELESS_COMPARISON", "DEPRECATION")
+@Suppress("unused", "NAME_SHADOWING", "DEPRECATION")
 class AppListSpinnerAdapter<T> : BaseEditSpinnerAdapter<T>, EditSpinnerFilter {
     /**
      * 选项的文字颜色
@@ -131,7 +131,6 @@ class AppListSpinnerAdapter<T> : BaseEditSpinnerAdapter<T>, EditSpinnerFilter {
         return this
     }
 
-    @Suppress("DEPRECATION")
     @SuppressLint("ObsoleteSdkInt")
     private class ViewHolder(convertView: View, @ColorInt textColor: Int, textSize: Float, @DrawableRes backgroundSelector: Int) {
         val iconView: ImageView = convertView.findViewById(R.id.iv_icon)
