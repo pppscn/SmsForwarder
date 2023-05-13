@@ -729,12 +729,16 @@
     <string name="bark_url_regex" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]]]></string>
     <string name="bark_url_regex2" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^[a-z]+://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]]]></string>
     <string name="bark_url_error">Url格式错误</string>
-    <string name="bark_key">加密密钥</string>
-    <string name="bark_key_tips">填写16个字符，以启用推送加密</string>
-    <string name="bark_iv">偏移向量</string>
-    <string name="bark_iv_tips">填写16个字符，以启用推送加密</string>
-    <string name="bark_key_regex" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^([a-zA-Z0-9]{16})? $]]></string>
-    <string name="bark_key_error">加密密钥和偏移向量必须同时是16个字符</string>
+    <string name="bark_encryption_algorithm">加密算法</string>
+    <string name="bark_encryption_algorithm_none">不加密</string>
+    <string name="bark_encryption_key">加密密钥</string>
+    <string name="bark_encryption_key_tips">对应bark上的key</string>
+    <string name="bark_encryption_iv">偏移向量</string>
+    <string name="bark_encryption_iv_tips">对应bark上的iv</string>
+    <string name="bark_encryption_key_regex" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^([a-zA-Z0-9]{16})? $]]></string>
+    <string name="bark_encryption_key_error1">加密密钥和偏移向量都必须是16位</string>
+    <string name="bark_encryption_key_error2">加密密钥和偏移向量都必须是24位</string>
+    <string name="bark_encryption_key_error3">加密密钥和偏移向量都必须是32位</string>
 
     <string name="from_email_hint">填写 @ 前面的用户名</string>
     <string name="from_email_full_hint">填写格式: AAA@BBB.CCC</string>

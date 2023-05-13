@@ -728,12 +728,16 @@
     <string name="bark_url_regex" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]]]></string>
     <string name="bark_url_regex2" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^[a-z]+://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]]]></string>
     <string name="bark_url_error">Url format error</string>
-    <string name="bark_key">AES Key</string>
-    <string name="bark_key_tips">Fill in 16 chars to enable push encryption</string>
-    <string name="bark_iv">AES iv</string>
-    <string name="bark_iv_tips">Fill in 16 chars to enable push encryption</string>
-    <string name="bark_key_regex" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^[a-zA-Z0-9]{16}]]></string>
-    <string name="bark_key_error">AES Key and iv must be 16 characters</string>
+    <string name="bark_encryption_algorithm">Encryption Algorithm</string>
+    <string name="bark_encryption_algorithm_none">NONE</string>
+    <string name="bark_encryption_key">AES Key</string>
+    <string name="bark_encryption_key_tips">corresponding key on bark</string>
+    <string name="bark_encryption_iv">AES iv</string>
+    <string name="bark_encryption_iv_tips">corresponding iv on bark</string>
+    <string name="bark_encryption_key_regex" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^[a-zA-Z0-9]{16}]]></string>
+    <string name="bark_encryption_key_error1">AES Key and iv must be 16 characters</string>
+    <string name="bark_encryption_key_error2">AES Key and iv must be 24 characters</string>
+    <string name="bark_encryption_key_error3">AES Key and iv must be 32 characters</string>
 
     <string name="from_email_hint">Fill in the username before @</string>
     <string name="from_email_full_hint">Fill in the format: AAA@BBB.CCC</string>

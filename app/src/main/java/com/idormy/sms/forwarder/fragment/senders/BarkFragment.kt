@@ -46,6 +46,7 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
     private var mCountDownHelper: CountDownButtonHelper? = null
     private var barkLevel: String = "active" //通知级别
+    private var transformation: String = "none" //加密算法
 
     @JvmField
     @AutoWired(name = KEY_SENDER_ID)
@@ -103,6 +104,18 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
         }
         binding!!.spLevel.selectedIndex = 0
 
+        binding!!.spEncryptionAlgorithm.setItems(BARK_ENCRYPTION_ALGORITHM_MAP.values.toList())
+        binding!!.spEncryptionAlgorithm.setOnItemSelectedListener { _: MaterialSpinner?, _: Int, _: Long, item: Any ->
+            BARK_ENCRYPTION_ALGORITHM_MAP.forEach {
+                if (it.value == item) transformation = it.key
+            }
+        }
+        binding!!.spEncryptionAlgorithm.setOnNothingSelectedListener {
+            binding!!.spEncryptionAlgorithm.selectedIndex = 0
+            transformation = "none"
+        }
+        binding!!.spEncryptionAlgorithm.selectedIndex = 0
+
         //新增
         if (senderId <= 0) {
             titleBar?.setSubTitle(getString(R.string.add_sender))
@@ -112,43 +125,43 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
 
         //编辑
         binding!!.btnDel.setText(R.string.del)
-        AppDatabase.getInstance(requireContext())
-            .senderDao()
-            .get(senderId)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : SingleObserver<Sender> {
-                override fun onSubscribe(d: Disposable) {}
+        AppDatabase.getInstance(requireContext()).senderDao().get(senderId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<Sender> {
+            override fun onSubscribe(d: Disposable) {}
 
-                override fun onError(e: Throwable) {
-                    e.printStackTrace()
-                }
+            override fun onError(e: Throwable) {
+                e.printStackTrace()
+            }
 
-                override fun onSuccess(sender: Sender) {
-                    if (isClone) {
-                        titleBar?.setSubTitle(getString(R.string.clone_sender) + ": " + sender.name)
-                        binding!!.btnDel.setText(R.string.discard)
-                    } else {
-                        titleBar?.setSubTitle(getString(R.string.edit_sender) + ": " + sender.name)
-                    }
-                    binding!!.etName.setText(sender.name)
-                    binding!!.sbEnable.isChecked = sender.status == 1
-                    val settingVo = Gson().fromJson(sender.jsonSetting, BarkSetting::class.java)
-                    Log.d(TAG, settingVo.toString())
-                    if (settingVo != null) {
-                        binding!!.etServer.setText(settingVo.server)
-                        binding!!.etGroup.setText(settingVo.group)
-                        binding!!.etIcon.setText(settingVo.icon)
-                        binding!!.etSound.setText(settingVo.sound)
-                        binding!!.etBadge.setText(settingVo.badge)
-                        binding!!.etUrl.setText(settingVo.url)
-                        BARK_LEVEL_MAP.forEach {
-                            if (it.key == settingVo.level) binding!!.spLevel.setSelectedItem(it.value)
-                        }
-                        binding!!.etTitleTemplate.setText(settingVo.title)
-                    }
+            override fun onSuccess(sender: Sender) {
+                if (isClone) {
+                    titleBar?.setSubTitle(getString(R.string.clone_sender) + ": " + sender.name)
+                    binding!!.btnDel.setText(R.string.discard)
+                } else {
+                    titleBar?.setSubTitle(getString(R.string.edit_sender) + ": " + sender.name)
                 }
-            })
+                binding!!.etName.setText(sender.name)
+                binding!!.sbEnable.isChecked = sender.status == 1
+                val settingVo = Gson().fromJson(sender.jsonSetting, BarkSetting::class.java)
+                Log.d(TAG, settingVo.toString())
+                if (settingVo != null) {
+                    binding!!.etServer.setText(settingVo.server)
+                    binding!!.etGroup.setText(settingVo.group)
+                    binding!!.etIcon.setText(settingVo.icon)
+                    binding!!.etSound.setText(settingVo.sound)
+                    binding!!.etBadge.setText(settingVo.badge)
+                    binding!!.etUrl.setText(settingVo.url)
+                    BARK_LEVEL_MAP.forEach {
+                        if (it.key == settingVo.level) binding!!.spLevel.setSelectedItem(it.value)
+                    }
+                    binding!!.etTitleTemplate.setText(settingVo.title)
+                    BARK_ENCRYPTION_ALGORITHM_MAP.forEach {
+                        if (it.value == settingVo.transformation) binding!!.spEncryptionAlgorithm.setSelectedItem(it.value)
+                    }
+                    binding!!.etEncryptionKey.setText(settingVo.key)
+                    binding!!.etEncryptionIv.setText(settingVo.iv)
+                }
+            }
+        })
 
     }
 
@@ -172,18 +185,22 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
                     CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_from))
                     return
                 }
+
                 R.id.bt_insert_extra -> {
                     CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_card_slot))
                     return
                 }
+
                 R.id.bt_insert_time -> {
                     CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_receive_time))
                     return
                 }
+
                 R.id.bt_insert_device_name -> {
                     CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_device_name))
                     return
                 }
+
                 R.id.btn_test -> {
                     mCountDownHelper?.start()
                     Thread {
@@ -202,25 +219,21 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
                     }.start()
                     return
                 }
+
                 R.id.btn_del -> {
                     if (senderId <= 0 || isClone) {
                         popToBack()
                         return
                     }
 
-                    MaterialDialog.Builder(requireContext())
-                        .title(R.string.delete_sender_title)
-                        .content(R.string.delete_sender_tips)
-                        .positiveText(R.string.lab_yes)
-                        .negativeText(R.string.lab_no)
-                        .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                            viewModel.delete(senderId)
-                            XToastUtils.success(R.string.delete_sender_toast)
-                            popToBack()
-                        }
-                        .show()
+                    MaterialDialog.Builder(requireContext()).title(R.string.delete_sender_title).content(R.string.delete_sender_tips).positiveText(R.string.lab_yes).negativeText(R.string.lab_no).onPositive { _: MaterialDialog?, _: DialogAction? ->
+                        viewModel.delete(senderId)
+                        XToastUtils.success(R.string.delete_sender_toast)
+                        popToBack()
+                    }.show()
                     return
                 }
+
                 R.id.btn_save -> {
                     val name = binding!!.etName.text.toString().trim()
                     if (TextUtils.isEmpty(name)) {
@@ -262,8 +275,17 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
             throw Exception(getString(R.string.invalid_bark_url))
         }
         val title = binding!!.etTitleTemplate.text.toString().trim()
+        val key = binding!!.etEncryptionKey.text.toString().trim()
+        val iv = binding!!.etEncryptionIv.text.toString().trim()
+        if (transformation.startsWith("AES128") && (key.length != 16 || iv.length != 16)) {
+            throw Exception(getString(R.string.bark_encryption_key_error1))
+        } else if (transformation.startsWith("AES192") && (key.length != 24 || iv.length != 24)) {
+            throw Exception(getString(R.string.bark_encryption_key_error2))
+        } else if (transformation.startsWith("AES256") && (key.length != 32 || iv.length != 32)) {
+            throw Exception(getString(R.string.bark_encryption_key_error3))
+        }
 
-        return BarkSetting(server, group, icon, sound, badge, url, barkLevel, title)
+        return BarkSetting(server, group, icon, sound, badge, url, barkLevel, title, transformation, key, iv)
     }
 
     override fun onDestroyView() {

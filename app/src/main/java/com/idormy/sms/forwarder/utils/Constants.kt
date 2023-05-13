@@ -167,6 +167,15 @@ val BARK_LEVEL_MAP = mapOf(
     "timeSensitive" to getString(R.string.bark_level_timeSensitive),
     "passive" to getString(R.string.bark_level_passive)
 )
+val BARK_ENCRYPTION_ALGORITHM_MAP = mapOf(
+    "none" to getString(R.string.bark_encryption_algorithm_none),
+    "AES128/CBC/PKCS7Padding" to "AES128/CBC/PKCS7Padding",
+    "AES128/ECB/PKCS7Padding" to "AES128/ECB/PKCS7Padding",
+    "AES192/CBC/PKCS7Padding" to "AES192/CBC/PKCS7Padding",
+    "AES192/ECB/PKCS7Padding" to "AES192/ECB/PKCS7Padding",
+    "AES256/CBC/PKCS7Padding" to "AES256/CBC/PKCS7Padding",
+    "AES256/ECB/PKCS7Padding" to "AES256/ECB/PKCS7Padding",
+)
 
 //发送通道
 const val TYPE_DINGTALK_GROUP_ROBOT = 0

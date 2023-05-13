@@ -19,4 +19,10 @@ data class BarkSetting(
     val level: String? = "active",
     //标题模板
     val title: String? = "",
+    //加密算法
+    val transformation: String = "none",
+    //加密密钥
+    val key: String = "",
+    //初始偏移向量
+    val iv: String = "",
 ) : Serializable
