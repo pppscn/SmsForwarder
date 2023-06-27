@@ -155,7 +155,10 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
                     }
                     binding!!.etTitleTemplate.setText(settingVo.title)
                     BARK_ENCRYPTION_ALGORITHM_MAP.forEach {
-                        if (it.value == settingVo.transformation) binding!!.spEncryptionAlgorithm.setSelectedItem(it.value)
+                        if (it.value == settingVo.transformation) {
+                            transformation = it.value
+                            binding!!.spEncryptionAlgorithm.setSelectedItem(it.value)
+                        }
                     }
                     binding!!.etEncryptionKey.setText(settingVo.key)
                     binding!!.etEncryptionIv.setText(settingVo.iv)

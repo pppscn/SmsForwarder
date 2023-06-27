@@ -34,6 +34,7 @@ class BarkUtils {
             logId: Long = 0L,
             msgId: Long = 0L
         ) {
+            //Log.i(TAG, "sendMsg setting:$setting msgInfo:$msgInfo rule:$rule senderIndex:$senderIndex logId:$logId msgId:$msgId")
             val title: String = if (rule != null) {
                 msgInfo.getTitleForSend(setting.title.toString(), rule.regexReplace)
             } else {
@@ -86,8 +87,13 @@ class BarkUtils {
             if (setting.transformation.isNotEmpty() && "none" != setting.transformation && setting.key.isNotEmpty() && setting.iv.isNotEmpty()) {
                 var transformation = setting.transformation.replace("AES128", "AES").replace("AES192", "AES").replace("AES256", "AES")
                 val ciphertext = encrypt(requestMsg, transformation, setting.key, setting.iv)
-                request.params("ciphertext", URLEncoder.encode(ciphertext, "UTF-8"))
-                request.params("iv", URLEncoder.encode(setting.iv, "UTF-8"))
+                //Log.d(TAG, "ciphertext: $ciphertext")
+                //val plainText = decrypt(ciphertext, transformation, setting.key, setting.iv)
+                //Log.d(TAG, "plainText: $plainText")
+                //request.params("ciphertext", URLEncoder.encode(ciphertext, "UTF-8"))
+                //request.params("iv", URLEncoder.encode(setting.iv, "UTF-8"))
+                request.params("ciphertext", ciphertext)
+                request.headers("Content-Type", "application/x-www-form-urlencoded")
             } else {
                 request.upJson(requestMsg)
             }
@@ -124,12 +130,36 @@ class BarkUtils {
         }
 
         fun encrypt(plainText: String, transformation: String, key: String, iv: String): String {
+            //Log.d(TAG, "plainText: $plainText, transformation: $transformation, key: $key, iv: $iv")
             val cipher = Cipher.getInstance(transformation)
             val keySpec = SecretKeySpec(key.toByteArray(), "AES")
-            val ivSpec = IvParameterSpec(iv.toByteArray())
-            cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec)
+            if (transformation.contains("ECB")) {
+                cipher.init(Cipher.ENCRYPT_MODE, keySpec)
+            } else if (transformation.contains("CBC")) {
+                val ivSpec = IvParameterSpec(iv.toByteArray())
+                cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec)
+            } else {
+                throw IllegalArgumentException("Unsupported transformation: $transformation")
+            }
             val encryptedBytes = cipher.doFinal(plainText.toByteArray(Charsets.UTF_8))
-            return Base64.encode(encryptedBytes, Base64.NO_WRAP).toString()
+            return Base64.encodeToString(encryptedBytes, Base64.NO_WRAP)
+        }
+
+        fun decrypt(encryptedText: String, transformation: String, key: String, iv: String): String {
+            //Log.d(TAG, "encryptedText: $encryptedText, transformation: $transformation, key: $key, iv: $iv")
+            val cipher = Cipher.getInstance(transformation)
+            val keySpec = SecretKeySpec(key.toByteArray(), "AES")
+            if (transformation.contains("ECB")) {
+                cipher.init(Cipher.DECRYPT_MODE, keySpec)
+            } else if (transformation.contains("CBC")) {
+                val ivSpec = IvParameterSpec(iv.toByteArray())
+                cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec)
+            } else {
+                throw IllegalArgumentException("Unsupported transformation: $transformation")
+            }
+            val encryptedBytes = Base64.decode(encryptedText, Base64.NO_WRAP)
+            val decryptedBytes = cipher.doFinal(encryptedBytes)
+            return String(decryptedBytes, Charsets.UTF_8)
         }
 
     }
