@@ -736,9 +736,10 @@
     <string name="bark_encryption_iv">偏移向量</string>
     <string name="bark_encryption_iv_tips">对应bark上的iv</string>
     <string name="bark_encryption_key_regex" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^([a-zA-Z0-9]{16})? $]]></string>
-    <string name="bark_encryption_key_error1">加密密钥和偏移向量都必须是16位</string>
-    <string name="bark_encryption_key_error2">加密密钥和偏移向量都必须是24位</string>
-    <string name="bark_encryption_key_error3">加密密钥和偏移向量都必须是32位</string>
+    <string name="bark_encryption_key_error1">加密密钥必须是16位</string>
+    <string name="bark_encryption_key_error2">加密密钥必须是24位</string>
+    <string name="bark_encryption_key_error3">加密密钥必须是32位</string>
+    <string name="bark_encryption_key_error4">偏移向量必须是16位</string>
 
     <string name="from_email_hint">填写 @ 前面的用户名</string>
     <string name="from_email_full_hint">填写格式: AAA@BBB.CCC</string>

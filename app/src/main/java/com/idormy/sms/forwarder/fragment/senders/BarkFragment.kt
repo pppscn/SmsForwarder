@@ -280,12 +280,15 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
         val title = binding!!.etTitleTemplate.text.toString().trim()
         val key = binding!!.etEncryptionKey.text.toString().trim()
         val iv = binding!!.etEncryptionIv.text.toString().trim()
-        if (transformation.startsWith("AES128") && (key.length != 16 || iv.length != 16)) {
+        if (transformation.startsWith("AES128") && key.length != 16) {
             throw Exception(getString(R.string.bark_encryption_key_error1))
-        } else if (transformation.startsWith("AES192") && (key.length != 24 || iv.length != 24)) {
+        } else if (transformation.startsWith("AES192") && key.length != 24) {
             throw Exception(getString(R.string.bark_encryption_key_error2))
-        } else if (transformation.startsWith("AES256") && (key.length != 32 || iv.length != 32)) {
+        } else if (transformation.startsWith("AES256") && key.length != 32) {
             throw Exception(getString(R.string.bark_encryption_key_error3))
+        }
+        if (transformation.contains("CBC") && iv.length != 16) {
+            throw Exception(getString(R.string.bark_encryption_key_error4))
         }
 
         return BarkSetting(server, group, icon, sound, badge, url, barkLevel, title, transformation, key, iv)

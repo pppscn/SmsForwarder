@@ -735,9 +735,10 @@
     <string name="bark_encryption_iv">AES iv</string>
     <string name="bark_encryption_iv_tips">corresponding iv on bark</string>
     <string name="bark_encryption_key_regex" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^[a-zA-Z0-9]{16}]]></string>
-    <string name="bark_encryption_key_error1">AES Key and iv must be 16 characters</string>
-    <string name="bark_encryption_key_error2">AES Key and iv must be 24 characters</string>
-    <string name="bark_encryption_key_error3">AES Key and iv must be 32 characters</string>
+    <string name="bark_encryption_key_error1">AES Key must be 16 characters</string>
+    <string name="bark_encryption_key_error2">AES Key must be 24 characters</string>
+    <string name="bark_encryption_key_error3">AES Key must be 32 characters</string>
+    <string name="bark_encryption_key_error4">AES iv must be 16 characters</string>
 
     <string name="from_email_hint">Fill in the username before @</string>
     <string name="from_email_full_hint">Fill in the format: AAA@BBB.CCC</string>
