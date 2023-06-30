@@ -65,11 +65,15 @@ See more screenshots：https://github.com/pppscn/SmsForwarder/wiki
 + Submit an issue or Pull Request.
 + Join group chat (only Chinese groups/channels available currently)
 
-| QQ Channel: q7oofwp13s | DingTalk | WeCom |
+| QQ Channel | DingTalk Group | Telegram Group |
 |  :--:  |  :--:  | :--:  |
-| ![QQ频道号: q7oofwp13s](pic/qq_channel.png "QQ频道号: q7oofwp13s") | ![钉钉客户群](pic/dingtalk.png "钉钉客户群") | ![企业微信群](pic/qywechat.png "企业微信群") |
+| ![QQ Channel: q7oofwp13s](pic/qq_channel.png "QQ Channel: q7oofwp13s") | ![DingTalk Group](pic/dingtalk.png "DingTalk Group") | ![Telegram Group](pic/tg.png "Telegram Group") |
+| QQ Channel: q7oofwp13s |Group No. 29760014208 | [+QBZgnL_fxYM0NjE9](https://t.me/+QBZgnL_fxYM0NjE9) |
+
 
 ## Acknowledgements
+
+> [Thanks to all the enthusiastic netizens who sponsored this project --> Reward list](https://gitee.com/pp/SmsForwarder/wikis/pages?sort_id=4912193&doc_id=1821427)
 
 > Thanks to the projects below, `SmsForwarder` won't exists without them!
 

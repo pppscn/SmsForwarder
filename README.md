@@ -32,7 +32,7 @@
 
 * 如果任何单位或个人认为该项目的代码/APK可能涉嫌侵犯其权利，则应及时通知并提供身份证明，所有权证明，我们将在收到认证文件后删除相关代码/APK。
 
-* 隐私声明：**SmsForwarder 不会收集任何您的隐私数据！！！**APP启动时发送版本信息发送到友盟统计；手动检查新版本时发送版本号用于检查新版本；除此之外，没有任何数据！！！
+* 隐私声明： **SmsForwarder 不会收集任何您的隐私数据！！！** APP启动时发送版本信息发送到友盟统计；手动检查新版本时发送版本号用于检查新版本；除此之外，没有任何数据！！！
 
 --------
 
@@ -75,11 +75,14 @@
 + 提交issues 或 pr
 + 加入交流群（群内都是机油互帮互助，禁止发任何与SmsForwarder使用无关的内容）
 
-| QQ频道号: q7oofwp13s | 钉钉客户群 | 企业微信群 |
+| QQ频道 | 钉钉客户群 | Tg 群组 |
 |  :--:  |  :--:  | :--:  |
-| ![QQ频道号: q7oofwp13s](pic/qq_channel.png "QQ频道号: q7oofwp13s") | ![钉钉客户群](pic/dingtalk.png "钉钉客户群") | ![企业微信群](pic/qywechat.png "企业微信群") |
+| ![QQ频道号: q7oofwp13s](pic/qq_channel.png "QQ频道号: q7oofwp13s") | ![钉钉客户群](pic/dingtalk.png "钉钉客户群") | ![Tg 群组](pic/tg.png "Tg 群组") |
+| QQ频道号: q7oofwp13s | 群号：29760014208 | [+QBZgnL_fxYM0NjE9](https://t.me/+QBZgnL_fxYM0NjE9) |
 
 ## 感谢
+
+> [感谢所有赞助本项目的热心网友 --> 打赏名单](https://gitee.com/pp/SmsForwarder/wikis/pages?sort_id=4912193&doc_id=1821427)
 
 > 本项目得到以下项目的支持与帮助，在此表示衷心的感谢！
 
@@ -96,7 +99,7 @@
 
 --------
 
-## 如果觉得本工具对您有所帮助，右上角给个小星星鼓励一下！
+## 如果您觉得本工具对您有帮助，不妨在右上角点亮一颗小星星，以示鼓励！
 
 [![starcharts stargazers over time](https://starchart.cc/pppscn/SmsForwarder.svg)](https://github.com/pppscn/SmsForwarder)
 
