@@ -54,7 +54,7 @@ class DingtalkGroupRobotUtils private constructor() {
             Log.i(TAG, "requestUrl:$requestUrl")
 
             val msgMap: MutableMap<String, Any> = mutableMapOf()
-            msgMap["msgtype"] = "text"
+            msgMap["msgtype"] = setting.msgtype ?: "text"
 
             val atMap: MutableMap<String, Any> = mutableMapOf()
             msgMap["at"] = atMap
@@ -86,9 +86,13 @@ class DingtalkGroupRobotUtils private constructor() {
                 }
             }
 
-            val textText: MutableMap<String, Any> = mutableMapOf()
-            textText["content"] = content
-            msgMap["text"] = textText
+            if ("markdown" == msgMap["msgtype"]) {
+                val titleTemplate = setting.titleTemplate.toString()
+                val title = rule?.let { msgInfo.getTitleForSend(titleTemplate, it.regexReplace) } ?: msgInfo.getTitleForSend(titleTemplate)
+                msgMap["markdown"] = mutableMapOf<String, Any>("title" to title, "text" to content)
+            } else {
+                msgMap["text"] = mutableMapOf<String, Any>("content" to content)
+            }
 
             val requestMsg: String = Gson().toJson(msgMap)
             Log.i(TAG, "requestMsg:$requestMsg")
