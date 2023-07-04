@@ -123,15 +123,9 @@ class DingtalkGroupRobotFragment : BaseFragment<FragmentSendersDingtalkGroupRobo
                     if (settingVo != null) {
                         binding!!.etToken.setText(settingVo.token)
                         binding!!.etSecret.setText(settingVo.secret)
-                        /*if (TextUtils.isEmpty(settingVo.atMobiles)) {
-                            binding!!.sbAtAll.isChecked = true
-                            binding!!.etAtMobiles.setText("")
-                        } else {
-                            binding!!.sbAtAll.isChecked = settingVo.atAll == true
-                            binding!!.etAtMobiles.setText(settingVo.atMobiles)
-                        }*/
                         binding!!.sbAtAll.isChecked = settingVo.atAll == true
                         binding!!.etAtMobiles.setText(settingVo.atMobiles)
+                        binding!!.etAtDingtalkIds.setText(settingVo.atDingtalkIds)
                     }
                 }
             })
@@ -149,9 +143,12 @@ class DingtalkGroupRobotFragment : BaseFragment<FragmentSendersDingtalkGroupRobo
         //这里只有一个监听不需要判断id
         if (isChecked) {
             binding!!.layoutAtMobiles.visibility = View.GONE
+            binding!!.layoutAtDingtalkIds.visibility = View.GONE
             binding!!.etAtMobiles.setText("")
+            binding!!.etAtDingtalkIds.setText("")
         } else {
             binding!!.layoutAtMobiles.visibility = View.VISIBLE
+            binding!!.layoutAtDingtalkIds.visibility = View.VISIBLE
         }
     }
 
@@ -229,11 +226,9 @@ class DingtalkGroupRobotFragment : BaseFragment<FragmentSendersDingtalkGroupRobo
         val secret = binding!!.etSecret.text.toString().trim()
         val atAll = binding!!.sbAtAll.isChecked
         val atMobiles = binding!!.etAtMobiles.text.toString().trim()
-        /*if (!atAll && TextUtils.isEmpty(atMobiles)) {
-            throw Exception(getString(R.string.invalid_at_mobiles))
-        }*/
+        val atDingtalkIds = binding!!.etAtDingtalkIds.text.toString().trim()
 
-        return DingtalkGroupRobotSetting(token, secret, atAll, atMobiles)
+        return DingtalkGroupRobotSetting(token, secret, atAll, atMobiles, atDingtalkIds)
     }
 
     override fun onDestroyView() {

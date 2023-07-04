@@ -324,7 +324,7 @@
     <string name="server_chan_send_key">SendKey</string>
     <string name="server_chan_channel">Message Channel</string>
     <string name="server_chan_channel_tips">Tip: Dynamically specified, supports up to two channels, separated by a vertical bar |</string>
-    <string name="server_chan_channel_hint">Optional, for example: to send service number and enterprise WeChat application, then fill in 9|66</string>
+    <string name="server_chan_channel_hint">Optional, e.g. to send service number and enterprise WeChat application, then fill in 9|66</string>
     <string name="server_chan_openid">CC OpenID</string>
     <string name="server_chan_openid_tips">Tip: Only test accounts and Wework application message channels are supported</string>
     <string name="server_chan_openid_hint">Optional, multiple openids are separated by commas</string>
@@ -704,23 +704,25 @@
     <string name="dingtalk_token_hint">Robot Settings→webhook→access_token</string>
     <string name="dingtalk_secret">Secret</string>
     <string name="dingtalk_secret_hint">Robot Settings→Security Settings→Sign Up</string>
-    <string name="dingtalk_at">\@someone when retweeting</string>
-    <string name="dingtalk_at_tip">Tips: Separate multiple phone numbers with commas, for example: 18888888888,19999999999</string>
+    <string name="dingtalk_at_mobiles">At Mobiles</string>
+    <string name="dingtalk_at_mobiles_tip">Tips: Separate multiple mobiles with commas, e.g. 18888888888,19999999999</string>
+    <string name="dingtalk_at_dingtalkids">At DingtalkIds</string>
+    <string name="dingtalk_at_dingtalkids_tip">Tips：Separate multiple DingtalkIds with commas, e.g. user1,user2</string>
 
     <string name="bark_server">Bark-Server</string>
     <string name="bark_server_tips">Example: https://api.day.app/XXXXXXXX/</string>
     <string name="bark_server_regex">^https?://[^/]+/[^/]+/$</string>
-    <string name="bark_server_error">The Url format is wrong, for example: https://api.day.app/XXXXXXXX/</string>
+    <string name="bark_server_error">The Url format is wrong, e.g. https://api.day.app/XXXXXXXX/</string>
     <string name="bark_group">Group Name</string>
     <string name="bark_group_tips">Optional, eg: SmsForwarder</string>
     <string name="bark_icon">Message Icon</string>
     <string name="bark_icon_tips">Optional, fill in Url, the picture should not be too big</string>
     <string name="bark_sound">Message Sound</string>
-    <string name="bark_sound_tips">Optional, for example: minuet.caf</string>
+    <string name="bark_sound_tips">Optional, e.g. minuet.caf</string>
     <string name="bark_badge">Message Badge</string>
     <string name="bark_badge_tips">Optional, eg: 888</string>
     <string name="bark_url">Message Link</string>
-    <string name="bark_url_tips">Optional, for example: https://github.com/pppscn/SmsForwarder</string>
+    <string name="bark_url_tips">Optional, e.g. https://github.com/pppscn/SmsForwarder</string>
     <string name="bark_level">Notification Level</string>
     <string name="bark_level_active">Immediately display notifications</string>
     <string name="bark_level_timeSensitive">Time-sensitive notifications that can be displayed in a focused state</string>
@@ -766,7 +768,7 @@
     <string name="webhook_server_tips">For example: https://a.b.com/msg?token=xyz</string>
     <string name="webhook_params">Params</string>
     <string name="msg_template">Msg Template</string>
-    <string name="webhook_params_tips" formatted="false">For example: payload=%7B%22text%22%3A%22[msg]%22%7D [msg] will be replaced with SMS content.\nJson format is supported, for example: {\"text\":\"[msg]\"}.\nNote: msg is automatically URLEncoder except in JSON format</string>
+    <string name="webhook_params_tips" formatted="false">For example: payload=%7B%22text%22%3A%22[msg]%22%7D [msg] will be replaced with SMS content.\nJson format is supported, e.g. {\"text\":\"[msg]\"}.\nNote: msg is automatically URLEncoder except in JSON format</string>
     <string name="webhook_secret">Secret: If it is empty, the sign will not be calculated</string>
     <string name="headers">Headers</string>
     <string name="header_key">Key</string>

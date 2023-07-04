@@ -311,7 +311,7 @@
     <string name="Corp_ID">企业ID</string>
     <string name="Agent_ID">AgentId</string>
     <string name="App_Secret">Secret</string>
-    <string name="is_at_all">是否@all</string>
+    <string name="is_at_all">是否@所有人</string>
     <string name="specified_member">指定成员</string>
     <string name="at_all">\@all</string>
     <string name="specified_member_tips">Tip：接收消息的成员ID列表（多个接收者用‘|’分隔，最多支持1000个）</string>
@@ -705,8 +705,10 @@
     <string name="dingtalk_token_hint">机器人设置→webhook→access_token</string>
     <string name="dingtalk_secret">加签 Secret</string>
     <string name="dingtalk_secret_hint">机器人设置→安全设置→加签</string>
-    <string name="dingtalk_at">转发时@某人</string>
-    <string name="dingtalk_at_tip">Tips：多个手机号用逗号分开，例如：18888888888,19999999999</string>
+    <string name="dingtalk_at_mobiles">被@人的手机号</string>
+    <string name="dingtalk_at_mobiles_tip">Tips：多个手机号用逗号分开，例如：18888888888,19999999999</string>
+    <string name="dingtalk_at_dingtalkids">被@人的钉钉号</string>
+    <string name="dingtalk_at_dingtalkids_tip">Tips：多个钉钉号用逗号分开，例如：user1,user2</string>
 
     <string name="bark_server">Bark-Server</string>
     <string name="bark_server_tips">例：https://api.day.app/XXXXXXXX/</string>

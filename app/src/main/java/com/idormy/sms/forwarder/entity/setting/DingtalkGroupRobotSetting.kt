@@ -7,4 +7,5 @@ data class DingtalkGroupRobotSetting(
     var secret: String? = "",
     var atAll: Boolean? = false,
     var atMobiles: String? = "",
+    var atDingtalkIds: String? = "",
 ) : Serializable
