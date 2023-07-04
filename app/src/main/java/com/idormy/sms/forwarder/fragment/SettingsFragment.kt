@@ -489,10 +489,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             if (isChecked) {
                 //检查权限是否获取
                 XXPermissions.with(this)
+                    // 系统设置
+                    .permission(Permission.WRITE_SETTINGS)
                     // 接收短信
                     .permission(Permission.RECEIVE_SMS)
-                    // 发送短信
-                    //.permission(Permission.SEND_SMS)
                     // 读取短信
                     .permission(Permission.READ_SMS).request(object : OnPermissionCallback {
                         override fun onGranted(permissions: List<String>, all: Boolean) {

@@ -3,6 +3,7 @@ package com.idormy.sms.forwarder.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.net.wifi.WifiManager
 import android.provider.Telephony
 import android.util.Log
 import androidx.work.OneTimeWorkRequestBuilder
@@ -29,7 +30,7 @@ import java.util.*
 
 //短信广播
 @OptIn(DelicateCoroutinesApi::class)
-@Suppress("PrivatePropertyName", "DeferredResultUnused", "SENSELESS_COMPARISON")
+@Suppress("PrivatePropertyName", "DeferredResultUnused", "SENSELESS_COMPARISON", "DEPRECATION")
 class SmsReceiver : BroadcastReceiver() {
 
     private var TAG = "SmsReceiver"
@@ -209,6 +210,14 @@ class SmsReceiver : BroadcastReceiver() {
                     DeviceUtils.reboot()
                 } else if (action == "shutdown") {
                     DeviceUtils.shutdown()
+                }
+            }
+            "wifi" -> {
+                val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+                if (action == "on") {
+                    wifiManager.isWifiEnabled = true
+                } else if (action == "off") {
+                    wifiManager.isWifiEnabled = false
                 }
             }
         }
