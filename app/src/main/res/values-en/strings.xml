@@ -589,6 +589,7 @@
     <string name="tag_card_slot">{{CARD_SLOT}}</string>
     <string name="tag_card_subid">{{CARD_SUBID}}</string>
     <string name="tag_receive_time">{{RECEIVE_TIME}}</string>
+    <string name="tag_current_time">{{CURRENT_TIME}}</string>
     <string name="tag_device_name">{{DEVICE_NAME}}</string>
     <string name="tag_app_version">{{APP_VERSION}}</string>
     <string name="tag_title">{{TITLE}}</string>

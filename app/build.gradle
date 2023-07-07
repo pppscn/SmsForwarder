@@ -188,7 +188,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //frpc
     implementation files('libs/frpclib.aar')
-    //kmnkt是基于Kotlin Multiplatform的跨平台socket通信统一接口。支持Android目标与JVM目标，支持UDP/TCP/MQTT协议使用同一套接口实现
+
+    //kmnkt基于Kotlin Multiplatform的跨平台socket通信统一接口，支持UDP/TCP/MQTT协议
+    //https://github.com/xuankaicat/kmnkt
     implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
     implementation files('libs/socket.aar')
 
@@ -262,7 +264,7 @@ dependencies {
     testImplementation "androidx.paging:paging-common-ktx:$paging_version"
 
     //权限请求框架：https://github.com/getActivity/XXPermissions
-    implementation 'com.github.getActivity:XXPermissions:18.0'
+    implementation 'com.github.getActivity:XXPermissions:18.2'
 
     def mail_version = '1.6.7'
     implementation "com.sun.mail:android-mail:$mail_version"
@@ -281,9 +283,6 @@ dependencies {
 
     //Location 是一个通过 Android 自带的 LocationManager 来实现的定位功能：https://github.com/jenly1314/Location
     implementation 'com.github.pppscn:location:1.0.0'
-
-    //跨平台socket通信统一接口：https://gitee.com/xuankaicat/kmnkt
-    //implementation 'com.github.pppscn.kmnkt:socket:2.0.0-alpha06'
 }
 //自动添加X-Library依赖
 apply from: 'x-library.gradle'

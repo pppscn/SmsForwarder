@@ -590,6 +590,7 @@
     <string name="tag_card_slot">{{卡槽信息}}</string>
     <string name="tag_card_subid">{{卡槽主键}}</string>
     <string name="tag_receive_time">{{接收时间}}</string>
+    <string name="tag_current_time">{{当前时间}}</string>
     <string name="tag_device_name">{{设备名称}}</string>
     <string name="tag_app_version">{{当前应用版本号}}</string>
     <string name="tag_title">{{通知标题}}</string>
