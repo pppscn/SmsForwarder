@@ -32,13 +32,13 @@ versions.butterknife = "10.2.3"
 versions.runner = "1.4.0"
 versions.gson = "2.10.1" //https://github.com/google/gson
 versions.okhttp3 = "3.12.13" //不可升级，为了支持 API 19
-versions.leakcanary = "2.10" //https://github.com/square/leakcanary
+versions.leakcanary = "2.12" //https://github.com/square/leakcanary
 versions.lifecycle = "2.2.0"
 versions.kotlin = '1.7.21'
 
 //========xlibrary start========//
 
-versions.xui = "1.2.2"
+versions.xui = "1.2.3"
 versions.xupdate = "2.1.4"
 versions.xaop = "1.1.0"
 versions.xutil = "2.0.0"
