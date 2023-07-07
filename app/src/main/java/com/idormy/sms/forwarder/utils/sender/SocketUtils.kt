@@ -3,6 +3,7 @@ package com.idormy.sms.forwarder.utils.sender
 import android.annotation.SuppressLint
 import android.text.TextUtils
 import android.util.Base64
+import android.util.Log
 import com.gitee.xuankaicat.kmnkt.socket.MqttQuality
 import com.gitee.xuankaicat.kmnkt.socket.dsl.mqtt
 import com.gitee.xuankaicat.kmnkt.socket.dsl.tcp
@@ -81,34 +82,34 @@ class SocketUtils {
 
                 socket.open {
                     success {
-                        //开启连接成功时执行
+                        Log.d(TAG, "${setting.method}连接成功")
                         isConnected = true
-                        SendUtils.updateLogs(logId, 1, "TCP连接成功")
+                        //SendUtils.updateLogs(logId, 1, "TCP连接成功")
                         socket.send(message)
                         socket.startReceive { str, data ->
                             isReceived = true
-                            android.util.Log.d(TAG, "str=$str,data=$data")
+                            Log.d(TAG, "str=$str,data=$data")
                             SendUtils.updateLogs(logId, 2, "收到订阅消息：str=$str,data=$data")
                             SendUtils.senderLogic(2, msgInfo, rule, senderIndex, msgId)
                             return@startReceive false
                         }
                     }
                     failure {
-                        //开启连接失败时执行
+                        Log.d(TAG, "${setting.method}连接失败")
                         val status = 0
                         SendUtils.updateLogs(logId, status, "TCP连接失败")
                         SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
                         return@failure false//是否继续尝试连接
                     }
                     loss {
-                        //失去连接时执行
-                        return@loss false//是否尝试重连
+                        Log.d(TAG, "${setting.method}连接断开")
+                        return@loss true//是否尝试重连
                     }
                 }
 
                 //延时5秒关闭连接
                 if (isConnected) {
-                    Thread.sleep(5000)
+                    Thread.sleep(10000)
                     socket.stopReceive()
                     socket.close()
                     if (!isReceived) {
@@ -141,8 +142,8 @@ class SocketUtils {
 
                 mqtt.open {
                     success {
-                        //开启连接成功时执行
-                        SendUtils.updateLogs(logId, 1, "MQTT连接成功")
+                        Log.d(TAG, "MQTT连接成功")
+                        //SendUtils.updateLogs(logId, 1, "MQTT连接成功")
                         // 订阅并发布后等待至拿到响应消息并赋值给result
                         // 如果超过10秒没有收到消息则将result设为"消息响应超时"，并取消订阅topic
                         val response = mqtt.sendAndReceiveSync(setting.outMessageTopic, setting.inMessageTopic, message, 10000L) ?: "消息响应超时"
@@ -154,15 +155,15 @@ class SocketUtils {
                         return@success
                     }
                     failure {
-                        //开启连接失败时执行
+                        Log.d(TAG, "MQTT连接失败")
                         val status = 0
                         SendUtils.updateLogs(logId, status, "MQTT连接失败")
                         SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
                         return@failure false//是否继续尝试连接
                     }
                     loss {
-                        //失去连接时执行
-                        return@loss false//是否尝试重连
+                        Log.d(TAG, "MQTT失去连接")
+                        return@loss true//是否尝试重连
                     }
                 }
 
