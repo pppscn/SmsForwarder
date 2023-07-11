@@ -566,7 +566,8 @@
     <string name="seconds">秒</string>
     <string name="seconds_n">%s 秒</string>
     <string name="retry">重试</string>
-    <string name="test_sender_sms">【测试通道】恭喜您，该发送通道测试成功，请继续添加转发规则！</string>
+    <string name="test_sender_sms">【%s】恭喜您，该发送通道测试成功，请继续添加转发规则！</string>
+    <string name="test_sender_name">测试通道</string>
     <string name="test_sim_info" tools:ignore="Typos">SIM1_测试运营商_18888888888</string>
     <string name="keep_reminding">持续提醒</string>
     <string name="resend">重发消息</string>
