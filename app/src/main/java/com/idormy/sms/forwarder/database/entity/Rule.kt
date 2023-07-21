@@ -47,6 +47,9 @@ data class Rule(
     @ColumnInfo(name = "time") var time: Date = Date(),
     @ColumnInfo(name = "sender_list", defaultValue = "") var senderList: List<Sender>,
     @ColumnInfo(name = "sender_logic", defaultValue = "ALL") var senderLogic: String = "ALL",
+    //免打扰(禁用转发)时间段
+    @ColumnInfo(name = "silent_period_start", defaultValue = "0") var silentPeriodStart: Int = 0,
+    @ColumnInfo(name = "silent_period_end", defaultValue = "0") var silentPeriodEnd: Int = 0,
 ) : Parcelable {
 
     companion object {

@@ -37,6 +37,8 @@ import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
+import com.xuexiang.xui.widget.picker.widget.builder.OptionsPickerBuilder
+import com.xuexiang.xui.widget.picker.widget.listener.OnOptionsSelectListener
 import com.xuexiang.xutil.XUtil
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -46,12 +48,17 @@ import kotlinx.coroutines.*
 import java.util.*
 
 @Page(name = "转发规则·编辑器")
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private val TAG: String = RulesEditFragment::class.java.simpleName
     var titleBar: TitleBar? = null
     private val viewModel by viewModels<RuleViewModel> { BaseViewModelFactory(context) }
+
+    //免打扰(禁用转发)时间段
+    private val mTimeOption = DataProvider.timePeriodOption
+    private var silentPeriodStart = 0
+    private var silentPeriodEnd = 0
 
     //当前发送通道
     var senderId = 0L
@@ -119,6 +126,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 //监听已安装App信息列表加载完成事件
                 LiveEventBus.get(EVENT_LOAD_APP_LIST, String::class.java).observeStickyForever(appListObserver)
             }
+
             "call" -> {
                 titleBar?.setTitle(R.string.call_rule)
                 binding!!.rbContent.visibility = View.GONE
@@ -130,6 +138,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 binding!!.btInsertTitleApp.visibility = View.GONE
                 binding!!.btInsertContentApp.visibility = View.GONE
             }
+
             else -> {
                 titleBar?.setTitle(R.string.sms_rule)
                 binding!!.rbPackageName.visibility = View.GONE
@@ -152,6 +161,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
     }
 
     override fun initListeners() {
+        binding!!.btnSilentPeriod.setOnClickListener(this)
         binding!!.btInsertSender.setOnClickListener(this)
         binding!!.btInsertContent.setOnClickListener(this)
         binding!!.btInsertSenderApp.setOnClickListener(this)
@@ -164,6 +174,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
 
+        binding!!.sbStatus.setOnCheckedChangeListener(this)
         binding!!.sbSmsTemplate.setOnCheckedChangeListener(this)
         binding!!.sbRegexReplace.setOnCheckedChangeListener(this)
 
@@ -178,12 +189,14 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                     binding!!.layoutMatchType.visibility = View.GONE
                     binding!!.layoutMatchValue.visibility = View.GONE
                 }
+
                 R.id.rb_multi_match -> {
                     binding!!.rgCheck.check(R.id.rb_is)
                     binding!!.tvMuRuleTips.visibility = View.VISIBLE
                     binding!!.layoutMatchType.visibility = View.GONE
                     binding!!.layoutMatchValue.visibility = View.VISIBLE
                 }
+
                 else -> {
                     binding!!.tvMuRuleTips.visibility = View.GONE
                     binding!!.layoutMatchType.visibility = View.VISIBLE
@@ -209,6 +222,10 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         when (buttonView?.id) {
+            R.id.sb_status -> {
+                binding!!.layoutSilentPeriod.visibility = if (isChecked) View.VISIBLE else View.GONE
+            }
+
             R.id.sb_sms_template -> {
                 if (isChecked) {
                     binding!!.layoutSmsTemplate.visibility = View.VISIBLE
@@ -217,6 +234,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                     binding!!.etSmsTemplate.setText("")
                 }
             }
+
             R.id.sb_regex_replace -> {
                 if (isChecked) {
                     binding!!.layoutRegexReplace.visibility = View.VISIBLE
@@ -225,6 +243,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                     binding!!.etRegexReplace.setText("")
                 }
             }
+
             else -> {}
         }
     }
@@ -234,43 +253,66 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
         try {
             val etSmsTemplate: EditText = binding!!.etSmsTemplate
             when (v.id) {
+                R.id.btn_silent_period -> {
+                    OptionsPickerBuilder(context, OnOptionsSelectListener { _: View?, options1: Int, options2: Int, _: Int ->
+                        silentPeriodStart = options1
+                        silentPeriodEnd = options2
+                        val txt = mTimeOption[options1] + " ~ " + mTimeOption[options2]
+                        binding!!.tvSilentPeriod.text = txt
+                        XToastUtils.toast(txt)
+                        return@OnOptionsSelectListener false
+                    }).setTitleText(getString(R.string.select_time_period)).setSelectOptions(silentPeriodStart, silentPeriodEnd).build<Any>().also {
+                        it.setNPicker(mTimeOption, mTimeOption)
+                        it.show()
+                    }
+                }
+
                 R.id.bt_insert_sender -> {
                     CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_from))
                     return
                 }
+
                 R.id.bt_insert_content -> {
                     CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_sms))
                     return
                 }
+
                 R.id.bt_insert_sender_app -> {
                     CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_package_name))
                     return
                 }
+
                 R.id.bt_insert_title_app -> {
                     CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_title))
                     return
                 }
+
                 R.id.bt_insert_content_app -> {
                     CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_msg))
                     return
                 }
+
                 R.id.bt_insert_extra -> {
                     CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_card_slot))
                     return
                 }
+
                 R.id.bt_insert_time -> {
                     CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_receive_time))
                     return
                 }
+
                 R.id.bt_insert_device_name -> {
                     CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_device_name))
                     return
                 }
+
                 R.id.btn_test -> {
                     val ruleNew = checkForm()
                     testRule(ruleNew)
                     return
                 }
+
                 R.id.btn_del -> {
                     if (ruleId <= 0 || isClone) {
                         popToBack()
@@ -284,6 +326,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                     }.show()
                     return
                 }
+
                 R.id.btn_save -> {
                     val ruleNew = checkForm()
                     if (isClone) ruleNew.id = 0
@@ -301,7 +344,11 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
     }
 
     //初始化发送通道下拉框
+    @SuppressLint("SetTextI18n")
     private fun initSenderSpinner() {
+        //免打扰(禁用转发)时间段
+        binding!!.tvSilentPeriod.text = mTimeOption[silentPeriodStart] + " ~ " + mTimeOption[silentPeriodEnd]
+
         AppDatabase.getInstance(requireContext()).senderDao().getAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<List<Sender>> {
             override fun onSubscribe(d: Disposable) {}
 
@@ -503,6 +550,8 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 binding!!.sbRegexReplace.isChecked = !TextUtils.isEmpty(rule.regexReplace.trim())
                 binding!!.etRegexReplace.setText(rule.regexReplace.trim())
                 binding!!.sbStatus.isChecked = rule.statusChecked
+                silentPeriodStart = rule.silentPeriodStart
+                silentPeriodEnd = rule.silentPeriodEnd
 
                 //初始化发送通道下拉框
                 initSenderSpinner()
@@ -565,7 +614,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
         //    throw Exception(getString(R.string.invalid_rule_status))
         //}
 
-        return Rule(ruleId, ruleType, filed, check, value, senderId, smsTemplate, regexReplace, simSlot, status, Date(), senderListSelected, senderLogic)
+        return Rule(ruleId, ruleType, filed, check, value, senderId, smsTemplate, regexReplace, simSlot, status, Date(), senderListSelected, senderLogic, silentPeriodStart, silentPeriodEnd)
     }
 
     //检查多重匹配规则是否正确
@@ -635,7 +684,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 val testSim = "SIM" + (simSlot + 1)
                 val ruleSim: String = rule.simSlot
                 if (ruleSim != "ALL" && ruleSim != testSim) {
-                    throw java.lang.Exception(getString(R.string.card_slot_does_not_match))
+                    throw Exception(getString(R.string.card_slot_does_not_match))
                 }
 
                 //获取卡槽信息
@@ -647,7 +696,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
 
                 val msgInfo = MsgInfo(ruleType, etFrom.text.toString(), etContent.text.toString(), Date(), simInfo, simSlot)
                 if (!rule.checkMsg(msgInfo)) {
-                    throw java.lang.Exception(getString(R.string.unmatched_rule))
+                    throw Exception(getString(R.string.unmatched_rule))
                 }
 
                 Thread {

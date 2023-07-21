@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.utils
 
+import android.annotation.SuppressLint
 import android.os.Looper
 import android.util.Log
 import androidx.work.OneTimeWorkRequestBuilder
@@ -19,7 +20,12 @@ import com.idormy.sms.forwarder.workers.SendWorker
 import com.idormy.sms.forwarder.workers.UpdateLogsWorker
 import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xutil.XUtil
+import java.text.ParsePosition
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
 
+@Suppress("DEPRECATION")
 object SendUtils {
     private const val TAG = "SendUtils"
 
@@ -58,6 +64,7 @@ object SendUtils {
     }
 
     //匹配发送通道发送消息
+    @SuppressLint("SimpleDateFormat")
     fun sendMsgSender(msgInfo: MsgInfo, rule: Rule, senderIndex: Int = 0, logId: Long = 0L, msgId: Long = 0L) {
         try {
             val sender = rule.senderList[senderIndex]
@@ -66,6 +73,35 @@ object SendUtils {
                 updateLogs(logId, 0, ResUtils.getString(R.string.sender_disabled))
                 senderLogic(0, msgInfo, rule, senderIndex, msgId)
                 return
+            }
+            //免打扰(禁用转发)时间段
+            if (rule.silentPeriodStart != rule.silentPeriodEnd) {
+                val periodStartDay = Date()
+                var periodStartEnd = Date()
+                //跨天了
+                if (rule.silentPeriodStart > rule.silentPeriodEnd) {
+                    val c: Calendar = Calendar.getInstance()
+                    c.time = periodStartEnd
+                    c.add(Calendar.DAY_OF_MONTH, 1)
+                    periodStartEnd = c.time
+                }
+
+                val dateFmt = SimpleDateFormat("yyyy-MM-dd")
+                val mTimeOption = DataProvider.timePeriodOption
+                val periodStartStr = dateFmt.format(periodStartDay) + " " + mTimeOption[rule.silentPeriodStart] + ":00"
+                val periodEndStr = dateFmt.format(periodStartEnd) + " " + mTimeOption[rule.silentPeriodEnd] + ":00"
+
+                val timeFmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                val periodStart = timeFmt.parse(periodStartStr, ParsePosition(0))?.time
+                val periodEnd = timeFmt.parse(periodEndStr, ParsePosition(0))?.time
+
+                val now = System.currentTimeMillis()
+                if (periodStart != null && periodEnd != null && now in periodStart..periodEnd) {
+                    Log.d(TAG, "免打扰(禁用转发)时间段")
+                    updateLogs(logId, 0, ResUtils.getString(R.string.silent_time_period))
+                    senderLogic(0, msgInfo, rule, senderIndex, msgId)
+                    return
+                }
             }
             when (sender.type) {
                 TYPE_DINGTALK_GROUP_ROBOT -> {
