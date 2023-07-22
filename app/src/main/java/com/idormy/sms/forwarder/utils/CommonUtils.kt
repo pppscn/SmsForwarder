@@ -35,6 +35,9 @@ import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog.SingleButton
 import com.xuexiang.xui.widget.imageview.preview.PreviewBuilder
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.common.StringUtils
+import java.net.Inet4Address
+import java.net.Inet6Address
+import java.net.NetworkInterface
 import java.util.regex.Pattern
 
 /**
@@ -277,6 +280,40 @@ class CommonUtils private constructor() {
             )
         }
 
+        //获取本机IP地址
+        fun getIPAddresses(): List<String> {
+            val ipAddresses = mutableListOf<String>()
+
+            try {
+                val networkInterfaces = NetworkInterface.getNetworkInterfaces()
+
+                while (networkInterfaces.hasMoreElements()) {
+                    val networkInterface = networkInterfaces.nextElement()
+                    val addresses = networkInterface.inetAddresses
+
+                    while (addresses.hasMoreElements()) {
+                        val address = addresses.nextElement()
+
+                        if (address is Inet4Address || address is Inet6Address) {
+                            ipAddresses.add(address.hostAddress)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            return ipAddresses
+        }
+
+        fun removeInterfaceFromIP(ipAddress: String): String {
+            val index = ipAddress.indexOf("%")
+            return if (index != -1) {
+                ipAddress.substring(0, index)
+            } else {
+                ipAddress
+            }
+        }
     }
 
     init {

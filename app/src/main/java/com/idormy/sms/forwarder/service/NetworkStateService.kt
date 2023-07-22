@@ -15,6 +15,7 @@ import androidx.work.workDataOf
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.MsgInfo
+import com.idormy.sms.forwarder.utils.CommonUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.Worker
 import com.idormy.sms.forwarder.workers.SendWorker
@@ -91,13 +92,18 @@ class NetworkStateService : Service() {
                 msg.append(getString(R.string.operator_name)).append(": ").append(operatorName).append("\n")
             }
 
-            val inetAddress = NetworkUtils.getLocalInetAddress()
-            var hostAddress: String = inetAddress?.hostAddress?.toString() ?: "127.0.0.1"
-            msg.append(getString(R.string.host_address)).append(": ").append(hostAddress).append("\n")
-
+            //获取IP地址
+            val ipList = CommonUtils.getIPAddresses()
             if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
-                hostAddress = if (hostAddress.indexOf(':', 0, false) > 0) "[${hostAddress}]" else hostAddress
-                msg.append(getString(R.string.http_server)).append(": ").append("http://${hostAddress}:5000")
+                ipList.forEach() {
+                    msg.append(getString(R.string.host_address)).append(": ").append(it).append("\n")
+                    val hostAddress = if (it.indexOf(':', 0, false) > 0) "[${CommonUtils.removeInterfaceFromIP(it)}]" else it
+                    msg.append(getString(R.string.http_server)).append(": ").append("http://${hostAddress}:5000").append("\n")
+                }
+            } else {
+                ipList.forEach() {
+                    msg.append(getString(R.string.host_address)).append(": ").append(it).append("\n")
+                }
             }
 
             sendMessage(context, msg.toString())
