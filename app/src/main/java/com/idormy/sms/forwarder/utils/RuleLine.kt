@@ -7,7 +7,7 @@ import com.xuexiang.xui.utils.ResUtils.getString
 import java.util.regex.Pattern
 import java.util.regex.PatternSyntaxException
 
-@Suppress("unused")
+@Suppress("unused", "DEPRECATION")
 class RuleLine(line: String, lineNum: Int, beforeRuleLine: RuleLine?) {
     companion object {
         val CONJUNCTION_AND: String = getString(R.string.CONJUNCTION_AND)
@@ -18,6 +18,7 @@ class RuleLine(line: String, lineNum: Int, beforeRuleLine: RuleLine?) {
         val FILED_INFORM_TITLE: String = getString(R.string.FILED_INFORM_TITLE)
         val FILED_INFORM_CONTENT: String = getString(R.string.FILED_INFORM_CONTENT)
         val FILED_SIM_SLOT_INFO: String = getString(R.string.FILED_SIM_SLOT_INFO)
+        val FILED_CALL_TYPE: String = getString(R.string.FILED_CALL_TYPE)
         val SURE_YES: String = getString(R.string.SURE_YES)
         val SURE_NOT: String = getString(R.string.SURE_NOT)
         val CHECK_EQUALS: String = getString(R.string.CHECK_EQUALS)
@@ -57,6 +58,7 @@ class RuleLine(line: String, lineNum: Int, beforeRuleLine: RuleLine?) {
             FILED_LIST.add(FILED_INFORM_CONTENT)
             FILED_LIST.add(FILED_INFORM_TITLE)
             FILED_LIST.add(FILED_SIM_SLOT_INFO)
+            FILED_LIST.add(FILED_CALL_TYPE)
         }
 
         init {
@@ -99,6 +101,7 @@ class RuleLine(line: String, lineNum: Int, beforeRuleLine: RuleLine?) {
         var mixChecked = false
         when (field) {
             FILED_PHONE_NUM, FILED_PACKAGE_NAME -> mixChecked = checkValue(msg.from)
+            FILED_CALL_TYPE -> mixChecked = checkValue(msg.callType.toString())
             FILED_MSG_CONTENT, FILED_INFORM_CONTENT -> mixChecked = checkValue(msg.content)
             FILED_INFORM_TITLE, FILED_SIM_SLOT_INFO -> mixChecked = checkValue(msg.simInfo)
             else -> {}

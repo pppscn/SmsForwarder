@@ -173,6 +173,11 @@
                         android:text="@string/phone_number" />
 
                     <RadioButton
+                        android:id="@+id/rb_call_type"
+                        style="@style/rg_rb_style_wrap"
+                        android:text="@string/call_type" />
+
+                    <RadioButton
                         android:id="@+id/rb_content"
                         style="@style/rg_rb_style_wrap"
                         android:text="@string/sms_content" />
@@ -279,6 +284,12 @@
                     android:hint="@string/match_value_tips"
                     android:inputType="textMultiLine"
                     app:met_clearButton="true" />
+
+                <com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner
+                    android:id="@+id/sp_call_type"
+                    android:layout_marginTop="@dimen/config_margin_4dp"
+                    style="@style/Material.SpinnerStyle"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/layout_app_list"

@@ -221,6 +221,7 @@
     <string name="test_phone_number">测试模拟的来源号码</string>
     <string name="test_msg_content">测试模拟的短信内容</string>
     <string name="test_package_name">测试模拟的APP包名</string>
+    <string name="test_call_type">测试模拟的通话类型</string>
     <string name="test_inform_title">测试模拟的通知标题</string>
     <string name="test_inform_content">测试模拟的通知内容</string>
     <string name="sender_logic">执行逻辑</string>
@@ -230,6 +231,7 @@
     <string name="match_sim_slot">匹配卡槽</string>
     <string name="match_field">匹配字段</string>
     <string name="phone_number">手机号</string>
+    <string name="call_type">通话类型</string>
     <string name="package_name">APP包名</string>
     <string name="sms_content">短信内容</string>
     <string name="inform_content">通知内容</string>
@@ -246,6 +248,7 @@
     <string name="switch_rule_status">启用该条转发规则</string>
     <string name="invalid_rule_status">该条转发规则已禁用</string>
     <string name="invalid_match_value">匹配的值不可为空</string>
+    <string name="invalid_call_type">通话类型不正确，只能填写1到6的任意一个数字</string>
     <!--SenderActivity-->
     <string name="invalid_sender">异常的发送通道类型，自动删除！</string>
     <string name="delete_sender_title">发送通道操作确认</string>
@@ -399,6 +402,8 @@
     <string name="sim1" tools:ignore="Typos">SIM1</string>
     <string name="sim2" tools:ignore="Typos">SIM2</string>
     <string name="mu_rule_sms_tips">多重匹配规则示例：（语法参见wiki）\n\n并且 是 手机号 相等 10086\n[空格]或者 是 手机号 相等 10011\n并且 是 短信内容 包含 欠费\n\n以上规则表示：收到短信，并且（手机号是10086 或者 手机号是10010），并且 短信内容 包含 欠费 时转发短信\n\n注意：每行开始的空格代表层级，太过复杂的多重规则可能导致内存占用很大！</string>
+    <string name="mu_rule_call_tips">多重匹配规则示例：（语法参见wiki）\n\n并且 是 手机号 相等 10086\n[空格]或者 是 手机号 相等 10011\n并且 是 通话类型 相等 3\n\n以上规则表示：收到来电，并且（手机号是10086 或者 手机号是10010），并且 通话类型 是 未接来电 时转发提醒\n\n注意：每行开始的空格代表层级，太过复杂的多重规则可能导致内存占用很大！\n\n通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出</string>
+    <string name="call_type_tips">填写数字：1到6的任意一个\n\n通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出</string>
     <string name="mu_rule_app_tips">多重匹配规则示例：（语法参见wiki）\n\n并且 是 APP包名 相等 com.tencent.mm\n[空格]或者 是 APP包名 相等 com.tencent.mobileqq\n并且 是 通知内容 包含 欠费\n\n以上规则表示：收到APP通知，并且（APP包名是com.tencent.mm 或者 APP包名是com.tencent.mobileqq），并且 通知内容 包含 欠费 时转发通知\n\n注意：每行开始的空格代表层级，太过复杂的多重规则可能导致内存占用很大！</string>
     <string name="post">POST</string>
     <string name="get">GET</string>
@@ -596,6 +601,7 @@
     <string name="tag_app_version">{{当前应用版本号}}</string>
     <string name="tag_title">{{通知标题}}</string>
     <string name="tag_scheme">{{通知Scheme}}</string>
+    <string name="tag_call_type">{{通话类型}}</string>
     <string name="rule_sms">短信</string>
     <string name="rule_call">来电</string>
     <string name="rule_app">应用</string>
@@ -606,6 +612,7 @@
     <string name="rule_multi_match">多重匹配</string>
     <string name="rule_package_name">APP包名</string>
     <string name="rule_inform_content">通知内容</string>
+    <string name="rule_call_type">通话类型</string>
     <string name="rule_card">卡</string>
     <string name="rule_when">当</string>
     <string name="rule_fw_to">转发到</string>
@@ -787,7 +794,7 @@
     <string name="extra_app">额外消除应用通知</string>
     <string name="extra_app_hint">一行一个包名\n开启异步加载App列表以便选择</string>
     <string name="choose_app_hint">下拉选择获取包名，关键字模糊匹配APP名称</string>
-    <string name="regex_multi_match" tools:ignore="TypographyDashes">^\\s*(并且|或者)\\s(是|不是)\\s(手机号|APP包名|短信内容|通知内容|通知标题|卡槽信息)\\s(相等|包含|不包含|开头|结尾|正则匹配)\\s(.*)$</string>
+    <string name="regex_multi_match" tools:ignore="TypographyDashes">^\\s*(并且|或者)\\s(是|不是)\\s(手机号|APP包名|短信内容|通知内容|通知标题|卡槽信息|通话类型)\\s(相等|包含|不包含|开头|结尾|正则匹配)\\s(.*)$</string>
     <string name="privacy_content_1">欢迎使用</string>
     <string name="privacy_content_2">我们深知个人信息对你的重要性，也感谢你对我们的信任。\n</string>
     <string name="privacy_content_3">为了更好地保护你的权益，同时遵守相关监管的要求，我们将通过 </string>
@@ -824,6 +831,7 @@
     <string name="FILED_INFORM_TITLE">通知标题</string>
     <string name="FILED_INFORM_CONTENT">通知内容</string>
     <string name="FILED_SIM_SLOT_INFO">卡槽信息</string>
+    <string name="FILED_CALL_TYPE">通话类型</string>
     <string name="SURE_YES">是</string>
     <string name="SURE_NOT">不是</string>
     <string name="CHECK_EQUALS">相等</string>

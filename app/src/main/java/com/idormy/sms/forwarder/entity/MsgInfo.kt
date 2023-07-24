@@ -5,6 +5,7 @@ import android.text.TextUtils
 import android.util.Log
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.utils.CALL_TYPE_MAP
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.SettingUtils.Companion.enableSmsTemplate
 import com.idormy.sms.forwarder.utils.SettingUtils.Companion.extraDeviceMark
@@ -15,7 +16,7 @@ import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Suppress("unused")
+@Suppress("unused", "DEPRECATION")
 data class MsgInfo(
     var type: String = "sms",
     var from: String,
@@ -24,6 +25,7 @@ data class MsgInfo(
     var simInfo: String,
     var simSlot: Int = -1, //卡槽id：-1=获取失败、0=卡槽1、1=卡槽2
     var subId: Int = 0, //卡槽主键
+    var callType: Int = 0, //通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
 ) : Serializable {
 
     val titleForSend: String
@@ -54,6 +56,7 @@ data class MsgInfo(
             .replace(getString(R.string.tag_current_time), SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()))
             .replace(getString(R.string.tag_device_name), deviceMark)
             .replace(getString(R.string.tag_app_version), versionName)
+            .replace(getString(R.string.tag_call_type), CALL_TYPE_MAP[callType.toString()] ?: getString(R.string.unknown_call))
             .trim()
         return replaceAppName(regexReplace(titleForSend, regexReplace), from)
     }
@@ -101,6 +104,7 @@ data class MsgInfo(
             .replace(getString(R.string.tag_current_time), SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()))
             .replace(getString(R.string.tag_device_name), deviceMark)
             .replace(getString(R.string.tag_app_version), versionName)
+            .replace(getString(R.string.tag_call_type), CALL_TYPE_MAP[callType.toString()] ?: getString(R.string.unknown_call))
             .trim()
         return replaceAppName(regexReplace(smsVoForSend, regexReplace), from)
     }

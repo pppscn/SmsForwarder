@@ -13,6 +13,7 @@ import java.util.*
 import java.util.regex.Pattern
 import java.util.regex.PatternSyntaxException
 
+@Suppress("DEPRECATION")
 @Parcelize
 @Entity(
     tableName = "Rule",
@@ -58,10 +59,18 @@ data class Rule(
         fun getRuleMatch(filed: String?, check: String?, value: String?, simSlot: String?): Any {
             val sb = StringBuilder()
             sb.append(SIM_SLOT_MAP[simSlot]).append(getString(R.string.rule_card))
-            if (filed == null || filed == FILED_TRANSPOND_ALL) {
-                sb.append(getString(R.string.rule_all_fw_to))
-            } else {
-                sb.append(getString(R.string.rule_when)).append(FILED_MAP[filed]).append(CHECK_MAP[check]).append(value).append(getString(R.string.rule_fw_to))
+            when (filed) {
+                null, FILED_TRANSPOND_ALL -> {
+                    sb.append(getString(R.string.rule_all_fw_to))
+                }
+
+                FILED_CALL_TYPE -> {
+                    sb.append(getString(R.string.rule_when)).append(FILED_MAP[filed]).append(CHECK_MAP[check]).append(CALL_TYPE_MAP[value]).append(getString(R.string.rule_fw_to))
+                }
+
+                else -> {
+                    sb.append(getString(R.string.rule_when)).append(FILED_MAP[filed]).append(CHECK_MAP[check]).append(value).append(getString(R.string.rule_fw_to))
+                }
             }
             return sb.toString()
         }
@@ -71,10 +80,18 @@ data class Rule(
     val ruleMatch: String
         get() {
             val simStr = if ("app" == type) "" else SIM_SLOT_MAP[simSlot].toString() + getString(R.string.rule_card)
-            return if (filed == FILED_TRANSPOND_ALL) {
-                simStr + getString(R.string.rule_all_fw_to)
-            } else {
-                simStr + getString(R.string.rule_when) + FILED_MAP[filed] + CHECK_MAP[check] + value + getString(R.string.rule_fw_to)
+            return when (filed) {
+                FILED_TRANSPOND_ALL -> {
+                    simStr + getString(R.string.rule_all_fw_to)
+                }
+
+                FILED_CALL_TYPE -> {
+                    simStr + getString(R.string.rule_when) + FILED_MAP[filed] + CHECK_MAP[check] + CALL_TYPE_MAP[value] + getString(R.string.rule_fw_to)
+                }
+
+                else -> {
+                    simStr + getString(R.string.rule_when) + FILED_MAP[filed] + CHECK_MAP[check] + value + getString(R.string.rule_fw_to)
+                }
             }
         }
 
@@ -115,6 +132,7 @@ data class Rule(
         return when (filed) {
             FILED_MSG_CONTENT -> R.id.rb_content
             FILED_PHONE_NUM -> R.id.rb_phone
+            FILED_CALL_TYPE -> R.id.rb_call_type
             FILED_PACKAGE_NAME -> R.id.rb_package_name
             FILED_INFORM_CONTENT -> R.id.rb_inform_content
             FILED_MULTI_MATCH -> R.id.rb_multi_match
@@ -144,6 +162,7 @@ data class Rule(
             when (this.filed) {
                 FILED_TRANSPOND_ALL -> mixChecked = true
                 FILED_PHONE_NUM, FILED_PACKAGE_NAME -> mixChecked = checkValue(msg.from)
+                FILED_CALL_TYPE -> mixChecked = checkValue(msg.callType.toString())
                 FILED_MSG_CONTENT, FILED_INFORM_CONTENT -> mixChecked = checkValue(msg.content)
                 FILED_MULTI_MATCH -> mixChecked = RuleLineUtils.checkRuleLines(msg, this.value)
                 else -> {}
@@ -162,15 +181,19 @@ data class Rule(
             CHECK_CONTAIN -> if (msgValue != null) {
                 checked = msgValue.contains(this.value)
             }
+
             CHECK_NOT_CONTAIN -> if (msgValue != null) {
                 checked = !msgValue.contains(this.value)
             }
+
             CHECK_START_WITH -> if (msgValue != null) {
                 checked = msgValue.startsWith(this.value)
             }
+
             CHECK_END_WITH -> if (msgValue != null) {
                 checked = msgValue.endsWith(this.value)
             }
+
             CHECK_REGEX -> if (msgValue != null) {
                 try {
                     //checked = Pattern.matches(this.value, msgValue);
@@ -188,6 +211,7 @@ data class Rule(
                     Log.d(TAG, "Pattern: " + e.pattern)
                 }
             }
+
             else -> {}
         }
         Log.i(TAG, "checkValue " + msgValue + " " + this.check + " " + this.value + " checked:" + checked)

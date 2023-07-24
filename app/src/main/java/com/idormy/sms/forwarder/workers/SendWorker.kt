@@ -94,7 +94,7 @@ class SendWorker(
                     return@withContext Result.failure(workDataOf("send" to "failed"))
                 }
 
-                val msg = Msg(0, msgInfo.type, msgInfo.from, msgInfo.content, msgInfo.simSlot, msgInfo.simInfo, msgInfo.subId)
+                val msg = Msg(0, msgInfo.type, msgInfo.from, msgInfo.content, msgInfo.simSlot, msgInfo.simInfo, msgInfo.subId, msgInfo.callType)
                 val msgId = Core.msg.insert(msg)
                 for (rule in ruleListMatched) {
                     val sender = rule.senderList[0]

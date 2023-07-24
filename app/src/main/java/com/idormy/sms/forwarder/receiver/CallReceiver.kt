@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.CallInfo
 import com.idormy.sms.forwarder.entity.MsgInfo
+import com.idormy.sms.forwarder.utils.CALL_TYPE_MAP
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.Worker
@@ -18,6 +19,7 @@ import com.xuexiang.xui.utils.ResUtils.getString
 import com.xuexiang.xutil.resource.ResUtils
 import java.util.*
 
+@Suppress("DEPRECATION")
 open class CallReceiver : PhoneStateReceiver() {
 
     companion object {
@@ -80,18 +82,9 @@ open class CallReceiver : PhoneStateReceiver() {
         val msg = StringBuilder()
         msg.append(getString(R.string.linkman)).append(contactName).append("\n")
         msg.append(getString(R.string.mandatory_type))
-        //通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
-        when (callType) {
-            1 -> msg.append(ResUtils.getString(R.string.incoming_call_ended))
-            2 -> msg.append(ResUtils.getString(R.string.outgoing_call_ended))
-            3 -> msg.append(ResUtils.getString(R.string.missed_call))
-            4 -> msg.append(ResUtils.getString(R.string.incoming_call_received))
-            5 -> msg.append(ResUtils.getString(R.string.incoming_call_answered))
-            6 -> msg.append(ResUtils.getString(R.string.outgoing_call_started))
-            else -> msg.append(ResUtils.getString(R.string.unknown_call))
-        }
+        msg.append(CALL_TYPE_MAP[callType.toString()] ?: getString(R.string.unknown_call))
 
-        val msgInfo = MsgInfo("call", phoneNumber.toString(), msg.toString(), Date(), "")
+        val msgInfo = MsgInfo("call", phoneNumber.toString(), msg.toString(), Date(), "", -1, 0, callType)
         val request = OneTimeWorkRequestBuilder<SendWorker>().setInputData(
             workDataOf(
                 Worker.sendMsgInfo to Gson().toJson(msgInfo)

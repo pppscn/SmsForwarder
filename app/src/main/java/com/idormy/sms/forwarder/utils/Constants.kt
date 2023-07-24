@@ -100,6 +100,7 @@ const val STATUS_ON = 1
 const val STATUS_OFF = 0
 const val FILED_TRANSPOND_ALL = "transpond_all"
 const val FILED_PHONE_NUM = "phone_num"
+const val FILED_CALL_TYPE = "call_type"
 const val FILED_PACKAGE_NAME = "package_name"
 const val FILED_MSG_CONTENT = "msg_content"
 const val FILED_INFORM_CONTENT = "inform_content"
@@ -135,6 +136,7 @@ val FILED_MAP = object : HashMap<String, String>() {
         put("multi_match", getString(R.string.rule_multi_match))
         put("package_name", getString(R.string.rule_package_name))
         put("inform_content", getString(R.string.rule_inform_content))
+        put("call_type", getString(R.string.rule_call_type))
     }
 }
 val CHECK_MAP = object : HashMap<String, String>() {
@@ -175,6 +177,16 @@ val BARK_ENCRYPTION_ALGORITHM_MAP = mapOf(
     "AES192/ECB/PKCS7Padding" to "AES192/ECB/PKCS7Padding",
     "AES256/CBC/PKCS7Padding" to "AES256/CBC/PKCS7Padding",
     "AES256/ECB/PKCS7Padding" to "AES256/ECB/PKCS7Padding",
+)
+//通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
+val CALL_TYPE_MAP = mapOf(
+    //"0" to getString(R.string.unknown_call),
+    "1" to getString(R.string.incoming_call_ended),
+    "2" to getString(R.string.outgoing_call_ended),
+    "3" to getString(R.string.missed_call),
+    "4" to getString(R.string.incoming_call_received),
+    "5" to getString(R.string.incoming_call_answered),
+    "6" to getString(R.string.outgoing_call_started),
 )
 
 //发送通道

@@ -220,6 +220,7 @@
     <string name="test_phone_number">Test Phone Number</string>
     <string name="test_msg_content">Test Msg Content</string>
     <string name="test_package_name">Test PackageName</string>
+    <string name="test_call_type">Test Call Type</string>
     <string name="test_inform_title">Test Notify Title</string>
     <string name="test_inform_content">Test Notify Content</string>
     <string name="sender_logic">Run Logic</string>
@@ -229,6 +230,7 @@
     <string name="match_sim_slot">SIM Slot</string>
     <string name="match_field">Field</string>
     <string name="phone_number">Phone No.</string>
+    <string name="call_type">Call Type</string>
     <string name="package_name">PkgName</string>
     <string name="sms_content">SMS</string>
     <string name="inform_content">Notice</string>
@@ -245,6 +247,7 @@
     <string name="switch_rule_status">Enable This Forwarding Rule</string>
     <string name="invalid_rule_status">The forwarding rule is disabled</string>
     <string name="invalid_match_value">The matched value cannot be null</string>
+    <string name="invalid_call_type">The call type is incorrect, you can only enter any number from 1 to 6.</string>
     <!--SenderActivity-->
     <string name="invalid_sender">Invalid sender, abort!</string>
     <string name="delete_sender_title">Delete confirmation</string>
@@ -398,6 +401,8 @@
     <string name="sim1" tools:ignore="Typos">SIM1</string>
     <string name="sim2" tools:ignore="Typos">SIM2</string>
     <string name="mu_rule_sms_tips">Example of multiple matching rules: (see wiki for syntax)\n\nAND IS PHONE_NUM EQUALS 10086\n[space]OR IS PHONE_NUM EQUALS 10011\nAND IS MSG_CONTENT CONTAIN arrears\n\nThe above rule means: receive a text message, and (the mobile phone number is 10086 or the mobile phone number is 10010), and the content of the text message includes arrears When forwarding the text message\n\nNote: The space at the beginning of each line represents the level, too complex multiple rules may lead to a large memory usage!</string>
+    <string name="mu_rule_call_tips">Example of multiple matching rules: (see wiki for syntax)\n\nAND IS PHONE_NUM EQUALS 10086\n[space]OR IS PHONE_NUM EQUALS 10011\nAND IS CALL_TYPE IS 3\n\nThe above rule means: receive a call, and (the mobile phone number is 10086 or 10010), and the call type is Missed When forwarding the call\n\nNote: The space at the beginning of each line represents the level, too complex multiple rules may lead to a large memory usage!\n\nCall types: 1.Incoming Ended 2.Outgoing Ended 3.Missed 4.Incoming Received 5.Incoming Answered 6.Outgoing Started</string>
+    <string name="call_type_tips">Enter any number from 1 to 6.\n\nCall types: 1.Incoming Ended 2.Outgoing Ended 3.Missed 4.Incoming Received 5.Incoming Answered 6.Outgoing Started</string>
     <string name="mu_rule_app_tips">Example of multiple matching rules: (see wiki for syntax)\n\nAND IS PACKAGE_NAME EQUALS com.tencent.mm\n[space]OR IS PACKAGE_NAME EQUALS com.tencent.mobileqq\nAND IS INFORM_CONTENT CONTAIN arrears\n\nThe above rules mean: Receive an APP notification, and (the APP package name is com.tencent.mm or the APP package name is com.tencent.mobileqq), and the content of the notification includes forwarding the notification when the payment is in arrears\n\nNote: The space at the beginning of each line represents the level, too complex multiple rules may lead to a large memory usage!</string>
     <string name="post">POST</string>
     <string name="get">GET</string>
@@ -595,6 +600,7 @@
     <string name="tag_app_version">{{APP_VERSION}}</string>
     <string name="tag_title">{{TITLE}}</string>
     <string name="tag_scheme">{{SCHEME}}</string>
+    <string name="tag_call_type">{{CALL_TYPE}}</string>
     <string name="rule_sms">SMS</string>
     <string name="rule_call">CALL</string>
     <string name="rule_app">APP</string>
@@ -605,6 +611,7 @@
     <string name="rule_multi_match">Multi Match</string>
     <string name="rule_package_name">Package Name</string>
     <string name="rule_inform_content">Inform Content</string>
+    <string name="rule_call_type">Call Type</string>
     <string name="rule_card">Card</string>
     <string name="rule_when">When</string>
     <string name="rule_fw_to">Fw.</string>
@@ -786,7 +793,7 @@
     <string name="extra_app">Extra Apps</string>
     <string name="extra_app_hint">One package name per line\nEnable async loading of the App list for selection.</string>
     <string name="choose_app_hint">Drop-down selection to get package name, keyword fuzzy matching APP name</string>
-    <string name="regex_multi_match" tools:ignore="TypographyDashes">^\\s*(AND|OR)\\s(IS|NOTIS)\\s(PHONE_NUM|PACKAGE_NAME|MSG_CONTENT|INFORM_CONTENT|INFORM_TITLE|CARD_SLOT)\\s(EQUALS|CONTAIN|NOTCONTAIN|STARTWITH|ENDWITH|REGEX)\\s(.*)$</string>
+    <string name="regex_multi_match" tools:ignore="TypographyDashes">^\\s*(AND|OR)\\s(IS|NOTIS)\\s(PHONE_NUM|PACKAGE_NAME|MSG_CONTENT|INFORM_CONTENT|INFORM_TITLE|CARD_SLOT|CALL_TYPE)\\s(EQUALS|CONTAIN|NOTCONTAIN|STARTWITH|ENDWITH|REGEX)\\s(.*)$</string>
     <string name="privacy_content_1">Welcome to</string>
     <string name="privacy_content_2">We understand the importance of personal information to you and thank you for your trust in us.\n</string>
     <string name="privacy_content_3">In order to better protect your rights and comply with relevant regulatory requirements, we will pass "</string>
@@ -823,6 +830,7 @@
     <string name="FILED_INFORM_TITLE">INFORM_TITLE</string>
     <string name="FILED_INFORM_CONTENT">INFORM_CONTENT</string>
     <string name="FILED_SIM_SLOT_INFO">CARD_SLOT</string>
+    <string name="FILED_CALL_TYPE">CALL_TYPE</string>
     <string name="SURE_YES">IS</string>
     <string name="SURE_NOT">NOTIS</string>
     <string name="CHECK_EQUALS">EQUALS</string>
