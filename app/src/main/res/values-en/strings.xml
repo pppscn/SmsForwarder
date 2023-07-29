@@ -991,12 +991,13 @@
     <string name="appsecret">AppSecret</string>
     <string name="sampleText">Text</string>
     <string name="sampleMarkdown">Markdown</string>
-    <string name="ip_hint">IP address/broadcast address, eg. 192.168.1.255</string>
+    <string name="ip_hint">Broadcast Address, eg. 192.168.1.255</string>
     <string name="ip_error">Malformed IP address, eg. 192.168.168.168</string>
     <string name="ip_regex" tools:ignore="TypographyDashes">^((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])$</string>
     <string name="mac_hint">Network card mac, eg. AA:BB:CC:DD:EE:FF</string>
     <string name="mac_error">The network card mac format is incorrect, eg. AA:BB:CC:DD:EE:FF</string>
     <string name="mac_regex" tools:ignore="TypographyDashes">^((([a-fA-F0-9]{2}:){5})|(([a-fA-F0-9]{2}-){5}))[a-fA-F0-9]{2}$</string>
+    <string name="broadcast_address">Broadcast Address</string>
     <string name="ip">IP</string>
     <string name="mac">MAC</string>
     <string name="no_wol_history">There is no history record, WOL will be added automatically after successful sending</string>

@@ -60,7 +60,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/ip" />
+                    android:text="@string/broadcast_address" />
 
                 <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                     android:id="@+id/et_ip"

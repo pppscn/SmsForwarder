@@ -992,13 +992,14 @@
     <string name="appsecret">AppSecret</string>
     <string name="sampleText">文本类型</string>
     <string name="sampleMarkdown">Markdown类型</string>
-    <string name="ip_hint">可选，主机IP/广播地址，例如：192.168.1.255</string>
+    <string name="ip_hint">可选，内网广播地址，例如：192.168.1.255</string>
     <string name="ip_error">IP地址格式错误，例如：192.168.168.168</string>
     <string name="ip_regex" tools:ignore="TypographyDashes">^((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])$</string>
     <string name="mac_hint">必填，网卡mac，例如：AA:BB:CC:DD:EE:FF</string>
     <string name="mac_error">网卡mac格式错误，例如：AA:BB:CC:DD:EE:FF</string>
     <string name="mac_regex" tools:ignore="TypographyDashes">^((([a-fA-F0-9]{2}:){5})|(([a-fA-F0-9]{2}-){5}))[a-fA-F0-9]{2}$</string>
-    <string name="ip">主机IP/广播地址</string>
+    <string name="broadcast_address">内网广播地址</string>
+    <string name="ip">IP</string>
     <string name="mac">网卡MAC</string>
     <string name="no_wol_history">暂无历史记录，WOL发送成功后自动加入</string>
     <string name="wol_port_hint">可选，WOL一般透过端口7或端口9进行发送</string>
