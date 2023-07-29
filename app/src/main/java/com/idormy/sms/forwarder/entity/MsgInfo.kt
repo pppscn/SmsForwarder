@@ -131,6 +131,9 @@ data class MsgInfo(
 
     //替换{{APP名称}}标签
     private fun replaceAppName(content: String, packageName: String): String {
+        if (TextUtils.isEmpty(content)) return content
+        if (content.indexOf(getString(R.string.tag_app_name)) == -1) return content
+
         var appName = ""
         if (SettingUtils.enableLoadUserAppList && App.UserAppList.isNotEmpty()) {
             for (appInfo in App.UserAppList) {

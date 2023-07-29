@@ -101,6 +101,10 @@ class WebhookUtils {
                     .replace("[title]", URLEncoder.encode(simInfo, "UTF-8"))
                     .replace("[card_slot]", URLEncoder.encode(simInfo, "UTF-8"))
                     .replace("[receive_time]", URLEncoder.encode(receiveTime, "UTF-8"))
+                    .replace(Regex("\\[receive_time:(.*?)\\]")) {
+                        val format = it.groups[1]?.value ?: ""
+                        formatDateTime(format)
+                    }
                     .replace("\n", "%0A")
                 if (!TextUtils.isEmpty(setting.secret)) {
                     webParams = webParams.replace("[timestamp]", timestamp.toString())
@@ -123,6 +127,10 @@ class WebhookUtils {
                     .replace("[title]", escapeJson(simInfo))
                     .replace("[card_slot]", escapeJson(simInfo))
                     .replace("[receive_time]", receiveTime)
+                    .replace(Regex("\\[receive_time:(.*?)\\]")) {
+                        val format = it.groups[1]?.value ?: ""
+                        formatDateTime(format)
+                    }
                     .replace("[timestamp]", timestamp.toString())
                     .replace("[sign]", sign)
                 Log.d(TAG, "method = ${setting.method}, Url = $requestUrl, bodyMsg = $bodyMsg")
@@ -155,6 +163,10 @@ class WebhookUtils {
                                 .replace("[title]", simInfo)
                                 .replace("[card_slot]", simInfo)
                                 .replace("[receive_time]", receiveTime)
+                                .replace(Regex("\\[receive_time:(.*?)\\]")) {
+                                    val format = it.groups[1]?.value ?: ""
+                                    formatDateTime(format)
+                                }
                                 .replace("[timestamp]", timestamp.toString())
                                 .replace("[sign]", sign)
                         )
@@ -204,6 +216,14 @@ class WebhookUtils {
             if (str == null) return "null"
             val jsonStr: String = Gson().toJson(str)
             return if (jsonStr.length >= 2) jsonStr.substring(1, jsonStr.length - 1) else jsonStr
+        }
+
+        @SuppressLint("SimpleDateFormat")
+        fun formatDateTime(format: String): String {
+            val currentTime = Date()
+            val dateFormat = SimpleDateFormat(format)
+            dateFormat.timeZone = TimeZone.getTimeZone("UTC") // Optional: Set the desired timezone here
+            return dateFormat.format(currentTime)
         }
 
     }
