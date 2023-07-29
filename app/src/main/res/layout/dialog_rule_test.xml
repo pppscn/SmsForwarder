@@ -53,7 +53,8 @@
     <com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner
         android:id="@+id/sp_call_type"
         android:layout_marginTop="@dimen/config_margin_4dp"
-        style="@style/Material.SpinnerStyle" />
+        style="@style/Material.SpinnerStyle"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_title"
