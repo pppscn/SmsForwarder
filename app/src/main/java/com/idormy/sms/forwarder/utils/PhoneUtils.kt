@@ -381,7 +381,7 @@ class PhoneUtils private constructor() {
         //获取通话记录转发内容
         fun getCallMsg(callInfo: CallInfo): String {
             val sb = StringBuilder()
-            sb.append(ResUtils.getString(R.string.linkman)).append(callInfo.name).append("\n")
+            sb.append(ResUtils.getString(R.string.contact)).append(callInfo.name).append("\n")
             if (!TextUtils.isEmpty(callInfo.viaNumber)) sb.append(ResUtils.getString(R.string.via_number)).append(callInfo.viaNumber).append("\n")
             if (callInfo.dateLong > 0L) sb.append(ResUtils.getString(R.string.call_date)).append(
                 DateUtils.millis2String(

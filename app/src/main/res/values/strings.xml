@@ -637,7 +637,7 @@
     <string name="tips_clone_failed">一键克隆失败：</string>
     <string name="tips_versions_inconsistent">APP版本不一致，无法一键克隆！</string>
     <string name="tips_get_info_failed">获取一键克隆信息失败</string>
-    <string name="linkman">通讯录名：</string>
+    <string name="contact">通讯录名：</string>
     <string name="via_number">被呼号码：</string>
     <string name="common_permission_alert">授权提醒</string>
     <string name="common_permission_fail_1">授权失败，请正确授予权限</string>

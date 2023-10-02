@@ -771,7 +771,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                     val phoneNumber = etFrom.text.toString()
                     val contacts = PhoneUtils.getContactByNumber(phoneNumber)
                     val contactName = if (contacts.isNotEmpty()) contacts[0].name else ResUtils.getString(R.string.unknown_number)
-                    msg.append(ResUtils.getString(R.string.linkman)).append(contactName).append("\n")
+                    msg.append(ResUtils.getString(R.string.contact)).append(contactName).append("\n")
                     msg.append(ResUtils.getString(R.string.mandatory_type))
                     msg.append(CALL_TYPE_MAP[callType.toString()] ?: ResUtils.getString(R.string.unknown_call))
                 } else {

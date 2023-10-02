@@ -80,7 +80,7 @@ open class CallReceiver : PhoneStateReceiver() {
         val contactName = if (contacts.isNotEmpty()) contacts[0].name else getString(R.string.unknown_number)
 
         val msg = StringBuilder()
-        msg.append(getString(R.string.linkman)).append(contactName).append("\n")
+        msg.append(getString(R.string.contact)).append(contactName).append("\n")
         msg.append(getString(R.string.mandatory_type))
         msg.append(CALL_TYPE_MAP[callType.toString()] ?: getString(R.string.unknown_call))
 

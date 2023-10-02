@@ -636,7 +636,7 @@
     <string name="tips_clone_failed">One-click clone failed:</string>
     <string name="tips_versions_inconsistent">The APP versions of the sender and the receiver are inconsistent, and cannot be cloned with one click!</string>
     <string name="tips_get_info_failed">Failed to get one-click clone information from sender</string>
-    <string name="linkman">Linkman:</string>
+    <string name="contact">Contact:</string>
     <string name="via_number">Via Number:</string>
     <string name="common_permission_alert">Permission Alert</string>
     <string name="common_permission_fail_1">Authorization failed, please grant permission correctly</string>
@@ -872,9 +872,9 @@
     <string name="api_sms_query_tips">Remotely check SMS records as a supplement to the SMS forwarding function</string>
     <string name="api_call_query">Query Call</string>
     <string name="api_call_query_tips">Remotely check call records, including incoming calls, outgoing calls, and missed calls</string>
-    <string name="api_contact_query">Query Linkman</string>
+    <string name="api_contact_query">Query Contacts</string>
     <string name="api_contact_query_tips">Remotely check contact list</string>
-    <string name="api_contact_add">Add Linkman</string>
+    <string name="api_contact_add">Add Contact</string>
     <string name="api_contact_add_tips">Remotely add contact</string>
     <string name="api_battery_query">Query Battery</string>
     <string name="api_battery_query_tips">Remotely query mobile phone power and battery status</string>
