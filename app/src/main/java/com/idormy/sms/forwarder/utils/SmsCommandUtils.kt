@@ -1,13 +1,21 @@
 package com.idormy.sms.forwarder.utils
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.wifi.WifiManager
 import android.util.Log
+import androidx.core.app.ActivityCompat
+import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
+import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.AppDatabase
+import com.idormy.sms.forwarder.server.model.SmsSendData
 import com.idormy.sms.forwarder.service.HttpService
 import com.xuexiang.xrouter.utils.TextUtils
+import com.xuexiang.xui.utils.ResUtils
+import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.file.FileUtils
 import com.xuexiang.xutil.system.DeviceUtils
 import frpclib.Frpclib
@@ -119,6 +127,36 @@ class SmsCommandUtils {
                         wifiManager.isWifiEnabled = true
                     } else if (action == "off") {
                         wifiManager.isWifiEnabled = false
+                    }
+                }
+
+                "sms" -> {
+                    if (action == "send") {
+                        if (TextUtils.isEmpty(param)) return false
+
+                        try {
+                            val gson = Gson()
+                            val smsSendData = gson.fromJson(param, SmsSendData::class.java)
+                            Log.d(TAG, smsSendData.toString())
+
+                            //获取卡槽信息
+                            if (App.SimInfoList.isEmpty()) {
+                                App.SimInfoList = PhoneUtils.getSimMultiInfo()
+                            }
+                            Log.d(TAG, App.SimInfoList.toString())
+
+                            //发送卡槽: 1=SIM1, 2=SIM2
+                            val simSlotIndex = smsSendData.simSlot - 1
+                            //TODO：取不到卡槽信息时，采用默认卡槽发送
+                            val mSubscriptionId: Int = App.SimInfoList[simSlotIndex]?.mSubscriptionId ?: -1
+
+                            if (ActivityCompat.checkSelfPermission(XUtil.getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                                return false
+                            }
+                            PhoneUtils.sendSms(mSubscriptionId, smsSendData.phoneNumbers, smsSendData.msgContent)
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Parsing SMS failed: " + e.message.toString())
+                        }
                     }
                 }
             }

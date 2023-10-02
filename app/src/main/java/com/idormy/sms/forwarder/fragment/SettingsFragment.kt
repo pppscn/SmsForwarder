@@ -493,6 +493,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                     .permission(Permission.WRITE_SETTINGS)
                     // 接收短信
                     .permission(Permission.RECEIVE_SMS)
+                    // 发送短信
+                    .permission(Permission.SEND_SMS)
                     // 读取短信
                     .permission(Permission.READ_SMS).request(object : OnPermissionCallback {
                         override fun onGranted(permissions: List<String>, all: Boolean) {
