@@ -3,7 +3,6 @@ package com.idormy.sms.forwarder.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.net.wifi.WifiManager
 import android.provider.Telephony
 import android.util.Log
 import androidx.work.OneTimeWorkRequestBuilder
@@ -11,26 +10,17 @@ import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
-import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.entity.MsgInfo
-import com.idormy.sms.forwarder.service.HttpService
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.SmsCommandUtils
 import com.idormy.sms.forwarder.utils.Worker
 import com.idormy.sms.forwarder.workers.SendWorker
 import com.xuexiang.xrouter.utils.TextUtils
-import com.xuexiang.xutil.file.FileUtils
-import com.xuexiang.xutil.system.DeviceUtils
-import frpclib.Frpclib
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import java.util.*
 
 //短信广播
-@OptIn(DelicateCoroutinesApi::class)
-@Suppress("PrivatePropertyName", "DeferredResultUnused", "SENSELESS_COMPARISON", "DEPRECATION")
+@Suppress("PrivatePropertyName")
 class SmsReceiver : BroadcastReceiver() {
 
     private var TAG = "SmsReceiver"
@@ -131,96 +121,7 @@ class SmsReceiver : BroadcastReceiver() {
         }
 
         val smsCommand = message.substring(5)
-        val cmdList = smsCommand.split("#")
-        Log.d(TAG, "smsCommand = $smsCommand, cmdList = $cmdList")
-        if (cmdList.count() < 2) return
-
-        val function = cmdList[0]
-        val action = cmdList[1]
-        val param = if (cmdList.count() > 2) cmdList[2] else ""
-        when (function) {
-            "frpc" -> {
-                if (!FileUtils.isFileExists(context.filesDir?.absolutePath + "/libs/libgojni.so")) {
-                    Log.d(TAG, "还未下载Frpc库")
-                    return
-                }
-
-                if (TextUtils.isEmpty(param)) {
-                    GlobalScope.async(Dispatchers.IO) {
-                        val frpcList = AppDatabase.getInstance(App.context).frpcDao().getAutorun()
-
-                        if (frpcList.isEmpty()) {
-                            Log.d(TAG, "没有自启动的Frpc")
-                            return@async
-                        }
-
-                        for (frpc in frpcList) {
-                            if (action == "start") {
-                                if (!Frpclib.isRunning(frpc.uid)) {
-                                    val error = Frpclib.runContent(frpc.uid, frpc.config)
-                                    if (!TextUtils.isEmpty(error)) {
-                                        Log.e(TAG, error)
-                                    }
-                                }
-                            } else if (action == "stop") {
-                                if (Frpclib.isRunning(frpc.uid)) {
-                                    Frpclib.close(frpc.uid)
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    GlobalScope.async(Dispatchers.IO) {
-                        val frpc = AppDatabase.getInstance(App.context).frpcDao().getOne(param)
-
-                        if (frpc == null) {
-                            Log.d(TAG, "没有找到指定的Frpc")
-                            return@async
-                        }
-
-                        if (action == "start") {
-                            if (!Frpclib.isRunning(frpc.uid)) {
-                                val error = Frpclib.runContent(frpc.uid, frpc.config)
-                                if (!TextUtils.isEmpty(error)) {
-                                    Log.e(TAG, error)
-                                }
-                            }
-                        } else if (action == "stop") {
-                            if (Frpclib.isRunning(frpc.uid)) {
-                                Frpclib.close(frpc.uid)
-                            }
-                        }
-                    }
-                }
-            }
-            "httpserver" -> {
-                Intent(context, HttpService::class.java).also {
-                    if (action == "start") {
-                        context.startService(it)
-                    } else if (action == "stop") {
-                        context.stopService(it)
-                    }
-                }
-            }
-            "system" -> {
-                //判断是否已root
-                if (!DeviceUtils.isDeviceRooted()) return
-
-                if (action == "reboot") {
-                    DeviceUtils.reboot()
-                } else if (action == "shutdown") {
-                    DeviceUtils.shutdown()
-                }
-            }
-            "wifi" -> {
-                val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-                if (action == "on") {
-                    wifiManager.isWifiEnabled = true
-                } else if (action == "off") {
-                    wifiManager.isWifiEnabled = false
-                }
-            }
-        }
+        SmsCommandUtils.execute(context, smsCommand)
     }
 
 }
