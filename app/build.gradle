@@ -219,8 +219,8 @@ dependencies {
     //屏幕适配AutoSize：https://github.com/JessYanCoding/AndroidAutoSize
     implementation 'me.jessyan:autosize:1.2.1'
     //umeng统计
-    implementation 'com.umeng.umsdk:common:9.5.6'
-    implementation 'com.umeng.umsdk:asms:1.6.3'
+    implementation 'com.umeng.umsdk:common:9.6.5'
+    implementation 'com.umeng.umsdk:asms:1.8.0'
 
     //预加载占位控件
     implementation 'me.samlss:broccoli:1.0.0'
