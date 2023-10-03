@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Environment
 import android.os.Handler
@@ -308,30 +309,48 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 XToastUtils.info(String.format(getString(R.string.copied_to_clipboard), url))
             }
             R.id.btn_path_picker -> {
-                val downloadPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
-                val dirList = listSubDir(downloadPath)
-                if (dirList.isEmpty()) {
-                    XToastUtils.error(String.format(getString(R.string.download_first), downloadPath))
-                    return
-                }
-                MaterialDialog.Builder(requireContext()).title(getString(R.string.select_web_client_directory)).content(String.format(getString(R.string.root_directory), downloadPath)).items(dirList).itemsCallbackSingleChoice(0) { _: MaterialDialog?, _: View?, _: Int, text: CharSequence ->
-                    val webPath = "$downloadPath/$text"
-                    binding!!.etWebPath.setText(webPath)
-                    HttpServerUtils.serverWebPath = webPath
+                // 申请储存权限
+                XXPermissions.with(this)
+                    .permission(Permission.MANAGE_EXTERNAL_STORAGE).request(object : OnPermissionCallback {
+                        @SuppressLint("SetTextI18n")
+                        override fun onGranted(permissions: List<String>, all: Boolean) {
+                            val downloadPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
+                            val dirList = listSubDir(downloadPath)
+                            if (dirList.isEmpty()) {
+                                XToastUtils.error(String.format(getString(R.string.download_first), downloadPath))
+                                return
+                            }
+                            MaterialDialog.Builder(requireContext()).title(getString(R.string.select_web_client_directory)).content(String.format(getString(R.string.root_directory), downloadPath)).items(dirList).itemsCallbackSingleChoice(0) { _: MaterialDialog?, _: View?, _: Int, text: CharSequence ->
+                                val webPath = "$downloadPath/$text"
+                                binding!!.etWebPath.setText(webPath)
+                                HttpServerUtils.serverWebPath = webPath
 
-                    XToastUtils.info(getString(R.string.restarting_httpserver))
-                    Intent(appContext, HttpService::class.java).also {
-                        if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
-                            appContext?.stopService(it)
-                            Thread.sleep(500)
-                            appContext?.startService(it)
-                        } else {
-                            appContext?.startService(it)
+                                XToastUtils.info(getString(R.string.restarting_httpserver))
+                                Intent(appContext, HttpService::class.java).also {
+                                    if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
+                                        appContext?.stopService(it)
+                                        Thread.sleep(500)
+                                        appContext?.startService(it)
+                                    } else {
+                                        appContext?.startService(it)
+                                    }
+                                }
+                                refreshButtonText()
+                                true // allow selection
+                            }.positiveText(R.string.select).negativeText(R.string.cancel).show()
                         }
-                    }
-                    refreshButtonText()
-                    true // allow selection
-                }.positiveText(R.string.select).negativeText(R.string.cancel).show()
+
+                        override fun onDenied(permissions: List<String>, never: Boolean) {
+                            if (never) {
+                                XToastUtils.error(R.string.toast_denied_never)
+                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                XXPermissions.startPermissionActivity(requireContext(), permissions)
+                            } else {
+                                XToastUtils.error(R.string.toast_denied)
+                            }
+                            binding!!.etWebPath.setText(getString(R.string.storage_permission_tips))
+                        }
+                    })
             }
             else -> {}
         }
