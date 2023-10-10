@@ -248,7 +248,7 @@ class DingtalkGroupRobotFragment : BaseFragment<FragmentSendersDingtalkGroupRobo
 
     private fun checkSetting(): DingtalkGroupRobotSetting {
         val token = binding!!.etToken.text.toString().trim()
-        if (CommonUtils.checkUrl(token, true)) {
+        if (TextUtils.isEmpty(token)) {
             throw Exception(getString(R.string.invalid_token))
         }
 

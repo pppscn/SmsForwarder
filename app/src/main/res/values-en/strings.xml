@@ -708,9 +708,9 @@
     <string name="sender_name_status">Channel Name/Status</string>
     <string name="choose_sender_status">Send Channel/Status</string>
 
-    <string name="dingtalk_token">Token (without link)</string>
-    <string name="dingtalk_token_tips">Example: XXX in https://oapi.dingtalk.com/robot/send?access_token=XXX</string>
-    <string name="dingtalk_token_hint">Robot Settings→webhook→access_token</string>
+    <string name="dingtalk_token">Webhook</string>
+    <string name="dingtalk_token_tips">e.g. https://oapi.dingtalk.com/robot/send?access_token=XXX</string>
+    <string name="dingtalk_token_hint">Robot Settings→webhook</string>
     <string name="dingtalk_secret">Secret</string>
     <string name="dingtalk_secret_hint">Robot Settings→Security Settings→Sign Up</string>
     <string name="dingtalk_at_mobiles">At Mobiles</string>
@@ -719,17 +719,17 @@
     <string name="dingtalk_at_dingtalkids_tip">Tips：Separate multiple DingtalkIds with commas, e.g. user1,user2</string>
 
     <string name="bark_server">Bark-Server</string>
-    <string name="bark_server_tips">Example: https://api.day.app/XXXXXXXX/</string>
+    <string name="bark_server_tips">e.g. https://api.day.app/XXXXXXXX/</string>
     <string name="bark_server_regex">^https?://[^/]+/[^/]+/$</string>
     <string name="bark_server_error">The Url format is wrong, e.g. https://api.day.app/XXXXXXXX/</string>
     <string name="bark_group">Group Name</string>
-    <string name="bark_group_tips">Optional, eg: SmsForwarder</string>
+    <string name="bark_group_tips">Optional, e.g. SmsForwarder</string>
     <string name="bark_icon">Message Icon</string>
     <string name="bark_icon_tips">Optional, fill in Url, the picture should not be too big</string>
     <string name="bark_sound">Message Sound</string>
     <string name="bark_sound_tips">Optional, e.g. minuet.caf</string>
     <string name="bark_badge">Message Badge</string>
-    <string name="bark_badge_tips">Optional, eg: 888</string>
+    <string name="bark_badge_tips">Optional, e.g. 888</string>
     <string name="bark_url">Message Link</string>
     <string name="bark_url_tips">Optional, e.g. https://github.com/pppscn/SmsForwarder</string>
     <string name="bark_level">Notification Level</string>
@@ -758,7 +758,7 @@
     <string name="mail_pwd_hint">Fill in the login password or authorization code</string>
 
     <string name="wework_webHook">WebHook</string>
-    <string name="wework_webHook_tips">Example: https://qyapi.weixin.qq.com/cgixx?key=xxx</string>
+    <string name="wework_webHook_tips">e.g. https://qyapi.weixin.qq.com/cgixx?key=xxx</string>
     <string name="wework_msg_type">Msg Type</string>
     <string name="wework_msg_type_text">Text</string>
     <string name="wework_msg_type_markdown">Markdown</string>

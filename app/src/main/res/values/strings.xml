@@ -709,9 +709,9 @@
     <string name="sender_name_status">通道名称/状态</string>
     <string name="choose_sender_status">发送通道/状态</string>
 
-    <string name="dingtalk_token">Token（不含链接）</string>
-    <string name="dingtalk_token_tips">例：https://oapi.dingtalk.com/robot/send?access_token=XXX 中的 XXX</string>
-    <string name="dingtalk_token_hint">机器人设置→webhook→access_token</string>
+    <string name="dingtalk_token">Webhook</string>
+    <string name="dingtalk_token_tips">例：https://oapi.dingtalk.com/robot/send?access_token=XXX</string>
+    <string name="dingtalk_token_hint">机器人设置→webhook</string>
     <string name="dingtalk_secret">加签 Secret</string>
     <string name="dingtalk_secret_hint">机器人设置→安全设置→加签</string>
     <string name="dingtalk_at_mobiles">被@人的手机号</string>
