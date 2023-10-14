@@ -7,6 +7,7 @@ data class WebhookSetting(
     val method: String? = "POST",
     var webServer: String = "",
     val secret: String? = "",
+    val response: String? = "",
     val webParams: String? = "",
     val headers: Map<String, String>?,
 ) : Serializable {

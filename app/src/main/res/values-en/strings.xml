@@ -768,17 +768,18 @@
 
     <string name="socket">Socket</string>
     <string name="socket_tips">Example：myapp://api/add?&amp;type=0&amp;msg=[msg]</string>
-    <string name="socket_address">服务地址</string>
-    <string name="socket_address_tips">IP 或 域名</string>
-    <string name="socket_port">端口</string>
-    <string name="socket_port_tips">取值范围：1-65535</string>
+    <string name="socket_address">Service Address</string>
+    <string name="socket_address_tips">"IP or Domain"</string>
+    <string name="socket_port">Port</string>
+    <string name="socket_port_tips">Value Range：1-65535</string>
 
     <string name="webhook_server">Webhook Server</string>
     <string name="webhook_server_tips">For example: https://a.b.com/msg?token=xyz</string>
     <string name="webhook_params">Params</string>
     <string name="msg_template">Msg Template</string>
     <string name="webhook_params_tips" formatted="false">For example: payload=%7B%22text%22%3A%22[msg]%22%7D [msg] will be replaced with SMS content.\nJson format is supported, e.g. {\"text\":\"[msg]\"}.\nNote: msg is automatically URLEncoder except in JSON format</string>
-    <string name="webhook_secret">Secret: If it is empty, the sign will not be calculated</string>
+    <string name="webhook_secret">Secret: If left empty, the sign will not be calculated</string>
+    <string name="webhook_response">Successful Response Keyword：If left empty, HTTP status 200 represents success</string>
     <string name="headers">Headers</string>
     <string name="header_key">Key</string>
     <string name="header_value">Value</string>

@@ -128,6 +128,7 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
                         binding!!.rgMethod.check(settingVo.getMethodCheckId())
                         binding!!.etWebServer.setText(settingVo.webServer)
                         binding!!.etSecret.setText(settingVo.secret)
+                        binding!!.etResponse.setText(settingVo.response)
                         binding!!.etWebParams.setText(settingVo.webParams)
                         //set header
                         if (settingVo.headers != null) {
@@ -241,10 +242,11 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
             else -> "POST"
         }
         val secret = binding!!.etSecret.text.toString().trim()
+        val response = binding!!.etResponse.text.toString().trim()
         val webParams = binding!!.etWebParams.text.toString().trim()
         val headers = getHeadersFromHeaderItemMap(headerItemMap)
 
-        return WebhookSetting(method, webServer, secret, webParams, headers)
+        return WebhookSetting(method, webServer, secret, response, webParams, headers)
     }
 
 
