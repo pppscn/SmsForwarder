@@ -268,6 +268,28 @@
             </LinearLayout>
 
             <LinearLayout
+                style="@style/senderBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/webhook_response2"
+                    android:textStyle="bold" />
+
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_Response"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/optional"
+                    android:singleLine="true"
+                    app:met_clearButton="true" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/layout_mqtt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -333,15 +355,28 @@
                         android:text="@string/uri_type"
                         android:textStyle="bold" />
 
-                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                        android:id="@+id/et_uriType"
-                        android:layout_width="0dp"
+                    <RadioGroup
+                        android:id="@+id/rg_uriType"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:layout_weight="1"
-                        android:hint="@string/uri_type_hint"
-                        android:singleLine="true"
-                        app:met_clearButton="true" />
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rb_uriType_tcp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tcp"
+                            android:textSize="14sp" />
+
+                        <RadioButton
+                            android:id="@+id/rb_uriType_ssl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ssl"
+                            android:textSize="14sp" />
+
+                    </RadioGroup>
 
                 </LinearLayout>
 

@@ -122,13 +122,14 @@ class SocketFragment : BaseFragment<FragmentSendersSocketBinding?>(), View.OnCli
                     binding!!.etPort.setText(settingVo.port.toString())
                     binding!!.etMsgTemplate.setText(settingVo.msgTemplate)
                     binding!!.etSecret.setText(settingVo.secret)
+                    binding!!.etResponse.setText(settingVo.response)
                     binding!!.etUsername.setText(settingVo.username)
                     binding!!.etPassword.setText(settingVo.password)
                     binding!!.etInCharset.setSelectedItem(settingVo.inCharset)
                     binding!!.etOutCharset.setSelectedItem(settingVo.outCharset)
                     binding!!.etInMessageTopic.setText(settingVo.inMessageTopic)
                     binding!!.etOutMessageTopic.setText(settingVo.outMessageTopic)
-                    binding!!.etUriType.setText(settingVo.uriType)
+                    binding!!.rgUriType.check(settingVo.getUriTypeCheckId())
                     binding!!.etPath.setText(settingVo.path)
                     binding!!.etClientId.setText(settingVo.clientId)
                     binding!!.layoutMqtt.visibility = if (checkedId == R.id.rb_method_mqtt) View.VISIBLE else View.GONE
@@ -170,6 +171,7 @@ class SocketFragment : BaseFragment<FragmentSendersSocketBinding?>(), View.OnCli
                     }.start()
                     return
                 }
+
                 R.id.btn_del -> {
                     if (senderId <= 0 || isClone) {
                         popToBack()
@@ -183,6 +185,7 @@ class SocketFragment : BaseFragment<FragmentSendersSocketBinding?>(), View.OnCli
                     }.show()
                     return
                 }
+
                 R.id.btn_save -> {
                     val name = binding!!.etName.text.toString().trim()
                     if (TextUtils.isEmpty(name)) {
@@ -226,13 +229,17 @@ class SocketFragment : BaseFragment<FragmentSendersSocketBinding?>(), View.OnCli
 
         val msgTemplate = binding!!.etMsgTemplate.text.toString().trim()
         val secret = binding!!.etSecret.text.toString().trim()
+        val response = binding!!.etResponse.text.toString().trim()
         val username = binding!!.etUsername.text.toString().trim()
         val password = binding!!.etPassword.text.toString().trim()
         val inCharset = binding!!.etInCharset.text.toString().trim()
         val outCharset = binding!!.etOutCharset.text.toString().trim()
         val inMessageTopic = binding!!.etInMessageTopic.text.toString().trim()
         val outMessageTopic = binding!!.etOutMessageTopic.text.toString().trim()
-        val uriType = binding!!.etUriType.text.toString().trim()
+        val uriType = when (binding!!.rgUriType.checkedRadioButtonId) {
+            R.id.rb_uriType_ssl -> "ssl"
+            else -> "tcp"
+        }
         val path = binding!!.etPath.text.toString().trim()
         val clientId = binding!!.etClientId.text.toString().trim()
 
@@ -240,7 +247,7 @@ class SocketFragment : BaseFragment<FragmentSendersSocketBinding?>(), View.OnCli
             throw Exception(getString(R.string.invalid_mqtt_message_topic))
         }
 
-        return SocketSetting(method, address, port.toInt(), msgTemplate, secret, username, password, inCharset, outCharset, inMessageTopic, outMessageTopic, uriType, path, clientId)
+        return SocketSetting(method, address, port.toInt(), msgTemplate, secret, response, username, password, inCharset, outCharset, inMessageTopic, outMessageTopic, uriType, path, clientId)
     }
 
     override fun onDestroyView() {

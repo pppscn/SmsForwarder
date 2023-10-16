@@ -9,6 +9,7 @@ data class SocketSetting(
     val port: Int = 0, //端口号
     val msgTemplate: String = "", //消息模板
     val secret: String? = "", //签名密钥
+    val response: String? = "", //成功应答关键字
     val username: String = "", //用户名
     val password: String = "", //密码
     val inCharset: String = "", //输入编码
@@ -26,6 +27,13 @@ data class SocketSetting(
             "TCP" -> R.id.rb_method_tcp
             "UDP" -> R.id.rb_method_udp
             else -> R.id.rb_method_mqtt
+        }
+    }
+
+    fun getUriTypeCheckId(): Int {
+        return when (method) {
+            "ssl" -> R.id.rb_uriType_ssl
+            else -> R.id.rb_uriType_tcp
         }
     }
 

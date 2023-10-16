@@ -192,7 +192,7 @@ dependencies {
     //kmnkt基于Kotlin Multiplatform的跨平台socket通信统一接口，支持UDP/TCP/MQTT协议
     //https://github.com/xuankaicat/kmnkt
     implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
-    implementation files('libs/socket-2.0.0-alpha06-2.aar')
+    //implementation files('libs/socket-2.0.0-alpha06-2.aar')
 
     testImplementation deps.junit
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
