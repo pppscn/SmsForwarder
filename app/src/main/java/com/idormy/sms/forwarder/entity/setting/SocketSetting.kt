@@ -31,7 +31,7 @@ data class SocketSetting(
     }
 
     fun getUriTypeCheckId(): Int {
-        return when (method) {
+        return when (uriType) {
             "ssl" -> R.id.rb_uriType_ssl
             else -> R.id.rb_uriType_tcp
         }
