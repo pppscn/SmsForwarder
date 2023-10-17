@@ -38,7 +38,6 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@Suppress("DEPRECATION")
 @Page(name = "Frp内网穿透")
 class FrpcFragment : BaseFragment<FragmentFrpcsBinding?>(), FrpcPagingAdapter.OnItemClickListener {
 
@@ -57,13 +56,19 @@ class FrpcFragment : BaseFragment<FragmentFrpcsBinding?>(), FrpcPagingAdapter.On
         titleBar = super.initTitle()!!.setImmersive(false)
         titleBar!!.setTitle(R.string.menu_frpc)
         titleBar!!.setActionTextColor(ThemeUtils.resolveColor(context, R.attr.colorAccent))
+        titleBar!!.addAction(object : TitleBar.ImageAction(R.drawable.ic_logcat) {
+            @SingleClick
+            override fun performAction(view: View) {
+                openNewPage(LogcatFragment::class.java)
+            }
+        })
         titleBar!!.addAction(object : TitleBar.ImageAction(R.drawable.ic_add) {
             @SingleClick
             override fun performAction(view: View) {
                 FrpcUtils.getStringFromRaw(context!!, R.raw.frpc).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : Observer<String?> {
                     override fun onSubscribe(d: Disposable) {}
                     override fun onNext(content: String) {
-                        LiveEventBus.get<Frpc>(INTENT_FRPC_EDIT_FILE).post(Frpc(content))
+                        LiveEventBus.get<Frpc>(INTENT_FRPC_EDIT_FILE).post(Frpc(config = content))
                         PageOption.to(FrpcEditFragment::class.java).setNewActivity(true).open((context as XPageActivity?)!!)
                     }
 
@@ -130,6 +135,7 @@ class FrpcFragment : BaseFragment<FragmentFrpcsBinding?>(), FrpcPagingAdapter.On
                 ClipboardUtils.copyText(item.uid)
                 XToastUtils.info(String.format(getString(R.string.copied_to_clipboard), item.uid))
             }
+
             R.id.iv_play -> {
                 if (!ForegroundService.isRunning) {
                     Intent(requireContext(), ForegroundService::class.java).also {
@@ -143,7 +149,7 @@ class FrpcFragment : BaseFragment<FragmentFrpcsBinding?>(), FrpcPagingAdapter.On
 
                 if (Frpclib.isRunning(item.uid)) {
                     Frpclib.close(item.uid)
-                    item.setConnecting(false)
+                    item.connecting = false
                     LiveEventBus.get<Frpc>(EVENT_FRPC_UPDATE_CONFIG).post(item)
                     return
                 }
@@ -161,7 +167,7 @@ class FrpcFragment : BaseFragment<FragmentFrpcsBinding?>(), FrpcPagingAdapter.On
                         mLoadingDialog.dismiss()
                         mLoadingDialog.recycle()
                         LiveEventBus.get<String>(INTENT_FRPC_APPLY_FILE).postAcrossProcess(item.uid)
-                        item.setConnecting(true)
+                        item.connecting = true
                         LiveEventBus.get<Frpc>(EVENT_FRPC_UPDATE_CONFIG).post(item)
                     }
 
@@ -169,11 +175,12 @@ class FrpcFragment : BaseFragment<FragmentFrpcsBinding?>(), FrpcPagingAdapter.On
                         mLoadingDialog.dismiss()
                         mLoadingDialog.recycle()
                         e.message?.let { XToastUtils.error(it) }
-                        item.setConnecting(false)
+                        item.connecting = false
                         LiveEventBus.get<Frpc>(EVENT_FRPC_UPDATE_CONFIG).post(item)
                     }
                 })
             }
+
             else -> {
                 //编辑或删除需要先停止客户端
                 if (Frpclib.isRunning(item.uid)) {
@@ -185,6 +192,7 @@ class FrpcFragment : BaseFragment<FragmentFrpcsBinding?>(), FrpcPagingAdapter.On
                         LiveEventBus.get<Frpc>(INTENT_FRPC_EDIT_FILE).post(item)
                         openNewPage(FrpcEditFragment::class.java)
                     }
+
                     R.id.iv_delete -> {
                         try {
                             viewModel.delete(item)

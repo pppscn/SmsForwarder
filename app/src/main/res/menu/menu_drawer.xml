@@ -55,11 +55,11 @@
             android:icon="@drawable/ic_menu_app"
             android:title="@string/menu_apps" />
 
-        <item
+        <!--<item
             android:id="@+id/nav_logcat"
             android:checkable="false"
             android:icon="@drawable/ic_menu_logcat"
-            android:title="@string/menu_logcat" />
+            android:title="@string/menu_logcat" />-->
 
     </group>
 
