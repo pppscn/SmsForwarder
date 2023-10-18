@@ -93,7 +93,7 @@ class NetworkStateService : Service() {
             }
 
             //获取IP地址
-            val ipList = CommonUtils.getIPAddresses()
+            val ipList = CommonUtils.getIPAddresses().filter { !isLocalAddress(it) }
             if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
                 ipList.forEach() {
                     msg.append(getString(R.string.host_address)).append(": ").append(it).append("\n")
@@ -124,6 +124,11 @@ class NetworkStateService : Service() {
         } catch (e: Exception) {
             Log.e(TAG, "getLog e:" + e.message)
         }
+    }
+
+    //检查IP地址是否为本地地址
+    private fun isLocalAddress(ip: String): Boolean {
+        return ip == "127.0.0.1" || ip == "::1" || ip.startsWith("fe80:") || ip.startsWith("fec0:")
     }
 
     companion object {
