@@ -203,7 +203,7 @@ dependencies {
     implementation 'androidx.fragment:fragment-ktx:1.5.5'
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
 
     //分包
     implementation deps.androidx.multidex
@@ -231,12 +231,12 @@ dependencies {
     //美团多渠道打包
     //implementation 'com.meituan.android.walle:library:1.1.6'
 
-    def work_version = '2.8.0'
+    def work_version = '2.8.1'
     api("androidx.work:work-multiprocess:$work_version")
     api("androidx.work:work-runtime-ktx:$work_version")
 
     //Android Room
-    def room_version = '2.5.0'
+    def room_version = '2.5.2'
     implementation "androidx.room:room-ktx:$room_version"
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-paging:$room_version"
