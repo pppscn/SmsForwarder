@@ -284,6 +284,7 @@
     <string name="invalid_sendkey">Server酱·Turbo版的 SendKey 不能为空</string>
     <string name="invalid_channel">最多两个通道，多个通道值用竖线|隔开</string>
     <string name="invalid_openid">多个 openid 用 , 隔开</string>
+    <string name="invalid_customize_api">自定义API地址 不是有效URL</string>
     <string name="invalid_webserver">WebServer为空 或 不是有效URL</string>
     <string name="invalid_webhook">WebHook为空 或 不是有效URL</string>
     <string name="invalid_url_scheme">URL Scheme 为空 或 无效</string>
@@ -311,6 +312,7 @@
     <string name="feishu_msg_type_text">纯文本</string>
     <string name="feishu_msg_type_interactive">消息卡片</string>
     <string name="feishu_msg_type_interactive_title">标题模板</string>
+    <string name="Customize_API">自定义API</string>
     <string name="Corp_ID">企业ID</string>
     <string name="Agent_ID">AgentId</string>
     <string name="App_Secret">Secret</string>
@@ -324,6 +326,7 @@
     <string name="touser_tips">Tip：接收消息的成员ID列表（多个接收者用‘|’分隔，最多支持1000个）</string>
     <string name="toparty_tips">Tip：接收消息的部门ID列表（多个接收者用‘|’分隔，最多支持1000个）</string>
     <string name="totag_tips">Tip：接收消息的标签ID列表（多个接收者用‘|’分隔，最多支持1000个）</string>
+    <string name="customize_api_tips">Tip：通过反向代理(proxy_pass)绕过IP白名单限制</string>
     <string name="specified_member_tips2">Tip：接收用户的userid，每次最多传20个（用‘|’分隔）</string>
     <string name="server_chan_send_key">SendKey</string>
     <string name="server_chan_channel">消息通道</string>

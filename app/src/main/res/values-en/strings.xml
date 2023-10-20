@@ -283,8 +283,9 @@
     <string name="invalid_sendkey">SendKey cannot be empty</string>
     <string name="invalid_channel">Up to two channels, multiple channel values separated by a vertical bar |</string>
     <string name="invalid_openid">Multiple openids are separated by ,</string>
-    <string name="invalid_webserver">WebServer is empty or not a valid URL</string>
-    <string name="invalid_webhook">WebHook is empty or not a valid URL</string>
+    <string name="invalid_customize_api">Customize API is invalid</string>
+    <string name="invalid_webserver">WebServer is empty or invalid</string>
+    <string name="invalid_webhook">WebHook is empty or invalid</string>
     <string name="invalid_url_scheme">URL Scheme is empty or invalid</string>
     <string name="invalid_at_mobiles">toUser/toParty/toTag cannot be empty or select @all</string>
     <string name="invalid_wework_agent">CoreID, AgentID, and Secret cannot be empty</string>
@@ -310,6 +311,7 @@
     <string name="feishu_msg_type_text">Text</string>
     <string name="feishu_msg_type_interactive">Interactive</string>
     <string name="feishu_msg_type_interactive_title">Interactive Title</string>
+    <string name="Customize_API">Customize API</string>
     <string name="Corp_ID">Corp ID</string>
     <string name="Agent_ID">Agent ID</string>
     <string name="App_Secret">App Secret</string>
@@ -323,6 +325,7 @@
     <string name="touser_tips">Tip: List of member IDs that receive messages (multiple recipients are separated by \'|\', up to 1000)</string>
     <string name="toparty_tips">Tip: List of party IDs that receive messages (multiple recipients are separated by \'|\', up to 1000)</string>
     <string name="totag_tips">Tip: List of tag IDs that receive messages (multiple recipients are separated by \'|\', up to 1000)</string>
+    <string name="customize_api_tips">Tip: Bypass IP whitelist restrictions using reverse proxy (proxy_pass).</string>
     <string name="specified_member_tips2">Tip: The userid of the user who receives the message, up to 20 at a time (separated by \'|\')</string>
     <string name="server_chan_send_key">SendKey</string>
     <string name="server_chan_channel">Message Channel</string>

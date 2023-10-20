@@ -26,6 +26,7 @@ import java.net.InetSocketAddress
 import java.net.PasswordAuthentication
 import java.net.Proxy
 
+@Suppress("DEPRECATION")
 class WeworkAgentUtils private constructor() {
     companion object {
 
@@ -46,7 +47,8 @@ class WeworkAgentUtils private constructor() {
                 return sendTextMsg(setting, msgInfo, rule, senderIndex, logId, msgId)
             }
 
-            var getTokenUrl = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?"
+            val customApi = if (TextUtils.isEmpty(setting.customizeAPI)) "https://qyapi.weixin.qq.com/cgi-bin" else setting.customizeAPI
+            var getTokenUrl = "$customApi/gettoken?"
             getTokenUrl += "corpid=" + setting.corpID
             getTokenUrl += "&corpsecret=" + setting.secret
             Log.d(TAG, "getTokenUrl：$getTokenUrl")
@@ -139,7 +141,8 @@ class WeworkAgentUtils private constructor() {
             textText["content"] = content
             textMsgMap["text"] = textText
             val accessToken: String by SharedPreference("access_token_" + setting.agentID, "")
-            val requestUrl = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=$accessToken"
+            val customApi = if (TextUtils.isEmpty(setting.customizeAPI)) "https://qyapi.weixin.qq.com/cgi-bin" else setting.customizeAPI
+            val requestUrl = "$customApi/message/send?access_token=$accessToken"
             Log.i(TAG, "requestUrl:$requestUrl")
             val requestMsg: String = Gson().toJson(textMsgMap)
             Log.i(TAG, "requestMsg:$requestMsg")

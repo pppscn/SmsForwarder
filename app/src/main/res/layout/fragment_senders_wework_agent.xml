@@ -224,7 +224,6 @@
 
             </LinearLayout>
 
-
             <LinearLayout
                 android:id="@+id/layout_toTag"
                 style="@style/senderBarStyle"
@@ -409,6 +408,45 @@
                         app:met_passWordButton="true" />
 
                 </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/senderBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:text="@string/Customize_API"
+                        android:textStyle="bold" />
+
+                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                        android:id="@+id/et_customizeAPI"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        app:met_clearButton="true" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/customize_api_tips"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
 
             </LinearLayout>
 
