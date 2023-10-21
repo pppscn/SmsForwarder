@@ -47,8 +47,8 @@ class WeworkAgentUtils private constructor() {
                 return sendTextMsg(setting, msgInfo, rule, senderIndex, logId, msgId)
             }
 
-            val customApi = if (TextUtils.isEmpty(setting.customizeAPI)) "https://qyapi.weixin.qq.com/cgi-bin" else setting.customizeAPI
-            var getTokenUrl = "$customApi/gettoken?"
+            val customApi = if (TextUtils.isEmpty(setting.customizeAPI)) "https://qyapi.weixin.qq.com" else setting.customizeAPI
+            var getTokenUrl = "$customApi/cgi-bin/gettoken?"
             getTokenUrl += "corpid=" + setting.corpID
             getTokenUrl += "&corpsecret=" + setting.secret
             Log.d(TAG, "getTokenUrl：$getTokenUrl")
@@ -141,8 +141,8 @@ class WeworkAgentUtils private constructor() {
             textText["content"] = content
             textMsgMap["text"] = textText
             val accessToken: String by SharedPreference("access_token_" + setting.agentID, "")
-            val customApi = if (TextUtils.isEmpty(setting.customizeAPI)) "https://qyapi.weixin.qq.com/cgi-bin" else setting.customizeAPI
-            val requestUrl = "$customApi/message/send?access_token=$accessToken"
+            val customApi = if (TextUtils.isEmpty(setting.customizeAPI)) "https://qyapi.weixin.qq.com" else setting.customizeAPI
+            val requestUrl = "$customApi/cgi-bin/message/send?access_token=$accessToken"
             Log.i(TAG, "requestUrl:$requestUrl")
             val requestMsg: String = Gson().toJson(textMsgMap)
             Log.i(TAG, "requestMsg:$requestMsg")

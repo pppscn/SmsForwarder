@@ -18,7 +18,7 @@ data class WeworkAgentSetting(
     val proxyAuthenticator: Boolean? = false,
     val proxyUsername: String? = "",
     val proxyPassword: String? = "",
-    val customizeAPI: String = "https://qyapi.weixin.qq.com/cgi-bin",
+    val customizeAPI: String = "https://qyapi.weixin.qq.com",
 ) : Serializable {
 
     fun getProxyTypeCheckId(): Int {
