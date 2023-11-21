@@ -14,7 +14,7 @@ class BootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent?) {
         val receiveAction: String? = intent?.action
         Log.d(TAG, "onReceive intent $receiveAction")
-        if (receiveAction == "android.intent.action.BOOT_COMPLETED" || receiveAction == "android.intent.action.LOCKED_BOOT_COMPLETED") {
+        if (receiveAction == Intent.ACTION_BOOT_COMPLETED || receiveAction == Intent.ACTION_LOCKED_BOOT_COMPLETED) {
             try {
                 Log.d(TAG, "强制重启APP一次")
                 val intent1 = Intent(context, SplashActivity::class.java)

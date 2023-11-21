@@ -157,6 +157,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         editAddExtraSim1(binding!!.etExtraSim1)
         //SIM2备注
         editAddExtraSim2(binding!!.etExtraSim2)
+        //SIM卡槽状态监控
+        switchSimStateReceiver(binding!!.sbSimStateReceiver)
         //通知内容
         editNotifyContent(binding!!.etNotifyContent)
 
@@ -212,10 +214,12 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                     it.show()
                 }
             }
+
             R.id.btn_extra_device_mark -> {
                 binding!!.etExtraDeviceMark.setText(PhoneUtils.getDeviceName())
                 return
             }
+
             R.id.btn_extra_sim1 -> {
                 App.SimInfoList = PhoneUtils.getSimMultiInfo()
                 if (App.SimInfoList.isEmpty()) {
@@ -239,6 +243,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 binding!!.etExtraSim1.setText(simInfo?.mCarrierName.toString() + "_" + simInfo?.mNumber.toString())
                 return
             }
+
             R.id.btn_extra_sim2 -> {
                 App.SimInfoList = PhoneUtils.getSimMultiInfo()
                 if (App.SimInfoList.isEmpty()) {
@@ -262,32 +267,38 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 binding!!.etExtraSim2.setText(simInfo?.mCarrierName.toString() + "_" + simInfo?.mNumber.toString())
                 return
             }
+
             R.id.bt_insert_sender -> {
                 CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_from))
                 return
             }
+
             R.id.bt_insert_content -> {
                 CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_sms))
                 return
             }
+
             R.id.bt_insert_extra -> {
                 CommonUtils.insertOrReplaceText2Cursor(
                     etSmsTemplate, getString(R.string.tag_card_slot)
                 )
                 return
             }
+
             R.id.bt_insert_time -> {
                 CommonUtils.insertOrReplaceText2Cursor(
                     etSmsTemplate, getString(R.string.tag_receive_time)
                 )
                 return
             }
+
             R.id.bt_insert_device_name -> {
                 CommonUtils.insertOrReplaceText2Cursor(
                     etSmsTemplate, getString(R.string.tag_device_name)
                 )
                 return
             }
+
             else -> {}
         }
     }
@@ -879,6 +890,25 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 SettingUtils.extraSim2 = etExtraSim2.text.toString().trim()
             }
         })
+    }
+
+    //SIM卡槽状态监控
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    fun switchSimStateReceiver(sbSimStateReceiver: SwitchButton) {
+        sbSimStateReceiver.isChecked = SettingUtils.enableSimStateReceiver
+        sbSimStateReceiver.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            App.SimInfoList = PhoneUtils.getSimMultiInfo()
+            if (isChecked && App.SimInfoList.isEmpty()) {
+                XToastUtils.error(R.string.tip_can_not_get_sim_infos)
+                XXPermissions.startPermissionActivity(
+                    requireContext(), "android.permission.READ_PHONE_STATE"
+                )
+                SettingUtils.enableSimStateReceiver = false
+                sbSimStateReceiver.isChecked = false
+                return@setOnCheckedChangeListener
+            }
+            SettingUtils.enableSimStateReceiver = isChecked
+        }
     }
 
     //设置通知内容

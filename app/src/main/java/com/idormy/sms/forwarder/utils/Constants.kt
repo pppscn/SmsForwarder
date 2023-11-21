@@ -80,6 +80,7 @@ const val SP_SUBID_SIM1 = "subid_sim1"
 const val SP_SUBID_SIM2 = "subid_sim2"
 const val SP_EXTRA_SIM1 = "extra_sim1"
 const val SP_EXTRA_SIM2 = "extra_sim2"
+const val SP_SIM_STATE_RECEIVER = "enable_sim_state_receiver"
 const val SP_ENABLE_SMS_TEMPLATE = "enable_sms_template"
 const val SP_SMS_TEMPLATE = "sms_template"
 

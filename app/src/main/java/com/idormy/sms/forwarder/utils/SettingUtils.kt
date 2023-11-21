@@ -130,17 +130,20 @@ class SettingUtils private constructor() {
         //设备名称
         var extraDeviceMark: String by SharedPreference(SP_EXTRA_DEVICE_MARK, "")
 
-        //SM1主键
+        //SIM1主键
         var subidSim1: Int by SharedPreference(SP_SUBID_SIM1, 0)
 
-        //SM2主键
+        //SIM2主键
         var subidSim2: Int by SharedPreference(SP_SUBID_SIM2, 0)
 
-        //SM1备注
+        //SIM1备注
         var extraSim1: String by SharedPreference(SP_EXTRA_SIM1, "")
 
-        //SM2备注
+        //SIM2备注
         var extraSim2: String by SharedPreference(SP_EXTRA_SIM2, "")
+
+        //SIM卡槽状态监控
+        var enableSimStateReceiver: Boolean by SharedPreference(SP_SIM_STATE_RECEIVER, false)
 
         //是否启用自定义模板
         var enableSmsTemplate: Boolean by SharedPreference(SP_ENABLE_SMS_TEMPLATE, false)

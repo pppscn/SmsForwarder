@@ -558,6 +558,8 @@
     <string name="active_request_tips">Obtain instructions through passive reception or active polling to operate the machine</string>
     <string name="httpserver">Local HttpServer</string>
     <string name="httpserver_tips">Available under WiFi network, after startup, other machines in the LAN can directly call the local interface</string>
+    <string name="sim_state_monitor">SIM State Monitor</string>
+    <string name="sim_state_monitor_tips">[Note] You need to manually create APP forwarding rules, package name: 66666666</string>
     <string name="network_state_monitor">Network State Monitor</string>
     <string name="network_state_monitor_tips">[Note] You need to manually create APP forwarding rules, package name: 77777777</string>
     <string name="network_state_change_remind">Network State Change Remind</string>
@@ -1048,4 +1050,11 @@
     <string name="operator_name">Operator Name</string>
     <string name="host_address">Host Address</string>
     <string name="loading_app_list">Loading app list async...</string>
+
+    <string name="carrier_name">Carrier Name</string>
+    <string name="icc_id">ICC ID</string>
+    <string name="sim_slot_index">Sim Slot Index</string>
+    <string name="number">Number</string>
+    <string name="country_iso">Country</string>
+    <string name="subscription_id">Subscription ID</string>
 </resources>
