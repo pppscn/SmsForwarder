@@ -7,6 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
+import android.net.wifi.WifiInfo
+import android.net.wifi.WifiManager
 import android.os.IBinder
 import android.util.Log
 import androidx.work.OneTimeWorkRequestBuilder
@@ -86,27 +88,31 @@ class NetworkStateService : Service() {
             }
             msg.append(getString(R.string.network_type)).append(": ").append(netStateTypeName).append("\n")
 
-            //获取网络运营商名称：中国移动、中国联通、中国电信
             if (netStateType == NetworkUtils.NetState.NET_2G || netStateType == NetworkUtils.NetState.NET_3G || netStateType == NetworkUtils.NetState.NET_4G || netStateType == NetworkUtils.NetState.NET_5G) {
+                //获取网络运营商名称：中国移动、中国联通、中国电信
                 val operatorName = NetworkUtils.getNetworkOperatorName()
                 msg.append(getString(R.string.operator_name)).append(": ").append(operatorName).append("\n")
+            } else if (netStateType == NetworkUtils.NetState.NET_WIFI) {
+                //获取当前连接的WiFi名称
+                val wifiSSID = getWifiSSID(context)
+                msg.append("SSID: ").append(wifiSSID).append("\n")
             }
 
             //获取IP地址
             val ipList = CommonUtils.getIPAddresses().filter { !isLocalAddress(it) }
             if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
-                ipList.forEach() {
+                ipList.forEach {
                     msg.append(getString(R.string.host_address)).append(": ").append(it).append("\n")
                     val hostAddress = if (it.indexOf(':', 0, false) > 0) "[${CommonUtils.removeInterfaceFromIP(it)}]" else it
                     msg.append(getString(R.string.http_server)).append(": ").append("http://${hostAddress}:5000").append("\n")
                 }
             } else {
-                ipList.forEach() {
+                ipList.forEach {
                     msg.append(getString(R.string.host_address)).append(": ").append(it).append("\n")
                 }
             }
 
-            sendMessage(context, msg.toString())
+            sendMessage(context, msg.toString().trimEnd())
         }
     }
 
@@ -124,6 +130,19 @@ class NetworkStateService : Service() {
         } catch (e: Exception) {
             Log.e(TAG, "getLog e:" + e.message)
         }
+    }
+
+    //获取当前连接的WiFi名称
+    @SuppressLint("WifiManagerPotentialLeak")
+    private fun getWifiSSID(context: Context): String {
+        val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiInfo: WifiInfo? = wifiManager.connectionInfo
+
+        if (wifiInfo != null && wifiInfo.networkId != -1) {
+            return wifiInfo.ssid.replace("\"", "")
+        }
+
+        return "Not connected to WiFi"
     }
 
     //检查IP地址是否为本地地址
