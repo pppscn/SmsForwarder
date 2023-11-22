@@ -25,6 +25,15 @@ import com.xuexiang.xutil.app.ServiceUtils
 import com.xuexiang.xutil.net.NetworkUtils
 import java.util.*
 
+import android.os.Build
+import android.telephony.SubscriptionInfo
+import android.telephony.SubscriptionManager
+import androidx.annotation.RequiresApi
+import com.idormy.sms.forwarder.App
+import com.idormy.sms.forwarder.utils.PhoneUtils
+import com.xuexiang.xutil.resource.ResUtils
+import java.lang.reflect.Method
+
 @Suppress("DEPRECATION")
 class NetworkStateService : Service() {
 
@@ -59,8 +68,9 @@ class NetworkStateService : Service() {
         unregisterReceiver(networkStateReceiver)
     }
 
-    // 接收电池信息更新的广播
+    // 接收网络状态更新的广播
     private val networkStateReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        @RequiresApi(Build.VERSION_CODES.Q)
         @SuppressLint("DefaultLocale")
         override fun onReceive(context: Context, intent: Intent) {
 
@@ -91,8 +101,15 @@ class NetworkStateService : Service() {
 
             if (netStateType == NetworkUtils.NetState.NET_2G || netStateType == NetworkUtils.NetState.NET_3G || netStateType == NetworkUtils.NetState.NET_4G || netStateType == NetworkUtils.NetState.NET_5G) {
                 //获取网络运营商名称：中国移动、中国联通、中国电信
-                val operatorName = NetworkUtils.getNetworkOperatorName()
-                msg.append(getString(R.string.operator_name)).append(": ").append(operatorName).append("\n")
+                // 获取 SIM 卡信息
+                App.SimInfoList = PhoneUtils.getSimMultiInfo()
+                Log.d(TAG, App.SimInfoList.toString())
+                // 获取当前使用的 SIM index
+                val sim_index = getSlotId(context)
+                val msgTemp = StringBuilder()
+                msgTemp.append("[SIM-").append(sim_index + 1).append("]__")
+                msgTemp.append(ResUtils.getString(R.string.carrier_name)).append(": ").append(App.SimInfoList[sim_index]?.mCarrierName)
+                msg.append(getString(R.string.operator_name)).append(": ").append(msgTemp).append("\n")
             } else if (netStateType == NetworkUtils.NetState.NET_WIFI) {
                 //获取当前连接的WiFi名称
                 val wifiSSID = getWifiSSID(context)
@@ -115,6 +132,99 @@ class NetworkStateService : Service() {
 
             sendMessage(context, msg.toString().trimEnd())
         }
+    }
+
+    // 判断手机数据流量是否打开
+    @Suppress("rawtypes", "unchecked")
+    private fun isMobileDataOpen(context: Context): Boolean {
+        return try {
+            val mConnectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val ownerClass = mConnectivityManager.javaClass
+            val method = ownerClass.getMethod("getMobileDataEnabled")
+            method.invoke(mConnectivityManager) as Boolean
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    // 获取当前数据连接的卡槽ID
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun getSlotId(context: Context): Int {
+        if (!isMobileDataOpen(context)) {
+            return -1
+        }
+        var dataSubId = 0
+        try {
+            dataSubId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                SubscriptionManager.getDefaultDataSubscriptionId()
+            } else {
+                getDataSubId(context)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return SubscriptionManager.getSlotIndex(dataSubId)
+    }
+
+    // 获取数据连接的订阅ID
+    private fun getDataSubId(context: Context): Int {
+        val defaultDataSlotId = getDefaultDataSlotId(context)
+        try {
+            val obj = Class.forName("android.telephony.SubscriptionManager")
+                .getDeclaredMethod("getSubId", Int::class.javaPrimitiveType)
+                .invoke(null, defaultDataSlotId)
+            if (obj != null) {
+                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) {
+                    return (obj as LongArray)[0].toInt()
+                }
+                return (obj as IntArray)[0]
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return defaultDataSlotId
+    }
+
+    // 获取默认数据卡的卡槽ID
+    private fun getDefaultDataSlotId(context: Context): Int {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            val subscriptionManager = SubscriptionManager.from(context.applicationContext)
+            if (subscriptionManager != null) {
+                try {
+                    val subClass = Class.forName(subscriptionManager.javaClass.name)
+                    val getSubID = subClass.getMethod("getDefaultDataSubscriptionInfo")
+                    val subInfo = getSubID.invoke(subscriptionManager) as SubscriptionInfo
+                    if (subInfo != null) {
+                        return subInfo.simSlotIndex
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        } else {
+            try {
+                val cls = Class.forName("android.telephony.SubscriptionManager")
+                var getSubId: Method
+                try {
+                    getSubId = cls.getDeclaredMethod("getDefaultDataSubId")
+                } catch (e: NoSuchMethodException) {
+                    getSubId = cls.getDeclaredMethod("getDefaultDataSubscriptionId")
+                }
+                val subId = getSubId.invoke(null) as Int
+                val slotId: Int
+                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) {
+                    val getSlotId = cls.getDeclaredMethod("getSlotId", Long::class.javaPrimitiveType)
+                    slotId = getSlotId.invoke(null, subId.toLong()) as Int
+                } else {
+                    val getSlotId = cls.getDeclaredMethod("getSlotId", Int::class.javaPrimitiveType)
+                    slotId = getSlotId.invoke(null, subId) as Int
+                }
+                return slotId
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        return -1
     }
 
     //发送信息
