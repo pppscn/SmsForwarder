@@ -31,13 +31,35 @@ class SmsReceiver : BroadcastReceiver() {
             if (SettingUtils.enablePureClientMode) return
 
             //过滤广播
-            if (intent.action != Telephony.Sms.Intents.SMS_RECEIVED_ACTION && intent.action != Telephony.Sms.Intents.SMS_DELIVER_ACTION) return
+            if (intent.action != Telephony.Sms.Intents.SMS_RECEIVED_ACTION
+                && intent.action != Telephony.Sms.Intents.SMS_DELIVER_ACTION
+                && intent.action != Telephony.Sms.Intents.WAP_PUSH_RECEIVED_ACTION
+                && intent.action != Telephony.Sms.Intents.WAP_PUSH_DELIVER_ACTION
+            ) return
 
             var from = ""
             var message = ""
-            for (smsMessage in Telephony.Sms.Intents.getMessagesFromIntent(intent)) {
-                from = smsMessage.displayOriginatingAddress
-                message += smsMessage.messageBody
+            if (intent.action == Telephony.Sms.Intents.WAP_PUSH_RECEIVED_ACTION || intent.action == Telephony.Sms.Intents.WAP_PUSH_DELIVER_ACTION) {
+                from = intent.getStringExtra("address") ?: ""
+                message = intent.getStringExtra("body") ?: ""
+                Log.d(TAG, "from = $from, message = $message")
+
+                val bundle = intent.extras
+                bundle?.let {
+                    for (key in bundle.keySet()) {
+                        val obj = bundle.get(key)
+                        if (obj is ByteArray) {
+                            val data = String(obj)
+                            // 解析彩信内容
+                            parseMMSContent(data, from)
+                        }
+                    }
+                }
+            } else {
+                for (smsMessage in Telephony.Sms.Intents.getMessagesFromIntent(intent)) {
+                    from = smsMessage.displayOriginatingAddress
+                    message += smsMessage.messageBody
+                }
             }
             Log.d(TAG, "from = $from, message = $message")
 
@@ -122,6 +144,58 @@ class SmsReceiver : BroadcastReceiver() {
 
         val smsCommand = message.substring(5)
         SmsCommandUtils.execute(context, smsCommand)
+    }
+
+    private fun parseMMSContent(data: String, sender: String?) {
+        // 在这里实现解析彩信内容的逻辑
+        Log.d("MMSReceiver", "Received MMS from: $sender, Data: $data")
+
+        val parts = data.split("\n\n") // 假设彩信内容以两个换行符 "\n\n" 分隔不同部分
+        parts.forEach { part ->
+            val lines = part.split("\n")
+            var contentType: String? = null
+            var content: String? = null
+            var contentTransferEncoding: String? = null
+
+            lines.forEach { line ->
+                Log.d(TAG, "Line: $line")
+                val keyValue = line.split(":")
+                if (keyValue.size == 2) {
+                    val key = keyValue[0].trim()
+                    val value = keyValue[1].trim()
+
+                    when (key.toLowerCase()) {
+                        "content-type" -> contentType = value
+                        "content-transfer-encoding" -> contentTransferEncoding = value
+                    }
+                }
+            }
+
+            // 处理不同 MIME 类型的内容
+            contentType?.let {
+                when {
+                    it.startsWith("text") -> {
+                        // 文本内容
+                        content = lines.last() // 假设文本内容在当前部分的最后一行
+                        // 处理文本内容，例如展示在 TextView 中
+                        Log.d(TAG, "Text data: $content")
+                    }
+
+                    it.startsWith("image") -> {
+                        // 图片内容
+                        // 如果 contentTransferEncoding 表示 base64 编码
+                        if (contentTransferEncoding.equals("base64", true)) {
+                            content = lines.last() // 假设图片数据在当前部分的最后一行
+                            // 解码图片数据并展示或保存图片
+                            val decodedImage = android.util.Base64.decode(content, android.util.Base64.DEFAULT)
+                            // 处理解码后的图片数据
+                            Log.d(TAG, "Image data: $decodedImage")
+                        }
+                    }
+                    // 可以根据其他 MIME 类型继续添加处理逻辑，比如视频、音频等
+                }
+            }
+        }
     }
 
 }

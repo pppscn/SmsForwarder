@@ -317,6 +317,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             if (isChecked) {
                 //检查权限是否获取
                 XXPermissions.with(this)
+                    // 接收 WAP 推送消息
+                    .permission(Permission.RECEIVE_WAP_PUSH)
+                    // 接收彩信
+                    .permission(Permission.RECEIVE_MMS)
                     // 接收短信
                     .permission(Permission.RECEIVE_SMS)
                     // 发送短信
@@ -1000,14 +1004,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             if (isChecked) {
                 XXPermissions.with(this).permission(Permission.ACCESS_COARSE_LOCATION).permission(Permission.ACCESS_FINE_LOCATION).permission(Permission.ACCESS_BACKGROUND_LOCATION).request(object : OnPermissionCallback {
                     override fun onGranted(permissions: List<String>, all: Boolean) {
-                        //重启前台服务
-                        val serviceIntent = Intent(requireContext(), ForegroundService::class.java)
-                        serviceIntent.action = "START"
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            requireContext().startForegroundService(serviceIntent)
-                        } else {
-                            requireContext().startService(serviceIntent)
-                        }
+                        restartForegroundService()
                     }
 
                     override fun onDenied(permissions: List<String>, never: Boolean) {
@@ -1020,9 +1017,23 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                         }
                         SettingUtils.enableLocationTag = false
                         switchEnableLocationTag.isChecked = false
+                        restartForegroundService()
                     }
                 })
+            } else {
+                restartForegroundService()
             }
+        }
+    }
+
+    //重启前台服务
+    private fun restartForegroundService() {
+        val serviceIntent = Intent(requireContext(), ForegroundService::class.java)
+        serviceIntent.action = "START"
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            requireContext().startForegroundService(serviceIntent)
+        } else {
+            requireContext().startService(serviceIntent)
         }
     }
 
