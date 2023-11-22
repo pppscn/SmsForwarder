@@ -607,6 +607,7 @@
     <string name="tag_title">{{TITLE}}</string>
     <string name="tag_scheme">{{SCHEME}}</string>
     <string name="tag_call_type">{{CALL_TYPE}}</string>
+    <string name="tag_location">{{LOCATION}}</string>
     <string name="rule_sms">SMS</string>
     <string name="rule_call">CALL</string>
     <string name="rule_app">APP</string>
@@ -1057,4 +1058,7 @@
     <string name="number">Number</string>
     <string name="country_iso">Country</string>
     <string name="subscription_id">Subscription ID</string>
+
+    <string name="enable_location_tag">Enable {{LOCATION}} Tag</string>
+    <string name="enable_location_tag_tips">Insert location info into forwarded msg.</string>
 </resources>

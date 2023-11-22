@@ -86,6 +86,7 @@ const val SP_SMS_TEMPLATE = "sms_template"
 
 const val SP_ENABLE_HELP_TIP = "enable_help_tip"
 const val SP_PURE_CLIENT_MODE = "enable_pure_client_mode"
+const val SP_LOCATION_TAG = "enable_location_tag"
 
 const val SP_ENABLE_CACTUS = "enable_cactus"
 const val CACTUS_TIMER = "cactus_timer"
@@ -324,6 +325,7 @@ var SENDER_FRAGMENT_LIST = listOf(
 
 //前台服务
 const val FRONT_NOTIFY_ID = 0x1010
+const val NOTIFICATION_ID = 101
 const val FRONT_CHANNEL_ID = "com.idormy.sms.forwarder"
 const val FRONT_CHANNEL_NAME = "SmsForwarder Foreground Service"
 
@@ -349,7 +351,6 @@ const val KEY_URL = "key_url"
 //主页监听时间
 const val EVENT_UPDATE_LOGS_TYPE = "key_logs_type"
 const val EVENT_UPDATE_RULE_TYPE = "key_status"
-const val EVENT_UPDATE_NOTIFY = "key_notify"
 
 const val KEY_SENDER_ID = "key_sender_id"
 const val KEY_SENDER_TYPE = "key_sender_type"

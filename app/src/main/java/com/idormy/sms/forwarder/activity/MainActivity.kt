@@ -104,12 +104,12 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
 
                 //启动前台服务
                 if (!ForegroundService.isRunning) {
-                    Intent(this, ForegroundService::class.java).also {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            startForegroundService(it)
-                        } else {
-                            startService(it)
-                        }
+                    val serviceIntent = Intent(this, ForegroundService::class.java)
+                    serviceIntent.action = "START"
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        startForegroundService(serviceIntent)
+                    } else {
+                        startService(serviceIntent)
                     }
                 }
             })
@@ -204,6 +204,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
                                 .show()
                         }
                     }
+
                     R.id.nav_app_list -> openNewPage(AppListFragment::class.java)
                     //R.id.nav_logcat -> openNewPage(LogcatFragment::class.java)
                     R.id.nav_help -> AgentWebActivity.goWeb(this, getString(R.string.url_help))
@@ -232,12 +233,15 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
                     getString(R.string.menu_rules) -> binding!!.includeMain.toolbar.inflateMenu(
                         R.menu.menu_rules
                     )
+
                     getString(R.string.menu_senders) -> binding!!.includeMain.toolbar.inflateMenu(
                         R.menu.menu_senders
                     )
+
                     getString(R.string.menu_settings) -> binding!!.includeMain.toolbar.inflateMenu(
                         R.menu.menu_settings
                     )
+
                     else -> binding!!.includeMain.toolbar.inflateMenu(R.menu.menu_logs)
                 }
                 item.isChecked = true
@@ -254,13 +258,6 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
         }
         LiveEventBus.get(EVENT_UPDATE_RULE_TYPE, String::class.java).observe(this) { type: String ->
             ruleType = type
-        }
-
-        //更新通知栏文案
-        LiveEventBus.get(EVENT_UPDATE_NOTIFY, String::class.java).observe(this) { notify: String ->
-            cactusUpdateNotification {
-                setContent(notify)
-            }
         }
     }
 
@@ -287,6 +284,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
             R.id.action_notifications -> {
                 showTipsForce(this)
             }
+
             R.id.action_clear_logs -> {
                 MaterialDialog.Builder(this)
                     .content(R.string.delete_type_log_tips)
@@ -311,6 +309,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
                     }
                     .show()
             }
+
             R.id.action_add_sender -> {
                 val dialog = BottomSheetDialog(this)
                 val view: View =
@@ -328,6 +327,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
                 dialog.show()
                 WidgetUtils.transparentBottomSheetDialogBackground(dialog)
             }
+
             R.id.action_add_rule -> {
                 PageOption.to(RulesEditFragment::class.java)
                     .putString(KEY_RULE_TYPE, ruleType)

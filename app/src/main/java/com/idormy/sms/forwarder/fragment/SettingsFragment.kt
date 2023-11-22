@@ -18,6 +18,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
@@ -32,6 +33,7 @@ import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentSettingsBinding
 import com.idormy.sms.forwarder.entity.SimInfo
 import com.idormy.sms.forwarder.receiver.BootReceiver
+import com.idormy.sms.forwarder.service.ForegroundService
 import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.workers.LoadAppListWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
@@ -172,6 +174,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
         //纯客户端模式
         switchDirectlyToClient(binding!!.sbDirectlyToClient)
+
+        //启用 {{定位信息}} 标签
+        switchEnableLocationTag(binding!!.sbEnableLocationTag)
     }
 
     override fun onResume() {
@@ -918,21 +923,25 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
-                SettingUtils.notifyContent = etNotifyContent.text.toString().trim()
-                LiveEventBus.get(EVENT_UPDATE_NOTIFY, String::class.java).post(SettingUtils.notifyContent)
+                val notifyContent = etNotifyContent.text.toString().trim()
+                SettingUtils.notifyContent = notifyContent
+                val updateIntent = Intent(context, ForegroundService::class.java)
+                updateIntent.action = "UPDATE_NOTIFICATION"
+                updateIntent.putExtra("UPDATED_CONTENT", notifyContent)
+                context?.let { ContextCompat.startForegroundService(it, updateIntent) }
             }
         })
     }
 
     //设置转发时启用自定义模版
     @SuppressLint("UseSwitchCompatOrMaterialCode", "SetTextI18n")
-    fun switchSmsTemplate(sb_sms_template: SwitchButton) {
+    fun switchSmsTemplate(sbSmsTemplate: SwitchButton) {
         val isOn: Boolean = SettingUtils.enableSmsTemplate
-        sb_sms_template.isChecked = isOn
+        sbSmsTemplate.isChecked = isOn
         val layoutSmsTemplate: LinearLayout = binding!!.layoutSmsTemplate
         layoutSmsTemplate.visibility = if (isOn) View.VISIBLE else View.GONE
         val etSmsTemplate: EditText = binding!!.etSmsTemplate
-        sb_sms_template.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+        sbSmsTemplate.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             layoutSmsTemplate.visibility = if (isChecked) View.VISIBLE else View.GONE
             SettingUtils.enableSmsTemplate = isChecked
             if (!isChecked) {
@@ -979,6 +988,40 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 MaterialDialog.Builder(requireContext()).content(getString(R.string.enabling_pure_client_mode)).positiveText(R.string.lab_yes).onPositive { _: MaterialDialog?, _: DialogAction? ->
                     XUtil.exitApp()
                 }.negativeText(R.string.lab_no).show()
+            }
+        }
+    }
+
+    //启用 {{定位信息}} 标签
+    private fun switchEnableLocationTag(@SuppressLint("UseSwitchCompatOrMaterialCode") switchEnableLocationTag: SwitchButton) {
+        switchEnableLocationTag.isChecked = SettingUtils.enableLocationTag
+        switchEnableLocationTag.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            SettingUtils.enableLocationTag = isChecked
+            if (isChecked) {
+                XXPermissions.with(this).permission(Permission.ACCESS_COARSE_LOCATION).permission(Permission.ACCESS_FINE_LOCATION).permission(Permission.ACCESS_BACKGROUND_LOCATION).request(object : OnPermissionCallback {
+                    override fun onGranted(permissions: List<String>, all: Boolean) {
+                        //重启前台服务
+                        val serviceIntent = Intent(requireContext(), ForegroundService::class.java)
+                        serviceIntent.action = "START"
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            requireContext().startForegroundService(serviceIntent)
+                        } else {
+                            requireContext().startService(serviceIntent)
+                        }
+                    }
+
+                    override fun onDenied(permissions: List<String>, never: Boolean) {
+                        if (never) {
+                            XToastUtils.error(R.string.toast_denied_never)
+                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            XXPermissions.startPermissionActivity(requireContext(), permissions)
+                        } else {
+                            XToastUtils.error(R.string.toast_denied)
+                        }
+                        SettingUtils.enableLocationTag = false
+                        switchEnableLocationTag.isChecked = false
+                    }
+                })
             }
         }
     }

@@ -112,12 +112,12 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
             }
 
             //启动前台服务
-            Intent(this, ForegroundService::class.java).also {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    startForegroundService(it)
-                } else {
-                    startService(it)
-                }
+            val serviceIntent = Intent(this, ForegroundService::class.java)
+            serviceIntent.action = "START"
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(serviceIntent)
+            } else {
+                startService(serviceIntent)
             }
 
             //网络状态监听

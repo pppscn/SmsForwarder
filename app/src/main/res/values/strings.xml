@@ -608,6 +608,7 @@
     <string name="tag_title">{{通知标题}}</string>
     <string name="tag_scheme">{{通知Scheme}}</string>
     <string name="tag_call_type">{{通话类型}}</string>
+    <string name="tag_location">{{定位信息}}</string>
     <string name="rule_sms">短信</string>
     <string name="rule_call">来电</string>
     <string name="rule_app">应用</string>
@@ -1058,4 +1059,7 @@
     <string name="number">手机号码</string>
     <string name="country_iso">国家代码</string>
     <string name="subscription_id">订阅标识</string>
+
+    <string name="enable_location_tag">启用 {{定位信息}} 标签</string>
+    <string name="enable_location_tag_tips">在转发信息中插入手机的当前定位信息</string>
 </resources>

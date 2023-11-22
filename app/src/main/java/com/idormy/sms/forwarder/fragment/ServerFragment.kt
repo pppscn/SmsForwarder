@@ -471,7 +471,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
         })
     }
 
-    //联系人权限
+    //定位权限
     private fun checkLocationPermission() {
         XXPermissions.with(this).permission(Permission.ACCESS_COARSE_LOCATION).permission(Permission.ACCESS_FINE_LOCATION).permission(Permission.ACCESS_BACKGROUND_LOCATION).request(object : OnPermissionCallback {
             override fun onGranted(permissions: List<String>, all: Boolean) {

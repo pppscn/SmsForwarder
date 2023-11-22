@@ -157,6 +157,9 @@ class SettingUtils private constructor() {
         //是否纯客户端模式
         var enablePureClientMode: Boolean by SharedPreference(SP_PURE_CLIENT_MODE, false)
 
+        //是否启用定位标签
+        var enableLocationTag: Boolean by SharedPreference(SP_LOCATION_TAG, false)
+
     }
 
     init {
