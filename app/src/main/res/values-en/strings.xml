@@ -1055,9 +1055,20 @@
     <string name="carrier_name">Carrier Name</string>
     <string name="icc_id">ICC ID</string>
     <string name="sim_slot_index">Sim Slot Index</string>
+    <string name="data_sim_index">Data Sim Slot</string>
     <string name="number">Number</string>
     <string name="country_iso">Country</string>
     <string name="subscription_id">Subscription ID</string>
+
+    <string name="net_no">No Net</string>
+    <string name="net_2g">2G Net</string>
+    <string name="net_3g">3G Net</string>
+    <string name="net_4g">4G Net</string>
+    <string name="net_5g">5G Net</string>
+    <string name="net_wifi">WiFi</string>
+    <string name="net_ethernet">Ethernet</string>
+    <string name="net_unknown">Unknown</string>
+    <string name="wifi_ssid">WiFi SSID</string>
 
     <string name="enable_location_tag">Enable {{LOCATION}} Tag</string>
     <string name="enable_location_tag_tips">Insert location info into forwarded msg.</string>

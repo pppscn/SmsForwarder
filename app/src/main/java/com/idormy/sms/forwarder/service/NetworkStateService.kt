@@ -31,7 +31,6 @@ import android.telephony.SubscriptionManager
 import androidx.annotation.RequiresApi
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.utils.PhoneUtils
-import com.xuexiang.xutil.resource.ResUtils
 import java.lang.reflect.Method
 
 @Suppress("DEPRECATION")
@@ -87,33 +86,35 @@ class NetworkStateService : Service() {
             val netStateType = NetworkUtils.getNetStateType()
             Log.d(TAG, "netStateType: $netStateType")
             val netStateTypeName = when (netStateType) {
-                NetworkUtils.NetState.NET_NO -> "没有网络"
-                NetworkUtils.NetState.NET_2G -> "2G网络"
-                NetworkUtils.NetState.NET_3G -> "3G网络"
-                NetworkUtils.NetState.NET_4G -> "4G网络"
-                NetworkUtils.NetState.NET_5G -> "5G网络"
-                NetworkUtils.NetState.NET_WIFI -> "Wifi"
-                NetworkUtils.NetState.NET_ETHERNET -> "有线网络"
-                NetworkUtils.NetState.NET_UNKNOWN -> "未知网络"
-                else -> "未知网络"
+                NetworkUtils.NetState.NET_NO -> getString(R.string.no_network)
+                NetworkUtils.NetState.NET_2G -> getString(R.string.net_2g)
+                NetworkUtils.NetState.NET_3G -> getString(R.string.net_3g)
+                NetworkUtils.NetState.NET_4G -> getString(R.string.net_4g)
+                NetworkUtils.NetState.NET_5G -> getString(R.string.net_5g)
+                NetworkUtils.NetState.NET_WIFI -> getString(R.string.net_wifi)
+                NetworkUtils.NetState.NET_ETHERNET -> getString(R.string.net_ethernet)
+                NetworkUtils.NetState.NET_UNKNOWN -> getString(R.string.net_unknown)
+                else -> getString(R.string.net_unknown)
             }
             msg.append(getString(R.string.network_type)).append(": ").append(netStateTypeName).append("\n")
 
             if (netStateType == NetworkUtils.NetState.NET_2G || netStateType == NetworkUtils.NetState.NET_3G || netStateType == NetworkUtils.NetState.NET_4G || netStateType == NetworkUtils.NetState.NET_5G) {
-                //获取网络运营商名称：中国移动、中国联通、中国电信
-                // 获取 SIM 卡信息
-                App.SimInfoList = PhoneUtils.getSimMultiInfo()
-                Log.d(TAG, App.SimInfoList.toString())
                 // 获取当前使用的 SIM index
-                val sim_index = getSlotId(context)
-                val msgTemp = StringBuilder()
-                msgTemp.append("[SIM-").append(sim_index + 1).append("]__")
-                msgTemp.append(ResUtils.getString(R.string.carrier_name)).append(": ").append(App.SimInfoList[sim_index]?.mCarrierName)
-                msg.append(getString(R.string.operator_name)).append(": ").append(msgTemp).append("\n")
+                val simIndex = getSlotId(context)
+                if (simIndex != -1) {
+                    // 获取 SIM 卡信息
+                    App.SimInfoList = PhoneUtils.getSimMultiInfo()
+                    Log.d(TAG, App.SimInfoList.toString())
+                    if (App.SimInfoList[simIndex]?.mCarrierName != null) {
+                        //获取网络运营商名称：中国移动、中国联通、中国电信
+                        msg.append(getString(R.string.carrier_name)).append(": ").append(App.SimInfoList[simIndex]?.mCarrierName).append("\n")
+                    }
+                    msg.append(getString(R.string.data_sim_index)).append(": SIM-").append(simIndex + 1).append("\n")
+                }
             } else if (netStateType == NetworkUtils.NetState.NET_WIFI) {
                 //获取当前连接的WiFi名称
                 val wifiSSID = getWifiSSID(context)
-                msg.append("SSID: ").append(wifiSSID).append("\n")
+                msg.append(getString(R.string.wifi_ssid)).append(": ").append(wifiSSID).append("\n")
             }
 
             //获取IP地址
@@ -167,6 +168,7 @@ class NetworkStateService : Service() {
     }
 
     // 获取数据连接的订阅ID
+    @SuppressLint("DiscouragedPrivateApi")
     private fun getDataSubId(context: Context): Int {
         val defaultDataSlotId = getDefaultDataSlotId(context)
         try {
@@ -194,9 +196,7 @@ class NetworkStateService : Service() {
                     val subClass = Class.forName(subscriptionManager.javaClass.name)
                     val getSubID = subClass.getMethod("getDefaultDataSubscriptionInfo")
                     val subInfo = getSubID.invoke(subscriptionManager) as SubscriptionInfo
-                    if (subInfo != null) {
-                        return subInfo.simSlotIndex
-                    }
+                    return subInfo.simSlotIndex
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -204,20 +204,18 @@ class NetworkStateService : Service() {
         } else {
             try {
                 val cls = Class.forName("android.telephony.SubscriptionManager")
-                var getSubId: Method
-                try {
-                    getSubId = cls.getDeclaredMethod("getDefaultDataSubId")
+                val getSubId: Method = try {
+                    cls.getDeclaredMethod("getDefaultDataSubId")
                 } catch (e: NoSuchMethodException) {
-                    getSubId = cls.getDeclaredMethod("getDefaultDataSubscriptionId")
+                    cls.getDeclaredMethod("getDefaultDataSubscriptionId")
                 }
                 val subId = getSubId.invoke(null) as Int
-                val slotId: Int
-                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) {
+                val slotId: Int = if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) {
                     val getSlotId = cls.getDeclaredMethod("getSlotId", Long::class.javaPrimitiveType)
-                    slotId = getSlotId.invoke(null, subId.toLong()) as Int
+                    getSlotId.invoke(null, subId.toLong()) as Int
                 } else {
                     val getSlotId = cls.getDeclaredMethod("getSlotId", Int::class.javaPrimitiveType)
-                    slotId = getSlotId.invoke(null, subId) as Int
+                    getSlotId.invoke(null, subId) as Int
                 }
                 return slotId
             } catch (e: Exception) {
