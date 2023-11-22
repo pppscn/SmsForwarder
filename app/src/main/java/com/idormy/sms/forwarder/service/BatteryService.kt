@@ -19,6 +19,8 @@ import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.utils.BatteryUtils
+import com.idormy.sms.forwarder.utils.CacheUtils
+import com.idormy.sms.forwarder.utils.HistoryUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.Worker
 import com.idormy.sms.forwarder.workers.SendWorker
@@ -78,6 +80,10 @@ class BatteryService : Service() {
                 val cal = Calendar.getInstance()
                 cal.add(Calendar.DAY_OF_MONTH, 0 - SettingUtils.autoCleanLogsDays)
                 Core.msg.deleteTimeAgo(cal.timeInMillis)
+
+                //清理缓存
+                HistoryUtils.clearPreference()
+                CacheUtils.clearAllCache(context)
             }
 
             //守护自启动的Frpc
