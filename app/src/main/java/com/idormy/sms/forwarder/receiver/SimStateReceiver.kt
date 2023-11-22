@@ -50,26 +50,24 @@ class SimStateReceiver : BroadcastReceiver() {
 
                 TelephonyManager.SIM_STATE_READY -> {
                     Log.d(TAG, "SIM 卡已准备就绪，延迟2秒再获取信息")
+                    Thread.sleep(2000)
 
-                    val handler = Handler()
-                    handler.postDelayed({
-                        // 获取 SIM 卡信息
-                        App.SimInfoList = PhoneUtils.getSimMultiInfo()
-                        Log.d(TAG, App.SimInfoList.toString())
+                    // 获取 SIM 卡信息
+                    App.SimInfoList = PhoneUtils.getSimMultiInfo()
+                    Log.d(TAG, App.SimInfoList.toString())
 
-                        val msg = StringBuilder()
-                        App.SimInfoList.forEach {
-                            msg.append("[SIM-").append(it.key + 1).append("]\n")
-                            msg.append(getString(R.string.carrier_name)).append(": ").append(it.value.mCarrierName).append("\n")
-                            //msg.append(getString(R.string.icc_id)).append(": ").append(it.value.mIccId).append("\n")
-                            msg.append(getString(R.string.sim_slot_index)).append(": ").append(it.value.mSimSlotIndex).append("\n")
-                            msg.append(getString(R.string.number)).append(": ").append(it.value.mNumber).append("\n")
-                            msg.append(getString(R.string.country_iso)).append(": ").append(it.value.mCountryIso).append("\n")
-                            msg.append(getString(R.string.subscription_id)).append(": ").append(it.value.mSubscriptionId).append("\n")
-                        }
+                    val msg = StringBuilder()
+                    App.SimInfoList.forEach {
+                        msg.append("[SIM-").append(it.key + 1).append("]\n")
+                        msg.append(getString(R.string.carrier_name)).append(": ").append(it.value.mCarrierName).append("\n")
+                        //msg.append(getString(R.string.icc_id)).append(": ").append(it.value.mIccId).append("\n")
+                        msg.append(getString(R.string.sim_slot_index)).append(": ").append(it.value.mSimSlotIndex).append("\n")
+                        msg.append(getString(R.string.number)).append(": ").append(it.value.mNumber).append("\n")
+                        msg.append(getString(R.string.country_iso)).append(": ").append(it.value.mCountryIso).append("\n")
+                        msg.append(getString(R.string.subscription_id)).append(": ").append(it.value.mSubscriptionId).append("\n")
+                    }
 
-                        sendMessage(context, msg.toString().trimEnd())
-                    }, 2000)
+                    sendMessage(context, msg.toString().trimEnd())
                 }
 
                 TelephonyManager.SIM_STATE_CARD_IO_ERROR -> {

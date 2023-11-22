@@ -68,7 +68,8 @@ class NetworkStateService : Service() {
 
             if (!SettingUtils.enableNetworkStateReceiver) return
 
-            Log.i(TAG, "网络状态已经改变")
+            Log.i(TAG, "网络状态已经改变，延时2秒后获取信息")
+            Thread.sleep(2000)
 
             val msg = StringBuilder()
 
