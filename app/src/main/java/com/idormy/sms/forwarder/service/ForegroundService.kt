@@ -226,6 +226,9 @@ class ForegroundService : Service() {
                     locationClient.stopLocation()
                 }
                 locationClient.startLocation()
+            } else if ((!SettingUtils.enableLocationTag && !HttpServerUtils.enableApiLocation) && locationClient.isStarted()) {
+                Log.d(TAG, "stopLocation")
+                locationClient.stopLocation()
             }
 
             isRunning = true
@@ -239,7 +242,7 @@ class ForegroundService : Service() {
     private fun stopForegroundService() {
         try {
             //如果已经开始定位，则先停止定位
-            if (HttpServerUtils.enableApiLocation && locationClient.isStarted()) {
+            if ((SettingUtils.enableLocationTag || HttpServerUtils.enableApiLocation) && locationClient.isStarted()) {
                 locationClient.stopLocation()
             }
 

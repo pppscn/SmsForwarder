@@ -2,6 +2,7 @@ package com.idormy.sms.forwarder.fragment
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
@@ -20,6 +21,7 @@ import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentServerBinding
+import com.idormy.sms.forwarder.service.ForegroundService
 import com.idormy.sms.forwarder.service.HttpService
 import com.idormy.sms.forwarder.utils.*
 import com.xuexiang.xaop.annotation.SingleClick
@@ -88,15 +90,18 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 binding!!.layoutSignKey.visibility = View.VISIBLE
                 binding!!.layoutTimeTolerance.visibility = View.VISIBLE
             }
+
             2 -> {
                 safetyMeasuresId = R.id.rb_safety_measures_rsa
                 binding!!.layoutPrivateKey.visibility = View.VISIBLE
                 binding!!.layoutPublicKey.visibility = View.VISIBLE
             }
+
             3 -> {
                 safetyMeasuresId = R.id.rb_safety_measures_sm4
                 binding!!.layoutSm4Key.visibility = View.VISIBLE
             }
+
             else -> {}
         }
         binding!!.rgSafetyMeasures.check(safetyMeasuresId)
@@ -113,15 +118,18 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                     binding!!.layoutSignKey.visibility = View.VISIBLE
                     binding!!.layoutTimeTolerance.visibility = View.VISIBLE
                 }
+
                 R.id.rb_safety_measures_rsa -> {
                     safetyMeasures = 2
                     binding!!.layoutPrivateKey.visibility = View.VISIBLE
                     binding!!.layoutPublicKey.visibility = View.VISIBLE
                 }
+
                 R.id.rb_safety_measures_sm4 -> {
                     safetyMeasures = 3
                     binding!!.layoutSm4Key.visibility = View.VISIBLE
                 }
+
                 else -> {}
             }
             HttpServerUtils.safetyMeasures = safetyMeasures
@@ -242,6 +250,14 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 }
                 refreshButtonText()
             }
+            //重启前台服务，启动/停止定位服务
+            val serviceIntent = Intent(requireContext(), ForegroundService::class.java)
+            serviceIntent.action = "START"
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                requireContext().startForegroundService(serviceIntent)
+            } else {
+                requireContext().startService(serviceIntent)
+            }
         }
 
     }
@@ -265,6 +281,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 }
                 refreshButtonText()
             }
+
             R.id.btn_sm4_key -> {
                 val key = ConvertTools.bytes2HexString(SM4Crypt.createSM4Key())
                 println("SM4密钥：$key")
@@ -272,6 +289,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 binding!!.etSm4Key.setText(key)
                 XToastUtils.info(getString(R.string.sign_key_tips))
             }
+
             R.id.btn_generate_key -> {
                 val generator = KeyPairGenerator.getInstance("RSA") //密钥生成器
                 generator.initialize(2048)
@@ -291,16 +309,19 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 ClipboardUtils.copyText(publicKeyEncoded)
                 XToastUtils.info(getString(R.string.rsa_key_tips))
             }
+
             R.id.btn_copy_public_key -> {
                 ClipboardUtils.copyText(binding!!.etPublicKey.text)
                 XToastUtils.info(getString(R.string.rsa_key_tips2))
             }
+
             R.id.btn_sign_key -> {
                 val sign = RandomUtils.getRandomNumbersAndLetters(16)
                 ClipboardUtils.copyText(sign)
                 binding!!.etSignKey.setText(sign)
                 XToastUtils.info(getString(R.string.sign_key_tips))
             }
+
             R.id.tv_server_tips, R.id.iv_copy -> {
                 var hostAddress: String = if (inetAddress != null) "${inetAddress?.hostAddress}" else "127.0.0.1"
                 hostAddress = if (hostAddress.indexOf(':', 0, false) > 0) "[${hostAddress}]" else hostAddress
@@ -308,6 +329,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 ClipboardUtils.copyText(url)
                 XToastUtils.info(String.format(getString(R.string.copied_to_clipboard), url))
             }
+
             R.id.btn_path_picker -> {
                 // 申请储存权限
                 XXPermissions.with(this)
@@ -352,6 +374,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                         }
                     })
             }
+
             else -> {}
         }
     }
