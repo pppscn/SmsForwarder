@@ -4,7 +4,6 @@ import androidx.annotation.WorkerThread
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.idormy.sms.forwarder.database.dao.FrpcDao
 import com.idormy.sms.forwarder.database.entity.Frpc
-import com.idormy.sms.forwarder.database.entity.Sender
 
 class FrpcRepository(
     private val frpcDao: FrpcDao,

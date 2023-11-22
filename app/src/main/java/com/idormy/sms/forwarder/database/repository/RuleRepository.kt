@@ -4,7 +4,6 @@ import androidx.annotation.WorkerThread
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.idormy.sms.forwarder.database.dao.RuleDao
 import com.idormy.sms.forwarder.database.entity.Rule
-import com.idormy.sms.forwarder.database.entity.Sender
 
 class RuleRepository(
     private val ruleDao: RuleDao,

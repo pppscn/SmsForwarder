@@ -4,7 +4,6 @@ import androidx.paging.PagingSource
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.idormy.sms.forwarder.database.entity.Frpc
-import com.idormy.sms.forwarder.database.entity.Sender
 import io.reactivex.Single
 
 @Dao
