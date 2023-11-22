@@ -2,7 +2,9 @@ package com.idormy.sms.forwarder.database.dao
 
 import androidx.paging.PagingSource
 import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.idormy.sms.forwarder.database.entity.Frpc
+import com.idormy.sms.forwarder.database.entity.Sender
 import io.reactivex.Single
 
 @Dao
@@ -33,9 +35,9 @@ interface FrpcDao {
     @Query("SELECT * FROM Frpc ORDER BY time DESC")
     fun pagingSource(): PagingSource<Int, Frpc>
 
-    //TODO:允许主线程访问，后面再优化
-    @Query("SELECT * FROM Frpc ORDER BY time ASC")
-    fun getAll(): List<Frpc>
+    @Transaction
+    @RawQuery(observedEntities = [Frpc::class])
+    fun getAllRaw(query: SupportSQLiteQuery): List<Frpc>
 
     @Query("DELETE FROM Frpc")
     fun deleteAll()

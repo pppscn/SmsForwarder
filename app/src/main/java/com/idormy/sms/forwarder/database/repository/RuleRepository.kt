@@ -1,8 +1,10 @@
 package com.idormy.sms.forwarder.database.repository
 
 import androidx.annotation.WorkerThread
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.idormy.sms.forwarder.database.dao.RuleDao
 import com.idormy.sms.forwarder.database.entity.Rule
+import com.idormy.sms.forwarder.database.entity.Sender
 
 class RuleRepository(
     private val ruleDao: RuleDao,
@@ -27,15 +29,15 @@ class RuleRepository(
     @WorkerThread
     fun getOne(id: Long) = ruleDao.getOne(id)
 
-    //suspend fun getRuleAndSender(type: String, status: Int, simSlot: String) = ruleDao.getRuleAndSender(type, status, simSlot)
-
     fun getRuleList(type: String, status: Int, simSlot: String) = ruleDao.getRuleList(type, status, simSlot)
 
     @WorkerThread
     fun update(rule: Rule) = ruleDao.update(rule)
 
-    //TODO:允许主线程访问，后面再优化
-    val all: List<Rule> = ruleDao.getAll()
+    fun getAllNonCache(): List<Rule> {
+        val query = SimpleSQLiteQuery("SELECT * FROM Rule ORDER BY id ASC")
+        return ruleDao.getAllRaw(query)
+    }
 
     fun deleteAll() {
         ruleDao.deleteAll()

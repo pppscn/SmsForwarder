@@ -4,6 +4,7 @@ import androidx.annotation.WorkerThread
 import com.idormy.sms.forwarder.database.dao.SenderDao
 import com.idormy.sms.forwarder.database.entity.Sender
 import kotlinx.coroutines.flow.Flow
+import androidx.sqlite.db.SimpleSQLiteQuery
 
 class SenderRepository(private val senderDao: SenderDao) {
 
@@ -24,13 +25,14 @@ class SenderRepository(private val senderDao: SenderDao) {
 
     fun update(sender: Sender) = senderDao.update(sender)
 
-    val count: Flow<Long> = senderDao.getOnCount()
+    fun getAllNonCache(): List<Sender> {
+        val query = SimpleSQLiteQuery("SELECT * FROM Sender ORDER BY id ASC")
+        return senderDao.getAllRaw(query)
+    }
 
-    //TODO:允许主线程访问，后面再优化
-    val all: List<Sender> = senderDao.getAll2()
+    val count: Flow<Long> = senderDao.getOnCount()
 
     fun deleteAll() {
         senderDao.deleteAll()
     }
-
 }

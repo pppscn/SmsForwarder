@@ -46,7 +46,7 @@ import java.util.*
 @Page(name = "一键换新机")
 class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickListener {
 
-    val TAG: String = SmsQueryFragment::class.java.simpleName
+    val TAG: String = CloneFragment::class.java.simpleName
     private var backupPath: String? = null
     private val backupFile = "SmsForwarder.json"
     private var pushCountDownHelper: CountDownButtonHelper? = null
@@ -171,6 +171,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                     FileUtils.createFileByDeleteOldFile(file)
                     val cloneInfo = HttpServerUtils.exportSettings()
                     val jsonStr = Gson().toJson(cloneInfo)
+                    Log.d(TAG, "jsonStr = $jsonStr")
                     if (FileIOUtils.writeFileFromString(file, jsonStr)) {
                         XToastUtils.success(getString(R.string.export_succeeded))
                     } else {
@@ -273,6 +274,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                 }
                 postRequest.upString(requestMsg)
             }
+
             3 -> {
                 try {
                     val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
@@ -287,6 +289,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                 }
                 postRequest.upString(requestMsg)
             }
+
             else -> {
                 postRequest.upJson(requestMsg)
             }
@@ -372,6 +375,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                 }
                 postRequest.upString(requestMsg)
             }
+
             3 -> {
                 try {
                     val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
@@ -386,6 +390,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                 }
                 postRequest.upString(requestMsg)
             }
+
             else -> {
                 postRequest.upJson(requestMsg)
             }

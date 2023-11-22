@@ -145,9 +145,9 @@ class HttpServerUtils private constructor() {
             cloneInfo.versionCode = AppUtils.getAppVersionCode()
             cloneInfo.versionName = AppUtils.getAppVersionName()
             cloneInfo.settings = SharedPreference.exportPreference()
-            cloneInfo.senderList = Core.sender.all
-            cloneInfo.ruleList = Core.rule.all
-            cloneInfo.frpcList = Core.frpc.all
+            cloneInfo.senderList = Core.sender.getAllNonCache()
+            cloneInfo.ruleList = Core.rule.getAllNonCache()
+            cloneInfo.frpcList = Core.frpc.getAllNonCache()
             return cloneInfo
         }
 

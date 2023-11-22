@@ -2,6 +2,7 @@ package com.idormy.sms.forwarder.database.dao
 
 import androidx.paging.PagingSource
 import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.idormy.sms.forwarder.database.entity.Sender
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -37,14 +38,13 @@ interface SenderDao {
     @Query("SELECT * FROM Sender ORDER BY id DESC")
     fun getAll(): Single<List<Sender>>
 
+    @Transaction
+    @RawQuery(observedEntities = [Sender::class])
+    fun getAllRaw(query: SupportSQLiteQuery): List<Sender>
+
     @Query("SELECT COUNT(id) FROM Sender WHERE status = 1")
     fun getOnCount(): Flow<Long>
 
-    //TODO:允许主线程访问，后面再优化
-    @Query("SELECT * FROM Sender ORDER BY id ASC")
-    fun getAll2(): List<Sender>
-
     @Query("DELETE FROM Sender")
     fun deleteAll()
-
 }
