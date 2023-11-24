@@ -17,13 +17,15 @@ import com.idormy.sms.forwarder.utils.SmsCommandUtils
 import com.idormy.sms.forwarder.utils.Worker
 import com.idormy.sms.forwarder.workers.SendWorker
 import com.xuexiang.xrouter.utils.TextUtils
-import java.util.*
+import java.util.Date
 
 //短信广播
 @Suppress("PrivatePropertyName")
 class SmsReceiver : BroadcastReceiver() {
 
     private var TAG = "SmsReceiver"
+    private var from = ""
+    private var msg = ""
 
     override fun onReceive(context: Context, intent: Intent) {
         try {
@@ -37,35 +39,32 @@ class SmsReceiver : BroadcastReceiver() {
                 && intent.action != Telephony.Sms.Intents.WAP_PUSH_DELIVER_ACTION
             ) return
 
-            var from = ""
-            var message = ""
             if (intent.action == Telephony.Sms.Intents.WAP_PUSH_RECEIVED_ACTION || intent.action == Telephony.Sms.Intents.WAP_PUSH_DELIVER_ACTION) {
-                from = intent.getStringExtra("address") ?: ""
-                message = intent.getStringExtra("body") ?: ""
-                Log.d(TAG, "from = $from, message = $message")
-
-                val bundle = intent.extras
-                bundle?.let {
-                    for (key in bundle.keySet()) {
-                        val obj = bundle.get(key)
-                        if (obj is ByteArray) {
-                            val data = String(obj)
-                            // 解析彩信内容
-                            parseMMSContent(data, from)
+                val contentType = intent.type
+                if (contentType == "application/vnd.wap.mms-message") {
+                    val pduType = intent.getStringExtra("transactionId")
+                    if ("mms" == pduType) {
+                        val data = intent.getByteArrayExtra("data")
+                        if (data != null) {
+                            // 处理收到的 MMS 数据
+                            handleMmsData(context, data)
                         }
                     }
                 }
+
+                from = intent.getStringExtra("address") ?: ""
+                Log.d(TAG, "from = $from, msg = $msg")
             } else {
                 for (smsMessage in Telephony.Sms.Intents.getMessagesFromIntent(intent)) {
                     from = smsMessage.displayOriginatingAddress
-                    message += smsMessage.messageBody
+                    msg += smsMessage.messageBody
                 }
             }
-            Log.d(TAG, "from = $from, message = $message")
+            Log.d(TAG, "from = $from, msg = $msg")
 
             //短信指令
-            if (SettingUtils.enableSmsCommand && message.startsWith("smsf#")) {
-                doSmsCommand(context, from, message)
+            if (SettingUtils.enableSmsCommand && msg.startsWith("smsf#")) {
+                doSmsCommand(context, from, msg)
                 return
             }
 
@@ -107,7 +106,7 @@ class SmsReceiver : BroadcastReceiver() {
                 else -> ""
             }
 
-            val msgInfo = MsgInfo("sms", from, message, Date(), simInfo, simSlot, subscription)
+            val msgInfo = MsgInfo("sms", from, msg, Date(), simInfo, simSlot, subscription)
             Log.d(TAG, "msgInfo = $msgInfo")
 
             val request = OneTimeWorkRequestBuilder<SendWorker>().setInputData(
@@ -146,55 +145,54 @@ class SmsReceiver : BroadcastReceiver() {
         SmsCommandUtils.execute(context, smsCommand)
     }
 
-    private fun parseMMSContent(data: String, sender: String?) {
-        // 在这里实现解析彩信内容的逻辑
-        Log.d("MMSReceiver", "Received MMS from: $sender, Data: $data")
+    private fun handleMmsData(context: Context, data: ByteArray) {
+        try {
+            val mmsClass = Class.forName("android.telephony.gsm.SmsMessage")
+            val method = mmsClass.getDeclaredMethod("createFromPdu", ByteArray::class.java)
+            val pdus = arrayOf(data)
+            val messages = mutableListOf<Any>()
 
-        val parts = data.split("\n\n") // 假设彩信内容以两个换行符 "\n\n" 分隔不同部分
-        parts.forEach { part ->
-            val lines = part.split("\n")
-            var contentType: String? = null
-            var content: String? = null
-            var contentTransferEncoding: String? = null
-
-            lines.forEach { line ->
-                Log.d(TAG, "Line: $line")
-                val keyValue = line.split(":")
-                if (keyValue.size == 2) {
-                    val key = keyValue[0].trim()
-                    val value = keyValue[1].trim()
-
-                    when (key.toLowerCase()) {
-                        "content-type" -> contentType = value
-                        "content-transfer-encoding" -> contentTransferEncoding = value
-                    }
-                }
+            for (pdu in pdus) {
+                val message = method.invoke(null, pdu)
+                message?.let { messages.add(it) }
             }
 
-            // 处理不同 MIME 类型的内容
-            contentType?.let {
-                when {
-                    it.startsWith("text") -> {
-                        // 文本内容
-                        content = lines.last() // 假设文本内容在当前部分的最后一行
-                        // 处理文本内容，例如展示在 TextView 中
-                        Log.d(TAG, "Text data: $content")
-                    }
+            // 处理 MMS 中的各个部分
+            for (message in messages) {
+                // 获取 MMS 的各个部分
+                val parts = message.javaClass.getMethod("getParts").invoke(message) as? Array<*>
 
-                    it.startsWith("image") -> {
-                        // 图片内容
-                        // 如果 contentTransferEncoding 表示 base64 编码
-                        if (contentTransferEncoding.equals("base64", true)) {
-                            content = lines.last() // 假设图片数据在当前部分的最后一行
-                            // 解码图片数据并展示或保存图片
-                            val decodedImage = android.util.Base64.decode(content, android.util.Base64.DEFAULT)
-                            // 处理解码后的图片数据
-                            Log.d(TAG, "Image data: $decodedImage")
+                // 遍历 MMS 的各个部分
+                parts?.forEach { part ->
+                    // 获取部分的内容类型
+                    val contentType = part?.javaClass?.getMethod("getContentType")?.invoke(part) as? String
+
+                    // 处理文本部分
+                    if (contentType?.startsWith("text/plain") == true) {
+                        val text = part.javaClass.getMethod("getData").invoke(part) as? String
+                        // 处理文本信息
+                        if (text != null) {
+                            Log.d(TAG, "Text: $text")
+                            msg += text
                         }
                     }
-                    // 可以根据其他 MIME 类型继续添加处理逻辑，比如视频、音频等
+
+                    // 处理图像部分
+                    if (contentType?.startsWith("image/") == true) {
+                        val imageData = part.javaClass.getMethod("getData").invoke(part) as? ByteArray
+                        // 处理图像信息
+                        if (imageData != null) {
+                            // 在这里你可以保存图像数据或进行其他处理
+                            Log.d(TAG, "Image data received")
+                        }
+                    }
+
+                    // 其他部分的处理可以根据需要继续扩展
                 }
             }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

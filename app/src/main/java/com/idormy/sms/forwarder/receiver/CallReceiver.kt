@@ -16,7 +16,6 @@ import com.idormy.sms.forwarder.utils.Worker
 import com.idormy.sms.forwarder.workers.SendWorker
 import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xui.utils.ResUtils.getString
-import com.xuexiang.xutil.resource.ResUtils
 import java.util.*
 
 @Suppress("DEPRECATION")

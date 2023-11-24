@@ -9,16 +9,15 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.google.gson.Gson
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.utils.PhoneUtils
+import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.Worker
 import com.idormy.sms.forwarder.workers.SendWorker
 import com.xuexiang.xutil.resource.ResUtils.getString
 import java.util.Date
-import com.idormy.sms.forwarder.App
-import android.os.Handler
-import com.idormy.sms.forwarder.utils.SettingUtils
 
 @Suppress("PrivatePropertyName")
 class SimStateReceiver : BroadcastReceiver() {
