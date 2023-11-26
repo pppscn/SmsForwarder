@@ -27,6 +27,7 @@ data class MsgInfo(
     var simSlot: Int = -1, //卡槽id：-1=获取失败、0=卡槽1、1=卡槽2
     var subId: Int = 0, //卡槽主键
     var callType: Int = 0, //通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
+    var uid: Int = 0,
 ) : Serializable {
 
     val titleForSend: String

@@ -15,7 +15,7 @@ import com.idormy.sms.forwarder.utils.DATABASE_NAME
 @Database(
     entities = [Frpc::class, Msg::class, Logs::class, Rule::class, Sender::class],
     views = [LogsDetail::class],
-    version = 17,
+    version = 18,
     exportSchema = false
 )
 @TypeConverters(ConvertersDate::class)
@@ -98,6 +98,7 @@ custom_domains = smsf.demo.com
                     MIGRATION_14_15,
                     MIGRATION_15_16,
                     MIGRATION_16_17,
+                    MIGRATION_17_18
                 )
 
             /*if (BuildConfig.DEBUG) {
@@ -378,6 +379,13 @@ CREATE TABLE "Logs" (
         private val MIGRATION_16_17 = object : Migration(16, 17) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("Alter table Msg add column call_type INTEGER NOT NULL DEFAULT 0")
+            }
+        }
+
+        //规则配置增加uid条件
+        private val MIGRATION_17_18 = object : Migration(17, 18) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("Alter table rule add column uid INTEGER NOT NULL DEFAULT 0 ")
             }
         }
 

@@ -1073,4 +1073,5 @@
 
     <string name="enable_location_tag">启用 {{定位信息}} 标签</string>
     <string name="enable_location_tag_tips">在转发信息中插入手机的当前定位信息</string>
+    <string name="uid">UID</string>
 </resources>
