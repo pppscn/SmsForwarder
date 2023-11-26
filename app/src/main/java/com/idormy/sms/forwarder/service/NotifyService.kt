@@ -127,7 +127,10 @@ class NotifyService : NotificationListenerService() {
             if (TextUtils.isEmpty(title) && TextUtils.isEmpty(text)) return
 
             val msgInfo = MsgInfo("app", from, text, Date(), title, -1)
-
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                Log.d(TAG, "消息的UID====>" + sbn.uid)
+                msgInfo.uid = sbn.uid
+            }
             //TODO：自动消除通知（临时方案，重复查询换取准确性）
             if (SettingUtils.enableCancelAppNotify) {
                 val ruleList: List<Rule> = Core.rule.getRuleList(msgInfo.type, 1, "SIM0")

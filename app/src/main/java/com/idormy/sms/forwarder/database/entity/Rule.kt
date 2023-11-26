@@ -51,6 +51,7 @@ data class Rule(
     //免打扰(禁用转发)时间段
     @ColumnInfo(name = "silent_period_start", defaultValue = "0") var silentPeriodStart: Int = 0,
     @ColumnInfo(name = "silent_period_end", defaultValue = "0") var silentPeriodEnd: Int = 0,
+    @ColumnInfo(name = "uid", defaultValue = "0") var uid: Int = 0,
 ) : Parcelable {
 
     companion object {
@@ -158,6 +159,10 @@ data class Rule(
         //检查这一行和上一行合并的结果是否命中
         var mixChecked = false
         if (msg != null) {
+            if(this.uid != 0 && msg.uid != this.uid){
+                Log.i(TAG, "rule:$this checkMsg:$msg checked:false")
+                return false
+            }
             //先检查规则是否命中
             when (this.filed) {
                 FILED_TRANSPOND_ALL -> mixChecked = true

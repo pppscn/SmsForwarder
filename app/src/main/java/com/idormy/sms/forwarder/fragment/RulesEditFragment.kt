@@ -130,6 +130,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 initAppSpinner()
                 //监听已安装App信息列表加载完成事件
                 LiveEventBus.get(EVENT_LOAD_APP_LIST, String::class.java).observeStickyForever(appListObserver)
+                binding!!.layoutUid.visibility = View.VISIBLE
             }
 
             "call" -> {
@@ -157,6 +158,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                     binding!!.spCallType.selectedIndex = callTypeIndex
                 }
                 binding!!.spCallType.selectedIndex = callTypeIndex
+                binding!!.layoutUid.visibility = View.GONE
             }
 
             else -> {
@@ -167,6 +169,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 binding!!.btInsertSenderApp.visibility = View.GONE
                 binding!!.btInsertTitleApp.visibility = View.GONE
                 binding!!.btInsertContentApp.visibility = View.GONE
+                binding!!.layoutUid.visibility = View.GONE
             }
         }
 
@@ -592,7 +595,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 binding!!.sbStatus.isChecked = rule.statusChecked
                 silentPeriodStart = rule.silentPeriodStart
                 silentPeriodEnd = rule.silentPeriodEnd
-
+                binding!!.etUid.setText(rule.uid.toString())
                 //初始化发送通道下拉框
                 initSenderSpinner()
             }
@@ -659,8 +662,29 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
         //if (status == STATUS_OFF) {
         //    throw Exception(getString(R.string.invalid_rule_status))
         //}
-
-        return Rule(ruleId, ruleType, filed, check, value, senderId, smsTemplate, regexReplace, simSlot, status, Date(), senderListSelected, senderLogic, silentPeriodStart, silentPeriodEnd)
+        val uidText = binding!!.etUid.text
+        var uid = 0
+        if(uidText!=null&& uidText.isNotEmpty()){
+            uid = uidText.toString().toInt()
+        }
+        return Rule(
+            ruleId,
+            ruleType,
+            filed,
+            check,
+            value,
+            senderId,
+            smsTemplate,
+            regexReplace,
+            simSlot,
+            status,
+            Date(),
+            senderListSelected,
+            senderLogic,
+            silentPeriodStart,
+            silentPeriodEnd,
+            uid
+        )
     }
 
     //检查多重匹配规则是否正确

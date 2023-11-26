@@ -1072,4 +1072,5 @@
 
     <string name="enable_location_tag">Enable {{LOCATION}} Tag</string>
     <string name="enable_location_tag_tips">Insert location info into forwarded msg.</string>
+    <string name="uid">UID</string>
 </resources>
