@@ -103,21 +103,18 @@
 
                 <RadioGroup
                     android:id="@+id/rg_msg_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
+                    style="@style/rg_style"
+                    android:layout_marginStart="5dp"
                     android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/rb_msg_type_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/rg_rb_style"
                         android:text="@string/feishu_msg_type_text" />
 
                     <RadioButton
                         android:id="@+id/rb_msg_type_interactive"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/rg_rb_style"
                         android:checked="true"
                         android:text="@string/feishu_msg_type_interactive" />
 

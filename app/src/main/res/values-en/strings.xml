@@ -381,6 +381,7 @@
     <string name="custom_template_tips">Tip: Insert labels as needed; Leave blank to apply default template</string>
     <string name="insert_sender">Phone</string>
     <string name="insert_sender_app">PackageName</string>
+    <string name="insert_uid">UID</string>
     <string name="insert_content">SMS</string>
     <string name="insert_title_app">InformTitle</string>
     <string name="insert_content_app">InformContent</string>
@@ -621,6 +622,7 @@
     <string name="rule_package_name">Package Name</string>
     <string name="rule_inform_content">Inform Content</string>
     <string name="rule_call_type">Call Type</string>
+    <string name="rule_uid">UID</string>
     <string name="rule_card">Card</string>
     <string name="rule_when">When</string>
     <string name="rule_fw_to">Fw.</string>
@@ -838,6 +840,7 @@
     <string name="FILED_PHONE_NUM">PHONE_NUM</string>
     <string name="FILED_MSG_CONTENT">MSG_CONTENT</string>
     <string name="FILED_PACKAGE_NAME">PACKAGE_NAME</string>
+    <string name="FILED_UID">UID</string>
     <string name="FILED_INFORM_TITLE">INFORM_TITLE</string>
     <string name="FILED_INFORM_CONTENT">INFORM_CONTENT</string>
     <string name="FILED_SIM_SLOT_INFO">CARD_SLOT</string>

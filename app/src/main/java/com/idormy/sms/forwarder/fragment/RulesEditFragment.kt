@@ -130,18 +130,19 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 initAppSpinner()
                 //监听已安装App信息列表加载完成事件
                 LiveEventBus.get(EVENT_LOAD_APP_LIST, String::class.java).observeStickyForever(appListObserver)
-                binding!!.layoutUid.visibility = View.VISIBLE
             }
 
             "call" -> {
                 titleBar?.setTitle(R.string.call_rule)
                 binding!!.rbContent.visibility = View.GONE
                 binding!!.rbPackageName.visibility = View.GONE
+                binding!!.rbUid.visibility = View.GONE
                 binding!!.rbInformContent.visibility = View.GONE
                 //binding!!.rbMultiMatch.visibility = View.GONE
                 binding!!.tvMuRuleTips.setText(R.string.mu_rule_call_tips)
                 binding!!.btInsertContent.visibility = View.GONE
                 binding!!.btInsertSenderApp.visibility = View.GONE
+                binding!!.btInsertUid.visibility = View.GONE
                 binding!!.btInsertTitleApp.visibility = View.GONE
                 binding!!.btInsertContentApp.visibility = View.GONE
 
@@ -158,18 +159,18 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                     binding!!.spCallType.selectedIndex = callTypeIndex
                 }
                 binding!!.spCallType.selectedIndex = callTypeIndex
-                binding!!.layoutUid.visibility = View.GONE
             }
 
             else -> {
                 titleBar?.setTitle(R.string.sms_rule)
                 binding!!.rbCallType.visibility = View.GONE
                 binding!!.rbPackageName.visibility = View.GONE
+                binding!!.rbUid.visibility = View.GONE
                 binding!!.rbInformContent.visibility = View.GONE
                 binding!!.btInsertSenderApp.visibility = View.GONE
+                binding!!.btInsertUid.visibility = View.GONE
                 binding!!.btInsertTitleApp.visibility = View.GONE
                 binding!!.btInsertContentApp.visibility = View.GONE
-                binding!!.layoutUid.visibility = View.GONE
             }
         }
 
@@ -189,6 +190,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
         binding!!.btInsertSender.setOnClickListener(this)
         binding!!.btInsertContent.setOnClickListener(this)
         binding!!.btInsertSenderApp.setOnClickListener(this)
+        binding!!.btInsertUid.setOnClickListener(this)
         binding!!.btInsertTitleApp.setOnClickListener(this)
         binding!!.btInsertContentApp.setOnClickListener(this)
         binding!!.btInsertExtra.setOnClickListener(this)
@@ -317,6 +319,11 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
 
                 R.id.bt_insert_sender_app -> {
                     CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_package_name))
+                    return
+                }
+
+                R.id.bt_insert_uid -> {
+                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_uid))
                     return
                 }
 
@@ -595,7 +602,6 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 binding!!.sbStatus.isChecked = rule.statusChecked
                 silentPeriodStart = rule.silentPeriodStart
                 silentPeriodEnd = rule.silentPeriodEnd
-                binding!!.etUid.setText(rule.uid.toString())
                 //初始化发送通道下拉框
                 initSenderSpinner()
             }
@@ -612,6 +618,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
             R.id.rb_phone -> FILED_PHONE_NUM
             R.id.rb_call_type -> FILED_CALL_TYPE
             R.id.rb_package_name -> FILED_PACKAGE_NAME
+            R.id.rb_uid -> FILED_UID
             R.id.rb_inform_content -> FILED_INFORM_CONTENT
             R.id.rb_multi_match -> FILED_MULTI_MATCH
             else -> FILED_TRANSPOND_ALL
@@ -662,11 +669,6 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
         //if (status == STATUS_OFF) {
         //    throw Exception(getString(R.string.invalid_rule_status))
         //}
-        val uidText = binding!!.etUid.text
-        var uid = 0
-        if(uidText!=null&& uidText.isNotEmpty()){
-            uid = uidText.toString().toInt()
-        }
         return Rule(
             ruleId,
             ruleType,
@@ -682,8 +684,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
             senderListSelected,
             senderLogic,
             silentPeriodStart,
-            silentPeriodEnd,
-            uid
+            silentPeriodEnd
         )
     }
 

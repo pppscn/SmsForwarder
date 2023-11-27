@@ -1,4 +1,4 @@
-@file:Suppress("unused")
+@file:Suppress("unused", "DEPRECATION")
 
 package com.idormy.sms.forwarder.utils
 
@@ -104,6 +104,7 @@ const val FILED_TRANSPOND_ALL = "transpond_all"
 const val FILED_PHONE_NUM = "phone_num"
 const val FILED_CALL_TYPE = "call_type"
 const val FILED_PACKAGE_NAME = "package_name"
+const val FILED_UID = "uid"
 const val FILED_MSG_CONTENT = "msg_content"
 const val FILED_INFORM_CONTENT = "inform_content"
 const val FILED_MULTI_MATCH = "multi_match"
@@ -139,6 +140,7 @@ val FILED_MAP = object : HashMap<String, String>() {
         put("package_name", getString(R.string.rule_package_name))
         put("inform_content", getString(R.string.rule_inform_content))
         put("call_type", getString(R.string.rule_call_type))
+        put("uid", getString(R.string.rule_uid))
     }
 }
 val CHECK_MAP = object : HashMap<String, String>() {
@@ -180,6 +182,7 @@ val BARK_ENCRYPTION_ALGORITHM_MAP = mapOf(
     "AES256/CBC/PKCS7Padding" to "AES256/CBC/PKCS7Padding",
     "AES256/ECB/PKCS7Padding" to "AES256/ECB/PKCS7Padding",
 )
+
 //通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
 val CALL_TYPE_MAP = mapOf(
     //"0" to getString(R.string.unknown_call),
@@ -469,5 +472,37 @@ var CLIENT_FRAGMENT_LIST = listOf(
         "{\"\":\"\"}",
         CoreAnim.slide,
         R.drawable.icon_api_battery_query
+    ),
+)
+
+//自动任务
+var TASK_FRAGMENT_LIST = listOf(
+    PageInfo(
+        getString(R.string.dingtalk_robot),
+        "com.idormy.sms.forwarder.fragment.senders.DingtalkGroupRobotFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_dingtalk
+    ),
+    PageInfo(
+        getString(R.string.email),
+        "com.idormy.sms.forwarder.fragment.senders.EmailFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_email
+    ),
+    PageInfo(
+        getString(R.string.bark),
+        "com.idormy.sms.forwarder.fragment.senders.BarkFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_bark
+    ),
+    PageInfo(
+        getString(R.string.webhook),
+        "com.idormy.sms.forwarder.fragment.senders.WebhookFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.icon_webhook
     ),
 )

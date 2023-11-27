@@ -83,22 +83,19 @@
 
                 <RadioGroup
                     android:id="@+id/rg_method"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/rg_style"
                     android:layout_marginStart="5dp"
                     android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/rb_method_post"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/rg_rb_style"
                         android:checked="true"
                         android:text="@string/post" />
 
                     <RadioButton
                         android:id="@+id/rb_method_get"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/rg_rb_style"
                         android:text="@string/get" />
 
                 </RadioGroup>

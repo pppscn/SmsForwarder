@@ -175,25 +175,19 @@
 
                 <RadioGroup
                     android:id="@+id/rg_msg_type"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    style="@style/rg_style"
                     android:layout_marginStart="5dp"
-                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/rb_msg_type_text"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        style="@style/rg_rb_style"
                         android:checked="true"
                         android:text="@string/sampleText" />
 
                     <RadioButton
                         android:id="@+id/rb_msg_type_markdown"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        style="@style/rg_rb_style"
                         android:text="@string/sampleMarkdown" />
 
                 </RadioGroup>

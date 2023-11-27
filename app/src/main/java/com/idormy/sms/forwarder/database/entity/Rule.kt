@@ -51,7 +51,6 @@ data class Rule(
     //免打扰(禁用转发)时间段
     @ColumnInfo(name = "silent_period_start", defaultValue = "0") var silentPeriodStart: Int = 0,
     @ColumnInfo(name = "silent_period_end", defaultValue = "0") var silentPeriodEnd: Int = 0,
-    @ColumnInfo(name = "uid", defaultValue = "0") var uid: Int = 0,
 ) : Parcelable {
 
     companion object {
@@ -135,6 +134,7 @@ data class Rule(
             FILED_PHONE_NUM -> R.id.rb_phone
             FILED_CALL_TYPE -> R.id.rb_call_type
             FILED_PACKAGE_NAME -> R.id.rb_package_name
+            FILED_UID -> R.id.rb_uid
             FILED_INFORM_CONTENT -> R.id.rb_inform_content
             FILED_MULTI_MATCH -> R.id.rb_multi_match
             else -> R.id.rb_transpond_all
@@ -159,14 +159,11 @@ data class Rule(
         //检查这一行和上一行合并的结果是否命中
         var mixChecked = false
         if (msg != null) {
-            if(this.uid != 0 && msg.uid != this.uid){
-                Log.i(TAG, "rule:$this checkMsg:$msg checked:false")
-                return false
-            }
             //先检查规则是否命中
             when (this.filed) {
                 FILED_TRANSPOND_ALL -> mixChecked = true
                 FILED_PHONE_NUM, FILED_PACKAGE_NAME -> mixChecked = checkValue(msg.from)
+                FILED_UID -> mixChecked = checkValue(msg.uid.toString())
                 FILED_CALL_TYPE -> mixChecked = checkValue(msg.callType.toString())
                 FILED_MSG_CONTENT, FILED_INFORM_CONTENT -> mixChecked = checkValue(msg.content)
                 FILED_MULTI_MATCH -> mixChecked = RuleLineUtils.checkRuleLines(msg, this.value)

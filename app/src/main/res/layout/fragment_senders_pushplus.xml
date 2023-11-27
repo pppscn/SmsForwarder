@@ -84,20 +84,14 @@
 
                     <RadioButton
                         android:id="@+id/rb_website_plus"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        style="@style/rg_rb_style"
                         android:checked="true"
-                        android:text="@string/pushplus_plus"
-                        android:textSize="11sp" />
+                        android:text="@string/pushplus_plus" />
 
                     <RadioButton
                         android:id="@+id/rb_website_hxtrip"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/pushplus_hxtrip"
-                        android:textSize="11sp" />
+                        style="@style/rg_rb_style"
+                        android:text="@string/pushplus_hxtrip" />
 
                 </RadioGroup>
 

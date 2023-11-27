@@ -175,20 +175,30 @@
     <style name="rg_rb_style">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
         <item name="android:layout_weight">1</item>
         <item name="android:singleLine">true</item>
         <item name="android:padding">0dp</item>
         <item name="android:layout_margin">0dp</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:minHeight">30dp</item>
+        <item name="android:minWidth">30dp</item>
         <item name="android:textSize">12sp</item>
+        <item name="android:button">@drawable/custom_radio_button</item>
     </style>
 
     <style name="rg_rb_style_wrap">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
         <item name="android:singleLine">true</item>
         <item name="android:padding">0dp</item>
-        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:minHeight">30dp</item>
+        <item name="android:minWidth">30dp</item>
         <item name="android:textSize">12sp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:button">@drawable/custom_radio_button</item>
     </style>
 
     <style name="rg_rb_style_match">
@@ -196,6 +206,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:singleLine">true</item>
         <item name="android:textSize">12sp</item>
+        <item name="android:button">@drawable/custom_radio_button</item>
     </style>
 
 </resources>

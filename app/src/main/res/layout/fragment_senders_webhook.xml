@@ -63,50 +63,30 @@
 
                 <RadioGroup
                     android:id="@+id/rg_method"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/rg_style"
+                    android:layout_marginStart="5dp"
                     android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/rb_method_post"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/rg_rb_style"
                         android:checked="true"
-                        android:scaleX="0.7"
-                        android:scaleY="0.7"
-                        android:text="@string/post"
-                        android:textSize="14sp"
-                        android:translationX="18dp" />
+                        android:text="@string/post" />
 
                     <RadioButton
                         android:id="@+id/rb_method_get"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scaleX="0.7"
-                        android:scaleY="0.7"
-                        android:text="@string/get"
-                        android:textSize="14sp"
-                        android:translationX="18dp" />
+                        style="@style/rg_rb_style"
+                        android:text="@string/get" />
 
                     <RadioButton
                         android:id="@+id/rb_method_put"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scaleX="0.7"
-                        android:scaleY="0.7"
-                        android:text="@string/put"
-                        android:textSize="14sp"
-                        android:translationX="18dp" />
+                        style="@style/rg_rb_style"
+                        android:text="@string/put" />
 
                     <RadioButton
                         android:id="@+id/rb_method_patch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scaleX="0.7"
-                        android:scaleY="0.7"
-                        android:text="@string/patch"
-                        android:textSize="14sp"
-                        android:translationX="18dp" />
+                        style="@style/rg_rb_style"
+                        android:text="@string/patch" />
 
                 </RadioGroup>
 

@@ -63,32 +63,25 @@
 
                 <RadioGroup
                     android:id="@+id/rg_method"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/rg_style"
                     android:layout_marginStart="5dp"
                     android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/rb_method_mqtt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/rg_rb_style"
                         android:checked="true"
-                        android:text="@string/mqtt"
-                        android:textSize="14sp" />
+                        android:text="@string/mqtt" />
 
                     <RadioButton
                         android:id="@+id/rb_method_tcp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tcp"
-                        android:textSize="14sp" />
+                        style="@style/rg_rb_style"
+                        android:text="@string/tcp" />
 
                     <RadioButton
                         android:id="@+id/rb_method_udp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/udp"
-                        android:textSize="14sp" />
+                        style="@style/rg_rb_style"
+                        android:text="@string/udp" />
 
                 </RadioGroup>
 
@@ -357,24 +350,19 @@
 
                     <RadioGroup
                         android:id="@+id/rg_uriType"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/rg_style"
                         android:layout_marginStart="5dp"
                         android:orientation="horizontal">
 
                         <RadioButton
                             android:id="@+id/rb_uriType_tcp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tcp"
-                            android:textSize="14sp" />
+                            style="@style/rg_rb_style"
+                            android:text="@string/tcp" />
 
                         <RadioButton
                             android:id="@+id/rb_uriType_ssl"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ssl"
-                            android:textSize="14sp" />
+                            style="@style/rg_rb_style"
+                            android:text="@string/ssl" />
 
                     </RadioGroup>
 
