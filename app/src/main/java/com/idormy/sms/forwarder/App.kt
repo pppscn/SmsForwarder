@@ -29,7 +29,6 @@ import com.idormy.sms.forwarder.utils.sdkinit.UMengInit
 import com.idormy.sms.forwarder.utils.sdkinit.XBasicLibInit
 import com.idormy.sms.forwarder.utils.sdkinit.XUpdateInit
 import com.idormy.sms.forwarder.utils.tinker.TinkerLoadLibrary
-import com.xuexiang.xutil.app.AppUtils
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -49,6 +48,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
     val logsRepository by lazy { LogsRepository(database.logsDao()) }
     val ruleRepository by lazy { RuleRepository(database.ruleDao()) }
     val senderRepository by lazy { SenderRepository(database.senderDao()) }
+    val taskRepository by lazy { TaskRepository(database.taskDao()) }
 
     companion object {
         const val TAG: String = "SmsForwarder"
@@ -61,8 +61,8 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
 
         //已安装App信息
         var LoadingAppList = false
-        var UserAppList: MutableList<AppUtils.AppInfo> = mutableListOf()
-        var SystemAppList: MutableList<AppUtils.AppInfo> = mutableListOf()
+        var UserAppList: MutableList<AppInfo> = mutableListOf()
+        var SystemAppList: MutableList<AppInfo> = mutableListOf()
 
         /**
          * @return 当前app是否是调试开发模式

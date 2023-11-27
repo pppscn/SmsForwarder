@@ -10,6 +10,7 @@
     <string name="menu_rules">Rules</string>
     <string name="menu_settings">Settings</string>
 
+    <string name="menu_task">Task</string>
     <string name="menu_server">Server</string>
     <string name="menu_client">Client</string>
     <string name="menu_frpc">Frpc</string>
@@ -608,6 +609,7 @@
     <string name="tag_scheme">{{SCHEME}}</string>
     <string name="tag_call_type">{{CALL_TYPE}}</string>
     <string name="tag_location">{{LOCATION}}</string>
+    <string name="tag_uid">{{UID}}</string>
     <string name="rule_sms">SMS</string>
     <string name="rule_call">CALL</string>
     <string name="rule_app">APP</string>
@@ -1073,4 +1075,6 @@
     <string name="enable_location_tag">Enable {{LOCATION}} Tag</string>
     <string name="enable_location_tag_tips">Insert location info into forwarded msg.</string>
     <string name="uid">UID</string>
+
+    <string name="select_task_type">Please select task type</string>
 </resources>

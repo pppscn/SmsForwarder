@@ -15,6 +15,7 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.AppListAdapter
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentAppListBinding
+import com.idormy.sms.forwarder.utils.AppInfo
 import com.idormy.sms.forwarder.utils.EVENT_LOAD_APP_LIST
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.idormy.sms.forwarder.workers.LoadAppListWorker
@@ -29,7 +30,6 @@ import com.xuexiang.xui.utils.ThemeUtils
 import com.xuexiang.xui.utils.WidgetUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xutil.XUtil
-import com.xuexiang.xutil.app.AppUtils
 
 @Suppress("PrivatePropertyName")
 @Page(name = "应用列表")
@@ -118,7 +118,7 @@ class AppListFragment : BaseFragment<FragmentAppListBinding?>() {
         super.onDestroyView()
     }
 
-    private fun getAppsList(refresh: Boolean): MutableList<AppUtils.AppInfo> {
+    private fun getAppsList(refresh: Boolean): MutableList<AppInfo> {
         if (refresh || (currentType == "user" && App.UserAppList.isEmpty()) || (currentType == "system" && App.SystemAppList.isEmpty())) {
             XToastUtils.info(getString(R.string.loading_app_list))
             val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()

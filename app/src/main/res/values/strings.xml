@@ -10,6 +10,7 @@
     <string name="menu_rules">转发规则</string>
     <string name="menu_settings">通用设置</string>
 
+    <string name="menu_task">自动任务·快捷指令</string>
     <string name="menu_server">主动控制·服务端</string>
     <string name="menu_client">主动控制·客户端</string>
     <string name="menu_frpc">内网穿透·Frpc</string>
@@ -609,6 +610,7 @@
     <string name="tag_scheme">{{通知Scheme}}</string>
     <string name="tag_call_type">{{通话类型}}</string>
     <string name="tag_location">{{定位信息}}</string>
+    <string name="tag_uid">{{UID}}</string>
     <string name="rule_sms">短信</string>
     <string name="rule_call">来电</string>
     <string name="rule_app">应用</string>
@@ -1074,4 +1076,6 @@
     <string name="enable_location_tag">启用 {{定位信息}} 标签</string>
     <string name="enable_location_tag_tips">在转发信息中插入手机的当前定位信息</string>
     <string name="uid">UID</string>
+
+    <string name="select_task_type">请选择自动任务类型</string>
 </resources>

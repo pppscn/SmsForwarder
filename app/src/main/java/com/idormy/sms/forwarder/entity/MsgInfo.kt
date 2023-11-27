@@ -27,7 +27,7 @@ data class MsgInfo(
     var simSlot: Int = -1, //卡槽id：-1=获取失败、0=卡槽1、1=卡槽2
     var subId: Int = 0, //卡槽主键
     var callType: Int = 0, //通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
-    var uid: Int = 0,
+    var uid: Int = 0, //APP通知的UID
 ) : Serializable {
 
     val titleForSend: String
@@ -54,6 +54,7 @@ data class MsgInfo(
             .replace(getString(R.string.tag_card_subid), subId.toString())
             .replace(getString(R.string.tag_title), title)
             .replace(getString(R.string.tag_scheme), scheme)
+            .replace(getString(R.string.tag_uid), uid.toString())
             .replace(getString(R.string.tag_receive_time), SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date))
             .replace(getString(R.string.tag_current_time), SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()))
             .replace(getString(R.string.tag_device_name), deviceMark)
@@ -102,6 +103,7 @@ data class MsgInfo(
             .replace(getString(R.string.tag_card_subid), subId.toString())
             .replace(getString(R.string.tag_title), title)
             .replace(getString(R.string.tag_scheme), scheme)
+            .replace(getString(R.string.tag_uid), uid.toString())
             .replace(getString(R.string.tag_receive_time), SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date))
             .replace(getString(R.string.tag_current_time), SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()))
             .replace(getString(R.string.tag_device_name), deviceMark)

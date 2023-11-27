@@ -5,9 +5,9 @@ import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.idormy.sms.forwarder.App
+import com.idormy.sms.forwarder.utils.AppUtils
 import com.idormy.sms.forwarder.utils.EVENT_LOAD_APP_LIST
 import com.jeremyliao.liveeventbus.LiveEventBus
-import com.xuexiang.xutil.app.AppUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
