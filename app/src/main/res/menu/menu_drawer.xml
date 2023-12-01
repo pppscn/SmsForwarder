@@ -32,6 +32,12 @@
         android:checkableBehavior="single">
 
         <item
+            android:id="@+id/nav_task"
+            android:checkable="false"
+            android:icon="@drawable/ic_menu_task"
+            android:title="@string/menu_tasks" />
+
+        <item
             android:id="@+id/nav_server"
             android:checkable="false"
             android:icon="@drawable/ic_menu_server"

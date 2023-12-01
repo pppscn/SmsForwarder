@@ -96,6 +96,29 @@
         <!--<item name="android:orientation">horizontal</item>-->
     </style>
 
+    <style name="taskBarStyle">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:background">@color/setting_bar_color</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="taskBarStyleWithSwitch">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:background">@color/setting_bar_color</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
     <style name="senderBarStyle">
         <item name="android:layout_marginTop">5dp</item>
         <item name="android:layout_marginStart">5dp</item>

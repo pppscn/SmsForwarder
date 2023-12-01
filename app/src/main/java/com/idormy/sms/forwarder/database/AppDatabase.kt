@@ -13,7 +13,7 @@ import com.idormy.sms.forwarder.database.ext.ConvertersDate
 import com.idormy.sms.forwarder.utils.DATABASE_NAME
 
 @Database(
-    entities = [Frpc::class, Msg::class, Logs::class, Rule::class, Sender::class],
+    entities = [Frpc::class, Msg::class, Logs::class, Rule::class, Sender::class, Task::class],
     views = [LogsDetail::class],
     version = 18,
     exportSchema = false
@@ -26,6 +26,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun logsDao(): LogsDao
     abstract fun ruleDao(): RuleDao
     abstract fun senderDao(): SenderDao
+    abstract fun taskDao(): TaskDao
 
     companion object {
         @Volatile
@@ -39,11 +40,8 @@ abstract class AppDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context): AppDatabase {
             val builder = Room.databaseBuilder(
-                context.applicationContext,
-                AppDatabase::class.java,
-                DATABASE_NAME
-            )
-                .allowMainThreadQueries() //TODO:允许主线程访问，后面再优化
+                context.applicationContext, AppDatabase::class.java, DATABASE_NAME
+            ).allowMainThreadQueries() //TODO:允许主线程访问，后面再优化
                 .addCallback(object : Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         //fillInDb(context.applicationContext)
@@ -80,8 +78,7 @@ custom_domains = smsf.demo.com
 """.trimIndent()
                         )
                     }
-                })
-                .addMigrations(
+                }).addMigrations(
                     MIGRATION_1_2,
                     MIGRATION_2_3,
                     MIGRATION_3_4,
@@ -98,7 +95,7 @@ custom_domains = smsf.demo.com
                     MIGRATION_14_15,
                     MIGRATION_15_16,
                     MIGRATION_16_17,
-                    MIGRATION_17_18
+                    MIGRATION_17_18,
                 )
 
             /*if (BuildConfig.DEBUG) {
@@ -382,10 +379,25 @@ CREATE TABLE "Logs" (
             }
         }
 
-        //规则配置增加uid条件
+        //自动化任务
         private val MIGRATION_17_18 = object : Migration(17, 18) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("Alter table rule add column uid INTEGER NOT NULL DEFAULT 0 ")
+                database.execSQL(
+                    """
+CREATE TABLE "Task" (
+  "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  "type" INTEGER NOT NULL DEFAULT 1,
+  "name" TEXT NOT NULL DEFAULT '',
+  "description" TEXT NOT NULL DEFAULT '',
+  "conditions" TEXT NOT NULL DEFAULT '',
+  "actions" TEXT NOT NULL DEFAULT '',
+  "last_exec_time" INTEGER NOT NULL,
+  "next_exec_time" INTEGER NOT NULL,
+  "status" INTEGER NOT NULL DEFAULT 1
+)
+""".trimIndent()
+                )
+                //TODO:原来的电量/网络/SIM卡状态转换为自动化任务
             }
         }
 

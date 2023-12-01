@@ -476,33 +476,74 @@ var CLIENT_FRAGMENT_LIST = listOf(
 )
 
 //自动任务
-var TASK_FRAGMENT_LIST = listOf(
+const val KEY_TEST_CONDITION = "key_test_condition"
+const val KEY_EVENT_DATA_CONDITION = "event_data_condition"
+const val KEY_BACK_CODE_CONDITION = 1000
+const val KEY_BACK_DATA_CONDITION = "back_data_condition"
+
+const val KEY_TEST_ACTION = "key_test_action"
+const val KEY_EVENT_DATA_ACTION = "event_data_action"
+const val KEY_BACK_CODE_ACTION = 2000
+const val KEY_BACK_DATA_ACTION = "back_data_action"
+
+const val TASK_CRON = 0
+var TASK_CONDITION_FRAGMENT_LIST = listOf(
     PageInfo(
-        getString(R.string.dingtalk_robot),
-        "com.idormy.sms.forwarder.fragment.senders.DingtalkGroupRobotFragment",
+        getString(R.string.task_cron),
+        "com.idormy.sms.forwarder.fragment.condition.CronFragment",
         "{\"\":\"\"}",
         CoreAnim.slide,
-        R.drawable.icon_dingtalk
+        R.drawable.auto_task_icon_cron
     ),
     PageInfo(
         getString(R.string.email),
         "com.idormy.sms.forwarder.fragment.senders.EmailFragment",
         "{\"\":\"\"}",
         CoreAnim.slide,
-        R.drawable.icon_email
+        R.drawable.auto_task_icon_battery
     ),
     PageInfo(
         getString(R.string.bark),
         "com.idormy.sms.forwarder.fragment.senders.BarkFragment",
         "{\"\":\"\"}",
         CoreAnim.slide,
-        R.drawable.icon_bark
+        R.drawable.auto_task_icon_charge
     ),
     PageInfo(
         getString(R.string.webhook),
         "com.idormy.sms.forwarder.fragment.senders.WebhookFragment",
         "{\"\":\"\"}",
         CoreAnim.slide,
-        R.drawable.icon_webhook
+        R.drawable.auto_task_icon_wlan
+    ),
+)
+var TASK_ACTION_FRAGMENT_LIST = listOf(
+    PageInfo(
+        getString(R.string.task_cron),
+        "com.idormy.sms.forwarder.fragment.condition.CronFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.auto_task_icon_cron
+    ),
+    PageInfo(
+        getString(R.string.email),
+        "com.idormy.sms.forwarder.fragment.senders.EmailFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.auto_task_icon_battery
+    ),
+    PageInfo(
+        getString(R.string.bark),
+        "com.idormy.sms.forwarder.fragment.senders.BarkFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.auto_task_icon_charge
+    ),
+    PageInfo(
+        getString(R.string.webhook),
+        "com.idormy.sms.forwarder.fragment.senders.WebhookFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.auto_task_icon_wlan
     ),
 )

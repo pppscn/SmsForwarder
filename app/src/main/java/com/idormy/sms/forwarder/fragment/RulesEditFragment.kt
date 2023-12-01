@@ -458,7 +458,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
     }
 
     /**
-     * 动态增删header
+     * 动态增删Sender
      *
      * @param senderItemMap          管理item的map，用于删除指定header
      * @param layoutSenders          需要挂载item的LinearLayout

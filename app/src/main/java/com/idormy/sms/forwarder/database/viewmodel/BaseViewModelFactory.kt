@@ -17,25 +17,35 @@ class BaseViewModelFactory(private val context: Context?) : ViewModelProvider.Fa
                 @Suppress("UNCHECKED_CAST")
                 return FrpcViewModel(frpcDao) as T
             }
+
             modelClass.isAssignableFrom(MsgViewModel::class.java) -> {
                 val msgDao = AppDatabase.getInstance(context).msgDao()
                 @Suppress("UNCHECKED_CAST")
                 return MsgViewModel(msgDao) as T
             }
+
             modelClass.isAssignableFrom(LogsViewModel::class.java) -> {
                 val logDao = AppDatabase.getInstance(context).logsDao()
                 @Suppress("UNCHECKED_CAST")
                 return LogsViewModel(logDao) as T
             }
+
             modelClass.isAssignableFrom(RuleViewModel::class.java) -> {
                 val ruleDao = AppDatabase.getInstance(context).ruleDao()
                 @Suppress("UNCHECKED_CAST")
                 return RuleViewModel(ruleDao) as T
             }
+
             modelClass.isAssignableFrom(SenderViewModel::class.java) -> {
                 val senderDao = AppDatabase.getInstance(context).senderDao()
                 @Suppress("UNCHECKED_CAST")
                 return SenderViewModel(senderDao) as T
+            }
+
+            modelClass.isAssignableFrom(TaskViewModel::class.java) -> {
+                val taskDao = AppDatabase.getInstance(context).taskDao()
+                @Suppress("UNCHECKED_CAST")
+                return TaskViewModel(taskDao) as T
             }
         }
 

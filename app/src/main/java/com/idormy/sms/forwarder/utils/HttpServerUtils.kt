@@ -148,6 +148,7 @@ class HttpServerUtils private constructor() {
             cloneInfo.senderList = Core.sender.getAllNonCache()
             cloneInfo.ruleList = Core.rule.getAllNonCache()
             cloneInfo.frpcList = Core.frpc.getAllNonCache()
+            cloneInfo.taskList = Core.task.getAllNonCache()
             return cloneInfo
         }
 
@@ -185,6 +186,13 @@ class HttpServerUtils private constructor() {
                 if (!cloneInfo.frpcList.isNullOrEmpty()) {
                     for (frpc in cloneInfo.frpcList!!) {
                         Core.frpc.insert(frpc)
+                    }
+                }
+                //Task配置
+                Core.task.deleteAll()
+                if (!cloneInfo.taskList.isNullOrEmpty()) {
+                    for (task in cloneInfo.taskList!!) {
+                        Core.task.insert(task)
                     }
                 }
                 true

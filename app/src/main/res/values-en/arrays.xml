@@ -80,6 +80,12 @@
         <item>System App</item>
     </string-array>
 
+    <!--任务类型-->
+    <string-array name="task_type_option">
+        <item>My Task</item>
+        <item>Task Center</item>
+    </string-array>
+
     <string-array name="MailType">
         <item>\@qq.com</item>
         <item>\@foxmail.com</item>

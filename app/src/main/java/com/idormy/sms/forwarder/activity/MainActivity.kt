@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.gyf.cactus.ext.cactusUpdateNotification
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
@@ -169,6 +168,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
                 return@setNavigationItemSelectedListener handleNavigationItemSelected(menuItem)
             } else {
                 when (menuItem.itemId) {
+                    R.id.nav_task -> openNewPage(TasksFragment::class.java)
                     R.id.nav_server -> openNewPage(ServerFragment::class.java)
                     R.id.nav_client -> openNewPage(ClientFragment::class.java)
                     R.id.nav_frpc -> {

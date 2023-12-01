@@ -28,6 +28,7 @@ import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.utils.sdkinit.UMengInit
 import com.idormy.sms.forwarder.utils.sdkinit.XBasicLibInit
 import com.idormy.sms.forwarder.utils.sdkinit.XUpdateInit
+import com.idormy.sms.forwarder.utils.task.CronUtils
 import com.idormy.sms.forwarder.utils.tinker.TinkerLoadLibrary
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -206,6 +207,10 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         XUpdateInit.init(this)
         // 运营统计数据
         UMengInit.init(this)
+        // 定时任务初始化
+        CronUtils.initialize(this)
+        // 三方时间库初始化
+        //AndroidThreeTen.init(this)
     }
 
     @SuppressLint("CheckResult")
