@@ -476,6 +476,10 @@ var CLIENT_FRAGMENT_LIST = listOf(
 )
 
 //自动任务
+const val KEY_TASK_ID = "key_task_id"
+const val KEY_TASK_TYPE = "key_task_type"
+const val KEY_TASK_CLONE = "key_task_clone"
+
 const val KEY_TEST_CONDITION = "key_test_condition"
 const val KEY_EVENT_DATA_CONDITION = "event_data_condition"
 const val KEY_BACK_CODE_CONDITION = 1000
@@ -486,14 +490,18 @@ const val KEY_EVENT_DATA_ACTION = "event_data_action"
 const val KEY_BACK_CODE_ACTION = 2000
 const val KEY_BACK_DATA_ACTION = "back_data_action"
 
-const val TASK_CRON = 0
+//注意：TASK_CONDITION_XXX 枚举值 等于 TASK_CONDITION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_CONDITION，不可改变
+const val TASK_CONDITION_CRON = 1000
+const val TASK_CONDITION_BATTERY = 1001
+const val TASK_CONDITION_CHARGE = 1002
+const val TASK_CONDITION_WLAN = 1003
 var TASK_CONDITION_FRAGMENT_LIST = listOf(
     PageInfo(
         getString(R.string.task_cron),
         "com.idormy.sms.forwarder.fragment.condition.CronFragment",
         "{\"\":\"\"}",
         CoreAnim.slide,
-        R.drawable.auto_task_icon_cron
+        R.drawable.auto_task_icon_cron,
     ),
     PageInfo(
         getString(R.string.email),
@@ -517,6 +525,8 @@ var TASK_CONDITION_FRAGMENT_LIST = listOf(
         R.drawable.auto_task_icon_wlan
     ),
 )
+
+//注意：TASK_ACTION_XXX 枚举值 等于 TASK_ACTION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_ACTION，不可改变
 var TASK_ACTION_FRAGMENT_LIST = listOf(
     PageInfo(
         getString(R.string.task_cron),

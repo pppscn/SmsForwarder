@@ -15,10 +15,10 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentTasksCronBinding
 import com.idormy.sms.forwarder.entity.task.CronSetting
-import com.idormy.sms.forwarder.utils.KEY_BACK_CODE_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_TEST_CONDITION
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_CRON
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
@@ -203,7 +203,7 @@ class CronFragment : BaseFragment<FragmentTasksCronBinding?>(), View.OnClickList
                     val settingVo = checkSetting()
                     val intent = Intent()
                     intent.putExtra(KEY_BACK_DATA_CONDITION, Gson().toJson(settingVo))
-                    setFragmentResult(KEY_BACK_CODE_CONDITION, intent)
+                    setFragmentResult(TASK_CONDITION_CRON, intent)
                     popToBack()
                     return
                 }

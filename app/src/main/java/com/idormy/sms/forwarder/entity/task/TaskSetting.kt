@@ -1,13 +1,14 @@
 package com.idormy.sms.forwarder.entity.task
 
 import com.idormy.sms.forwarder.R
-import com.idormy.sms.forwarder.utils.TYPE_BARK
-import com.idormy.sms.forwarder.utils.TYPE_DINGTALK_GROUP_ROBOT
-import com.idormy.sms.forwarder.utils.TYPE_EMAIL
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_BATTERY
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_CHARGE
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_CRON
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_WLAN
 import java.io.Serializable
 
 data class TaskSetting(
-    val type: Int,
+    val type: Int, // TASK_CONDITION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_CONDITION 或者 TASK_ACTION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_ACTION
     val title: String,
     val description: String,
     var setting: String = "",
@@ -16,9 +17,10 @@ data class TaskSetting(
 
     val iconId: Int
         get() = when (type) {
-            TYPE_DINGTALK_GROUP_ROBOT -> R.drawable.icon_dingtalk
-            TYPE_EMAIL -> R.drawable.icon_email
-            TYPE_BARK -> R.drawable.icon_bark
-            else -> R.drawable.icon_sms
+            TASK_CONDITION_CRON -> R.drawable.auto_task_icon_cron
+            TASK_CONDITION_BATTERY -> R.drawable.auto_task_icon_battery
+            TASK_CONDITION_CHARGE -> R.drawable.auto_task_icon_charge
+            TASK_CONDITION_WLAN -> R.drawable.auto_task_icon_wlan
+            else -> R.drawable.auto_task_icon_sim
         }
 }
