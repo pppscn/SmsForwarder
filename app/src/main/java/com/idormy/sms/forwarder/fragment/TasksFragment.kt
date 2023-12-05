@@ -14,10 +14,9 @@ import com.idormy.sms.forwarder.database.entity.Task
 import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
 import com.idormy.sms.forwarder.database.viewmodel.TaskViewModel
 import com.idormy.sms.forwarder.databinding.FragmentTasksBinding
-import com.idormy.sms.forwarder.utils.EVENT_UPDATE_RULE_TYPE
-import com.idormy.sms.forwarder.utils.KEY_RULE_CLONE
-import com.idormy.sms.forwarder.utils.KEY_RULE_ID
-import com.idormy.sms.forwarder.utils.KEY_RULE_TYPE
+import com.idormy.sms.forwarder.utils.EVENT_UPDATE_TASK_TYPE
+import com.idormy.sms.forwarder.utils.KEY_TASK_CLONE
+import com.idormy.sms.forwarder.utils.KEY_TASK_ID
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -80,7 +79,7 @@ class TasksFragment : BaseFragment<FragmentTasksBinding?>(), TaskPagingAdapter.O
                 else -> "mine"
             }
             viewModel.setType(currentType)
-            LiveEventBus.get(EVENT_UPDATE_RULE_TYPE, String::class.java).post(currentType)
+            LiveEventBus.get(EVENT_UPDATE_TASK_TYPE, String::class.java).post(currentType)
             adapter.refresh()
             binding!!.recyclerView.scrollToPosition(0)
         }
@@ -106,18 +105,25 @@ class TasksFragment : BaseFragment<FragmentTasksBinding?>(), TaskPagingAdapter.O
     override fun onItemClicked(view: View?, item: Task) {
         when (view?.id) {
             R.id.iv_copy -> {
-                PageOption.to(TasksEditFragment::class.java).setNewActivity(true).putLong(KEY_RULE_ID, item.id).putString(KEY_RULE_TYPE, item.type.toString()).putBoolean(KEY_RULE_CLONE, true).open(this)
+                PageOption.to(TasksEditFragment::class.java)
+                    .setNewActivity(true).putLong(KEY_TASK_ID, item.id)
+                    //.putString(KEY_TASK_TYPE, item.type.toString())
+                    .putBoolean(KEY_TASK_CLONE, true)
+                    .open(this)
             }
 
             R.id.iv_edit -> {
-                PageOption.to(TasksEditFragment::class.java).setNewActivity(true).putLong(KEY_RULE_ID, item.id).putString(KEY_RULE_TYPE, item.type.toString()).open(this)
+                PageOption.to(TasksEditFragment::class.java)
+                    .setNewActivity(true).putLong(KEY_TASK_ID, item.id)
+                    //.putString(KEY_TASK_TYPE, item.type.toString())
+                    .open(this)
             }
 
             R.id.iv_delete -> {
                 MaterialDialog.Builder(requireContext()).title(R.string.delete_task_title).content(R.string.delete_task_tips).positiveText(R.string.lab_yes).negativeText(R.string.lab_no).onPositive { _: MaterialDialog?, _: DialogAction? ->
-                        viewModel.delete(item.id)
-                        XToastUtils.success(R.string.delete_task_toast)
-                    }.show()
+                    viewModel.delete(item.id)
+                    XToastUtils.success(R.string.delete_task_toast)
+                }.show()
             }
 
             else -> {}

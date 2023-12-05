@@ -18,7 +18,17 @@ import com.idormy.sms.forwarder.databinding.FragmentClientCallQueryBinding
 import com.idormy.sms.forwarder.entity.CallInfo
 import com.idormy.sms.forwarder.server.model.BaseResponse
 import com.idormy.sms.forwarder.server.model.CallQueryData
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.Base64
+import com.idormy.sms.forwarder.utils.DataProvider
+import com.idormy.sms.forwarder.utils.EVENT_KEY_PHONE_NUMBERS
+import com.idormy.sms.forwarder.utils.EVENT_KEY_SIM_SLOT
+import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.PhoneUtils
+import com.idormy.sms.forwarder.utils.PlaceholderHelper
+import com.idormy.sms.forwarder.utils.RSACrypt
+import com.idormy.sms.forwarder.utils.SM4Crypt
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.XToastUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.xuexiang.xaop.annotation.SingleClick
@@ -40,7 +50,7 @@ import com.xuexiang.xutil.data.DateUtils
 import com.xuexiang.xutil.system.ClipboardUtils
 import me.samlss.broccoli.Broccoli
 
-@Suppress("PropertyName")
+@Suppress("PropertyName", "DEPRECATION")
 @Page(name = "远程查通话")
 class CallQueryFragment : BaseFragment<FragmentClientCallQueryBinding?>() {
 
@@ -96,9 +106,7 @@ class CallQueryFragment : BaseFragment<FragmentClientCallQueryBinding?>() {
                 holder.image(R.id.iv_image, model.typeImageId)
                 holder.image(R.id.iv_sim_image, model.simImageId)
                 holder.text(R.id.tv_duration, ResUtils.getString(R.string.call_duration) + model.duration + ResUtils.getString(R.string.seconds))
-                holder.image(R.id.iv_copy, R.drawable.ic_copy)
-                holder.image(R.id.iv_call, R.drawable.ic_phone_out)
-                holder.image(R.id.iv_reply, R.drawable.ic_reply)
+
                 holder.click(R.id.iv_copy) {
                     XToastUtils.info(String.format(getString(R.string.copied_to_clipboard), from))
                     ClipboardUtils.copyText(from)
@@ -231,6 +239,7 @@ class CallQueryFragment : BaseFragment<FragmentClientCallQueryBinding?>() {
                 }
                 postRequest.upString(requestMsg)
             }
+
             3 -> {
                 try {
                     val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
@@ -245,6 +254,7 @@ class CallQueryFragment : BaseFragment<FragmentClientCallQueryBinding?>() {
                 }
                 postRequest.upString(requestMsg)
             }
+
             else -> {
                 postRequest.upJson(requestMsg)
             }

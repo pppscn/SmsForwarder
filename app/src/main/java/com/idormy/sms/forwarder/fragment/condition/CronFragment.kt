@@ -35,7 +35,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-
 @Page(name = "Cron")
 @Suppress("PrivatePropertyName")
 class CronFragment : BaseFragment<FragmentTasksCronBinding?>(), View.OnClickListener {

@@ -8,9 +8,9 @@
     android:layout_marginStart="@dimen/config_margin_5dp"
     android:layout_marginTop="@dimen/config_margin_5dp"
     android:layout_marginEnd="@dimen/config_margin_5dp"
-    android:paddingStart="@dimen/config_padding_5dp"
+    android:paddingStart="@dimen/config_padding_10dp"
     android:paddingTop="@dimen/config_padding_5dp"
-    android:paddingEnd="@dimen/config_padding_5dp"
+    android:paddingEnd="@dimen/config_padding_10dp"
     android:paddingBottom="@dimen/config_padding_5dp">
 
     <LinearLayout

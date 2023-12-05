@@ -26,7 +26,6 @@ class FrpcPagingAdapter(private val itemClickListener: OnItemClickListener) : Pa
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = getItem(position)
         if (item != null) {
-            holder.binding.ivImage.setImageResource(R.drawable.ic_menu_frpc)
             holder.binding.ivAutorun.setImageResource(item.autorunImageId)
             holder.binding.tvUid.text = "UID:${item.uid}"
             holder.binding.tvName.text = item.name
@@ -42,10 +41,6 @@ class FrpcPagingAdapter(private val itemClickListener: OnItemClickListener) : Pa
                     holder.binding.ivPlay.imageTintList = getColors(R.color.colorStart)
                 }
             }
-
-            holder.binding.ivCopy.setImageResource(R.drawable.ic_copy)
-            holder.binding.ivEdit.setImageResource(R.drawable.ic_edit)
-            holder.binding.ivDelete.setImageResource(R.drawable.ic_delete)
 
             holder.binding.ivCopy.setOnClickListener { view: View? ->
                 itemClickListener.onItemClicked(view, item)

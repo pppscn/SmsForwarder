@@ -1,16 +1,22 @@
 package com.idormy.sms.forwarder.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.TaskPagingAdapter.MyViewHolder
 import com.idormy.sms.forwarder.database.entity.Task
 import com.idormy.sms.forwarder.databinding.AdapterTasksCardViewListItemBinding
+import com.idormy.sms.forwarder.entity.task.TaskSetting
 
 class TaskPagingAdapter(private val itemClickListener: OnItemClickListener) : PagingDataAdapter<Task, MyViewHolder>(diffCallback) {
 
@@ -22,23 +28,53 @@ class TaskPagingAdapter(private val itemClickListener: OnItemClickListener) : Pa
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = getItem(position)
         if (item != null) {
-            holder.binding.ivImage.setImageResource(item.imageId)
-            holder.binding.ivStatus.setImageResource(item.statusImageId)
-            holder.binding.tvName.text = item.name
+            // 任务类型：＜1000为任务模板，>=1000为自定义任务
+            if (item.type >= 1000) {
+                holder.binding.layoutImage.visibility = View.GONE
 
-            /*holder.binding.cardView.setOnClickListener { view: View? ->
-                itemClickListener.onItemClicked(view, item)
-            }*/
-            holder.binding.ivCopy.setImageResource(R.drawable.ic_copy)
-            holder.binding.ivEdit.setImageResource(R.drawable.ic_edit)
-            holder.binding.ivDelete.setImageResource(R.drawable.ic_delete)
+                //遍历conditions显示图标
+                holder.binding.layoutConditionsIcons.removeAllViews()
+                if (item.conditions.isNotEmpty()) {
+                    val conditionList = Gson().fromJson(item.conditions, Array<TaskSetting>::class.java).toMutableList()
+                    for (condition in conditionList) {
+                        val layoutConditionItem = View.inflate(App.context, R.layout.item_setting, null) as LinearLayout
+                        val ivConditionIcon = layoutConditionItem.findViewById<ImageView>(R.id.iv_setting_icon)
+                        ivConditionIcon.setImageResource(condition.iconId)
+                        holder.binding.layoutConditionsIcons.addView(layoutConditionItem)
+                    }
+                }
+
+                //遍历actions显示图标
+                holder.binding.layoutActionsIcons.removeAllViews()
+                if (item.actions.isNotEmpty()) {
+                    val actionList = Gson().fromJson(item.actions, Array<TaskSetting>::class.java).toMutableList()
+                    Log.d("TaskPagingAdapter", "actionList:$actionList")
+                    for (action in actionList) {
+                        Log.d("TaskPagingAdapter", "action:$action")
+                        val layoutActionItem = View.inflate(App.context, R.layout.item_setting, null) as LinearLayout
+                        val ivActionIcon = layoutActionItem.findViewById<ImageView>(R.id.iv_setting_icon)
+                        ivActionIcon.setImageResource(action.iconId)
+                        holder.binding.layoutActionsIcons.addView(layoutActionItem)
+                    }
+                }
+
+                holder.binding.ivEdit.setOnClickListener { view: View? ->
+                    itemClickListener.onItemClicked(view, item)
+                }
+                holder.binding.ivDelete.setOnClickListener { view: View? ->
+                    itemClickListener.onItemClicked(view, item)
+                }
+            } else {
+                holder.binding.layoutImage.visibility = View.VISIBLE
+                holder.binding.layoutIcons.visibility = View.GONE
+                holder.binding.ivImage.setImageResource(item.imageId)
+                holder.binding.ivStatus.setImageResource(item.statusImageId)
+                holder.binding.ivEdit.visibility = View.GONE
+                holder.binding.ivDelete.visibility = View.GONE
+            }
+            holder.binding.tvName.text = item.name
+            holder.binding.tvDescription.text = item.description
             holder.binding.ivCopy.setOnClickListener { view: View? ->
-                itemClickListener.onItemClicked(view, item)
-            }
-            holder.binding.ivEdit.setOnClickListener { view: View? ->
-                itemClickListener.onItemClicked(view, item)
-            }
-            holder.binding.ivDelete.setOnClickListener { view: View? ->
                 itemClickListener.onItemClicked(view, item)
             }
         }

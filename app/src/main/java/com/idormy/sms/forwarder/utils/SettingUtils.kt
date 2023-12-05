@@ -3,6 +3,7 @@ package com.idormy.sms.forwarder.utils
 import com.idormy.sms.forwarder.R
 import com.xuexiang.xui.utils.ResUtils.getString
 
+@Suppress("DEPRECATION")
 class SettingUtils private constructor() {
     companion object {
 
@@ -156,6 +157,9 @@ class SettingUtils private constructor() {
 
         //是否纯客户端模式
         var enablePureClientMode: Boolean by SharedPreference(SP_PURE_CLIENT_MODE, false)
+
+        //是否纯任务模式
+        var enablePureTaskMode: Boolean by SharedPreference(SP_PURE_TASK_MODE, true)
 
         //是否启用定位标签
         var enableLocationTag: Boolean by SharedPreference(SP_LOCATION_TAG, false)

@@ -18,8 +18,16 @@ import com.idormy.sms.forwarder.databinding.FragmentClientSmsQueryBinding
 import com.idormy.sms.forwarder.entity.SmsInfo
 import com.idormy.sms.forwarder.server.model.BaseResponse
 import com.idormy.sms.forwarder.server.model.SmsQueryData
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.Base64
 import com.idormy.sms.forwarder.utils.DataProvider.emptySmsInfo
+import com.idormy.sms.forwarder.utils.EVENT_KEY_PHONE_NUMBERS
+import com.idormy.sms.forwarder.utils.EVENT_KEY_SIM_SLOT
+import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.PlaceholderHelper
+import com.idormy.sms.forwarder.utils.RSACrypt
+import com.idormy.sms.forwarder.utils.SM4Crypt
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.XToastUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.xuexiang.xaop.annotation.SingleClick
@@ -41,7 +49,7 @@ import com.xuexiang.xutil.data.ConvertTools
 import com.xuexiang.xutil.data.DateUtils
 import me.samlss.broccoli.Broccoli
 
-@Suppress("PropertyName")
+@Suppress("PropertyName", "DEPRECATION")
 @Page(name = "远程查短信")
 class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
 
@@ -96,7 +104,7 @@ class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
                 holder.image(R.id.iv_image, model.typeImageId)
                 holder.image(R.id.iv_sim_image, model.simImageId)
                 holder.text(R.id.tv_content, model.content)
-                holder.image(R.id.iv_reply, R.drawable.ic_reply)
+                //holder.image(R.id.iv_reply, R.drawable.ic_reply)
                 holder.click(R.id.iv_reply) {
                     XToastUtils.info(getString(R.string.remote_sms) + model.number)
                     LiveEventBus.get<Int>(EVENT_KEY_SIM_SLOT).post(model.simId)
@@ -220,6 +228,7 @@ class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
                 }
                 postRequest.upString(requestMsg)
             }
+
             3 -> {
                 try {
                     val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
@@ -234,6 +243,7 @@ class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
                 }
                 postRequest.upString(requestMsg)
             }
+
             else -> {
                 postRequest.upJson(requestMsg)
             }

@@ -1103,6 +1103,13 @@
     <string name="select_task_condition">Please select condition</string>
     <string name="select_task_action">Please select action</string>
     <string name="task_cron">Cron</string>
+    <string name="task_charge">Charge</string>
+    <string name="task_battery">Battery</string>
+    <string name="task_network">Network</string>
+    <string name="task_sendsms">Send Sms</string>
+    <string name="task_notification">Notification</string>
+    <string name="task_frpc">Frpc</string>
+    <string name="task_server">HttpServer</string>
 
     <string name="second">Second</string>
     <string name="minute">Minute</string>

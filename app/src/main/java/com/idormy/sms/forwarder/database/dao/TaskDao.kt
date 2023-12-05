@@ -23,8 +23,11 @@ interface TaskDao {
     @Query("SELECT * FROM Task ORDER BY id DESC")
     fun getAll(): List<Task>
 
-    @Query("SELECT * FROM Task where type=:type ORDER BY id DESC")
-    fun pagingSource(type: String): PagingSource<Int, Task>
+    @Query("SELECT * FROM Task where type < 1000 ORDER BY id DESC")
+    fun pagingSourceFixed(): PagingSource<Int, Task>
+
+    @Query("SELECT * FROM Task where type >= 1000 ORDER BY id DESC")
+    fun pagingSourceMine(): PagingSource<Int, Task>
 
     @Transaction
     @RawQuery(observedEntities = [Task::class])

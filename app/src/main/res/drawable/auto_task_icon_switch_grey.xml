@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector android:height="24.0dip" android:width="24.0dip" android:autoMirrored="true" android:viewportWidth="24.0" android:viewportHeight="24.0"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="@color/auto_task_icon_grey_bg" android:pathData="M6,0L18,0A6,6 0,0 1,24 6L24,18A6,6 0,0 1,18 24L6,24A6,6 0,0 1,0 18L0,6A6,6 0,0 1,6 0z" />
+    <path android:fillColor="@color/auto_task_icon_grey" android:pathData="M12,3.75C11.482,3.75 11.063,4.17 11.063,4.688V9.485C11.063,10.003 11.482,10.422 12,10.422C12.518,10.422 12.938,10.003 12.938,9.485V4.688C12.938,4.17 12.518,3.75 12,3.75ZM8.788,7.845C9.212,7.552 9.315,6.974 9.018,6.555C8.721,6.135 8.136,6.034 7.712,6.327C5.771,7.671 4.5,9.906 4.5,12.434C4.5,16.54 7.854,19.875 12,19.875C16.146,19.875 19.5,16.54 19.5,12.434C19.5,9.906 18.229,7.671 16.288,6.327C15.864,6.034 15.279,6.135 14.982,6.555C14.685,6.974 14.788,7.552 15.212,7.845C16.672,8.856 17.625,10.534 17.625,12.434C17.625,15.524 15.103,18.022 12,18.022C8.897,18.022 6.375,15.524 6.375,12.434C6.375,10.534 7.328,8.856 8.788,7.845Z" android:fillType="evenOdd" />
+</vector>

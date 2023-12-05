@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.SenderPagingAdapter.MyViewHolder
 import com.idormy.sms.forwarder.database.entity.Sender
 import com.idormy.sms.forwarder.databinding.AdapterSendersCardViewListItemBinding
@@ -26,12 +25,6 @@ class SenderPagingAdapter(private val itemClickListener: OnItemClickListener) : 
             holder.binding.ivStatus.setImageResource(item.statusImageId)
             holder.binding.tvName.text = item.name
 
-            /*holder.binding.cardView.setOnClickListener { view: View? ->
-                itemClickListener.onItemClicked(view, item)
-            }*/
-            holder.binding.ivCopy.setImageResource(R.drawable.ic_copy)
-            holder.binding.ivEdit.setImageResource(R.drawable.ic_edit)
-            holder.binding.ivDelete.setImageResource(R.drawable.ic_delete)
             holder.binding.ivCopy.setOnClickListener { view: View? ->
                 itemClickListener.onItemClicked(view, item)
             }

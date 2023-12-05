@@ -86,6 +86,7 @@ const val SP_SMS_TEMPLATE = "sms_template"
 
 const val SP_ENABLE_HELP_TIP = "enable_help_tip"
 const val SP_PURE_CLIENT_MODE = "enable_pure_client_mode"
+const val SP_PURE_TASK_MODE = "enable_pure_task_mode"
 const val SP_LOCATION_TAG = "enable_location_tag"
 
 const val SP_ENABLE_CACTUS = "enable_cactus"
@@ -353,7 +354,8 @@ const val KEY_URL = "key_url"
 
 //主页监听时间
 const val EVENT_UPDATE_LOGS_TYPE = "key_logs_type"
-const val EVENT_UPDATE_RULE_TYPE = "key_status"
+const val EVENT_UPDATE_RULE_TYPE = "key_rules_type"
+const val EVENT_UPDATE_TASK_TYPE = "key_tasks_type"
 
 const val KEY_SENDER_ID = "key_sender_id"
 const val KEY_SENDER_TYPE = "key_sender_type"
@@ -363,6 +365,10 @@ const val KEY_SENDER_TEST = "key_sender_test"
 const val KEY_RULE_ID = "key_rule_id"
 const val KEY_RULE_TYPE = "key_rule_type"
 const val KEY_RULE_CLONE = "key_rule_clone"
+
+const val KEY_TASK_ID = "key_task_id"
+const val KEY_TASK_TYPE = "key_task_type"
+const val KEY_TASK_CLONE = "key_task_clone"
 
 const val EVENT_LOAD_APP_LIST = "EVENT_LOAD_APP_LIST"
 
@@ -476,10 +482,6 @@ var CLIENT_FRAGMENT_LIST = listOf(
 )
 
 //自动任务
-const val KEY_TASK_ID = "key_task_id"
-const val KEY_TASK_TYPE = "key_task_type"
-const val KEY_TASK_CLONE = "key_task_clone"
-
 const val KEY_TEST_CONDITION = "key_test_condition"
 const val KEY_EVENT_DATA_CONDITION = "event_data_condition"
 const val KEY_BACK_CODE_CONDITION = 1000
@@ -494,32 +496,32 @@ const val KEY_BACK_DATA_ACTION = "back_data_action"
 const val TASK_CONDITION_CRON = 1000
 const val TASK_CONDITION_BATTERY = 1001
 const val TASK_CONDITION_CHARGE = 1002
-const val TASK_CONDITION_WLAN = 1003
+const val TASK_CONDITION_NETWORK = 1003
 var TASK_CONDITION_FRAGMENT_LIST = listOf(
     PageInfo(
         getString(R.string.task_cron),
         "com.idormy.sms.forwarder.fragment.condition.CronFragment",
         "{\"\":\"\"}",
         CoreAnim.slide,
-        R.drawable.auto_task_icon_cron,
+        R.drawable.auto_task_icon_custom_time,
     ),
     PageInfo(
-        getString(R.string.email),
-        "com.idormy.sms.forwarder.fragment.senders.EmailFragment",
+        getString(R.string.task_battery),
+        "com.idormy.sms.forwarder.fragment.condition.BatteryFragment",
         "{\"\":\"\"}",
         CoreAnim.slide,
         R.drawable.auto_task_icon_battery
     ),
     PageInfo(
-        getString(R.string.bark),
-        "com.idormy.sms.forwarder.fragment.senders.BarkFragment",
+        getString(R.string.task_charge),
+        "com.idormy.sms.forwarder.fragment.condition.ChargeFragment",
         "{\"\":\"\"}",
         CoreAnim.slide,
         R.drawable.auto_task_icon_charge
     ),
     PageInfo(
-        getString(R.string.webhook),
-        "com.idormy.sms.forwarder.fragment.senders.WebhookFragment",
+        getString(R.string.task_network),
+        "com.idormy.sms.forwarder.fragment.condition.NetworkFragment",
         "{\"\":\"\"}",
         CoreAnim.slide,
         R.drawable.auto_task_icon_wlan
@@ -527,33 +529,37 @@ var TASK_CONDITION_FRAGMENT_LIST = listOf(
 )
 
 //注意：TASK_ACTION_XXX 枚举值 等于 TASK_ACTION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_ACTION，不可改变
+const val TASK_ACTION_SENDSMS = 2000
+const val TASK_ACTION_NOTIFICATION = 2001
+const val TASK_ACTION_FRPC = 2002
+const val TASK_ACTION_HTTPSERVER = 2003
 var TASK_ACTION_FRAGMENT_LIST = listOf(
     PageInfo(
-        getString(R.string.task_cron),
-        "com.idormy.sms.forwarder.fragment.condition.CronFragment",
+        getString(R.string.task_sendsms),
+        "com.idormy.sms.forwarder.fragment.action.SendSmsFragment",
         "{\"\":\"\"}",
         CoreAnim.slide,
-        R.drawable.auto_task_icon_cron
+        R.drawable.auto_task_icon_sms
     ),
     PageInfo(
-        getString(R.string.email),
-        "com.idormy.sms.forwarder.fragment.senders.EmailFragment",
+        getString(R.string.task_notification),
+        "com.idormy.sms.forwarder.fragment.action.NotificationFragment",
         "{\"\":\"\"}",
         CoreAnim.slide,
-        R.drawable.auto_task_icon_battery
+        R.drawable.auto_task_icon_sender,
     ),
     PageInfo(
-        getString(R.string.bark),
-        "com.idormy.sms.forwarder.fragment.senders.BarkFragment",
+        getString(R.string.task_frpc),
+        "com.idormy.sms.forwarder.fragment.action.FrpcFragment",
         "{\"\":\"\"}",
         CoreAnim.slide,
-        R.drawable.auto_task_icon_charge
+        R.drawable.auto_task_icon_frpc
     ),
     PageInfo(
-        getString(R.string.webhook),
-        "com.idormy.sms.forwarder.fragment.senders.WebhookFragment",
+        getString(R.string.task_server),
+        "com.idormy.sms.forwarder.fragment.action.HttpServerFragment",
         "{\"\":\"\"}",
         CoreAnim.slide,
-        R.drawable.auto_task_icon_wlan
+        R.drawable.auto_task_icon_http_server
     ),
 )

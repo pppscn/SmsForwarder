@@ -19,7 +19,16 @@ import com.idormy.sms.forwarder.databinding.FragmentClientContactQueryBinding
 import com.idormy.sms.forwarder.entity.ContactInfo
 import com.idormy.sms.forwarder.server.model.BaseResponse
 import com.idormy.sms.forwarder.server.model.ContactQueryData
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.Base64
+import com.idormy.sms.forwarder.utils.DataProvider
+import com.idormy.sms.forwarder.utils.EVENT_KEY_PHONE_NUMBERS
+import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.PhoneUtils
+import com.idormy.sms.forwarder.utils.PlaceholderHelper
+import com.idormy.sms.forwarder.utils.RSACrypt
+import com.idormy.sms.forwarder.utils.SM4Crypt
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.XToastUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.xuexiang.xaop.annotation.SingleClick
@@ -40,7 +49,7 @@ import com.xuexiang.xutil.data.ConvertTools
 import com.xuexiang.xutil.system.ClipboardUtils
 import me.samlss.broccoli.Broccoli
 
-@Suppress("PropertyName")
+@Suppress("PropertyName", "DEPRECATION")
 @Page(name = "远程查话簿")
 class ContactQueryFragment : BaseFragment<FragmentClientContactQueryBinding?>() {
 
@@ -90,9 +99,7 @@ class ContactQueryFragment : BaseFragment<FragmentClientContactQueryBinding?>() 
                 holder.text(R.id.sb_letter, model.firstLetter)
                 holder.text(R.id.tv_name, model.name)
                 holder.text(R.id.tv_phone_number, model.phoneNumber)
-                holder.image(R.id.iv_copy, R.drawable.ic_copy)
-                holder.image(R.id.iv_call, R.drawable.ic_phone_out)
-                holder.image(R.id.iv_reply, R.drawable.ic_reply)
+
                 holder.click(R.id.iv_copy) {
                     val str = model.toString()
                     XToastUtils.info(String.format(getString(R.string.copied_to_clipboard), str))
@@ -104,9 +111,6 @@ class ContactQueryFragment : BaseFragment<FragmentClientContactQueryBinding?>() 
                 }
                 holder.click(R.id.iv_reply) {
                     XToastUtils.info(getString(R.string.remote_sms) + model.phoneNumber)
-                    /*val params = Bundle()
-                    params.putString(KEY_PHONE_NUMBERS, model.phoneNumber)
-                    openPage(SmsSendFragment::class.java, params)*/
                     LiveEventBus.get<String>(EVENT_KEY_PHONE_NUMBERS).post(model.phoneNumber)
                     PageOption.to(SmsSendFragment::class.java).setNewActivity(true).open((context as XPageActivity?)!!)
                 }
@@ -213,6 +217,7 @@ class ContactQueryFragment : BaseFragment<FragmentClientContactQueryBinding?>() 
                 }
                 postRequest.upString(requestMsg)
             }
+
             3 -> {
                 try {
                     val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
@@ -227,6 +232,7 @@ class ContactQueryFragment : BaseFragment<FragmentClientContactQueryBinding?>() 
                 }
                 postRequest.upString(requestMsg)
             }
+
             else -> {
                 postRequest.upJson(requestMsg)
             }

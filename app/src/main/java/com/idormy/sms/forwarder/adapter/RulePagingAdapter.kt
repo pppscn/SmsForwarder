@@ -42,9 +42,6 @@ class RulePagingAdapter(private val itemClickListener: OnItemClickListener) : Pa
                 holder.binding.layoutSenders.addView(layoutSenderItem)
             }
 
-            holder.binding.ivCopy.setImageResource(R.drawable.ic_copy)
-            holder.binding.ivEdit.setImageResource(R.drawable.ic_edit)
-            holder.binding.ivDelete.setImageResource(R.drawable.ic_delete)
             holder.binding.ivCopy.setOnClickListener { view: View? ->
                 itemClickListener.onItemClicked(view, item)
             }

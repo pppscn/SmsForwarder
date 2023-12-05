@@ -9,10 +9,7 @@
     android:layout_marginStart="@dimen/config_margin_5dp"
     android:layout_marginTop="@dimen/config_margin_5dp"
     android:layout_marginEnd="@dimen/config_margin_5dp"
-    android:paddingStart="@dimen/config_padding_5dp"
-    android:paddingTop="@dimen/config_padding_5dp"
-    android:paddingEnd="@dimen/config_padding_5dp"
-    android:paddingBottom="@dimen/config_padding_5dp">
+    android:padding="@dimen/config_padding_5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +26,9 @@
                 android:id="@+id/iv_rule_image"
                 android:layout_width="@dimen/card_view_image_size"
                 android:layout_height="@dimen/card_view_image_size"
-                tools:ignore="ContentDescription" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_app"
+                tools:ignore="ContentDescription,ImageContrastCheck" />
 
             <ImageView
                 android:id="@+id/iv_rule_status"
@@ -37,6 +36,8 @@
                 android:layout_height="16dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="-16dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_off"
                 tools:ignore="ContentDescription" />
 
         </LinearLayout>
@@ -73,24 +74,29 @@
             android:id="@+id/iv_copy"
             android:layout_width="@dimen/card_view_image_size"
             android:layout_height="@dimen/card_view_image_size"
-            android:layout_marginStart="10dp"
             android:padding="@dimen/card_view_image_padding"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_copy"
             app:tint="@color/colorStart"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription,ImageContrastCheck" />
 
         <ImageView
             android:id="@+id/iv_edit"
             android:layout_width="@dimen/card_view_image_size"
             android:layout_height="@dimen/card_view_image_size"
             android:padding="@dimen/card_view_image_padding"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_edit"
             app:tint="@color/toast_info_color"
-            tools:ignore="ContentDescription,PrivateResource" />
+            tools:ignore="ContentDescription,PrivateResource,ImageContrastCheck" />
 
         <ImageView
             android:id="@+id/iv_delete"
             android:layout_width="@dimen/card_view_image_size"
             android:layout_height="@dimen/card_view_image_size"
             android:padding="@dimen/card_view_image_padding"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_delete"
             app:tint="@color/toast_error_color"
             tools:ignore="ContentDescription,PrivateResource" />
 

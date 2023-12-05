@@ -12,7 +12,7 @@ import com.idormy.sms.forwarder.database.ext.ioThread
 import kotlinx.coroutines.flow.Flow
 
 class TaskViewModel(private val dao: TaskDao) : ViewModel() {
-    private var type: String = "sms"
+    private var type: String = "mine"
 
     fun setType(type: String): TaskViewModel {
         this.type = type
@@ -26,7 +26,9 @@ class TaskViewModel(private val dao: TaskDao) : ViewModel() {
             initialLoadSize = 10
         )
     ) {
-        dao.pagingSource(type)
+        //TODO:根据条件查询，咱不使用
+        //dao.pagingSource(type)
+        if (type == "mine") dao.pagingSourceMine() else dao.pagingSourceFixed()
     }.flow.cachedIn(viewModelScope)
 
     fun insertOrUpdate(task: Task) = ioThread {

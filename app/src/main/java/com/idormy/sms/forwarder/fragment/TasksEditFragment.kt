@@ -99,22 +99,11 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
      * 初始化控件
      */
     override fun initViews() {
-        if (taskId <= 0) { //新增
-            titleBar?.setSubTitle(getString(R.string.add_task))
-            binding!!.btnDel.setText(R.string.discard)
-        } else { //编辑 & 克隆
-            binding!!.btnDel.setText(R.string.del)
-            initForm()
-        }
-
         recyclerConditions = findViewById(R.id.recycler_conditions)
         recyclerActions = findViewById(R.id.recycler_actions)
 
         // 初始化 RecyclerView 和 Adapter
         initRecyclerViews()
-
-        // 添加示例项目
-        // addSampleItems()
 
         // 设置拖动排序
         val conditionsCallback = ItemMoveCallback(object : ItemMoveCallback.Listener {
@@ -150,6 +139,14 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
         val itemTouchHelperActions = ItemTouchHelper(actionsCallback)
         itemTouchHelperActions.attachToRecyclerView(recyclerActions)
         actionsAdapter.setTouchHelper(itemTouchHelperActions)
+
+        if (taskId <= 0) { //新增
+            titleBar?.setSubTitle(getString(R.string.add_task))
+            binding!!.btnDel.setText(R.string.discard)
+        } else { //编辑 & 克隆
+            binding!!.btnDel.setText(R.string.del)
+            initForm()
+        }
     }
 
     override fun initListeners() {
@@ -238,6 +235,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                 e.printStackTrace()
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun onSuccess(task: Task) {
                 Log.d(TAG, task.toString())
                 if (isClone) {
@@ -248,13 +246,54 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                 }
                 binding!!.etName.setText(task.name)
                 binding!!.sbStatus.isChecked = task.status == STATUS_ON
+                try {
+                    if (task.conditions.isNotEmpty()) {
+                        val conditionList = Gson().fromJson(task.conditions, Array<TaskSetting>::class.java).toMutableList()
+                        for (condition in conditionList) {
+                            itemListConditions.add(condition)
+                        }
+                        Log.d(TAG, "initForm: $itemListConditions")
+                        conditionsAdapter.notifyDataSetChanged()
+                    }
+                    if (task.actions.isNotEmpty()) {
+                        val actionList = Gson().fromJson(task.actions, Array<TaskSetting>::class.java).toMutableList()
+                        for (action in actionList) {
+                            itemListActions.add(action)
+                        }
+                        Log.d(TAG, "initForm: $itemListActions")
+                        actionsAdapter.notifyDataSetChanged()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    XToastUtils.error(e.message.toString())
+                }
             }
         })
     }
 
     //提交前检查表单
     private fun checkForm(): Task {
-        return Task()
+        val taskName = binding!!.etName.text.toString().trim()
+        if (taskName.isEmpty()) {
+            throw Exception("请输入任务名称")
+        }
+        if (itemListConditions.size <= 0) {
+            throw Exception("请添加触发条件")
+        }
+        if (itemListActions.size <= 0) {
+            throw Exception("请添加执行动作")
+        }
+        taskType = itemListConditions[0].type
+
+        //拼接任务描述
+        val description = StringBuilder()
+        description.append(getString(R.string.task_conditions)).append(" ")
+        description.append(itemListConditions.map { it.description }.toTypedArray().joinToString(","))
+        description.append(" ").append(getString(R.string.task_actions)).append(" ")
+        description.append(itemListActions.map { it.description }.toTypedArray().joinToString(","))
+
+        val status = if (binding!!.sbStatus.isChecked) STATUS_ON else STATUS_OFF
+        return Task(taskId, taskType, taskName, description.toString(), Gson().toJson(itemListConditions), Gson().toJson(itemListActions), status)
     }
 
     private fun testTask(task: Task) {
@@ -310,6 +349,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                 val widgetInfo = TASK_CONDITION_FRAGMENT_LIST[widgetInfoIndex]
                 val taskSetting: TaskSetting
                 when (resultCode) {
+
                     TASK_CONDITION_CRON -> {
                         val settingVo = Gson().fromJson(setting, CronSetting::class.java)
                         Log.d(TAG, settingVo.toString())
@@ -319,6 +359,22 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                     }
 
                     TASK_CONDITION_BATTERY -> {
+                        val settingVo = Gson().fromJson(setting, CronSetting::class.java)
+                        Log.d(TAG, settingVo.toString())
+                        taskSetting = TaskSetting(
+                            resultCode, widgetInfo.name, settingVo.description, setting, requestCode
+                        )
+                    }
+
+                    TASK_CONDITION_CHARGE -> {
+                        val settingVo = Gson().fromJson(setting, CronSetting::class.java)
+                        Log.d(TAG, settingVo.toString())
+                        taskSetting = TaskSetting(
+                            resultCode, widgetInfo.name, settingVo.description, setting, requestCode
+                        )
+                    }
+
+                    TASK_CONDITION_NETWORK -> {
                         val settingVo = Gson().fromJson(setting, CronSetting::class.java)
                         Log.d(TAG, settingVo.toString())
                         taskSetting = TaskSetting(
@@ -338,26 +394,63 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                     itemListConditions[requestCode - 1] = taskSetting
                 }
                 conditionsAdapter.notifyDataSetChanged()
-            } else if (resultCode == KEY_BACK_CODE_ACTION) {
+            } else if (resultCode in KEY_BACK_CODE_ACTION..KEY_BACK_CODE_ACTION + 999) {
                 setting = extras!!.getString(KEY_BACK_DATA_ACTION)
+                if (setting == null) return
+                //注意：TASK_ACTION_XXX 枚举值 等于 TASK_ACTION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_ACTION，不可改变
+                val widgetInfoIndex = resultCode - KEY_BACK_CODE_ACTION
+                if (widgetInfoIndex >= TASK_ACTION_FRAGMENT_LIST.size) return
+                val widgetInfo = TASK_ACTION_FRAGMENT_LIST[widgetInfoIndex]
+                val taskSetting: TaskSetting
+                when (resultCode) {
+
+                    TASK_ACTION_SENDSMS -> {
+                        val settingVo = Gson().fromJson(setting, CronSetting::class.java)
+                        Log.d(TAG, settingVo.toString())
+                        taskSetting = TaskSetting(
+                            resultCode, widgetInfo.name, settingVo.description, setting, requestCode
+                        )
+                    }
+
+                    TASK_ACTION_NOTIFICATION -> {
+                        val settingVo = Gson().fromJson(setting, CronSetting::class.java)
+                        Log.d(TAG, settingVo.toString())
+                        taskSetting = TaskSetting(
+                            resultCode, widgetInfo.name, settingVo.description, setting, requestCode
+                        )
+                    }
+
+                    TASK_ACTION_FRPC -> {
+                        val settingVo = Gson().fromJson(setting, CronSetting::class.java)
+                        Log.d(TAG, settingVo.toString())
+                        taskSetting = TaskSetting(
+                            resultCode, widgetInfo.name, settingVo.description, setting, requestCode
+                        )
+                    }
+
+                    TASK_ACTION_HTTPSERVER -> {
+                        val settingVo = Gson().fromJson(setting, CronSetting::class.java)
+                        Log.d(TAG, settingVo.toString())
+                        taskSetting = TaskSetting(
+                            resultCode, widgetInfo.name, settingVo.description, setting, requestCode
+                        )
+                    }
+
+                    else -> {
+                        return
+                    }
+                }
+                //requestCode: 等于 itemListActions 的索引加1
+                if (requestCode == 0) {
+                    taskSetting.position = itemListActions.size
+                    itemListActions.add(taskSetting)
+                } else {
+                    itemListActions[requestCode - 1] = taskSetting
+                }
+                actionsAdapter.notifyDataSetChanged()
             }
             Log.d(TAG, "requestCode:$requestCode resultCode:$resultCode setting:$setting")
         }
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun addSampleItems() {
-        // 添加示例项目到列表中
-        itemListConditions.add(TaskSetting(TYPE_DINGTALK_GROUP_ROBOT, "DingTalk 1", "Description 1"))
-        itemListConditions.add(TaskSetting(TYPE_DINGTALK_GROUP_ROBOT, "DingTalk 2", "Description 2"))
-        itemListConditions.add(TaskSetting(TYPE_DINGTALK_GROUP_ROBOT, "DingTalk 3", "Description 3"))
-        itemListActions.add(TaskSetting(TYPE_EMAIL, "Email 1", "Description 1"))
-        itemListActions.add(TaskSetting(TYPE_EMAIL, "Email 2", "Description 2"))
-        itemListActions.add(TaskSetting(TYPE_EMAIL, "Email 3", "Description 3"))
-
-        // 更新 Adapter
-        conditionsAdapter.notifyDataSetChanged()
-        actionsAdapter.notifyDataSetChanged()
     }
 
     private fun initRecyclerViews() {
@@ -388,8 +481,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
         val widgetInfo = TASK_CONDITION_FRAGMENT_LIST[condition.type - KEY_BACK_CODE_CONDITION]
         @Suppress("UNCHECKED_CAST") PageOption.to(Class.forName(widgetInfo.classPath) as Class<XPageFragment>) //跳转的fragment
             .setRequestCode(position + 1) //requestCode: 0 新增 、>0 编辑（itemListConditions 的索引加1）
-            .putString(KEY_EVENT_DATA_CONDITION, condition.setting)
-            .open(this)
+            .putString(KEY_EVENT_DATA_CONDITION, condition.setting).open(this)
     }
 
     private fun removeCondition(position: Int) {
@@ -409,8 +501,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
         val widgetInfo = TASK_ACTION_FRAGMENT_LIST[action.type - KEY_BACK_CODE_ACTION]
         @Suppress("UNCHECKED_CAST") PageOption.to(Class.forName(widgetInfo.classPath) as Class<XPageFragment>) //跳转的fragment
             .setRequestCode(position + 1) //requestCode: 0 新增 、>0 编辑（itemListActions 的索引加1）
-            .putString(KEY_EVENT_DATA_ACTION, action.setting)
-            .open(this)
+            .putString(KEY_EVENT_DATA_ACTION, action.setting).open(this)
     }
 
     private fun removeAction(position: Int) {

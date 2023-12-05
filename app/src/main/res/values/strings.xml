@@ -1104,6 +1104,13 @@
     <string name="select_task_condition">请选择条件</string>
     <string name="select_task_action">请选择动作</string>
     <string name="task_cron">定时任务</string>
+    <string name="task_charge">充电状态</string>
+    <string name="task_battery">电量使用</string>
+    <string name="task_network">网络状态</string>
+    <string name="task_sendsms">发送短信</string>
+    <string name="task_notification">通道推送</string>
+    <string name="task_frpc">Frpc</string>
+    <string name="task_server">HttpServer</string>
 
     <string name="second">秒</string>
     <string name="minute">分</string>

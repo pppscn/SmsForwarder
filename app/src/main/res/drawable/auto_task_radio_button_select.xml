@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector android:height="@dimen/view_dimen_68" android:width="@dimen/view_dimen_68" android:viewportWidth="68.0" android:viewportHeight="68.0"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="@color/auto_task_select_radio_out_color" android:pathData="M34,66C51.6731,66 66,51.6731 66,34C66,16.3269 51.6731,2 34,2C16.3269,2 2,16.3269 2,34C2,51.6731 16.3269,66 34,66Z" />
+    <path android:fillColor="#00000000" android:pathData="M34,67C52.2254,67 67,52.2254 67,34C67,15.7746 52.2254,1 34,1C15.7746,1 1,15.7746 1,34C1,52.2254 15.7746,67 34,67Z" android:strokeColor="#ffffffff" android:strokeWidth="2.0" android:strokeAlpha="0.1" />
+    <path android:fillColor="#ffffffff" android:pathData="M34,49C42.2843,49 49,42.2843 49,34C49,25.7157 42.2843,19 34,19C25.7157,19 19,25.7157 19,34C19,42.2843 25.7157,49 34,49Z" />
+</vector>
