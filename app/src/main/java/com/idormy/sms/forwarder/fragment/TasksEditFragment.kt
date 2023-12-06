@@ -26,6 +26,7 @@ import com.idormy.sms.forwarder.databinding.FragmentTasksEditBinding
 import com.idormy.sms.forwarder.entity.task.CronSetting
 import com.idormy.sms.forwarder.entity.task.TaskSetting
 import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.task.CronUtils
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xpage.base.XPageFragment
@@ -37,6 +38,7 @@ import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder
 import com.xuexiang.xui.utils.DensityUtils
 import com.xuexiang.xui.utils.WidgetUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
+import gatewayapps.crondroid.CronExpression
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -214,6 +216,9 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                     val taskNew = checkForm()
                     if (isClone) taskNew.id = 0
                     Log.d(TAG, taskNew.toString())
+                    //应用任务
+                    applyTask(taskNew)
+                    //保存任务
                     viewModel.insertOrUpdate(taskNew)
                     XToastUtils.success(R.string.tipSaveSuccess)
                     popToBack()
@@ -254,6 +259,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                         }
                         Log.d(TAG, "initForm: $itemListConditions")
                         conditionsAdapter.notifyDataSetChanged()
+                        binding!!.layoutAddCondition.visibility = if (itemListConditions.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
                     }
                     if (task.actions.isNotEmpty()) {
                         val actionList = Gson().fromJson(task.actions, Array<TaskSetting>::class.java).toMutableList()
@@ -262,6 +268,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                         }
                         Log.d(TAG, "initForm: $itemListActions")
                         actionsAdapter.notifyDataSetChanged()
+                        binding!!.layoutAddAction.visibility = if (itemListActions.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -283,7 +290,23 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
         if (itemListActions.size <= 0) {
             throw Exception("请添加执行动作")
         }
-        taskType = itemListConditions[0].type
+
+        val lastExecTime = Date()
+        var nextExecTime = Date()
+        val firstCondition = itemListConditions[0]
+        taskType = firstCondition.type
+
+        when (taskType) {
+            TASK_CONDITION_CRON -> {
+                //检查定时任务的时间设置
+                val cronSetting = Gson().fromJson(firstCondition.setting, CronSetting::class.java)
+                if (cronSetting.expression.isEmpty()) {
+                    throw Exception("请设置定时任务的时间")
+                }
+                val cronExpression = CronExpression(cronSetting.expression)
+                nextExecTime = cronExpression.getNextValidTimeAfter(lastExecTime)
+            }
+        }
 
         //拼接任务描述
         val description = StringBuilder()
@@ -293,10 +316,34 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
         description.append(itemListActions.map { it.description }.toTypedArray().joinToString(","))
 
         val status = if (binding!!.sbStatus.isChecked) STATUS_ON else STATUS_OFF
-        return Task(taskId, taskType, taskName, description.toString(), Gson().toJson(itemListConditions), Gson().toJson(itemListActions), status)
+        return Task(
+            taskId,
+            taskType,
+            taskName,
+            description.toString(),
+            Gson().toJson(itemListConditions),
+            Gson().toJson(itemListActions),
+            status,
+            lastExecTime,
+            nextExecTime
+        )
     }
 
+    //测试任务
     private fun testTask(task: Task) {
+    }
+
+    //应用任务
+    private fun applyTask(task: Task) {
+        when (task.type) {
+            //定时任务
+            TASK_CONDITION_CRON -> {
+                //取消旧任务的定时器
+                CronUtils.cancelAlarm(task)
+                //设置新的定时器
+                CronUtils.scheduleAlarm(task)
+            }
+        }
     }
 
     @SingleClick
@@ -394,6 +441,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                     itemListConditions[requestCode - 1] = taskSetting
                 }
                 conditionsAdapter.notifyDataSetChanged()
+                binding!!.layoutAddCondition.visibility = if (itemListConditions.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
             } else if (resultCode in KEY_BACK_CODE_ACTION..KEY_BACK_CODE_ACTION + 999) {
                 setting = extras!!.getString(KEY_BACK_DATA_ACTION)
                 if (setting == null) return
@@ -448,6 +496,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                     itemListActions[requestCode - 1] = taskSetting
                 }
                 actionsAdapter.notifyDataSetChanged()
+                binding!!.layoutAddAction.visibility = if (itemListActions.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
             }
             Log.d(TAG, "requestCode:$requestCode resultCode:$resultCode setting:$setting")
         }
@@ -487,6 +536,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
     private fun removeCondition(position: Int) {
         itemListConditions.removeAt(position)
         conditionsAdapter.notifyItemRemoved(position)
+        binding!!.layoutAddCondition.visibility = if (itemListConditions.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
     }
 
     private fun editAction(position: Int) {
@@ -507,5 +557,6 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
     private fun removeAction(position: Int) {
         itemListActions.removeAt(position)
         actionsAdapter.notifyItemRemoved(position)
+        binding!!.layoutAddAction.visibility = if (itemListActions.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
     }
 }

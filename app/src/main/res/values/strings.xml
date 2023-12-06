@@ -1109,8 +1109,8 @@
     <string name="task_network">网络状态</string>
     <string name="task_sendsms">发送短信</string>
     <string name="task_notification">通道推送</string>
-    <string name="task_frpc">Frpc</string>
-    <string name="task_server">HttpServer</string>
+    <string name="task_frpc">设置 Frpc</string>
+    <string name="task_server">设置 HttpServer</string>
 
     <string name="second">秒</string>
     <string name="minute">分</string>
@@ -1167,4 +1167,6 @@
     <string name="cron_expression_check">Cron表达式测试结果</string>
     <string name="invalid_cron_expression">Cron表达式无效：\n%s</string>
     <string name="next_execution_times">最近 %s 次运行时间：\n%s</string>
+
+    <string name="send_sms_to">通过卡槽 SIM-%s 发送短信到：\n%s</string>
 </resources>

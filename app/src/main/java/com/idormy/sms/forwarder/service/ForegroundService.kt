@@ -44,7 +44,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 @SuppressLint("SimpleDateFormat")
-@Suppress("PrivatePropertyName", "DeferredResultUnused", "OPT_IN_USAGE", "DEPRECATION")
+@Suppress("PrivatePropertyName", "DeferredResultUnused", "OPT_IN_USAGE", "DEPRECATION", "LiftReturnOrAssignment")
 class ForegroundService : Service() {
 
     private val TAG: String = "ForegroundService"

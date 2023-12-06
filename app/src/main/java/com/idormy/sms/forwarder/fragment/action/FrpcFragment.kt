@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
-import com.idormy.sms.forwarder.databinding.FragmentTasksCronBinding
+import com.idormy.sms.forwarder.databinding.FragmentTasksActionSendSmsBinding
 import com.idormy.sms.forwarder.entity.task.CronSetting
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_ACTION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_ACTION
@@ -26,7 +26,7 @@ import com.xuexiang.xui.widget.actionbar.TitleBar
 
 @Page(name = "Frpc")
 @Suppress("PrivatePropertyName")
-class FrpcFragment : BaseFragment<FragmentTasksCronBinding?>(), View.OnClickListener {
+class FrpcFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View.OnClickListener {
 
     private val TAG: String = FrpcFragment::class.java.simpleName
     var titleBar: TitleBar? = null
@@ -46,12 +46,12 @@ class FrpcFragment : BaseFragment<FragmentTasksCronBinding?>(), View.OnClickList
     override fun viewBindingInflate(
         inflater: LayoutInflater,
         container: ViewGroup,
-    ): FragmentTasksCronBinding {
-        return FragmentTasksCronBinding.inflate(inflater, container, false)
+    ): FragmentTasksActionSendSmsBinding {
+        return FragmentTasksActionSendSmsBinding.inflate(inflater, container, false)
     }
 
     override fun initTitle(): TitleBar? {
-        titleBar = super.initTitle()!!.setImmersive(false).setTitle(R.string.task_cron)
+        titleBar = super.initTitle()!!.setImmersive(false).setTitle(R.string.task_frpc)
         return titleBar
     }
 

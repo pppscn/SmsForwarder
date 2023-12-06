@@ -482,6 +482,7 @@ var CLIENT_FRAGMENT_LIST = listOf(
 )
 
 //自动任务
+const val MAX_SETTING_NUM = 5 //最大条件/动作设置条数
 const val KEY_TEST_CONDITION = "key_test_condition"
 const val KEY_EVENT_DATA_CONDITION = "event_data_condition"
 const val KEY_BACK_CODE_CONDITION = 1000

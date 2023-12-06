@@ -1108,8 +1108,8 @@
     <string name="task_network">Network</string>
     <string name="task_sendsms">Send Sms</string>
     <string name="task_notification">Notification</string>
-    <string name="task_frpc">Frpc</string>
-    <string name="task_server">HttpServer</string>
+    <string name="task_frpc">Frpc Setting</string>
+    <string name="task_server">Server Setting</string>
 
     <string name="second">Second</string>
     <string name="minute">Minute</string>
@@ -1166,4 +1166,6 @@
     <string name="cron_expression_check">Cron Expression Test Result</string>
     <string name="invalid_cron_expression">Cron expression is invalid:\n%s</string>
     <string name="next_execution_times">The next %s execution times:\n%s</string>
+
+    <string name="send_sms_to">Use SIM-%s to send sms\n%s</string>
 </resources>

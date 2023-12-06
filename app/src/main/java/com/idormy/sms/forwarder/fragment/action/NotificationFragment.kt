@@ -107,7 +107,7 @@ class NotificationFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnC
 
     override fun initTitle(): TitleBar? {
         titleBar = super.initTitle()!!.setImmersive(false)
-        titleBar!!.setTitle(R.string.menu_rules)
+        titleBar!!.setTitle(R.string.task_notification)
         return titleBar
     }
 

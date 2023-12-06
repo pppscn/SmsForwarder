@@ -262,6 +262,7 @@
             android:text="@string/test"
             android:textColor="#FFFFFF"
             android:textSize="11sp"
+            android:visibility="gone"
             tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
     </LinearLayout>
