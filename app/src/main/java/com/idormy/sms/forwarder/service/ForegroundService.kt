@@ -22,12 +22,14 @@ import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.entity.LocationInfo
 import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.task.CronJobScheduler
 import com.idormy.sms.forwarder.workers.LoadAppListWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.king.location.LocationClient
 import com.king.location.LocationErrorCode
 import com.king.location.OnExceptionListener
 import com.king.location.OnLocationListener
+import com.xuexiang.xaop.util.PermissionUtils
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.file.FileUtils
 import frpclib.Frpclib
@@ -141,6 +143,16 @@ class ForegroundService : Service() {
                 CommonUtils.toggleNotificationListenerService(this)
             }
 
+            //启动定时任务
+            GlobalScope.async(Dispatchers.IO) {
+                val taskList = AppDatabase.getInstance(App.context).taskDao().getByType(TASK_CONDITION_CRON)
+                taskList.forEach { task ->
+                    Log.d(TAG, "task = $task")
+                    CronJobScheduler.cancelTask(task.id)
+                    CronJobScheduler.scheduleTask(task)
+                }
+            }
+
             //异步获取所有已安装 App 信息
             if (SettingUtils.enableLoadAppList) {
                 val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
@@ -169,8 +181,10 @@ class ForegroundService : Service() {
                 }
             }
 
-            //远程找手机
-            if (SettingUtils.enableLocationTag || HttpServerUtils.enableApiLocation) {
+            //远程找手机 TODO: 判断权限 ACCESS_COARSE_LOCATION ACCESS_FINE_LOCATION
+            if ((SettingUtils.enableLocationTag || HttpServerUtils.enableApiLocation)
+                && PermissionUtils.isGranted(android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION)
+            ) {
                 //可根据具体需求设置定位配置参数（这里只列出一些主要的参数）
                 val locationOption = locationClient.getLocationOption().setAccuracy(Criteria.ACCURACY_FINE)//设置位置精度：高精度
                     .setPowerRequirement(Criteria.POWER_LOW) //设置电量消耗：低电耗

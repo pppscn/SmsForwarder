@@ -1,7 +1,6 @@
 package com.idormy.sms.forwarder.adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,9 +47,9 @@ class TaskPagingAdapter(private val itemClickListener: OnItemClickListener) : Pa
                 holder.binding.layoutActionsIcons.removeAllViews()
                 if (item.actions.isNotEmpty()) {
                     val actionList = Gson().fromJson(item.actions, Array<TaskSetting>::class.java).toMutableList()
-                    Log.d("TaskPagingAdapter", "actionList:$actionList")
+                    //Log.d("TaskPagingAdapter", "actionList:$actionList")
                     for (action in actionList) {
-                        Log.d("TaskPagingAdapter", "action:$action")
+                        //Log.d("TaskPagingAdapter", "action:$action")
                         val layoutActionItem = View.inflate(App.context, R.layout.item_setting, null) as LinearLayout
                         val ivActionIcon = layoutActionItem.findViewById<ImageView>(R.id.iv_setting_icon)
                         ivActionIcon.setImageResource(action.iconId)

@@ -10,6 +10,7 @@ import androidx.room.Update
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.idormy.sms.forwarder.database.entity.Task
 import io.reactivex.Single
+import java.util.Date
 
 @Dao
 interface TaskDao {
@@ -23,6 +24,9 @@ interface TaskDao {
     @Query("SELECT * FROM Task ORDER BY id DESC")
     fun getAll(): List<Task>
 
+    @Query("SELECT * FROM Task where type = 1000 ORDER BY id DESC")
+    fun getAllCron(): List<Task>
+
     @Query("SELECT * FROM Task where type < 1000 ORDER BY id DESC")
     fun pagingSourceFixed(): PagingSource<Int, Task>
 
@@ -34,7 +38,7 @@ interface TaskDao {
     fun getAllRaw(query: SupportSQLiteQuery): List<Task>
 
     @Query("SELECT * FROM Task WHERE type = :taskType")
-    fun getByType(taskType: String): List<Task>
+    fun getByType(taskType: Int): List<Task>
 
     //TODO:根据条件查询，不推荐使用
     @Query("SELECT * FROM Task WHERE type = :taskType AND conditions LIKE '%' || :conditionKey || '%' AND conditions LIKE '%' || :conditionValue || '%'")
@@ -45,6 +49,9 @@ interface TaskDao {
 
     @Update
     fun update(task: Task)
+
+    @Query("UPDATE Task SET last_exec_time = :lastExecTime, next_exec_time = :nextExecTime, status = :status WHERE id = :taskId")
+    fun updateExecTime(taskId: Long, lastExecTime: Date, nextExecTime: Date, status: Int)
 
     @Query("DELETE FROM Task WHERE id = :taskId")
     fun delete(taskId: Long)

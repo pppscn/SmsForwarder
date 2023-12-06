@@ -26,7 +26,7 @@ import com.idormy.sms.forwarder.databinding.FragmentTasksEditBinding
 import com.idormy.sms.forwarder.entity.task.CronSetting
 import com.idormy.sms.forwarder.entity.task.TaskSetting
 import com.idormy.sms.forwarder.utils.*
-import com.idormy.sms.forwarder.utils.task.CronUtils
+import com.idormy.sms.forwarder.utils.task.CronJobScheduler
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xpage.base.XPageFragment
@@ -338,10 +338,14 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
         when (task.type) {
             //定时任务
             TASK_CONDITION_CRON -> {
-                //取消旧任务的定时器
-                CronUtils.cancelAlarm(task)
-                //设置新的定时器
-                CronUtils.scheduleAlarm(task)
+                //取消旧任务的定时器 & 设置新的定时器
+                //CronUtils.cancelAlarm(task)
+                //CronUtils.scheduleAlarm(task)
+
+                //val uuid = App.TaskIdToWorkerIdMap[task.id]
+                //uuid?.let { CronJobScheduler.cancelTask(it) }
+                CronJobScheduler.cancelTask(task.id)
+                CronJobScheduler.scheduleTask(task)
             }
         }
     }
