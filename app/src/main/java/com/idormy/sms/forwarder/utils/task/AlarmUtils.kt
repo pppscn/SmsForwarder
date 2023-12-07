@@ -9,7 +9,7 @@ import android.os.Build
 import com.idormy.sms.forwarder.database.entity.Task
 import com.idormy.sms.forwarder.receiver.AlarmReceiver
 
-class CronUtils {
+class AlarmUtils {
     companion object {
 
         @SuppressLint("StaticFieldLeak")

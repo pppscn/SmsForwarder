@@ -990,6 +990,10 @@
     <string name="pure_client_mode_tips">启动APP时直接进入主动控制·客户端</string>
     <string name="exit_pure_client_mode">退出纯客户端模式</string>
     <string name="enabling_pure_client_mode">是否立即退出App，并手动启动以生效纯客户端模式？</string>
+    <string name="pure_task_mode">纯自动任务模式</string>
+    <string name="pure_task_mode_tips">启动APP时直接进入自动任务</string>
+    <string name="exit_pure_task_mode">退出纯自动任务模式</string>
+    <string name="enabling_pure_task_mode">是否立即退出App，并手动启动以生效纯自动任务模式？</string>
     <string name="optional_components">可选组件：</string>
     <string name="enable_cactus">启用 Cactus 增强保活措施（会增加耗电）</string>
     <string name="enabe_cactus_tips">双进程前台服务/JobScheduler/WorkManager/1像素/无声音乐</string>

@@ -257,7 +257,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                         for (condition in conditionList) {
                             itemListConditions.add(condition)
                         }
-                        Log.d(TAG, "initForm: $itemListConditions")
+                        Log.d(TAG, "itemListConditions: $itemListConditions")
                         conditionsAdapter.notifyDataSetChanged()
                         binding!!.layoutAddCondition.visibility = if (itemListConditions.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
                     }
@@ -266,7 +266,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                         for (action in actionList) {
                             itemListActions.add(action)
                         }
-                        Log.d(TAG, "initForm: $itemListActions")
+                        Log.d(TAG, "itemListActions: $itemListActions")
                         actionsAdapter.notifyDataSetChanged()
                         binding!!.layoutAddAction.visibility = if (itemListActions.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
                     }
@@ -292,7 +292,9 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
         }
 
         val lastExecTime = Date()
-        var nextExecTime = Date()
+        // 将毫秒部分设置为 0，避免因为毫秒部分不同导致的任务重复执行
+        lastExecTime.time = lastExecTime.time / 1000 * 1000
+        var nextExecTime = lastExecTime
         val firstCondition = itemListConditions[0]
         taskType = firstCondition.type
 
@@ -317,15 +319,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
 
         val status = if (binding!!.sbStatus.isChecked) STATUS_ON else STATUS_OFF
         return Task(
-            taskId,
-            taskType,
-            taskName,
-            description.toString(),
-            Gson().toJson(itemListConditions),
-            Gson().toJson(itemListActions),
-            status,
-            lastExecTime,
-            nextExecTime
+            taskId, taskType, taskName, description.toString(), Gson().toJson(itemListConditions), Gson().toJson(itemListActions), status, lastExecTime, nextExecTime
         )
     }
 
@@ -339,11 +333,9 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
             //定时任务
             TASK_CONDITION_CRON -> {
                 //取消旧任务的定时器 & 设置新的定时器
-                //CronUtils.cancelAlarm(task)
-                //CronUtils.scheduleAlarm(task)
+                //AlarmUtils.cancelAlarm(task)
+                //AlarmUtils.scheduleAlarm(task)
 
-                //val uuid = App.TaskIdToWorkerIdMap[task.id]
-                //uuid?.let { CronJobScheduler.cancelTask(it) }
                 CronJobScheduler.cancelTask(task.id)
                 CronJobScheduler.scheduleTask(task)
             }
@@ -355,6 +347,10 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
         try {
             dialog.dismiss()
             Log.d(TAG, "onItemClick: $widgetInfo")
+            if (pos > 0) {
+                XToastUtils.info("暂不支持，敬请期待……")
+                return
+            }
             //判断点击的是条件还是动作
             if (widgetInfo.classPath.contains(".condition.")) {
                 //判断是否已经添加过该类型条件

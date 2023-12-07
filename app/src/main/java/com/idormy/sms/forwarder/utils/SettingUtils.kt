@@ -159,7 +159,7 @@ class SettingUtils private constructor() {
         var enablePureClientMode: Boolean by SharedPreference(SP_PURE_CLIENT_MODE, false)
 
         //是否纯任务模式
-        var enablePureTaskMode: Boolean by SharedPreference(SP_PURE_TASK_MODE, true)
+        var enablePureTaskMode: Boolean by SharedPreference(SP_PURE_TASK_MODE, false)
 
         //是否启用定位标签
         var enableLocationTag: Boolean by SharedPreference(SP_LOCATION_TAG, false)

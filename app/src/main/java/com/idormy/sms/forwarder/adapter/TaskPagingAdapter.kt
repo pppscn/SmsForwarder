@@ -16,6 +16,7 @@ import com.idormy.sms.forwarder.adapter.TaskPagingAdapter.MyViewHolder
 import com.idormy.sms.forwarder.database.entity.Task
 import com.idormy.sms.forwarder.databinding.AdapterTasksCardViewListItemBinding
 import com.idormy.sms.forwarder.entity.task.TaskSetting
+import com.xuexiang.xutil.data.DateUtils
 
 class TaskPagingAdapter(private val itemClickListener: OnItemClickListener) : PagingDataAdapter<Task, MyViewHolder>(diffCallback) {
 
@@ -30,6 +31,8 @@ class TaskPagingAdapter(private val itemClickListener: OnItemClickListener) : Pa
             // 任务类型：＜1000为任务模板，>=1000为自定义任务
             if (item.type >= 1000) {
                 holder.binding.layoutImage.visibility = View.GONE
+
+                holder.binding.tvTime.text = DateUtils.getFriendlyTimeSpanByNow(item.lastExecTime.time)
 
                 //遍历conditions显示图标
                 holder.binding.layoutConditionsIcons.removeAllViews()

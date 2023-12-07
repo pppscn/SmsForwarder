@@ -175,6 +175,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         //纯客户端模式
         switchDirectlyToClient(binding!!.sbDirectlyToClient)
 
+        //纯自动任务模式
+        switchDirectlyToTask(binding!!.sbDirectlyToTask)
+
         //启用 {{定位信息}} 标签
         switchEnableLocationTag(binding!!.sbEnableLocationTag)
     }
@@ -988,6 +991,19 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         switchDirectlyToClient.isChecked = SettingUtils.enablePureClientMode
         switchDirectlyToClient.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             SettingUtils.enablePureClientMode = isChecked
+            if (isChecked) {
+                MaterialDialog.Builder(requireContext()).content(getString(R.string.enabling_pure_client_mode)).positiveText(R.string.lab_yes).onPositive { _: MaterialDialog?, _: DialogAction? ->
+                    XUtil.exitApp()
+                }.negativeText(R.string.lab_no).show()
+            }
+        }
+    }
+
+    //纯自动任务模式
+    private fun switchDirectlyToTask(@SuppressLint("UseSwitchCompatOrMaterialCode") switchDirectlyToTask: SwitchButton) {
+        switchDirectlyToTask.isChecked = SettingUtils.enablePureTaskMode
+        switchDirectlyToTask.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            SettingUtils.enablePureTaskMode = isChecked
             if (isChecked) {
                 MaterialDialog.Builder(requireContext()).content(getString(R.string.enabling_pure_client_mode)).positiveText(R.string.lab_yes).onPositive { _: MaterialDialog?, _: DialogAction? ->
                     XUtil.exitApp()

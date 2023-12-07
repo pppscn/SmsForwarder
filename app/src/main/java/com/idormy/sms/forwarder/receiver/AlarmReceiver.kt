@@ -10,7 +10,7 @@ import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.database.entity.Task
 import com.idormy.sms.forwarder.entity.task.CronSetting
 import com.idormy.sms.forwarder.entity.task.TaskSetting
-import com.idormy.sms.forwarder.utils.task.CronUtils
+import com.idormy.sms.forwarder.utils.task.AlarmUtils
 import gatewayapps.crondroid.CronExpression
 import java.util.Date
 
@@ -30,7 +30,7 @@ class AlarmReceiver : BroadcastReceiver() {
         Log.d(TAG, "lastExecTime = ${task.lastExecTime}, nextExecTime = ${task.nextExecTime}")
         try {
             //取消旧任务的定时器
-            CronUtils.cancelAlarm(task)
+            AlarmUtils.cancelAlarm(task)
 
             // 根据任务信息执行相应操作
             val conditionList = Gson().fromJson(task.conditions, Array<TaskSetting>::class.java).toMutableList()
@@ -64,7 +64,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 return
             }
             //设置新的定时器
-            CronUtils.scheduleAlarm(task)
+            AlarmUtils.scheduleAlarm(task)
         } catch (e: Exception) {
             Log.e(TAG, "onReceive error $e")
         }
