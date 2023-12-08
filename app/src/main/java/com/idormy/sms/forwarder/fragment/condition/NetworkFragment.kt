@@ -9,9 +9,10 @@ import android.view.ViewGroup
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
-import com.idormy.sms.forwarder.databinding.FragmentTasksActionSendSmsBinding
-import com.idormy.sms.forwarder.entity.task.CronSetting
+import com.idormy.sms.forwarder.databinding.FragmentTasksConditionNetworkBinding
+import com.idormy.sms.forwarder.entity.task.NetworkSetting
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_CONDITION
+import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_TEST_CONDITION
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_NETWORK
@@ -26,7 +27,7 @@ import com.xuexiang.xui.widget.actionbar.TitleBar
 
 @Page(name = "Network")
 @Suppress("PrivatePropertyName")
-class NetworkFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View.OnClickListener {
+class NetworkFragment : BaseFragment<FragmentTasksConditionNetworkBinding?>(), View.OnClickListener {
 
     private val TAG: String = NetworkFragment::class.java.simpleName
     var titleBar: TitleBar? = null
@@ -36,9 +37,6 @@ class NetworkFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
     @AutoWired(name = KEY_EVENT_DATA_CONDITION)
     var eventData: String? = null
 
-    private var expression = "* * * * * ? *"
-    private var description = "测试描述"
-
     override fun initArgs() {
         XRouter.getInstance().inject(this)
     }
@@ -46,8 +44,8 @@ class NetworkFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
     override fun viewBindingInflate(
         inflater: LayoutInflater,
         container: ViewGroup,
-    ): FragmentTasksActionSendSmsBinding {
-        return FragmentTasksActionSendSmsBinding.inflate(inflater, container, false)
+    ): FragmentTasksConditionNetworkBinding {
+        return FragmentTasksConditionNetworkBinding.inflate(inflater, container, false)
     }
 
     override fun initTitle(): TitleBar? {
@@ -73,8 +71,9 @@ class NetworkFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
 
         Log.d(TAG, "initViews eventData:$eventData")
         if (eventData != null) {
-            val settingVo = Gson().fromJson(eventData, CronSetting::class.java)
+            val settingVo = Gson().fromJson(eventData, NetworkSetting::class.java)
             Log.d(TAG, "initViews settingVo:$settingVo")
+            binding!!.rgNetworkState.check(settingVo.getNetworkStateCheckId())
         }
     }
 
@@ -121,6 +120,7 @@ class NetworkFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
                 R.id.btn_save -> {
                     val settingVo = checkSetting()
                     val intent = Intent()
+                    intent.putExtra(KEY_BACK_DESCRIPTION_CONDITION, settingVo.description)
                     intent.putExtra(KEY_BACK_DATA_CONDITION, Gson().toJson(settingVo))
                     setFragmentResult(TASK_CONDITION_NETWORK, intent)
                     popToBack()
@@ -134,8 +134,8 @@ class NetworkFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
     }
 
     //检查设置
-    @SuppressLint("SetTextI18n")
-    private fun checkSetting(): CronSetting {
-        return CronSetting(expression, description)
+    private fun checkSetting(): NetworkSetting {
+        val networkStateCheckId = binding!!.rgNetworkState.checkedRadioButtonId
+        return NetworkSetting(networkStateCheckId)
     }
 }

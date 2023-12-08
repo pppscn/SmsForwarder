@@ -2,6 +2,7 @@ package com.idormy.sms.forwarder.fragment.condition
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.BatteryManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +10,10 @@ import android.view.ViewGroup
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
-import com.idormy.sms.forwarder.databinding.FragmentTasksActionSendSmsBinding
-import com.idormy.sms.forwarder.entity.task.CronSetting
+import com.idormy.sms.forwarder.databinding.FragmentTasksConditionBatteryBinding
+import com.idormy.sms.forwarder.entity.task.BatterySetting
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_CONDITION
+import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_TEST_CONDITION
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_BATTERY
@@ -26,7 +28,7 @@ import com.xuexiang.xui.widget.actionbar.TitleBar
 
 @Page(name = "Battery")
 @Suppress("PrivatePropertyName")
-class BatteryFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View.OnClickListener {
+class BatteryFragment : BaseFragment<FragmentTasksConditionBatteryBinding?>(), View.OnClickListener {
 
     private val TAG: String = BatteryFragment::class.java.simpleName
     var titleBar: TitleBar? = null
@@ -36,8 +38,7 @@ class BatteryFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
     @AutoWired(name = KEY_EVENT_DATA_CONDITION)
     var eventData: String? = null
 
-    private var expression = "* * * * * ? *"
-    private var description = "测试描述"
+    private var description = ""
 
     override fun initArgs() {
         XRouter.getInstance().inject(this)
@@ -46,8 +47,8 @@ class BatteryFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
     override fun viewBindingInflate(
         inflater: LayoutInflater,
         container: ViewGroup,
-    ): FragmentTasksActionSendSmsBinding {
-        return FragmentTasksActionSendSmsBinding.inflate(inflater, container, false)
+    ): FragmentTasksConditionBatteryBinding {
+        return FragmentTasksConditionBatteryBinding.inflate(inflater, container, false)
     }
 
     override fun initTitle(): TitleBar? {
@@ -71,10 +72,27 @@ class BatteryFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
             }
         })
 
+        binding!!.rgStatus.setOnCheckedChangeListener { _, checkedId ->
+            if (checkedId == R.id.rb_battery_discharging) {
+                binding!!.xsbLevelMin.visibility = View.VISIBLE
+                binding!!.xsbLevelMax.visibility = View.GONE
+            } else {
+                binding!!.xsbLevelMin.visibility = View.GONE
+                binding!!.xsbLevelMax.visibility = View.VISIBLE
+            }
+        }
+
         Log.d(TAG, "initViews eventData:$eventData")
         if (eventData != null) {
-            val settingVo = Gson().fromJson(eventData, CronSetting::class.java)
+            val settingVo = Gson().fromJson(eventData, BatterySetting::class.java)
             Log.d(TAG, "initViews settingVo:$settingVo")
+            binding!!.rgStatus.check(settingVo.getStatusCheckId())
+            binding!!.xsbLevelMin.setDefaultValue(settingVo.levelMin)
+            binding!!.xsbLevelMax.setDefaultValue(settingVo.levelMax)
+            binding!!.sbKeepReminding.isChecked = settingVo.keepReminding
+        } else {
+            binding!!.xsbLevelMin.setDefaultValue(10)
+            binding!!.xsbLevelMax.setDefaultValue(90)
         }
     }
 
@@ -121,6 +139,7 @@ class BatteryFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
                 R.id.btn_save -> {
                     val settingVo = checkSetting()
                     val intent = Intent()
+                    intent.putExtra(KEY_BACK_DESCRIPTION_CONDITION, description)
                     intent.putExtra(KEY_BACK_DATA_CONDITION, Gson().toJson(settingVo))
                     setFragmentResult(TASK_CONDITION_BATTERY, intent)
                     popToBack()
@@ -135,7 +154,26 @@ class BatteryFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
 
     //检查设置
     @SuppressLint("SetTextI18n")
-    private fun checkSetting(): CronSetting {
-        return CronSetting(expression, description)
+    private fun checkSetting(): BatterySetting {
+        val levelMin = binding!!.xsbLevelMin.selectedNumber
+        val levelMax = binding!!.xsbLevelMax.selectedNumber
+        val keepReminding = binding!!.sbKeepReminding.isChecked
+        val status: Int
+        if (binding!!.rgStatus.checkedRadioButtonId == R.id.rb_battery_discharging) {
+            status = BatteryManager.BATTERY_STATUS_DISCHARGING
+            description = if (keepReminding) {
+                String.format(getString(R.string.battery_discharged_below), levelMin.toString())
+            } else {
+                String.format(getString(R.string.battery_discharged_to), levelMin.toString())
+            }
+        } else {
+            status = BatteryManager.BATTERY_STATUS_CHARGING
+            description = if (keepReminding) {
+                String.format(getString(R.string.battery_charged_above), levelMax.toString())
+            } else {
+                String.format(getString(R.string.battery_charged_to), levelMax.toString())
+            }
+        }
+        return BatterySetting(description, status, levelMin, levelMax, keepReminding)
     }
 }

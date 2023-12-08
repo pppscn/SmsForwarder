@@ -19,7 +19,7 @@ import com.idormy.sms.forwarder.workers.SendWorker
 import com.xuexiang.xutil.resource.ResUtils.getString
 import java.util.Date
 
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "UNUSED_PARAMETER")
 class SimStateReceiver : BroadcastReceiver() {
 
     private var TAG = "SimStateReceiver"

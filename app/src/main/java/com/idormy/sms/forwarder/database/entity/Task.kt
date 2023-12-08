@@ -14,6 +14,7 @@ import com.idormy.sms.forwarder.utils.TASK_CONDITION_BATTERY
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CHARGE
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CRON
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_NETWORK
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_SIM
 import kotlinx.parcelize.Parcelize
 import java.util.Date
 
@@ -36,12 +37,27 @@ data class Task(
             TASK_CONDITION_CRON -> R.drawable.auto_task_icon_custom_time
             TASK_CONDITION_BATTERY -> R.drawable.auto_task_icon_battery
             TASK_CONDITION_CHARGE -> R.drawable.auto_task_icon_charge
-            TASK_CONDITION_NETWORK -> R.drawable.auto_task_icon_wlan
+            TASK_CONDITION_NETWORK -> R.drawable.auto_task_icon_network
+            TASK_CONDITION_SIM -> R.drawable.auto_task_icon_sim
             TASK_ACTION_SENDSMS -> R.drawable.auto_task_icon_sms
             TASK_ACTION_NOTIFICATION -> R.drawable.auto_task_icon_sender
             TASK_ACTION_FRPC -> R.drawable.auto_task_icon_frpc
             TASK_ACTION_HTTPSERVER -> R.drawable.auto_task_icon_http_server
             else -> R.drawable.auto_task_icon_custom_time
+        }
+
+    val greyImageId: Int
+        get() = when (type) {
+            TASK_CONDITION_CRON -> R.drawable.auto_task_icon_custom_time_grey
+            TASK_CONDITION_BATTERY -> R.drawable.auto_task_icon_battery_grey
+            TASK_CONDITION_CHARGE -> R.drawable.auto_task_icon_charge_grey
+            TASK_CONDITION_NETWORK -> R.drawable.auto_task_icon_network_grey
+            TASK_CONDITION_SIM -> R.drawable.auto_task_icon_sim_grey
+            TASK_ACTION_SENDSMS -> R.drawable.auto_task_icon_sms_grey
+            TASK_ACTION_NOTIFICATION -> R.drawable.auto_task_icon_sender_grey
+            TASK_ACTION_FRPC -> R.drawable.auto_task_icon_frpc_grey
+            TASK_ACTION_HTTPSERVER -> R.drawable.auto_task_icon_http_server_grey
+            else -> R.drawable.auto_task_icon_custom_time_grey
         }
 
     val statusImageId: Int

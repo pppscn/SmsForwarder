@@ -581,7 +581,8 @@
     <string name="test_sender_sms">[%s] Congratulations, the sending channel test is successful, please continue to add forwarding rules!</string>
     <string name="test_sender_name">Test Channel</string>
     <string name="test_sim_info" tools:ignore="Typos">SIM1_TestOperator_18888888888</string>
-    <string name="keep_reminding">Continued</string>
+    <string name="keep_reminding">Keep Reminding</string>
+    <string name="keep_reminding_tips">After exceeding the preset value, each change in battery level continues to trigger.</string>
     <string name="resend">Resend</string>
     <string name="rematch">Rematch</string>
     <string name="from">From: </string>
@@ -929,12 +930,15 @@
     <string name="battery_unspecified_failure">Unspecified Failure</string>
     <string name="battery_cold">Cold</string>
     <string name="battery_level">Level: %s</string>
+    <string name="battery_level_title">Level</string>
     <string name="battery_scale">Scale: %s</string>
     <string name="battery_voltage">Voltage: %s</string>
     <string name="battery_temperature">Temperature: %s</string>
     <string name="battery_status">Status: %s</string>
+    <string name="battery_status_title">Status</string>
     <string name="battery_health">Health: %s</string>
     <string name="battery_plugged">Plugged: %s</string>
+    <string name="battery_plugged_title">Plugged</string>
 
     <string name="server_history">History</string>
     <string name="server_test">Login</string>
@@ -1073,9 +1077,11 @@
     <string name="net_3g">3G Net</string>
     <string name="net_4g">4G Net</string>
     <string name="net_5g">5G Net</string>
+    <string name="net_mobile">Mobile</string>
     <string name="net_wifi">WiFi</string>
     <string name="net_ethernet">Ethernet</string>
     <string name="net_unknown">Unknown</string>
+    <string name="network_state">Network State: %s</string>
     <string name="wifi_ssid">WiFi SSID</string>
 
     <string name="enable_location_tag">Enable {{LOCATION}} Tag</string>
@@ -1104,12 +1110,14 @@
     <string name="add_action_tips">例如：禁用所有转发通道</string>
     <string name="add_action_continue">继续添加动作</string>
 
-    <string name="select_task_condition">Please select condition</string>
+    <string name="select_task_trigger">Please select trigger condition</string>
+    <string name="select_task_condition">Please select additional condition</string>
     <string name="select_task_action">Please select action</string>
     <string name="task_cron">Cron</string>
     <string name="task_charge">Charge</string>
     <string name="task_battery">Battery</string>
     <string name="task_network">Network</string>
+    <string name="task_sim">SIM Status</string>
     <string name="task_sendsms">Send Sms</string>
     <string name="task_notification">Notification</string>
     <string name="task_frpc">Frpc Setting</string>
@@ -1162,8 +1170,8 @@
     <string name="recent_day_2">day of each month.</string>
     <string name="last_day_of_month">Last day of month</string>
     <string name="last_day_of_month_recent_day">Last day of month recent days</string>
-    <string name="weeks_of_week_1">第</string>
-    <string name="weeks_of_week_2">周的星期</string>
+    <string name="weeks_of_week_1">The</string>
+    <string name="weeks_of_week_2">th week\'s day</string>
     <string name="last_week_of_month">The last [day of the week] of this month.</string>
     <string name="last_week_of_month_1">The last week</string>
     <string name="last_week_of_month_2">of this month.</string>
@@ -1172,4 +1180,15 @@
     <string name="next_execution_times">The next %s execution times:\n%s</string>
 
     <string name="send_sms_to">Use SIM-%s to send sms\n%s</string>
+    <string name="discharged_to">Discharged to the specified battery level</string>
+    <string name="charged_to">Charged to the specified battery level</string>
+    <string name="battery_discharged_to">The battery discharged to %s%%</string>
+    <string name="battery_discharged_below">"The battery discharged below %s%%</string>
+    <string name="battery_charged_to">The battery charged to %s%%</string>
+    <string name="battery_charged_above">The battery charged above %s%%</string>
+
+    <string name="sim_state">SIM State：%s</string>
+    <string name="sim_state_absent">Absent</string>
+    <string name="sim_state_ready">Ready</string>
+    <string name="sim_state_unknown">Unknown</string>
 </resources>

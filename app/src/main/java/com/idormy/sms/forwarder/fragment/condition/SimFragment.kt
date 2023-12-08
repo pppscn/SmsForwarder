@@ -9,13 +9,13 @@ import android.view.ViewGroup
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
-import com.idormy.sms.forwarder.databinding.FragmentTasksConditionChargeBinding
-import com.idormy.sms.forwarder.entity.task.ChargeSetting
+import com.idormy.sms.forwarder.databinding.FragmentTasksConditionSimBinding
+import com.idormy.sms.forwarder.entity.task.SimSetting
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_TEST_CONDITION
-import com.idormy.sms.forwarder.utils.TASK_CONDITION_CHARGE
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_SIM
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
@@ -25,11 +25,11 @@ import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.widget.actionbar.TitleBar
 
-@Page(name = "Charge")
+@Page(name = "Sim")
 @Suppress("PrivatePropertyName")
-class ChargeFragment : BaseFragment<FragmentTasksConditionChargeBinding?>(), View.OnClickListener {
+class SimFragment : BaseFragment<FragmentTasksConditionSimBinding?>(), View.OnClickListener {
 
-    private val TAG: String = ChargeFragment::class.java.simpleName
+    private val TAG: String = SimFragment::class.java.simpleName
     var titleBar: TitleBar? = null
     private var mCountDownHelper: CountDownButtonHelper? = null
 
@@ -44,12 +44,12 @@ class ChargeFragment : BaseFragment<FragmentTasksConditionChargeBinding?>(), Vie
     override fun viewBindingInflate(
         inflater: LayoutInflater,
         container: ViewGroup,
-    ): FragmentTasksConditionChargeBinding {
-        return FragmentTasksConditionChargeBinding.inflate(inflater, container, false)
+    ): FragmentTasksConditionSimBinding {
+        return FragmentTasksConditionSimBinding.inflate(inflater, container, false)
     }
 
     override fun initTitle(): TitleBar? {
-        titleBar = super.initTitle()!!.setImmersive(false).setTitle(R.string.task_charge)
+        titleBar = super.initTitle()!!.setImmersive(false).setTitle(R.string.task_sim)
         return titleBar
     }
 
@@ -71,10 +71,9 @@ class ChargeFragment : BaseFragment<FragmentTasksConditionChargeBinding?>(), Vie
 
         Log.d(TAG, "initViews eventData:$eventData")
         if (eventData != null) {
-            val settingVo = Gson().fromJson(eventData, ChargeSetting::class.java)
+            val settingVo = Gson().fromJson(eventData, SimSetting::class.java)
             Log.d(TAG, "initViews settingVo:$settingVo")
-            binding!!.rgStatus.check(settingVo.getStatusCheckId())
-            binding!!.rgPlugged.check(settingVo.getPluggedCheckId())
+            binding!!.rgSimState.check(settingVo.getSimStateCheckId())
         }
     }
 
@@ -123,7 +122,7 @@ class ChargeFragment : BaseFragment<FragmentTasksConditionChargeBinding?>(), Vie
                     val intent = Intent()
                     intent.putExtra(KEY_BACK_DESCRIPTION_CONDITION, settingVo.description)
                     intent.putExtra(KEY_BACK_DATA_CONDITION, Gson().toJson(settingVo))
-                    setFragmentResult(TASK_CONDITION_CHARGE, intent)
+                    setFragmentResult(TASK_CONDITION_SIM, intent)
                     popToBack()
                     return
                 }
@@ -135,9 +134,8 @@ class ChargeFragment : BaseFragment<FragmentTasksConditionChargeBinding?>(), Vie
     }
 
     //检查设置
-    private fun checkSetting(): ChargeSetting {
-        val statusCheckId = binding!!.rgStatus.checkedRadioButtonId
-        val pluggedCheckId = binding!!.rgPlugged.checkedRadioButtonId
-        return ChargeSetting(statusCheckId = statusCheckId, pluggedCheckId = pluggedCheckId)
+    private fun checkSetting(): SimSetting {
+        val simStateCheckId = binding!!.rgSimState.checkedRadioButtonId
+        return SimSetting(simStateCheckId)
     }
 }

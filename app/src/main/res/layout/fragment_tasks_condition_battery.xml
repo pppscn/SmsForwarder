@@ -17,7 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <LinearLayout
@@ -29,7 +28,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/sim_slot"
+                    android:text="@string/battery_level_title"
                     android:textStyle="bold" />
 
                 <View
@@ -40,23 +39,56 @@
                     android:background="?attr/xui_config_color_separator_light" />
 
                 <RadioGroup
-                    android:id="@+id/rg_sim_slot"
+                    android:id="@+id/rg_status"
                     style="@style/rg_style"
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/config_padding_5dp">
 
                     <RadioButton
-                        android:id="@+id/rb_sim_slot_1"
+                        android:id="@+id/rb_battery_discharging"
                         style="@style/rg_rb_style_match"
                         android:checked="true"
-                        android:text="@string/sim1"
+                        android:text="@string/discharged_to"
                         tools:ignore="TouchTargetSizeCheck" />
 
+                    <com.xuexiang.xui.widget.picker.XSeekBar
+                        android:id="@+id/xsb_level_min"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:xsb_insideRangeLineColor="#0bd97f"
+                        app:xsb_insideRangeLineStrokeWidth="5dp"
+                        app:xsb_isShowBubble="true"
+                        app:xsb_isShowRuler="true"
+                        app:xsb_max="100"
+                        app:xsb_min="1"
+                        app:xsb_numberTextColor="#ffffff"
+                        app:xsb_numberTextSize="15sp"
+                        app:xsb_outsideRangeLineColor="#f0f0f0"
+                        app:xsb_outsideRangeLineStrokeWidth="5dp"
+                        app:xsb_rulerColor="@color/xui_config_color_gray_4" />
+
                     <RadioButton
-                        android:id="@+id/rb_sim_slot_2"
+                        android:id="@+id/rb_battery_charging"
                         style="@style/rg_rb_style_match"
-                        android:text="@string/sim2"
+                        android:text="@string/charged_to"
                         tools:ignore="TouchTargetSizeCheck" />
+
+                    <com.xuexiang.xui.widget.picker.XSeekBar
+                        android:id="@+id/xsb_level_max"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:xsb_insideRangeLineColor="#0bd97f"
+                        app:xsb_insideRangeLineStrokeWidth="5dp"
+                        app:xsb_isShowBubble="true"
+                        app:xsb_isShowRuler="true"
+                        app:xsb_max="100"
+                        app:xsb_min="1"
+                        app:xsb_numberTextColor="#ffffff"
+                        app:xsb_numberTextSize="15sp"
+                        app:xsb_outsideRangeLineColor="#f0f0f0"
+                        app:xsb_outsideRangeLineStrokeWidth="5dp"
+                        app:xsb_rulerColor="@color/xui_config_color_gray_4" />
 
                 </RadioGroup>
 
@@ -65,69 +97,36 @@
             <LinearLayout
                 style="@style/taskBarStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/phone_numbers"
-                    android:textStyle="bold" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="?attr/xui_config_color_separator_light" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/keep_reminding"
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
 
-                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                    android:id="@+id/et_phone_numbers"
-                    android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/keep_reminding_tips"
+                        android:textSize="10sp"
+                        tools:ignore="SmallSp" />
+
+                </LinearLayout>
+
+                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                    android:id="@+id/sb_keep_reminding"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/phone_numbers_hint"
-                    android:singleLine="true"
-                    app:met_clearButton="true"
-                    app:met_errorMessage="@string/phone_numbers_error"
-                    app:met_regexp="@string/phone_numbers_regex"
-                    app:met_validateOnFocusLost="true"
-                    tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/taskBarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/msg_content"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="?attr/xui_config_color_separator_light" />
-
-                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                    android:id="@+id/et_msg_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="start|top"
-                    android:hint="@string/msg_content_hint"
-                    android:inputType="textMultiLine"
-                    app:met_clearButton="true"
-                    app:met_errorMessage="@string/msg_content_error"
-                    app:met_maxCharacters="390"
-                    app:met_regexp="@string/msg_content_regex"
-                    app:met_validateOnFocusLost="true"
-                    app:mlet_hintText="@string/msg_content_hint"
-                    tools:ignore="TextContrastCheck" />
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -169,7 +168,8 @@
             android:paddingStart="15dp"
             android:text="@string/test"
             android:textSize="11sp"
-            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+            android:visibility="gone"
+            tools:ignore="RtlSymmetry" />
 
     </LinearLayout>
 

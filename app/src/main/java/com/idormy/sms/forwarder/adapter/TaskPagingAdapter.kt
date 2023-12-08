@@ -41,7 +41,11 @@ class TaskPagingAdapter(private val itemClickListener: OnItemClickListener) : Pa
                     for (condition in conditionList) {
                         val layoutConditionItem = View.inflate(App.context, R.layout.item_setting, null) as LinearLayout
                         val ivConditionIcon = layoutConditionItem.findViewById<ImageView>(R.id.iv_setting_icon)
-                        ivConditionIcon.setImageResource(condition.iconId)
+                        if (item.status == 0) {
+                            ivConditionIcon.setImageResource(condition.greyIconId)
+                        } else {
+                            ivConditionIcon.setImageResource(condition.iconId)
+                        }
                         holder.binding.layoutConditionsIcons.addView(layoutConditionItem)
                     }
                 }
@@ -50,12 +54,14 @@ class TaskPagingAdapter(private val itemClickListener: OnItemClickListener) : Pa
                 holder.binding.layoutActionsIcons.removeAllViews()
                 if (item.actions.isNotEmpty()) {
                     val actionList = Gson().fromJson(item.actions, Array<TaskSetting>::class.java).toMutableList()
-                    //Log.d("TaskPagingAdapter", "actionList:$actionList")
                     for (action in actionList) {
-                        //Log.d("TaskPagingAdapter", "action:$action")
                         val layoutActionItem = View.inflate(App.context, R.layout.item_setting, null) as LinearLayout
                         val ivActionIcon = layoutActionItem.findViewById<ImageView>(R.id.iv_setting_icon)
-                        ivActionIcon.setImageResource(action.iconId)
+                        if (item.status == 0) {
+                            ivActionIcon.setImageResource(action.greyIconId)
+                        } else {
+                            ivActionIcon.setImageResource(action.iconId)
+                        }
                         holder.binding.layoutActionsIcons.addView(layoutActionItem)
                     }
                 }
@@ -69,7 +75,11 @@ class TaskPagingAdapter(private val itemClickListener: OnItemClickListener) : Pa
             } else {
                 holder.binding.layoutImage.visibility = View.VISIBLE
                 holder.binding.layoutIcons.visibility = View.GONE
-                holder.binding.ivImage.setImageResource(item.imageId)
+                if (item.status == 0) {
+                    holder.binding.ivImage.setImageResource(item.greyImageId)
+                } else {
+                    holder.binding.ivImage.setImageResource(item.imageId)
+                }
                 holder.binding.ivStatus.setImageResource(item.statusImageId)
                 holder.binding.ivEdit.visibility = View.GONE
                 holder.binding.ivDelete.visibility = View.GONE

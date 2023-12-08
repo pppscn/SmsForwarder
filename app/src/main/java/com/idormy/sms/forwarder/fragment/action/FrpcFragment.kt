@@ -136,6 +136,6 @@ class FrpcFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View.On
     //检查设置
     @SuppressLint("SetTextI18n")
     private fun checkSetting(): CronSetting {
-        return CronSetting(expression, description)
+        return CronSetting(description, expression)
     }
 }

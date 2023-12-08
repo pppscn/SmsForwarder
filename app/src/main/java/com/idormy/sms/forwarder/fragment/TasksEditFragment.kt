@@ -166,8 +166,10 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
             when (v.id) {
                 R.id.layout_add_condition -> {
                     val view: View = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_task_condition_bottom_sheet, null)
-                    val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
+                    val tvTitle: TextView = view.findViewById(R.id.tv_title)
+                    tvTitle.text = if (itemListConditions.isEmpty()) getString(R.string.select_task_trigger) else getString(R.string.select_task_condition)
 
+                    val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
                     WidgetUtils.initGridRecyclerView(recyclerView, 4, DensityUtils.dp2px(1f))
                     val widgetItemAdapter = WidgetItemAdapter(TASK_CONDITION_FRAGMENT_LIST)
                     widgetItemAdapter.setOnItemClickListener(that)
@@ -347,10 +349,6 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
         try {
             dialog.dismiss()
             Log.d(TAG, "onItemClick: $widgetInfo")
-            if (pos > 0) {
-                XToastUtils.info("暂不支持，敬请期待……")
-                return
-            }
             //判断点击的是条件还是动作
             if (widgetInfo.classPath.contains(".condition.")) {
                 //判断是否已经添加过该类型条件
@@ -385,54 +383,18 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
         super.onFragmentResult(requestCode, resultCode, data)
         Log.d(TAG, "requestCode:$requestCode resultCode:$resultCode data:$data")
         if (data != null) {
-            val extras = data.extras
+            val extras = data.extras ?: return
+
+            val description: String?
             var setting: String? = null
             if (resultCode in KEY_BACK_CODE_CONDITION..KEY_BACK_CODE_CONDITION + 999) {
-                setting = extras!!.getString(KEY_BACK_DATA_CONDITION)
-                if (setting == null) return
+                setting = extras.getString(KEY_BACK_DATA_CONDITION) ?: return
                 //注意：TASK_CONDITION_XXX 枚举值 等于 TASK_CONDITION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_CONDITION，不可改变
                 val widgetInfoIndex = resultCode - KEY_BACK_CODE_CONDITION
                 if (widgetInfoIndex >= TASK_CONDITION_FRAGMENT_LIST.size) return
                 val widgetInfo = TASK_CONDITION_FRAGMENT_LIST[widgetInfoIndex]
-                val taskSetting: TaskSetting
-                when (resultCode) {
-
-                    TASK_CONDITION_CRON -> {
-                        val settingVo = Gson().fromJson(setting, CronSetting::class.java)
-                        Log.d(TAG, settingVo.toString())
-                        taskSetting = TaskSetting(
-                            resultCode, widgetInfo.name, settingVo.description, setting, requestCode
-                        )
-                    }
-
-                    TASK_CONDITION_BATTERY -> {
-                        val settingVo = Gson().fromJson(setting, CronSetting::class.java)
-                        Log.d(TAG, settingVo.toString())
-                        taskSetting = TaskSetting(
-                            resultCode, widgetInfo.name, settingVo.description, setting, requestCode
-                        )
-                    }
-
-                    TASK_CONDITION_CHARGE -> {
-                        val settingVo = Gson().fromJson(setting, CronSetting::class.java)
-                        Log.d(TAG, settingVo.toString())
-                        taskSetting = TaskSetting(
-                            resultCode, widgetInfo.name, settingVo.description, setting, requestCode
-                        )
-                    }
-
-                    TASK_CONDITION_NETWORK -> {
-                        val settingVo = Gson().fromJson(setting, CronSetting::class.java)
-                        Log.d(TAG, settingVo.toString())
-                        taskSetting = TaskSetting(
-                            resultCode, widgetInfo.name, settingVo.description, setting, requestCode
-                        )
-                    }
-
-                    else -> {
-                        return
-                    }
-                }
+                description = extras.getString(KEY_BACK_DESCRIPTION_CONDITION) ?: widgetInfo.name.toString()
+                val taskSetting = TaskSetting(resultCode, widgetInfo.name, description, setting, requestCode)
                 //requestCode: 等于 itemListConditions 的索引加1
                 if (requestCode == 0) {
                     taskSetting.position = itemListConditions.size
@@ -443,51 +405,13 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                 conditionsAdapter.notifyDataSetChanged()
                 binding!!.layoutAddCondition.visibility = if (itemListConditions.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
             } else if (resultCode in KEY_BACK_CODE_ACTION..KEY_BACK_CODE_ACTION + 999) {
-                setting = extras!!.getString(KEY_BACK_DATA_ACTION)
-                if (setting == null) return
+                setting = extras.getString(KEY_BACK_DATA_ACTION) ?: return
                 //注意：TASK_ACTION_XXX 枚举值 等于 TASK_ACTION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_ACTION，不可改变
                 val widgetInfoIndex = resultCode - KEY_BACK_CODE_ACTION
                 if (widgetInfoIndex >= TASK_ACTION_FRAGMENT_LIST.size) return
                 val widgetInfo = TASK_ACTION_FRAGMENT_LIST[widgetInfoIndex]
-                val taskSetting: TaskSetting
-                when (resultCode) {
-
-                    TASK_ACTION_SENDSMS -> {
-                        val settingVo = Gson().fromJson(setting, CronSetting::class.java)
-                        Log.d(TAG, settingVo.toString())
-                        taskSetting = TaskSetting(
-                            resultCode, widgetInfo.name, settingVo.description, setting, requestCode
-                        )
-                    }
-
-                    TASK_ACTION_NOTIFICATION -> {
-                        val settingVo = Gson().fromJson(setting, CronSetting::class.java)
-                        Log.d(TAG, settingVo.toString())
-                        taskSetting = TaskSetting(
-                            resultCode, widgetInfo.name, settingVo.description, setting, requestCode
-                        )
-                    }
-
-                    TASK_ACTION_FRPC -> {
-                        val settingVo = Gson().fromJson(setting, CronSetting::class.java)
-                        Log.d(TAG, settingVo.toString())
-                        taskSetting = TaskSetting(
-                            resultCode, widgetInfo.name, settingVo.description, setting, requestCode
-                        )
-                    }
-
-                    TASK_ACTION_HTTPSERVER -> {
-                        val settingVo = Gson().fromJson(setting, CronSetting::class.java)
-                        Log.d(TAG, settingVo.toString())
-                        taskSetting = TaskSetting(
-                            resultCode, widgetInfo.name, settingVo.description, setting, requestCode
-                        )
-                    }
-
-                    else -> {
-                        return
-                    }
-                }
+                description = extras.getString(KEY_BACK_DESCRIPTION_ACTION) ?: widgetInfo.name.toString()
+                val taskSetting = TaskSetting(resultCode, widgetInfo.name, description, setting, requestCode)
                 //requestCode: 等于 itemListActions 的索引加1
                 if (requestCode == 0) {
                     taskSetting.position = itemListActions.size

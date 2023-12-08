@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <LinearLayout
@@ -29,7 +27,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/sim_slot"
+                    android:text="@string/battery_status_title"
                     android:textStyle="bold" />
 
                 <View
@@ -40,23 +38,41 @@
                     android:background="?attr/xui_config_color_separator_light" />
 
                 <RadioGroup
-                    android:id="@+id/rg_sim_slot"
+                    android:id="@+id/rg_status"
                     style="@style/rg_style"
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/config_padding_5dp">
 
                     <RadioButton
-                        android:id="@+id/rb_sim_slot_1"
+                        android:id="@+id/rb_battery_discharging"
                         style="@style/rg_rb_style_match"
                         android:checked="true"
-                        android:text="@string/sim1"
+                        android:text="@string/battery_charging"
                         tools:ignore="TouchTargetSizeCheck" />
 
                     <RadioButton
-                        android:id="@+id/rb_sim_slot_2"
+                        android:id="@+id/rb_battery_charging"
                         style="@style/rg_rb_style_match"
-                        android:text="@string/sim2"
+                        android:text="@string/battery_discharging"
                         tools:ignore="TouchTargetSizeCheck" />
+
+                    <RadioButton
+                        android:id="@+id/rb_battery_not_charging"
+                        style="@style/rg_rb_style_match"
+                        android:text="@string/battery_not_charging"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <RadioButton
+                        android:id="@+id/rb_battery_full"
+                        style="@style/rg_rb_style_match"
+                        android:text="@string/battery_full"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <RadioButton
+                        android:id="@+id/rb_battery_unknown"
+                        style="@style/rg_rb_style_match"
+                        android:text="@string/battery_unknown"
+                        tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
 
                 </RadioGroup>
 
@@ -71,7 +87,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/phone_numbers"
+                    android:text="@string/battery_plugged_title"
                     android:textStyle="bold" />
 
                 <View
@@ -81,53 +97,38 @@
                     android:layout_marginBottom="5dp"
                     android:background="?attr/xui_config_color_separator_light" />
 
-                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                    android:id="@+id/et_phone_numbers"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/phone_numbers_hint"
-                    android:singleLine="true"
-                    app:met_clearButton="true"
-                    app:met_errorMessage="@string/phone_numbers_error"
-                    app:met_regexp="@string/phone_numbers_regex"
-                    app:met_validateOnFocusLost="true"
-                    tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
+                <RadioGroup
+                    android:id="@+id/rg_plugged"
+                    style="@style/rg_style"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/config_padding_5dp">
 
-            </LinearLayout>
+                    <RadioButton
+                        android:id="@+id/rb_plugged_ac"
+                        style="@style/rg_rb_style_match"
+                        android:checked="true"
+                        android:text="@string/battery_ac"
+                        tools:ignore="TouchTargetSizeCheck" />
 
-            <LinearLayout
-                style="@style/taskBarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                    <RadioButton
+                        android:id="@+id/rb_plugged_usb"
+                        style="@style/rg_rb_style_match"
+                        android:text="@string/battery_usb"
+                        tools:ignore="TouchTargetSizeCheck" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/msg_content"
-                    android:textStyle="bold" />
+                    <RadioButton
+                        android:id="@+id/rb_plugged_wireless"
+                        style="@style/rg_rb_style_match"
+                        android:text="@string/battery_wireless"
+                        tools:ignore="TouchTargetSizeCheck" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="?attr/xui_config_color_separator_light" />
+                    <RadioButton
+                        android:id="@+id/rb_plugged_unknown"
+                        style="@style/rg_rb_style_match"
+                        android:text="@string/battery_unknown"
+                        tools:ignore="TouchTargetSizeCheck" />
 
-                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                    android:id="@+id/et_msg_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="start|top"
-                    android:hint="@string/msg_content_hint"
-                    android:inputType="textMultiLine"
-                    app:met_clearButton="true"
-                    app:met_errorMessage="@string/msg_content_error"
-                    app:met_maxCharacters="390"
-                    app:met_regexp="@string/msg_content_regex"
-                    app:met_validateOnFocusLost="true"
-                    app:mlet_hintText="@string/msg_content_hint"
-                    tools:ignore="TextContrastCheck" />
+                </RadioGroup>
 
             </LinearLayout>
 
@@ -169,7 +170,8 @@
             android:paddingStart="15dp"
             android:text="@string/test"
             android:textSize="11sp"
-            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+            android:visibility="gone"
+            tools:ignore="RtlSymmetry" />
 
     </LinearLayout>
 

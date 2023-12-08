@@ -487,17 +487,20 @@ const val KEY_TEST_CONDITION = "key_test_condition"
 const val KEY_EVENT_DATA_CONDITION = "event_data_condition"
 const val KEY_BACK_CODE_CONDITION = 1000
 const val KEY_BACK_DATA_CONDITION = "back_data_condition"
+const val KEY_BACK_DESCRIPTION_CONDITION = "back_description_condition"
 
 const val KEY_TEST_ACTION = "key_test_action"
 const val KEY_EVENT_DATA_ACTION = "event_data_action"
 const val KEY_BACK_CODE_ACTION = 2000
 const val KEY_BACK_DATA_ACTION = "back_data_action"
+const val KEY_BACK_DESCRIPTION_ACTION = "back_description_action"
 
 //注意：TASK_CONDITION_XXX 枚举值 等于 TASK_CONDITION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_CONDITION，不可改变
 const val TASK_CONDITION_CRON = 1000
 const val TASK_CONDITION_BATTERY = 1001
 const val TASK_CONDITION_CHARGE = 1002
 const val TASK_CONDITION_NETWORK = 1003
+const val TASK_CONDITION_SIM = 1004
 var TASK_CONDITION_FRAGMENT_LIST = listOf(
     PageInfo(
         getString(R.string.task_cron),
@@ -525,7 +528,14 @@ var TASK_CONDITION_FRAGMENT_LIST = listOf(
         "com.idormy.sms.forwarder.fragment.condition.NetworkFragment",
         "{\"\":\"\"}",
         CoreAnim.slide,
-        R.drawable.auto_task_icon_wlan
+        R.drawable.auto_task_icon_network
+    ),
+    PageInfo(
+        getString(R.string.task_sim),
+        "com.idormy.sms.forwarder.fragment.condition.SimFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.auto_task_icon_sim
     ),
 )
 

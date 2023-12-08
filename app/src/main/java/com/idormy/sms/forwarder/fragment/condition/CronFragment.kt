@@ -16,6 +16,7 @@ import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentTasksConditionCronBinding
 import com.idormy.sms.forwarder.entity.task.CronSetting
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_CONDITION
+import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_TEST_CONDITION
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CRON
@@ -201,6 +202,7 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
                 R.id.btn_save -> {
                     val settingVo = checkSetting()
                     val intent = Intent()
+                    intent.putExtra(KEY_BACK_DESCRIPTION_CONDITION, description)
                     intent.putExtra(KEY_BACK_DATA_CONDITION, Gson().toJson(settingVo))
                     setFragmentResult(TASK_CONDITION_CRON, intent)
                     popToBack()
@@ -1644,6 +1646,6 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
         options.isNeedSpaceBetweenWords = locale == Locale("zh") || locale == Locale("ja") || locale == Locale("ko")
         description = CronExpressionDescriptor.getDescription(expression, options, locale)
 
-        return CronSetting(expression, description)
+        return CronSetting(description, expression)
     }
 }

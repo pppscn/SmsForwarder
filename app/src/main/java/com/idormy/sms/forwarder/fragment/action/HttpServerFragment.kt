@@ -136,6 +136,6 @@ class HttpServerFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), V
     //检查设置
     @SuppressLint("SetTextI18n")
     private fun checkSetting(): CronSetting {
-        return CronSetting(expression, description)
+        return CronSetting(description, expression)
     }
 }

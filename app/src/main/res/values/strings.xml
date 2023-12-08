@@ -443,7 +443,7 @@
     <string name="invalid_server_ip">请输入服务端IP</string>
     <string name="on_wireless_network">当前处于无线网络</string>
     <string name="on_mobile_network">当前处于移动网络</string>
-    <string name="no_network">当前没有网络</string>
+    <string name="no_network">没有网络</string>
     <string name="not_connected_wifi">未连接Wifi</string>
     <string name="failed_to_get_ip">获取IP失败</string>
     <string name="sms">短 信</string>
@@ -583,6 +583,7 @@
     <string name="test_sender_name">测试通道</string>
     <string name="test_sim_info" tools:ignore="Typos">SIM1_测试运营商_18888888888</string>
     <string name="keep_reminding">持续提醒</string>
+    <string name="keep_reminding_tips">超过预设值之后，每次电量变化继续触发</string>
     <string name="resend">重发消息</string>
     <string name="rematch">重新匹配规则</string>
     <string name="from">来源：</string>
@@ -930,12 +931,15 @@
     <string name="battery_unspecified_failure">未知错误</string>
     <string name="battery_cold">温度过低</string>
     <string name="battery_level">剩余电量：%s</string>
+    <string name="battery_level_title">剩余电量</string>
     <string name="battery_scale">充满电量：%s</string>
     <string name="battery_voltage">当前电压：%s</string>
     <string name="battery_temperature">当前温度：%s</string>
     <string name="battery_status">电池状态：%s</string>
+    <string name="battery_status_title">电池状态</string>
     <string name="battery_health">健康度：%s</string>
     <string name="battery_plugged">充电器：%s</string>
+    <string name="battery_plugged_title">充电器</string>
 
     <string name="server_history">历史记录</string>
     <string name="server_test">登录服务</string>
@@ -1074,9 +1078,11 @@
     <string name="net_3g">3G网络</string>
     <string name="net_4g">4G网络</string>
     <string name="net_5g">5G网络</string>
+    <string name="net_mobile">移动网络</string>
     <string name="net_wifi">WiFi</string>
     <string name="net_ethernet">有线网络</string>
     <string name="net_unknown">未知网络</string>
+    <string name="network_state">网络状态：%s</string>
     <string name="wifi_ssid">WiFi名称</string>
 
     <string name="enable_location_tag">启用 {{定位信息}} 标签</string>
@@ -1105,12 +1111,14 @@
     <string name="add_action_tips">例如：禁用所有转发通道</string>
     <string name="add_action_continue">继续添加动作</string>
 
-    <string name="select_task_condition">请选择条件</string>
+    <string name="select_task_trigger">请选择触发条件</string>
+    <string name="select_task_condition">请选择附加条件</string>
     <string name="select_task_action">请选择动作</string>
     <string name="task_cron">定时任务</string>
     <string name="task_charge">充电状态</string>
     <string name="task_battery">电量使用</string>
     <string name="task_network">网络状态</string>
+    <string name="task_sim">SIM卡状态</string>
     <string name="task_sendsms">发送短信</string>
     <string name="task_notification">通道推送</string>
     <string name="task_frpc">设置 Frpc</string>
@@ -1173,4 +1181,15 @@
     <string name="next_execution_times">最近 %s 次运行时间：\n%s</string>
 
     <string name="send_sms_to">通过卡槽 SIM-%s 发送短信到：\n%s</string>
+    <string name="discharged_to">放电到指定电量</string>
+    <string name="charged_to">充电到指定电量</string>
+    <string name="battery_discharged_to">电池放电低到%s%%</string>
+    <string name="battery_discharged_below">电池放电低于%s%%</string>
+    <string name="battery_charged_to">电池充电达到%s%%</string>
+    <string name="battery_charged_above">电池充电高于%s%%</string>
+
+    <string name="sim_state">SIM卡状态：%s</string>
+    <string name="sim_state_absent">被移除</string>
+    <string name="sim_state_ready">已就绪</string>
+    <string name="sim_state_unknown">未知</string>
 </resources>
