@@ -775,6 +775,10 @@
     <string name="wework_msg_type">消息类型</string>
     <string name="wework_msg_type_text">纯文本</string>
     <string name="wework_msg_type_markdown">markdown</string>
+    <string name="wework_at_mobiles">被@人的手机号</string>
+    <string name="wework_at_mobiles_tip">Tips：多个手机号用逗号分开，例如：18888888888,19999999999</string>
+    <string name="wework_at_userids">被@人的userid</string>
+    <string name="wework_at_userids_tip">Tips：多个userid用逗号分开，例如：user1,user2</string>
 
     <string name="url_scheme">URL Scheme</string>
     <string name="url_scheme_tips">示例：myapp://api/add?&amp;type=0&amp;msg=[msg]</string>

@@ -774,6 +774,10 @@
     <string name="wework_msg_type">Msg Type</string>
     <string name="wework_msg_type_text">Text</string>
     <string name="wework_msg_type_markdown">Markdown</string>
+    <string name="wework_at_mobiles">At Mobiles</string>
+    <string name="wework_at_mobiles_tip">Tips: Separate multiple mobiles with commas, e.g. 18888888888,19999999999</string>
+    <string name="wework_at_userids">At UserId</string>
+    <string name="wework_at_userids_tip">Tips：Separate multiple UserIds with commas, e.g. user1,user2</string>
 
     <string name="url_scheme">URL Scheme</string>
     <string name="url_scheme_tips">Example：myapp://api/add?&amp;type=0&amp;msg=[msg]</string>

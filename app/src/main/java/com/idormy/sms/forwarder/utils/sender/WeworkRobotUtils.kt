@@ -38,14 +38,23 @@ class WeworkRobotUtils private constructor() {
             val msgMap: MutableMap<String, Any> = mutableMapOf()
             msgMap["msgtype"] = setting.msgType
 
+            val contextMap = mutableMapOf<String, Any>()
+            contextMap["content"] = content
+
             if (setting.msgType == "markdown") {
-                val markdownText: MutableMap<String, Any> = mutableMapOf()
-                markdownText["content"] = content
-                msgMap["markdown"] = markdownText
+                msgMap["markdown"] = contextMap
             } else {
-                val textText: MutableMap<String, Any> = mutableMapOf()
-                textText["content"] = content
-                msgMap["text"] = textText
+                if (setting.atAll == true) {
+                    contextMap["mentioned_list"] = arrayListOf("@all")
+                } else {
+                    if (!setting.atUserIds.isNullOrEmpty()) {
+                        contextMap["mentioned_list"] = setting.atUserIds!!.split(",")
+                    }
+                    if (!setting.atMobiles.isNullOrEmpty()) {
+                        contextMap["mentioned_mobile_list"] = setting.atMobiles!!.split(",")
+                    }
+                }
+                msgMap["text"] = contextMap
             }
 
             val requestMsg: String = Gson().toJson(msgMap)

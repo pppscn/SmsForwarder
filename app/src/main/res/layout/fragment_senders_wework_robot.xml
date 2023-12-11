@@ -38,14 +38,16 @@
                     android:layout_marginStart="5dp"
                     android:layout_weight="1"
                     android:singleLine="true"
-                    app:met_clearButton="true" />
+                    app:met_clearButton="true"
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                 <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
                     android:id="@+id/sb_enable"
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true" />
+                    android:checked="true"
+                    tools:ignore="DuplicateSpeakableTextCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -73,7 +75,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    app:met_passWordButton="true" />
+                    app:met_passWordButton="true"
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -99,14 +102,109 @@
                         android:id="@+id/rb_msg_type_text"
                         style="@style/rg_rb_style"
                         android:checked="true"
-                        android:text="@string/wework_msg_type_text" />
+                        android:text="@string/wework_msg_type_text"
+                        tools:ignore="TouchTargetSizeCheck" />
 
                     <RadioButton
                         android:id="@+id/rb_msg_type_markdown"
                         style="@style/rg_rb_style"
-                        android:text="@string/wework_msg_type_markdown" />
+                        android:text="@string/wework_msg_type_markdown"
+                        tools:ignore="TouchTargetSizeCheck" />
 
                 </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_at"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/senderBarStyleWithSwitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/is_at_all"
+                        android:textStyle="bold" />
+
+                    <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                        android:id="@+id/sb_at_all"
+                        style="@style/SwitchButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_at_user_ids"
+                    style="@style/senderBarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/wework_at_userids"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="@string/wework_at_userids_tip"
+                        android:textSize="10sp"
+                        tools:ignore="SmallSp" />
+
+                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                        android:id="@+id/et_at_user_ids"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        app:met_clearButton="true" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_at_mobiles"
+                    style="@style/senderBarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/wework_at_mobiles"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="@string/wework_at_mobiles_tip"
+                        android:textSize="10sp"
+                        tools:ignore="SmallSp" />
+
+                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                        android:id="@+id/et_at_mobiles"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        app:met_clearButton="true" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -128,7 +226,7 @@
             android:paddingStart="15dp"
             android:text="@string/del"
             android:textSize="11sp"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_save"
@@ -138,7 +236,7 @@
             android:paddingStart="15dp"
             android:text="@string/save"
             android:textSize="11sp"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_test"
@@ -148,7 +246,7 @@
             android:paddingStart="15dp"
             android:text="@string/test"
             android:textSize="11sp"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
     </LinearLayout>
 

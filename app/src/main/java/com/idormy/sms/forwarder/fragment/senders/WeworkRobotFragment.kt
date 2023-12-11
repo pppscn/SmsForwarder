@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
+import android.widget.RadioGroup
 import androidx.fragment.app.viewModels
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
@@ -17,7 +19,13 @@ import com.idormy.sms.forwarder.database.viewmodel.SenderViewModel
 import com.idormy.sms.forwarder.databinding.FragmentSendersWeworkRobotBinding
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.WeworkRobotSetting
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.CommonUtils
+import com.idormy.sms.forwarder.utils.KEY_SENDER_CLONE
+import com.idormy.sms.forwarder.utils.KEY_SENDER_ID
+import com.idormy.sms.forwarder.utils.KEY_SENDER_TEST
+import com.idormy.sms.forwarder.utils.KEY_SENDER_TYPE
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.XToastUtils
 import com.idormy.sms.forwarder.utils.sender.WeworkRobotUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
@@ -32,11 +40,11 @@ import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import java.util.*
+import java.util.Date
 
 @Page(name = "企业微信群机器人")
 @Suppress("PrivatePropertyName")
-class WeworkRobotFragment : BaseFragment<FragmentSendersWeworkRobotBinding?>(), View.OnClickListener {
+class WeworkRobotFragment : BaseFragment<FragmentSendersWeworkRobotBinding?>(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private val TAG: String = WeworkRobotFragment::class.java.simpleName
     var titleBar: TitleBar? = null
@@ -122,6 +130,10 @@ class WeworkRobotFragment : BaseFragment<FragmentSendersWeworkRobotBinding?>(), 
                     if (settingVo != null) {
                         binding!!.etWebHook.setText(settingVo.webHook)
                         binding!!.rgMsgType.check(settingVo.getMsgTypeCheckId())
+                        binding!!.layoutAt.visibility = if (settingVo.getMsgTypeCheckId() == R.id.rb_msg_type_text) View.VISIBLE else View.GONE
+                        binding!!.sbAtAll.isChecked = settingVo.atAll == true
+                        binding!!.etAtMobiles.setText(settingVo.atMobiles)
+                        binding!!.etAtUserIds.setText(settingVo.atUserIds)
                     }
                 }
             })
@@ -131,7 +143,24 @@ class WeworkRobotFragment : BaseFragment<FragmentSendersWeworkRobotBinding?>(), 
         binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
+        binding!!.sbAtAll.setOnCheckedChangeListener(this)
+        binding!!.rgMsgType.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
+            binding!!.layoutAt.visibility = if (checkedId == R.id.rb_msg_type_text) View.VISIBLE else View.GONE
+        }
         LiveEventBus.get(KEY_SENDER_TEST, String::class.java).observe(this) { mCountDownHelper?.finish() }
+    }
+
+    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+        //这里只有一个监听不需要判断id
+        if (isChecked) {
+            binding!!.layoutAtMobiles.visibility = View.GONE
+            binding!!.layoutAtUserIds.visibility = View.GONE
+            binding!!.etAtMobiles.setText("")
+            binding!!.etAtUserIds.setText("")
+        } else {
+            binding!!.layoutAtMobiles.visibility = View.VISIBLE
+            binding!!.layoutAtUserIds.visibility = View.VISIBLE
+        }
     }
 
     @SingleClick
@@ -208,7 +237,10 @@ class WeworkRobotFragment : BaseFragment<FragmentSendersWeworkRobotBinding?>(), 
             throw Exception(getString(R.string.invalid_webhook))
         }
         val msgType = if (binding!!.rgMsgType.checkedRadioButtonId == R.id.rb_msg_type_markdown) "markdown" else "text"
-        return WeworkRobotSetting(webHook, msgType)
+        val atAll = binding!!.sbAtAll.isChecked
+        val atUserIds = binding!!.etAtUserIds.text.toString().trim()
+        val atMobiles = binding!!.etAtMobiles.text.toString().trim()
+        return WeworkRobotSetting(webHook, msgType, atAll, atUserIds, atMobiles)
     }
 
     override fun onDestroyView() {
