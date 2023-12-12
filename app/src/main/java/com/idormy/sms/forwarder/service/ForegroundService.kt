@@ -49,7 +49,7 @@ import java.util.Date
 @Suppress("PrivatePropertyName", "DeferredResultUnused", "OPT_IN_USAGE", "DEPRECATION", "LiftReturnOrAssignment")
 class ForegroundService : Service() {
 
-    private val TAG: String = "ForegroundService"
+    private val TAG: String = ForegroundService::class.java.simpleName
     private var notificationManager: NotificationManager? = null
 
     private val compositeDisposable = CompositeDisposable()

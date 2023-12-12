@@ -23,7 +23,7 @@ import com.idormy.sms.forwarder.core.webview.AgentWebFragment
 import com.idormy.sms.forwarder.entity.ImageInfo
 import com.idormy.sms.forwarder.fragment.MarkdownFragment
 import com.idormy.sms.forwarder.fragment.ServiceProtocolFragment
-import com.idormy.sms.forwarder.service.NotifyService
+import com.idormy.sms.forwarder.service.NotificationService
 import com.xuexiang.xpage.base.XPageFragment
 import com.xuexiang.xpage.core.PageOption
 import com.xuexiang.xui.utils.ColorUtils
@@ -273,10 +273,10 @@ class CommonUtils private constructor() {
         fun toggleNotificationListenerService(context: Context) {
             val pm = context.packageManager
             pm.setComponentEnabledSetting(
-                ComponentName(context.applicationContext, NotifyService::class.java), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
+                ComponentName(context.applicationContext, NotificationService::class.java), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
             )
             pm.setComponentEnabledSetting(
-                ComponentName(context.applicationContext, NotifyService::class.java), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP
+                ComponentName(context.applicationContext, NotificationService::class.java), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP
             )
         }
 

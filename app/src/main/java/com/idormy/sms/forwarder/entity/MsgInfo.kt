@@ -5,12 +5,14 @@ import android.text.TextUtils
 import android.util.Log
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.utils.BatteryUtils
 import com.idormy.sms.forwarder.utils.CALL_TYPE_MAP
 import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.SettingUtils.Companion.enableSmsTemplate
 import com.idormy.sms.forwarder.utils.SettingUtils.Companion.extraDeviceMark
 import com.idormy.sms.forwarder.utils.SettingUtils.Companion.smsTemplate
+import com.idormy.sms.forwarder.utils.task.TaskUtils
 import com.xuexiang.xui.utils.ResUtils.getString
 import com.xuexiang.xutil.app.AppUtils
 import java.io.Serializable
@@ -109,6 +111,10 @@ data class MsgInfo(
             .replace(getString(R.string.tag_device_name), deviceMark)
             .replace(getString(R.string.tag_app_version), versionName)
             .replace(getString(R.string.tag_call_type), CALL_TYPE_MAP[callType.toString()] ?: getString(R.string.unknown_call))
+            .replace(getString(R.string.tag_battery_pct), TaskUtils.batteryPct.toString())
+            .replace(getString(R.string.tag_battery_status), BatteryUtils.getStatus(TaskUtils.batteryStatus))
+            .replace(getString(R.string.tag_battery_plugged), BatteryUtils.getPlugged(TaskUtils.batteryPlugged))
+            .replace(getString(R.string.tag_battery_info), TaskUtils.batteryInfo)
             .trim()
         return replaceLocationTag(replaceAppName(regexReplace(smsVoForSend, regexReplace), from))
     }

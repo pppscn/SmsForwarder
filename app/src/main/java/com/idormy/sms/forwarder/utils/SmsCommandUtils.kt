@@ -9,12 +9,10 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
-import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.server.model.SmsSendData
-import com.idormy.sms.forwarder.service.HttpService
+import com.idormy.sms.forwarder.service.HttpServerService
 import com.xuexiang.xrouter.utils.TextUtils
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.file.FileUtils
 import com.xuexiang.xutil.system.DeviceUtils
@@ -101,7 +99,7 @@ class SmsCommandUtils {
                 }
 
                 "httpserver" -> {
-                    Intent(context, HttpService::class.java).also {
+                    Intent(context, HttpServerService::class.java).also {
                         if (action == "start") {
                             context.startService(it)
                         } else if (action == "stop") {

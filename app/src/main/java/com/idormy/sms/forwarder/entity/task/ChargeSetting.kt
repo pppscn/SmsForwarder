@@ -71,4 +71,11 @@ data class ChargeSetting(
             else -> R.id.rb_plugged_unknown
         }
     }
+
+    fun getMsg(statusNew: Int, statusOld: Int, pluggedNew: Int, pluggedOld: Int, batteryInfo: String): String {
+
+        if (statusNew != status || pluggedNew != plugged) return ""
+
+        return getString(R.string.battery_status_changed) + getStatusStr(statusOld) + "(" + getPluggedStr(pluggedOld) + ") → " + getStatusStr(statusNew) + "(" + getPluggedStr(pluggedNew) + ")" + batteryInfo
+    }
 }

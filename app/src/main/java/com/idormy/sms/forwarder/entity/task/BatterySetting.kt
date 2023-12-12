@@ -2,6 +2,7 @@ package com.idormy.sms.forwarder.entity.task
 
 import android.os.BatteryManager
 import com.idormy.sms.forwarder.R
+import com.xuexiang.xutil.resource.ResUtils.getString
 import java.io.Serializable
 
 data class BatterySetting(
@@ -18,5 +19,31 @@ data class BatterySetting(
             BatteryManager.BATTERY_STATUS_DISCHARGING -> R.id.rb_battery_discharging
             else -> R.id.rb_battery_charging
         }
+    }
+
+    fun getMsg(statusNew: Int, levelNew: Int, levelOld: Int, batteryInfo: String): String {
+
+        when (statusNew) {
+            BatteryManager.BATTERY_STATUS_CHARGING, BatteryManager.BATTERY_STATUS_FULL -> { //充电中
+                if (status != BatteryManager.BATTERY_STATUS_CHARGING) return ""
+                if (keepReminding && levelOld < levelNew && levelNew >= levelMax) {
+                    return String.format(getString(R.string.over_level_max), batteryInfo)
+                } else if (!keepReminding && levelOld < levelNew && levelNew == levelMax) {
+                    return String.format(getString(R.string.reach_level_max), batteryInfo)
+                }
+            }
+
+            BatteryManager.BATTERY_STATUS_DISCHARGING, BatteryManager.BATTERY_STATUS_NOT_CHARGING -> { //放电中
+                if (status != BatteryManager.BATTERY_STATUS_DISCHARGING) return ""
+                if (keepReminding && levelOld > levelNew && levelNew <= levelMin) {
+                    return String.format(getString(R.string.below_level_min), batteryInfo)
+                } else if (!keepReminding && levelOld > levelNew && levelNew == levelMin) {
+                    return String.format(getString(R.string.reach_level_min), batteryInfo)
+                }
+            }
+        }
+
+        return ""
+
     }
 }

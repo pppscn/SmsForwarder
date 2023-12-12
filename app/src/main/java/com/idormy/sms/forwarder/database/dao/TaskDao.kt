@@ -37,7 +37,7 @@ interface TaskDao {
     @RawQuery(observedEntities = [Task::class])
     fun getAllRaw(query: SupportSQLiteQuery): List<Task>
 
-    @Query("SELECT * FROM Task WHERE type = :taskType")
+    @Query("SELECT * FROM Task WHERE status = 1 AND type = :taskType")
     fun getByType(taskType: Int): List<Task>
 
     //TODO:根据条件查询，不推荐使用

@@ -353,8 +353,6 @@
     <string name="carrier_mobile" tools:ignore="Typos">Label of SIM,\neg. AT&amp;T_88888888</string>
     <string name="tip_number_only_error_message">Number must be greater than 0!</string>
     <string name="regexp_number_only" tools:ignore="TypographyDashes,Typos">^[1-9]?\\d+$</string>
-    <string name="low_power_alarm_threshold">Low Power Alarm</string>
-    <string name="low_power_alarm_threshold_tips">Value range: 0–99.\nLeft blank or 0 is disabled</string>
     <string name="retry_interval">Retry Interval</string>
     <string name="retry_interval_tips">Disabled when times = 0,\nthe interval is incremented</string>
     <string name="filtering_duplicate_messages">Filter Duplicate Messages</string>
@@ -476,10 +474,6 @@
     <string name="percent">%</string>
     <string name="above"><![CDATA[≥]]></string>
     <string name="zero">0</string>
-    <string name="monitor_battery_status_changes">Monitor Battery Status Changes</string>
-    <string name="battery_status_changes_tips">Notify when charge status changes (charging/discharging/uncharged/full)</string>
-    <string name="timing_report_battery_status">Push Battery Status Regularly</string>
-    <string name="timing_report_battery_status_tips">Please set the daily first sending time and re-sending interval</string>
     <string name="first_send_time">First time: </string>
     <string name="interval_minutes">Interval(minutes): </string>
     <string name="proxy_settings">Proxy Settings</string>
@@ -566,8 +560,6 @@
     <string name="network_state_monitor_tips">[Note] You need to manually create APP forwarding rules, package name: 77777777</string>
     <string name="network_state_change_remind">Network State Change Remind</string>
     <string name="network_state_change_remind_tips">Send a notification when the network status changes (connection mode/IP change)</string>
-    <string name="battery_monitor">Battery Monitor</string>
-    <string name="battery_monitor_tips">[Note] You need to manually create APP forwarding rules, package name: 88888888</string>
     <string name="keep_alive">Keep Alive</string>
     <string name="keep_alive_tips">It is recommended to open the first three switch, do not disable the notification bar, to avoid APP being killed</string>
     <string name="custom_settings">Custom Settings</string>
@@ -611,6 +603,10 @@
     <string name="tag_scheme">{{SCHEME}}</string>
     <string name="tag_call_type">{{CALL_TYPE}}</string>
     <string name="tag_location">{{LOCATION}}</string>
+    <string name="tag_battery_pct">{{BATTERY_PCT}}</string>
+    <string name="tag_battery_status">{{BATTERY_STATUS}}</string>
+    <string name="tag_battery_plugged">{{BATTERY_PLUGGED}}</string>
+    <string name="tag_battery_info">{{BATTERY_INFO}}</string>
     <string name="tag_uid">{{UID}}</string>
     <string name="rule_sms">SMS</string>
     <string name="rule_call">CALL</string>

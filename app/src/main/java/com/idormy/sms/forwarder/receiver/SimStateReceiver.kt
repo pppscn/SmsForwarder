@@ -22,7 +22,7 @@ import java.util.Date
 @Suppress("PrivatePropertyName", "UNUSED_PARAMETER")
 class SimStateReceiver : BroadcastReceiver() {
 
-    private var TAG = "SimStateReceiver"
+    private var TAG = SimStateReceiver::class.java.simpleName
 
     override fun onReceive(context: Context, intent: Intent) {
         //纯客户端模式

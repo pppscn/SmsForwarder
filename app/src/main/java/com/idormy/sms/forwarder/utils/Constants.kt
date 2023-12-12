@@ -16,9 +16,14 @@ object Worker {
     const val rule = "rule"
     const val senderIndex = "sender_index"
     const val msgId = "msg_id"
+}
+
+object TaskWorker {
     const val taskId = "task_id"
-    const val actionType = "action_type"
-    const val actionSetting = "action_setting"
+    const val task = "task"
+    const val taskActions = "task_actions"
+    const val conditionType = "condition_type"
+    const val msgInfo = "msg_info"
 }
 
 //初始化相关
@@ -58,17 +63,6 @@ const val SP_SILENT_PERIOD_END = "silent_period_end"
 const val SP_AUTO_CLEAN_LOGS_DAYS = "auto_clean_logs_days"
 
 const val SP_NET_STATE_RECEIVER = "enable_network_state_receiver"
-
-const val SP_BATTERY_RECEIVER = "enable_battery_receiver"
-const val SP_BATTERY_STATUS = "battery_status"
-const val SP_BATTERY_LEVEL_MIN = "battery_level_min"
-const val SP_BATTERY_LEVEL_MAX = "battery_level_max"
-const val SP_BATTERY_LEVEL_ONCE = "battery_level_once"
-const val SP_BATTERY_LEVEL_CURRENT = "battery_level_current"
-
-const val SP_BATTERY_CRON = "enable_battery_cron"
-const val SP_BATTERY_CRON_START_TIME = "battery_cron_start_time"
-const val SP_BATTERY_CRON_INTERVAL = "battery_cron_interval"
 
 const val SP_ENABLE_EXCLUDE_FROM_RECENTS = "enable_exclude_from_recents"
 const val SP_ENABLE_PLAY_SILENCE_MUSIC = "enable_play_silence_music"
@@ -582,3 +576,8 @@ var TASK_ACTION_FRAGMENT_LIST = listOf(
         R.drawable.auto_task_icon_http_server
     ),
 )
+
+const val SP_BATTERY_STATUS = "battery_status"
+const val SP_BATTERY_LEVEL = "battery_level"
+const val SP_BATTERY_PCT = "battery_pct"
+const val SP_BATTERY_PLUGGED = "battery_plugged"

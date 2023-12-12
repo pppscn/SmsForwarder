@@ -354,8 +354,6 @@
     <string name="carrier_mobile">序号/运营商_手机号</string>
     <string name="tip_number_only_error_message">数字必须大于0!</string>
     <string name="regexp_number_only" tools:ignore="TypographyDashes,Typos">^[1-9]?\\d+$</string>
-    <string name="low_power_alarm_threshold">安全电量范围(%)</string>
-    <string name="low_power_alarm_threshold_tips">超出安全范围将发出预警</string>
     <string name="retry_interval">请求重试机制</string>
     <string name="retry_interval_tips">次数=0禁用,逐次递增</string>
     <string name="filtering_duplicate_messages">自动过滤多久内重复消息</string>
@@ -477,10 +475,6 @@
     <string name="percent">%</string>
     <string name="above">高于</string>
     <string name="zero">0</string>
-    <string name="monitor_battery_status_changes">监听电池状态变化</string>
-    <string name="battery_status_changes_tips">充电状态改变(充电中/放电中/未充电/已充满)时发出通知</string>
-    <string name="timing_report_battery_status">定时推送电池状态</string>
-    <string name="timing_report_battery_status_tips">请设置每日首次发送时间与再次发送间隔时间</string>
     <string name="first_send_time">首次发送时间：</string>
     <string name="interval_minutes">间隔(分钟)：</string>
     <string name="proxy_settings">代理设置</string>
@@ -567,8 +561,6 @@
     <string name="network_state_monitor_tips">需要手动创建APP转发规则，包名：77777777</string>
     <string name="network_state_change_remind">网络状态改变提醒</string>
     <string name="network_state_change_remind_tips">网络状态改变(连接方式/IP变化)时发出通知</string>
-    <string name="battery_monitor">电池监控</string>
-    <string name="battery_monitor_tips">需要手动创建APP转发规则，包名：88888888</string>
     <string name="keep_alive">保活措施</string>
     <string name="keep_alive_tips">建议开启前三项授权或设置，不要禁用通知栏，避免APP被杀</string>
     <string name="custom_settings">个性设置</string>
@@ -612,6 +604,10 @@
     <string name="tag_scheme">{{通知Scheme}}</string>
     <string name="tag_call_type">{{通话类型}}</string>
     <string name="tag_location">{{定位信息}}</string>
+    <string name="tag_battery_pct">{{电池电量}}</string>
+    <string name="tag_battery_status">{{电池状态}}</string>
+    <string name="tag_battery_plugged">{{充电方式}}</string>
+    <string name="tag_battery_info">{{电池信息}}</string>
     <string name="tag_uid">{{UID}}</string>
     <string name="rule_sms">短信</string>
     <string name="rule_call">来电</string>
@@ -974,8 +970,8 @@
     <string name="battery_status_monitor">电池状态监听</string>
     <string name="below_level_min">【电量预警】已低于电量预警下限，请及时充电！%s</string>
     <string name="over_level_max">【电量预警】已高于电量预警上限，请拔掉充电器！%s</string>
-    <string name="reach_level_min">【电量预警】已低于电量预警下限，请及时充电！%s</string>
-    <string name="reach_level_max">【电量预警】已高于电量预警上限，请拔掉充电器！%s</string>
+    <string name="reach_level_min">【电量预警】已达到电量预警下限，请及时充电！%s</string>
+    <string name="reach_level_max">【电量预警】已达到电量预警上限，请拔掉充电器！%s</string>
     <string name="battery_status_changed">【充电状态】发生变化：</string>
     <string name="no_indentation_allowed_on_the_first_line">第一行不允许缩进</string>
     <string name="sign_required">服务端启用签名密钥，sign节点必传</string>

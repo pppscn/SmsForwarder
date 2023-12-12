@@ -9,13 +9,12 @@ import com.idormy.sms.forwarder.utils.HTTP_SERVER_TIME_OUT
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.yanzhenjie.andserver.AndServer
 import com.yanzhenjie.andserver.Server
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 @Suppress("PrivatePropertyName")
-class HttpService : Service(), Server.ServerListener {
+class HttpServerService : Service(), Server.ServerListener {
 
-    private val TAG: String = "HttpService"
+    private val TAG: String = HttpServerService::class.java.simpleName
     private val server by lazy {
         AndServer.webServer(this).port(HTTP_SERVER_PORT).listener(this).timeout(HTTP_SERVER_TIME_OUT, TimeUnit.SECONDS).build()
     }

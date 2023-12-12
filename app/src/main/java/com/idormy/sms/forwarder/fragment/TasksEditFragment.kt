@@ -335,9 +335,6 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
             //定时任务
             TASK_CONDITION_CRON -> {
                 //取消旧任务的定时器 & 设置新的定时器
-                //AlarmUtils.cancelAlarm(task)
-                //AlarmUtils.scheduleAlarm(task)
-
                 CronJobScheduler.cancelTask(task.id)
                 CronJobScheduler.scheduleTask(task)
             }

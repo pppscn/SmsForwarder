@@ -4,6 +4,7 @@ import com.idormy.sms.forwarder.R
 import com.xuexiang.xui.utils.ResUtils
 import java.io.Serializable
 
+@Suppress("DEPRECATION")
 data class BatteryInfo(
     var level: String = "",
     var scale: String = "",

@@ -79,6 +79,7 @@
         android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
         android:defaultToDeviceProtectedStorage="true"
         android:directBootAware="true"
+        android:enableOnBackInvokedCallback="false"
         android:fullBackupContent="@xml/backup_descriptor"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -222,19 +223,13 @@
             android:value="640" />
 
         <service
-            android:name=".service.HttpService"
-            android:enabled="true" />
-        <service
-            android:name=".service.NetworkStateService"
-            android:enabled="true" />
-        <service
-            android:name=".service.BatteryService"
+            android:name=".service.HttpServerService"
             android:enabled="true" />
         <service
             android:name=".service.ForegroundService"
             android:enabled="true" />
         <service
-            android:name=".service.NotifyService"
+            android:name=".service.NotificationService"
             android:enabled="true"
             android:exported="false"
             android:label="@string/app_name"
@@ -248,9 +243,15 @@
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-
         <receiver
-            android:name=".receiver.BootReceiver"
+            android:name=".receiver.BatteryReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BATTERY_CHANGED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".receiver.BootCompletedReceiver"
             android:defaultToDeviceProtectedStorage="true"
             android:directBootAware="true"
             android:exported="true"
@@ -299,7 +300,7 @@
                 <action android:name="android.intent.action.SIM_STATE_CHANGED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receiver.AlarmReceiver" />
+
     </application>
 
 </manifest>

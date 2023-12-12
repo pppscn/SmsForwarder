@@ -23,7 +23,7 @@ import java.util.Date
 @Suppress("PrivatePropertyName")
 class SmsReceiver : BroadcastReceiver() {
 
-    private var TAG = "SmsReceiver"
+    private var TAG = SmsReceiver::class.java.simpleName
     private var from = ""
     private var msg = ""
 

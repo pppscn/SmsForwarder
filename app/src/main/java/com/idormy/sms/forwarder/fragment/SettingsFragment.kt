@@ -32,7 +32,7 @@ import com.idormy.sms.forwarder.adapter.spinner.AppListSpinnerAdapter
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentSettingsBinding
 import com.idormy.sms.forwarder.entity.SimInfo
-import com.idormy.sms.forwarder.receiver.BootReceiver
+import com.idormy.sms.forwarder.receiver.BootCompletedReceiver
 import com.idormy.sms.forwarder.service.ForegroundService
 import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.workers.LoadAppListWorker
@@ -44,16 +44,12 @@ import com.xuexiang.xui.widget.button.SmoothCheckBox
 import com.xuexiang.xui.widget.button.switchbutton.SwitchButton
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
-import com.xuexiang.xui.widget.picker.XRangeSlider
-import com.xuexiang.xui.widget.picker.XRangeSlider.OnRangeSliderListener
 import com.xuexiang.xui.widget.picker.XSeekBar
 import com.xuexiang.xui.widget.picker.widget.builder.OptionsPickerBuilder
-import com.xuexiang.xui.widget.picker.widget.builder.TimePickerBuilder
 import com.xuexiang.xui.widget.picker.widget.listener.OnOptionsSelectListener
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.XUtil.getPackageManager
 import com.xuexiang.xutil.app.AppUtils.getAppPackageName
-import com.xuexiang.xutil.data.DateUtils
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -124,15 +120,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
         //监听网络状态变化
         switchNetworkStateReceiver(binding!!.sbNetworkStateReceiver)
-
-        //监听电池状态变化
-        switchBatteryReceiver(binding!!.sbBatteryReceiver)
-        //电量预警
-        editBatteryLevelAlarm(binding!!.xrsBatteryLevelAlarm, binding!!.scbBatteryLevelAlarmOnce)
-        //定时推送电池状态
-        switchBatteryCron(binding!!.sbBatteryCron)
-        //设置推送电池状态时机
-        editBatteryCronTiming(binding!!.etBatteryCronStartTime, binding!!.etBatteryCronInterval)
 
         //开机启动
         checkWithReboot(binding!!.sbWithReboot, binding!!.tvAutoStartup)
@@ -629,85 +616,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         }
     }
 
-    //监听电池状态变化
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
-    fun switchBatteryReceiver(sbBatteryReceiver: SwitchButton) {
-        sbBatteryReceiver.isChecked = SettingUtils.enableBatteryReceiver
-        sbBatteryReceiver.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            SettingUtils.enableBatteryReceiver = isChecked
-        }
-    }
-
-    //设置低电量报警
-    private fun editBatteryLevelAlarm(
-        xrsBatteryLevelAlarm: XRangeSlider, scbBatteryLevelAlarmOnce: SmoothCheckBox
-    ) {
-        xrsBatteryLevelAlarm.setStartingMinMax(
-            SettingUtils.batteryLevelMin, SettingUtils.batteryLevelMax
-        )
-        xrsBatteryLevelAlarm.setOnRangeSliderListener(object : OnRangeSliderListener {
-            override fun onMaxChanged(slider: XRangeSlider, maxValue: Int) {
-                //SettingUtils.batteryLevelMin = slider.selectedMin
-                SettingUtils.batteryLevelMax = slider.selectedMax
-            }
-
-            override fun onMinChanged(slider: XRangeSlider, minValue: Int) {
-                SettingUtils.batteryLevelMin = slider.selectedMin
-                //SettingUtils.batteryLevelMax = slider.selectedMax
-            }
-        })
-
-        scbBatteryLevelAlarmOnce.isChecked = SettingUtils.batteryLevelOnce
-        scbBatteryLevelAlarmOnce.setOnCheckedChangeListener { _: SmoothCheckBox, isChecked: Boolean ->
-            SettingUtils.batteryLevelOnce = isChecked
-            if (isChecked && 0 == SettingUtils.batteryLevelMin && 0 == SettingUtils.batteryLevelMax) {
-                XToastUtils.warning(R.string.tips_battery_level_alarm_once)
-            }
-        }
-    }
-
-    //定时推送电池状态
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
-    fun switchBatteryCron(sbBatteryCron: SwitchButton) {
-        sbBatteryCron.isChecked = SettingUtils.enableBatteryCron
-        binding!!.layoutBatteryCron.visibility = if (SettingUtils.enableBatteryCron) View.VISIBLE else View.GONE
-        sbBatteryCron.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            binding!!.layoutBatteryCron.visibility = if (isChecked) View.VISIBLE else View.GONE
-            SettingUtils.enableBatteryCron = isChecked
-        }
-    }
-
-    //设置推送电池状态时机
-    private fun editBatteryCronTiming(
-        etBatteryCronStartTime: EditText, etBatteryCronInterval: EditText
-    ) {
-        etBatteryCronStartTime.setText(SettingUtils.batteryCronStartTime)
-        etBatteryCronStartTime.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            calendar.time = DateUtils.getNowDate()
-            val mTimePicker = TimePickerBuilder(context) { date: Date?, _: View? ->
-                etBatteryCronStartTime.setText(DateUtils.date2String(date, DateUtils.HHmm.get()))
-            }.setType(false, false, false, true, true, false).setTitleText(getString(R.string.time_picker)).setSubmitText(getString(R.string.ok)).setCancelText(getString(R.string.cancel)).setDate(calendar).build()
-            mTimePicker.show()
-        }
-
-        etBatteryCronInterval.setText(SettingUtils.batteryCronInterval.toString())
-        etBatteryCronInterval.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                val interval = etBatteryCronInterval.text.toString().trim()
-                if (interval.isNotEmpty() && interval.toInt() > 0) {
-                    SettingUtils.batteryCronInterval = interval.toInt()
-                    //TODO:BatteryReportCronTask
-                    //BatteryReportCronTask.getSingleton().updateTimer()
-                } else {
-                    SettingUtils.batteryCronInterval = 60
-                }
-            }
-        })
-    }
-
     //开机启动
     private fun checkWithReboot(
         @SuppressLint("UseSwitchCompatOrMaterialCode") sbWithReboot: SwitchButton, tvAutoStartup: TextView
@@ -715,7 +623,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         tvAutoStartup.text = getAutoStartTips()
 
         //获取组件
-        val cm = ComponentName(getAppPackageName(), BootReceiver::class.java.name)
+        val cm = ComponentName(getAppPackageName(), BootCompletedReceiver::class.java.name)
         val pm: PackageManager = getPackageManager()
         val state = pm.getComponentEnabledSetting(cm)
         sbWithReboot.isChecked = !(state == PackageManager.COMPONENT_ENABLED_STATE_DISABLED || state == PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER)

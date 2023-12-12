@@ -77,33 +77,6 @@ class SettingUtils private constructor() {
         //是否监听网络状态变化
         var enableNetworkStateReceiver: Boolean by SharedPreference(SP_NET_STATE_RECEIVER, false)
 
-        //是否监听电池状态变化
-        var enableBatteryReceiver: Boolean by SharedPreference(SP_BATTERY_RECEIVER, false)
-
-        //电量预警当前状态
-        var batteryStatus: Int by SharedPreference(SP_BATTERY_STATUS, 0)
-
-        //电量预警当前值
-        var batteryLevelCurrent: Int by SharedPreference(SP_BATTERY_LEVEL_CURRENT, 0)
-
-        //电量预警最低值
-        var batteryLevelMin: Int by SharedPreference(SP_BATTERY_LEVEL_MIN, 0)
-
-        //电量预警最高值
-        var batteryLevelMax: Int by SharedPreference(SP_BATTERY_LEVEL_MAX, 100)
-
-        //是否持续电量预警
-        var batteryLevelOnce: Boolean by SharedPreference(SP_BATTERY_LEVEL_ONCE, false)
-
-        //是否定时推送电池状态
-        var enableBatteryCron: Boolean by SharedPreference(SP_BATTERY_CRON, false)
-
-        //是否定时推送电池状态——开始时间
-        var batteryCronStartTime: String by SharedPreference(SP_BATTERY_CRON_START_TIME, "00:00")
-
-        //是否定时推送电池状态——间隔时间（分钟）
-        var batteryCronInterval: Int by SharedPreference(SP_BATTERY_CRON_INTERVAL, 60)
-
         //是否不在最近任务列表中显示
         var enableExcludeFromRecents: Boolean by SharedPreference(SP_ENABLE_EXCLUDE_FROM_RECENTS, false)
 

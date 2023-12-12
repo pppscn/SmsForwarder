@@ -24,9 +24,9 @@ import java.util.*
 
 
 @Suppress("PrivatePropertyName", "DEPRECATION")
-class NotifyService : NotificationListenerService() {
+class NotificationService : NotificationListenerService() {
 
-    private val TAG: String = "NotifyService"
+    private val TAG: String = NotificationService::class.java.simpleName
 
     override fun onListenerConnected() {
         Log.d(TAG, "onListenerConnected")

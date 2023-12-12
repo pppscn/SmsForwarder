@@ -19,16 +19,14 @@ import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.database.repository.*
 import com.idormy.sms.forwarder.entity.SimInfo
+import com.idormy.sms.forwarder.receiver.BatteryReceiver
 import com.idormy.sms.forwarder.receiver.CactusReceiver
-import com.idormy.sms.forwarder.service.BatteryService
 import com.idormy.sms.forwarder.service.ForegroundService
-import com.idormy.sms.forwarder.service.HttpService
-import com.idormy.sms.forwarder.service.NetworkStateService
+import com.idormy.sms.forwarder.service.HttpServerService
 import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.utils.sdkinit.UMengInit
 import com.idormy.sms.forwarder.utils.sdkinit.XBasicLibInit
 import com.idormy.sms.forwarder.utils.sdkinit.XUpdateInit
-import com.idormy.sms.forwarder.utils.task.AlarmUtils
 import com.idormy.sms.forwarder.utils.tinker.TinkerLoadLibrary
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -121,22 +119,17 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
                 startService(serviceIntent)
             }
 
-            //网络状态监听
-            Intent(this, NetworkStateService::class.java).also {
-                startService(it)
-            }
-
-            //电池状态监听
-            Intent(this, BatteryService::class.java).also {
-                startService(it)
-            }
-
             //启动HttpServer
             if (HttpServerUtils.enableServerAutorun) {
-                Intent(this, HttpService::class.java).also {
+                Intent(this, HttpServerService::class.java).also {
                     startService(it)
                 }
             }
+
+            //监听电量&充电状态变化
+            val batteryReceiver = BatteryReceiver()
+            val filter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+            registerReceiver(batteryReceiver, filter)
 
             //Cactus 集成双进程前台服务，JobScheduler，onePix(一像素)，WorkManager，无声音乐
             if (SettingUtils.enableCactus) {
@@ -207,10 +200,6 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         XUpdateInit.init(this)
         // 运营统计数据
         UMengInit.init(this)
-        // 定时任务初始化
-        AlarmUtils.initialize(this)
-        // 三方时间库初始化
-        //AndroidThreeTen.init(this)
     }
 
     @SuppressLint("CheckResult")

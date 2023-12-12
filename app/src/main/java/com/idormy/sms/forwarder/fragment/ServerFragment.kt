@@ -22,7 +22,7 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentServerBinding
 import com.idormy.sms.forwarder.service.ForegroundService
-import com.idormy.sms.forwarder.service.HttpService
+import com.idormy.sms.forwarder.service.HttpServerService
 import com.idormy.sms.forwarder.utils.*
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
@@ -241,9 +241,9 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
         binding!!.sbApiLocation.isChecked = HttpServerUtils.enableApiLocation
         binding!!.sbApiLocation.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             HttpServerUtils.enableApiLocation = isChecked
-            if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
+            if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpServerService")) {
                 Log.d("ServerFragment", "onClick: 重启服务")
-                Intent(appContext, HttpService::class.java).also {
+                Intent(appContext, HttpServerService::class.java).also {
                     appContext?.stopService(it)
                     Thread.sleep(500)
                     appContext?.startService(it)
@@ -272,8 +272,8 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 checkCallPermission()
                 checkContactsPermission()
                 checkLocationPermission()
-                Intent(appContext, HttpService::class.java).also {
-                    if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
+                Intent(appContext, HttpServerService::class.java).also {
+                    if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpServerService")) {
                         appContext?.stopService(it)
                     } else {
                         appContext?.startService(it)
@@ -348,8 +348,8 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                                 HttpServerUtils.serverWebPath = webPath
 
                                 XToastUtils.info(getString(R.string.restarting_httpserver))
-                                Intent(appContext, HttpService::class.java).also {
-                                    if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
+                                Intent(appContext, HttpServerService::class.java).also {
+                                    if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpServerService")) {
                                         appContext?.stopService(it)
                                         Thread.sleep(500)
                                         appContext?.startService(it)
@@ -381,7 +381,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
 
     //刷新按钮
     private fun refreshButtonText() {
-        if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpService")) {
+        if (ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpServerService")) {
             binding!!.btnToggleServer.text = resources.getText(R.string.stop_server)
             binding!!.ivCopy.visibility = View.VISIBLE
             try {

@@ -13,7 +13,7 @@ import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.task.CronSetting
 import com.idormy.sms.forwarder.entity.task.TaskSetting
-import com.idormy.sms.forwarder.utils.Worker
+import com.idormy.sms.forwarder.utils.TaskWorker
 import com.idormy.sms.forwarder.utils.task.CronJobScheduler
 import gatewayapps.crondroid.CronExpression
 import java.util.Date
@@ -24,7 +24,7 @@ class CronWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
     private val TAG: String = CronWorker::class.java.simpleName
 
     override suspend fun doWork(): Result {
-        val taskId = inputData.getLong("taskId", -1L)
+        val taskId = inputData.getLong(TaskWorker.taskId, -1L)
         if (taskId == -1L) {
             Log.d(TAG, "taskId is -1L")
             return Result.failure()
@@ -82,25 +82,15 @@ class CronWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
             return Result.success()
         }
 
-        //组装消息体
+        //TODO: 组装消息体 && 执行具体任务
         val msgInfo = MsgInfo("task", task.name, task.description, Date(), task.name)
-
-        // TODO: 执行具体任务
-        val actionList = Gson().fromJson(task.actions, Array<TaskSetting>::class.java).toMutableList()
-        if (actionList.isEmpty()) {
-            Log.d(TAG, "任务${task.id}：actionsList is empty")
-            return Result.failure()
-        }
-        for (action in actionList) {
-            val actionData = Data.Builder()
-                .putLong(Worker.taskId, task.id)
-                .putInt(Worker.actionType, action.type)
-                .putString(Worker.actionSetting, action.setting)
-                .putString(Worker.sendMsgInfo, Gson().toJson(msgInfo))
-                .build()
-            val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
-            WorkManager.getInstance().enqueue(actionRequest)
-        }
+        val actionData = Data.Builder()
+            .putLong(TaskWorker.taskId, task.id)
+            .putString(TaskWorker.taskActions, task.actions)
+            .putString(TaskWorker.msgInfo, Gson().toJson(msgInfo))
+            .build()
+        val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
+        WorkManager.getInstance().enqueue(actionRequest)
 
         // 为新的 nextExecTime 调度下一次任务执行
         CronJobScheduler.cancelTask(task.id)

@@ -6,6 +6,7 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.idormy.sms.forwarder.database.entity.Task
+import com.idormy.sms.forwarder.utils.TaskWorker
 import com.idormy.sms.forwarder.workers.CronWorker
 import java.util.concurrent.TimeUnit
 
@@ -19,7 +20,7 @@ class CronJobScheduler {
         fun scheduleTask(task: Task) {
             val currentTimeMillis = System.currentTimeMillis()
             val delayInMillis = task.nextExecTime.time / 1000 * 1000 - currentTimeMillis
-            val inputData = Data.Builder().putLong("taskId", task.id).build()
+            val inputData = Data.Builder().putLong(TaskWorker.taskId, task.id).build()
             val taskRequest = if (delayInMillis <= 0L) {
                 Log.d(TAG, "任务${task.id}：立即执行，delayInMillis = $delayInMillis")
                 OneTimeWorkRequestBuilder<CronWorker>()
