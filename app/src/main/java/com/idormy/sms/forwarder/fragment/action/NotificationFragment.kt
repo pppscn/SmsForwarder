@@ -1,46 +1,34 @@
 package com.idormy.sms.forwarder.fragment.action
 
 import android.annotation.SuppressLint
-import android.os.Looper
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import com.idormy.sms.forwarder.App
+import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
-import com.idormy.sms.forwarder.adapter.spinner.AppListAdapterItem
-import com.idormy.sms.forwarder.adapter.spinner.AppListSpinnerAdapter
 import com.idormy.sms.forwarder.adapter.spinner.SenderAdapterItem
 import com.idormy.sms.forwarder.adapter.spinner.SenderSpinnerAdapter
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.database.entity.Sender
-import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
-import com.idormy.sms.forwarder.database.viewmodel.RuleViewModel
-import com.idormy.sms.forwarder.databinding.FragmentRulesEditBinding
+import com.idormy.sms.forwarder.databinding.FragmentTasksActionNotificationBinding
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.utils.*
-import com.idormy.sms.forwarder.workers.LoadAppListWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
 import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xrouter.utils.TextUtils
+import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
-import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
-import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xui.widget.picker.widget.builder.OptionsPickerBuilder
 import com.xuexiang.xui.widget.picker.widget.listener.OnOptionsSelectListener
-import com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner
-import com.xuexiang.xutil.XUtil
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -50,14 +38,15 @@ import java.util.*
 
 @Page(name = "Notification")
 @Suppress("PrivatePropertyName", "DEPRECATION")
-class NotificationFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding?>(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private val TAG: String = NotificationFragment::class.java.simpleName
     var titleBar: TitleBar? = null
-    private val viewModel by viewModels<RuleViewModel> { BaseViewModelFactory(context) }
+    private var mCountDownHelper: CountDownButtonHelper? = null
 
-    var callType = 1
-    var callTypeIndex = 0
+    @JvmField
+    @AutoWired(name = KEY_EVENT_DATA_ACTION)
+    var eventData: String? = null
 
     //免打扰(禁用转发)时间段
     private val mTimeOption = DataProvider.timePeriodOption
@@ -74,25 +63,8 @@ class NotificationFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnC
     private val senderSpinnerList = ArrayList<SenderAdapterItem>()
     private lateinit var senderSpinnerAdapter: SenderSpinnerAdapter<*>
 
-    //已安装App信息列表
-    private val appListSpinnerList = ArrayList<AppListAdapterItem>()
-    private lateinit var appListSpinnerAdapter: AppListSpinnerAdapter<*>
-    private val appListObserver = Observer { it: String ->
-        Log.d(TAG, "EVENT_LOAD_APP_LIST: $it")
-        initAppSpinner()
-    }
-
-    @JvmField
-    @AutoWired(name = KEY_RULE_ID)
-    var ruleId: Long = 0
-
-    @JvmField
-    @AutoWired(name = KEY_RULE_TYPE)
-    var ruleType: String = "sms"
-
-    @JvmField
-    @AutoWired(name = KEY_RULE_CLONE)
-    var isClone: Boolean = false
+    private var ruleId: Long = 0
+    private var ruleType: String = "app"
 
     override fun initArgs() {
         XRouter.getInstance().inject(this)
@@ -101,8 +73,8 @@ class NotificationFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnC
     override fun viewBindingInflate(
         inflater: LayoutInflater,
         container: ViewGroup,
-    ): FragmentRulesEditBinding {
-        return FragmentRulesEditBinding.inflate(inflater, container, false)
+    ): FragmentTasksActionNotificationBinding {
+        return FragmentTasksActionNotificationBinding.inflate(inflater, container, false)
     }
 
     override fun initTitle(): TitleBar? {
@@ -115,74 +87,46 @@ class NotificationFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnC
      * 初始化控件
      */
     override fun initViews() {
-        when (ruleType) {
-            "app" -> {
-                titleBar?.setTitle(R.string.app_rule)
-                binding!!.layoutSimSlot.visibility = View.GONE
-                binding!!.rbPhone.visibility = View.GONE
-                binding!!.rbCallType.visibility = View.GONE
-                binding!!.rbContent.visibility = View.GONE
-                binding!!.tvMuRuleTips.setText(R.string.mu_rule_app_tips)
-                binding!!.btInsertExtra.visibility = View.GONE
-                binding!!.btInsertSender.visibility = View.GONE
-                binding!!.btInsertContent.visibility = View.GONE
-                //初始化APP下拉列表
-                initAppSpinner()
-                //监听已安装App信息列表加载完成事件
-                LiveEventBus.get(EVENT_LOAD_APP_LIST, String::class.java).observeStickyForever(appListObserver)
+        //测试按钮增加倒计时，避免重复点击
+        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 3)
+        mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
+            override fun onCountDown(time: Int) {
+                binding!!.btnTest.text = String.format(getString(R.string.seconds_n), time)
             }
 
-            "call" -> {
-                titleBar?.setTitle(R.string.call_rule)
-                binding!!.rbContent.visibility = View.GONE
-                binding!!.rbPackageName.visibility = View.GONE
-                binding!!.rbUid.visibility = View.GONE
-                binding!!.rbInformContent.visibility = View.GONE
-                //binding!!.rbMultiMatch.visibility = View.GONE
-                binding!!.tvMuRuleTips.setText(R.string.mu_rule_call_tips)
-                binding!!.btInsertContent.visibility = View.GONE
-                binding!!.btInsertSenderApp.visibility = View.GONE
-                binding!!.btInsertUid.visibility = View.GONE
-                binding!!.btInsertTitleApp.visibility = View.GONE
-                binding!!.btInsertContentApp.visibility = View.GONE
+            override fun onFinished() {
+                binding!!.btnTest.text = getString(R.string.test)
+            }
+        })
 
-                //通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
-                binding!!.spCallType.setItems(CALL_TYPE_MAP.values.toList())
-                binding!!.spCallType.setOnItemSelectedListener { _: MaterialSpinner?, _: Int, _: Long, item: Any ->
-                    CALL_TYPE_MAP.forEach {
-                        if (it.value == item) callType = it.key.toInt()
-                    }
-                }
-                binding!!.spCallType.setOnNothingSelectedListener {
-                    callType = 1
-                    callTypeIndex = 0
-                    binding!!.spCallType.selectedIndex = callTypeIndex
-                }
-                binding!!.spCallType.selectedIndex = callTypeIndex
+        Log.d(TAG, "initViews eventData:$eventData")
+        if (eventData != null) {
+            val settingVo = Gson().fromJson(eventData, Rule::class.java)
+            Log.d(TAG, "initViews settingVo:$settingVo")
+
+            Log.d(TAG, settingVo.senderList.toString())
+            settingVo.senderList.forEach {
+                senderId = it.id
+                senderListSelected.add(it)
             }
 
-            else -> {
-                titleBar?.setTitle(R.string.sms_rule)
-                binding!!.rbCallType.visibility = View.GONE
-                binding!!.rbPackageName.visibility = View.GONE
-                binding!!.rbUid.visibility = View.GONE
-                binding!!.rbInformContent.visibility = View.GONE
-                binding!!.btInsertSenderApp.visibility = View.GONE
-                binding!!.btInsertUid.visibility = View.GONE
-                binding!!.btInsertTitleApp.visibility = View.GONE
-                binding!!.btInsertContentApp.visibility = View.GONE
+            binding!!.rgSenderLogic.check(settingVo.getSenderLogicCheckId())
+            if (!TextUtils.isEmpty(settingVo.smsTemplate.trim())) {
+                binding!!.sbSmsTemplate.isChecked = true
+                binding!!.layoutSmsTemplate.visibility = View.VISIBLE
+                binding!!.etSmsTemplate.setText(settingVo.smsTemplate.trim())
             }
+            if (!TextUtils.isEmpty(settingVo.regexReplace.trim())) {
+                binding!!.sbRegexReplace.isChecked = true
+                binding!!.layoutRegexReplace.visibility = View.VISIBLE
+                binding!!.etRegexReplace.setText(settingVo.regexReplace.trim())
+            }
+            silentPeriodStart = settingVo.silentPeriodStart
+            silentPeriodEnd = settingVo.silentPeriodEnd
         }
 
-        if (ruleId <= 0) { //新增
-            titleBar?.setSubTitle(getString(R.string.add_rule))
-            binding!!.btnDel.setText(R.string.discard)
-            initSenderSpinner()
-        } else { //编辑 & 克隆
-            binding!!.btnDel.setText(R.string.del)
-            initForm()
-        }
-
+        //初始化发送通道下拉框
+        initSenderSpinner()
     }
 
     override fun initListeners() {
@@ -200,64 +144,8 @@ class NotificationFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnC
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
 
-        binding!!.sbStatus.setOnCheckedChangeListener(this)
         binding!!.sbSmsTemplate.setOnCheckedChangeListener(this)
         binding!!.sbRegexReplace.setOnCheckedChangeListener(this)
-
-        binding!!.rgFiled.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
-            if (ruleType == "app" && appListSpinnerList.isNotEmpty()) {
-                binding!!.layoutAppList.visibility = if (checkedId == R.id.rb_inform_content) View.GONE else View.VISIBLE
-            }
-            when (checkedId) {
-                R.id.rb_transpond_all -> {
-                    binding!!.rgCheck.check(R.id.rb_is)
-                    binding!!.spCallType.visibility = View.GONE
-                    binding!!.tvMuRuleTips.visibility = View.GONE
-                    binding!!.layoutMatchType.visibility = View.GONE
-                    binding!!.layoutMatchValue.visibility = View.GONE
-                }
-
-                R.id.rb_multi_match -> {
-                    binding!!.rgCheck.check(R.id.rb_is)
-                    binding!!.spCallType.visibility = View.GONE
-                    binding!!.tvMuRuleTips.visibility = View.VISIBLE
-                    binding!!.layoutMatchType.visibility = View.GONE
-                    binding!!.layoutMatchValue.visibility = View.VISIBLE
-                    binding!!.etValue.visibility = View.VISIBLE
-                }
-
-                R.id.rb_call_type -> {
-                    binding!!.rgCheck.check(R.id.rb_is)
-                    binding!!.tvMuRuleTips.visibility = View.GONE
-                    binding!!.layoutMatchType.visibility = View.GONE
-                    binding!!.layoutMatchValue.visibility = View.VISIBLE
-                    binding!!.etValue.visibility = View.GONE
-                    binding!!.spCallType.visibility = View.VISIBLE
-                }
-
-                else -> {
-                    binding!!.spCallType.visibility = View.GONE
-                    binding!!.tvMuRuleTips.visibility = View.GONE
-                    binding!!.layoutMatchType.visibility = View.VISIBLE
-                    binding!!.layoutMatchValue.visibility = View.VISIBLE
-                    binding!!.etValue.visibility = View.VISIBLE
-                }
-            }
-        }
-
-        binding!!.rgCheck.setOnCheckedChangeListener { group: RadioGroup?, checkedId: Int ->
-            if (group != null && checkedId > 0) {
-                binding!!.rgCheck2.clearCheck()
-                group.check(checkedId)
-            }
-        }
-
-        binding!!.rgCheck2.setOnCheckedChangeListener { group: RadioGroup?, checkedId: Int ->
-            if (group != null && checkedId > 0) {
-                binding!!.rgCheck.clearCheck()
-                group.check(checkedId)
-            }
-        }
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
@@ -353,31 +241,46 @@ class NotificationFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnC
                 }
 
                 R.id.btn_test -> {
-                    val ruleNew = checkForm()
-                    testRule(ruleNew)
+                    val settingVo = checkSetting()
+                    val from = "测试号码"
+                    val content = "测试内容"
+                    val simInfo = "SIM1_123456789"
+                    val msgInfo = MsgInfo(ruleType, from, content, Date(), simInfo)
+                    if (!settingVo.checkMsg(msgInfo)) {
+                        throw Exception(getString(R.string.unmatched_rule))
+                    }
+
+                    Thread {
+                        try {
+                            SendUtils.sendMsgSender(msgInfo, settingVo)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            LiveEventBus.get(EVENT_TOAST_ERROR, String::class.java).post(e.message.toString())
+                        }
+                    }.start()
                     return
                 }
 
                 R.id.btn_del -> {
-                    if (ruleId <= 0 || isClone) {
-                        popToBack()
-                        return
-                    }
-
-                    MaterialDialog.Builder(requireContext()).title(R.string.delete_rule_title).content(R.string.delete_rule_tips).positiveText(R.string.lab_yes).negativeText(R.string.lab_no).onPositive { _: MaterialDialog?, _: DialogAction? ->
-                        viewModel.delete(ruleId)
-                        XToastUtils.success(R.string.delete_rule_toast)
-                        popToBack()
-                    }.show()
+                    popToBack()
                     return
                 }
 
                 R.id.btn_save -> {
-                    val ruleNew = checkForm()
-                    if (isClone) ruleNew.id = 0
-                    Log.d(TAG, ruleNew.toString())
-                    viewModel.insertOrUpdate(ruleNew)
-                    XToastUtils.success(R.string.tipSaveSuccess)
+                    val settingVo = checkSetting()
+                    var description = getString(R.string.select_sender) + ": "
+                    description += settingVo.senderList.joinToString(",") { it.name }
+                    if (settingVo.senderList.size > 1) {
+                        description += "; " + getString(R.string.sender_logic) + ": " + when (settingVo.senderLogic) {
+                            SENDER_LOGIC_UNTIL_FAIL -> getString(R.string.sender_logic_until_fail)
+                            SENDER_LOGIC_UNTIL_SUCCESS -> getString(R.string.sender_logic_until_success)
+                            else -> getString(R.string.sender_logic_all)
+                        }
+                    }
+                    val intent = Intent()
+                    intent.putExtra(KEY_BACK_DESCRIPTION_ACTION, description)
+                    intent.putExtra(KEY_BACK_DATA_ACTION, Gson().toJson(settingVo))
+                    setFragmentResult(TASK_ACTION_NOTIFICATION, intent)
                     popToBack()
                     return
                 }
@@ -511,148 +414,23 @@ class NotificationFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnC
         }
     }
 
-    //初始化APP下拉列表
-    private fun initAppSpinner() {
-        if (ruleType != "app") return
-
-        //未开启异步获取已安装App信息开关时，规则编辑不显示已安装APP下拉框
-        if (!SettingUtils.enableLoadUserAppList && !SettingUtils.enableLoadSystemAppList) return
-
-        if (App.UserAppList.isEmpty() && App.SystemAppList.isEmpty()) {
-            XToastUtils.info(getString(R.string.loading_app_list))
-            val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
-            WorkManager.getInstance(XUtil.getContext()).enqueue(request)
-            return
-        }
-
-        appListSpinnerList.clear()
-        if (SettingUtils.enableLoadUserAppList) {
-            for (appInfo in App.UserAppList) {
-                if (TextUtils.isEmpty(appInfo.packageName)) continue
-                appListSpinnerList.add(AppListAdapterItem(appInfo.name, appInfo.icon, appInfo.packageName))
-            }
-        }
-        if (SettingUtils.enableLoadSystemAppList) {
-            for (appInfo in App.SystemAppList) {
-                if (TextUtils.isEmpty(appInfo.packageName)) continue
-                appListSpinnerList.add(AppListAdapterItem(appInfo.name, appInfo.icon, appInfo.packageName))
-            }
-        }
-
-        //列表为空也不显示下拉框
-        if (appListSpinnerList.isEmpty()) return
-
-        appListSpinnerAdapter = AppListSpinnerAdapter(appListSpinnerList).setIsFilterKey(true).setFilterColor("#EF5362").setBackgroundSelector(R.drawable.selector_custom_spinner_bg)
-        binding!!.spApp.setAdapter(appListSpinnerAdapter)
-        binding!!.spApp.setOnItemClickListener { _: AdapterView<*>, _: View, position: Int, _: Long ->
-            try {
-                val appInfo = appListSpinnerAdapter.getItemSource(position) as AppListAdapterItem
-                CommonUtils.insertOrReplaceText2Cursor(binding!!.etValue, appInfo.packageName.toString())
-            } catch (e: Exception) {
-                XToastUtils.error(e.message.toString())
-            }
-        }
-        binding!!.layoutAppList.visibility = View.VISIBLE
-
-    }
-
-    //初始化表单
-    private fun initForm() {
-        AppDatabase.getInstance(requireContext()).ruleDao().get(ruleId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<Rule> {
-            override fun onSubscribe(d: Disposable) {}
-
-            override fun onError(e: Throwable) {
-                e.printStackTrace()
-            }
-
-            override fun onSuccess(rule: Rule) {
-                Log.d(TAG, rule.senderList.toString())
-                rule.senderList.forEach {
-                    senderId = it.id
-                    senderListSelected.add(it)
-                }
-
-                if (isClone) {
-                    titleBar?.setSubTitle(getString(R.string.clone_rule))
-                    binding!!.btnDel.setText(R.string.discard)
-                } else {
-                    titleBar?.setSubTitle(getString(R.string.edit_rule))
-                }
-                Log.d(TAG, rule.toString())
-
-                binding!!.rgSenderLogic.check(rule.getSenderLogicCheckId())
-                binding!!.rgSimSlot.check(rule.getSimSlotCheckId())
-                binding!!.rgFiled.check(rule.getFiledCheckId())
-                val checkId = rule.getCheckCheckId()
-                if (checkId == R.id.rb_is || checkId == R.id.rb_contain || checkId == R.id.rb_not_contain) {
-                    binding!!.rgCheck.check(checkId)
-                } else {
-                    binding!!.rgCheck2.check(checkId)
-                }
-                binding!!.etValue.setText(rule.value)
-                if (ruleType == "call" && rule.filed == FILED_CALL_TYPE) {
-                    callType = rule.value.toInt()
-                    callTypeIndex = callType - 1
-                    binding!!.spCallType.selectedIndex = callTypeIndex
-                }
-                binding!!.sbSmsTemplate.isChecked = !TextUtils.isEmpty(rule.smsTemplate.trim())
-                binding!!.etSmsTemplate.setText(rule.smsTemplate.trim())
-                binding!!.sbRegexReplace.isChecked = !TextUtils.isEmpty(rule.regexReplace.trim())
-                binding!!.etRegexReplace.setText(rule.regexReplace.trim())
-                binding!!.sbStatus.isChecked = rule.statusChecked
-                silentPeriodStart = rule.silentPeriodStart
-                silentPeriodEnd = rule.silentPeriodEnd
-                //初始化发送通道下拉框
-                initSenderSpinner()
-            }
-        })
-    }
-
     //提交前检查表单
-    private fun checkForm(): Rule {
+    private fun checkSetting(): Rule {
         if (senderListSelected.isEmpty() || senderId == 0L) {
             throw Exception(getString(R.string.new_sender_first))
         }
-        val filed = when (binding!!.rgFiled.checkedRadioButtonId) {
-            R.id.rb_content -> FILED_MSG_CONTENT
-            R.id.rb_phone -> FILED_PHONE_NUM
-            R.id.rb_call_type -> FILED_CALL_TYPE
-            R.id.rb_package_name -> FILED_PACKAGE_NAME
-            R.id.rb_uid -> FILED_UID
-            R.id.rb_inform_content -> FILED_INFORM_CONTENT
-            R.id.rb_multi_match -> FILED_MULTI_MATCH
-            else -> FILED_TRANSPOND_ALL
-        }
-        val check = when (kotlin.math.max(binding!!.rgCheck.checkedRadioButtonId, binding!!.rgCheck2.checkedRadioButtonId)) {
-            R.id.rb_contain -> CHECK_CONTAIN
-            R.id.rb_not_contain -> CHECK_NOT_CONTAIN
-            R.id.rb_start_with -> CHECK_START_WITH
-            R.id.rb_end_with -> CHECK_END_WITH
-            R.id.rb_regex -> CHECK_REGEX
-            else -> CHECK_IS
-        }
-        var value = binding!!.etValue.text.toString().trim()
-        if (FILED_CALL_TYPE == filed) {
-            value = callType.toString()
-            if (callType !in 1..6) {
-                throw Exception(getString(R.string.invalid_call_type))
-            }
-        } else if (FILED_TRANSPOND_ALL != filed && TextUtils.isEmpty(value)) {
-            throw Exception(getString(R.string.invalid_match_value))
-        }
-        if (FILED_MULTI_MATCH == filed) {
-            val lineError = checkMultiMatch(value)
-            if (lineError > 0) {
-                throw Exception(String.format(getString(R.string.invalid_multi_match), lineError))
-            }
-        }
 
+        val filed = FILED_TRANSPOND_ALL
+        val check = CHECK_IS
+        val value = ""
         val smsTemplate = binding!!.etSmsTemplate.text.toString().trim()
         val regexReplace = binding!!.etRegexReplace.text.toString().trim()
         val lineNum = checkRegexReplace(regexReplace)
         if (lineNum > 0) {
             throw Exception(String.format(getString(R.string.invalid_regex_replace), lineNum))
         }
+        val simSlot = CHECK_SIM_SLOT_ALL
+        val status = STATUS_ON
 
         val senderLogic = when (binding!!.rgSenderLogic.checkedRadioButtonId) {
             R.id.rb_sender_logic_until_fail -> SENDER_LOGIC_UNTIL_FAIL
@@ -660,15 +438,6 @@ class NotificationFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnC
             else -> SENDER_LOGIC_ALL
         }
 
-        val simSlot = when (binding!!.rgSimSlot.checkedRadioButtonId) {
-            R.id.rb_sim_slot_1 -> CHECK_SIM_SLOT_1
-            R.id.rb_sim_slot_2 -> CHECK_SIM_SLOT_2
-            else -> CHECK_SIM_SLOT_ALL
-        }
-        val status = if (binding!!.sbStatus.isChecked) STATUS_ON else STATUS_OFF
-        //if (status == STATUS_OFF) {
-        //    throw Exception(getString(R.string.invalid_rule_status))
-        //}
         return Rule(
             ruleId,
             ruleType,
@@ -688,23 +457,6 @@ class NotificationFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnC
         )
     }
 
-    //检查多重匹配规则是否正确
-    private fun checkMultiMatch(ruleStr: String?): Int {
-        if (TextUtils.isEmpty(ruleStr)) return 0
-
-        //Log.d(TAG, getString(R.string.regex_multi_match))
-        val regex = Regex(pattern = getString(R.string.regex_multi_match))
-        var lineNum = 1
-        val lineArray = ruleStr?.split("\\n".toRegex())?.toTypedArray()
-        for (line in lineArray!!) {
-            Log.d(TAG, line)
-            if (!line.matches(regex)) return lineNum
-            lineNum++
-        }
-
-        return 0
-    }
-
     //检查正则替换填写是否正确
     private fun checkRegexReplace(regexReplace: String?): Int {
         if (TextUtils.isEmpty(regexReplace)) return 0
@@ -719,109 +471,4 @@ class NotificationFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnC
         return 0
     }
 
-    private fun testRule(rule: Rule) {
-        val dialogTest = View.inflate(requireContext(), R.layout.dialog_rule_test, null)
-        val tvSimSlot = dialogTest.findViewById<TextView>(R.id.tv_sim_slot)
-        val rgSimSlot = dialogTest.findViewById<RadioGroup>(R.id.rg_sim_slot)
-        val tvFrom = dialogTest.findViewById<TextView>(R.id.tv_from)
-        val etFrom = dialogTest.findViewById<EditText>(R.id.et_from)
-        val tvTitle = dialogTest.findViewById<TextView>(R.id.tv_title)
-        val etTitle = dialogTest.findViewById<EditText>(R.id.et_title)
-        val tvContent = dialogTest.findViewById<TextView>(R.id.tv_content)
-        val etContent = dialogTest.findViewById<EditText>(R.id.et_content)
-        //通话类型
-        val tvCallType = dialogTest.findViewById<TextView>(R.id.tv_call_type)
-        val spCallType = dialogTest.findViewById<MaterialSpinner>(R.id.sp_call_type)
-        var callTypeTest = callType
-        var callTypeIndexTest = callTypeIndex
-
-        if ("app" == ruleType) {
-            tvSimSlot.visibility = View.GONE
-            rgSimSlot.visibility = View.GONE
-            tvTitle.visibility = View.VISIBLE
-            etTitle.visibility = View.VISIBLE
-            tvFrom.setText(R.string.test_package_name)
-            tvContent.setText(R.string.test_inform_content)
-            tvCallType.visibility = View.GONE
-            spCallType.visibility = View.GONE
-        } else if ("call" == ruleType) {
-            tvContent.visibility = View.GONE
-            etContent.visibility = View.GONE
-            tvCallType.visibility = View.VISIBLE
-            spCallType.visibility = View.VISIBLE
-            spCallType.setItems(CALL_TYPE_MAP.values.toList())
-            spCallType.setOnItemSelectedListener { _: MaterialSpinner?, _: Int, _: Long, item: Any ->
-                CALL_TYPE_MAP.forEach {
-                    if (it.value == item) callTypeTest = it.key.toInt()
-                }
-            }
-            spCallType.setOnNothingSelectedListener {
-                callTypeTest = callType
-                callTypeIndexTest = callTypeIndex
-                spCallType.selectedIndex = callTypeIndexTest
-            }
-            spCallType.selectedIndex = callTypeIndexTest
-        }
-
-        MaterialDialog.Builder(requireContext()).iconRes(android.R.drawable.ic_dialog_email).title(R.string.rule_tester).customView(dialogTest, true).cancelable(false).autoDismiss(false).neutralText(R.string.action_back).neutralColor(ResUtils.getColors(R.color.darkGrey)).onNeutral { dialog: MaterialDialog?, _: DialogAction? ->
-            dialog?.dismiss()
-        }.positiveText(R.string.action_test).onPositive { _: MaterialDialog?, _: DialogAction? ->
-            try {
-                val simSlot = when (if (ruleType == "app") -1 else rgSimSlot.checkedRadioButtonId) {
-                    R.id.rb_sim_slot_1 -> 0
-                    R.id.rb_sim_slot_2 -> 1
-                    else -> -1
-                }
-
-                val testSim = "SIM" + (simSlot + 1)
-                val ruleSim: String = rule.simSlot
-                if (ruleSim != "ALL" && ruleSim != testSim) {
-                    throw Exception(getString(R.string.card_slot_does_not_match))
-                }
-
-                //获取卡槽信息
-                val simInfo = when (simSlot) {
-                    0 -> "SIM1_" + SettingUtils.extraSim1
-                    1 -> "SIM2_" + SettingUtils.extraSim2
-                    else -> etTitle.text.toString()
-                }
-                val subId = when (simSlot) {
-                    0 -> SettingUtils.subidSim1
-                    1 -> SettingUtils.subidSim2
-                    else -> 0
-                }
-
-                val msg = StringBuilder()
-                if (ruleType == "call") {
-                    val phoneNumber = etFrom.text.toString()
-                    val contacts = PhoneUtils.getContactByNumber(phoneNumber)
-                    val contactName = if (contacts.isNotEmpty()) contacts[0].name else ResUtils.getString(R.string.unknown_number)
-                    msg.append(ResUtils.getString(R.string.contact)).append(contactName).append("\n")
-                    msg.append(ResUtils.getString(R.string.mandatory_type))
-                    msg.append(CALL_TYPE_MAP[callType.toString()] ?: ResUtils.getString(R.string.unknown_call))
-                } else {
-                    msg.append(etContent.text.toString())
-                }
-
-                val msgInfo = MsgInfo(ruleType, etFrom.text.toString(), msg.toString(), Date(), simInfo, simSlot, subId, callTypeTest)
-                if (!rule.checkMsg(msgInfo)) {
-                    throw Exception(getString(R.string.unmatched_rule))
-                }
-
-                Thread {
-                    try {
-                        SendUtils.sendMsgSender(msgInfo, rule)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        if (Looper.myLooper() == null) Looper.prepare()
-                        XToastUtils.error(e.message.toString())
-                        Looper.loop()
-                    }
-                }.start()
-
-            } catch (e: Exception) {
-                XToastUtils.error(e.message.toString())
-            }
-        }.show()
-    }
 }

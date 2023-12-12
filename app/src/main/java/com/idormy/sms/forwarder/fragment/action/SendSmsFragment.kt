@@ -24,6 +24,7 @@ import com.idormy.sms.forwarder.utils.EVENT_KEY_PHONE_NUMBERS
 import com.idormy.sms.forwarder.utils.EVENT_KEY_SIM_SLOT
 import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_ACTION
+import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_ACTION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_ACTION
 import com.idormy.sms.forwarder.utils.KEY_TEST_ACTION
 import com.idormy.sms.forwarder.utils.PhoneUtils
@@ -191,6 +192,7 @@ class SendSmsFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
                 R.id.btn_save -> {
                     val settingVo = checkSetting()
                     val intent = Intent()
+                    intent.putExtra(KEY_BACK_DESCRIPTION_ACTION, description)
                     intent.putExtra(KEY_BACK_DATA_ACTION, Gson().toJson(settingVo))
                     setFragmentResult(TASK_ACTION_SENDSMS, intent)
                     popToBack()

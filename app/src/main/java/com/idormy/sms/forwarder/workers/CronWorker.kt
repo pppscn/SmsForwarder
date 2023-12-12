@@ -10,8 +10,10 @@ import androidx.work.WorkerParameters
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.database.AppDatabase
+import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.task.CronSetting
 import com.idormy.sms.forwarder.entity.task.TaskSetting
+import com.idormy.sms.forwarder.utils.Worker
 import com.idormy.sms.forwarder.utils.task.CronJobScheduler
 import gatewayapps.crondroid.CronExpression
 import java.util.Date
@@ -80,6 +82,9 @@ class CronWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
             return Result.success()
         }
 
+        //组装消息体
+        val msgInfo = MsgInfo("task", task.name, task.description, Date(), task.name)
+
         // TODO: 执行具体任务
         val actionList = Gson().fromJson(task.actions, Array<TaskSetting>::class.java).toMutableList()
         if (actionList.isEmpty()) {
@@ -88,9 +93,10 @@ class CronWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
         }
         for (action in actionList) {
             val actionData = Data.Builder()
-                .putLong("taskId", task.id)
-                .putInt("actionType", action.type)
-                .putString("actionSetting", action.setting)
+                .putLong(Worker.taskId, task.id)
+                .putInt(Worker.actionType, action.type)
+                .putString(Worker.actionSetting, action.setting)
+                .putString(Worker.sendMsgInfo, Gson().toJson(msgInfo))
                 .build()
             val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
             WorkManager.getInstance().enqueue(actionRequest)
