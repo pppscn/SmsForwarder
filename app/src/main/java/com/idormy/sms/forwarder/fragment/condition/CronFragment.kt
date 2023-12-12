@@ -184,9 +184,6 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
                             Log.d(TAG, settingVo.toString())
                             LiveEventBus.get(KEY_TEST_CONDITION, String::class.java).post("success")
                         } catch (e: Exception) {
-                            //if (Looper.myLooper() == null) Looper.prepare()
-                            //XToastUtils.error(e.message.toString(), 30000)
-                            //Looper.loop()
                             LiveEventBus.get(KEY_TEST_CONDITION, String::class.java).post(e.message.toString())
                             e.printStackTrace()
                         }

@@ -1,7 +1,6 @@
 package com.idormy.sms.forwarder.fragment.senders
 
 import android.annotation.SuppressLint
-import android.os.Looper
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -186,9 +185,11 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
                     binding!!.layoutToTag.visibility = View.VISIBLE
                 }
             }
+
             R.id.sb_proxyAuthenticator -> {
                 binding!!.layoutProxyAuthenticator.visibility = if (isChecked) View.VISIBLE else View.GONE
             }
+
             else -> {}
         }
     }
@@ -208,14 +209,13 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
                             WeworkAgentUtils.sendMsg(settingVo, msgInfo)
                         } catch (e: Exception) {
                             e.printStackTrace()
-                            if (Looper.myLooper() == null) Looper.prepare()
-                            XToastUtils.error(e.message.toString())
-                            Looper.loop()
+                            LiveEventBus.get(EVENT_TOAST_ERROR, String::class.java).post(e.message.toString())
                         }
                         LiveEventBus.get(KEY_SENDER_TEST, String::class.java).post("finish")
                     }.start()
                     return
                 }
+
                 R.id.btn_del -> {
                     if (senderId <= 0 || isClone) {
                         popToBack()
@@ -235,6 +235,7 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
                         .show()
                     return
                 }
+
                 R.id.btn_save -> {
                     val name = binding!!.etName.text.toString().trim()
                     if (TextUtils.isEmpty(name)) {

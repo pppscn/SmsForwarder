@@ -1,6 +1,5 @@
 package com.idormy.sms.forwarder.fragment.senders
 
-import android.os.Looper
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,6 +19,7 @@ import com.idormy.sms.forwarder.databinding.FragmentSendersWeworkRobotBinding
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.WeworkRobotSetting
 import com.idormy.sms.forwarder.utils.CommonUtils
+import com.idormy.sms.forwarder.utils.EVENT_TOAST_ERROR
 import com.idormy.sms.forwarder.utils.KEY_SENDER_CLONE
 import com.idormy.sms.forwarder.utils.KEY_SENDER_ID
 import com.idormy.sms.forwarder.utils.KEY_SENDER_TEST
@@ -178,9 +178,7 @@ class WeworkRobotFragment : BaseFragment<FragmentSendersWeworkRobotBinding?>(), 
                             WeworkRobotUtils.sendMsg(settingVo, msgInfo)
                         } catch (e: Exception) {
                             e.printStackTrace()
-                            if (Looper.myLooper() == null) Looper.prepare()
-                            XToastUtils.error(e.message.toString())
-                            Looper.loop()
+                            LiveEventBus.get(EVENT_TOAST_ERROR, String::class.java).post(e.message.toString())
                         }
                         LiveEventBus.get(KEY_SENDER_TEST, String::class.java).post("finish")
                     }.start()

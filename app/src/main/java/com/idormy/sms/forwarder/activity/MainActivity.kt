@@ -259,6 +259,14 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
         LiveEventBus.get(EVENT_UPDATE_RULE_TYPE, String::class.java).observe(this) { type: String ->
             ruleType = type
         }
+
+        //替换 Looper.loop() 后再 Toast 形式
+        LiveEventBus.get(EVENT_TOAST_SUCCESS, String::class.java).observe(this) { msg: String ->
+            XToastUtils.success(msg)
+        }
+        LiveEventBus.get(EVENT_TOAST_ERROR, String::class.java).observe(this) { msg: String ->
+            XToastUtils.error(msg, 15000)
+        }
     }
 
     /**

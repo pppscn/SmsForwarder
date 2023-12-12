@@ -13,8 +13,12 @@ object Worker {
     const val sendSbnId = "send_sbn_id"
     const val updateLogs = "update_logs"
     const val ruleId = "rule_id"
+    const val rule = "rule"
     const val senderIndex = "sender_index"
     const val msgId = "msg_id"
+    const val taskId = "task_id"
+    const val actionType = "action_type"
+    const val actionSetting = "action_setting"
 }
 
 //初始化相关
@@ -351,6 +355,10 @@ const val EXTRA_PHONE_NUMBER = "android.intent.extra.PHONE_NUMBER"
 //Markdown 查看页面
 const val KEY_TITLE = "key_title"
 const val KEY_URL = "key_url"
+
+//吐司监听
+const val EVENT_TOAST_SUCCESS = "key_toast_success"
+const val EVENT_TOAST_ERROR = "key_toast_error"
 
 //主页监听时间
 const val EVENT_UPDATE_LOGS_TYPE = "key_logs_type"

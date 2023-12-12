@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.net.Uri
-import android.os.Looper
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,7 +20,14 @@ import com.idormy.sms.forwarder.database.viewmodel.SenderViewModel
 import com.idormy.sms.forwarder.databinding.FragmentSendersUrlSchemeBinding
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.UrlSchemeSetting
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.CommonUtils
+import com.idormy.sms.forwarder.utils.EVENT_TOAST_ERROR
+import com.idormy.sms.forwarder.utils.KEY_SENDER_CLONE
+import com.idormy.sms.forwarder.utils.KEY_SENDER_ID
+import com.idormy.sms.forwarder.utils.KEY_SENDER_TEST
+import com.idormy.sms.forwarder.utils.KEY_SENDER_TYPE
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.XToastUtils
 import com.idormy.sms.forwarder.utils.sender.UrlSchemeUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
@@ -36,7 +42,7 @@ import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import java.util.*
+import java.util.Date
 
 @Page(name = "URL Scheme")
 @Suppress("PrivatePropertyName", "DEPRECATION")
@@ -152,14 +158,13 @@ class UrlSchemeFragment : BaseFragment<FragmentSendersUrlSchemeBinding?>(), View
                             UrlSchemeUtils.sendMsg(settingVo, msgInfo)
                         } catch (e: Exception) {
                             e.printStackTrace()
-                            if (Looper.myLooper() == null) Looper.prepare()
-                            XToastUtils.error(e.message.toString())
-                            Looper.loop()
+                            LiveEventBus.get(EVENT_TOAST_ERROR, String::class.java).post(e.message.toString())
                         }
                         LiveEventBus.get(KEY_SENDER_TEST, String::class.java).post("finish")
                     }.start()
                     return
                 }
+
                 R.id.btn_del -> {
                     if (senderId <= 0 || isClone) {
                         popToBack()
@@ -179,6 +184,7 @@ class UrlSchemeFragment : BaseFragment<FragmentSendersUrlSchemeBinding?>(), View
                         .show()
                     return
                 }
+
                 R.id.btn_save -> {
                     val name = binding!!.etName.text.toString().trim()
                     if (TextUtils.isEmpty(name)) {

@@ -1,7 +1,6 @@
 package com.idormy.sms.forwarder.fragment
 
 import android.annotation.SuppressLint
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -813,9 +812,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                         SendUtils.sendMsgSender(msgInfo, rule)
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        if (Looper.myLooper() == null) Looper.prepare()
-                        XToastUtils.error(e.message.toString())
-                        Looper.loop()
+                        LiveEventBus.get(EVENT_TOAST_ERROR, String::class.java).post(e.message.toString())
                     }
                 }.start()
 
