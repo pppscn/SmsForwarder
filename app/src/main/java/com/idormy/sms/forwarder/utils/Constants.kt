@@ -28,6 +28,7 @@ object TaskWorker {
 }
 
 //初始化相关
+const val AUTO_CHECK_UPDATE = "auto_check_update"
 const val IS_FIRST_OPEN_KEY = "is_first_open_key"
 const val IS_AGREE_PRIVACY_KEY = "is_agree_privacy_key"
 

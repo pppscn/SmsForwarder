@@ -30,21 +30,44 @@
                 android:layout_marginTop="15dp"
                 app:sLeftTextString="@string/about_app_version">
 
-                <com.xuexiang.xui.widget.button.CountDownButton
-                    android:id="@+id/btn_update"
-                    style="@style/Button.Blue"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="10dp"
                     android:layout_toStartOf="@id/sRightImgId"
-                    android:minWidth="30dp"
-                    android:minHeight="0dp"
-                    android:padding="5dp"
-                    android:text="@string/check_update"
-                    android:textSize="11sp"
-                    app:cdbt_countDown="3000"
-                    app:cdbt_enableCountDown="true" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.xuexiang.xui.widget.button.SmoothCheckBox
+                        android:id="@+id/scb_auto_check_update"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginStart="5dp"
+                        app:scb_color_checked="@color/colorPrimary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/auto_check"
+                        android:textSize="10sp"
+                        tools:ignore="SmallSp" />
+
+                    <com.xuexiang.xui.widget.button.CountDownButton
+                        android:id="@+id/btn_update"
+                        style="@style/Button.Blue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:minWidth="30dp"
+                        android:minHeight="0dp"
+                        android:padding="5dp"
+                        android:text="@string/check_update"
+                        android:textSize="11sp"
+                        app:cdbt_countDown="3000"
+                        app:cdbt_enableCountDown="true" />
+
+                </LinearLayout>
 
             </com.xuexiang.xui.widget.textview.supertextview.SuperTextView>
 

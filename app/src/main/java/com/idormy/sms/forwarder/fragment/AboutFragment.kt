@@ -16,6 +16,7 @@ import com.idormy.sms.forwarder.utils.CommonUtils.Companion.previewMarkdown
 import com.idormy.sms.forwarder.utils.CommonUtils.Companion.previewPicture
 import com.idormy.sms.forwarder.utils.HistoryUtils
 import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.idormy.sms.forwarder.utils.sdkinit.XUpdateInit
 import com.xuexiang.xaop.annotation.SingleClick
@@ -29,7 +30,8 @@ import com.xuexiang.xutil.file.FileUtils
 import frpclib.Frpclib
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 @Page(name = "关于软件")
 class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSuperTextViewClickListener {
@@ -62,6 +64,11 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
         val dateFormat = SimpleDateFormat("yyyy", Locale.CHINA)
         val currentYear = dateFormat.format(Date())
         binding!!.copyright.text = java.lang.String.format(resources.getString(R.string.about_copyright), currentYear)
+
+        binding!!.scbAutoCheckUpdate.isChecked = SettingUtils.autoCheckUpdate
+        binding!!.scbAutoCheckUpdate.setOnCheckedChangeListener { _, isChecked ->
+            SettingUtils.autoCheckUpdate = isChecked
+        }
     }
 
     override fun initListeners() {
@@ -117,6 +124,7 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
             R.id.menu_donation -> {
                 previewMarkdown(this, getString(R.string.about_item_donation_link), getString(R.string.url_donation_link), false)
             }
+
             R.id.menu_wechat_miniprogram -> {
                 if (HttpServerUtils.safetyMeasures != 3) {
                     XToastUtils.error("微信小程序只支持SM4加密传输！请前往主动控制·服务端修改安全措施！")
@@ -124,18 +132,23 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
                 }
                 previewPicture(this, getString(R.string.url_wechat_miniprogram), null)
             }
+
             R.id.menu_wecom_group -> {
                 previewPicture(this, getString(R.string.url_wework_group), null)
             }
+
             R.id.menu_dingtalk_group -> {
                 previewPicture(this, getString(R.string.url_dingtalk_group), null)
             }
+
             R.id.menu_qq_channel -> {
                 AgentWebActivity.goWeb(context, getString(R.string.url_qq_channel))
             }
+
             R.id.menu_user_protocol -> {
                 gotoProtocol(this, isPrivacy = false, isImmersive = false)
             }
+
             R.id.menu_privacy_protocol -> {
                 gotoProtocol(this, isPrivacy = true, isImmersive = false)
             }

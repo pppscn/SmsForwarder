@@ -7,8 +7,8 @@ import com.xuexiang.xui.utils.ResUtils.getString
 class SettingUtils private constructor() {
     companion object {
 
-        //是否是第一次启动
-        //var isFirstOpen: Boolean by SharedPreference(IS_FIRST_OPEN_KEY, true)
+        //是否启动时检查更新
+        var autoCheckUpdate: Boolean by SharedPreference(AUTO_CHECK_UPDATE, true)
 
         //是否同意隐私政策
         var isAgreePrivacy: Boolean by SharedPreference(IS_AGREE_PRIVACY_KEY, false)
