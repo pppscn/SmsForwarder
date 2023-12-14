@@ -11,14 +11,17 @@ import com.jeremyliao.liveeventbus.LiveEventBus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+@Suppress("PrivatePropertyName")
 class LoadAppListWorker(
     context: Context,
     workerParams: WorkerParameters,
 ) : CoroutineWorker(context, workerParams) {
 
+    private val TAG: String = LoadAppListWorker::class.java.simpleName
+
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         if (App.LoadingAppList) {
-            Log.d("LoadAppListWorker", "LoadingAppList is true, return")
+            Log.d(TAG, "LoadingAppList is true, return")
             return@withContext Result.success()
         }
 
@@ -36,10 +39,9 @@ class LoadAppListWorker(
         App.UserAppList.sortBy { appInfo -> appInfo.name }
         App.SystemAppList.sortBy { appInfo -> appInfo.name }
 
-
         LiveEventBus.get(EVENT_LOAD_APP_LIST, String::class.java).post("finish")
         App.LoadingAppList = false
-        Log.d("LoadAppListWorker", "LoadAppListWorker finish")
+        Log.d(TAG, "LoadAppListWorker finish")
 
         return@withContext Result.success()
     }

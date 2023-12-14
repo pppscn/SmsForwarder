@@ -564,10 +564,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 return@setOnCheckedChangeListener
             }
             SettingUtils.enableLoadAppList = isChecked
-
-            XToastUtils.info(getString(R.string.loading_app_list))
-            val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
-            WorkManager.getInstance(XUtil.getContext()).enqueue(request)
+            if (isChecked) {
+                XToastUtils.info(getString(R.string.loading_app_list))
+                val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
+                WorkManager.getInstance(XUtil.getContext()).enqueue(request)
+            }
         }
         scbLoadUserApp.isChecked = SettingUtils.enableLoadUserAppList
         scbLoadUserApp.setOnCheckedChangeListener { _: SmoothCheckBox, isChecked: Boolean ->
@@ -581,8 +582,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 XToastUtils.info(getString(R.string.loading_app_list))
                 val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
                 WorkManager.getInstance(XUtil.getContext()).enqueue(request)
-            } else {
-                initAppSpinner()
             }
         }
         scbLoadSystemApp.isChecked = SettingUtils.enableLoadSystemAppList
@@ -597,8 +596,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 XToastUtils.info(getString(R.string.loading_app_list))
                 val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
                 WorkManager.getInstance(XUtil.getContext()).enqueue(request)
-            } else {
-                initAppSpinner()
             }
         }
     }
@@ -1108,7 +1105,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     private fun initAppSpinner() {
 
         //未开启异步获取已安装App信息开关时，不显示已安装APP下拉框
-        if (!SettingUtils.enableLoadUserAppList && !SettingUtils.enableLoadSystemAppList) return
+        if (!SettingUtils.enableLoadAppList) return
 
         if (App.UserAppList.isEmpty() && App.SystemAppList.isEmpty()) {
             //XToastUtils.info(getString(R.string.loading_app_list))
