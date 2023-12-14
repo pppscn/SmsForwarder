@@ -113,9 +113,6 @@ class SettingUtils private constructor() {
         //SIM2备注
         var extraSim2: String by SharedPreference(SP_EXTRA_SIM2, "")
 
-        //SIM卡槽状态监控
-        var enableSimStateReceiver: Boolean by SharedPreference(SP_SIM_STATE_RECEIVER, false)
-
         //是否启用自定义模板
         var enableSmsTemplate: Boolean by SharedPreference(SP_ENABLE_SMS_TEMPLATE, false)
 

@@ -10,6 +10,7 @@ import com.idormy.sms.forwarder.utils.SP_DATA_SIM_SLOT
 import com.idormy.sms.forwarder.utils.SP_IPV4
 import com.idormy.sms.forwarder.utils.SP_IPV6
 import com.idormy.sms.forwarder.utils.SP_NETWORK_STATE
+import com.idormy.sms.forwarder.utils.SP_SIM_STATE
 import com.idormy.sms.forwarder.utils.SP_WIFI_SSID
 import com.idormy.sms.forwarder.utils.SharedPreference
 
@@ -49,5 +50,8 @@ class TaskUtils private constructor() {
 
         //IPv6地址
         var ipv6: String by SharedPreference(SP_IPV6, "")
+
+        //SIM卡状态：0-未知状态，1-卡被移除，5-卡已准备就绪
+        var simState: Int by SharedPreference(SP_SIM_STATE, 0)
     }
 }

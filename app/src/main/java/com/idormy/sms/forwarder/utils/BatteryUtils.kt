@@ -2,7 +2,6 @@ package com.idormy.sms.forwarder.utils
 
 import android.content.Intent
 import android.os.BatteryManager
-import android.util.Log
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.BatteryInfo
 import com.xuexiang.xui.utils.ResUtils.getString
@@ -30,7 +29,7 @@ object BatteryUtils {
         batteryInfo.status = getStatus(status)
         batteryInfo.health = getHealth(health)
         batteryInfo.plugged = getPlugged(plugged)
-        Log.i(TAG, batteryInfo.toString())
+        //Log.i(TAG, batteryInfo.toString())
         return batteryInfo
     }
 

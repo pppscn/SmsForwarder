@@ -8,120 +8,70 @@ import android.util.Log
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
-import com.google.gson.Gson
-import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
-import com.idormy.sms.forwarder.entity.MsgInfo
-import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
-import com.idormy.sms.forwarder.utils.Worker
-import com.idormy.sms.forwarder.workers.SendWorker
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_SIM
+import com.idormy.sms.forwarder.utils.TaskWorker
+import com.idormy.sms.forwarder.utils.task.TaskUtils
+import com.idormy.sms.forwarder.workers.SimWorker
 import com.xuexiang.xutil.resource.ResUtils.getString
-import java.util.Date
+import java.util.concurrent.TimeUnit
 
-@Suppress("PrivatePropertyName", "UNUSED_PARAMETER")
+@Suppress("PrivatePropertyName")
 class SimStateReceiver : BroadcastReceiver() {
 
     private var TAG = SimStateReceiver::class.java.simpleName
 
     override fun onReceive(context: Context, intent: Intent) {
+
         //纯客户端模式
         if (SettingUtils.enablePureClientMode) return
 
-        //SIM卡槽状态监控开关
-        if (!SettingUtils.enableSimStateReceiver) return
+        if (intent.action != "android.intent.action.SIM_STATE_CHANGED") return
 
-        val action = intent.action
-        if (action == Intent.ACTION_BOOT_COMPLETED) {
-            // 在这里处理开机启动时的逻辑
-            // 例如：注册监听 SIM 变化
-            registerSimStateListener(context)
-        } else if (action == "android.intent.action.SIM_STATE_CHANGED") {
-            // 处理 SIM 卡状态变化的逻辑
-            val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        // 处理 SIM 卡状态变化的逻辑
+        val simStateOld = TaskUtils.simState
+        val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
 
-            // 获取当前 SIM 卡状态
-            when (telephonyManager.simState) {
-                TelephonyManager.SIM_STATE_ABSENT -> {
-                    Log.d(TAG, "SIM 卡被移除")
-                    // 处理 SIM 卡被移除的情况
-                }
+        // 获取当前 SIM 卡状态
+        val simStateNew = telephonyManager.simState
 
-                TelephonyManager.SIM_STATE_READY -> {
-                    Log.d(TAG, "SIM 卡已准备就绪，延迟2秒再获取信息")
-                    Thread.sleep(2000)
+        // SIM 卡状态未发生变化，避免重复执行
+        if (simStateOld == simStateNew) return
 
-                    // 获取 SIM 卡信息
-                    App.SimInfoList = PhoneUtils.getSimMultiInfo()
-                    Log.d(TAG, App.SimInfoList.toString())
-
-                    val msg = StringBuilder()
-                    App.SimInfoList.forEach {
-                        msg.append("[SIM-").append(it.key + 1).append("]\n")
-                        msg.append(getString(R.string.carrier_name)).append(": ").append(it.value.mCarrierName).append("\n")
-                        //msg.append(getString(R.string.icc_id)).append(": ").append(it.value.mIccId).append("\n")
-                        msg.append(getString(R.string.sim_slot_index)).append(": ").append(it.value.mSimSlotIndex).append("\n")
-                        msg.append(getString(R.string.number)).append(": ").append(it.value.mNumber).append("\n")
-                        msg.append(getString(R.string.country_iso)).append(": ").append(it.value.mCountryIso).append("\n")
-                        msg.append(getString(R.string.subscription_id)).append(": ").append(it.value.mSubscriptionId).append("\n")
-                    }
-
-                    sendMessage(context, msg.toString().trimEnd())
-                }
-
-                TelephonyManager.SIM_STATE_CARD_IO_ERROR -> {
-                    Log.d(TAG, "SIM 卡读取失败")
-                }
-
-                TelephonyManager.SIM_STATE_CARD_RESTRICTED -> {
-                    Log.d(TAG, "SIM 卡受限")
-                }
-
-                TelephonyManager.SIM_STATE_NETWORK_LOCKED -> {
-                    Log.d(TAG, "SIM 卡网络锁定")
-                }
-
-                TelephonyManager.SIM_STATE_NOT_READY -> {
-                    Log.d(TAG, "SIM 卡未准备好")
-                }
-
-                TelephonyManager.SIM_STATE_PERM_DISABLED -> {
-                    Log.d(TAG, "SIM 卡被禁用")
-                }
-
-                TelephonyManager.SIM_STATE_PIN_REQUIRED -> {
-                    Log.d(TAG, "SIM 卡需要 PIN 解锁")
-                }
-
-                TelephonyManager.SIM_STATE_PUK_REQUIRED -> {
-                    Log.d(TAG, "SIM 卡需要 PUK 解锁")
-                }
-
-                TelephonyManager.SIM_STATE_UNKNOWN -> {
-                    Log.d(TAG, "SIM 卡状态未知")
-                }
+        var duration = 10L
+        val msg = when (simStateNew) {
+            TelephonyManager.SIM_STATE_ABSENT -> {
+                Log.d(TAG, "SIM 卡被移除")
+                TaskUtils.simState = simStateNew
+                getString(R.string.sim_state_absent)
             }
+
+            TelephonyManager.SIM_STATE_READY -> {
+                Log.d(TAG, "SIM 卡已准备就绪")
+                TaskUtils.simState = simStateNew
+                duration = 5000L
+                getString(R.string.sim_state_ready)
+            }
+
+            else -> {
+                Log.d(TAG, "SIM 卡状态未知")
+                TaskUtils.simState = 0
+                getString(R.string.sim_state_unknown)
+            }
+
         }
-    }
 
-    private fun registerSimStateListener(context: Context) {
-        // 在此处注册 SIM 变化监听器
-        // 可以使用 TelephonyManager 或 SubscriptionManager 进行注册监听
-    }
-
-    //发送信息
-    private fun sendMessage(context: Context, msg: String) {
-        Log.i(TAG, msg)
-        try {
-            val msgInfo = MsgInfo("app", "66666666", msg, Date(), getString(R.string.sim_state_monitor), -1)
-            val request = OneTimeWorkRequestBuilder<SendWorker>().setInputData(
+        //注意：SIM卡已准备就绪时，延迟5秒（给够搜索信号时间）才执行任务
+        val request = OneTimeWorkRequestBuilder<SimWorker>()
+            .setInitialDelay(duration, TimeUnit.MILLISECONDS)
+            .setInputData(
                 workDataOf(
-                    Worker.sendMsgInfo to Gson().toJson(msgInfo),
+                    TaskWorker.conditionType to TASK_CONDITION_SIM,
+                    TaskWorker.msg to msg.toString().trimEnd(),
                 )
             ).build()
-            WorkManager.getInstance(context).enqueue(request)
-        } catch (e: Exception) {
-            Log.e(TAG, "getLog e:" + e.message)
-        }
+        WorkManager.getInstance(context).enqueue(request)
     }
+
 }

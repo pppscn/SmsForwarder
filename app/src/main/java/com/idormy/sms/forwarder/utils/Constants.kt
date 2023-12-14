@@ -23,6 +23,7 @@ object TaskWorker {
     const val task = "task"
     const val taskActions = "task_actions"
     const val conditionType = "condition_type"
+    const val msg = "msg"
     const val msgInfo = "msg_info"
 }
 
@@ -76,7 +77,6 @@ const val SP_SUBID_SIM1 = "subid_sim1"
 const val SP_SUBID_SIM2 = "subid_sim2"
 const val SP_EXTRA_SIM1 = "extra_sim1"
 const val SP_EXTRA_SIM2 = "extra_sim2"
-const val SP_SIM_STATE_RECEIVER = "enable_sim_state_receiver"
 const val SP_ENABLE_SMS_TEMPLATE = "enable_sms_template"
 const val SP_SMS_TEMPLATE = "sms_template"
 
@@ -586,3 +586,4 @@ const val SP_DATA_SIM_SLOT = "data_sim_slot"
 const val SP_WIFI_SSID = "wifi_ssid"
 const val SP_IPV4 = "ipv4"
 const val SP_IPV6 = "ipv6"
+const val SP_SIM_STATE = "sim_state"

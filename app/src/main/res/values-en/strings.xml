@@ -555,7 +555,6 @@
     <string name="httpserver">Local HttpServer</string>
     <string name="httpserver_tips">Available under WiFi network, after startup, other machines in the LAN can directly call the local interface</string>
     <string name="sim_state_monitor">SIM State Monitor</string>
-    <string name="sim_state_monitor_tips">[Note] You need to manually create APP forwarding rules, package name: 66666666</string>
     <string name="network_state_monitor">Network State Monitor</string>
     <string name="network_state_change_remind">Network State Change Remind</string>
     <string name="keep_alive">Keep Alive</string>

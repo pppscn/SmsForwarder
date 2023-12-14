@@ -143,8 +143,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         editAddExtraSim1(binding!!.etExtraSim1)
         //SIM2备注
         editAddExtraSim2(binding!!.etExtraSim2)
-        //SIM卡槽状态监控
-        switchSimStateReceiver(binding!!.sbSimStateReceiver)
+
         //通知内容
         editNotifyContent(binding!!.etNotifyContent)
 
@@ -798,25 +797,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 SettingUtils.extraSim2 = etExtraSim2.text.toString().trim()
             }
         })
-    }
-
-    //SIM卡槽状态监控
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
-    fun switchSimStateReceiver(sbSimStateReceiver: SwitchButton) {
-        sbSimStateReceiver.isChecked = SettingUtils.enableSimStateReceiver
-        sbSimStateReceiver.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            App.SimInfoList = PhoneUtils.getSimMultiInfo()
-            if (isChecked && App.SimInfoList.isEmpty()) {
-                XToastUtils.error(R.string.tip_can_not_get_sim_infos)
-                XXPermissions.startPermissionActivity(
-                    requireContext(), "android.permission.READ_PHONE_STATE"
-                )
-                SettingUtils.enableSimStateReceiver = false
-                sbSimStateReceiver.isChecked = false
-                return@setOnCheckedChangeListener
-            }
-            SettingUtils.enableSimStateReceiver = isChecked
-        }
     }
 
     //设置通知内容

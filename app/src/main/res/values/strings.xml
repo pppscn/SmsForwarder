@@ -556,7 +556,6 @@
     <string name="httpserver">被动接收本地 HttpServer</string>
     <string name="httpserver_tips">WiFi网络下可用，启动后局域网内其他机器可直接调用本机接口</string>
     <string name="sim_state_monitor">SIM卡槽状态监控</string>
-    <string name="sim_state_monitor_tips">需要手动创建APP转发规则，包名：66666666</string>
     <string name="network_state_monitor">网络状态监控</string>
     <string name="network_state_change_remind">网络状态改变提醒</string>
     <string name="keep_alive">保活措施</string>
