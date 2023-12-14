@@ -6,6 +6,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.ConnectivityManager
+import android.net.wifi.WifiManager
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -21,6 +23,7 @@ import com.idormy.sms.forwarder.database.repository.*
 import com.idormy.sms.forwarder.entity.SimInfo
 import com.idormy.sms.forwarder.receiver.BatteryReceiver
 import com.idormy.sms.forwarder.receiver.CactusReceiver
+import com.idormy.sms.forwarder.receiver.NetworkChangeReceiver
 import com.idormy.sms.forwarder.service.ForegroundService
 import com.idormy.sms.forwarder.service.HttpServerService
 import com.idormy.sms.forwarder.utils.*
@@ -38,6 +41,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+@Suppress("DEPRECATION")
 class App : Application(), CactusCallback, Configuration.Provider by Core {
 
     val applicationScope = CoroutineScope(SupervisorJob())
@@ -128,8 +132,18 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
 
             //监听电量&充电状态变化
             val batteryReceiver = BatteryReceiver()
-            val filter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-            registerReceiver(batteryReceiver, filter)
+            val batteryFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+            registerReceiver(batteryReceiver, batteryFilter)
+
+            //监听网络变化
+            val networkReceiver = NetworkChangeReceiver()
+            val networkFilter = IntentFilter().apply {
+                addAction(ConnectivityManager.CONNECTIVITY_ACTION)
+                addAction(WifiManager.WIFI_STATE_CHANGED_ACTION)
+                addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
+                //addAction("android.intent.action.DATA_CONNECTION_STATE_CHANGED")
+            }
+            registerReceiver(networkReceiver, networkFilter)
 
             //Cactus 集成双进程前台服务，JobScheduler，onePix(一像素)，WorkManager，无声音乐
             if (SettingUtils.enableCactus) {

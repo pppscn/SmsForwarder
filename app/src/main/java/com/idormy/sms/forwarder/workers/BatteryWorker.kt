@@ -39,7 +39,7 @@ class BatteryWorker(context: Context, params: WorkerParameters) : CoroutineWorke
                     return Result.failure()
                 }
 
-                val taskList = AppDatabase.getInstance(App.context).taskDao().getByType(TASK_CONDITION_BATTERY)
+                val taskList = AppDatabase.getInstance(App.context).taskDao().getByType(conditionType)
                 for (task in taskList) {
                     Log.d(TAG, "task = $task")
 
@@ -94,7 +94,7 @@ class BatteryWorker(context: Context, params: WorkerParameters) : CoroutineWorke
                     return Result.failure()
                 }
 
-                val taskList = AppDatabase.getInstance(App.context).taskDao().getByType(TASK_CONDITION_CHARGE)
+                val taskList = AppDatabase.getInstance(App.context).taskDao().getByType(conditionType)
                 for (task in taskList) {
                     Log.d(TAG, "task = $task")
 
@@ -125,7 +125,7 @@ class BatteryWorker(context: Context, params: WorkerParameters) : CoroutineWorke
                     //TODO：判断其他条件是否满足
 
                     //TODO: 组装消息体 && 执行具体任务
-                    val msgInfo = MsgInfo("task", task.name, msg, Date(), task.name)
+                    val msgInfo = MsgInfo("task", task.name, msg, Date(), task.description)
                     val actionData = Data.Builder()
                         .putLong(TaskWorker.taskId, task.id)
                         .putString(TaskWorker.taskActions, task.actions)

@@ -357,6 +357,7 @@
                         <RadioButton
                             android:id="@+id/rb_uriType_tcp"
                             style="@style/rg_rb_style"
+                            android:checked="true"
                             android:text="@string/tcp" />
 
                         <RadioButton

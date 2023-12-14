@@ -558,9 +558,7 @@
     <string name="sim_state_monitor">SIM卡槽状态监控</string>
     <string name="sim_state_monitor_tips">需要手动创建APP转发规则，包名：66666666</string>
     <string name="network_state_monitor">网络状态监控</string>
-    <string name="network_state_monitor_tips">需要手动创建APP转发规则，包名：77777777</string>
     <string name="network_state_change_remind">网络状态改变提醒</string>
-    <string name="network_state_change_remind_tips">网络状态改变(连接方式/IP变化)时发出通知</string>
     <string name="keep_alive">保活措施</string>
     <string name="keep_alive_tips">建议开启前三项授权或设置，不要禁用通知栏，避免APP被杀</string>
     <string name="custom_settings">个性设置</string>
@@ -694,7 +692,7 @@
     <string name="nav_item_logging">Logging</string>
     <string name="nav_item_about">About</string>
 
-    <string name="http_server">Http Server</string>
+    <string name="http_server">HttpServer</string>
     <string name="start_server">启动服务</string>
     <string name="stop_server">停止服务</string>
     <string name="server_is_stopping">Server is shutting down. Please wait.</string>
@@ -1084,6 +1082,9 @@
     <string name="net_unknown">未知网络</string>
     <string name="network_state">网络状态：%s</string>
     <string name="wifi_ssid">WiFi名称</string>
+    <string name="wifi_ssid_hint">留空则不判断连接的WiFi-SSID</string>
+    <string name="ipv4">IPv4</string>
+    <string name="ipv6">IPv6</string>
 
     <string name="enable_location_tag">启用 {{定位信息}} 标签</string>
     <string name="enable_location_tag_tips">在转发信息中插入手机的当前定位信息</string>
@@ -1192,4 +1193,8 @@
     <string name="sim_state_absent">被移除</string>
     <string name="sim_state_ready">已就绪</string>
     <string name="sim_state_unknown">未知</string>
+
+    <string name="sim_any">不限卡槽</string>
+    <string name="sim_1">SIM-1</string>
+    <string name="sim_2">SIM-2</string>
 </resources>

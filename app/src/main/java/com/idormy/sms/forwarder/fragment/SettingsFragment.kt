@@ -118,9 +118,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             SettingUtils.autoCleanLogsDays = newValue
         }
 
-        //监听网络状态变化
-        switchNetworkStateReceiver(binding!!.sbNetworkStateReceiver)
-
         //开机启动
         checkWithReboot(binding!!.sbWithReboot, binding!!.tvAutoStartup)
         //忽略电池优化设置
@@ -604,15 +601,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             } else {
                 initAppSpinner()
             }
-        }
-    }
-
-    //监听网络状态变化
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
-    fun switchNetworkStateReceiver(sbNetworkStateReceiver: SwitchButton) {
-        sbNetworkStateReceiver.isChecked = SettingUtils.enableNetworkStateReceiver
-        sbNetworkStateReceiver.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            SettingUtils.enableNetworkStateReceiver = isChecked
         }
     }
 

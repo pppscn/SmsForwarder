@@ -52,51 +52,49 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
 
         var successNum = 0
         for (action in actionList) {
-            when (action.type) {
-                TASK_ACTION_SENDSMS -> {
-                    val smsSetting = Gson().fromJson(action.setting, SmsSetting::class.java)
-                    if (smsSetting == null) {
-                        Log.d(TAG, "任务$taskId：smsSetting is null")
-                        continue
+            try {
+                when (action.type) {
+                    TASK_ACTION_SENDSMS -> {
+                        val smsSetting = Gson().fromJson(action.setting, SmsSetting::class.java)
+                        if (smsSetting == null) {
+                            Log.d(TAG, "任务$taskId：smsSetting is null")
+                            continue
+                        }
+                        //获取卡槽信息
+                        if (App.SimInfoList.isEmpty()) {
+                            App.SimInfoList = PhoneUtils.getSimMultiInfo()
+                        }
+                        Log.d(TAG, App.SimInfoList.toString())
+
+                        //发送卡槽: 1=SIM1, 2=SIM2
+                        val simSlotIndex = smsSetting.simSlot - 1
+                        //TODO：取不到卡槽信息时，采用默认卡槽发送
+                        val mSubscriptionId: Int = App.SimInfoList[simSlotIndex]?.mSubscriptionId ?: -1
+
+                        val msg = if (ActivityCompat.checkSelfPermission(XUtil.getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                            ResUtils.getString(R.string.no_sms_sending_permission)
+                        } else {
+                            PhoneUtils.sendSms(mSubscriptionId, smsSetting.phoneNumbers, smsSetting.msgContent)
+                            successNum++
+                        }
+
+                        Log.d(TAG, "任务$taskId：send sms result: $msg")
                     }
-                    //获取卡槽信息
-                    if (App.SimInfoList.isEmpty()) {
-                        App.SimInfoList = PhoneUtils.getSimMultiInfo()
-                    }
-                    Log.d(TAG, App.SimInfoList.toString())
 
-                    //发送卡槽: 1=SIM1, 2=SIM2
-                    val simSlotIndex = smsSetting.simSlot - 1
-                    //TODO：取不到卡槽信息时，采用默认卡槽发送
-                    val mSubscriptionId: Int = App.SimInfoList[simSlotIndex]?.mSubscriptionId ?: -1
-
-                    val msg = if (ActivityCompat.checkSelfPermission(XUtil.getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                        ResUtils.getString(R.string.no_sms_sending_permission)
-                    } else {
-                        PhoneUtils.sendSms(mSubscriptionId, smsSetting.phoneNumbers, smsSetting.msgContent)
-                        successNum++
-                    }
-
-                    Log.d(TAG, "任务$taskId：send sms result: $msg")
-                    continue
-                }
-
-                TASK_ACTION_NOTIFICATION -> {
-                    try {
+                    TASK_ACTION_NOTIFICATION -> {
                         val settingVo = Gson().fromJson(action.setting, Rule::class.java)
                         //自动任务的不需要吐司或者更新日志，特殊处理 logId = -1，msgId = -1
                         SendUtils.sendMsgSender(msgInfo, settingVo, 0, -1L, -1L)
                         successNum++
-                    } catch (e: Exception) {
-                        e.printStackTrace()
                     }
-                    continue
-                }
 
-                else -> {
-                    Log.d(TAG, "任务$taskId：action.type is ${action.type}")
-                    continue
+                    else -> {
+                        Log.d(TAG, "任务$taskId：action.type is ${action.type}")
+                    }
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.d(TAG, "任务$taskId：action.type is ${action.type}, exception: ${e.message}")
             }
         }
 

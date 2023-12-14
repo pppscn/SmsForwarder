@@ -62,8 +62,6 @@ const val SP_SILENT_PERIOD_START = "silent_period_start"
 const val SP_SILENT_PERIOD_END = "silent_period_end"
 const val SP_AUTO_CLEAN_LOGS_DAYS = "auto_clean_logs_days"
 
-const val SP_NET_STATE_RECEIVER = "enable_network_state_receiver"
-
 const val SP_ENABLE_EXCLUDE_FROM_RECENTS = "enable_exclude_from_recents"
 const val SP_ENABLE_PLAY_SILENCE_MUSIC = "enable_play_silence_music"
 const val SP_ENABLE_ONE_PIXEL_ACTIVITY = "enable_one_pixel_activity"
@@ -577,7 +575,14 @@ var TASK_ACTION_FRAGMENT_LIST = listOf(
     ),
 )
 
+const val SP_BATTERY_INFO = "battery_info"
 const val SP_BATTERY_STATUS = "battery_status"
 const val SP_BATTERY_LEVEL = "battery_level"
 const val SP_BATTERY_PCT = "battery_pct"
 const val SP_BATTERY_PLUGGED = "battery_plugged"
+
+const val SP_NETWORK_STATE = "network_state"
+const val SP_DATA_SIM_SLOT = "data_sim_slot"
+const val SP_WIFI_SSID = "wifi_ssid"
+const val SP_IPV4 = "ipv4"
+const val SP_IPV6 = "ipv6"

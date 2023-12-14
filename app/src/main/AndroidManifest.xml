@@ -264,6 +264,44 @@
             </intent-filter>
         </receiver>
         <receiver
+            android:name=".receiver.CallReceiver"
+            android:exported="true"
+            tools:ignore="IntentFilterExportedReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".receiver.NetworkChangeReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.READ_PHONE_STATE">
+            <intent-filter>
+                <action
+                    android:name="android.net.conn.CONNECTIVITY_CHANGE"
+                    tools:ignore="BatteryLife" />
+                <action
+                    android:name="android.net.wifi.WIFI_STATE_CHANGED"
+                    tools:ignore="BatteryLife" />
+                <action
+                    android:name="android.net.wifi.STATE_CHANGE"
+                    tools:ignore="BatteryLife" />
+                <!--<action
+                    android:name="android.intent.action.DATA_CONNECTION_STATE_CHANGED"
+                    tools:ignore="BatteryLife" />-->
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".receiver.SimStateReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.SIM_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+        <receiver
             android:name=".receiver.SmsReceiver"
             android:exported="true"
             android:permission="android.permission.BROADCAST_SMS"
@@ -280,24 +318,6 @@
                 <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER" />
 
                 <data android:mimeType="application/vnd.wap.mms-message" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".receiver.CallReceiver"
-            android:exported="true"
-            tools:ignore="IntentFilterExportedReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE" />
-                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".receiver.SimStateReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.SIM_STATE_CHANGED" />
             </intent-filter>
         </receiver>
 

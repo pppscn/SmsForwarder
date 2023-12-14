@@ -557,9 +557,7 @@
     <string name="sim_state_monitor">SIM State Monitor</string>
     <string name="sim_state_monitor_tips">[Note] You need to manually create APP forwarding rules, package name: 66666666</string>
     <string name="network_state_monitor">Network State Monitor</string>
-    <string name="network_state_monitor_tips">[Note] You need to manually create APP forwarding rules, package name: 77777777</string>
     <string name="network_state_change_remind">Network State Change Remind</string>
-    <string name="network_state_change_remind_tips">Send a notification when the network status changes (connection mode/IP change)</string>
     <string name="keep_alive">Keep Alive</string>
     <string name="keep_alive_tips">It is recommended to open the first three switch, do not disable the notification bar, to avoid APP being killed</string>
     <string name="custom_settings">Custom Settings</string>
@@ -693,7 +691,7 @@
     <string name="nav_item_logging">Logging</string>
     <string name="nav_item_about">About</string>
 
-    <string name="http_server">Http Server</string>
+    <string name="http_server">HttpServer</string>
     <string name="start_server">Start Server</string>
     <string name="stop_server">Stop Server</string>
     <string name="server_is_stopping">Server is shutting down. Please wait.</string>
@@ -1083,6 +1081,9 @@
     <string name="net_unknown">Unknown</string>
     <string name="network_state">Network State: %s</string>
     <string name="wifi_ssid">WiFi SSID</string>
+    <string name="wifi_ssid_hint">If left blank, it won\'t check the connected WiFi SSID.</string>
+    <string name="ipv4">IPv4</string>
+    <string name="ipv6">IPv6</string>
 
     <string name="enable_location_tag">Enable {{LOCATION}} Tag</string>
     <string name="enable_location_tag_tips">Insert location info into forwarded msg.</string>
@@ -1191,4 +1192,8 @@
     <string name="sim_state_absent">Absent</string>
     <string name="sim_state_ready">Ready</string>
     <string name="sim_state_unknown">Unknown</string>
+
+    <string name="sim_any">Any SIM</string>
+    <string name="sim_1">SIM-1</string>
+    <string name="sim_2">SIM-2</string>
 </resources>

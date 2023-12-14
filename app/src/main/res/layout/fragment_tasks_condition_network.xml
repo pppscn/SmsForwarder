@@ -56,22 +56,102 @@
                         android:text="@string/net_mobile"
                         tools:ignore="TouchTargetSizeCheck" />
 
+                    <LinearLayout
+                        android:id="@+id/layout_data_sim_slot"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/config_margin_10dp"
+                        android:layout_marginEnd="@dimen/config_margin_10dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/data_sim_index"
+                            android:textStyle="bold" />
+
+                        <RadioGroup
+                            android:id="@+id/rg_data_sim_slot"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/rb_data_sim_slot_0"
+                                style="@style/rg_rb_style_wrap"
+                                android:checked="true"
+                                android:text="@string/sim_any"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                            <RadioButton
+                                android:id="@+id/rb_data_sim_slot_1"
+                                style="@style/rg_rb_style_wrap"
+                                android:text="@string/sim_1"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                            <RadioButton
+                                android:id="@+id/rb_data_sim_slot_2"
+                                style="@style/rg_rb_style_wrap"
+                                android:text="@string/sim_2"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+
                     <RadioButton
                         android:id="@+id/rb_net_wifi"
                         style="@style/rg_rb_style_match"
                         android:text="@string/net_wifi"
                         tools:ignore="TouchTargetSizeCheck" />
 
+                    <LinearLayout
+                        android:id="@+id/layout_wifi_ssid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/config_margin_10dp"
+                        android:layout_marginEnd="@dimen/config_margin_10dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/wifi_ssid"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/et_wifi_ssid"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1"
+                            android:hint="@string/wifi_ssid_hint"
+                            android:importantForAutofill="no"
+                            tools:ignore="TextContrastCheck,TextFields,TouchTargetSizeCheck" />
+
+                    </LinearLayout>
+
                     <RadioButton
                         android:id="@+id/rb_net_ethernet"
                         style="@style/rg_rb_style_match"
                         android:text="@string/net_ethernet"
+                        android:visibility="gone"
                         tools:ignore="TouchTargetSizeCheck" />
 
                     <RadioButton
                         android:id="@+id/rb_net_unknown"
                         style="@style/rg_rb_style_match"
                         android:text="@string/net_unknown"
+                        android:visibility="gone"
                         tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
 
                 </RadioGroup>

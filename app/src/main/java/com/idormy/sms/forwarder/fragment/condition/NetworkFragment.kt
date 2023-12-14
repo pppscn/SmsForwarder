@@ -69,11 +69,19 @@ class NetworkFragment : BaseFragment<FragmentTasksConditionNetworkBinding?>(), V
             }
         })
 
+        binding!!.rgNetworkState.setOnCheckedChangeListener { _, checkedId ->
+            Log.d(TAG, "rgNetworkState checkedId:$checkedId")
+            binding!!.layoutDataSimSlot.visibility = if (checkedId == R.id.rb_net_mobile) View.VISIBLE else View.GONE
+            binding!!.layoutWifiSsid.visibility = if (checkedId == R.id.rb_net_wifi) View.VISIBLE else View.GONE
+        }
+
         Log.d(TAG, "initViews eventData:$eventData")
         if (eventData != null) {
             val settingVo = Gson().fromJson(eventData, NetworkSetting::class.java)
             Log.d(TAG, "initViews settingVo:$settingVo")
             binding!!.rgNetworkState.check(settingVo.getNetworkStateCheckId())
+            binding!!.rgDataSimSlot.check(settingVo.getDataSimSlotCheckId())
+            binding!!.etWifiSsid.setText(settingVo.wifiSsid)
         }
     }
 
@@ -136,6 +144,8 @@ class NetworkFragment : BaseFragment<FragmentTasksConditionNetworkBinding?>(), V
     //检查设置
     private fun checkSetting(): NetworkSetting {
         val networkStateCheckId = binding!!.rgNetworkState.checkedRadioButtonId
-        return NetworkSetting(networkStateCheckId)
+        val dataSimSlotCheckId = binding!!.rgDataSimSlot.checkedRadioButtonId
+        val wifiSsid = binding!!.etWifiSsid.text.toString().trim()
+        return NetworkSetting(networkStateCheckId, dataSimSlotCheckId, wifiSsid)
     }
 }
