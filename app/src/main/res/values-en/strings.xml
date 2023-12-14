@@ -1114,11 +1114,15 @@
     <string name="select_task_trigger">Please select trigger condition</string>
     <string name="select_task_condition">Please select additional condition</string>
     <string name="select_task_action">Please select action</string>
+    <string name="bottom_sheet_close">Close</string>
     <string name="task_cron">Cron</string>
-    <string name="task_charge">Charge</string>
-    <string name="task_battery">Battery</string>
+    <string name="to_address">To Address</string>
+    <string name="leave_address">Leave Address</string>
     <string name="task_network">Network</string>
     <string name="task_sim">SIM Status</string>
+    <string name="task_battery">Battery</string>
+    <string name="task_charge">Charge</string>
+    <string name="task_lock_screen">Lock Screen</string>
     <string name="task_sendsms">Send Sms</string>
     <string name="task_notification">Notification</string>
     <string name="task_frpc">Frpc Setting</string>

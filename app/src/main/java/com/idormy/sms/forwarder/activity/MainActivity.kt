@@ -46,6 +46,7 @@ import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder
 import com.xuexiang.xui.utils.DensityUtils
 import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.utils.WidgetUtils
+import com.xuexiang.xui.widget.alpha.XUIAlphaTextView
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.GravityEnum
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
@@ -328,6 +329,9 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
                 val widgetItemAdapter = WidgetItemAdapter(SENDER_FRAGMENT_LIST)
                 widgetItemAdapter.setOnItemClickListener(this)
                 recyclerView.adapter = widgetItemAdapter
+
+                val bottomSheetCloseButton: XUIAlphaTextView = view.findViewById(R.id.bottom_sheet_close_button)
+                bottomSheetCloseButton.setOnClickListener { dialog.dismiss() }
 
                 dialog.setContentView(view)
                 dialog.setCancelable(true)

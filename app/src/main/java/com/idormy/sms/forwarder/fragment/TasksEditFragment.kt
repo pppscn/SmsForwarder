@@ -38,6 +38,7 @@ import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder
 import com.xuexiang.xui.utils.DensityUtils
 import com.xuexiang.xui.utils.WidgetUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
+import com.xuexiang.xui.widget.alpha.XUIAlphaTextView
 import gatewayapps.crondroid.CronExpression
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -175,6 +176,9 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                     widgetItemAdapter.setOnItemClickListener(that)
                     recyclerView.adapter = widgetItemAdapter
 
+                    val bottomSheetCloseButton: XUIAlphaTextView = view.findViewById(R.id.bottom_sheet_close_button)
+                    bottomSheetCloseButton.setOnClickListener { dialog.dismiss() }
+
                     dialog.setContentView(view)
                     dialog.setCancelable(true)
                     dialog.setCanceledOnTouchOutside(true)
@@ -190,6 +194,9 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                     val widgetItemAdapter = WidgetItemAdapter(TASK_ACTION_FRAGMENT_LIST)
                     widgetItemAdapter.setOnItemClickListener(that)
                     recyclerView.adapter = widgetItemAdapter
+
+                    val bottomSheetCloseButton: XUIAlphaTextView = view.findViewById(R.id.bottom_sheet_close_button)
+                    bottomSheetCloseButton.setOnClickListener { dialog.dismiss() }
 
                     dialog.setContentView(view)
                     dialog.setCancelable(true)

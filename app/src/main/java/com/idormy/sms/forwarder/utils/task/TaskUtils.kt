@@ -1,6 +1,7 @@
 package com.idormy.sms.forwarder.utils.task
 
 import android.os.BatteryManager
+import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.utils.SP_BATTERY_INFO
 import com.idormy.sms.forwarder.utils.SP_BATTERY_LEVEL
 import com.idormy.sms.forwarder.utils.SP_BATTERY_PCT
@@ -13,6 +14,18 @@ import com.idormy.sms.forwarder.utils.SP_NETWORK_STATE
 import com.idormy.sms.forwarder.utils.SP_SIM_STATE
 import com.idormy.sms.forwarder.utils.SP_WIFI_SSID
 import com.idormy.sms.forwarder.utils.SharedPreference
+import com.idormy.sms.forwarder.utils.TASK_ACTION_FRPC
+import com.idormy.sms.forwarder.utils.TASK_ACTION_HTTPSERVER
+import com.idormy.sms.forwarder.utils.TASK_ACTION_NOTIFICATION
+import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDSMS
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_BATTERY
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_CHARGE
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_CRON
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_LEAVE_ADDRESS
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_LOCK_SCREEN
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_NETWORK
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_SIM
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_TO_ADDRESS
 
 /**
  * 自动任务工具类 —— 用于存储自动任务相关的配置
@@ -20,6 +33,44 @@ import com.idormy.sms.forwarder.utils.SharedPreference
 class TaskUtils private constructor() {
 
     companion object {
+
+        //获取任务类型图标
+        fun getTypeImageId(type: Int): Int {
+            return when (type) {
+                TASK_CONDITION_CRON -> R.drawable.auto_task_icon_custom_time
+                TASK_CONDITION_TO_ADDRESS -> R.drawable.auto_task_icon_to_address
+                TASK_CONDITION_LEAVE_ADDRESS -> R.drawable.auto_task_icon_leave_address
+                TASK_CONDITION_NETWORK -> R.drawable.auto_task_icon_network
+                TASK_CONDITION_SIM -> R.drawable.auto_task_icon_sim
+                TASK_CONDITION_BATTERY -> R.drawable.auto_task_icon_battery
+                TASK_CONDITION_CHARGE -> R.drawable.auto_task_icon_charge
+                TASK_CONDITION_LOCK_SCREEN -> R.drawable.auto_task_icon_lock_screen
+                TASK_ACTION_SENDSMS -> R.drawable.auto_task_icon_sms
+                TASK_ACTION_NOTIFICATION -> R.drawable.auto_task_icon_sender
+                TASK_ACTION_FRPC -> R.drawable.auto_task_icon_frpc
+                TASK_ACTION_HTTPSERVER -> R.drawable.auto_task_icon_http_server
+                else -> R.drawable.auto_task_icon_custom_time
+            }
+        }
+
+        //获取任务类型图标（灰色）
+        fun getTypeGreyImageId(type: Int): Int {
+            return when (type) {
+                TASK_CONDITION_CRON -> R.drawable.auto_task_icon_custom_time_grey
+                TASK_CONDITION_TO_ADDRESS -> R.drawable.auto_task_icon_to_address_grey
+                TASK_CONDITION_LEAVE_ADDRESS -> R.drawable.auto_task_icon_leave_address_grey
+                TASK_CONDITION_NETWORK -> R.drawable.auto_task_icon_network_grey
+                TASK_CONDITION_SIM -> R.drawable.auto_task_icon_sim_grey
+                TASK_CONDITION_BATTERY -> R.drawable.auto_task_icon_battery_grey
+                TASK_CONDITION_CHARGE -> R.drawable.auto_task_icon_charge_grey
+                TASK_CONDITION_LOCK_SCREEN -> R.drawable.auto_task_icon_lock_screen_grey
+                TASK_ACTION_SENDSMS -> R.drawable.auto_task_icon_sms_grey
+                TASK_ACTION_NOTIFICATION -> R.drawable.auto_task_icon_sender_grey
+                TASK_ACTION_FRPC -> R.drawable.auto_task_icon_frpc_grey
+                TASK_ACTION_HTTPSERVER -> R.drawable.auto_task_icon_http_server_grey
+                else -> R.drawable.auto_task_icon_custom_time_grey
+            }
+        }
 
         //电池信息
         var batteryInfo: String by SharedPreference(SP_BATTERY_INFO, "")

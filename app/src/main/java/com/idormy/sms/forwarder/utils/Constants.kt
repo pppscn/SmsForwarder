@@ -498,10 +498,13 @@ const val KEY_BACK_DESCRIPTION_ACTION = "back_description_action"
 
 //注意：TASK_CONDITION_XXX 枚举值 等于 TASK_CONDITION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_CONDITION，不可改变
 const val TASK_CONDITION_CRON = 1000
-const val TASK_CONDITION_BATTERY = 1001
-const val TASK_CONDITION_CHARGE = 1002
+const val TASK_CONDITION_TO_ADDRESS = 1001
+const val TASK_CONDITION_LEAVE_ADDRESS = 1002
 const val TASK_CONDITION_NETWORK = 1003
 const val TASK_CONDITION_SIM = 1004
+const val TASK_CONDITION_BATTERY = 1005
+const val TASK_CONDITION_CHARGE = 1006
+const val TASK_CONDITION_LOCK_SCREEN = 1007
 var TASK_CONDITION_FRAGMENT_LIST = listOf(
     PageInfo(
         getString(R.string.task_cron),
@@ -509,6 +512,34 @@ var TASK_CONDITION_FRAGMENT_LIST = listOf(
         "{\"\":\"\"}",
         CoreAnim.slide,
         R.drawable.auto_task_icon_custom_time,
+    ),
+    PageInfo(
+        getString(R.string.to_address),
+        "com.idormy.sms.forwarder.fragment.condition.ToAddressFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.auto_task_icon_to_address,
+    ),
+    PageInfo(
+        getString(R.string.leave_address),
+        "com.idormy.sms.forwarder.fragment.condition.LeaveAddressFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.auto_task_icon_leave_address,
+    ),
+    PageInfo(
+        getString(R.string.task_network),
+        "com.idormy.sms.forwarder.fragment.condition.NetworkFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.auto_task_icon_network
+    ),
+    PageInfo(
+        getString(R.string.task_sim),
+        "com.idormy.sms.forwarder.fragment.condition.SimFragment",
+        "{\"\":\"\"}",
+        CoreAnim.slide,
+        R.drawable.auto_task_icon_sim
     ),
     PageInfo(
         getString(R.string.task_battery),
@@ -525,18 +556,11 @@ var TASK_CONDITION_FRAGMENT_LIST = listOf(
         R.drawable.auto_task_icon_charge
     ),
     PageInfo(
-        getString(R.string.task_network),
-        "com.idormy.sms.forwarder.fragment.condition.NetworkFragment",
+        getString(R.string.task_lock_screen),
+        "com.idormy.sms.forwarder.fragment.condition.LockScreenFragment",
         "{\"\":\"\"}",
         CoreAnim.slide,
-        R.drawable.auto_task_icon_network
-    ),
-    PageInfo(
-        getString(R.string.task_sim),
-        "com.idormy.sms.forwarder.fragment.condition.SimFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.auto_task_icon_sim
+        R.drawable.auto_task_icon_lock_screen
     ),
 )
 
