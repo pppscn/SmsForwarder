@@ -1123,7 +1123,7 @@
     <string name="task_sim">SIM卡状态</string>
     <string name="task_battery">电量使用</string>
     <string name="task_charge">充电状态</string>
-    <string name="task_lock_screen">屏幕锁定</string>
+    <string name="task_lock_screen">锁屏解锁</string>
     <string name="task_sendsms">发送短信</string>
     <string name="task_notification">通道推送</string>
     <string name="task_frpc">Frpc设置</string>
@@ -1201,4 +1201,10 @@
     <string name="sim_any">不限卡槽</string>
     <string name="sim_1">SIM-1</string>
     <string name="sim_2">SIM-2</string>
+
+    <string name="time_after_screen_off">屏幕锁定后多长时间(分钟)</string>
+    <string name="time_after_screen_off_description">屏幕锁定%s后</string>
+    <string name="time_after_screen_on">屏幕解锁后多长时间(分钟)</string>
+    <string name="time_after_screen_on_description">屏幕解锁%s后</string>
+    <string name="duration_minute">%s分钟</string>
 </resources>

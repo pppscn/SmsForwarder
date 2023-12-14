@@ -273,6 +273,14 @@
             </intent-filter>
         </receiver>
         <receiver
+            android:name=".receiver.LockScreenReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.SCREEN_OFF" />
+                <action android:name="android.intent.action.SCREEN_ON" />
+            </intent-filter>
+        </receiver>
+        <receiver
             android:name=".receiver.NetworkChangeReceiver"
             android:enabled="true"
             android:exported="true"

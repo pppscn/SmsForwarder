@@ -23,6 +23,7 @@ import com.idormy.sms.forwarder.database.repository.*
 import com.idormy.sms.forwarder.entity.SimInfo
 import com.idormy.sms.forwarder.receiver.BatteryReceiver
 import com.idormy.sms.forwarder.receiver.CactusReceiver
+import com.idormy.sms.forwarder.receiver.LockScreenReceiver
 import com.idormy.sms.forwarder.receiver.NetworkChangeReceiver
 import com.idormy.sms.forwarder.service.ForegroundService
 import com.idormy.sms.forwarder.service.HttpServerService
@@ -144,6 +145,14 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
                 //addAction("android.intent.action.DATA_CONNECTION_STATE_CHANGED")
             }
             registerReceiver(networkReceiver, networkFilter)
+
+            //监听锁屏&解锁
+            val lockScreenReceiver = LockScreenReceiver()
+            val lockScreenFilter = IntentFilter().apply {
+                addAction(Intent.ACTION_SCREEN_OFF)
+                addAction(Intent.ACTION_SCREEN_ON)
+            }
+            registerReceiver(lockScreenReceiver, lockScreenFilter)
 
             //Cactus 集成双进程前台服务，JobScheduler，onePix(一像素)，WorkManager，无声音乐
             if (SettingUtils.enableCactus) {

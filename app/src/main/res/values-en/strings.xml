@@ -1122,7 +1122,7 @@
     <string name="task_sim">SIM Status</string>
     <string name="task_battery">Battery</string>
     <string name="task_charge">Charge</string>
-    <string name="task_lock_screen">Lock Screen</string>
+    <string name="task_lock_screen">Screen Off/On</string>
     <string name="task_sendsms">Send Sms</string>
     <string name="task_notification">Notification</string>
     <string name="task_frpc">Frpc Setting</string>
@@ -1200,4 +1200,10 @@
     <string name="sim_any">Any SIM</string>
     <string name="sim_1">SIM-1</string>
     <string name="sim_2">SIM-2</string>
+
+    <string name="time_after_screen_off">Time After Screen Off (Minutes)</string>
+    <string name="time_after_screen_off_description">%sAfter Screen Off</string>
+    <string name="time_after_screen_on">Time After Screen On (Minutes)</string>
+    <string name="time_after_screen_on_description">%sAfter Screen On</string>
+    <string name="duration_minute">%s minutes </string>
 </resources>

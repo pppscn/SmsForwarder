@@ -25,6 +25,7 @@ object TaskWorker {
     const val conditionType = "condition_type"
     const val msg = "msg"
     const val msgInfo = "msg_info"
+    const val action = "action"
 }
 
 //初始化相关

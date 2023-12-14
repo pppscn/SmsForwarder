@@ -24,8 +24,8 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_margin="10dp"
-                android:contentDescription="@string/task_battery"
-                app:srcCompat="@drawable/auto_task_icon_battery"
+                android:contentDescription="@string/task_lock_screen"
+                app:srcCompat="@drawable/auto_task_icon_lock_screen"
                 tools:ignore="ImageContrastCheck" />
 
             <LinearLayout
@@ -37,7 +37,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/battery_level_title"
+                    android:text="@string/task_lock_screen"
                     android:textStyle="bold" />
 
                 <View
@@ -48,28 +48,28 @@
                     android:background="?attr/xui_config_color_separator_light" />
 
                 <RadioGroup
-                    android:id="@+id/rg_status"
+                    android:id="@+id/rg_action"
                     style="@style/rg_style"
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/config_padding_5dp">
 
                     <RadioButton
-                        android:id="@+id/rb_battery_discharging"
+                        android:id="@+id/rb_action_screen_off"
                         style="@style/rg_rb_style_match"
                         android:checked="true"
-                        android:text="@string/discharged_to"
+                        android:text="@string/time_after_screen_off"
                         tools:ignore="TouchTargetSizeCheck" />
 
                     <com.xuexiang.xui.widget.picker.XSeekBar
-                        android:id="@+id/xsb_level_min"
+                        android:id="@+id/xsb_time_after_screen_off"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:xsb_insideRangeLineColor="#0bd97f"
                         app:xsb_insideRangeLineStrokeWidth="10dp"
                         app:xsb_isShowBubble="true"
                         app:xsb_isShowRuler="true"
-                        app:xsb_max="100"
-                        app:xsb_min="1"
+                        app:xsb_max="30"
+                        app:xsb_min="0"
                         app:xsb_numberTextColor="#ffffff"
                         app:xsb_numberTextSize="15sp"
                         app:xsb_outsideRangeLineColor="#f0f0f0"
@@ -78,13 +78,13 @@
                         app:xsb_rulerInterval="ten" />
 
                     <RadioButton
-                        android:id="@+id/rb_battery_charging"
+                        android:id="@+id/rb_action_screen_on"
                         style="@style/rg_rb_style_match"
-                        android:text="@string/charged_to"
+                        android:text="@string/time_after_screen_on"
                         tools:ignore="TouchTargetSizeCheck" />
 
                     <com.xuexiang.xui.widget.picker.XSeekBar
-                        android:id="@+id/xsb_level_max"
+                        android:id="@+id/xsb_time_after_screen_on"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
@@ -92,8 +92,8 @@
                         app:xsb_insideRangeLineStrokeWidth="10dp"
                         app:xsb_isShowBubble="true"
                         app:xsb_isShowRuler="true"
-                        app:xsb_max="100"
-                        app:xsb_min="1"
+                        app:xsb_max="30"
+                        app:xsb_min="0"
                         app:xsb_numberTextColor="#ffffff"
                         app:xsb_numberTextSize="15sp"
                         app:xsb_outsideRangeLineColor="#f0f0f0"
@@ -102,42 +102,6 @@
                         app:xsb_rulerInterval="ten" />
 
                 </RadioGroup>
-
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/taskBarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/keep_reminding"
-                        android:textStyle="bold"
-                        tools:ignore="RelativeOverlap" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/keep_reminding_tips"
-                        android:textSize="10sp"
-                        tools:ignore="SmallSp" />
-
-                </LinearLayout>
-
-                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
-                    android:id="@+id/sb_keep_reminding"
-                    style="@style/SwitchButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
 
