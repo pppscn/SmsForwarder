@@ -20,10 +20,19 @@
             android:orientation="vertical">
 
             <LinearLayout
-                style="@style/ruleBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:gravity="center_horizontal"
                 android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_margin="10dp"
+                    android:contentDescription="@string/task_notification"
+                    app:srcCompat="@drawable/auto_task_icon_sender"
+                    tools:ignore="ImageContrastCheck" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

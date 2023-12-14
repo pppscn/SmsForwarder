@@ -1122,8 +1122,8 @@
     <string name="task_sim">SIM卡状态</string>
     <string name="task_sendsms">发送短信</string>
     <string name="task_notification">通道推送</string>
-    <string name="task_frpc">设置 Frpc</string>
-    <string name="task_server">设置 HttpServer</string>
+    <string name="task_frpc">Frpc设置</string>
+    <string name="task_server">HttpServer设置</string>
 
     <string name="second">秒</string>
     <string name="minute">分</string>
