@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.ItemMoveCallback
 import com.idormy.sms.forwarder.adapter.TaskSettingAdapter
@@ -25,6 +26,7 @@ import com.idormy.sms.forwarder.database.viewmodel.TaskViewModel
 import com.idormy.sms.forwarder.databinding.FragmentTasksEditBinding
 import com.idormy.sms.forwarder.entity.task.CronSetting
 import com.idormy.sms.forwarder.entity.task.TaskSetting
+import com.idormy.sms.forwarder.service.LocationService
 import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.utils.task.CronJobScheduler
 import com.xuexiang.xaop.annotation.SingleClick
@@ -39,6 +41,8 @@ import com.xuexiang.xui.utils.DensityUtils
 import com.xuexiang.xui.utils.WidgetUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.alpha.XUIAlphaTextView
+import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import gatewayapps.crondroid.CronExpression
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -363,6 +367,25 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                         XToastUtils.error(getString(R.string.condition_already_exists))
                         return
                     }
+
+                    //必须开启定位服务，才能使用进入地点 或 离开地址 类型条件
+                    if ((typeCondition == TASK_CONDITION_TO_ADDRESS || typeCondition == TASK_CONDITION_LEAVE_ADDRESS) && !App.LocationClient.isStarted()) {
+                        MaterialDialog.Builder(requireContext())
+                            .iconRes(R.drawable.auto_task_icon_location)
+                            .title(R.string.enable_location)
+                            .content(R.string.enable_location_dialog)
+                            .cancelable(false)
+                            .positiveText(R.string.lab_yes)
+                            .negativeText(R.string.lab_no).onPositive { _: MaterialDialog?, _: DialogAction? ->
+                                SettingUtils.enableLocation = true
+                                val serviceIntent = Intent(requireContext(), LocationService::class.java)
+                                serviceIntent.action = "START"
+                                requireContext().startService(serviceIntent)
+                            }.show()
+                        return
+                    }
+
+                    //进入地点 或 离开地址 类型条件互斥
                     if ((typeCondition == TASK_CONDITION_TO_ADDRESS || typeCondition == TASK_CONDITION_LEAVE_ADDRESS) && (item.type == TASK_CONDITION_TO_ADDRESS || item.type == TASK_CONDITION_LEAVE_ADDRESS)) {
                         XToastUtils.error(getString(R.string.only_one_location_condition))
                         return

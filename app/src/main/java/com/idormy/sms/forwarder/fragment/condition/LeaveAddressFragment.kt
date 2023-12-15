@@ -7,14 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.gson.Gson
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentTasksConditionLeaveAddressBinding
 import com.idormy.sms.forwarder.entity.task.LocationSetting
+import com.idormy.sms.forwarder.service.LocationService
+import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_TEST_CONDITION
+import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_LEAVE_ADDRESS
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
@@ -24,6 +28,8 @@ import com.xuexiang.xrouter.annotation.AutoWired
 import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.widget.actionbar.TitleBar
+import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 
 @Page(name = "LeaveAddress")
 @Suppress("PrivatePropertyName")
@@ -98,6 +104,7 @@ class LeaveAddressFragment : BaseFragment<FragmentTasksConditionLeaveAddressBind
         binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
+        binding!!.btnCurrentCoordinates.setOnClickListener(this)
         LiveEventBus.get(KEY_TEST_CONDITION, String::class.java).observe(this) {
             mCountDownHelper?.finish()
 
@@ -113,6 +120,34 @@ class LeaveAddressFragment : BaseFragment<FragmentTasksConditionLeaveAddressBind
     override fun onClick(v: View) {
         try {
             when (v.id) {
+                R.id.btn_current_coordinates -> {
+                    if (!App.LocationClient.isStarted()) {
+                        MaterialDialog.Builder(requireContext())
+                            .iconRes(R.drawable.auto_task_icon_location)
+                            .title(R.string.enable_location)
+                            .content(R.string.enable_location_dialog)
+                            .cancelable(false)
+                            .positiveText(R.string.lab_yes)
+                            .negativeText(R.string.lab_no).onPositive { _: MaterialDialog?, _: DialogAction? ->
+                                SettingUtils.enableLocation = true
+                                val serviceIntent = Intent(requireContext(), LocationService::class.java)
+                                serviceIntent.action = "START"
+                                requireContext().startService(serviceIntent)
+                            }.show()
+                        return
+                    }
+
+                    val location = HttpServerUtils.apiLocationCache
+                    if (location.latitude == 0.0 || location.longitude == 0.0) {
+                        XToastUtils.error(getString(R.string.location_failed), 30000)
+                        return
+                    }
+
+                    binding!!.etLatitude.setText(location.latitude.toString())
+                    binding!!.etLongitude.setText(location.longitude.toString())
+                    XToastUtils.success(String.format(getString(R.string.current_address), location.address), 30000)
+                }
+
                 R.id.btn_test -> {
                     mCountDownHelper?.start()
                     Thread {

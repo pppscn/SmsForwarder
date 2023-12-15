@@ -72,6 +72,12 @@ class TaskPagingAdapter(private val itemClickListener: OnItemClickListener) : Pa
                 holder.binding.ivDelete.setOnClickListener { view: View? ->
                     itemClickListener.onItemClicked(view, item)
                 }
+
+                holder.binding.sbEnableTask.isChecked = item.status == 1
+                holder.binding.sbEnableTask.setOnCheckedChangeListener { view: View, isChecked ->
+                    item.status = if (isChecked) 1 else 0
+                    itemClickListener.onItemClicked(view, item)
+                }
             } else {
                 holder.binding.layoutImage.visibility = View.VISIBLE
                 holder.binding.layoutIcons.visibility = View.GONE
@@ -83,6 +89,7 @@ class TaskPagingAdapter(private val itemClickListener: OnItemClickListener) : Pa
                 holder.binding.ivStatus.setImageResource(item.statusImageId)
                 holder.binding.ivEdit.visibility = View.GONE
                 holder.binding.ivDelete.visibility = View.GONE
+                holder.binding.sbEnableTask.visibility = View.GONE
             }
             holder.binding.tvName.text = item.name
             holder.binding.tvDescription.text = item.description

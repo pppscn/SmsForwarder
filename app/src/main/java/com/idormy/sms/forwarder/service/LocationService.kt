@@ -6,10 +6,19 @@ import android.content.Intent
 import android.location.Location
 import android.os.IBinder
 import android.util.Log
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
+import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.entity.LocationInfo
 import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_LEAVE_ADDRESS
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_TO_ADDRESS
+import com.idormy.sms.forwarder.utils.TaskWorker
+import com.idormy.sms.forwarder.utils.task.TaskUtils
+import com.idormy.sms.forwarder.workers.LocationWorker
 import com.king.location.LocationErrorCode
 import com.king.location.OnExceptionListener
 import com.king.location.OnLocationListener
@@ -97,20 +106,44 @@ class LocationService : Service(), Server.ServerListener {
                         //位置信息
                         Log.d(TAG, "onLocationChanged(location = ${location})")
 
-                        val locationInfo = LocationInfo(
+                        val locationInfoNew = LocationInfo(
                             location.longitude, location.latitude, "", App.DateFormat.format(Date(location.time)), location.provider.toString()
                         )
 
                         //根据坐标经纬度获取位置地址信息（WGS-84坐标系）
                         val list = App.Geocoder.getFromLocation(location.latitude, location.longitude, 1)
                         if (list?.isNotEmpty() == true) {
-                            locationInfo.address = list[0].getAddressLine(0)
+                            locationInfoNew.address = list[0].getAddressLine(0)
                         }
 
-                        Log.d(TAG, "locationInfo = $locationInfo")
-                        HttpServerUtils.apiLocationCache = locationInfo
+                        Log.d(TAG, "locationInfoNew = $locationInfoNew")
+                        HttpServerUtils.apiLocationCache = locationInfoNew
 
                         //TODO: 触发自动任务
+                        val locationInfoOld = TaskUtils.lastLocationInfo
+                        TaskUtils.lastLocationInfo = locationInfoNew
+                        if (locationInfoOld.longitude != locationInfoNew.longitude || locationInfoOld.latitude != locationInfoNew.latitude || locationInfoOld.address != locationInfoNew.address) {
+                            Log.d(TAG, "locationInfoOld = $locationInfoOld")
+
+                            val locationInfoJsonOld = Gson().toJson(locationInfoOld)
+                            val locationInfoJsonNew = Gson().toJson(locationInfoNew)
+                            val toAddressRequest = OneTimeWorkRequestBuilder<LocationWorker>().setInputData(
+                                workDataOf(
+                                    TaskWorker.conditionType to TASK_CONDITION_TO_ADDRESS,
+                                    "locationInfoJsonOld" to locationInfoJsonOld,
+                                    "locationInfoJsonNew" to locationInfoJsonNew,
+                                )
+                            ).build()
+                            WorkManager.getInstance(applicationContext).enqueue(toAddressRequest)
+                            val leaveAddressRequest = OneTimeWorkRequestBuilder<LocationWorker>().setInputData(
+                                workDataOf(
+                                    TaskWorker.conditionType to TASK_CONDITION_LEAVE_ADDRESS,
+                                    "locationInfoJsonOld" to locationInfoJsonNew,
+                                    "locationInfoJsonNew" to locationInfoJsonOld,
+                                )
+                            ).build()
+                            WorkManager.getInstance(applicationContext).enqueue(leaveAddressRequest)
+                        }
                     }
 
                     override fun onProviderEnabled(provider: String) {

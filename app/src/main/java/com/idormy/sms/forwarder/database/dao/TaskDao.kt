@@ -59,4 +59,7 @@ interface TaskDao {
     @Query("DELETE FROM Task")
     fun deleteAll()
 
+    @Query("UPDATE Task SET status = :status WHERE id = :id")
+    fun updateStatus(id: Long, status: Int)
+
 }

@@ -1087,6 +1087,7 @@
     <string name="ipv6">IPv6</string>
 
     <string name="enable_location">Enable Location Function</string>
+    <string name="enable_location_dialog">Enable location services to use this feature. Yes or No?</string>
     <string name="enable_location_tips">Used for locating the phone, {{LOCATION}} tag.</string>
     <string name="accuracy">Accuracy</string>
     <string name="accuracy_fine">Fine</string>
@@ -1096,7 +1097,7 @@
     <string name="power_requirement_low">Low</string>
     <string name="power_requirement_medium">Medium</string>
     <string name="power_requirement_high">High</string>
-    <string name="min_interval">Min Interval For Update</string>
+    <string name="min_interval">To Update: Min Interval</string>
     <string name="min_distance">Min Distance</string>
     <string name="meter">m</string>
     <string name="uid">UID</string>
@@ -1241,4 +1242,6 @@
     <string name="condition_already_exists">This type of condition already exists.</string>
     <string name="action_already_exists">This type of action already exists.</string>
     <string name="only_one_location_condition">Only one condition, either "To Address" or "Leave Address" can be added.</string>
+    <string name="current_address">Current Address: %s</string>
+    <string name="location_failed">Location failed. Please try again later.</string>
 </resources>

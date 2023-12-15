@@ -25,9 +25,7 @@ data class LocationSetting(
         }
     }
 
-    fun calculateDistance(
-        lat1: Double, lon1: Double, lat2: Double, lon2: Double
-    ): Double {
+    fun calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
         val earthRadius = 6371000.0 // 地球平均半径，单位：米
         val latDistance = Math.toRadians(lat2 - lat1)
         val lonDistance = Math.toRadians(lon2 - lon1)

@@ -10,14 +10,13 @@ import androidx.work.WorkerParameters
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.database.AppDatabase
+import com.idormy.sms.forwarder.entity.LocationInfo
 import com.idormy.sms.forwarder.entity.MsgInfo
-import com.idormy.sms.forwarder.entity.task.BatterySetting
-import com.idormy.sms.forwarder.entity.task.ChargeSetting
+import com.idormy.sms.forwarder.entity.task.LocationSetting
 import com.idormy.sms.forwarder.entity.task.TaskSetting
-import com.idormy.sms.forwarder.utils.TASK_CONDITION_BATTERY
-import com.idormy.sms.forwarder.utils.TASK_CONDITION_CHARGE
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_LEAVE_ADDRESS
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_TO_ADDRESS
 import com.idormy.sms.forwarder.utils.TaskWorker
-import com.idormy.sms.forwarder.utils.task.TaskUtils
 import java.util.Date
 
 @Suppress("PrivatePropertyName", "DEPRECATION")
@@ -27,18 +26,25 @@ class LocationWorker(context: Context, params: WorkerParameters) : CoroutineWork
 
     override suspend fun doWork(): Result {
 
+        Log.d(TAG, "doWork")
+        val locationInfoJsonOld = inputData.getString("locationInfoJsonOld")
+        val locationInfoJsonNew = inputData.getString("locationInfoJsonNew")
+        if (locationInfoJsonOld == null || locationInfoJsonNew == null) {
+            Log.d(TAG, "locationInfoOld or locationInfoNew is null")
+            return Result.failure()
+        }
+
+        val locationInfoOld = Gson().fromJson(locationInfoJsonOld, LocationInfo::class.java)
+        val locationInfoNew = Gson().fromJson(locationInfoJsonNew, LocationInfo::class.java)
+        if (locationInfoOld == null || locationInfoNew == null) {
+            Log.d(TAG, "locationInfoOld or locationInfoNew is null")
+            return Result.failure()
+        }
+
         when (val conditionType = inputData.getInt(TaskWorker.conditionType, -1)) {
 
-            TASK_CONDITION_BATTERY -> {
-                val status = inputData.getInt("status", -1)
-                val levelNew = inputData.getInt("level_new", -1)
-                val levelOld = inputData.getInt("level_old", -1)
-                Log.d(TAG, "levelNew: $levelNew, levelOld: $levelOld")
-                if (levelNew == -1 || levelOld == -1) {
-                    Log.d(TAG, "levelNew or levelOld is -1")
-                    return Result.failure()
-                }
-
+            //到达地点
+            TASK_CONDITION_TO_ADDRESS -> {
                 val taskList = AppDatabase.getInstance(App.context).taskDao().getByType(conditionType)
                 for (task in taskList) {
                     Log.d(TAG, "task = $task")
@@ -55,27 +61,18 @@ class LocationWorker(context: Context, params: WorkerParameters) : CoroutineWork
                         continue
                     }
 
-                    val batterySetting = Gson().fromJson(firstCondition.setting, BatterySetting::class.java)
-                    if (batterySetting == null) {
-                        Log.d(TAG, "任务${task.id}：batterySetting is null")
+                    val locationSetting = Gson().fromJson(firstCondition.setting, LocationSetting::class.java)
+                    if (locationSetting == null) {
+                        Log.d(TAG, "任务${task.id}：locationSetting is null")
                         continue
                     }
 
-                    val msg = batterySetting.getMsg(status, levelNew, levelOld, TaskUtils.batteryInfo)
-                    if (msg.isEmpty()) {
-                        Log.d(TAG, "任务${task.id}：msg is empty, batterySetting = $batterySetting, status = $status, levelNew = $levelNew, levelOld = $levelOld")
-                        continue
-                    }
-
-                    //TODO：判断其他条件是否满足
+                    //TODO：判断条件是否满足
 
                     //TODO: 组装消息体 && 执行具体任务
+                    val msg = locationInfoNew.toString()
                     val msgInfo = MsgInfo("task", task.name, msg, Date(), task.name)
-                    val actionData = Data.Builder()
-                        .putLong(TaskWorker.taskId, task.id)
-                        .putString(TaskWorker.taskActions, task.actions)
-                        .putString(TaskWorker.msgInfo, Gson().toJson(msgInfo))
-                        .build()
+                    val actionData = Data.Builder().putLong(TaskWorker.taskId, task.id).putString(TaskWorker.taskActions, task.actions).putString(TaskWorker.msgInfo, Gson().toJson(msgInfo)).build()
                     val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
                     WorkManager.getInstance().enqueue(actionRequest)
                 }
@@ -83,17 +80,8 @@ class LocationWorker(context: Context, params: WorkerParameters) : CoroutineWork
                 return Result.success()
             }
 
-            TASK_CONDITION_CHARGE -> {
-                val statusNew = inputData.getInt("status_new", -1)
-                val statusOld = inputData.getInt("status_old", -1)
-                val pluggedNew = inputData.getInt("plugged_new", -1)
-                val pluggedOld = inputData.getInt("plugged_old", -1)
-                Log.d(TAG, "statusNew: $statusNew, statusOld: $statusOld, pluggedNew: $pluggedNew, pluggedOld: $pluggedOld")
-                if (statusNew == -1 || statusOld == -1 || pluggedNew == -1 || pluggedOld == -1) {
-                    Log.d(TAG, "statusNew or statusOld or pluggedNew or pluggedOld is -1")
-                    return Result.failure()
-                }
-
+            //离开地点
+            TASK_CONDITION_LEAVE_ADDRESS -> {
                 val taskList = AppDatabase.getInstance(App.context).taskDao().getByType(conditionType)
                 for (task in taskList) {
                     Log.d(TAG, "task = $task")
@@ -110,27 +98,18 @@ class LocationWorker(context: Context, params: WorkerParameters) : CoroutineWork
                         continue
                     }
 
-                    val chargeSetting = Gson().fromJson(firstCondition.setting, ChargeSetting::class.java)
-                    if (chargeSetting == null) {
-                        Log.d(TAG, "任务${task.id}：chargeSetting is null")
+                    val locationSetting = Gson().fromJson(firstCondition.setting, LocationSetting::class.java)
+                    if (locationSetting == null) {
+                        Log.d(TAG, "任务${task.id}：locationSetting is null")
                         continue
                     }
 
-                    val msg = chargeSetting.getMsg(statusNew, statusOld, pluggedNew, pluggedOld, TaskUtils.batteryInfo)
-                    if (msg.isEmpty()) {
-                        Log.d(TAG, "任务${task.id}：msg is empty, chargeSetting = $chargeSetting, statusNew = $statusNew, statusOld = $statusOld, pluggedNew = $pluggedNew, pluggedOld = $pluggedOld")
-                        continue
-                    }
-
-                    //TODO：判断其他条件是否满足
+                    //TODO：判断条件是否满足
 
                     //TODO: 组装消息体 && 执行具体任务
+                    val msg = locationInfoNew.toString()
                     val msgInfo = MsgInfo("task", task.name, msg, Date(), task.description)
-                    val actionData = Data.Builder()
-                        .putLong(TaskWorker.taskId, task.id)
-                        .putString(TaskWorker.taskActions, task.actions)
-                        .putString(TaskWorker.msgInfo, Gson().toJson(msgInfo))
-                        .build()
+                    val actionData = Data.Builder().putLong(TaskWorker.taskId, task.id).putString(TaskWorker.taskActions, task.actions).putString(TaskWorker.msgInfo, Gson().toJson(msgInfo)).build()
                     val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
                     WorkManager.getInstance().enqueue(actionRequest)
                 }

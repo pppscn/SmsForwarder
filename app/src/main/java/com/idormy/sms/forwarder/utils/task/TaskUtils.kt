@@ -2,6 +2,7 @@ package com.idormy.sms.forwarder.utils.task
 
 import android.os.BatteryManager
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.entity.LocationInfo
 import com.idormy.sms.forwarder.utils.SP_BATTERY_INFO
 import com.idormy.sms.forwarder.utils.SP_BATTERY_LEVEL
 import com.idormy.sms.forwarder.utils.SP_BATTERY_PCT
@@ -104,5 +105,9 @@ class TaskUtils private constructor() {
 
         //SIM卡状态：0-未知状态，1-卡被移除，5-卡已准备就绪
         var simState: Int by SharedPreference(SP_SIM_STATE, 0)
+
+        //上次定位信息
+        var lastLocationInfo: LocationInfo by SharedPreference("lastLocationInfo", LocationInfo())
+
     }
 }

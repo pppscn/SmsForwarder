@@ -104,6 +104,10 @@ class TasksFragment : BaseFragment<FragmentTasksBinding?>(), TaskPagingAdapter.O
 
     override fun onItemClicked(view: View?, item: Task) {
         when (view?.id) {
+            R.id.sb_enable_task -> {
+                viewModel.updateStatus(item.id, item.status)
+            }
+
             R.id.iv_copy -> {
                 PageOption.to(TasksEditFragment::class.java)
                     .setNewActivity(true).putLong(KEY_TASK_ID, item.id)

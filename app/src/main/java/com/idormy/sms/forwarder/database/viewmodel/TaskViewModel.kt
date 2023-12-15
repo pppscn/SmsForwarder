@@ -38,4 +38,8 @@ class TaskViewModel(private val dao: TaskDao) : ViewModel() {
     fun delete(id: Long) = ioThread {
         dao.delete(id)
     }
+
+    fun updateStatus(id: Long, status: Int) = ioThread {
+        dao.updateStatus(id, status)
+    }
 }
