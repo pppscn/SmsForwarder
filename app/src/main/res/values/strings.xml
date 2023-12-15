@@ -896,6 +896,7 @@
     <string name="api_wol_tips">远程打开启用LAN唤醒功能(Wake-On-LAN)的设备</string>
     <string name="api_location">远程找手机</string>
     <string name="api_location_tips">远程查询手机定位，方便找回手机/防止老少走丢</string>
+    <string name="api_location_permission_tips">请先在【通用设置】中【启用GPS定位功能】</string>
     <string name="location_longitude">经度：%s</string>
     <string name="location_latitude">维度：%s</string>
     <string name="location_address">地址：%s</string>
@@ -1086,8 +1087,19 @@
     <string name="ipv4">IPv4</string>
     <string name="ipv6">IPv6</string>
 
-    <string name="enable_location_tag">启用 {{定位信息}} 标签</string>
-    <string name="enable_location_tag_tips">在转发信息中插入手机的当前定位信息</string>
+    <string name="enable_location">启用GPS定位功能</string>
+    <string name="enable_location_tips">用于支持 查找手机、{{定位信息}}标签 功能</string>
+    <string name="accuracy">位置精度</string>
+    <string name="accuracy_fine">精确位置</string>
+    <string name="accuracy_coarse">模糊位置</string>
+    <string name="no_requirement">不要求</string>
+    <string name="power_requirement">电量消耗</string>
+    <string name="power_requirement_low">低</string>
+    <string name="power_requirement_medium">中</string>
+    <string name="power_requirement_high">高</string>
+    <string name="min_interval">位置更新最小间隔</string>
+    <string name="min_distance">最小距离</string>
+    <string name="meter">米</string>
     <string name="uid">UID</string>
 
     <string name="task_name_status">任务名称/状态</string>
@@ -1117,8 +1129,8 @@
     <string name="select_task_action">请选择动作</string>
     <string name="bottom_sheet_close">关  闭</string>
     <string name="task_cron">定时任务</string>
-    <string name="to_address">到达地点</string>
-    <string name="leave_address">离开地点</string>
+    <string name="task_to_address">到达地点</string>
+    <string name="task_leave_address">离开地点</string>
     <string name="task_network">网络状态</string>
     <string name="task_sim">SIM卡状态</string>
     <string name="task_battery">电量使用</string>
@@ -1207,4 +1219,27 @@
     <string name="time_after_screen_on">屏幕解锁后多长时间(分钟)</string>
     <string name="time_after_screen_on_description">屏幕解锁%s后</string>
     <string name="duration_minute">%s分钟</string>
+
+    <string name="calc_type_distance">根据GPS坐标计算距离</string>
+    <string name="calc_type_address">根据地址关键字判断</string>
+    <string name="longitude">经度</string>
+    <string name="latitude">维度</string>
+    <string name="distance">距离</string>
+    <string name="distance1">以经纬度为中心，</string>
+    <string name="distance2">米半径建立电子围栏</string>
+    <string name="current_coordinates">当前坐标</string>
+    <string name="keyword">关键字</string>
+    <string name="keyword_to_address_1">当前GPS地址包含</string>
+    <string name="keyword_to_address_2">则表示到达</string>
+    <string name="keyword_leave_address_1">当前GPS地址不包含</string>
+    <string name="keyword_leave_address_2">则表示离开</string>
+    <string name="calc_type_distance_error">经纬度或距离都不能为空</string>
+    <string name="calc_type_address_error">地址关键字不能为空</string>
+    <string name="to_address_distance_description">进入以经度：%s，维度：%s 为中心，%s 米半径的区域</string>
+    <string name="to_address_keyword_description">进入GPS地址包含 %s 关键字区域</string>
+    <string name="leave_address_distance_description">离开以经度：%s，维度：%s 为中心，%s 米半径的区域</string>
+    <string name="leave_address_keyword_description">离开GPS地址包含 %s 关键字区域</string>
+    <string name="condition_already_exists">已经添加过该类型条件</string>
+    <string name="action_already_exists">已经添加过该类型动作</string>
+    <string name="only_one_location_condition">只能添加一个 进入地点 或 离开地址 类型条件</string>
 </resources>

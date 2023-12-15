@@ -355,20 +355,26 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
             Log.d(TAG, "onItemClick: $widgetInfo")
             //判断点击的是条件还是动作
             if (widgetInfo.classPath.contains(".condition.")) {
+                val typeCondition = pos + KEY_BACK_CODE_CONDITION
                 //判断是否已经添加过该类型条件
                 for (item in itemListConditions) {
                     //注意：TASK_CONDITION_XXX 枚举值 等于 TASK_CONDITION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_CONDITION，不可改变
-                    if (item.type == pos + KEY_BACK_CODE_CONDITION) {
-                        XToastUtils.error("已经添加过该类型条件")
+                    if (item.type == typeCondition) {
+                        XToastUtils.error(getString(R.string.condition_already_exists))
+                        return
+                    }
+                    if ((typeCondition == TASK_CONDITION_TO_ADDRESS || typeCondition == TASK_CONDITION_LEAVE_ADDRESS) && (item.type == TASK_CONDITION_TO_ADDRESS || item.type == TASK_CONDITION_LEAVE_ADDRESS)) {
+                        XToastUtils.error(getString(R.string.only_one_location_condition))
                         return
                     }
                 }
             } else {
+                val typeAction = pos + KEY_BACK_CODE_ACTION
                 //判断是否已经添加过该类型动作
                 for (item in itemListActions) {
                     //注意：TASK_ACTION_XXX 枚举值 等于 TASK_ACTION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_ACTION，不可改变
-                    if (item.type == pos + KEY_BACK_CODE_ACTION) {
-                        XToastUtils.error("已经添加过该类型动作")
+                    if (item.type == typeAction) {
+                        XToastUtils.error(getString(R.string.action_already_exists))
                         return
                     }
                 }

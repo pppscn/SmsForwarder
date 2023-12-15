@@ -5,9 +5,6 @@ import android.app.*
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.location.Criteria
-import android.location.Geocoder
-import android.location.Location
 import android.os.Build
 import android.os.IBinder
 import android.text.TextUtils
@@ -20,16 +17,10 @@ import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.database.AppDatabase
-import com.idormy.sms.forwarder.entity.LocationInfo
 import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.utils.task.CronJobScheduler
 import com.idormy.sms.forwarder.workers.LoadAppListWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
-import com.king.location.LocationClient
-import com.king.location.LocationErrorCode
-import com.king.location.OnExceptionListener
-import com.king.location.OnLocationListener
-import com.xuexiang.xaop.util.PermissionUtils
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.file.FileUtils
 import frpclib.Frpclib
@@ -42,8 +33,6 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
-import java.text.SimpleDateFormat
-import java.util.Date
 
 @SuppressLint("SimpleDateFormat")
 @Suppress("PrivatePropertyName", "DeferredResultUnused", "OPT_IN_USAGE", "DEPRECATION", "LiftReturnOrAssignment")
@@ -80,10 +69,6 @@ class ForegroundService : Service() {
             }
         })
     }
-
-    private val locationClient by lazy { LocationClient(App.context) }
-    private val geocoder by lazy { Geocoder(App.context) }
-    private val simpleDateFormat by lazy { SimpleDateFormat("yyyy-MM-dd HH:mm:ss") }
 
     companion object {
         var isRunning = false
@@ -181,70 +166,6 @@ class ForegroundService : Service() {
                 }
             }
 
-            //远程找手机 TODO: 判断权限 ACCESS_COARSE_LOCATION ACCESS_FINE_LOCATION
-            if ((SettingUtils.enableLocationTag || HttpServerUtils.enableApiLocation)
-                && PermissionUtils.isGranted(android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION)
-            ) {
-                //可根据具体需求设置定位配置参数（这里只列出一些主要的参数）
-                val locationOption = locationClient.getLocationOption().setAccuracy(Criteria.ACCURACY_FINE)//设置位置精度：高精度
-                    .setPowerRequirement(Criteria.POWER_LOW) //设置电量消耗：低电耗
-                    .setMinTime(10000)//设置位置更新最小时间间隔（单位：毫秒）； 默认间隔：10000毫秒，最小间隔：1000毫秒
-                    .setMinDistance(0)//设置位置更新最小距离（单位：米）；默认距离：0米
-                    .setOnceLocation(false)//设置是否只定位一次，默认为 false，当设置为 true 时，则只定位一次后，会自动停止定位
-                    .setLastKnownLocation(false)//设置是否获取最后一次缓存的已知位置，默认为 true
-                //设置定位配置参数
-                locationClient.setLocationOption(locationOption)
-                locationClient.startLocation()
-
-                //设置定位监听
-                locationClient.setOnLocationListener(object : OnLocationListener() {
-                    override fun onLocationChanged(location: Location) {
-                        //位置信息
-                        Log.d(TAG, "onLocationChanged(location = ${location})")
-
-                        val locationInfo = LocationInfo(
-                            location.longitude, location.latitude, "", simpleDateFormat.format(Date(location.time)), location.provider.toString()
-                        )
-
-                        //根据坐标经纬度获取位置地址信息（WGS-84坐标系）
-                        val list = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                        if (list?.isNotEmpty() == true) {
-                            locationInfo.address = list[0].getAddressLine(0)
-                        }
-
-                        Log.d(TAG, "locationInfo = $locationInfo")
-                        HttpServerUtils.apiLocationCache = locationInfo
-                    }
-
-                    override fun onProviderEnabled(provider: String) {
-                        super.onProviderEnabled(provider)
-                        Log.d(TAG, "onProviderEnabled(provider = ${provider})")
-                    }
-
-                    override fun onProviderDisabled(provider: String) {
-                        super.onProviderDisabled(provider)
-                        Log.d(TAG, "onProviderDisabled(provider = ${provider})")
-                    }
-
-                })
-
-                //设置异常监听
-                locationClient.setOnExceptionListener(object : OnExceptionListener {
-                    override fun onException(@LocationErrorCode errorCode: Int, e: Exception) {
-                        //定位出现异常
-                        Log.w(TAG, "onException(errorCode = ${errorCode}, e = ${e})")
-                    }
-                })
-
-                if (locationClient.isStarted()) {//如果已经开始定位，则先停止定位
-                    locationClient.stopLocation()
-                }
-                locationClient.startLocation()
-            } else if ((!SettingUtils.enableLocationTag && !HttpServerUtils.enableApiLocation) && locationClient.isStarted()) {
-                Log.d(TAG, "stopLocation")
-                locationClient.stopLocation()
-            }
-
             isRunning = true
         } catch (e: Exception) {
             e.printStackTrace()
@@ -255,11 +176,6 @@ class ForegroundService : Service() {
 
     private fun stopForegroundService() {
         try {
-            //如果已经开始定位，则先停止定位
-            if ((SettingUtils.enableLocationTag || HttpServerUtils.enableApiLocation) && locationClient.isStarted()) {
-                locationClient.stopLocation()
-            }
-
             stopForeground(true)
             stopSelf()
             compositeDisposable.dispose()

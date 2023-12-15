@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.utils
 
+import android.location.Criteria
 import com.idormy.sms.forwarder.R
 import com.xuexiang.xui.utils.ResUtils.getString
 
@@ -128,8 +129,20 @@ class SettingUtils private constructor() {
         //是否纯任务模式
         var enablePureTaskMode: Boolean by SharedPreference(SP_PURE_TASK_MODE, false)
 
-        //是否启用定位标签
-        var enableLocationTag: Boolean by SharedPreference(SP_LOCATION_TAG, false)
+        //是否启用定位功能
+        var enableLocation: Boolean by SharedPreference(SP_LOCATION, false)
+
+        //设置位置精度：高精度
+        var locationAccuracy: Int by SharedPreference(SP_LOCATION_ACCURACY, Criteria.ACCURACY_FINE)
+
+        //设置电量消耗：低电耗
+        var locationPowerRequirement: Int by SharedPreference(SP_LOCATION_POWER_REQUIREMENT, Criteria.POWER_LOW)
+
+        //设置位置更新最小时间间隔（单位：毫秒）； 默认间隔：10000毫秒，最小间隔：1000毫秒
+        var locationMinInterval: Long by SharedPreference(SP_LOCATION_MIN_INTERVAL, 10000L)
+
+        //设置位置更新最小距离（单位：米）；默认距离：0米
+        var locationMinDistance: Int by SharedPreference(SP_LOCATION_MIN_DISTANCE, 0)
 
     }
 

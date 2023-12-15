@@ -895,6 +895,7 @@
     <string name="api_wol_tips">Turn on your Wake-On-LAN enabled devices remotely</string>
     <string name="api_location">Location</string>
     <string name="api_location_tips">Remote query mobile phone location</string>
+    <string name="api_location_permission_tips">\'Enable Location Function\' in the \'Settings\' first.</string>
     <string name="location_longitude">Longitude：%s</string>
     <string name="location_latitude">Latitude：%s</string>
     <string name="location_address">Address：%s</string>
@@ -1085,8 +1086,19 @@
     <string name="ipv4">IPv4</string>
     <string name="ipv6">IPv6</string>
 
-    <string name="enable_location_tag">Enable {{LOCATION}} Tag</string>
-    <string name="enable_location_tag_tips">Insert location info into forwarded msg.</string>
+    <string name="enable_location">Enable Location Function</string>
+    <string name="enable_location_tips">Used for locating the phone, {{LOCATION}} tag.</string>
+    <string name="accuracy">Accuracy</string>
+    <string name="accuracy_fine">Fine</string>
+    <string name="accuracy_coarse">Coarse</string>
+    <string name="no_requirement">No Requirement</string>
+    <string name="power_requirement">Power Requirement</string>
+    <string name="power_requirement_low">Low</string>
+    <string name="power_requirement_medium">Medium</string>
+    <string name="power_requirement_high">High</string>
+    <string name="min_interval">Min Interval For Update</string>
+    <string name="min_distance">Min Distance</string>
+    <string name="meter">m</string>
     <string name="uid">UID</string>
 
     <string name="task_name_status">Name/Status</string>
@@ -1116,8 +1128,8 @@
     <string name="select_task_action">Please select action</string>
     <string name="bottom_sheet_close">Close</string>
     <string name="task_cron">Cron</string>
-    <string name="to_address">To Address</string>
-    <string name="leave_address">Leave Address</string>
+    <string name="task_to_address">To Address</string>
+    <string name="task_leave_address">Leave Address</string>
     <string name="task_network">Network</string>
     <string name="task_sim">SIM Status</string>
     <string name="task_battery">Battery</string>
@@ -1206,4 +1218,27 @@
     <string name="time_after_screen_on">Time After Screen On (Minutes)</string>
     <string name="time_after_screen_on_description">%sAfter Screen On</string>
     <string name="duration_minute">%s minutes </string>
+
+    <string name="calc_type_distance">Calculate distance based on GPS coordinates.</string>
+    <string name="calc_type_address">Determine based on address keywords.</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+    <string name="distance">Distance</string>
+    <string name="distance1">Create an e-fence:</string>
+    <string name="distance2">m radius</string>
+    <string name="current_coordinates">Current</string>
+    <string name="keyword">Keyword</string>
+    <string name="keyword_to_address_1">GPS address contains</string>
+    <string name="keyword_to_address_2"> = arrived</string>
+    <string name="keyword_leave_address_1">GPS address NOT contains</string>
+    <string name="keyword_leave_address_2"> = leaved</string>
+    <string name="calc_type_distance_error">Latitude and longitude or distance cannot be empty.</string>
+    <string name="calc_type_address_error">Address keyword cannot be empty.</string>
+    <string name="to_address_distance_description">Around longitude %s, latitude %s, within a %s-meter radius.</string>
+    <string name="to_address_keyword_description">GPS address contains %s means arrival.</string>
+    <string name="leave_address_distance_description">Leave around longitude %s, latitude %s, within a %s-meter radius.</string>
+    <string name="leave_address_keyword_description">GPS address NOT contains %s means leaved.</string>
+    <string name="condition_already_exists">This type of condition already exists.</string>
+    <string name="action_already_exists">This type of action already exists.</string>
+    <string name="only_one_location_condition">Only one condition, either "To Address" or "Leave Address" can be added.</string>
 </resources>

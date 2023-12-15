@@ -6,6 +6,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Criteria
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
@@ -34,6 +35,7 @@ import com.idormy.sms.forwarder.databinding.FragmentSettingsBinding
 import com.idormy.sms.forwarder.entity.SimInfo
 import com.idormy.sms.forwarder.receiver.BootCompletedReceiver
 import com.idormy.sms.forwarder.service.ForegroundService
+import com.idormy.sms.forwarder.service.LocationService
 import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.workers.LoadAppListWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
@@ -162,7 +164,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         switchDirectlyToTask(binding!!.sbDirectlyToTask)
 
         //启用 {{定位信息}} 标签
-        switchEnableLocationTag(binding!!.sbEnableLocationTag)
+        switchEnableLocation(binding!!.sbEnableLocation, binding!!.rgAccuracy, binding!!.rgPowerRequirement, binding!!.xsbMinInterval, binding!!.xsbMinDistance)
     }
 
     override fun onResume() {
@@ -885,15 +887,16 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         }
     }
 
-    //启用 {{定位信息}} 标签
-    private fun switchEnableLocationTag(@SuppressLint("UseSwitchCompatOrMaterialCode") switchEnableLocationTag: SwitchButton) {
-        switchEnableLocationTag.isChecked = SettingUtils.enableLocationTag
-        switchEnableLocationTag.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            SettingUtils.enableLocationTag = isChecked
+    //启用定位功能
+    private fun switchEnableLocation(@SuppressLint("UseSwitchCompatOrMaterialCode") switchEnableLocation: SwitchButton, rgAccuracy: RadioGroup, rgPowerRequirement: RadioGroup, xsbMinInterval: XSeekBar, xsbMinDistance: XSeekBar) {
+        //是否启用定位功能
+        switchEnableLocation.isChecked = SettingUtils.enableLocation
+        switchEnableLocation.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            SettingUtils.enableLocation = isChecked
             if (isChecked) {
                 XXPermissions.with(this).permission(Permission.ACCESS_COARSE_LOCATION).permission(Permission.ACCESS_FINE_LOCATION).permission(Permission.ACCESS_BACKGROUND_LOCATION).request(object : OnPermissionCallback {
                     override fun onGranted(permissions: List<String>, all: Boolean) {
-                        restartForegroundService()
+                        restartLocationService()
                     }
 
                     override fun onDenied(permissions: List<String>, never: Boolean) {
@@ -904,26 +907,72 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                         } else {
                             XToastUtils.error(R.string.toast_denied)
                         }
-                        SettingUtils.enableLocationTag = false
-                        switchEnableLocationTag.isChecked = false
-                        restartForegroundService()
+                        SettingUtils.enableLocation = false
+                        switchEnableLocation.isChecked = false
+                        restartLocationService()
                     }
                 })
             } else {
-                restartForegroundService()
+                restartLocationService()
             }
+        }
+        //设置位置精度：高精度（默认）
+        rgAccuracy.check(
+            when (SettingUtils.locationAccuracy) {
+                Criteria.ACCURACY_FINE -> R.id.rb_accuracy_fine
+                Criteria.ACCURACY_COARSE -> R.id.rb_accuracy_coarse
+                Criteria.NO_REQUIREMENT -> R.id.rb_accuracy_no_requirement
+                else -> R.id.rb_accuracy_fine
+            }
+        )
+        rgAccuracy.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
+            SettingUtils.locationAccuracy = when (checkedId) {
+                R.id.rb_accuracy_fine -> Criteria.ACCURACY_FINE
+                R.id.rb_accuracy_coarse -> Criteria.ACCURACY_COARSE
+                R.id.rb_accuracy_no_requirement -> Criteria.NO_REQUIREMENT
+                else -> Criteria.ACCURACY_FINE
+            }
+            restartLocationService()
+        }
+        //设置电量消耗：低电耗（默认）
+        rgPowerRequirement.check(
+            when (SettingUtils.locationPowerRequirement) {
+                Criteria.POWER_HIGH -> R.id.rb_power_requirement_high
+                Criteria.POWER_MEDIUM -> R.id.rb_power_requirement_medium
+                Criteria.POWER_LOW -> R.id.rb_power_requirement_low
+                Criteria.NO_REQUIREMENT -> R.id.rb_power_requirement_no_requirement
+                else -> R.id.rb_power_requirement_low
+            }
+        )
+        rgPowerRequirement.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
+            SettingUtils.locationPowerRequirement = when (checkedId) {
+                R.id.rb_power_requirement_high -> Criteria.POWER_HIGH
+                R.id.rb_power_requirement_medium -> Criteria.POWER_MEDIUM
+                R.id.rb_power_requirement_low -> Criteria.POWER_LOW
+                R.id.rb_power_requirement_no_requirement -> Criteria.NO_REQUIREMENT
+                else -> Criteria.POWER_LOW
+            }
+            restartLocationService()
+        }
+        //设置位置更新最小时间间隔（单位：毫秒）； 默认间隔：10000毫秒，最小间隔：1000毫秒
+        xsbMinInterval.setDefaultValue((SettingUtils.locationMinInterval / 1000).toInt())
+        xsbMinInterval.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
+            SettingUtils.locationMinInterval = newValue * 1000L
+            restartLocationService()
+        }
+        //设置位置更新最小距离（单位：米）；默认距离：0米
+        xsbMinDistance.setDefaultValue(SettingUtils.locationMinDistance)
+        xsbMinDistance.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
+            SettingUtils.locationMinDistance = newValue
+            restartLocationService()
         }
     }
 
-    //重启前台服务
-    private fun restartForegroundService() {
-        val serviceIntent = Intent(requireContext(), ForegroundService::class.java)
+    //重启定位服务
+    private fun restartLocationService() {
+        val serviceIntent = Intent(requireContext(), LocationService::class.java)
         serviceIntent.action = "START"
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            requireContext().startForegroundService(serviceIntent)
-        } else {
-            requireContext().startService(serviceIntent)
-        }
+        requireContext().startService(serviceIntent)
     }
 
     //获取当前手机品牌

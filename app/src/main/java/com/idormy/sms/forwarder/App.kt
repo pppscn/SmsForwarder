@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.location.Geocoder
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import android.os.Build
@@ -27,11 +28,13 @@ import com.idormy.sms.forwarder.receiver.LockScreenReceiver
 import com.idormy.sms.forwarder.receiver.NetworkChangeReceiver
 import com.idormy.sms.forwarder.service.ForegroundService
 import com.idormy.sms.forwarder.service.HttpServerService
+import com.idormy.sms.forwarder.service.LocationService
 import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.utils.sdkinit.UMengInit
 import com.idormy.sms.forwarder.utils.sdkinit.XBasicLibInit
 import com.idormy.sms.forwarder.utils.sdkinit.XUpdateInit
 import com.idormy.sms.forwarder.utils.tinker.TinkerLoadLibrary
+import com.king.location.LocationClient
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -74,19 +77,17 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         val isDebug: Boolean
             get() = BuildConfig.DEBUG
 
-        //Cactus结束时间
-        val mEndDate = MutableLiveData<String>()
-
-        //Cactus上次存活时间
-        val mLastTimer = MutableLiveData<String>()
-
-        //Cactus存活时间
-        val mTimer = MutableLiveData<String>()
-
-        //Cactus运行状态
-        val mStatus = MutableLiveData<Boolean>().apply { value = true }
-
+        //Cactus相关
+        val mEndDate = MutableLiveData<String>() //结束时间
+        val mLastTimer = MutableLiveData<String>() //上次存活时间
+        val mTimer = MutableLiveData<String>() //存活时间
+        val mStatus = MutableLiveData<Boolean>().apply { value = true } //运行状态
         var mDisposable: Disposable? = null
+
+        //Location相关
+        val LocationClient by lazy { LocationClient(context) }
+        val Geocoder by lazy { Geocoder(context) }
+        val DateFormat by lazy { SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()) }
     }
 
     override fun attachBaseContext(base: Context) {
@@ -116,12 +117,12 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
             }
 
             //启动前台服务
-            val serviceIntent = Intent(this, ForegroundService::class.java)
-            serviceIntent.action = "START"
+            val foregroundServiceIntent = Intent(this, ForegroundService::class.java)
+            foregroundServiceIntent.action = "START"
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundService(serviceIntent)
+                startForegroundService(foregroundServiceIntent)
             } else {
-                startService(serviceIntent)
+                startService(foregroundServiceIntent)
             }
 
             //启动HttpServer
@@ -129,6 +130,13 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
                 Intent(this, HttpServerService::class.java).also {
                     startService(it)
                 }
+            }
+
+            //启动LocationService
+            if (SettingUtils.enableLocation) {
+                val locationServiceIntent = Intent(this, LocationService::class.java)
+                locationServiceIntent.action = "START"
+                startService(locationServiceIntent)
             }
 
             //监听电量&充电状态变化

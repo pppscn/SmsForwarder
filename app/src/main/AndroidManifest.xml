@@ -223,10 +223,13 @@
             android:value="640" />
 
         <service
+            android:name=".service.ForegroundService"
+            android:enabled="true" />
+        <service
             android:name=".service.HttpServerService"
             android:enabled="true" />
         <service
-            android:name=".service.ForegroundService"
+            android:name=".service.LocationService"
             android:enabled="true" />
         <service
             android:name=".service.NotificationService"

@@ -85,7 +85,11 @@ const val SP_SMS_TEMPLATE = "sms_template"
 const val SP_ENABLE_HELP_TIP = "enable_help_tip"
 const val SP_PURE_CLIENT_MODE = "enable_pure_client_mode"
 const val SP_PURE_TASK_MODE = "enable_pure_task_mode"
-const val SP_LOCATION_TAG = "enable_location_tag"
+const val SP_LOCATION = "enable_location"
+const val SP_LOCATION_ACCURACY = "location_accuracy"
+const val SP_LOCATION_POWER_REQUIREMENT = "location_power_requirement"
+const val SP_LOCATION_MIN_INTERVAL = "location_min_interval_time"
+const val SP_LOCATION_MIN_DISTANCE = "location_min_distance"
 
 const val SP_ENABLE_CACTUS = "enable_cactus"
 const val CACTUS_TIMER = "cactus_timer"
@@ -515,14 +519,14 @@ var TASK_CONDITION_FRAGMENT_LIST = listOf(
         R.drawable.auto_task_icon_custom_time,
     ),
     PageInfo(
-        getString(R.string.to_address),
+        getString(R.string.task_to_address),
         "com.idormy.sms.forwarder.fragment.condition.ToAddressFragment",
         "{\"\":\"\"}",
         CoreAnim.slide,
         R.drawable.auto_task_icon_to_address,
     ),
     PageInfo(
-        getString(R.string.leave_address),
+        getString(R.string.task_leave_address),
         "com.idormy.sms.forwarder.fragment.condition.LeaveAddressFragment",
         "{\"\":\"\"}",
         CoreAnim.slide,

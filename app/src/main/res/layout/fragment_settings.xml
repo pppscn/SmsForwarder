@@ -347,34 +347,188 @@
             <LinearLayout
                 style="@style/settingBarStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/enable_location_tag"
-                        android:textStyle="bold"
-                        tools:ignore="RelativeOverlap" />
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/enable_location_tag_tips"
-                        android:textSize="9sp"
-                        tools:ignore="SmallSp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/enable_location"
+                            android:textStyle="bold"
+                            tools:ignore="RelativeOverlap" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/enable_location_tips"
+                            android:textSize="9sp"
+                            tools:ignore="SmallSp" />
+
+                    </LinearLayout>
+
+                    <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                        android:id="@+id/sb_enable_location"
+                        style="@style/SwitchButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
                 </LinearLayout>
 
-                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
-                    android:id="@+id/sb_enable_location_tag"
-                    style="@style/SwitchButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/accuracy"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        tools:ignore="SmallSp" />
+
+                    <RadioGroup
+                        android:id="@+id/rg_accuracy"
+                        style="@style/rg_style"
+                        android:layout_marginStart="5dp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rb_accuracy_fine"
+                            style="@style/rg_rb_style_wrap"
+                            android:checked="true"
+                            android:text="@string/accuracy_fine" />
+
+                        <RadioButton
+                            android:id="@+id/rb_accuracy_coarse"
+                            style="@style/rg_rb_style_wrap"
+                            android:text="@string/accuracy_coarse" />
+
+                        <RadioButton
+                            android:id="@+id/rb_accuracy_no_requirement"
+                            style="@style/rg_rb_style_wrap"
+                            android:text="@string/no_requirement" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/power_requirement"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        tools:ignore="SmallSp" />
+
+                    <RadioGroup
+                        android:id="@+id/rg_power_requirement"
+                        style="@style/rg_style"
+                        android:layout_marginStart="5dp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rb_power_requirement_low"
+                            style="@style/rg_rb_style_wrap"
+                            android:checked="true"
+                            android:text="@string/power_requirement_low" />
+
+                        <RadioButton
+                            android:id="@+id/rb_power_requirement_medium"
+                            style="@style/rg_rb_style_wrap"
+                            android:text="@string/power_requirement_medium" />
+
+                        <RadioButton
+                            android:id="@+id/rb_power_requirement_high"
+                            style="@style/rg_rb_style_wrap"
+                            android:text="@string/power_requirement_high" />
+
+                        <RadioButton
+                            android:id="@+id/rb_power_requirement_no_requirement"
+                            style="@style/rg_rb_style_wrap"
+                            android:text="@string/no_requirement" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/config_margin_10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/min_interval"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        tools:ignore="SmallSp" />
+
+                    <com.xuexiang.xui.widget.picker.XSeekBar
+                        android:id="@+id/xsb_min_interval"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        app:xsb_max="120"
+                        app:xsb_min="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/seconds"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/config_margin_10dp"
+                        android:text="@string/min_distance"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        tools:ignore="SmallSp" />
+
+                    <com.xuexiang.xui.widget.picker.XSeekBar
+                        android:id="@+id/xsb_min_distance"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        app:xsb_max="120"
+                        app:xsb_min="0" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/seconds"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
