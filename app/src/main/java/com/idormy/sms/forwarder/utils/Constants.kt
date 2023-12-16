@@ -82,7 +82,6 @@ const val SP_EXTRA_SIM2 = "extra_sim2"
 const val SP_ENABLE_SMS_TEMPLATE = "enable_sms_template"
 const val SP_SMS_TEMPLATE = "sms_template"
 
-const val SP_ENABLE_HELP_TIP = "enable_help_tip"
 const val SP_PURE_CLIENT_MODE = "enable_pure_client_mode"
 const val SP_PURE_TASK_MODE = "enable_pure_task_mode"
 const val SP_LOCATION = "enable_location"

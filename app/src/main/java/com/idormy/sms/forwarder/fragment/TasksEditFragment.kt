@@ -368,7 +368,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                         return
                     }
 
-                    //必须开启定位服务，才能使用进入地点 或 离开地址 类型条件
+                    //必须开启定位服务，才能使用进入地点 或 离开地点 类型条件
                     if ((typeCondition == TASK_CONDITION_TO_ADDRESS || typeCondition == TASK_CONDITION_LEAVE_ADDRESS) && !App.LocationClient.isStarted()) {
                         MaterialDialog.Builder(requireContext())
                             .iconRes(R.drawable.auto_task_icon_location)
@@ -385,7 +385,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                         return
                     }
 
-                    //进入地点 或 离开地址 类型条件互斥
+                    //进入地点 或 离开地点 类型条件互斥
                     if ((typeCondition == TASK_CONDITION_TO_ADDRESS || typeCondition == TASK_CONDITION_LEAVE_ADDRESS) && (item.type == TASK_CONDITION_TO_ADDRESS || item.type == TASK_CONDITION_LEAVE_ADDRESS)) {
                         XToastUtils.error(getString(R.string.only_one_location_condition))
                         return

@@ -111,7 +111,7 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
 
         binding!!.menuWechatMiniprogram.setOnSuperTextViewClickListener(this)
         binding!!.menuDonation.setOnSuperTextViewClickListener(this)
-        binding!!.menuWecomGroup.setOnSuperTextViewClickListener(this)
+        binding!!.menuTelegramGroup.setOnSuperTextViewClickListener(this)
         binding!!.menuDingtalkGroup.setOnSuperTextViewClickListener(this)
         binding!!.menuQqChannel.setOnSuperTextViewClickListener(this)
         binding!!.menuUserProtocol.setOnSuperTextViewClickListener(this)
@@ -133,8 +133,8 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
                 previewPicture(this, getString(R.string.url_wechat_miniprogram), null)
             }
 
-            R.id.menu_wecom_group -> {
-                previewPicture(this, getString(R.string.url_wework_group), null)
+            R.id.menu_telegram_group -> {
+                previewPicture(this, getString(R.string.url_telegram_group), null)
             }
 
             R.id.menu_dingtalk_group -> {

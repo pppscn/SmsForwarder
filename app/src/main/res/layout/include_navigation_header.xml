@@ -17,14 +17,4 @@
         android:paddingEnd="50dp"
         app:srcCompat="@drawable/ic_splash_app_logo" />
 
-    <TextView
-        android:id="@+id/tv_slogan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="@string/notification_content"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textStyle="bold" />
-
 </LinearLayout>

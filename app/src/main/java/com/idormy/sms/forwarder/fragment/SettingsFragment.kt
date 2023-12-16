@@ -154,9 +154,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         //自定义模板
         editSmsTemplate(binding!!.etSmsTemplate)
 
-        //帮助提示
-        switchHelpTip(binding!!.sbHelpTip)
-
         //纯客户端模式
         switchDirectlyToClient(binding!!.sbDirectlyToClient)
 
@@ -851,14 +848,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 SettingUtils.smsTemplate = textSmsTemplate.text.toString().trim()
             }
         })
-    }
-
-    //页面帮助提示
-    private fun switchHelpTip(@SuppressLint("UseSwitchCompatOrMaterialCode") switchHelpTip: SwitchButton) {
-        switchHelpTip.isChecked = SettingUtils.enableHelpTip
-        switchHelpTip.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            SettingUtils.enableHelpTip = isChecked
-        }
     }
 
     //纯客户端模式

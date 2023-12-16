@@ -73,7 +73,13 @@ class TaskPagingAdapter(private val itemClickListener: OnItemClickListener) : Pa
                     itemClickListener.onItemClicked(view, item)
                 }
 
-                holder.binding.sbEnable.isChecked = item.status == 1
+                if (item.status == 0) {
+                    holder.binding.ivArrow.setImageResource(R.drawable.auto_task_icon_left_arrow_grey)
+                    holder.binding.sbEnable.isChecked = false
+                } else {
+                    holder.binding.ivArrow.setImageResource(R.drawable.auto_task_icon_left_arrow)
+                    holder.binding.sbEnable.isChecked = true
+                }
                 holder.binding.sbEnable.setOnClickListener { view: View? ->
                     itemClickListener.onItemClicked(view, item)
                 }
@@ -86,8 +92,10 @@ class TaskPagingAdapter(private val itemClickListener: OnItemClickListener) : Pa
                 holder.binding.layoutImage.visibility = View.VISIBLE
                 holder.binding.layoutIcons.visibility = View.GONE
                 if (item.status == 0) {
+                    holder.binding.ivArrow.setImageResource(R.drawable.auto_task_icon_left_arrow_grey)
                     holder.binding.ivImage.setImageResource(item.greyImageId)
                 } else {
+                    holder.binding.ivArrow.setImageResource(R.drawable.auto_task_icon_left_arrow)
                     holder.binding.ivImage.setImageResource(item.imageId)
                 }
                 holder.binding.ivStatus.setImageResource(item.statusImageId)

@@ -67,6 +67,8 @@ class ConditionUtils private constructor() {
                             Log.d(TAG, "TASK-$taskId：cron condition is not satisfied")
                             return false
                         }
+
+                        Log.d(TAG, "TASK-$taskId：cron condition is satisfied")
                     }
 
                     TASK_CONDITION_TO_ADDRESS, TASK_CONDITION_LEAVE_ADDRESS -> {
@@ -75,23 +77,30 @@ class ConditionUtils private constructor() {
                             Log.d(TAG, "TASK-$taskId：locationSetting is null")
                             continue
                         }
+
                         val locationOld = TaskUtils.locationInfoOld
                         val locationNew = TaskUtils.locationInfoNew
                         if (locationSetting.calcType == "distance") {
                             val distanceOld = calculateDistance(locationOld.latitude, locationOld.longitude, locationSetting.latitude, locationSetting.longitude)
                             val distanceNew = calculateDistance(locationNew.latitude, locationNew.longitude, locationSetting.latitude, locationSetting.longitude)
                             if (locationSetting.type == "to" && distanceOld > locationSetting.distance && distanceNew <= locationSetting.distance) {
+                                Log.d(TAG, "TASK-$taskId：TO_ADDRESS distanceOld = $distanceOld, distanceNew = $distanceNew, locationSetting = $locationSetting")
                                 continue
                             } else if (locationSetting.type == "leave" && distanceOld <= locationSetting.distance && distanceNew > locationSetting.distance) {
+                                Log.d(TAG, "TASK-$taskId：LEAVE_ADDRESS distanceOld = $distanceOld, distanceNew = $distanceNew, locationSetting = $locationSetting")
                                 continue
                             }
                         } else if (locationSetting.calcType == "address") {
                             if (locationSetting.type == "to" && !locationOld.address.contains(locationSetting.address) && locationNew.address.contains(locationSetting.address)) {
+                                Log.d(TAG, "TASK-$taskId：TO_ADDRESS locationOld = $locationOld, locationNew = $locationNew, locationSetting = $locationSetting")
                                 continue
                             } else if (locationSetting.type == "leave" && locationOld.address.contains(locationSetting.address) && !locationNew.address.contains(locationSetting.address)) {
+                                Log.d(TAG, "TASK-$taskId：LEAVE_ADDRESS locationOld = $locationOld, locationNew = $locationNew, locationSetting = $locationSetting")
                                 continue
                             }
                         }
+
+                        Log.d(TAG, "TASK-$taskId：location is not match, locationOld = $locationOld, locationNew = $locationNew, locationSetting = $locationSetting")
                         return false
                     }
 
@@ -118,6 +127,8 @@ class ConditionUtils private constructor() {
                             Log.d(TAG, "TASK-$taskId：wifiSsid is not match, networkSetting = $networkSetting")
                             return false
                         }
+
+                        Log.d(TAG, "TASK-$taskId：networkState is match, networkSetting = $networkSetting")
                     }
 
                     TASK_CONDITION_SIM -> {
@@ -126,10 +137,13 @@ class ConditionUtils private constructor() {
                             Log.d(TAG, "TASK-$taskId：simSetting is null")
                             continue
                         }
+
                         if (TaskUtils.simState != simSetting.simState) {
                             Log.d(TAG, "TASK-$taskId：simState is not match, simSetting = $simSetting")
                             return false
                         }
+
+                        Log.d(TAG, "TASK-$taskId：simState is match, simSetting = $simSetting")
                     }
 
                     TASK_CONDITION_BATTERY -> {
@@ -140,12 +154,15 @@ class ConditionUtils private constructor() {
                             Log.d(TAG, "TASK-$taskId：batterySetting is null")
                             continue
                         }
+
                         when (batteryStatus) {
                             BatteryManager.BATTERY_STATUS_CHARGING, BatteryManager.BATTERY_STATUS_FULL -> { //充电中
                                 if (batterySetting.status != BatteryManager.BATTERY_STATUS_CHARGING) return false
                                 if (batterySetting.keepReminding && batteryLevel >= batterySetting.levelMax) {
+                                    Log.d(TAG, "TASK-$taskId：1 batteryLevel = $batteryLevel, batterySetting = $batterySetting")
                                     continue
                                 } else if (!batterySetting.keepReminding && batteryLevel == batterySetting.levelMax) {
+                                    Log.d(TAG, "TASK-$taskId：2 batteryLevel = $batteryLevel, batterySetting = $batterySetting")
                                     continue
                                 }
                             }
@@ -153,12 +170,17 @@ class ConditionUtils private constructor() {
                             BatteryManager.BATTERY_STATUS_DISCHARGING, BatteryManager.BATTERY_STATUS_NOT_CHARGING -> { //放电中
                                 if (batterySetting.status != BatteryManager.BATTERY_STATUS_DISCHARGING) return false
                                 if (batterySetting.keepReminding && batteryLevel <= batterySetting.levelMin) {
+                                    Log.d(TAG, "TASK-$taskId：3 batteryLevel = $batteryLevel, batterySetting = $batterySetting")
                                     continue
                                 } else if (!batterySetting.keepReminding && batteryLevel == batterySetting.levelMin) {
+                                    Log.d(TAG, "TASK-$taskId：4 batteryLevel = $batteryLevel, batterySetting = $batterySetting")
                                     continue
                                 }
                             }
                         }
+
+                        Log.d(TAG, "TASK-$taskId：batteryStatus is not match! batteryLevel = $batteryLevel, batterySetting = $batterySetting")
+                        return false
                     }
 
                     TASK_CONDITION_CHARGE -> {
@@ -167,11 +189,15 @@ class ConditionUtils private constructor() {
                             Log.d(TAG, "TASK-$taskId：chargeSetting is null")
                             continue
                         }
+
                         val batteryStatus = TaskUtils.batteryStatus
                         val batteryPlugged = TaskUtils.batteryPlugged
                         if (batteryStatus != chargeSetting.status || batteryPlugged != chargeSetting.plugged) {
+                            Log.d(TAG, "TASK-$taskId：batteryStatus or batteryPlugged is not match, chargeSetting = $chargeSetting")
                             return false
                         }
+
+                        Log.d(TAG, "TASK-$taskId：batteryStatus and batteryPlugged is match, chargeSetting = $chargeSetting")
                     }
 
                     TASK_CONDITION_LOCK_SCREEN -> {
@@ -181,8 +207,11 @@ class ConditionUtils private constructor() {
                             continue
                         }
                         if (TaskUtils.lockScreenAction != lockScreenSetting.action) {
+                            Log.d(TAG, "TASK-$taskId：lockScreenAction is not match, lockScreenSetting = $lockScreenSetting")
                             return false
                         }
+
+                        Log.d(TAG, "TASK-$taskId：lockScreenAction is match, lockScreenSetting = $lockScreenSetting")
                     }
                 }
             }

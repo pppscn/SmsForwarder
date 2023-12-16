@@ -120,9 +120,6 @@ class SettingUtils private constructor() {
         //自定义模板
         var smsTemplate: String by SharedPreference(SP_SMS_TEMPLATE, "")
 
-        //是否显示页面帮助
-        var enableHelpTip: Boolean by SharedPreference(SP_ENABLE_HELP_TIP, false)
-
         //是否纯客户端模式
         var enablePureClientMode: Boolean by SharedPreference(SP_PURE_CLIENT_MODE, false)
 

@@ -10,7 +10,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
@@ -135,12 +134,6 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
         val adapter = FragmentAdapter(supportFragmentManager, fragments)
         binding!!.includeMain.viewPager.offscreenPageLimit = mTitles.size - 1
         binding!!.includeMain.viewPager.adapter = adapter
-
-        if (!SettingUtils.enableHelpTip) {
-            val headerView = binding!!.navView.getHeaderView(0)
-            val tvSlogan = headerView.findViewById<TextView>(R.id.tv_slogan)
-            tvSlogan.visibility = View.GONE
-        }
     }
 
     private fun initData() {

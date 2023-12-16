@@ -24,6 +24,15 @@
                 android:contentDescription="@string/logo"
                 app:srcCompat="@drawable/ic_splash_app_logo" />
 
+            <TextView
+                android:id="@+id/tv_slogan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/notification_content"
+                android:textAlignment="center"
+                android:textStyle="bold" />
+
             <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                 android:id="@+id/menu_version"
                 style="@style/InfoItem.AboutWithBtn"
@@ -123,22 +132,21 @@
                 style="@style/InfoItem.About"
                 app:sLeftTextString="@string/about_item_wechat_miniprogram" />
 
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/menu_qq_channel"
+                style="@style/InfoItem.About"
+                app:sLeftTextString="@string/about_item_add_qq_channel" />
 
             <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-                android:id="@+id/menu_wecom_group"
+                android:id="@+id/menu_telegram_group"
                 style="@style/InfoItem.About"
                 android:layout_marginTop="10dp"
-                app:sLeftTextString="@string/about_item_add_wework_group" />
+                app:sLeftTextString="@string/about_item_add_telegram_group" />
 
             <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                 android:id="@+id/menu_dingtalk_group"
                 style="@style/InfoItem.About"
                 app:sLeftTextString="@string/about_item_add_dingtalk_group" />
-
-            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-                android:id="@+id/menu_qq_channel"
-                style="@style/InfoItem.About"
-                app:sLeftTextString="@string/about_item_add_qq_channel" />
 
             <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                 style="@style/InfoItem.AboutWithBtn"
