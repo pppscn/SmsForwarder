@@ -1,8 +1,6 @@
 package com.idormy.sms.forwarder.entity.task
 
 import com.idormy.sms.forwarder.R
-import com.idormy.sms.forwarder.entity.LocationInfo
-import com.idormy.sms.forwarder.utils.task.ConditionUtils.Companion.calculateDistance
 import java.io.Serializable
 
 data class LocationSetting(
@@ -21,26 +19,6 @@ data class LocationSetting(
             "address" -> R.id.rb_calc_type_address
             else -> R.id.rb_calc_type_distance
         }
-    }
-
-    //判断是否满足条件
-    fun isMatchCondition(locationOld: LocationInfo, locationNew: LocationInfo): Boolean {
-        if (calcType == "distance") {
-            val distanceOld = calculateDistance(locationOld.latitude, locationOld.longitude, latitude, longitude)
-            val distanceNew = calculateDistance(locationNew.latitude, locationNew.longitude, latitude, longitude)
-            if (type == "to" && distanceOld > distance && distanceNew <= distance) {
-                return true
-            } else if (type == "leave" && distanceOld <= distance && distanceNew > distance) {
-                return true
-            }
-        } else if (calcType == "address") {
-            if (type == "to" && !locationOld.address.contains(address) && locationNew.address.contains(address)) {
-                return true
-            } else if (type == "leave" && locationOld.address.contains(address) && !locationNew.address.contains(address)) {
-                return true
-            }
-        }
-        return false
     }
 
 }

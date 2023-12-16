@@ -17,6 +17,7 @@ import com.idormy.sms.forwarder.entity.task.SimSetting
 import com.idormy.sms.forwarder.entity.task.TaskSetting
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.TaskWorker
+import com.idormy.sms.forwarder.utils.task.ConditionUtils
 import com.idormy.sms.forwarder.utils.task.TaskUtils
 import com.xuexiang.xutil.resource.ResUtils
 import java.util.Date
@@ -56,11 +57,11 @@ class SimWorker(context: Context, params: WorkerParameters) : CoroutineWorker(co
                 continue
             }
 
-            //TODO：判断其他条件是否满足，注意：SIM卡已准备就绪，延迟5秒才进入这里（给够搜索信号时间）
-            /*if (!TaskUtils.isConditionMatch(task, msg)) {
-                Log.d(TAG, "TASK-${task.id}：condition is not match")
+            //TODO：判断其他条件是否满足，注意：SIM卡已准备就绪时，延迟5秒（给够搜索信号时间）才执行任务
+            if (!ConditionUtils.checkCondition(task.id, conditionList)) {
+                Log.d(TAG, "TASK-${task.id}：other condition is not satisfied")
                 continue
-            }*/
+            }
 
             val msg = StringBuilder()
             msg.append(String.format(ResUtils.getString(R.string.sim_state), simStateStr)).append("\n")

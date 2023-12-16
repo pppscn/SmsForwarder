@@ -15,7 +15,7 @@ class CronJobScheduler {
 
     companion object {
 
-        private const val TAG: String = "CronJobScheduler"
+        private val TAG: String = CronJobScheduler::class.java.simpleName
 
         fun scheduleTask(task: Task) {
             val currentTimeMillis = System.currentTimeMillis()

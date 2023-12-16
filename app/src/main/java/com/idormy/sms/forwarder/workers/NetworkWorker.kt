@@ -16,6 +16,7 @@ import com.idormy.sms.forwarder.entity.task.NetworkSetting
 import com.idormy.sms.forwarder.entity.task.TaskSetting
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.TaskWorker
+import com.idormy.sms.forwarder.utils.task.ConditionUtils
 import com.idormy.sms.forwarder.utils.task.TaskUtils
 import com.xuexiang.xutil.app.ServiceUtils
 import com.xuexiang.xutil.resource.ResUtils.getString
@@ -60,6 +61,10 @@ class NetworkWorker(context: Context, params: WorkerParameters) : CoroutineWorke
             }
 
             //TODO：判断其他条件是否满足
+            if (!ConditionUtils.checkCondition(task.id, conditionList)) {
+                Log.d(TAG, "TASK-${task.id}：other condition is not satisfied")
+                continue
+            }
 
             var ipv4 = ""
             var ipv6 = ""

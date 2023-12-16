@@ -164,7 +164,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         switchDirectlyToTask(binding!!.sbDirectlyToTask)
 
         //启用 {{定位信息}} 标签
-        switchEnableLocation(binding!!.sbEnableLocation, binding!!.rgAccuracy, binding!!.rgPowerRequirement, binding!!.xsbMinInterval, binding!!.xsbMinDistance)
+        switchEnableLocation(binding!!.sbEnableLocation, binding!!.layoutLocationSetting, binding!!.rgAccuracy, binding!!.rgPowerRequirement, binding!!.xsbMinInterval, binding!!.xsbMinDistance)
     }
 
     override fun onResume() {
@@ -888,9 +888,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     }
 
     //启用定位功能
-    private fun switchEnableLocation(@SuppressLint("UseSwitchCompatOrMaterialCode") switchEnableLocation: SwitchButton, rgAccuracy: RadioGroup, rgPowerRequirement: RadioGroup, xsbMinInterval: XSeekBar, xsbMinDistance: XSeekBar) {
+    private fun switchEnableLocation(@SuppressLint("UseSwitchCompatOrMaterialCode") switchEnableLocation: SwitchButton, layoutLocationSetting: LinearLayout, rgAccuracy: RadioGroup, rgPowerRequirement: RadioGroup, xsbMinInterval: XSeekBar, xsbMinDistance: XSeekBar) {
         //是否启用定位功能
         switchEnableLocation.isChecked = SettingUtils.enableLocation
+        layoutLocationSetting.visibility = if (SettingUtils.enableLocation) View.VISIBLE else View.GONE
         switchEnableLocation.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             SettingUtils.enableLocation = isChecked
             if (isChecked) {
@@ -915,6 +916,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             } else {
                 restartLocationService()
             }
+            layoutLocationSetting.visibility = if (isChecked) View.VISIBLE else View.GONE
         }
         //设置位置精度：高精度（默认）
         rgAccuracy.check(

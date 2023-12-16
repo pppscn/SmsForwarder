@@ -617,3 +617,9 @@ const val SP_WIFI_SSID = "wifi_ssid"
 const val SP_IPV4 = "ipv4"
 const val SP_IPV6 = "ipv6"
 const val SP_SIM_STATE = "sim_state"
+const val SP_LOCATION_INFO_OLD = "location_info_old"
+const val SP_LOCATION_INFO_NEW = "location_info_new"
+const val SP_LOCK_SCREEN_ACTION = "lock_screen_action"
+
+//SIM卡已准备就绪时，延迟5秒（给够搜索信号时间）才执行任务
+const val DELAY_TIME_AFTER_SIM_READY = 5000L

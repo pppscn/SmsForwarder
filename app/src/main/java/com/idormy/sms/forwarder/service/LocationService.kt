@@ -89,7 +89,7 @@ class LocationService : Service(), Server.ServerListener {
         try {
             //清空缓存
             HttpServerUtils.apiLocationCache = LocationInfo()
-            TaskUtils.lastLocationInfo = LocationInfo()
+            TaskUtils.locationInfoOld = LocationInfo()
 
             if (SettingUtils.enableLocation && PermissionUtils.isGranted(android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION)) {
                 //可根据具体需求设置定位配置参数（这里只列出一些主要的参数）
@@ -121,18 +121,20 @@ class LocationService : Service(), Server.ServerListener {
 
                         Log.d(TAG, "locationInfoNew = $locationInfoNew")
                         HttpServerUtils.apiLocationCache = locationInfoNew
+                        TaskUtils.locationInfoNew = locationInfoNew
 
                         //TODO: 触发自动任务
-                        val locationInfoOld = TaskUtils.lastLocationInfo
+                        val locationInfoOld = TaskUtils.locationInfoOld
                         if (locationInfoOld.longitude != locationInfoNew.longitude || locationInfoOld.latitude != locationInfoNew.latitude || locationInfoOld.address != locationInfoNew.address) {
                             Log.d(TAG, "locationInfoOld = $locationInfoOld")
-                            TaskUtils.lastLocationInfo = locationInfoNew
 
                             val gson = Gson()
                             val locationJsonOld = gson.toJson(locationInfoOld)
                             val locationJsonNew = gson.toJson(locationInfoNew)
                             enqueueLocationWorkerRequest(TASK_CONDITION_TO_ADDRESS, locationJsonOld, locationJsonNew)
                             enqueueLocationWorkerRequest(TASK_CONDITION_LEAVE_ADDRESS, locationJsonOld, locationJsonNew)
+
+                            TaskUtils.locationInfoOld = locationInfoNew
                         }
                     }
 
@@ -178,7 +180,7 @@ class LocationService : Service(), Server.ServerListener {
     private fun stopService() {
         //清空缓存
         HttpServerUtils.apiLocationCache = LocationInfo()
-        TaskUtils.lastLocationInfo = LocationInfo()
+        TaskUtils.locationInfoOld = LocationInfo()
 
         isRunning = try {
             //如果已经开始定位，则先停止定位

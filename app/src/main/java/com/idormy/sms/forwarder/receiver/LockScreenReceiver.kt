@@ -9,6 +9,7 @@ import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_LOCK_SCREEN
 import com.idormy.sms.forwarder.utils.TaskWorker
+import com.idormy.sms.forwarder.utils.task.TaskUtils
 import com.idormy.sms.forwarder.workers.LockScreenWorker
 
 @Suppress("PropertyName")
@@ -21,6 +22,7 @@ class LockScreenReceiver : BroadcastReceiver() {
         if (context == null || (intent?.action != Intent.ACTION_SCREEN_OFF && intent?.action != Intent.ACTION_SCREEN_ON)) return
 
         Log.d(TAG, "onReceive: ${intent.action}")
+        TaskUtils.lockScreenAction = intent.action.toString()
         val request = OneTimeWorkRequestBuilder<LockScreenWorker>().setInputData(
             workDataOf(
                 TaskWorker.conditionType to TASK_CONDITION_LOCK_SCREEN,

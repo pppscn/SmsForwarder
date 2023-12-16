@@ -14,6 +14,7 @@ import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.task.CronSetting
 import com.idormy.sms.forwarder.entity.task.TaskSetting
 import com.idormy.sms.forwarder.utils.TaskWorker
+import com.idormy.sms.forwarder.utils.task.ConditionUtils
 import com.idormy.sms.forwarder.utils.task.CronJobScheduler
 import gatewayapps.crondroid.CronExpression
 import java.util.Date
@@ -54,8 +55,8 @@ class CronWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
         }
 
         // TODO: 判断其他条件是否满足
-        if (false) {
-            Log.d(TAG, "TASK-${task.id}：其他条件不满足")
+        if (!ConditionUtils.checkCondition(task.id, conditionList)) {
+            Log.d(TAG, "TASK-${task.id}：other condition is not satisfied")
             return Result.failure()
         }
 
@@ -84,11 +85,7 @@ class CronWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
 
         //TODO: 组装消息体 && 执行具体任务
         val msgInfo = MsgInfo("task", task.name, task.description, Date(), task.name)
-        val actionData = Data.Builder()
-            .putLong(TaskWorker.taskId, task.id)
-            .putString(TaskWorker.taskActions, task.actions)
-            .putString(TaskWorker.msgInfo, Gson().toJson(msgInfo))
-            .build()
+        val actionData = Data.Builder().putLong(TaskWorker.taskId, task.id).putString(TaskWorker.taskActions, task.actions).putString(TaskWorker.msgInfo, Gson().toJson(msgInfo)).build()
         val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
         WorkManager.getInstance().enqueue(actionRequest)
 

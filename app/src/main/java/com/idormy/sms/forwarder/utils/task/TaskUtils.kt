@@ -11,6 +11,9 @@ import com.idormy.sms.forwarder.utils.SP_BATTERY_STATUS
 import com.idormy.sms.forwarder.utils.SP_DATA_SIM_SLOT
 import com.idormy.sms.forwarder.utils.SP_IPV4
 import com.idormy.sms.forwarder.utils.SP_IPV6
+import com.idormy.sms.forwarder.utils.SP_LOCATION_INFO_NEW
+import com.idormy.sms.forwarder.utils.SP_LOCATION_INFO_OLD
+import com.idormy.sms.forwarder.utils.SP_LOCK_SCREEN_ACTION
 import com.idormy.sms.forwarder.utils.SP_NETWORK_STATE
 import com.idormy.sms.forwarder.utils.SP_SIM_STATE
 import com.idormy.sms.forwarder.utils.SP_WIFI_SSID
@@ -107,7 +110,13 @@ class TaskUtils private constructor() {
         var simState: Int by SharedPreference(SP_SIM_STATE, 0)
 
         //上次定位信息
-        var lastLocationInfo: LocationInfo by SharedPreference("lastLocationInfo", LocationInfo())
+        var locationInfoOld: LocationInfo by SharedPreference(SP_LOCATION_INFO_OLD, LocationInfo())
+
+        //当前定位信息
+        var locationInfoNew: LocationInfo by SharedPreference(SP_LOCATION_INFO_NEW, LocationInfo())
+
+        //上次锁屏广播
+        var lockScreenAction: String by SharedPreference(SP_LOCK_SCREEN_ACTION, "")
 
     }
 }

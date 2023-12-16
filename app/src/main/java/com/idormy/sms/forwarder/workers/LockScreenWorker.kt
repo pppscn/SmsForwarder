@@ -15,6 +15,7 @@ import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.task.LockScreenSetting
 import com.idormy.sms.forwarder.entity.task.TaskSetting
 import com.idormy.sms.forwarder.utils.TaskWorker
+import com.idormy.sms.forwarder.utils.task.ConditionUtils
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -55,9 +56,11 @@ class LockScreenWorker(context: Context, params: WorkerParameters) : CoroutineWo
                 continue
             }
 
-            val duration = if (action == Intent.ACTION_SCREEN_ON) lockScreenSetting.timeAfterScreenOn else lockScreenSetting.timeAfterScreenOff
-
             //TODO：判断其他条件是否满足
+            if (!ConditionUtils.checkCondition(task.id, conditionList)) {
+                Log.d(TAG, "TASK-${task.id}：other condition is not satisfied")
+                continue
+            }
 
             //TODO: 组装消息体 && 执行具体任务
             val msgInfo = MsgInfo("task", task.name, lockScreenSetting.description, Date(), task.description)
@@ -66,6 +69,7 @@ class LockScreenWorker(context: Context, params: WorkerParameters) : CoroutineWo
                 .putString(TaskWorker.taskActions, task.actions)
                 .putString(TaskWorker.msgInfo, Gson().toJson(msgInfo))
                 .build()
+            val duration = if (action == Intent.ACTION_SCREEN_ON) lockScreenSetting.timeAfterScreenOn else lockScreenSetting.timeAfterScreenOff
             val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>()
                 .setInitialDelay(duration.toLong(), TimeUnit.MINUTES)
                 .setInputData(actionData).build()

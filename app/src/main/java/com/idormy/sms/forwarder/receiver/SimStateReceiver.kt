@@ -9,6 +9,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.utils.DELAY_TIME_AFTER_SIM_READY
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_SIM
 import com.idormy.sms.forwarder.utils.TaskWorker
@@ -50,7 +51,7 @@ class SimStateReceiver : BroadcastReceiver() {
             TelephonyManager.SIM_STATE_READY -> {
                 Log.d(TAG, "SIM 卡已准备就绪")
                 TaskUtils.simState = simStateNew
-                duration = 5000L
+                duration = DELAY_TIME_AFTER_SIM_READY
                 getString(R.string.sim_state_ready)
             }
 
