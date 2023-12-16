@@ -1130,13 +1130,21 @@
     <string name="select_task_action">请选择动作</string>
     <string name="bottom_sheet_close">关  闭</string>
     <string name="task_cron">定时任务</string>
+    <string name="task_cron_tips">采用 Quartz Cron 表达式</string>
     <string name="task_to_address">到达地点</string>
+    <string name="task_to_address_tips">采用经纬度坐标（WGS-84坐标系）</string>
     <string name="task_leave_address">离开地点</string>
+    <string name="task_leave_address_tips">采用经纬度坐标（WGS-84坐标系）</string>
     <string name="task_network">网络状态</string>
+    <string name="task_network_tips">当网络状态改变时触发</string>
     <string name="task_sim">SIM卡状态</string>
+    <string name="task_sim_tips">当SIM卡状态改变时触发</string>
     <string name="task_battery">电量使用</string>
+    <string name="task_battery_tips">当剩余电量满足条件时触发</string>
     <string name="task_charge">充电状态</string>
+    <string name="task_charge_tips">当充电状态满足条件时触发</string>
     <string name="task_lock_screen">锁屏解锁</string>
+    <string name="task_lock_screen_tips">在屏幕锁定或解锁后立即或指定时间触发</string>
     <string name="task_sendsms">发送短信</string>
     <string name="task_notification">通道推送</string>
     <string name="task_frpc">Frpc设置</string>
@@ -1150,7 +1158,6 @@
     <string name="week">周</string>
     <string name="year">年</string>
     <string name="cron_expression">Cron表达式</string>
-    <string name="cron_expression_tips">采用 Quartz Cron 表达式</string>
     <string name="every_second">每秒钟</string>
     <string name="every_minute">每分钟</string>
     <string name="every_hour">每小时</string>
@@ -1202,9 +1209,9 @@
     <string name="discharged_to">放电到指定电量</string>
     <string name="charged_to">充电到指定电量</string>
     <string name="battery_discharged_to">电池放电低到%s%%</string>
-    <string name="battery_discharged_below">电池放电低于%s%%</string>
+    <string name="battery_discharged_below">电池放电低于%s%%, 持续提醒</string>
     <string name="battery_charged_to">电池充电达到%s%%</string>
-    <string name="battery_charged_above">电池充电高于%s%%</string>
+    <string name="battery_charged_above">电池充电高于%s%%, 持续提醒</string>
 
     <string name="sim_state">SIM卡状态：%s</string>
     <string name="sim_state_absent">被移除</string>

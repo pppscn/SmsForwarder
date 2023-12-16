@@ -2,6 +2,8 @@ package com.idormy.sms.forwarder.fragment.condition
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,16 +19,13 @@ import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_CONDITION
-import com.idormy.sms.forwarder.utils.KEY_TEST_CONDITION
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_TO_ADDRESS
 import com.idormy.sms.forwarder.utils.XToastUtils
-import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
 import com.xuexiang.xrouter.launcher.XRouter
-import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
@@ -37,7 +36,6 @@ class ToAddressFragment : BaseFragment<FragmentTasksConditionToAddressBinding?>(
 
     private val TAG: String = ToAddressFragment::class.java.simpleName
     var titleBar: TitleBar? = null
-    private var mCountDownHelper: CountDownButtonHelper? = null
 
     @JvmField
     @AutoWired(name = KEY_EVENT_DATA_CONDITION)
@@ -65,18 +63,6 @@ class ToAddressFragment : BaseFragment<FragmentTasksConditionToAddressBinding?>(
      * 初始化控件
      */
     override fun initViews() {
-        //测试按钮增加倒计时，避免重复点击
-        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 3)
-        mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
-            override fun onCountDown(time: Int) {
-                binding!!.btnTest.text = String.format(getString(R.string.seconds_n), time)
-            }
-
-            override fun onFinished() {
-                binding!!.btnTest.text = getString(R.string.test)
-            }
-        })
-
         binding!!.rgCalcType.setOnCheckedChangeListener { _, checkedId ->
             if (checkedId == R.id.rb_calc_type_distance) {
                 binding!!.layoutCalcTypeDistance.visibility = View.VISIBLE
@@ -85,35 +71,93 @@ class ToAddressFragment : BaseFragment<FragmentTasksConditionToAddressBinding?>(
                 binding!!.layoutCalcTypeDistance.visibility = View.GONE
                 binding!!.layoutCalcTypeAddress.visibility = View.VISIBLE
             }
+            try {
+                checkSetting(true)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
 
         Log.d(TAG, "initViews eventData:$eventData")
         if (eventData != null) {
             val settingVo = Gson().fromJson(eventData, LocationSetting::class.java)
             Log.d(TAG, "initViews settingVo:$settingVo")
-            binding!!.rgCalcType.check(settingVo.getCalcTypeCheckId())
+            binding!!.tvDescription.text = settingVo.description
             binding!!.etLongitude.setText(settingVo.longitude.toString())
             binding!!.etLatitude.setText(settingVo.latitude.toString())
             binding!!.etDistance.setText(settingVo.distance.toString())
             binding!!.etAddress.setText(settingVo.address)
+            binding!!.rgCalcType.check(settingVo.getCalcTypeCheckId())
         }
     }
 
     @SuppressLint("SetTextI18n")
     override fun initListeners() {
-        binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
         binding!!.btnCurrentCoordinates.setOnClickListener(this)
-        LiveEventBus.get(KEY_TEST_CONDITION, String::class.java).observe(this) {
-            mCountDownHelper?.finish()
-
-            if (it == "success") {
-                XToastUtils.success("测试通过", 30000)
-            } else {
-                XToastUtils.error(it, 30000)
+        binding!!.etLongitude.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                try {
+                    val changedText = s.toString()
+                    if (changedText.isEmpty()) {
+                        binding!!.etLongitude.setText("0")
+                        binding!!.etLongitude.setSelection(binding!!.etLongitude.text.length) // 将光标移至文本末尾
+                    } else {
+                        checkSetting(true)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
-        }
+        })
+        binding!!.etLatitude.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                try {
+                    val changedText = s.toString()
+                    if (changedText.isEmpty()) {
+                        binding!!.etLatitude.setText("0")
+                        binding!!.etLatitude.setSelection(binding!!.etLatitude.text.length) // 将光标移至文本末尾
+                    } else {
+                        checkSetting(true)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        })
+        binding!!.etDistance.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                try {
+                    val changedText = s.toString()
+                    if (changedText.isEmpty()) {
+                        binding!!.etDistance.setText("1")
+                        binding!!.etDistance.setSelection(binding!!.etDistance.text.length) // 将光标移至文本末尾
+                    } else {
+                        checkSetting(true)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        })
+        binding!!.etAddress.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                try {
+                    checkSetting(true)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        })
     }
 
     @SingleClick
@@ -122,18 +166,12 @@ class ToAddressFragment : BaseFragment<FragmentTasksConditionToAddressBinding?>(
             when (v.id) {
                 R.id.btn_current_coordinates -> {
                     if (!App.LocationClient.isStarted()) {
-                        MaterialDialog.Builder(requireContext())
-                            .iconRes(R.drawable.auto_task_icon_location)
-                            .title(R.string.enable_location)
-                            .content(R.string.enable_location_dialog)
-                            .cancelable(false)
-                            .positiveText(R.string.lab_yes)
-                            .negativeText(R.string.lab_no).onPositive { _: MaterialDialog?, _: DialogAction? ->
-                                SettingUtils.enableLocation = true
-                                val serviceIntent = Intent(requireContext(), LocationService::class.java)
-                                serviceIntent.action = "START"
-                                requireContext().startService(serviceIntent)
-                            }.show()
+                        MaterialDialog.Builder(requireContext()).iconRes(R.drawable.auto_task_icon_location).title(R.string.enable_location).content(R.string.enable_location_dialog).cancelable(false).positiveText(R.string.lab_yes).negativeText(R.string.lab_no).onPositive { _: MaterialDialog?, _: DialogAction? ->
+                            SettingUtils.enableLocation = true
+                            val serviceIntent = Intent(requireContext(), LocationService::class.java)
+                            serviceIntent.action = "START"
+                            requireContext().startService(serviceIntent)
+                        }.show()
                         return
                     }
 
@@ -146,21 +184,6 @@ class ToAddressFragment : BaseFragment<FragmentTasksConditionToAddressBinding?>(
                     binding!!.etLatitude.setText(location.latitude.toString())
                     binding!!.etLongitude.setText(location.longitude.toString())
                     XToastUtils.success(String.format(getString(R.string.current_address), location.address), 30000)
-                }
-
-                R.id.btn_test -> {
-                    mCountDownHelper?.start()
-                    Thread {
-                        try {
-                            val settingVo = checkSetting()
-                            Log.d(TAG, settingVo.toString())
-                            LiveEventBus.get(KEY_TEST_CONDITION, String::class.java).post("success")
-                        } catch (e: Exception) {
-                            LiveEventBus.get(KEY_TEST_CONDITION, String::class.java).post(e.message.toString())
-                            e.printStackTrace()
-                        }
-                    }.start()
-                    return
                 }
 
                 R.id.btn_del -> {
@@ -186,25 +209,36 @@ class ToAddressFragment : BaseFragment<FragmentTasksConditionToAddressBinding?>(
 
     //检查设置
     @SuppressLint("SetTextI18n")
-    private fun checkSetting(): LocationSetting {
+    private fun checkSetting(updateView: Boolean = false): LocationSetting {
         val longitude = binding!!.etLongitude.text.toString().toDouble()
         val latitude = binding!!.etLatitude.text.toString().toDouble()
         val distance = binding!!.etDistance.text.toString().toDouble()
         val address = binding!!.etAddress.text.toString()
-        var calcType = "distance"
-        if (binding!!.rbCalcTypeDistance.isChecked) {
-            if (latitude.isNaN() || longitude.isNaN() || distance.isNaN()) {
-                throw Exception(getString(R.string.calc_type_address_error))
+        val calcType = when (binding!!.rgCalcType.checkedRadioButtonId) {
+            R.id.rb_calc_type_distance -> {
+                Log.d(TAG, "longitude:$longitude latitude:$latitude distance:$distance")
+                if (latitude.isNaN() || longitude.isNaN() || distance.isNaN()) {
+                    throw Exception(getString(R.string.calc_type_distance_error))
+                }
+                description = String.format(getString(R.string.to_address_distance_description), longitude, latitude, distance)
+                "distance"
             }
-            description = String.format(getString(R.string.to_address_distance_description), longitude, latitude, distance)
-        } else if (binding!!.rbCalcTypeAddress.isChecked) {
-            if (address.isEmpty()) {
-                throw Exception(getString(R.string.calc_type_address_error))
+
+            else -> {
+                if (address.isEmpty()) {
+                    throw Exception(getString(R.string.calc_type_address_error))
+                }
+                description = String.format(getString(R.string.to_address_keyword_description), address)
+                "address"
             }
-            description = String.format(getString(R.string.to_address_keyword_description), address)
-            calcType = "address"
         }
 
-        return LocationSetting(description, "to", calcType, longitude, latitude, distance, address)
+        val settingVo = LocationSetting(description, "to", calcType, longitude, latitude, distance, address)
+
+        if (updateView) {
+            binding!!.tvDescription.text = description
+        }
+
+        return settingVo
     }
 }

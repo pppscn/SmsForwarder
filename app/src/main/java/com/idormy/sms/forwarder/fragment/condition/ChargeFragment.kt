@@ -14,15 +14,12 @@ import com.idormy.sms.forwarder.entity.task.ChargeSetting
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_CONDITION
-import com.idormy.sms.forwarder.utils.KEY_TEST_CONDITION
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CHARGE
 import com.idormy.sms.forwarder.utils.XToastUtils
-import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
 import com.xuexiang.xrouter.launcher.XRouter
-import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.widget.actionbar.TitleBar
 
 @Page(name = "Charge")
@@ -31,7 +28,6 @@ class ChargeFragment : BaseFragment<FragmentTasksConditionChargeBinding?>(), Vie
 
     private val TAG: String = ChargeFragment::class.java.simpleName
     var titleBar: TitleBar? = null
-    private var mCountDownHelper: CountDownButtonHelper? = null
 
     @JvmField
     @AutoWired(name = KEY_EVENT_DATA_CONDITION)
@@ -57,22 +53,11 @@ class ChargeFragment : BaseFragment<FragmentTasksConditionChargeBinding?>(), Vie
      * 初始化控件
      */
     override fun initViews() {
-        //测试按钮增加倒计时，避免重复点击
-        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 3)
-        mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
-            override fun onCountDown(time: Int) {
-                binding!!.btnTest.text = String.format(getString(R.string.seconds_n), time)
-            }
-
-            override fun onFinished() {
-                binding!!.btnTest.text = getString(R.string.test)
-            }
-        })
-
         Log.d(TAG, "initViews eventData:$eventData")
         if (eventData != null) {
             val settingVo = Gson().fromJson(eventData, ChargeSetting::class.java)
             Log.d(TAG, "initViews settingVo:$settingVo")
+            binding!!.tvDescription.text = settingVo.description
             binding!!.rgStatus.check(settingVo.getStatusCheckId())
             binding!!.rgPlugged.check(settingVo.getPluggedCheckId())
         }
@@ -80,17 +65,13 @@ class ChargeFragment : BaseFragment<FragmentTasksConditionChargeBinding?>(), Vie
 
     @SuppressLint("SetTextI18n")
     override fun initListeners() {
-        binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
-        LiveEventBus.get(KEY_TEST_CONDITION, String::class.java).observe(this) {
-            mCountDownHelper?.finish()
-
-            if (it == "success") {
-                XToastUtils.success("测试通过", 30000)
-            } else {
-                XToastUtils.error(it, 30000)
-            }
+        binding!!.rgStatus.setOnCheckedChangeListener { _, _ ->
+            checkSetting(true)
+        }
+        binding!!.rgPlugged.setOnCheckedChangeListener { _, _ ->
+            checkSetting(true)
         }
     }
 
@@ -98,20 +79,6 @@ class ChargeFragment : BaseFragment<FragmentTasksConditionChargeBinding?>(), Vie
     override fun onClick(v: View) {
         try {
             when (v.id) {
-                R.id.btn_test -> {
-                    mCountDownHelper?.start()
-                    Thread {
-                        try {
-                            val settingVo = checkSetting()
-                            Log.d(TAG, settingVo.toString())
-                            LiveEventBus.get(KEY_TEST_CONDITION, String::class.java).post("success")
-                        } catch (e: Exception) {
-                            LiveEventBus.get(KEY_TEST_CONDITION, String::class.java).post(e.message.toString())
-                            e.printStackTrace()
-                        }
-                    }.start()
-                    return
-                }
 
                 R.id.btn_del -> {
                     popToBack()
@@ -135,9 +102,15 @@ class ChargeFragment : BaseFragment<FragmentTasksConditionChargeBinding?>(), Vie
     }
 
     //检查设置
-    private fun checkSetting(): ChargeSetting {
+    private fun checkSetting(updateView: Boolean = false): ChargeSetting {
         val statusCheckId = binding!!.rgStatus.checkedRadioButtonId
         val pluggedCheckId = binding!!.rgPlugged.checkedRadioButtonId
-        return ChargeSetting(statusCheckId = statusCheckId, pluggedCheckId = pluggedCheckId)
+        val settingVo = ChargeSetting(statusCheckId = statusCheckId, pluggedCheckId = pluggedCheckId)
+
+        if (updateView) {
+            binding!!.tvDescription.text = settingVo.description
+        }
+
+        return settingVo
     }
 }

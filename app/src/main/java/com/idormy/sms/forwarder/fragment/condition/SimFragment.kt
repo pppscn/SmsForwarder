@@ -14,15 +14,12 @@ import com.idormy.sms.forwarder.entity.task.SimSetting
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_CONDITION
-import com.idormy.sms.forwarder.utils.KEY_TEST_CONDITION
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_SIM
 import com.idormy.sms.forwarder.utils.XToastUtils
-import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
 import com.xuexiang.xrouter.launcher.XRouter
-import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.widget.actionbar.TitleBar
 
 @Page(name = "Sim")
@@ -31,7 +28,6 @@ class SimFragment : BaseFragment<FragmentTasksConditionSimBinding?>(), View.OnCl
 
     private val TAG: String = SimFragment::class.java.simpleName
     var titleBar: TitleBar? = null
-    private var mCountDownHelper: CountDownButtonHelper? = null
 
     @JvmField
     @AutoWired(name = KEY_EVENT_DATA_CONDITION)
@@ -57,39 +53,21 @@ class SimFragment : BaseFragment<FragmentTasksConditionSimBinding?>(), View.OnCl
      * 初始化控件
      */
     override fun initViews() {
-        //测试按钮增加倒计时，避免重复点击
-        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 3)
-        mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
-            override fun onCountDown(time: Int) {
-                binding!!.btnTest.text = String.format(getString(R.string.seconds_n), time)
-            }
-
-            override fun onFinished() {
-                binding!!.btnTest.text = getString(R.string.test)
-            }
-        })
-
         Log.d(TAG, "initViews eventData:$eventData")
         if (eventData != null) {
             val settingVo = Gson().fromJson(eventData, SimSetting::class.java)
             Log.d(TAG, "initViews settingVo:$settingVo")
+            binding!!.tvDescription.text = settingVo.description
             binding!!.rgSimState.check(settingVo.getSimStateCheckId())
         }
     }
 
     @SuppressLint("SetTextI18n")
     override fun initListeners() {
-        binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
-        LiveEventBus.get(KEY_TEST_CONDITION, String::class.java).observe(this) {
-            mCountDownHelper?.finish()
-
-            if (it == "success") {
-                XToastUtils.success("测试通过", 30000)
-            } else {
-                XToastUtils.error(it, 30000)
-            }
+        binding!!.rgSimState.setOnCheckedChangeListener { _, _ ->
+            checkSetting(true)
         }
     }
 
@@ -97,20 +75,6 @@ class SimFragment : BaseFragment<FragmentTasksConditionSimBinding?>(), View.OnCl
     override fun onClick(v: View) {
         try {
             when (v.id) {
-                R.id.btn_test -> {
-                    mCountDownHelper?.start()
-                    Thread {
-                        try {
-                            val settingVo = checkSetting()
-                            Log.d(TAG, settingVo.toString())
-                            LiveEventBus.get(KEY_TEST_CONDITION, String::class.java).post("success")
-                        } catch (e: Exception) {
-                            LiveEventBus.get(KEY_TEST_CONDITION, String::class.java).post(e.message.toString())
-                            e.printStackTrace()
-                        }
-                    }.start()
-                    return
-                }
 
                 R.id.btn_del -> {
                     popToBack()
@@ -134,8 +98,14 @@ class SimFragment : BaseFragment<FragmentTasksConditionSimBinding?>(), View.OnCl
     }
 
     //检查设置
-    private fun checkSetting(): SimSetting {
+    private fun checkSetting(updateView: Boolean = false): SimSetting {
         val simStateCheckId = binding!!.rgSimState.checkedRadioButtonId
-        return SimSetting(simStateCheckId)
+        val settingVo = SimSetting(simStateCheckId)
+
+        if (updateView) {
+            binding!!.tvDescription.text = settingVo.description
+        }
+
+        return settingVo
     }
 }

@@ -1129,13 +1129,21 @@
     <string name="select_task_action">Please select action</string>
     <string name="bottom_sheet_close">Close</string>
     <string name="task_cron">Cron</string>
+    <string name="task_cron_tips">Quartz Cron Expression</string>
     <string name="task_to_address">To Address</string>
+    <string name="task_to_address_tips">Using latitude and longitude coordinates (WGS-84).</string>
     <string name="task_leave_address">Leave Address</string>
+    <string name="task_leave_address_tips">Using latitude and longitude coordinates (WGS-84).</string>
     <string name="task_network">Network</string>
+    <string name="task_network_tips">Trigger upon network status change.</string>
     <string name="task_sim">SIM Status</string>
+    <string name="task_sim_tips">Trigger upon SIM Status change.</string>
     <string name="task_battery">Battery</string>
+    <string name="task_battery_tips">Trigger when battery level meets condition.</string>
     <string name="task_charge">Charge</string>
+    <string name="task_charge_tips">Trigger when charge status meets condition.</string>
     <string name="task_lock_screen">Screen Off/On</string>
+    <string name="task_lock_screen_tips">Trigger upon screen lock/unlock instantly or after a set time.</string>
     <string name="task_sendsms">Send Sms</string>
     <string name="task_notification">Notification</string>
     <string name="task_frpc">Frpc Setting</string>
@@ -1149,7 +1157,6 @@
     <string name="week">Week</string>
     <string name="year">Year</string>
     <string name="cron_expression">Cron Expression</string>
-    <string name="cron_expression_tips">Quartz Cron Expression</string>
     <string name="every_second">Every Second</string>
     <string name="every_minute">Every Minute</string>
     <string name="every_hour">Every Hour</string>
@@ -1201,9 +1208,9 @@
     <string name="discharged_to">Discharged to the specified battery level</string>
     <string name="charged_to">Charged to the specified battery level</string>
     <string name="battery_discharged_to">The battery discharged to %s%%</string>
-    <string name="battery_discharged_below">"The battery discharged below %s%%</string>
+    <string name="battery_discharged_below">"The battery discharged below %s%%, keep reminding</string>
     <string name="battery_charged_to">The battery charged to %s%%</string>
-    <string name="battery_charged_above">The battery charged above %s%%</string>
+    <string name="battery_charged_above">The battery charged above %s%%, keep reminding</string>
 
     <string name="sim_state">SIM State：%s</string>
     <string name="sim_state_absent">Absent</string>

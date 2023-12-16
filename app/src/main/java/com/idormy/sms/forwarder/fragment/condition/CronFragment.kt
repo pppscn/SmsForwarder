@@ -116,6 +116,7 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
         Log.d(TAG, "initViews eventData:$eventData")
         if (eventData != null) {
             val settingVo = Gson().fromJson(eventData, CronSetting::class.java)
+            binding!!.tvDescription.text = settingVo.description
             expression = settingVo.expression
             Log.d(TAG, "initViews expression:$expression")
 
@@ -159,6 +160,7 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
                     nextTimeList.add(dateFormat.format(nextDate))
                     times++
                 }
+                binding!!.tvDescription.text = description
                 binding!!.tvCronExpressionCheckTips.text = "$expression\n$description"
                 binding!!.tvNextTimeList.text = String.format(getString(R.string.next_execution_times), times.toString(), nextTimeList.joinToString("\n"))
                 binding!!.tvNextTimeList.visibility = View.VISIBLE
@@ -235,13 +237,6 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
                 afterSecondChanged()
             }
         }
-        /*binding!!.etSecond.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                afterSecondChanged()
-            }
-        })*/
         binding!!.etSecond.setText(second)
         afterSecondChanged()
 
@@ -405,13 +400,6 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
                 afterMinuteChanged()
             }
         }
-        /*binding!!.etMinute.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                afterMinuteChanged()
-            }
-        })*/
         binding!!.etMinute.setText(minute)
         afterMinuteChanged()
 
@@ -575,13 +563,6 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
                 afterHourChanged()
             }
         }
-        /*binding!!.etHour.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                afterHourChanged()
-            }
-        })*/
         binding!!.etHour.setText(hour)
         afterHourChanged()
 
@@ -745,13 +726,6 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
                 afterDayChanged()
             }
         }
-        /*binding!!.etDay.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                afterDayChanged()
-            }
-        })*/
         binding!!.etDay.setText(day)
         afterDayChanged()
 
@@ -961,13 +935,6 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
                 afterMonthChanged()
             }
         }
-        /*binding!!.etMonth.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                afterMonthChanged()
-            }
-        })*/
         binding!!.etMonth.setText(month)
         afterMonthChanged()
 
@@ -1130,13 +1097,6 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
                 afterWeekChanged()
             }
         }
-        /*binding!!.etWeek.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                afterWeekChanged()
-            }
-        })*/
         binding!!.etWeek.setText(week)
         afterWeekChanged()
 
@@ -1346,13 +1306,6 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
                 afterYearChanged()
             }
         }
-        /*binding!!.etYear.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                afterYearChanged()
-            }
-        })*/
         binding!!.etYear.setText(year)
         afterYearChanged()
 

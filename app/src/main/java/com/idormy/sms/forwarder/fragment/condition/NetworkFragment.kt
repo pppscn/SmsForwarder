@@ -2,6 +2,8 @@ package com.idormy.sms.forwarder.fragment.condition
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,15 +16,12 @@ import com.idormy.sms.forwarder.entity.task.NetworkSetting
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_CONDITION
-import com.idormy.sms.forwarder.utils.KEY_TEST_CONDITION
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_NETWORK
 import com.idormy.sms.forwarder.utils.XToastUtils
-import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
 import com.xuexiang.xrouter.launcher.XRouter
-import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.widget.actionbar.TitleBar
 
 @Page(name = "Network")
@@ -31,7 +30,6 @@ class NetworkFragment : BaseFragment<FragmentTasksConditionNetworkBinding?>(), V
 
     private val TAG: String = NetworkFragment::class.java.simpleName
     var titleBar: TitleBar? = null
-    private var mCountDownHelper: CountDownButtonHelper? = null
 
     @JvmField
     @AutoWired(name = KEY_EVENT_DATA_CONDITION)
@@ -57,68 +55,45 @@ class NetworkFragment : BaseFragment<FragmentTasksConditionNetworkBinding?>(), V
      * 初始化控件
      */
     override fun initViews() {
-        //测试按钮增加倒计时，避免重复点击
-        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 3)
-        mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
-            override fun onCountDown(time: Int) {
-                binding!!.btnTest.text = String.format(getString(R.string.seconds_n), time)
-            }
-
-            override fun onFinished() {
-                binding!!.btnTest.text = getString(R.string.test)
-            }
-        })
 
         binding!!.rgNetworkState.setOnCheckedChangeListener { _, checkedId ->
             Log.d(TAG, "rgNetworkState checkedId:$checkedId")
             binding!!.layoutDataSimSlot.visibility = if (checkedId == R.id.rb_net_mobile) View.VISIBLE else View.GONE
             binding!!.layoutWifiSsid.visibility = if (checkedId == R.id.rb_net_wifi) View.VISIBLE else View.GONE
+            checkSetting(true)
         }
 
         Log.d(TAG, "initViews eventData:$eventData")
         if (eventData != null) {
             val settingVo = Gson().fromJson(eventData, NetworkSetting::class.java)
             Log.d(TAG, "initViews settingVo:$settingVo")
-            binding!!.rgNetworkState.check(settingVo.getNetworkStateCheckId())
+            binding!!.tvDescription.text = settingVo.description
             binding!!.rgDataSimSlot.check(settingVo.getDataSimSlotCheckId())
             binding!!.etWifiSsid.setText(settingVo.wifiSsid)
+            binding!!.rgNetworkState.check(settingVo.getNetworkStateCheckId())
         }
     }
 
     @SuppressLint("SetTextI18n")
     override fun initListeners() {
-        binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
-        LiveEventBus.get(KEY_TEST_CONDITION, String::class.java).observe(this) {
-            mCountDownHelper?.finish()
-
-            if (it == "success") {
-                XToastUtils.success("测试通过", 30000)
-            } else {
-                XToastUtils.error(it, 30000)
-            }
+        binding!!.rgDataSimSlot.setOnCheckedChangeListener { _, _ ->
+            checkSetting(true)
         }
+        binding!!.etWifiSsid.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                checkSetting(true)
+            }
+        })
     }
 
     @SingleClick
     override fun onClick(v: View) {
         try {
             when (v.id) {
-                R.id.btn_test -> {
-                    mCountDownHelper?.start()
-                    Thread {
-                        try {
-                            val settingVo = checkSetting()
-                            Log.d(TAG, settingVo.toString())
-                            LiveEventBus.get(KEY_TEST_CONDITION, String::class.java).post("success")
-                        } catch (e: Exception) {
-                            LiveEventBus.get(KEY_TEST_CONDITION, String::class.java).post(e.message.toString())
-                            e.printStackTrace()
-                        }
-                    }.start()
-                    return
-                }
 
                 R.id.btn_del -> {
                     popToBack()
@@ -142,10 +117,16 @@ class NetworkFragment : BaseFragment<FragmentTasksConditionNetworkBinding?>(), V
     }
 
     //检查设置
-    private fun checkSetting(): NetworkSetting {
+    private fun checkSetting(updateView: Boolean = false): NetworkSetting {
         val networkStateCheckId = binding!!.rgNetworkState.checkedRadioButtonId
         val dataSimSlotCheckId = binding!!.rgDataSimSlot.checkedRadioButtonId
         val wifiSsid = binding!!.etWifiSsid.text.toString().trim()
-        return NetworkSetting(networkStateCheckId, dataSimSlotCheckId, wifiSsid)
+        val settingVo = NetworkSetting(networkStateCheckId, dataSimSlotCheckId, wifiSsid)
+
+        if (updateView) {
+            binding!!.tvDescription.text = settingVo.description
+        }
+
+        return settingVo
     }
 }

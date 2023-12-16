@@ -38,7 +38,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/task_network"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/task_network_tips"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -197,17 +206,6 @@
             android:text="@string/submit"
             android:textSize="11sp"
             tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
-
-        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
-            android:id="@+id/btn_test"
-            style="@style/SuperButton.Green.Icon"
-            android:layout_marginStart="10dp"
-            android:drawableStart="@drawable/icon_test"
-            android:paddingStart="15dp"
-            android:text="@string/test"
-            android:textSize="11sp"
-            android:visibility="gone"
-            tools:ignore="RtlSymmetry" />
 
     </LinearLayout>
 

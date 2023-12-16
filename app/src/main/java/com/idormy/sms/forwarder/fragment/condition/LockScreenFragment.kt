@@ -14,15 +14,12 @@ import com.idormy.sms.forwarder.entity.task.LockScreenSetting
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_CONDITION
-import com.idormy.sms.forwarder.utils.KEY_TEST_CONDITION
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_LOCK_SCREEN
 import com.idormy.sms.forwarder.utils.XToastUtils
-import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
 import com.xuexiang.xrouter.launcher.XRouter
-import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.widget.actionbar.TitleBar
 
 @Page(name = "LockScreen")
@@ -31,7 +28,6 @@ class LockScreenFragment : BaseFragment<FragmentTasksConditionLockScreenBinding?
 
     private val TAG: String = LockScreenFragment::class.java.simpleName
     var titleBar: TitleBar? = null
-    private var mCountDownHelper: CountDownButtonHelper? = null
 
     @JvmField
     @AutoWired(name = KEY_EVENT_DATA_CONDITION)
@@ -57,18 +53,6 @@ class LockScreenFragment : BaseFragment<FragmentTasksConditionLockScreenBinding?
      * 初始化控件
      */
     override fun initViews() {
-        //测试按钮增加倒计时，避免重复点击
-        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 3)
-        mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
-            override fun onCountDown(time: Int) {
-                binding!!.btnTest.text = String.format(getString(R.string.seconds_n), time)
-            }
-
-            override fun onFinished() {
-                binding!!.btnTest.text = getString(R.string.test)
-            }
-        })
-
         binding!!.rgAction.setOnCheckedChangeListener { _, checkedId ->
             if (checkedId == R.id.rb_action_screen_off) {
                 binding!!.xsbTimeAfterScreenOff.visibility = View.VISIBLE
@@ -77,15 +61,17 @@ class LockScreenFragment : BaseFragment<FragmentTasksConditionLockScreenBinding?
                 binding!!.xsbTimeAfterScreenOff.visibility = View.GONE
                 binding!!.xsbTimeAfterScreenOn.visibility = View.VISIBLE
             }
+            checkSetting(true)
         }
 
         Log.d(TAG, "initViews eventData:$eventData")
         if (eventData != null) {
             val settingVo = Gson().fromJson(eventData, LockScreenSetting::class.java)
             Log.d(TAG, "initViews settingVo:$settingVo")
-            binding!!.rgAction.check(settingVo.getActionCheckId())
+            binding!!.tvDescription.text = settingVo.description
             binding!!.xsbTimeAfterScreenOff.setDefaultValue(settingVo.timeAfterScreenOff)
             binding!!.xsbTimeAfterScreenOn.setDefaultValue(settingVo.timeAfterScreenOn)
+            binding!!.rgAction.check(settingVo.getActionCheckId())
         } else {
             binding!!.xsbTimeAfterScreenOff.setDefaultValue(0)
             binding!!.xsbTimeAfterScreenOn.setDefaultValue(0)
@@ -94,17 +80,13 @@ class LockScreenFragment : BaseFragment<FragmentTasksConditionLockScreenBinding?
 
     @SuppressLint("SetTextI18n")
     override fun initListeners() {
-        binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
-        LiveEventBus.get(KEY_TEST_CONDITION, String::class.java).observe(this) {
-            mCountDownHelper?.finish()
-
-            if (it == "success") {
-                XToastUtils.success("测试通过", 30000)
-            } else {
-                XToastUtils.error(it, 30000)
-            }
+        binding!!.xsbTimeAfterScreenOff.setOnSeekBarListener { _, _ ->
+            checkSetting(true)
+        }
+        binding!!.xsbTimeAfterScreenOn.setOnSeekBarListener { _, _ ->
+            checkSetting(true)
         }
     }
 
@@ -112,20 +94,6 @@ class LockScreenFragment : BaseFragment<FragmentTasksConditionLockScreenBinding?
     override fun onClick(v: View) {
         try {
             when (v.id) {
-                R.id.btn_test -> {
-                    mCountDownHelper?.start()
-                    Thread {
-                        try {
-                            val settingVo = checkSetting()
-                            Log.d(TAG, settingVo.toString())
-                            LiveEventBus.get(KEY_TEST_CONDITION, String::class.java).post("success")
-                        } catch (e: Exception) {
-                            LiveEventBus.get(KEY_TEST_CONDITION, String::class.java).post(e.message.toString())
-                            e.printStackTrace()
-                        }
-                    }.start()
-                    return
-                }
 
                 R.id.btn_del -> {
                     popToBack()
@@ -150,10 +118,16 @@ class LockScreenFragment : BaseFragment<FragmentTasksConditionLockScreenBinding?
 
     //检查设置
     @SuppressLint("SetTextI18n")
-    private fun checkSetting(): LockScreenSetting {
+    private fun checkSetting(updateView: Boolean = false): LockScreenSetting {
         val actionCheckId = binding!!.rgAction.checkedRadioButtonId
         val timeAfterScreenOff = binding!!.xsbTimeAfterScreenOff.selectedNumber
         val timeAfterScreenOn = binding!!.xsbTimeAfterScreenOn.selectedNumber
-        return LockScreenSetting(actionCheckId, timeAfterScreenOff, timeAfterScreenOn)
+        val settingVo = LockScreenSetting(actionCheckId, timeAfterScreenOff, timeAfterScreenOn)
+
+        if (updateView) {
+            binding!!.tvDescription.text = settingVo.description
+        }
+
+        return settingVo
     }
 }
