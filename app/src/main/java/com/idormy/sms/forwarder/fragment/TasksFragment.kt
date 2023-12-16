@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.fragment
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -104,7 +105,9 @@ class TasksFragment : BaseFragment<FragmentTasksBinding?>(), TaskPagingAdapter.O
 
     override fun onItemClicked(view: View?, item: Task) {
         when (view?.id) {
-            R.id.sb_enable_task -> {
+            R.id.sb_enable -> {
+                item.status = if (item.status == 0) 1 else 0
+                Log.d(TAG, "sb_enable: ${item.id}, ${item.status}")
                 viewModel.updateStatus(item.id, item.status)
             }
 

@@ -1,11 +1,9 @@
 package com.idormy.sms.forwarder.entity.task
 
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.entity.LocationInfo
+import com.idormy.sms.forwarder.utils.task.ConditionUtils.Companion.calculateDistance
 import java.io.Serializable
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.sqrt
 
 data class LocationSetting(
     var description: String = "", //描述
@@ -25,12 +23,24 @@ data class LocationSetting(
         }
     }
 
-    fun calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
-        val earthRadius = 6371000.0 // 地球平均半径，单位：米
-        val latDistance = Math.toRadians(lat2 - lat1)
-        val lonDistance = Math.toRadians(lon2 - lon1)
-        val a = sin(latDistance / 2) * sin(latDistance / 2) + cos(Math.toRadians(lat1)) * cos(Math.toRadians(lat2)) * sin(lonDistance / 2) * sin(lonDistance / 2)
-        val c = 2 * atan2(sqrt(a), sqrt(1 - a))
-        return earthRadius * c
+    //判断是否满足条件
+    fun isMatchCondition(locationOld: LocationInfo, locationNew: LocationInfo): Boolean {
+        if (calcType == "distance") {
+            val distanceOld = calculateDistance(locationOld.latitude, locationOld.longitude, latitude, longitude)
+            val distanceNew = calculateDistance(locationNew.latitude, locationNew.longitude, latitude, longitude)
+            if (type == "to" && distanceOld > distance && distanceNew <= distance) {
+                return true
+            } else if (type == "leave" && distanceOld <= distance && distanceNew > distance) {
+                return true
+            }
+        } else if (calcType == "address") {
+            if (type == "to" && !locationOld.address.contains(address) && locationNew.address.contains(address)) {
+                return true
+            } else if (type == "leave" && locationOld.address.contains(address) && !locationNew.address.contains(address)) {
+                return true
+            }
+        }
+        return false
     }
+
 }

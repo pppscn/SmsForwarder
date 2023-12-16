@@ -1235,13 +1235,14 @@
     <string name="keyword_leave_address_2"> = leaved</string>
     <string name="calc_type_distance_error">Latitude and longitude or distance cannot be empty.</string>
     <string name="calc_type_address_error">Address keyword cannot be empty.</string>
-    <string name="to_address_distance_description">Around longitude %s, latitude %s, within a %s-meter radius.</string>
+    <string name="to_address_distance_description">Entering area centered at (%s, %s) with a radius of %s-meter.</string>
     <string name="to_address_keyword_description">GPS address contains %s means arrival.</string>
-    <string name="leave_address_distance_description">Leave around longitude %s, latitude %s, within a %s-meter radius.</string>
+    <string name="leave_address_distance_description">Leave area centered at (%s, %s) with a radius of %s-meter.</string>
     <string name="leave_address_keyword_description">GPS address NOT contains %s means leaved.</string>
     <string name="condition_already_exists">This type of condition already exists.</string>
     <string name="action_already_exists">This type of action already exists.</string>
-    <string name="only_one_location_condition">Only one condition, either "To Address" or "Leave Address" can be added.</string>
+    <string name="only_one_location_condition">"To Address" vs "Leave Address": mutually exclusive.</string>
     <string name="current_address">Current Address: %s</string>
     <string name="location_failed">Location failed. Please try again later.</string>
+    <string name="current_distance_from_center">, %s meters from the center.</string>
 </resources>

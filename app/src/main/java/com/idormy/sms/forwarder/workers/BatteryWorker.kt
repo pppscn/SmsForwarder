@@ -46,24 +46,24 @@ class BatteryWorker(context: Context, params: WorkerParameters) : CoroutineWorke
                     // 根据任务信息执行相应操作
                     val conditionList = Gson().fromJson(task.conditions, Array<TaskSetting>::class.java).toMutableList()
                     if (conditionList.isEmpty()) {
-                        Log.d(TAG, "任务${task.id}：conditionList is empty")
+                        Log.d(TAG, "TASK-${task.id}：conditionList is empty")
                         continue
                     }
                     val firstCondition = conditionList.firstOrNull()
                     if (firstCondition == null) {
-                        Log.d(TAG, "任务${task.id}：firstCondition is null")
+                        Log.d(TAG, "TASK-${task.id}：firstCondition is null")
                         continue
                     }
 
                     val batterySetting = Gson().fromJson(firstCondition.setting, BatterySetting::class.java)
                     if (batterySetting == null) {
-                        Log.d(TAG, "任务${task.id}：batterySetting is null")
+                        Log.d(TAG, "TASK-${task.id}：batterySetting is null")
                         continue
                     }
 
                     val msg = batterySetting.getMsg(status, levelNew, levelOld, TaskUtils.batteryInfo)
                     if (msg.isEmpty()) {
-                        Log.d(TAG, "任务${task.id}：msg is empty, batterySetting = $batterySetting, status = $status, levelNew = $levelNew, levelOld = $levelOld")
+                        Log.d(TAG, "TASK-${task.id}：msg is empty, batterySetting = $batterySetting, status = $status, levelNew = $levelNew, levelOld = $levelOld")
                         continue
                     }
 
@@ -101,24 +101,24 @@ class BatteryWorker(context: Context, params: WorkerParameters) : CoroutineWorke
                     // 根据任务信息执行相应操作
                     val conditionList = Gson().fromJson(task.conditions, Array<TaskSetting>::class.java).toMutableList()
                     if (conditionList.isEmpty()) {
-                        Log.d(TAG, "任务${task.id}：conditionList is empty")
+                        Log.d(TAG, "TASK-${task.id}：conditionList is empty")
                         continue
                     }
                     val firstCondition = conditionList.firstOrNull()
                     if (firstCondition == null) {
-                        Log.d(TAG, "任务${task.id}：firstCondition is null")
+                        Log.d(TAG, "TASK-${task.id}：firstCondition is null")
                         continue
                     }
 
                     val chargeSetting = Gson().fromJson(firstCondition.setting, ChargeSetting::class.java)
                     if (chargeSetting == null) {
-                        Log.d(TAG, "任务${task.id}：chargeSetting is null")
+                        Log.d(TAG, "TASK-${task.id}：chargeSetting is null")
                         continue
                     }
 
                     val msg = chargeSetting.getMsg(statusNew, statusOld, pluggedNew, pluggedOld, TaskUtils.batteryInfo)
                     if (msg.isEmpty()) {
-                        Log.d(TAG, "任务${task.id}：msg is empty, chargeSetting = $chargeSetting, statusNew = $statusNew, statusOld = $statusOld, pluggedNew = $pluggedNew, pluggedOld = $pluggedOld")
+                        Log.d(TAG, "TASK-${task.id}：msg is empty, chargeSetting = $chargeSetting, statusNew = $statusNew, statusOld = $statusOld, pluggedNew = $pluggedNew, pluggedOld = $pluggedOld")
                         continue
                     }
 

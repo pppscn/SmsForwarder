@@ -35,23 +35,23 @@ class LockScreenWorker(context: Context, params: WorkerParameters) : CoroutineWo
             // 根据任务信息执行相应操作
             val conditionList = Gson().fromJson(task.conditions, Array<TaskSetting>::class.java).toMutableList()
             if (conditionList.isEmpty()) {
-                Log.d(TAG, "任务${task.id}：conditionList is empty")
+                Log.d(TAG, "TASK-${task.id}：conditionList is empty")
                 continue
             }
             val firstCondition = conditionList.firstOrNull()
             if (firstCondition == null) {
-                Log.d(TAG, "任务${task.id}：firstCondition is null")
+                Log.d(TAG, "TASK-${task.id}：firstCondition is null")
                 continue
             }
 
             val lockScreenSetting = Gson().fromJson(firstCondition.setting, LockScreenSetting::class.java)
             if (lockScreenSetting == null) {
-                Log.d(TAG, "任务${task.id}：lockScreenSetting is null")
+                Log.d(TAG, "TASK-${task.id}：lockScreenSetting is null")
                 continue
             }
 
             if (action != lockScreenSetting.action) {
-                Log.d(TAG, "任务${task.id}：action is not match, action = $action, lockScreenSetting = $lockScreenSetting")
+                Log.d(TAG, "TASK-${task.id}：action is not match, action = $action, lockScreenSetting = $lockScreenSetting")
                 continue
             }
 

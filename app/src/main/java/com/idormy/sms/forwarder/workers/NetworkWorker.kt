@@ -39,23 +39,23 @@ class NetworkWorker(context: Context, params: WorkerParameters) : CoroutineWorke
             // 根据任务信息执行相应操作
             val conditionList = Gson().fromJson(task.conditions, Array<TaskSetting>::class.java).toMutableList()
             if (conditionList.isEmpty()) {
-                Log.d(TAG, "任务${task.id}：conditionList is empty")
+                Log.d(TAG, "TASK-${task.id}：conditionList is empty")
                 continue
             }
             val firstCondition = conditionList.firstOrNull()
             if (firstCondition == null) {
-                Log.d(TAG, "任务${task.id}：firstCondition is null")
+                Log.d(TAG, "TASK-${task.id}：firstCondition is null")
                 continue
             }
 
             val networkSetting = Gson().fromJson(firstCondition.setting, NetworkSetting::class.java)
             if (networkSetting == null) {
-                Log.d(TAG, "任务${task.id}：networkSetting is null")
+                Log.d(TAG, "TASK-${task.id}：networkSetting is null")
                 continue
             }
 
             if (TaskUtils.networkState != networkSetting.networkState) {
-                Log.d(TAG, "任务${task.id}：networkState is not match, networkSetting = $networkSetting")
+                Log.d(TAG, "TASK-${task.id}：networkState is not match, networkSetting = $networkSetting")
                 continue
             }
 
@@ -70,7 +70,7 @@ class NetworkWorker(context: Context, params: WorkerParameters) : CoroutineWorke
                 1 -> {
                     val dataSimSlot = TaskUtils.dataSimSlot
                     if (networkSetting.dataSimSlot != 0 && dataSimSlot != networkSetting.dataSimSlot) {
-                        Log.d(TAG, "任务${task.id}：dataSimSlot is not match, networkSetting = $networkSetting")
+                        Log.d(TAG, "TASK-${task.id}：dataSimSlot is not match, networkSetting = $networkSetting")
                         continue
                     }
                     msg.append(getString(R.string.net_mobile)).append("\n")
@@ -93,7 +93,7 @@ class NetworkWorker(context: Context, params: WorkerParameters) : CoroutineWorke
                 //WiFi
                 2 -> {
                     if (networkSetting.wifiSsid.isNotEmpty() && TaskUtils.wifiSsid != networkSetting.wifiSsid) {
-                        Log.d(TAG, "任务${task.id}：wifiSsid is not match, networkSetting = $networkSetting")
+                        Log.d(TAG, "TASK-${task.id}：wifiSsid is not match, networkSetting = $networkSetting")
                         continue
                     }
                     msg.append(getString(R.string.net_wifi)).append("\n")

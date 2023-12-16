@@ -19,7 +19,7 @@ data class LocationInfo(
         if (address != "") msg += "\n" + String.format(ResUtils.getString(R.string.location_address), address)
         if (time != "") msg += "\n" + String.format(ResUtils.getString(R.string.location_time), time)
         if (provider != "") msg += "\n" + String.format(ResUtils.getString(R.string.location_provider), provider)
-        return msg
+        return msg + "\n"
     }
 
 }

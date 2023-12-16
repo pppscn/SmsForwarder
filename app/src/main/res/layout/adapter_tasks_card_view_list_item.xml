@@ -45,7 +45,7 @@
                 android:orientation="horizontal" />
 
             <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
-                android:id="@+id/sb_enable_task"
+                android:id="@+id/sb_enable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/config_padding_5dp"
@@ -119,8 +119,14 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
+                android:gravity="bottom|end"
                 android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -129,8 +135,8 @@
 
                     <ImageView
                         android:id="@+id/iv_copy"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
+                        android:layout_width="@dimen/card_view_image_size"
+                        android:layout_height="@dimen/card_view_image_size"
                         android:padding="@dimen/card_view_image_padding"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_copy"
@@ -139,8 +145,8 @@
 
                     <ImageView
                         android:id="@+id/iv_edit"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
+                        android:layout_width="@dimen/card_view_image_size"
+                        android:layout_height="@dimen/card_view_image_size"
                         android:padding="@dimen/card_view_image_padding"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_edit"
@@ -149,8 +155,8 @@
 
                     <ImageView
                         android:id="@+id/iv_delete"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
+                        android:layout_width="@dimen/card_view_image_size"
+                        android:layout_height="@dimen/card_view_image_size"
                         android:padding="@dimen/card_view_image_padding"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_delete"
@@ -158,12 +164,6 @@
                         tools:ignore="ContentDescription,PrivateResource" />
 
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp" />
 
             </LinearLayout>
 

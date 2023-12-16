@@ -45,7 +45,7 @@ class LocationService : Service(), Server.ServerListener {
         super.onCreate()
 
         if (!SettingUtils.enableLocation) return
-        startForegroundService()
+        startService()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -53,11 +53,11 @@ class LocationService : Service(), Server.ServerListener {
         if (intent != null) {
             when (intent.action) {
                 "START" -> {
-                    startForegroundService()
+                    startService()
                 }
 
                 "STOP" -> {
-                    stopForegroundService()
+                    stopService()
                 }
             }
         }
@@ -70,7 +70,7 @@ class LocationService : Service(), Server.ServerListener {
         super.onDestroy()
 
         if (!SettingUtils.enableLocation) return
-        stopForegroundService()
+        stopService()
     }
 
     override fun onException(e: Exception?) {
@@ -85,9 +85,12 @@ class LocationService : Service(), Server.ServerListener {
         Log.i(TAG, "onStopped: ")
     }
 
-    private fun startForegroundService() {
+    private fun startService() {
         try {
-            //远程找手机 TODO: 判断权限 ACCESS_COARSE_LOCATION ACCESS_FINE_LOCATION
+            //清空缓存
+            HttpServerUtils.apiLocationCache = LocationInfo()
+            TaskUtils.lastLocationInfo = LocationInfo()
+
             if (SettingUtils.enableLocation && PermissionUtils.isGranted(android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION)) {
                 //可根据具体需求设置定位配置参数（这里只列出一些主要的参数）
                 val locationOption = App.LocationClient.getLocationOption().setAccuracy(SettingUtils.locationAccuracy)//设置位置精度：高精度
@@ -121,28 +124,15 @@ class LocationService : Service(), Server.ServerListener {
 
                         //TODO: 触发自动任务
                         val locationInfoOld = TaskUtils.lastLocationInfo
-                        TaskUtils.lastLocationInfo = locationInfoNew
                         if (locationInfoOld.longitude != locationInfoNew.longitude || locationInfoOld.latitude != locationInfoNew.latitude || locationInfoOld.address != locationInfoNew.address) {
                             Log.d(TAG, "locationInfoOld = $locationInfoOld")
+                            TaskUtils.lastLocationInfo = locationInfoNew
 
-                            val locationInfoJsonOld = Gson().toJson(locationInfoOld)
-                            val locationInfoJsonNew = Gson().toJson(locationInfoNew)
-                            val toAddressRequest = OneTimeWorkRequestBuilder<LocationWorker>().setInputData(
-                                workDataOf(
-                                    TaskWorker.conditionType to TASK_CONDITION_TO_ADDRESS,
-                                    "locationInfoJsonOld" to locationInfoJsonOld,
-                                    "locationInfoJsonNew" to locationInfoJsonNew,
-                                )
-                            ).build()
-                            WorkManager.getInstance(applicationContext).enqueue(toAddressRequest)
-                            val leaveAddressRequest = OneTimeWorkRequestBuilder<LocationWorker>().setInputData(
-                                workDataOf(
-                                    TaskWorker.conditionType to TASK_CONDITION_LEAVE_ADDRESS,
-                                    "locationInfoJsonOld" to locationInfoJsonNew,
-                                    "locationInfoJsonNew" to locationInfoJsonOld,
-                                )
-                            ).build()
-                            WorkManager.getInstance(applicationContext).enqueue(leaveAddressRequest)
+                            val gson = Gson()
+                            val locationJsonOld = gson.toJson(locationInfoOld)
+                            val locationJsonNew = gson.toJson(locationInfoNew)
+                            enqueueLocationWorkerRequest(TASK_CONDITION_TO_ADDRESS, locationJsonOld, locationJsonNew)
+                            enqueueLocationWorkerRequest(TASK_CONDITION_LEAVE_ADDRESS, locationJsonOld, locationJsonNew)
                         }
                     }
 
@@ -185,7 +175,11 @@ class LocationService : Service(), Server.ServerListener {
         }
     }
 
-    private fun stopForegroundService() {
+    private fun stopService() {
+        //清空缓存
+        HttpServerUtils.apiLocationCache = LocationInfo()
+        TaskUtils.lastLocationInfo = LocationInfo()
+
         isRunning = try {
             //如果已经开始定位，则先停止定位
             if (SettingUtils.enableLocation && App.LocationClient.isStarted()) {
@@ -198,6 +192,22 @@ class LocationService : Service(), Server.ServerListener {
             e.printStackTrace()
             true
         }
+    }
+
+    private fun enqueueLocationWorkerRequest(
+        conditionType: Int,
+        locationJsonOld: String,
+        locationJsonNew: String
+    ) {
+        val locationWorkerRequest = OneTimeWorkRequestBuilder<LocationWorker>().setInputData(
+            workDataOf(
+                TaskWorker.conditionType to conditionType,
+                "locationJsonOld" to locationJsonOld,
+                "locationJsonNew" to locationJsonNew
+            )
+        ).build()
+
+        WorkManager.getInstance(applicationContext).enqueue(locationWorkerRequest)
     }
 
 }

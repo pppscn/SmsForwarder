@@ -88,7 +88,6 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         val LocationClient by lazy { LocationClient(context) }
         val Geocoder by lazy { Geocoder(context) }
         val DateFormat by lazy { SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()) }
-        val GeofenceStatusMap = mutableMapOf<Long, Boolean>() //是否已进入/离开围栏
     }
 
     override fun attachBaseContext(base: Context) {

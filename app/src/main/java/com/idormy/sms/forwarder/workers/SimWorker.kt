@@ -36,29 +36,29 @@ class SimWorker(context: Context, params: WorkerParameters) : CoroutineWorker(co
             // 根据任务信息执行相应操作
             val conditionList = Gson().fromJson(task.conditions, Array<TaskSetting>::class.java).toMutableList()
             if (conditionList.isEmpty()) {
-                Log.d(TAG, "任务${task.id}：conditionList is empty")
+                Log.d(TAG, "TASK-${task.id}：conditionList is empty")
                 continue
             }
             val firstCondition = conditionList.firstOrNull()
             if (firstCondition == null) {
-                Log.d(TAG, "任务${task.id}：firstCondition is null")
+                Log.d(TAG, "TASK-${task.id}：firstCondition is null")
                 continue
             }
 
             val simSetting = Gson().fromJson(firstCondition.setting, SimSetting::class.java)
             if (simSetting == null) {
-                Log.d(TAG, "任务${task.id}：simSetting is null")
+                Log.d(TAG, "TASK-${task.id}：simSetting is null")
                 continue
             }
 
             if (TaskUtils.simState != simSetting.simState) {
-                Log.d(TAG, "任务${task.id}：networkState is not match, simSetting = $simSetting")
+                Log.d(TAG, "TASK-${task.id}：networkState is not match, simSetting = $simSetting")
                 continue
             }
 
             //TODO：判断其他条件是否满足，注意：SIM卡已准备就绪，延迟5秒才进入这里（给够搜索信号时间）
             /*if (!TaskUtils.isConditionMatch(task, msg)) {
-                Log.d(TAG, "任务${task.id}：condition is not match")
+                Log.d(TAG, "TASK-${task.id}：condition is not match")
                 continue
             }*/
 

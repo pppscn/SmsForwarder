@@ -32,30 +32,30 @@ class CronWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
 
         val task = AppDatabase.getInstance(App.context).taskDao().getOne(taskId)
         if (task.status == 0) {
-            Log.d(TAG, "任务${task.id}：task is disabled")
+            Log.d(TAG, "TASK-${task.id}：task is disabled")
             return Result.success()
         }
 
         // 根据任务信息执行相应操作
         val conditionList = Gson().fromJson(task.conditions, Array<TaskSetting>::class.java).toMutableList()
         if (conditionList.isEmpty()) {
-            Log.d(TAG, "任务${task.id}：conditionList is empty")
+            Log.d(TAG, "TASK-${task.id}：conditionList is empty")
             return Result.failure()
         }
         val firstCondition = conditionList.firstOrNull()
         if (firstCondition == null) {
-            Log.d(TAG, "任务${task.id}：firstCondition is null")
+            Log.d(TAG, "TASK-${task.id}：firstCondition is null")
             return Result.failure()
         }
         val cronSetting = Gson().fromJson(firstCondition.setting, CronSetting::class.java)
         if (cronSetting == null) {
-            Log.d(TAG, "任务${task.id}：cronSetting is null")
+            Log.d(TAG, "TASK-${task.id}：cronSetting is null")
             return Result.failure()
         }
 
         // TODO: 判断其他条件是否满足
         if (false) {
-            Log.d(TAG, "任务${task.id}：其他条件不满足")
+            Log.d(TAG, "TASK-${task.id}：其他条件不满足")
             return Result.failure()
         }
 
@@ -67,7 +67,7 @@ class CronWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
         // 将 nextExecTime 的毫秒部分设置为 0，避免因为毫秒部分不同导致的任务重复执行
         nextExecTime.time = nextExecTime.time / 1000 * 1000
         task.nextExecTime = nextExecTime
-        Log.d(TAG, "任务${task.id}：lastExecTime = ${task.lastExecTime}, nextExecTime = ${task.nextExecTime}")
+        Log.d(TAG, "TASK-${task.id}：lastExecTime = ${task.lastExecTime}, nextExecTime = ${task.nextExecTime}")
 
         // 自动禁用任务
         if (task.nextExecTime.time / 1000 < now.time / 1000) {
@@ -78,7 +78,7 @@ class CronWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
         AppDatabase.getInstance(App.context).taskDao().updateExecTime(task.id, task.lastExecTime, task.nextExecTime, task.status)
 
         if (task.status == 0) {
-            Log.d(TAG, "任务${task.id}：task is disabled")
+            Log.d(TAG, "TASK-${task.id}：task is disabled")
             return Result.success()
         }
 

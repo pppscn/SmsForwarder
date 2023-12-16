@@ -22,12 +22,12 @@ class CronJobScheduler {
             val delayInMillis = task.nextExecTime.time / 1000 * 1000 - currentTimeMillis
             val inputData = Data.Builder().putLong(TaskWorker.taskId, task.id).build()
             val taskRequest = if (delayInMillis <= 0L) {
-                Log.d(TAG, "任务${task.id}：立即执行，delayInMillis = $delayInMillis")
+                Log.d(TAG, "TASK-${task.id}：立即执行，delayInMillis = $delayInMillis")
                 OneTimeWorkRequestBuilder<CronWorker>()
                     .setInputData(inputData)
                     .build()
             } else {
-                Log.d(TAG, "任务${task.id}：延迟 $delayInMillis 毫秒执行")
+                Log.d(TAG, "TASK-${task.id}：延迟 $delayInMillis 毫秒执行")
                 OneTimeWorkRequestBuilder<CronWorker>()
                     .setInitialDelay(delayInMillis, TimeUnit.MILLISECONDS)
                     .setInputData(inputData)
