@@ -46,7 +46,7 @@ import com.xuexiang.xutil.XUtil
 class SendSmsFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View.OnClickListener {
 
     private val TAG: String = SendSmsFragment::class.java.simpleName
-    var titleBar: TitleBar? = null
+    private var titleBar: TitleBar? = null
     private var mCountDownHelper: CountDownButtonHelper? = null
 
     @JvmField

@@ -25,11 +25,11 @@ import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xutil.data.ConvertTools
 
-@Suppress("PropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 @Page(name = "远程加话簿")
 class ContactAddFragment : BaseFragment<FragmentClientContactAddBinding?>(), View.OnClickListener {
 
-    val TAG: String = ContactAddFragment::class.java.simpleName
+    private val TAG: String = ContactAddFragment::class.java.simpleName
     private var mCountDownHelper: CountDownButtonHelper? = null
 
     override fun viewBindingInflate(
@@ -120,6 +120,7 @@ class ContactAddFragment : BaseFragment<FragmentClientContactAddBinding?>(), Vie
                         }
                         postRequest.upString(requestMsg)
                     }
+
                     3 -> {
                         try {
                             val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
@@ -134,6 +135,7 @@ class ContactAddFragment : BaseFragment<FragmentClientContactAddBinding?>(), Vie
                         }
                         postRequest.upString(requestMsg)
                     }
+
                     else -> {
                         postRequest.upJson(requestMsg)
                     }
@@ -174,6 +176,7 @@ class ContactAddFragment : BaseFragment<FragmentClientContactAddBinding?>(), Vie
                     }
                 })
             }
+
             else -> {}
         }
     }

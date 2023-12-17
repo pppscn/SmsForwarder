@@ -48,7 +48,7 @@ import java.util.Date
 class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnClickListener {
 
     private val TAG: String = WebhookFragment::class.java.simpleName
-    var titleBar: TitleBar? = null
+    private var titleBar: TitleBar? = null
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
     private var mCountDownHelper: CountDownButtonHelper? = null
     private var headerItemMap = HashMap<Int, LinearLayout>(2)

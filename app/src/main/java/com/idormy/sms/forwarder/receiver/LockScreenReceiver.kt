@@ -12,10 +12,10 @@ import com.idormy.sms.forwarder.utils.TaskWorker
 import com.idormy.sms.forwarder.utils.task.TaskUtils
 import com.idormy.sms.forwarder.workers.LockScreenWorker
 
-@Suppress("PropertyName")
+@Suppress("PrivatePropertyName")
 class LockScreenReceiver : BroadcastReceiver() {
 
-    val TAG: String = LockScreenReceiver::class.java.simpleName
+    private val TAG: String = LockScreenReceiver::class.java.simpleName
 
     override fun onReceive(context: Context?, intent: Intent?) {
 

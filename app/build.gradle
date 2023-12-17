@@ -1,3 +1,5 @@
+//file:noinspection GrDeprecatedAPIUsage
+//file:noinspection DependencyNotationArgument
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
@@ -159,7 +161,7 @@ android {
         }
     }
 
-    android.applicationVariants.all { variant ->
+    android.applicationVariants.configureEach { variant ->
         // Assigns a different version code for each output APK.
         variant.outputs.each { output ->
             def date = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08"))
@@ -197,8 +199,11 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation deps.espresso.core
 
+    //noinspection GradleDependency
     implementation 'androidx.core:core-ktx:1.9.0'
+    //noinspection GradleDependency
     implementation 'androidx.activity:activity-ktx:1.6.1'
+    //noinspection GradleDependency
     implementation 'androidx.fragment:fragment-ktx:1.5.5'
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -231,15 +236,22 @@ dependencies {
     //implementation 'com.meituan.android.walle:library:1.1.6'
 
     def work_version = '2.8.1'
+    //noinspection GradleDependency
     api("androidx.work:work-multiprocess:$work_version")
+    //noinspection GradleDependency
     api("androidx.work:work-runtime-ktx:$work_version")
 
     //Android Room
     def room_version = '2.5.2'
+    //noinspection GradleDependency
     implementation "androidx.room:room-ktx:$room_version"
+    //noinspection GradleDependency
     implementation "androidx.room:room-runtime:$room_version"
+    //noinspection GradleDependency
     implementation "androidx.room:room-paging:$room_version"
+    //noinspection GradleDependency
     implementation "androidx.room:room-rxjava2:$room_version"
+    //noinspection KaptUsageInsteadOfKsp
     kapt "androidx.room:room-compiler:$room_version"
 
     //CodeView：https://github.com/AmrDeveloper/CodeView
@@ -258,12 +270,14 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit2_version"
 
     def paging_version = "3.1.1"
+    //noinspection GradleDependency
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
     // alternatively - without Android dependencies for tests
+    //noinspection GradleDependency
     testImplementation "androidx.paging:paging-common-ktx:$paging_version"
 
     //权限请求框架：https://github.com/getActivity/XXPermissions
-    implementation 'com.github.getActivity:XXPermissions:18.2'
+    implementation 'com.github.getActivity:XXPermissions:18.5'
 
     def mail_version = '1.6.7'
     implementation "com.sun.mail:android-mail:$mail_version"

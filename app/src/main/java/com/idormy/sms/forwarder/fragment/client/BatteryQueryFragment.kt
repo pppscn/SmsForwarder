@@ -10,7 +10,12 @@ import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentClientBatteryQueryBinding
 import com.idormy.sms.forwarder.entity.BatteryInfo
 import com.idormy.sms.forwarder.server.model.BaseResponse
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.Base64
+import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.RSACrypt
+import com.idormy.sms.forwarder.utils.SM4Crypt
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.XToastUtils
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
@@ -22,11 +27,11 @@ import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.grouplist.XUIGroupListView
 import com.xuexiang.xutil.data.ConvertTools
 
-@Suppress("PropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 @Page(name = "远程查电量")
 class BatteryQueryFragment : BaseFragment<FragmentClientBatteryQueryBinding?>() {
 
-    val TAG: String = BatteryQueryFragment::class.java.simpleName
+    private val TAG: String = BatteryQueryFragment::class.java.simpleName
 
     override fun viewBindingInflate(
         inflater: LayoutInflater,
@@ -82,6 +87,7 @@ class BatteryQueryFragment : BaseFragment<FragmentClientBatteryQueryBinding?>() 
                 }
                 postRequest.upString(requestMsg)
             }
+
             3 -> {
                 try {
                     val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
@@ -96,6 +102,7 @@ class BatteryQueryFragment : BaseFragment<FragmentClientBatteryQueryBinding?>() 
                 }
                 postRequest.upString(requestMsg)
             }
+
             else -> {
                 postRequest.upJson(requestMsg)
             }

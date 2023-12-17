@@ -49,7 +49,7 @@ import java.util.Date
 class UrlSchemeFragment : BaseFragment<FragmentSendersUrlSchemeBinding?>(), View.OnClickListener {
 
     private val TAG: String = UrlSchemeFragment::class.java.simpleName
-    var titleBar: TitleBar? = null
+    private var titleBar: TitleBar? = null
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
     private var mCountDownHelper: CountDownButtonHelper? = null
 

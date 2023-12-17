@@ -56,8 +56,10 @@ class NotificationService : NotificationListenerService() {
             val extras = notification.extras ?: return
 
             //自动消除额外APP通知
-            if (!TextUtils.isEmpty(SettingUtils.cancelExtraAppNotify)) {
-                for (app in SettingUtils.cancelExtraAppNotify.split("\n")) {
+            SettingUtils.cancelExtraAppNotify
+                .takeIf { it.isNotEmpty() }
+                ?.split("\n")
+                ?.forEach { app ->
                     if (sbn.packageName == app.trim()) {
                         Log.d(TAG, "自动消除额外APP通知：$app")
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -65,10 +67,10 @@ class NotificationService : NotificationListenerService() {
                         } else {
                             cancelNotification(sbn.packageName, sbn.tag, sbn.id)
                         }
-                        break
+                        return@forEach
                     }
                 }
-            }
+
 
             //总开关
             if (!SettingUtils.enableAppNotify) return
@@ -79,16 +81,10 @@ class NotificationService : NotificationListenerService() {
             val from = sbn.packageName
             //自身通知跳过
             if (PACKAGE_NAME == sbn.packageName) return
-            //通知标题
-            var title = ""
-            if (extras["android.title"] != null) {
-                title = extras["android.title"].toString()
-            }
-            //通知内容
-            var text = ""
-            if (extras["android.text"] != null) {
-                text = extras["android.text"].toString()
-            }
+            // 标题
+            var title = extras["android.title"]?.toString() ?: ""
+            // 通知内容
+            var text = extras["android.text"]?.toString() ?: ""
             if (text.isEmpty() && notification.tickerText != null) {
                 text = notification.tickerText.toString()
             }

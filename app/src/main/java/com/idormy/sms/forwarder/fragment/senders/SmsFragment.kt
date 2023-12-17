@@ -49,7 +49,7 @@ import java.util.Date
 class SmsFragment : BaseFragment<FragmentSendersSmsBinding?>(), View.OnClickListener {
 
     private val TAG: String = SmsFragment::class.java.simpleName
-    var titleBar: TitleBar? = null
+    private var titleBar: TitleBar? = null
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
     private var mCountDownHelper: CountDownButtonHelper? = null
 

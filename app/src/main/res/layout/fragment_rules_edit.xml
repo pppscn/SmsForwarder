@@ -534,7 +534,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/silent_time_period_tips"
                         android:textSize="9sp"
-                        tools:ignore="SmallSp" />
+                        tools:ignore="SmallSp,TooManyViews" />
 
                 </LinearLayout>
 

@@ -50,7 +50,7 @@ import java.util.Date
 class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickListener {
 
     private val TAG: String = BarkFragment::class.java.simpleName
-    var titleBar: TitleBar? = null
+    private var titleBar: TitleBar? = null
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
     private var mCountDownHelper: CountDownButtonHelper? = null
     private var barkLevel: String = "active" //通知级别

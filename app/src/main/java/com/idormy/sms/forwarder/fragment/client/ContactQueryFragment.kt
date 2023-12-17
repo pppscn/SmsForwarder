@@ -49,11 +49,11 @@ import com.xuexiang.xutil.data.ConvertTools
 import com.xuexiang.xutil.system.ClipboardUtils
 import me.samlss.broccoli.Broccoli
 
-@Suppress("PropertyName", "DEPRECATION")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 @Page(name = "远程查话簿")
 class ContactQueryFragment : BaseFragment<FragmentClientContactQueryBinding?>() {
 
-    val TAG: String = ContactQueryFragment::class.java.simpleName
+    private val TAG: String = ContactQueryFragment::class.java.simpleName
     private var mAdapter: SimpleDelegateAdapter<ContactInfo>? = null
     private var keyword: String = ""
 
@@ -123,6 +123,10 @@ class ContactQueryFragment : BaseFragment<FragmentClientContactQueryBinding?>() 
                     .addPlaceholder(PlaceholderHelper.getParameter(holder.findView(R.id.iv_copy)))
                     .addPlaceholder(PlaceholderHelper.getParameter(holder.findView(R.id.iv_call)))
                     .addPlaceholder(PlaceholderHelper.getParameter(holder.findView(R.id.iv_reply)))
+            }
+
+            override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
+                TODO("Not yet implemented")
             }
         }
 

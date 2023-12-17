@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.utils.STATUS_ON
 import kotlinx.parcelize.Parcelize
-import java.util.*
+import java.util.Date
 
 @Parcelize
 @Entity(tableName = "Frpc")

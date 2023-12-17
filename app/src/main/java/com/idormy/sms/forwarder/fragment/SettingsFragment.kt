@@ -55,11 +55,11 @@ import com.xuexiang.xutil.app.AppUtils.getAppPackageName
 import kotlinx.coroutines.*
 import java.util.*
 
-@Suppress("PropertyName", "SpellCheckingInspection")
+@Suppress("SpellCheckingInspection", "PrivatePropertyName")
 @Page(name = "通用设置")
 class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickListener {
 
-    val TAG: String = SettingsFragment::class.java.simpleName
+    private val TAG: String = SettingsFragment::class.java.simpleName
     private val mTimeOption = DataProvider.timePeriodOption
 
     //已安装App信息列表
@@ -86,39 +86,28 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     @SuppressLint("NewApi", "SetTextI18n")
     override fun initViews() {
-
         //转发短信广播
         switchEnableSms(binding!!.sbEnableSms)
         //转发通话记录
-        switchEnablePhone(
-            binding!!.sbEnablePhone, binding!!.scbCallType1, binding!!.scbCallType2, binding!!.scbCallType3, binding!!.scbCallType4, binding!!.scbCallType5, binding!!.scbCallType6
-        )
+        switchEnablePhone(binding!!.sbEnablePhone, binding!!.scbCallType1, binding!!.scbCallType2, binding!!.scbCallType3, binding!!.scbCallType4, binding!!.scbCallType5, binding!!.scbCallType6)
         //转发应用通知
-        switchEnableAppNotify(
-            binding!!.sbEnableAppNotify, binding!!.scbCancelAppNotify, binding!!.scbNotUserPresent
-        )
+        switchEnableAppNotify(binding!!.sbEnableAppNotify, binding!!.scbCancelAppNotify, binding!!.scbNotUserPresent)
 
+        //启用GPS定位功能
+        switchEnableLocation(binding!!.sbEnableLocation, binding!!.layoutLocationSetting, binding!!.rgAccuracy, binding!!.rgPowerRequirement, binding!!.xsbMinInterval, binding!!.xsbMinDistance)
         //短信指令
         switchEnableSmsCommand(binding!!.sbEnableSmsCommand, binding!!.etSafePhone)
-
+        //启动时异步获取已安装App信息
+        switchEnableLoadAppList(binding!!.sbEnableLoadAppList, binding!!.scbLoadUserApp, binding!!.scbLoadSystemApp)
         //设置自动消除额外APP通知
         editExtraAppList(binding!!.etAppList)
-        //启动时异步获取已安装App信息
-        switchEnableLoadAppList(
-            binding!!.sbEnableLoadAppList, binding!!.scbLoadUserApp, binding!!.scbLoadSystemApp
-        )
-        //过滤多久内重复消息
+        //自动过滤多久内重复消息
         binding!!.xsbDuplicateMessagesLimits.setDefaultValue(SettingUtils.duplicateMessagesLimits)
         binding!!.xsbDuplicateMessagesLimits.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
             SettingUtils.duplicateMessagesLimits = newValue
         }
         //免打扰(禁用转发)时间段
         binding!!.tvSilentPeriod.text = mTimeOption[SettingUtils.silentPeriodStart] + " ~ " + mTimeOption[SettingUtils.silentPeriodEnd]
-        //自动删除N天前的转发记录
-        binding!!.xsbAutoCleanLogs.setDefaultValue(SettingUtils.autoCleanLogsDays)
-        binding!!.xsbAutoCleanLogs.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
-            SettingUtils.autoCleanLogsDays = newValue
-        }
 
         //开机启动
         checkWithReboot(binding!!.sbWithReboot, binding!!.tvAutoStartup)
@@ -126,12 +115,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         batterySetting(binding!!.layoutBatterySetting, binding!!.sbBatterySetting)
         //不在最近任务列表中显示
         switchExcludeFromRecents(binding!!.layoutExcludeFromRecents, binding!!.sbExcludeFromRecents)
-
         //Cactus增强保活措施
-        switchEnableCactus(
-            binding!!.sbEnableCactus, binding!!.scbPlaySilenceMusic, binding!!.scbOnePixelActivity
-        )
-
+        switchEnableCactus(binding!!.sbEnableCactus, binding!!.scbPlaySilenceMusic, binding!!.scbOnePixelActivity)
         //接口请求失败重试时间间隔
         editRetryDelayTime(binding!!.xsbRetryTimes, binding!!.xsbDelayTime, binding!!.xsbTimeout)
 
@@ -145,23 +130,16 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         editAddExtraSim1(binding!!.etExtraSim1)
         //SIM2备注
         editAddExtraSim2(binding!!.etExtraSim2)
-
         //通知内容
         editNotifyContent(binding!!.etNotifyContent)
-
         //启用自定义模版
         switchSmsTemplate(binding!!.sbSmsTemplate)
         //自定义模板
         editSmsTemplate(binding!!.etSmsTemplate)
-
         //纯客户端模式
         switchDirectlyToClient(binding!!.sbDirectlyToClient)
-
         //纯自动任务模式
         switchDirectlyToTask(binding!!.sbDirectlyToTask)
-
-        //启用 {{定位信息}} 标签
-        switchEnableLocation(binding!!.sbEnableLocation, binding!!.layoutLocationSetting, binding!!.rgAccuracy, binding!!.rgPowerRequirement, binding!!.xsbMinInterval, binding!!.xsbMinDistance)
     }
 
     override fun onResume() {
@@ -183,7 +161,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
         //监听已安装App信息列表加载完成事件
         LiveEventBus.get(EVENT_LOAD_APP_LIST, String::class.java).observeStickyForever(appListObserver)
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -295,7 +272,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //转发短信
     @SuppressLint("UseSwitchCompatOrMaterialCode")
-    fun switchEnableSms(sbEnableSms: SwitchButton) {
+    private fun switchEnableSms(sbEnableSms: SwitchButton) {
         sbEnableSms.isChecked = SettingUtils.enableSms
         sbEnableSms.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             SettingUtils.enableSms = isChecked
@@ -338,9 +315,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //转发通话
     @SuppressLint("UseSwitchCompatOrMaterialCode")
-    fun switchEnablePhone(
-        sbEnablePhone: SwitchButton, scbCallType1: SmoothCheckBox, scbCallType2: SmoothCheckBox, scbCallType3: SmoothCheckBox, scbCallType4: SmoothCheckBox, scbCallType5: SmoothCheckBox, scbCallType6: SmoothCheckBox
-    ) {
+    private fun switchEnablePhone(sbEnablePhone: SwitchButton, scbCallType1: SmoothCheckBox, scbCallType2: SmoothCheckBox, scbCallType3: SmoothCheckBox, scbCallType4: SmoothCheckBox, scbCallType5: SmoothCheckBox, scbCallType6: SmoothCheckBox) {
         sbEnablePhone.isChecked = SettingUtils.enablePhone
         scbCallType1.isChecked = SettingUtils.enableCallType1
         scbCallType2.isChecked = SettingUtils.enableCallType2
@@ -441,9 +416,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //转发应用通知
     @SuppressLint("UseSwitchCompatOrMaterialCode")
-    fun switchEnableAppNotify(
-        sbEnableAppNotify: SwitchButton, scbCancelAppNotify: SmoothCheckBox, scbNotUserPresent: SmoothCheckBox
-    ) {
+    private fun switchEnableAppNotify(sbEnableAppNotify: SwitchButton, scbCancelAppNotify: SmoothCheckBox, scbNotUserPresent: SmoothCheckBox) {
         val isEnable: Boolean = SettingUtils.enableAppNotify
         sbEnableAppNotify.isChecked = isEnable
 
@@ -482,9 +455,99 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         }
     }
 
+    //启用定位功能
+    private fun switchEnableLocation(@SuppressLint("UseSwitchCompatOrMaterialCode") switchEnableLocation: SwitchButton, layoutLocationSetting: LinearLayout, rgAccuracy: RadioGroup, rgPowerRequirement: RadioGroup, xsbMinInterval: XSeekBar, xsbMinDistance: XSeekBar) {
+        //是否启用定位功能
+        switchEnableLocation.isChecked = SettingUtils.enableLocation
+        layoutLocationSetting.visibility = if (SettingUtils.enableLocation) View.VISIBLE else View.GONE
+        switchEnableLocation.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            SettingUtils.enableLocation = isChecked
+            if (isChecked) {
+                XXPermissions.with(this).permission(Permission.ACCESS_COARSE_LOCATION).permission(Permission.ACCESS_FINE_LOCATION).permission(Permission.ACCESS_BACKGROUND_LOCATION).request(object : OnPermissionCallback {
+                    override fun onGranted(permissions: List<String>, all: Boolean) {
+                        restartLocationService()
+                    }
+
+                    override fun onDenied(permissions: List<String>, never: Boolean) {
+                        if (never) {
+                            XToastUtils.error(R.string.toast_denied_never)
+                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            XXPermissions.startPermissionActivity(requireContext(), permissions)
+                        } else {
+                            XToastUtils.error(R.string.toast_denied)
+                        }
+                        SettingUtils.enableLocation = false
+                        switchEnableLocation.isChecked = false
+                        restartLocationService()
+                    }
+                })
+            } else {
+                restartLocationService()
+            }
+            layoutLocationSetting.visibility = if (isChecked) View.VISIBLE else View.GONE
+        }
+        //设置位置精度：高精度（默认）
+        rgAccuracy.check(
+            when (SettingUtils.locationAccuracy) {
+                Criteria.ACCURACY_FINE -> R.id.rb_accuracy_fine
+                Criteria.ACCURACY_COARSE -> R.id.rb_accuracy_coarse
+                Criteria.NO_REQUIREMENT -> R.id.rb_accuracy_no_requirement
+                else -> R.id.rb_accuracy_fine
+            }
+        )
+        rgAccuracy.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
+            SettingUtils.locationAccuracy = when (checkedId) {
+                R.id.rb_accuracy_fine -> Criteria.ACCURACY_FINE
+                R.id.rb_accuracy_coarse -> Criteria.ACCURACY_COARSE
+                R.id.rb_accuracy_no_requirement -> Criteria.NO_REQUIREMENT
+                else -> Criteria.ACCURACY_FINE
+            }
+            restartLocationService()
+        }
+        //设置电量消耗：低电耗（默认）
+        rgPowerRequirement.check(
+            when (SettingUtils.locationPowerRequirement) {
+                Criteria.POWER_HIGH -> R.id.rb_power_requirement_high
+                Criteria.POWER_MEDIUM -> R.id.rb_power_requirement_medium
+                Criteria.POWER_LOW -> R.id.rb_power_requirement_low
+                Criteria.NO_REQUIREMENT -> R.id.rb_power_requirement_no_requirement
+                else -> R.id.rb_power_requirement_low
+            }
+        )
+        rgPowerRequirement.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
+            SettingUtils.locationPowerRequirement = when (checkedId) {
+                R.id.rb_power_requirement_high -> Criteria.POWER_HIGH
+                R.id.rb_power_requirement_medium -> Criteria.POWER_MEDIUM
+                R.id.rb_power_requirement_low -> Criteria.POWER_LOW
+                R.id.rb_power_requirement_no_requirement -> Criteria.NO_REQUIREMENT
+                else -> Criteria.POWER_LOW
+            }
+            restartLocationService()
+        }
+        //设置位置更新最小时间间隔（单位：毫秒）； 默认间隔：10000毫秒，最小间隔：1000毫秒
+        xsbMinInterval.setDefaultValue((SettingUtils.locationMinInterval / 1000).toInt())
+        xsbMinInterval.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
+            SettingUtils.locationMinInterval = newValue * 1000L
+            restartLocationService()
+        }
+        //设置位置更新最小距离（单位：米）；默认距离：0米
+        xsbMinDistance.setDefaultValue(SettingUtils.locationMinDistance)
+        xsbMinDistance.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
+            SettingUtils.locationMinDistance = newValue
+            restartLocationService()
+        }
+    }
+
+    //重启定位服务
+    private fun restartLocationService() {
+        val serviceIntent = Intent(requireContext(), LocationService::class.java)
+        serviceIntent.action = "START"
+        requireContext().startService(serviceIntent)
+    }
+
     //接受短信指令
     @SuppressLint("UseSwitchCompatOrMaterialCode")
-    fun switchEnableSmsCommand(sbEnableSmsCommand: SwitchButton, etSafePhone: EditText) {
+    private fun switchEnableSmsCommand(sbEnableSmsCommand: SwitchButton, etSafePhone: EditText) {
         sbEnableSmsCommand.isChecked = SettingUtils.enableSmsCommand
         etSafePhone.visibility = if (SettingUtils.enableSmsCommand) View.VISIBLE else View.GONE
 
@@ -549,9 +612,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //启动时异步获取已安装App信息
     @SuppressLint("UseSwitchCompatOrMaterialCode")
-    fun switchEnableLoadAppList(
-        sbEnableLoadAppList: SwitchButton, scbLoadUserApp: SmoothCheckBox, scbLoadSystemApp: SmoothCheckBox
-    ) {
+    private fun switchEnableLoadAppList(sbEnableLoadAppList: SwitchButton, scbLoadUserApp: SmoothCheckBox, scbLoadSystemApp: SmoothCheckBox) {
         val isEnable: Boolean = SettingUtils.enableLoadAppList
         sbEnableLoadAppList.isChecked = isEnable
 
@@ -600,9 +661,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     }
 
     //开机启动
-    private fun checkWithReboot(
-        @SuppressLint("UseSwitchCompatOrMaterialCode") sbWithReboot: SwitchButton, tvAutoStartup: TextView
-    ) {
+    private fun checkWithReboot(@SuppressLint("UseSwitchCompatOrMaterialCode") sbWithReboot: SwitchButton, tvAutoStartup: TextView) {
         tvAutoStartup.text = getAutoStartTips()
 
         //获取组件
@@ -624,7 +683,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     //电池优化设置
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("UseSwitchCompatOrMaterialCode")
-    fun batterySetting(layoutBatterySetting: LinearLayout, sbBatterySetting: SwitchButton) {
+    private fun batterySetting(layoutBatterySetting: LinearLayout, sbBatterySetting: SwitchButton) {
         //安卓6.0以下没有忽略电池优化
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             layoutBatterySetting.visibility = View.GONE
@@ -652,9 +711,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //不在最近任务列表中显示
     @SuppressLint("ObsoleteSdkInt,UseSwitchCompatOrMaterialCode")
-    fun switchExcludeFromRecents(
-        layoutExcludeFromRecents: LinearLayout, sbExcludeFromRecents: SwitchButton
-    ) {
+    private fun switchExcludeFromRecents(layoutExcludeFromRecents: LinearLayout, sbExcludeFromRecents: SwitchButton) {
         //安卓6.0以下没有不在最近任务列表中显示
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             layoutExcludeFromRecents.visibility = View.GONE
@@ -675,11 +732,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         }
     }
 
-    //转发应用通知
+    //Cactus增强保活措施
     @SuppressLint("UseSwitchCompatOrMaterialCode")
-    fun switchEnableCactus(
-        sbEnableCactus: SwitchButton, scbPlaySilenceMusic: SmoothCheckBox, scbOnePixelActivity: SmoothCheckBox
-    ) {
+    private fun switchEnableCactus(sbEnableCactus: SwitchButton, scbPlaySilenceMusic: SmoothCheckBox, scbOnePixelActivity: SmoothCheckBox) {
         val layoutCactusOptional: LinearLayout = binding!!.layoutCactusOptional
         val isEnable: Boolean = SettingUtils.enableCactus
         sbEnableCactus.isChecked = isEnable
@@ -708,9 +763,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     }
 
     //接口请求失败重试时间间隔
-    private fun editRetryDelayTime(
-        xsbRetryTimes: XSeekBar, xsbDelayTime: XSeekBar, xsbTimeout: XSeekBar
-    ) {
+    private fun editRetryDelayTime(xsbRetryTimes: XSeekBar, xsbDelayTime: XSeekBar, xsbTimeout: XSeekBar) {
         xsbRetryTimes.setDefaultValue(SettingUtils.requestRetryTimes)
         xsbRetryTimes.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
             SettingUtils.requestRetryTimes = newValue
@@ -814,7 +867,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //设置转发时启用自定义模版
     @SuppressLint("UseSwitchCompatOrMaterialCode", "SetTextI18n")
-    fun switchSmsTemplate(sbSmsTemplate: SwitchButton) {
+    private fun switchSmsTemplate(sbSmsTemplate: SwitchButton) {
         val isOn: Boolean = SettingUtils.enableSmsTemplate
         sbSmsTemplate.isChecked = isOn
         val layoutSmsTemplate: LinearLayout = binding!!.layoutSmsTemplate
@@ -874,96 +927,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 }.negativeText(R.string.lab_no).show()
             }
         }
-    }
-
-    //启用定位功能
-    private fun switchEnableLocation(@SuppressLint("UseSwitchCompatOrMaterialCode") switchEnableLocation: SwitchButton, layoutLocationSetting: LinearLayout, rgAccuracy: RadioGroup, rgPowerRequirement: RadioGroup, xsbMinInterval: XSeekBar, xsbMinDistance: XSeekBar) {
-        //是否启用定位功能
-        switchEnableLocation.isChecked = SettingUtils.enableLocation
-        layoutLocationSetting.visibility = if (SettingUtils.enableLocation) View.VISIBLE else View.GONE
-        switchEnableLocation.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            SettingUtils.enableLocation = isChecked
-            if (isChecked) {
-                XXPermissions.with(this).permission(Permission.ACCESS_COARSE_LOCATION).permission(Permission.ACCESS_FINE_LOCATION).permission(Permission.ACCESS_BACKGROUND_LOCATION).request(object : OnPermissionCallback {
-                    override fun onGranted(permissions: List<String>, all: Boolean) {
-                        restartLocationService()
-                    }
-
-                    override fun onDenied(permissions: List<String>, never: Boolean) {
-                        if (never) {
-                            XToastUtils.error(R.string.toast_denied_never)
-                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                            XXPermissions.startPermissionActivity(requireContext(), permissions)
-                        } else {
-                            XToastUtils.error(R.string.toast_denied)
-                        }
-                        SettingUtils.enableLocation = false
-                        switchEnableLocation.isChecked = false
-                        restartLocationService()
-                    }
-                })
-            } else {
-                restartLocationService()
-            }
-            layoutLocationSetting.visibility = if (isChecked) View.VISIBLE else View.GONE
-        }
-        //设置位置精度：高精度（默认）
-        rgAccuracy.check(
-            when (SettingUtils.locationAccuracy) {
-                Criteria.ACCURACY_FINE -> R.id.rb_accuracy_fine
-                Criteria.ACCURACY_COARSE -> R.id.rb_accuracy_coarse
-                Criteria.NO_REQUIREMENT -> R.id.rb_accuracy_no_requirement
-                else -> R.id.rb_accuracy_fine
-            }
-        )
-        rgAccuracy.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
-            SettingUtils.locationAccuracy = when (checkedId) {
-                R.id.rb_accuracy_fine -> Criteria.ACCURACY_FINE
-                R.id.rb_accuracy_coarse -> Criteria.ACCURACY_COARSE
-                R.id.rb_accuracy_no_requirement -> Criteria.NO_REQUIREMENT
-                else -> Criteria.ACCURACY_FINE
-            }
-            restartLocationService()
-        }
-        //设置电量消耗：低电耗（默认）
-        rgPowerRequirement.check(
-            when (SettingUtils.locationPowerRequirement) {
-                Criteria.POWER_HIGH -> R.id.rb_power_requirement_high
-                Criteria.POWER_MEDIUM -> R.id.rb_power_requirement_medium
-                Criteria.POWER_LOW -> R.id.rb_power_requirement_low
-                Criteria.NO_REQUIREMENT -> R.id.rb_power_requirement_no_requirement
-                else -> R.id.rb_power_requirement_low
-            }
-        )
-        rgPowerRequirement.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
-            SettingUtils.locationPowerRequirement = when (checkedId) {
-                R.id.rb_power_requirement_high -> Criteria.POWER_HIGH
-                R.id.rb_power_requirement_medium -> Criteria.POWER_MEDIUM
-                R.id.rb_power_requirement_low -> Criteria.POWER_LOW
-                R.id.rb_power_requirement_no_requirement -> Criteria.NO_REQUIREMENT
-                else -> Criteria.POWER_LOW
-            }
-            restartLocationService()
-        }
-        //设置位置更新最小时间间隔（单位：毫秒）； 默认间隔：10000毫秒，最小间隔：1000毫秒
-        xsbMinInterval.setDefaultValue((SettingUtils.locationMinInterval / 1000).toInt())
-        xsbMinInterval.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
-            SettingUtils.locationMinInterval = newValue * 1000L
-            restartLocationService()
-        }
-        //设置位置更新最小距离（单位：米）；默认距离：0米
-        xsbMinDistance.setDefaultValue(SettingUtils.locationMinDistance)
-        xsbMinDistance.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
-            SettingUtils.locationMinDistance = newValue
-            restartLocationService()
-        }
-    }
-
-    //重启定位服务
-    private fun restartLocationService() {
-        val serviceIntent = Intent(requireContext(), LocationService::class.java)
-        serviceIntent.action = "START"
-        requireContext().startService(serviceIntent)
     }
 
     //获取当前手机品牌

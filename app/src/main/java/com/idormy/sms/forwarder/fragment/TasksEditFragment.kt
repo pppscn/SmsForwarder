@@ -58,7 +58,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
 
     private val TAG: String = TasksEditFragment::class.java.simpleName
     private val that = this
-    var titleBar: TitleBar? = null
+    private var titleBar: TitleBar? = null
     private val viewModel by viewModels<TaskViewModel> { BaseViewModelFactory(context) }
     private val dialog: BottomSheetDialog by lazy {
         BottomSheetDialog(requireContext())

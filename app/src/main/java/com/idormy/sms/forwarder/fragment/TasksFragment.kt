@@ -32,12 +32,12 @@ import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@Suppress("PropertyName", "DEPRECATION")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 @Page(name = "自动任务")
 class TasksFragment : BaseFragment<FragmentTasksBinding?>(), TaskPagingAdapter.OnItemClickListener {
 
-    val TAG: String = TasksFragment::class.java.simpleName
-    var titleBar: TitleBar? = null
+    private val TAG: String = TasksFragment::class.java.simpleName
+    private var titleBar: TitleBar? = null
     private var adapter = TaskPagingAdapter(this)
     private val viewModel by viewModels<TaskViewModel> { BaseViewModelFactory(context) }
     private var currentType: String = "mine"

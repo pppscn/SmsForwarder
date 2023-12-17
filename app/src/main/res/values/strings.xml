@@ -782,7 +782,7 @@
     <string name="socket_address">服务地址</string>
     <string name="socket_address_tips">IP 或 域名</string>
     <string name="socket_port">端口</string>
-    <string name="socket_port_tips">取值范围：1-65535</string>
+    <string name="socket_port_tips" tools:ignore="TypographyDashes">取值范围：1-65535</string>
 
     <string name="webhook_server">Webhook Server</string>
     <string name="webhook_server_tips">例如：https://a.b.com/msg?token=xyz</string>
@@ -1062,7 +1062,7 @@
     <string name="network_type">网络类型</string>
     <string name="operator_name">运营商</string>
     <string name="host_address">本地IP</string>
-    <string name="loading_app_list">正在异步加载应用列表...</string>
+    <string name="loading_app_list">正在异步加载应用列表…</string>
 
     <string name="carrier_name">运营商名</string>
     <string name="icc_id">ICC ID</string>
@@ -1200,7 +1200,7 @@
     <string name="weeks_of_week_2">周的星期</string>
     <string name="last_week_of_month">本月最后</string>
     <string name="last_week_of_month_1">本月最后一个星期</string>
-    <string name="last_week_of_month_2"></string>
+    <string name="last_week_of_month_2" />
     <string name="cron_expression_check">Cron表达式测试结果</string>
     <string name="invalid_cron_expression">Cron表达式无效：\n%s</string>
     <string name="next_execution_times">最近 %s 次运行时间：\n%s</string>

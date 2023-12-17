@@ -35,7 +35,7 @@ import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 class ToAddressFragment : BaseFragment<FragmentTasksConditionToAddressBinding?>(), View.OnClickListener {
 
     private val TAG: String = ToAddressFragment::class.java.simpleName
-    var titleBar: TitleBar? = null
+    private var titleBar: TitleBar? = null
 
     @JvmField
     @AutoWired(name = KEY_EVENT_DATA_CONDITION)

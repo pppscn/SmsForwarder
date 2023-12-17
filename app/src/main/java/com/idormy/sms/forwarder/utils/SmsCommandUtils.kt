@@ -77,7 +77,7 @@ class SmsCommandUtils {
                         GlobalScope.async(Dispatchers.IO) {
                             val frpc = AppDatabase.getInstance(App.context).frpcDao().getOne(param)
 
-                            if (frpc == null) {
+                            if (frpc.uid.isEmpty()) {
                                 Log.d(TAG, "没有找到指定的Frpc")
                                 return@async
                             }

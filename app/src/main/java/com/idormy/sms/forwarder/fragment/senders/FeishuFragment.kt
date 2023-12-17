@@ -46,7 +46,7 @@ import java.util.Date
 class FeishuFragment : BaseFragment<FragmentSendersFeishuBinding?>(), View.OnClickListener {
 
     private val TAG: String = FeishuFragment::class.java.simpleName
-    var titleBar: TitleBar? = null
+    private var titleBar: TitleBar? = null
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
     private var mCountDownHelper: CountDownButtonHelper? = null
 

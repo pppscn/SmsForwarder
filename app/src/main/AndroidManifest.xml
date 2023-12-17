@@ -230,7 +230,8 @@
             android:enabled="true" />
         <service
             android:name=".service.LocationService"
-            android:enabled="true" />
+            android:enabled="true"
+            android:foregroundServiceType="location" />
         <service
             android:name=".service.NotificationService"
             android:enabled="true"
@@ -241,10 +242,6 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
-        <service
-            android:name=".workers.CronWorker"
-            android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <receiver
             android:name=".receiver.BatteryReceiver"

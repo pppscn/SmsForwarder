@@ -36,7 +36,7 @@ import com.xuexiang.xutil.XUtil
 class AppListFragment : BaseFragment<FragmentAppListBinding?>() {
 
     private val TAG: String = AppListFragment::class.java.simpleName
-    var appListAdapter: AppListAdapter? = null
+    private var appListAdapter: AppListAdapter? = null
     private val appListObserver = Observer { it: String ->
         Log.d(TAG, "EVENT_LOAD_APP_LIST: $it")
         appListAdapter?.refresh(getAppsList(false))

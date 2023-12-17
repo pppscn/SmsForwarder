@@ -15,8 +15,42 @@ import com.idormy.sms.forwarder.database.entity.Sender
 import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
 import com.idormy.sms.forwarder.database.viewmodel.SenderViewModel
 import com.idormy.sms.forwarder.databinding.FragmentSendersBinding
-import com.idormy.sms.forwarder.fragment.senders.*
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.fragment.senders.BarkFragment
+import com.idormy.sms.forwarder.fragment.senders.DingtalkGroupRobotFragment
+import com.idormy.sms.forwarder.fragment.senders.DingtalkInnerRobotFragment
+import com.idormy.sms.forwarder.fragment.senders.EmailFragment
+import com.idormy.sms.forwarder.fragment.senders.FeishuAppFragment
+import com.idormy.sms.forwarder.fragment.senders.FeishuFragment
+import com.idormy.sms.forwarder.fragment.senders.GotifyFragment
+import com.idormy.sms.forwarder.fragment.senders.PushplusFragment
+import com.idormy.sms.forwarder.fragment.senders.ServerchanFragment
+import com.idormy.sms.forwarder.fragment.senders.SmsFragment
+import com.idormy.sms.forwarder.fragment.senders.SocketFragment
+import com.idormy.sms.forwarder.fragment.senders.TelegramFragment
+import com.idormy.sms.forwarder.fragment.senders.UrlSchemeFragment
+import com.idormy.sms.forwarder.fragment.senders.WebhookFragment
+import com.idormy.sms.forwarder.fragment.senders.WeworkAgentFragment
+import com.idormy.sms.forwarder.fragment.senders.WeworkRobotFragment
+import com.idormy.sms.forwarder.utils.KEY_SENDER_CLONE
+import com.idormy.sms.forwarder.utils.KEY_SENDER_ID
+import com.idormy.sms.forwarder.utils.KEY_SENDER_TYPE
+import com.idormy.sms.forwarder.utils.TYPE_BARK
+import com.idormy.sms.forwarder.utils.TYPE_DINGTALK_GROUP_ROBOT
+import com.idormy.sms.forwarder.utils.TYPE_DINGTALK_INNER_ROBOT
+import com.idormy.sms.forwarder.utils.TYPE_EMAIL
+import com.idormy.sms.forwarder.utils.TYPE_FEISHU
+import com.idormy.sms.forwarder.utils.TYPE_FEISHU_APP
+import com.idormy.sms.forwarder.utils.TYPE_GOTIFY
+import com.idormy.sms.forwarder.utils.TYPE_PUSHPLUS
+import com.idormy.sms.forwarder.utils.TYPE_SERVERCHAN
+import com.idormy.sms.forwarder.utils.TYPE_SMS
+import com.idormy.sms.forwarder.utils.TYPE_SOCKET
+import com.idormy.sms.forwarder.utils.TYPE_TELEGRAM
+import com.idormy.sms.forwarder.utils.TYPE_URL_SCHEME
+import com.idormy.sms.forwarder.utils.TYPE_WEBHOOK
+import com.idormy.sms.forwarder.utils.TYPE_WEWORK_AGENT
+import com.idormy.sms.forwarder.utils.TYPE_WEWORK_ROBOT
+import com.idormy.sms.forwarder.utils.XToastUtils
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xpage.core.PageOption
@@ -27,11 +61,11 @@ import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@Suppress("PropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 @Page(name = "发送通道")
 class SendersFragment : BaseFragment<FragmentSendersBinding?>(), SenderPagingAdapter.OnItemClickListener {
 
-    val TAG: String = SendersFragment::class.java.simpleName
+    private val TAG: String = SendersFragment::class.java.simpleName
     private var adapter = SenderPagingAdapter(this)
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
     private var currentStatus: Int = 1
@@ -119,6 +153,7 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(), SenderPagingAda
                     .putBoolean(KEY_SENDER_CLONE, true)
                     .open(this)
             }
+
             R.id.iv_edit -> {
                 PageOption.to(
                     when (item.type) {
@@ -145,6 +180,7 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(), SenderPagingAda
                     .putInt(KEY_SENDER_TYPE, item.type)
                     .open(this)
             }
+
             R.id.iv_delete -> {
                 MaterialDialog.Builder(requireContext())
                     .title(R.string.delete_sender_title)
@@ -157,6 +193,7 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(), SenderPagingAda
                     }
                     .show()
             }
+
             else -> {}
         }
     }

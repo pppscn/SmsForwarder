@@ -52,11 +52,11 @@ import java.util.*
 class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private val TAG: String = RulesEditFragment::class.java.simpleName
-    var titleBar: TitleBar? = null
+    private var titleBar: TitleBar? = null
     private val viewModel by viewModels<RuleViewModel> { BaseViewModelFactory(context) }
 
-    var callType = 1
-    var callTypeIndex = 0
+    private var callType = 1
+    private var callTypeIndex = 0
 
     //免打扰(禁用转发)时间段
     private val mTimeOption = DataProvider.timePeriodOption
@@ -64,12 +64,12 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
     private var silentPeriodEnd = 0
 
     //当前发送通道
-    var senderId = 0L
-    var senderListSelected: MutableList<Sender> = mutableListOf()
+    private var senderId = 0L
+    private var senderListSelected: MutableList<Sender> = mutableListOf()
     private var senderItemMap = HashMap<Long, LinearLayout>(2)
 
     //发送通道列表
-    var senderListAll: MutableList<Sender> = mutableListOf()
+    private var senderListAll: MutableList<Sender> = mutableListOf()
     private val senderSpinnerList = ArrayList<SenderAdapterItem>()
     private lateinit var senderSpinnerAdapter: SenderSpinnerAdapter<*>
 

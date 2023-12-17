@@ -15,7 +15,7 @@ import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xutil.XUtil
 import com.yanzhenjie.andserver.annotation.*
 
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 @RestController
 @RequestMapping(path = ["/sms"])
 class SmsController {

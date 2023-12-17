@@ -29,7 +29,7 @@ import com.xuexiang.xui.widget.actionbar.TitleBar
 class HttpServerFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View.OnClickListener {
 
     private val TAG: String = HttpServerFragment::class.java.simpleName
-    var titleBar: TitleBar? = null
+    private var titleBar: TitleBar? = null
     private var mCountDownHelper: CountDownButtonHelper? = null
 
     @JvmField

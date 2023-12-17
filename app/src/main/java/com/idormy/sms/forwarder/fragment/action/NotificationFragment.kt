@@ -41,7 +41,7 @@ import java.util.*
 class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding?>(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private val TAG: String = NotificationFragment::class.java.simpleName
-    var titleBar: TitleBar? = null
+    private var titleBar: TitleBar? = null
     private var mCountDownHelper: CountDownButtonHelper? = null
 
     @JvmField

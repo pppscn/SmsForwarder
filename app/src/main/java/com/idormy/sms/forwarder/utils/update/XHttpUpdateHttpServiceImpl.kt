@@ -19,6 +19,7 @@ import com.xuexiang.xutil.net.JsonUtil
  * @author xuexiang
  * @since 2018/8/12 上午11:46
  */
+@Suppress("DEPRECATION")
 class XHttpUpdateHttpServiceImpl : IUpdateHttpService {
     override fun asyncGet(
         url: String,

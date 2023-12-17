@@ -1,3 +1,4 @@
+#file: noinspection YAMLSchemaValidation
 blank_issues_enabled: false
 contact_links:
   - name: SmsForwarder 使用流程与问题排查流程

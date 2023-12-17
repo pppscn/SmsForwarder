@@ -29,6 +29,7 @@ class ServiceProtocolFragment : BaseFragment<FragmentServiceProtocolBinding?>() 
     @JvmField
     @AutoWired(name = KEY_IS_IMMERSIVE)
     var isImmersive = false
+
     override fun initArgs() {
         XRouter.getInstance().inject(this)
     }

@@ -4,9 +4,24 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.DatabaseView
 import com.idormy.sms.forwarder.R
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.TYPE_BARK
+import com.idormy.sms.forwarder.utils.TYPE_DINGTALK_GROUP_ROBOT
+import com.idormy.sms.forwarder.utils.TYPE_DINGTALK_INNER_ROBOT
+import com.idormy.sms.forwarder.utils.TYPE_EMAIL
+import com.idormy.sms.forwarder.utils.TYPE_FEISHU
+import com.idormy.sms.forwarder.utils.TYPE_FEISHU_APP
+import com.idormy.sms.forwarder.utils.TYPE_GOTIFY
+import com.idormy.sms.forwarder.utils.TYPE_PUSHPLUS
+import com.idormy.sms.forwarder.utils.TYPE_SERVERCHAN
+import com.idormy.sms.forwarder.utils.TYPE_SMS
+import com.idormy.sms.forwarder.utils.TYPE_SOCKET
+import com.idormy.sms.forwarder.utils.TYPE_TELEGRAM
+import com.idormy.sms.forwarder.utils.TYPE_URL_SCHEME
+import com.idormy.sms.forwarder.utils.TYPE_WEBHOOK
+import com.idormy.sms.forwarder.utils.TYPE_WEWORK_AGENT
+import com.idormy.sms.forwarder.utils.TYPE_WEWORK_ROBOT
 import kotlinx.parcelize.Parcelize
-import java.util.*
+import java.util.Date
 
 @Parcelize
 @DatabaseView("SELECT LOGS.id,LOGS.type,LOGS.msg_id,LOGS.rule_id,LOGS.sender_id,LOGS.forward_status,LOGS.forward_response,LOGS.TIME,Rule.filed AS rule_filed,Rule.`check` AS rule_check,Rule.value AS rule_value,Rule.sim_slot AS rule_sim_slot,Sender.type AS sender_type,Sender.NAME AS sender_name FROM LOGS  LEFT JOIN Rule ON LOGS.rule_id = Rule.id LEFT JOIN Sender ON LOGS.sender_id = Sender.id")

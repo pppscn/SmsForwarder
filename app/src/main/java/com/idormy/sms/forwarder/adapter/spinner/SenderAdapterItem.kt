@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import com.xuexiang.xui.utils.ResUtils
 
-@Suppress("unused")
+@Suppress("unused", "DEPRECATION")
 class SenderAdapterItem {
 
     //标题内容

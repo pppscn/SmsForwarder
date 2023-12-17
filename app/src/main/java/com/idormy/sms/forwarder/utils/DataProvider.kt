@@ -5,6 +5,7 @@ import com.idormy.sms.forwarder.entity.ContactInfo
 import com.idormy.sms.forwarder.entity.SmsInfo
 import com.xuexiang.xaop.annotation.MemoryCache
 
+@Suppress("SameParameterValue")
 object DataProvider {
 
     //用于占位的空信息

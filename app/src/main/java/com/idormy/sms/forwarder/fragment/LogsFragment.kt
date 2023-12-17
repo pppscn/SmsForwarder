@@ -36,11 +36,11 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Suppress("PropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 @Page(name = "转发日志")
 class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnItemClickListener {
 
-    val TAG: String = LogsFragment::class.java.simpleName
+    private val TAG: String = LogsFragment::class.java.simpleName
     private var adapter = MsgPagingAdapter(this)
     private val viewModel by viewModels<MsgViewModel> { BaseViewModelFactory(context) }
     private var currentType: String = "sms"

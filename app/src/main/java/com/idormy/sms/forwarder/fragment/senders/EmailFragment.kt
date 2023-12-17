@@ -48,7 +48,7 @@ import java.util.Date
 class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClickListener {
 
     private val TAG: String = EmailFragment::class.java.simpleName
-    var titleBar: TitleBar? = null
+    private var titleBar: TitleBar? = null
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
     private var mCountDownHelper: CountDownButtonHelper? = null
     private var mailType: String = getString(R.string.other_mail_type) //邮箱类型

@@ -14,7 +14,11 @@ import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
 import com.idormy.sms.forwarder.database.viewmodel.RuleViewModel
 import com.idormy.sms.forwarder.databinding.FragmentRulesBinding
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.EVENT_UPDATE_RULE_TYPE
+import com.idormy.sms.forwarder.utils.KEY_RULE_CLONE
+import com.idormy.sms.forwarder.utils.KEY_RULE_ID
+import com.idormy.sms.forwarder.utils.KEY_RULE_TYPE
+import com.idormy.sms.forwarder.utils.XToastUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.xuexiang.xpage.annotation.Page
@@ -26,11 +30,11 @@ import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@Suppress("PropertyName")
+@Suppress("DEPRECATION")
 @Page(name = "转发规则")
 class RulesFragment : BaseFragment<FragmentRulesBinding?>(), RulePagingAdapter.OnItemClickListener {
 
-    val TAG: String = RulesFragment::class.java.simpleName
+    //private val TAG: String = RulesFragment::class.java.simpleName
     private var adapter = RulePagingAdapter(this)
     private val viewModel by viewModels<RuleViewModel> { BaseViewModelFactory(context) }
     private var currentType: String = "sms"
@@ -101,6 +105,7 @@ class RulesFragment : BaseFragment<FragmentRulesBinding?>(), RulePagingAdapter.O
                     .putBoolean(KEY_RULE_CLONE, true)
                     .open(this)
             }
+
             R.id.iv_edit -> {
                 PageOption.to(RulesEditFragment::class.java)
                     .setNewActivity(true)
@@ -108,6 +113,7 @@ class RulesFragment : BaseFragment<FragmentRulesBinding?>(), RulePagingAdapter.O
                     .putString(KEY_RULE_TYPE, item.type)
                     .open(this)
             }
+
             R.id.iv_delete -> {
                 MaterialDialog.Builder(requireContext())
                     .title(R.string.delete_rule_title)
@@ -120,6 +126,7 @@ class RulesFragment : BaseFragment<FragmentRulesBinding?>(), RulePagingAdapter.O
                     }
                     .show()
             }
+
             else -> {}
         }
     }

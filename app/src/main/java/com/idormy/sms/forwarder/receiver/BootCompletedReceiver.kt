@@ -6,10 +6,10 @@ import android.content.Intent
 import android.util.Log
 import com.idormy.sms.forwarder.activity.SplashActivity
 
-@Suppress("PropertyName")
+@Suppress("PrivatePropertyName")
 class BootCompletedReceiver : BroadcastReceiver() {
 
-    val TAG: String = BootCompletedReceiver::class.java.simpleName
+    private val TAG: String = BootCompletedReceiver::class.java.simpleName
 
     override fun onReceive(context: Context, intent: Intent?) {
 

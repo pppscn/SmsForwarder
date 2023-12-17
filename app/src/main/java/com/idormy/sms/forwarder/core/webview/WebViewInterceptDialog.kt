@@ -20,6 +20,7 @@ import java.net.URISyntaxException
  * @author xuexiang
  * @since 2019-10-21 9:51
  */
+@Suppress("DEPRECATION")
 class WebViewInterceptDialog : AppCompatActivity(), DialogInterface.OnDismissListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

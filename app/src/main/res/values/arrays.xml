@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string-array name="home_titles">
         <item>@string/menu_logs</item>
@@ -152,7 +152,7 @@
     <string-array name="charsets">
         <item>UTF-8</item>
         <item>US-ASCII</item>
-        <item>ISO-8859-1</item>
+        <item tools:ignore="TypographyDashes">ISO-8859-1</item>
         <item>UTF-16</item>
         <item>UTF-16BE</item>
         <item>UTF-16LE</item>

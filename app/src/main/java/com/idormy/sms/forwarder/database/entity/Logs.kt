@@ -1,10 +1,13 @@
 package com.idormy.sms.forwarder.database.entity
 
 import android.os.Parcelable
-import androidx.room.*
-import com.idormy.sms.forwarder.R
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
-import java.util.*
+import java.util.Date
 
 @Parcelize
 @Entity(

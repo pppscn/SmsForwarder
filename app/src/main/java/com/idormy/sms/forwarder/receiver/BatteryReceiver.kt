@@ -15,10 +15,10 @@ import com.idormy.sms.forwarder.utils.TaskWorker
 import com.idormy.sms.forwarder.utils.task.TaskUtils
 import com.idormy.sms.forwarder.workers.BatteryWorker
 
-@Suppress("PropertyName")
+@Suppress("PrivatePropertyName")
 class BatteryReceiver : BroadcastReceiver() {
 
-    val TAG: String = BatteryReceiver::class.java.simpleName
+    private val TAG: String = BatteryReceiver::class.java.simpleName
 
     override fun onReceive(context: Context?, intent: Intent?) {
 

@@ -50,11 +50,11 @@ import com.xuexiang.xutil.data.DateUtils
 import com.xuexiang.xutil.system.ClipboardUtils
 import me.samlss.broccoli.Broccoli
 
-@Suppress("PropertyName", "DEPRECATION")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 @Page(name = "远程查通话")
 class CallQueryFragment : BaseFragment<FragmentClientCallQueryBinding?>() {
 
-    val TAG: String = CallQueryFragment::class.java.simpleName
+    private val TAG: String = CallQueryFragment::class.java.simpleName
     private var mAdapter: SimpleDelegateAdapter<CallInfo>? = null
     private var callType: Int = 3
     private var pageNum: Int = 1
@@ -132,6 +132,10 @@ class CallQueryFragment : BaseFragment<FragmentClientCallQueryBinding?>() {
                     .addPlaceholder(PlaceholderHelper.getParameter(holder.findView(R.id.iv_copy)))
                     .addPlaceholder(PlaceholderHelper.getParameter(holder.findView(R.id.iv_call)))
                     .addPlaceholder(PlaceholderHelper.getParameter(holder.findView(R.id.iv_reply)))
+            }
+
+            override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
+                TODO("Not yet implemented")
             }
         }
 

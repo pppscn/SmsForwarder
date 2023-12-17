@@ -38,12 +38,12 @@ allprojects {
     }
 
     // 设置全局编码
-    tasks.withType(JavaCompile) {
+    tasks.withType(JavaCompile).configureEach {
         options.encoding = 'UTF-8'
     }
 
     // 设置文档编码
-    tasks.withType(Javadoc) {
+    tasks.withType(Javadoc).configureEach {
         options {
             encoding 'UTF-8'
             charSet 'UTF-8'
@@ -55,7 +55,7 @@ allprojects {
     setBuildDir(new File(rootDir, "build/${path.replaceAll(':', '/')}"))
 }
 
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 
     FileTree rootTree = fileTree(dir: rootDir)

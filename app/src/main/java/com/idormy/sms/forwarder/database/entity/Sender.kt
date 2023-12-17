@@ -5,9 +5,25 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.idormy.sms.forwarder.R
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.STATUS_OFF
+import com.idormy.sms.forwarder.utils.TYPE_BARK
+import com.idormy.sms.forwarder.utils.TYPE_DINGTALK_GROUP_ROBOT
+import com.idormy.sms.forwarder.utils.TYPE_DINGTALK_INNER_ROBOT
+import com.idormy.sms.forwarder.utils.TYPE_EMAIL
+import com.idormy.sms.forwarder.utils.TYPE_FEISHU
+import com.idormy.sms.forwarder.utils.TYPE_FEISHU_APP
+import com.idormy.sms.forwarder.utils.TYPE_GOTIFY
+import com.idormy.sms.forwarder.utils.TYPE_PUSHPLUS
+import com.idormy.sms.forwarder.utils.TYPE_SERVERCHAN
+import com.idormy.sms.forwarder.utils.TYPE_SMS
+import com.idormy.sms.forwarder.utils.TYPE_SOCKET
+import com.idormy.sms.forwarder.utils.TYPE_TELEGRAM
+import com.idormy.sms.forwarder.utils.TYPE_URL_SCHEME
+import com.idormy.sms.forwarder.utils.TYPE_WEBHOOK
+import com.idormy.sms.forwarder.utils.TYPE_WEWORK_AGENT
+import com.idormy.sms.forwarder.utils.TYPE_WEWORK_ROBOT
 import kotlinx.parcelize.Parcelize
-import java.util.*
+import java.util.Date
 
 @Parcelize
 @Entity(tableName = "Sender")

@@ -31,8 +31,8 @@ import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
 @Page(name = "Frp内网穿透·编辑配置")
 class FrpcEditFragment : BaseFragment<FragmentFrpcEditBinding?>() {
 
-    var titleBar: TitleBar? = null
-    var frpc: Frpc? = null
+    private var titleBar: TitleBar? = null
+    private var frpc: Frpc? = null
     private val viewModel by viewModels<FrpcViewModel> { BaseViewModelFactory(context) }
 
     override fun initViews() {

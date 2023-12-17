@@ -8,7 +8,7 @@ import com.xuexiang.xui.utils.ResUtils.getString
 
 @Suppress("DEPRECATION", "MemberVisibilityCanBePrivate")
 object BatteryUtils {
-    private const val TAG = "BatteryUtils"
+    //private const val TAG = "BatteryUtils"
 
     fun getBatteryInfo(intent: Intent?): BatteryInfo {
         val batteryInfo = BatteryInfo()

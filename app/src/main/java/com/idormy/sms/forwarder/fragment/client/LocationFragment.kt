@@ -11,7 +11,12 @@ import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentClientLocationBinding
 import com.idormy.sms.forwarder.entity.LocationInfo
 import com.idormy.sms.forwarder.server.model.BaseResponse
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.Base64
+import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.RSACrypt
+import com.idormy.sms.forwarder.utils.SM4Crypt
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.XToastUtils
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
@@ -25,11 +30,11 @@ import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.grouplist.XUIGroupListView
 import com.xuexiang.xutil.data.ConvertTools
 
-@Suppress("PropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 @Page(name = "远程找手机")
 class LocationFragment : BaseFragment<FragmentClientLocationBinding?>(), View.OnClickListener {
 
-    val TAG: String = LocationFragment::class.java.simpleName
+    private val TAG: String = LocationFragment::class.java.simpleName
     private var mCountDownHelper: CountDownButtonHelper? = null
 
     override fun viewBindingInflate(
@@ -72,6 +77,7 @@ class LocationFragment : BaseFragment<FragmentClientLocationBinding?>(), View.On
             R.id.btn_refresh -> {
                 getLocation()
             }
+
             else -> {}
         }
     }
@@ -110,6 +116,7 @@ class LocationFragment : BaseFragment<FragmentClientLocationBinding?>(), View.On
                 }
                 postRequest.upString(requestMsg)
             }
+
             3 -> {
                 try {
                     val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
@@ -124,6 +131,7 @@ class LocationFragment : BaseFragment<FragmentClientLocationBinding?>(), View.On
                 }
                 postRequest.upString(requestMsg)
             }
+
             else -> {
                 postRequest.upJson(requestMsg)
             }

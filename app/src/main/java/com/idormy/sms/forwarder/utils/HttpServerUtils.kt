@@ -21,6 +21,7 @@ import javax.crypto.spec.SecretKeySpec
 /**
  * HttpServer工具类
  */
+@Suppress("DEPRECATION")
 class HttpServerUtils private constructor() {
 
     companion object {

@@ -781,7 +781,7 @@
     <string name="socket_address">Service Address</string>
     <string name="socket_address_tips">"IP or Domain"</string>
     <string name="socket_port">Port</string>
-    <string name="socket_port_tips">Value Range：1-65535</string>
+    <string name="socket_port_tips" tools:ignore="TypographyDashes">Value Range：1-65535</string>
 
     <string name="webhook_server">Webhook Server</string>
     <string name="webhook_server_tips">For example: https://a.b.com/msg?token=xyz</string>
@@ -1061,7 +1061,7 @@
     <string name="network_type">Network Type</string>
     <string name="operator_name">Operator Name</string>
     <string name="host_address">Host Address</string>
-    <string name="loading_app_list">Loading app list async...</string>
+    <string name="loading_app_list">Loading app list async…</string>
 
     <string name="carrier_name">Carrier Name</string>
     <string name="icc_id">ICC ID</string>

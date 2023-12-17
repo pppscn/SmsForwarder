@@ -16,7 +16,14 @@ import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentClientBinding
 import com.idormy.sms.forwarder.server.model.BaseResponse
 import com.idormy.sms.forwarder.server.model.ConfigData
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.Base64
+import com.idormy.sms.forwarder.utils.CLIENT_FRAGMENT_LIST
+import com.idormy.sms.forwarder.utils.CommonUtils
+import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.RSACrypt
+import com.idormy.sms.forwarder.utils.SM4Crypt
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.XToastUtils
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
@@ -38,11 +45,11 @@ import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.data.ConvertTools
 
-@Suppress("PropertyName")
+@Suppress("PrivatePropertyName")
 @Page(name = "主动控制·客户端")
 class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListener, RecyclerViewHolder.OnItemClickListener<PageInfo> {
 
-    val TAG: String = ClientFragment::class.java.simpleName
+    private val TAG: String = ClientFragment::class.java.simpleName
     private var appContext: App? = null
     private var serverConfig: ConfigData? = null
     private var serverHistory: MutableMap<String, String> = mutableMapOf()
@@ -125,14 +132,17 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                 safetyMeasuresId = R.id.rb_safety_measures_sign
                 binding!!.tvSignKey.text = getString(R.string.sign_key)
             }
+
             2 -> {
                 safetyMeasuresId = R.id.rb_safety_measures_rsa
                 binding!!.tvSignKey.text = getString(R.string.public_key)
             }
+
             3 -> {
                 safetyMeasuresId = R.id.rb_safety_measures_sm4
                 binding!!.tvSignKey.text = getString(R.string.sm4_key)
             }
+
             else -> {
                 binding!!.layoutSignKey.visibility = View.GONE
             }
@@ -146,14 +156,17 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                     safetyMeasures = 1
                     binding!!.tvSignKey.text = getString(R.string.sign_key)
                 }
+
                 R.id.rb_safety_measures_rsa -> {
                     safetyMeasures = 2
                     binding!!.tvSignKey.text = getString(R.string.public_key)
                 }
+
                 R.id.rb_safety_measures_sm4 -> {
                     safetyMeasures = 3
                     binding!!.tvSignKey.text = getString(R.string.sm4_key)
                 }
+
                 else -> {
                     binding!!.layoutSignKey.visibility = View.GONE
                 }
@@ -185,6 +198,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                 }
                 CommonUtils.previewPicture(this, getString(R.string.url_wechat_miniprogram), null)
             }
+
             R.id.btn_server_history -> {
                 if (serverHistory.isEmpty()) {
                     XToastUtils.warning(getString(R.string.no_server_history))
@@ -213,14 +227,17 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                                     safetyMeasuresId = R.id.rb_safety_measures_sign
                                     binding!!.tvSignKey.text = getString(R.string.sign_key)
                                 }
+
                                 "2" -> {
                                     safetyMeasuresId = R.id.rb_safety_measures_rsa
                                     binding!!.tvSignKey.text = getString(R.string.public_key)
                                 }
+
                                 "3" -> {
                                     safetyMeasuresId = R.id.rb_safety_measures_sm4
                                     binding!!.tvSignKey.text = getString(R.string.sm4_key)
                                 }
+
                                 else -> {
                                     binding!!.tvSignKey.visibility = View.GONE
                                     binding!!.etSignKey.visibility = View.GONE
@@ -237,6 +254,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                     HttpServerUtils.serverHistory = ""
                 }.show()
             }
+
             R.id.btn_server_test -> {
                 if (!CommonUtils.checkUrl(HttpServerUtils.serverAddress)) {
                     XToastUtils.error(getString(R.string.invalid_service_address))
@@ -244,6 +262,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                 }
                 queryConfig(true)
             }
+
             else -> {}
         }
     }
@@ -311,6 +330,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                 }
                 postRequest.upString(requestMsg)
             }
+
             3 -> {
                 try {
                     val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
@@ -325,6 +345,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                 }
                 postRequest.upString(requestMsg)
             }
+
             else -> {
                 postRequest.upJson(requestMsg)
             }

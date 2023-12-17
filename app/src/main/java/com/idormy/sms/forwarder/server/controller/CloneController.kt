@@ -8,7 +8,7 @@ import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.xuexiang.xui.utils.ResUtils.getString
 import com.yanzhenjie.andserver.annotation.*
 
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 @RestController
 @RequestMapping(path = ["/clone"])
 class CloneController {

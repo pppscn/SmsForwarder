@@ -43,7 +43,7 @@ import java.util.regex.Pattern
 /**
  * 常用工具类
  */
-@Suppress("RegExpRedundantEscape", "unused", "RegExpUnnecessaryNonCapturingGroup")
+@Suppress("RegExpRedundantEscape", "unused", "RegExpUnnecessaryNonCapturingGroup", "DEPRECATION")
 class CommonUtils private constructor() {
     companion object {
         /**
@@ -235,17 +235,17 @@ class CommonUtils private constructor() {
         }
 
         //是否合法的IP地址
-        fun checkIP(IP: String): String {
-            if (TextUtils.isEmpty(IP)) return "Neither"
+        fun checkIP(ip: String): String {
+            if (TextUtils.isEmpty(ip)) return "Neither"
 
-            if (IP.contains(".")) {
+            if (ip.contains(".")) {
                 val chunkIPv4 = "([\\d]|[1-9][\\d]|1[\\d][\\d]|2[0-4][\\d]|25[0-5])"
                 val pattenIPv4 = Pattern.compile("^($chunkIPv4\\.){3}$chunkIPv4$")
-                return if (pattenIPv4.matcher(IP).matches()) "IPv4" else "Neither"
-            } else if (IP.contains(":")) {
+                return if (pattenIPv4.matcher(ip).matches()) "IPv4" else "Neither"
+            } else if (ip.contains(":")) {
                 val chunkIPv6 = "([\\da-fA-F]{1,4})"
                 val pattenIPv6 = Pattern.compile("^($chunkIPv6\\:){7}$chunkIPv6$")
-                return if (pattenIPv6.matcher(IP).matches()) "IPv6" else "Neither"
+                return if (pattenIPv6.matcher(ip).matches()) "IPv6" else "Neither"
             }
             return "Neither"
         }
@@ -295,7 +295,7 @@ class CommonUtils private constructor() {
                         val address = addresses.nextElement()
 
                         if (address is Inet4Address || address is Inet6Address) {
-                            ipAddresses.add(address.hostAddress)
+                            address.hostAddress?.let { ipAddresses.add(it) }
                         }
                     }
                 }

@@ -26,11 +26,11 @@ import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xutil.data.ConvertTools
 
-@Suppress("PropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 @Page(name = "远程发短信")
 class SmsSendFragment : BaseFragment<FragmentClientSmsSendBinding?>(), View.OnClickListener {
 
-    val TAG: String = SmsSendFragment::class.java.simpleName
+    private val TAG: String = SmsSendFragment::class.java.simpleName
     private var mCountDownHelper: CountDownButtonHelper? = null
 
     override fun viewBindingInflate(
@@ -138,6 +138,7 @@ class SmsSendFragment : BaseFragment<FragmentClientSmsSendBinding?>(), View.OnCl
                         }
                         postRequest.upString(requestMsg)
                     }
+
                     3 -> {
                         try {
                             val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
@@ -152,6 +153,7 @@ class SmsSendFragment : BaseFragment<FragmentClientSmsSendBinding?>(), View.OnCl
                         }
                         postRequest.upString(requestMsg)
                     }
+
                     else -> {
                         postRequest.upJson(requestMsg)
                     }
@@ -192,6 +194,7 @@ class SmsSendFragment : BaseFragment<FragmentClientSmsSendBinding?>(), View.OnCl
                     }
                 })
             }
+
             else -> {}
         }
     }

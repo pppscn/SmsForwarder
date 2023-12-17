@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.entity.result
 
+@Suppress("PropertyName")
 data class FeishuAppResult(
     var code: Long,
     var msg: String,

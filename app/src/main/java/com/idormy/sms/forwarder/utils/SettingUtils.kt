@@ -72,9 +72,6 @@ class SettingUtils private constructor() {
         //免打扰(禁用转发)时间段——结束
         var silentPeriodEnd: Int by SharedPreference(SP_SILENT_PERIOD_END, 0)
 
-        //自动删除N天前的转发记录
-        var autoCleanLogsDays: Int by SharedPreference(SP_AUTO_CLEAN_LOGS_DAYS, 0)
-
         //是否不在最近任务列表中显示
         var enableExcludeFromRecents: Boolean by SharedPreference(SP_ENABLE_EXCLUDE_FROM_RECENTS, false)
 

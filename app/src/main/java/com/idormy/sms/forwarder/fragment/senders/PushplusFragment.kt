@@ -47,7 +47,7 @@ import java.util.Date
 class PushplusFragment : BaseFragment<FragmentSendersPushplusBinding?>(), View.OnClickListener {
 
     private val TAG: String = PushplusFragment::class.java.simpleName
-    var titleBar: TitleBar? = null
+    private var titleBar: TitleBar? = null
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
     private var mCountDownHelper: CountDownButtonHelper? = null
 

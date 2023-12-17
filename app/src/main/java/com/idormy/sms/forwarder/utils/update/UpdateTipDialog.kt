@@ -17,6 +17,7 @@ import com.xuexiang.xupdate.XUpdate
  * @author xuexiang
  * @since 2019-06-15 00:06
  */
+@Suppress("DEPRECATION")
 class UpdateTipDialog : AppCompatActivity(), DialogInterface.OnDismissListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

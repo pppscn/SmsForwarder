@@ -42,11 +42,11 @@ import com.xuexiang.xutil.file.FileUtils
 import java.io.File
 import java.util.*
 
-@Suppress("PropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 @Page(name = "一键换新机")
 class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickListener {
 
-    val TAG: String = CloneFragment::class.java.simpleName
+    private val TAG: String = CloneFragment::class.java.simpleName
     private var backupPath: String? = null
     private val backupFile = "SmsForwarder.json"
     private var pushCountDownHelper: CountDownButtonHelper? = null

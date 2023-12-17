@@ -26,6 +26,7 @@ import java.net.PasswordAuthentication
 import java.net.Proxy
 
 //钉钉企业内机器人
+@Suppress("DEPRECATION")
 class DingtalkInnerRobotUtils private constructor() {
     companion object {
 

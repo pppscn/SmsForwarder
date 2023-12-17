@@ -49,11 +49,11 @@ import com.xuexiang.xutil.data.ConvertTools
 import com.xuexiang.xutil.data.DateUtils
 import me.samlss.broccoli.Broccoli
 
-@Suppress("PropertyName", "DEPRECATION")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 @Page(name = "远程查短信")
 class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
 
-    val TAG: String = SmsQueryFragment::class.java.simpleName
+    private val TAG: String = SmsQueryFragment::class.java.simpleName
     private var mAdapter: SimpleDelegateAdapter<SmsInfo>? = null
     private var smsType: Int = 1
     private var pageNum: Int = 1
@@ -120,6 +120,10 @@ class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
                     .addPlaceholder(PlaceholderHelper.getParameter(holder.findView(R.id.tv_content)))
                     .addPlaceholder(PlaceholderHelper.getParameter(holder.findView(R.id.iv_image)))
                     .addPlaceholder(PlaceholderHelper.getParameter(holder.findView(R.id.iv_reply)))
+            }
+
+            override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
+                TODO("Not yet implemented")
             }
 
         }

@@ -128,7 +128,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="0-59"
-                        android:textAlignment="center" />
+                        android:importantForAutofill="no"
+                        android:textAlignment="center"
+                        tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TextFields,TouchTargetSizeCheck,TextContrastCheck" />
 
                     <EditText
                         android:id="@+id/et_minute"
@@ -136,7 +138,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="0-59"
-                        android:textAlignment="center" />
+                        android:importantForAutofill="no"
+                        android:textAlignment="center"
+                        tools:ignore="HardcodedText,TextFields,TouchTargetSizeCheck,TextContrastCheck" />
 
                     <EditText
                         android:id="@+id/et_hour"
@@ -144,7 +148,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="0-23"
-                        android:textAlignment="center" />
+                        android:importantForAutofill="no"
+                        android:textAlignment="center"
+                        tools:ignore="HardcodedText,TextFields,TouchTargetSizeCheck,TextContrastCheck" />
 
                     <EditText
                         android:id="@+id/et_day"
@@ -152,7 +158,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="1-31"
-                        android:textAlignment="center" />
+                        android:importantForAutofill="no"
+                        android:textAlignment="center"
+                        tools:ignore="HardcodedText,TextFields,TouchTargetSizeCheck,TextContrastCheck" />
 
                     <EditText
                         android:id="@+id/et_month"
@@ -160,7 +168,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="1-12"
-                        android:textAlignment="center" />
+                        android:importantForAutofill="no"
+                        android:textAlignment="center"
+                        tools:ignore="HardcodedText,TextFields,TouchTargetSizeCheck,TextContrastCheck" />
 
                     <EditText
                         android:id="@+id/et_week"
@@ -168,7 +178,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="1-7"
-                        android:textAlignment="center" />
+                        android:importantForAutofill="no"
+                        android:textAlignment="center"
+                        tools:ignore="HardcodedText,TextFields,TouchTargetSizeCheck,TextContrastCheck" />
 
                     <EditText
                         android:id="@+id/et_year"
@@ -176,7 +188,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="*"
-                        android:textAlignment="center" />
+                        android:importantForAutofill="no"
+                        android:textAlignment="center"
+                        tools:ignore="HardcodedText,TextFields,TouchTargetSizeCheck,TextContrastCheck" />
 
                 </LinearLayout>
 
@@ -272,6 +286,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/start"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -285,6 +300,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/end"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -317,6 +333,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/start"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -330,6 +347,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/interval"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -403,6 +421,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/start"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -416,6 +435,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/end"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -448,6 +468,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/start"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -461,6 +482,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/interval"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -534,6 +556,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/start"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -547,6 +570,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/end"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -561,7 +585,8 @@
                         android:id="@+id/rb_hour_type_interval"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/interval" />
+                        android:text="@string/interval"
+                        tools:ignore="TooManyViews" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -579,6 +604,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/start"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -592,6 +618,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/interval"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -665,6 +692,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/start"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -678,6 +706,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/end"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -710,6 +739,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/start"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -723,6 +753,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/interval"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -755,8 +786,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="1-31"
+                            android:importantForAutofill="no"
                             android:inputType="number"
-                            android:textAlignment="center" />
+                            android:textAlignment="center"
+                            tools:ignore="HardcodedText" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -846,6 +879,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/start"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -859,6 +893,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/end"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -891,6 +926,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/start"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -904,6 +940,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/interval"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -977,6 +1014,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/start"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -990,6 +1028,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/end"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -1016,6 +1055,7 @@
                             android:id="@+id/et_which_week_of_month"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -1029,8 +1069,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="1-7"
+                            android:importantForAutofill="no"
                             android:inputType="number"
-                            android:textAlignment="center" />
+                            android:textAlignment="center"
+                            tools:ignore="HardcodedText" />
 
                     </LinearLayout>
 
@@ -1056,8 +1098,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="1-7"
+                            android:importantForAutofill="no"
                             android:inputType="number"
-                            android:textAlignment="center" />
+                            android:textAlignment="center"
+                            tools:ignore="HardcodedText" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1142,6 +1186,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/start"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -1155,6 +1200,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/end"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -1187,6 +1233,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/start"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -1200,6 +1247,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/interval"
+                            android:importantForAutofill="no"
                             android:inputType="number"
                             android:textAlignment="center" />
 
@@ -1244,7 +1292,7 @@
             android:paddingStart="15dp"
             android:text="@string/discard"
             android:textSize="11sp"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_save"
@@ -1254,7 +1302,7 @@
             android:paddingStart="15dp"
             android:text="@string/submit"
             android:textSize="11sp"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry,TouchTargetSizeCheck,TextContrastCheck" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_test"
@@ -1264,7 +1312,7 @@
             android:paddingStart="15dp"
             android:text="@string/test"
             android:textSize="11sp"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry,TouchTargetSizeCheck,TextContrastCheck" />
 
     </LinearLayout>
 

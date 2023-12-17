@@ -11,6 +11,7 @@ import com.idormy.sms.forwarder.utils.mail.Mail
 import com.idormy.sms.forwarder.utils.mail.MailSender
 import com.xuexiang.xui.utils.ResUtils
 
+@Suppress("DEPRECATION")
 class EmailUtils {
     companion object {
 
@@ -43,12 +44,14 @@ class EmailUtils {
                     setting.ssl = true
                     setting.fromEmail += setting.mailType
                 }
+
                 "@exmail.qq.com" -> {
                     setting.host = "smtp.exmail.qq.com"
                     setting.port = "465"
                     setting.ssl = true
                     setting.fromEmail += setting.mailType
                 }
+
                 "@msn.com" -> {
                     setting.host = "smtp-mail.outlook.com"
                     setting.port = "587"
@@ -56,6 +59,7 @@ class EmailUtils {
                     setting.startTls = true
                     setting.fromEmail += setting.mailType
                 }
+
                 "@outlook.com", "@office365.com", "@live.com", "@hotmail.com" -> {
                     setting.host = "smtp.office365.com"
                     setting.port = "587"
@@ -63,6 +67,7 @@ class EmailUtils {
                     setting.startTls = true
                     setting.fromEmail += setting.mailType
                 }
+
                 "@gmail.com" -> {
                     setting.host = "smtp.gmail.com"
                     setting.port = "587"
@@ -70,48 +75,56 @@ class EmailUtils {
                     setting.startTls = true
                     setting.fromEmail += setting.mailType
                 }
+
                 "@yeah.net" -> {
                     setting.host = "smtp.yeah.net"
                     setting.port = "465"
                     setting.ssl = true
                     setting.fromEmail += setting.mailType
                 }
+
                 "@163.com" -> {
                     setting.host = "smtp.163.com"
                     setting.port = "465"
                     setting.ssl = true
                     setting.fromEmail += setting.mailType
                 }
+
                 "@126.com" -> {
                     setting.host = "smtp.126.com"
                     setting.port = "465"
                     setting.ssl = true
                     setting.fromEmail += setting.mailType
                 }
+
                 "@sina.com" -> {
                     setting.host = "smtp.sina.com"
                     setting.port = "465"
                     setting.ssl = true
                     setting.fromEmail += setting.mailType
                 }
+
                 "@sina.cn" -> {
                     setting.host = "smtp.sina.cn"
                     setting.port = "465"
                     setting.ssl = true
                     setting.fromEmail += setting.mailType
                 }
+
                 "@139.com" -> {
                     setting.host = "smtp.139.com"
                     setting.port = "465"
                     setting.ssl = true
                     setting.fromEmail += setting.mailType
                 }
+
                 "@189.cn" -> {
                     setting.host = "smtp.189.cn"
                     setting.port = "465"
                     setting.ssl = true
                     setting.fromEmail += setting.mailType
                 }
+
                 else -> {}
             }
 

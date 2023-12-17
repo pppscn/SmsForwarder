@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<animated-selector
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_enabled="true" android:state_checked="true" android:drawable="@drawable/auto_task_radio_button_select" />
-    <item android:state_checked="true" android:drawable="@drawable/auto_task_radio_button_select" />
-    <item android:state_checked="false" android:drawable="@drawable/auto_task_radio_button_un_select" />
-    <item android:state_enabled="true" android:drawable="@drawable/auto_task_radio_button_select" />
-    <item android:drawable="@drawable/auto_task_radio_button_un_select" />
-</animated-selector>

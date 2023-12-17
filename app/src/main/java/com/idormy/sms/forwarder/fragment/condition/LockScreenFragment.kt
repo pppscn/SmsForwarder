@@ -27,7 +27,7 @@ import com.xuexiang.xui.widget.actionbar.TitleBar
 class LockScreenFragment : BaseFragment<FragmentTasksConditionLockScreenBinding?>(), View.OnClickListener {
 
     private val TAG: String = LockScreenFragment::class.java.simpleName
-    var titleBar: TitleBar? = null
+    private var titleBar: TitleBar? = null
 
     @JvmField
     @AutoWired(name = KEY_EVENT_DATA_CONDITION)

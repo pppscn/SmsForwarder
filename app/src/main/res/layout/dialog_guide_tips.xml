@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:padding="@dimen/config_margin_10dp"
-            app:srcCompat="@drawable/ic_action_close_white" />
+            app:srcCompat="@drawable/ic_action_close_white"
+            tools:ignore="ImageContrastCheck" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,7 +53,8 @@
                     android:layout_width="match_parent"
                     android:layout_marginTop="@dimen/config_margin_16dp"
                     android:text="@string/tip_title"
-                    android:textColor="?attr/colorAccent" />
+                    android:textColor="?attr/colorAccent"
+                    tools:ignore="TextContrastCheck" />
 
                 <TextView
                     android:id="@+id/tv_content"
@@ -84,12 +86,14 @@
                         android:layout_height="wrap_content"
                         android:button="@drawable/xui_icon_checkbox"
                         android:scaleX="0.8"
-                        android:scaleY="0.8" />
+                        android:scaleY="0.8"
+                        tools:ignore="PrivateResource,TouchTargetSizeCheck" />
 
                     <TextView
                         style="@style/TextStyle.Explain"
                         android:layout_marginStart="@dimen/config_margin_4dp"
-                        android:text="@string/tip_ignore_message" />
+                        android:text="@string/tip_ignore_message"
+                        tools:ignore="TextContrastCheck" />
                 </LinearLayout>
 
             </LinearLayout>

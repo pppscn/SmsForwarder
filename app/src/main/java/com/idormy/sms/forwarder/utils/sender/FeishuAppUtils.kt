@@ -18,6 +18,7 @@ import com.xuexiang.xhttp2.exception.ApiException
 import com.xuexiang.xui.utils.ResUtils.getString
 
 //飞书企业应用
+@Suppress("DEPRECATION")
 class FeishuAppUtils private constructor() {
     companion object {
 

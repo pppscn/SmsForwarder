@@ -10,7 +10,12 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentClientWolSendBinding
 import com.idormy.sms.forwarder.server.model.BaseResponse
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.Base64
+import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.RSACrypt
+import com.idormy.sms.forwarder.utils.SM4Crypt
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.XToastUtils
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
@@ -25,11 +30,11 @@ import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xutil.data.ConvertTools
 
-@Suppress("PropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 @Page(name = "远程WOL")
 class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnClickListener {
 
-    val TAG: String = WolSendFragment::class.java.simpleName
+    private val TAG: String = WolSendFragment::class.java.simpleName
     private var mCountDownHelper: CountDownButtonHelper? = null
     private var wolHistory: MutableMap<String, String> = mutableMapOf()
 
@@ -103,6 +108,7 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
                     }
                     .show()
             }
+
             R.id.btn_submit -> {
                 val requestUrl: String = HttpServerUtils.serverAddress + "/wol/send"
                 Log.i(TAG, "requestUrl:$requestUrl")
@@ -166,6 +172,7 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
                         }
                         postRequest.upString(requestMsg)
                     }
+
                     3 -> {
                         try {
                             val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
@@ -180,6 +187,7 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
                         }
                         postRequest.upString(requestMsg)
                     }
+
                     else -> {
                         postRequest.upJson(requestMsg)
                     }
@@ -223,6 +231,7 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
                     }
                 })
             }
+
             else -> {}
         }
     }

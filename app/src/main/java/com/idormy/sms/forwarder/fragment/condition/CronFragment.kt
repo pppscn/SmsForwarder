@@ -41,7 +41,7 @@ import java.util.Locale
 class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.OnClickListener {
 
     private val TAG: String = CronFragment::class.java.simpleName
-    var titleBar: TitleBar? = null
+    private var titleBar: TitleBar? = null
     private var mCountDownHelper: CountDownButtonHelper? = null
 
     @JvmField

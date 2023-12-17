@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.idormy.sms.forwarder.utils
 
 import android.util.Log
@@ -35,8 +37,8 @@ object RuleLineUtils {
     }
 
     @Throws(Exception::class)
-    fun checkRuleLines(msg: MsgInfo, RuleLines: String?): Boolean {
-        val scanner = Scanner(RuleLines)
+    fun checkRuleLines(msg: MsgInfo, ruleLines: String?): Boolean {
+        val scanner = Scanner(ruleLines)
         var lineNum = 0
         var headRuleLine: RuleLine? = null
         var beforeRuleLine: RuleLine? = null

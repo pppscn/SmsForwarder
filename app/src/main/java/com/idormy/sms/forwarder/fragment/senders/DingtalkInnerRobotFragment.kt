@@ -43,7 +43,7 @@ import java.util.*
 class DingtalkInnerRobotFragment : BaseFragment<FragmentSendersDingtalkInnerRobotBinding?>(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private val TAG: String = DingtalkInnerRobotFragment::class.java.simpleName
-    var titleBar: TitleBar? = null
+    private var titleBar: TitleBar? = null
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
     private var mCountDownHelper: CountDownButtonHelper? = null
 

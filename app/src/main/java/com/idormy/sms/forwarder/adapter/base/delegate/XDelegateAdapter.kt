@@ -14,8 +14,8 @@ import com.alibaba.android.vlayout.DelegateAdapter
  * @author xuexiang
  * @since 2020/3/20 12:17 AM
  */
-@Suppress("unused", "WRONG_TYPE_PARAMETER_NULLABILITY_FOR_JAVA_OVERRIDE")
-abstract class XDelegateAdapter<T, V : RecyclerView.ViewHolder?> : DelegateAdapter.Adapter<V> {
+@Suppress("unused")
+abstract class XDelegateAdapter<T, V : RecyclerView.ViewHolder> : DelegateAdapter.Adapter<V> {
     /**
      * 数据源
      */

@@ -28,7 +28,7 @@ import com.xuexiang.xui.widget.actionbar.TitleBar
 class BatteryFragment : BaseFragment<FragmentTasksConditionBatteryBinding?>(), View.OnClickListener {
 
     private val TAG: String = BatteryFragment::class.java.simpleName
-    var titleBar: TitleBar? = null
+    private var titleBar: TitleBar? = null
 
     @JvmField
     @AutoWired(name = KEY_EVENT_DATA_CONDITION)
