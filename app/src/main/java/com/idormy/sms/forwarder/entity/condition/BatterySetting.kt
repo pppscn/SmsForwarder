@@ -1,4 +1,4 @@
-package com.idormy.sms.forwarder.entity.task
+package com.idormy.sms.forwarder.entity.condition
 
 import android.os.BatteryManager
 import com.idormy.sms.forwarder.R

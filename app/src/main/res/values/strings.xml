@@ -1148,6 +1148,7 @@
     <string name="task_sendsms">发送短信</string>
     <string name="task_notification">通道推送</string>
     <string name="task_frpc">Frpc设置</string>
+    <string name="task_frpc_tips">控制内网穿透·FRPC的启动/停止</string>
     <string name="task_server">HttpServer设置</string>
 
     <string name="second">秒</string>
@@ -1253,4 +1254,7 @@
     <string name="current_address">当前地址：%s</string>
     <string name="location_failed">定位失败，请稍后重试</string>
     <string name="current_distance_from_center">, 当前距离中心%s米</string>
+
+    <string name="specified_uid">指定配置</string>
+    <string name="specified_uid_hint">填写frpc的uid，多个以半角逗号分隔</string>
 </resources>

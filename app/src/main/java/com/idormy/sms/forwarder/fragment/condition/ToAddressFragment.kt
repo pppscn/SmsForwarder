@@ -13,7 +13,7 @@ import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentTasksConditionToAddressBinding
-import com.idormy.sms.forwarder.entity.task.LocationSetting
+import com.idormy.sms.forwarder.entity.condition.LocationSetting
 import com.idormy.sms.forwarder.service.LocationService
 import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_CONDITION

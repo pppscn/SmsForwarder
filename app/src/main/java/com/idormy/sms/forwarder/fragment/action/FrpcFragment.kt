@@ -9,9 +9,10 @@ import android.view.ViewGroup
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
-import com.idormy.sms.forwarder.databinding.FragmentTasksActionSendSmsBinding
-import com.idormy.sms.forwarder.entity.task.CronSetting
+import com.idormy.sms.forwarder.databinding.FragmentTasksActionFrpcBinding
+import com.idormy.sms.forwarder.entity.action.FrpcSetting
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_ACTION
+import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_ACTION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_ACTION
 import com.idormy.sms.forwarder.utils.KEY_TEST_ACTION
 import com.idormy.sms.forwarder.utils.TASK_ACTION_FRPC
@@ -26,7 +27,7 @@ import com.xuexiang.xui.widget.actionbar.TitleBar
 
 @Page(name = "Frpc")
 @Suppress("PrivatePropertyName")
-class FrpcFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View.OnClickListener {
+class FrpcFragment : BaseFragment<FragmentTasksActionFrpcBinding?>(), View.OnClickListener {
 
     private val TAG: String = FrpcFragment::class.java.simpleName
     private var titleBar: TitleBar? = null
@@ -36,7 +37,6 @@ class FrpcFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View.On
     @AutoWired(name = KEY_EVENT_DATA_ACTION)
     var eventData: String? = null
 
-    private var expression = "* * * * * ? *"
     private var description = "测试描述"
 
     override fun initArgs() {
@@ -46,8 +46,8 @@ class FrpcFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View.On
     override fun viewBindingInflate(
         inflater: LayoutInflater,
         container: ViewGroup,
-    ): FragmentTasksActionSendSmsBinding {
-        return FragmentTasksActionSendSmsBinding.inflate(inflater, container, false)
+    ): FragmentTasksActionFrpcBinding {
+        return FragmentTasksActionFrpcBinding.inflate(inflater, container, false)
     }
 
     override fun initTitle(): TitleBar? {
@@ -71,9 +71,26 @@ class FrpcFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View.On
             }
         })
 
+        binding!!.rgFrpcState.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.rb_start_server -> {
+                    binding!!.layoutStartServer.visibility = View.VISIBLE
+                    binding!!.layoutStopServer.visibility = View.GONE
+                }
+
+                R.id.rb_stop_server -> {
+                    binding!!.layoutStartServer.visibility = View.GONE
+                    binding!!.layoutStopServer.visibility = View.VISIBLE
+                }
+            }
+        }
+
         Log.d(TAG, "initViews eventData:$eventData")
         if (eventData != null) {
-            val settingVo = Gson().fromJson(eventData, CronSetting::class.java)
+            val settingVo = Gson().fromJson(eventData, FrpcSetting::class.java)
+            binding!!.etStartUid.setText(settingVo.uids)
+            binding!!.etStopUid.setText(settingVo.uids)
+            binding!!.rgFrpcState.check(if (settingVo.action == "start") R.id.rb_start_server else R.id.rb_stop_server)
             Log.d(TAG, "initViews settingVo:$settingVo")
         }
     }
@@ -121,6 +138,7 @@ class FrpcFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View.On
                 R.id.btn_save -> {
                     val settingVo = checkSetting()
                     val intent = Intent()
+                    intent.putExtra(KEY_BACK_DESCRIPTION_ACTION, description)
                     intent.putExtra(KEY_BACK_DATA_ACTION, Gson().toJson(settingVo))
                     setFragmentResult(TASK_ACTION_FRPC, intent)
                     popToBack()
@@ -135,7 +153,20 @@ class FrpcFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View.On
 
     //检查设置
     @SuppressLint("SetTextI18n")
-    private fun checkSetting(): CronSetting {
-        return CronSetting(description, expression)
+    private fun checkSetting(): FrpcSetting {
+        val startUid = binding!!.etStartUid.text.toString().trim()
+        val stopUid = binding!!.etStopUid.text.toString().trim()
+        val action: String
+        val uids: String
+        if (binding!!.rgFrpcState.checkedRadioButtonId == R.id.rb_start_server) {
+            description = if (startUid == "") "启动全部自启动的Frpc" else "启动UID为${startUid}的Frpc"
+            action = "start"
+            uids = startUid
+        } else {
+            description = if (stopUid == "") "停止全部自启动的Frpc" else "停止UID为${stopUid}的Frpc"
+            action = "stop"
+            uids = stopUid
+        }
+        return FrpcSetting(description, action, uids)
     }
 }

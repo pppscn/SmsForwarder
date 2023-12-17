@@ -1147,6 +1147,7 @@
     <string name="task_sendsms">Send Sms</string>
     <string name="task_notification">Notification</string>
     <string name="task_frpc">Frpc Setting</string>
+    <string name="task_frpc_tips">Control the start/stop of FRPC.</string>
     <string name="task_server">Server Setting</string>
 
     <string name="second">Second</string>
@@ -1252,4 +1253,7 @@
     <string name="current_address">Current Address: %s</string>
     <string name="location_failed">Location failed. Please try again later.</string>
     <string name="current_distance_from_center">, %s meters from the center.</string>
+
+    <string name="specified_uid">Specified Uid</string>
+    <string name="specified_uid_hint">Enter FRPC config UIDs, separate with commas.</string>
 </resources>

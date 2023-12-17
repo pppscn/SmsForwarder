@@ -10,7 +10,7 @@ import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentTasksActionSendSmsBinding
-import com.idormy.sms.forwarder.entity.task.CronSetting
+import com.idormy.sms.forwarder.entity.condition.CronSetting
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_ACTION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_ACTION
 import com.idormy.sms.forwarder.utils.KEY_TEST_ACTION

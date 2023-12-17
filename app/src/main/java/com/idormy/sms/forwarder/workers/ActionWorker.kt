@@ -2,6 +2,7 @@ package com.idormy.sms.forwarder.workers
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.util.Log
 import androidx.core.app.ActivityCompat
@@ -10,26 +11,40 @@ import androidx.work.WorkerParameters
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
-import com.idormy.sms.forwarder.entity.task.SmsSetting
-import com.idormy.sms.forwarder.entity.task.TaskSetting
+import com.idormy.sms.forwarder.entity.TaskSetting
+import com.idormy.sms.forwarder.entity.action.FrpcSetting
+import com.idormy.sms.forwarder.entity.action.HttpServerSetting
+import com.idormy.sms.forwarder.entity.action.SmsSetting
+import com.idormy.sms.forwarder.service.HttpServerService
+import com.idormy.sms.forwarder.utils.EVENT_TOAST_ERROR
+import com.idormy.sms.forwarder.utils.EVENT_TOAST_INFO
+import com.idormy.sms.forwarder.utils.EVENT_TOAST_SUCCESS
+import com.idormy.sms.forwarder.utils.EVENT_TOAST_WARNING
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.SendUtils
+import com.idormy.sms.forwarder.utils.TASK_ACTION_FRPC
+import com.idormy.sms.forwarder.utils.TASK_ACTION_HTTPSERVER
 import com.idormy.sms.forwarder.utils.TASK_ACTION_NOTIFICATION
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDSMS
 import com.idormy.sms.forwarder.utils.TaskWorker
+import com.jeremyliao.liveeventbus.LiveEventBus
+import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xui.utils.ResUtils
-import com.xuexiang.xutil.XUtil
+import com.xuexiang.xutil.file.FileUtils
+import frpclib.Frpclib
 
 //执行每个task具体动作任务
 @Suppress("PrivatePropertyName", "DEPRECATION")
 class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
 
     private val TAG: String = ActionWorker::class.java.simpleName
+    private var taskId = -1L
 
     override suspend fun doWork(): Result {
-        val taskId = inputData.getLong(TaskWorker.taskId, -1L)
+        taskId = inputData.getLong(TaskWorker.taskId, -1L)
         val taskActionsJson = inputData.getString(TaskWorker.taskActions)
         val msgInfoJson = inputData.getString(TaskWorker.msgInfo)
         Log.d(TAG, "taskId: $taskId, taskActionsJson: $taskActionsJson, msgInfoJson: $msgInfoJson")
@@ -40,13 +55,13 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
 
         val actionList = Gson().fromJson(taskActionsJson, Array<TaskSetting>::class.java).toMutableList()
         if (actionList.isEmpty()) {
-            Log.d(TAG, "任务$taskId：actionList is empty")
+            writeLog("actionList is empty")
             return Result.failure()
         }
 
         val msgInfo = Gson().fromJson(msgInfoJson, MsgInfo::class.java)
         if (msgInfo == null) {
-            Log.d(TAG, "任务$taskId：msgInfo is null")
+            writeLog("msgInfo is null")
             return Result.failure()
         }
 
@@ -57,7 +72,7 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                     TASK_ACTION_SENDSMS -> {
                         val smsSetting = Gson().fromJson(action.setting, SmsSetting::class.java)
                         if (smsSetting == null) {
-                            Log.d(TAG, "任务$taskId：smsSetting is null")
+                            writeLog("smsSetting is null")
                             continue
                         }
                         //获取卡槽信息
@@ -71,14 +86,14 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                         //TODO：取不到卡槽信息时，采用默认卡槽发送
                         val mSubscriptionId: Int = App.SimInfoList[simSlotIndex]?.mSubscriptionId ?: -1
 
-                        val msg = if (ActivityCompat.checkSelfPermission(XUtil.getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                        val msg = if (ActivityCompat.checkSelfPermission(App.context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
                             ResUtils.getString(R.string.no_sms_sending_permission)
                         } else {
                             PhoneUtils.sendSms(mSubscriptionId, smsSetting.phoneNumbers, smsSetting.msgContent)
                             successNum++
                         }
 
-                        Log.d(TAG, "任务$taskId：send sms result: $msg")
+                        writeLog("send sms result: $msg")
                     }
 
                     TASK_ACTION_NOTIFICATION -> {
@@ -88,17 +103,107 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                         successNum++
                     }
 
+                    TASK_ACTION_FRPC -> {
+                        if (!FileUtils.isFileExists(App.context.filesDir?.absolutePath + "/libs/libgojni.so")) {
+                            writeLog("还未下载Frpc库")
+                            continue
+                        }
+                        val frpcSetting = Gson().fromJson(action.setting, FrpcSetting::class.java)
+                        if (frpcSetting == null) {
+                            writeLog("frpcSetting is null")
+                            continue
+                        }
+
+                        val frpcList = if (frpcSetting.uids.isEmpty()) {
+                            AppDatabase.getInstance(App.context).frpcDao().getAutorun()
+                        } else {
+                            val uids = frpcSetting.uids.split(",")
+                            AppDatabase.getInstance(App.context).frpcDao().getByUids(uids)
+                        }
+
+                        if (frpcList.isEmpty()) {
+                            writeLog("没有需要操作的Frpc")
+                            continue
+                        }
+
+                        for (frpc in frpcList) {
+                            if (frpcSetting.action == "start") {
+                                if (!Frpclib.isRunning(frpc.uid)) {
+                                    val error = Frpclib.runContent(frpc.uid, frpc.config)
+                                    if (!TextUtils.isEmpty(error)) {
+                                        Log.e(TAG, error)
+                                    }
+                                }
+                            } else if (frpcSetting.action == "stop") {
+                                if (Frpclib.isRunning(frpc.uid)) {
+                                    Frpclib.close(frpc.uid)
+                                }
+                            }
+                        }
+                    }
+
+                    TASK_ACTION_HTTPSERVER -> {
+                        val httpServerSetting = Gson().fromJson(action.setting, HttpServerSetting::class.java)
+                        if (httpServerSetting == null) {
+                            writeLog("httpServerSetting is null")
+                            continue
+                        }
+                        Intent(App.context, HttpServerService::class.java).also {
+                            if (httpServerSetting.action == "start") {
+                                App.context.startService(it)
+                            } else if (httpServerSetting.action == "stop") {
+                                App.context.stopService(it)
+                            }
+                        }
+                    }
+
                     else -> {
-                        Log.d(TAG, "任务$taskId：action.type is ${action.type}")
+                        writeLog("action.type is ${action.type}")
                     }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.d(TAG, "任务$taskId：action.type is ${action.type}, exception: ${e.message}")
+                writeLog("action.type is ${action.type}, exception: ${e.message}")
             }
         }
 
         return if (successNum == actionList.size) Result.success() else Result.failure()
+    }
+
+    private fun writeLog(msg: String, level: String = "DEBUG") {
+        val key = when (level) {
+            "INFO" -> {
+                Log.i(TAG, "TASK-$taskId：$msg")
+                EVENT_TOAST_INFO
+            }
+
+            "WARN" -> {
+                Log.w(TAG, "TASK-$taskId：$msg")
+                EVENT_TOAST_WARNING
+            }
+
+            "ERROR" -> {
+                Log.e(TAG, "TASK-$taskId：$msg")
+                EVENT_TOAST_ERROR
+            }
+
+            "SUCCESS" -> {
+                Log.d(TAG, "TASK-$taskId：$msg")
+                EVENT_TOAST_SUCCESS
+            }
+
+            else -> {
+                Log.d(TAG, "TASK-$taskId：$msg")
+                ""
+            }
+        }
+
+        if (taskId == 0L && key.isNotEmpty()) {
+            LiveEventBus.get(key, String::class.java).post(msg)
+            return
+        }
+
+        //TODO: 写入日志
     }
 
 }

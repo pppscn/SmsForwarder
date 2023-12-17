@@ -12,8 +12,8 @@ import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.entity.MsgInfo
-import com.idormy.sms.forwarder.entity.task.NetworkSetting
-import com.idormy.sms.forwarder.entity.task.TaskSetting
+import com.idormy.sms.forwarder.entity.TaskSetting
+import com.idormy.sms.forwarder.entity.condition.NetworkSetting
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.TaskWorker
 import com.idormy.sms.forwarder.utils.task.ConditionUtils

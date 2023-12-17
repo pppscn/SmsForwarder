@@ -5,6 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.viewbinding.ViewBinding
+import com.idormy.sms.forwarder.utils.EVENT_TOAST_ERROR
+import com.idormy.sms.forwarder.utils.EVENT_TOAST_INFO
+import com.idormy.sms.forwarder.utils.EVENT_TOAST_SUCCESS
+import com.idormy.sms.forwarder.utils.EVENT_TOAST_WARNING
+import com.idormy.sms.forwarder.utils.XToastUtils
+import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xpage.base.XPageActivity
 import com.xuexiang.xpage.base.XPageFragment
 import com.xuexiang.xpage.core.CoreSwitchBean
@@ -47,6 +53,20 @@ open class BaseActivity<Binding : ViewBinding?> : XPageActivity() {
         initStatusBarStyle()
         super.onCreate(savedInstanceState)
         registerSlideBack()
+
+        //用于接收各种事件的吐司
+        LiveEventBus.get(EVENT_TOAST_ERROR, String::class.java).observe(this) { msg: String ->
+            XToastUtils.error(msg, 15000)
+        }
+        LiveEventBus.get(EVENT_TOAST_SUCCESS, String::class.java).observe(this) { msg: String ->
+            XToastUtils.success(msg)
+        }
+        LiveEventBus.get(EVENT_TOAST_INFO, String::class.java).observe(this) { msg: String ->
+            XToastUtils.info(msg)
+        }
+        LiveEventBus.get(EVENT_TOAST_WARNING, String::class.java).observe(this) { msg: String ->
+            XToastUtils.warning(msg, 10000)
+        }
     }
 
     /**

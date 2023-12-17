@@ -15,7 +15,7 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.TaskPagingAdapter.MyViewHolder
 import com.idormy.sms.forwarder.database.entity.Task
 import com.idormy.sms.forwarder.databinding.AdapterTasksCardViewListItemBinding
-import com.idormy.sms.forwarder.entity.task.TaskSetting
+import com.idormy.sms.forwarder.entity.TaskSetting
 import com.xuexiang.xutil.data.DateUtils
 
 class TaskPagingAdapter(private val itemClickListener: OnItemClickListener) : PagingDataAdapter<Task, MyViewHolder>(diffCallback) {

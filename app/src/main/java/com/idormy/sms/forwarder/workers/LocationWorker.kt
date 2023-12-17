@@ -13,8 +13,8 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.entity.LocationInfo
 import com.idormy.sms.forwarder.entity.MsgInfo
-import com.idormy.sms.forwarder.entity.task.LocationSetting
-import com.idormy.sms.forwarder.entity.task.TaskSetting
+import com.idormy.sms.forwarder.entity.TaskSetting
+import com.idormy.sms.forwarder.entity.condition.LocationSetting
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_LEAVE_ADDRESS
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_TO_ADDRESS
 import com.idormy.sms.forwarder.utils.TaskWorker

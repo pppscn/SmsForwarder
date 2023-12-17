@@ -18,7 +18,7 @@ import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentTasksActionSendSmsBinding
-import com.idormy.sms.forwarder.entity.task.SmsSetting
+import com.idormy.sms.forwarder.entity.action.SmsSetting
 import com.idormy.sms.forwarder.server.model.ConfigData
 import com.idormy.sms.forwarder.utils.EVENT_KEY_PHONE_NUMBERS
 import com.idormy.sms.forwarder.utils.EVENT_KEY_SIM_SLOT

@@ -355,6 +355,8 @@ const val KEY_URL = "key_url"
 //吐司监听
 const val EVENT_TOAST_SUCCESS = "key_toast_success"
 const val EVENT_TOAST_ERROR = "key_toast_error"
+const val EVENT_TOAST_INFO = "key_toast_info"
+const val EVENT_TOAST_WARNING = "key_toast_warning"
 
 //主页监听时间
 const val EVENT_UPDATE_LOGS_TYPE = "key_logs_type"

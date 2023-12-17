@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/xui_config_color_background"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/task_frpc"
+                app:srcCompat="@drawable/auto_task_icon_frpc"
+                tools:ignore="ImageContrastCheck" />
+
+            <LinearLayout
+                style="@style/taskBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/task_frpc"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/task_frpc_tips"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="?attr/xui_config_color_separator_light" />
+
+                <RadioGroup
+                    android:id="@+id/rg_frpc_state"
+                    style="@style/rg_style"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/config_padding_5dp">
+
+                    <RadioButton
+                        android:id="@+id/rb_start_server"
+                        style="@style/rg_rb_style_match"
+                        android:checked="true"
+                        android:text="@string/start_server"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_start_server"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/config_margin_10dp"
+                        android:layout_marginEnd="@dimen/config_margin_10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/specified_uid"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/et_start_uid"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1"
+                            android:hint="@string/specified_uid_hint"
+                            android:importantForAutofill="no"
+                            tools:ignore="TextContrastCheck,TextFields,TouchTargetSizeCheck" />
+
+                    </LinearLayout>
+
+                    <RadioButton
+                        android:id="@+id/rb_stop_server"
+                        style="@style/rg_rb_style_match"
+                        android:text="@string/stop_server"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_stop_server"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/config_margin_10dp"
+                        android:layout_marginEnd="@dimen/config_margin_10dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/specified_uid"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/et_stop_uid"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1"
+                            android:hint="@string/specified_uid_hint"
+                            android:importantForAutofill="no"
+                            tools:ignore="TextContrastCheck,TextFields,TouchTargetSizeCheck" />
+
+                    </LinearLayout>
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_del"
+            style="@style/SuperButton.Gray.Icon"
+            android:drawableStart="@drawable/icon_delete"
+            android:paddingStart="15dp"
+            android:text="@string/discard"
+            android:textSize="11sp"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_save"
+            style="@style/SuperButton.Blue.Icon"
+            android:layout_marginStart="10dp"
+            android:drawableStart="@drawable/icon_save"
+            android:paddingStart="15dp"
+            android:text="@string/submit"
+            android:textSize="11sp"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_test"
+            style="@style/SuperButton.Green.Icon"
+            android:layout_marginStart="10dp"
+            android:drawableStart="@drawable/icon_test"
+            android:paddingStart="15dp"
+            android:text="@string/test"
+            android:textSize="11sp"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+    </LinearLayout>
+
+</LinearLayout>

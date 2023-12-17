@@ -1,4 +1,4 @@
-package com.idormy.sms.forwarder.entity.task
+package com.idormy.sms.forwarder.entity.condition
 
 import com.idormy.sms.forwarder.R
 import com.xuexiang.xutil.resource.ResUtils.getString

@@ -24,8 +24,8 @@ import com.idormy.sms.forwarder.database.entity.Task
 import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
 import com.idormy.sms.forwarder.database.viewmodel.TaskViewModel
 import com.idormy.sms.forwarder.databinding.FragmentTasksEditBinding
-import com.idormy.sms.forwarder.entity.task.CronSetting
-import com.idormy.sms.forwarder.entity.task.TaskSetting
+import com.idormy.sms.forwarder.entity.TaskSetting
+import com.idormy.sms.forwarder.entity.condition.CronSetting
 import com.idormy.sms.forwarder.service.LocationService
 import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.utils.task.CronJobScheduler

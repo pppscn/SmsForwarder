@@ -11,9 +11,9 @@ import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.entity.MsgInfo
-import com.idormy.sms.forwarder.entity.task.BatterySetting
-import com.idormy.sms.forwarder.entity.task.ChargeSetting
-import com.idormy.sms.forwarder.entity.task.TaskSetting
+import com.idormy.sms.forwarder.entity.TaskSetting
+import com.idormy.sms.forwarder.entity.condition.BatterySetting
+import com.idormy.sms.forwarder.entity.condition.ChargeSetting
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_BATTERY
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CHARGE
 import com.idormy.sms.forwarder.utils.TaskWorker

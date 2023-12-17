@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.idormy.sms.forwarder.R
-import com.idormy.sms.forwarder.entity.task.TaskSetting
+import com.idormy.sms.forwarder.entity.TaskSetting
 
 class TaskSettingAdapter(
     val itemList: MutableList<TaskSetting>,

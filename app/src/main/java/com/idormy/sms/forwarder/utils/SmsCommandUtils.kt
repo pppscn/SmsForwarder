@@ -49,39 +49,20 @@ class SmsCommandUtils {
                         return false
                     }
 
-                    if (TextUtils.isEmpty(param)) {
-                        GlobalScope.async(Dispatchers.IO) {
-                            val frpcList = AppDatabase.getInstance(App.context).frpcDao().getAutorun()
-
-                            if (frpcList.isEmpty()) {
-                                Log.d(TAG, "没有自启动的Frpc")
-                                return@async
-                            }
-
-                            for (frpc in frpcList) {
-                                if (action == "start") {
-                                    if (!Frpclib.isRunning(frpc.uid)) {
-                                        val error = Frpclib.runContent(frpc.uid, frpc.config)
-                                        if (!TextUtils.isEmpty(error)) {
-                                            Log.e(TAG, error)
-                                        }
-                                    }
-                                } else if (action == "stop") {
-                                    if (Frpclib.isRunning(frpc.uid)) {
-                                        Frpclib.close(frpc.uid)
-                                    }
-                                }
-                            }
+                    GlobalScope.async(Dispatchers.IO) {
+                        val frpcList = if (param.isEmpty()) {
+                            AppDatabase.getInstance(App.context).frpcDao().getAutorun()
+                        } else {
+                            val uids = param.split(",")
+                            AppDatabase.getInstance(App.context).frpcDao().getByUids(uids)
                         }
-                    } else {
-                        GlobalScope.async(Dispatchers.IO) {
-                            val frpc = AppDatabase.getInstance(App.context).frpcDao().getOne(param)
 
-                            if (frpc.uid.isEmpty()) {
-                                Log.d(TAG, "没有找到指定的Frpc")
-                                return@async
-                            }
+                        if (frpcList.isEmpty()) {
+                            Log.d(TAG, "没有需要操作的Frpc")
+                            return@async
+                        }
 
+                        for (frpc in frpcList) {
                             if (action == "start") {
                                 if (!Frpclib.isRunning(frpc.uid)) {
                                     val error = Frpclib.runContent(frpc.uid, frpc.config)
