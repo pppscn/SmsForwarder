@@ -14,6 +14,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.hjq.permissions.OnPermissionCallback
@@ -32,6 +34,7 @@ import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.utils.sdkinit.XUpdateInit
 import com.idormy.sms.forwarder.widget.GuideTipsDialog.Companion.showTips
 import com.idormy.sms.forwarder.widget.GuideTipsDialog.Companion.showTipsForce
+import com.idormy.sms.forwarder.workers.LoadAppListWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xhttp2.XHttp
@@ -199,7 +202,15 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
                         }
                     }
 
-                    R.id.nav_app_list -> openNewPage(AppListFragment::class.java)
+                    R.id.nav_app_list -> {
+                        if (App.UserAppList.isEmpty() && App.SystemAppList.isEmpty()) {
+                            XToastUtils.info(getString(R.string.loading_app_list))
+                            val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
+                            WorkManager.getInstance(this).enqueue(request)
+                            Thread.sleep(2000)
+                        }
+                        openNewPage(AppListFragment::class.java)
+                    }
                     //R.id.nav_logcat -> openNewPage(LogcatFragment::class.java)
                     R.id.nav_help -> AgentWebActivity.goWeb(this, getString(R.string.url_help))
                     R.id.nav_about -> openNewPage(AboutFragment::class.java)

@@ -17,22 +17,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/task_notification"
+                app:srcCompat="@drawable/auto_task_icon_sender"
+                tools:ignore="ImageContrastCheck" />
+
             <LinearLayout
+                style="@style/ruleBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:gravity="center_horizontal"
                 android:orientation="vertical">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_margin="10dp"
-                    android:contentDescription="@string/task_notification"
-                    app:srcCompat="@drawable/auto_task_icon_sender"
-                    tools:ignore="ImageContrastCheck" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -59,11 +59,6 @@
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="?attr/xui_config_color_separator_light" />
-
                 <LinearLayout
                     android:id="@+id/layout_Senders"
                     android:layout_width="match_parent"
@@ -74,40 +69,51 @@
                     android:id="@+id/layout_sender_logic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:visibility="gone">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/sender_logic"
-                        android:textStyle="bold" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/xui_config_color_separator_light" />
 
-                    <RadioGroup
-                        android:id="@+id/rg_sender_logic"
-                        style="@style/rg_style"
-                        android:layout_marginStart="5dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <RadioButton
-                            android:id="@+id/rb_sender_logic_all"
-                            style="@style/rg_rb_style_wrap"
-                            android:checked="true"
-                            android:text="@string/sender_logic_all" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/sender_logic"
+                            android:textStyle="bold" />
 
-                        <RadioButton
-                            android:id="@+id/rb_sender_logic_until_fail"
-                            style="@style/rg_rb_style_wrap"
-                            android:text="@string/sender_logic_until_fail" />
+                        <RadioGroup
+                            android:id="@+id/rg_sender_logic"
+                            style="@style/rg_style"
+                            android:layout_marginStart="5dp"
+                            android:orientation="horizontal">
 
-                        <RadioButton
-                            android:id="@+id/rb_sender_logic_until_success"
-                            style="@style/rg_rb_style_wrap"
-                            android:text="@string/sender_logic_until_success" />
+                            <RadioButton
+                                android:id="@+id/rb_sender_logic_all"
+                                style="@style/rg_rb_style"
+                                android:checked="true"
+                                android:text="@string/sender_logic_all" />
 
-                    </RadioGroup>
+                            <RadioButton
+                                android:id="@+id/rb_sender_logic_until_fail"
+                                style="@style/rg_rb_style"
+                                android:text="@string/sender_logic_until_fail" />
+
+                            <RadioButton
+                                android:id="@+id/rb_sender_logic_until_success"
+                                style="@style/rg_rb_style"
+                                android:text="@string/sender_logic_until_success" />
+
+                        </RadioGroup>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
