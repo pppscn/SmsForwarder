@@ -1089,7 +1089,7 @@
 
     <string name="enable_location">启用GPS定位功能</string>
     <string name="enable_location_dialog">必须开启定位服务，才能使用获取！\n是否立即启用？</string>
-    <string name="enable_location_tips">用于支持 查找手机、{{定位信息}}标签 功能</string>
+    <string name="enable_location_tips">用于支持 查找手机、{{定位信息}}标签 功能；设置项改变后需开关以生效</string>
     <string name="accuracy">位置精度</string>
     <string name="accuracy_fine">精确位置</string>
     <string name="accuracy_coarse">模糊位置</string>

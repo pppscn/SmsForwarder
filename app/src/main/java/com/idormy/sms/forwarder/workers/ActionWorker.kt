@@ -86,21 +86,23 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                         //TODO：取不到卡槽信息时，采用默认卡槽发送
                         val mSubscriptionId: Int = App.SimInfoList[simSlotIndex]?.mSubscriptionId ?: -1
 
-                        val msg = if (ActivityCompat.checkSelfPermission(App.context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                            ResUtils.getString(R.string.no_sms_sending_permission)
+                        if (ActivityCompat.checkSelfPermission(App.context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                            val msg = ResUtils.getString(R.string.no_sms_sending_permission)
+                            writeLog(msg, "ERROR")
                         } else {
-                            PhoneUtils.sendSms(mSubscriptionId, smsSetting.phoneNumbers, smsSetting.msgContent)
+                            val msg = PhoneUtils.sendSms(mSubscriptionId, smsSetting.phoneNumbers, smsSetting.msgContent)
                             successNum++
+                            writeLog("send sms result: $msg", "SUCCESS")
                         }
-
-                        writeLog("send sms result: $msg")
                     }
 
                     TASK_ACTION_NOTIFICATION -> {
                         val settingVo = Gson().fromJson(action.setting, Rule::class.java)
                         //自动任务的不需要吐司或者更新日志，特殊处理 logId = -1，msgId = -1
                         SendUtils.sendMsgSender(msgInfo, settingVo, 0, -1L, -1L)
+
                         successNum++
+                        writeLog("send notification success", "SUCCESS")
                     }
 
                     TASK_ACTION_FRPC -> {
@@ -140,6 +142,9 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                                 }
                             }
                         }
+
+                        successNum++
+                        writeLog("frpc success", "SUCCESS")
                     }
 
                     TASK_ACTION_HTTPSERVER -> {
@@ -155,6 +160,9 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                                 App.context.stopService(it)
                             }
                         }
+
+                        successNum++
+                        writeLog("httpServer success", "SUCCESS")
                     }
 
                     else -> {

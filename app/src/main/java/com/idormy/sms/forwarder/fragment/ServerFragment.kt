@@ -257,7 +257,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
             }
             //重启前台服务，启动/停止定位服务
             val serviceIntent = Intent(requireContext(), LocationService::class.java)
-            serviceIntent.action = "START"
+            serviceIntent.action = "RESTART"
             requireContext().startService(serviceIntent)
         }
 

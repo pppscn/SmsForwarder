@@ -49,20 +49,22 @@ class LocationService : Service(), Server.ServerListener {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.i(TAG, "onStartCommand: ")
-        if (intent != null) {
-            when (intent.action) {
-                "START" -> {
-                    startService()
-                }
+        super.onStartCommand(intent, flags, startId)
 
-                "STOP" -> {
-                    stopService()
-                }
-            }
+        if (!SettingUtils.enableLocation || intent == null) return START_NOT_STICKY
+
+        Log.i(TAG, "onStartCommand: ${intent.action}")
+
+        if (intent.action == "START" && !isRunning) {
+            startService()
+        } else if (intent.action == "STOP" && isRunning) {
+            stopService()
+        } else if (intent.action == "RESTART") {
+            stopService()
+            startService()
         }
 
-        return super.onStartCommand(intent, flags, startId)
+        return START_NOT_STICKY
     }
 
     override fun onDestroy() {

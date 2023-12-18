@@ -465,7 +465,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             if (isChecked) {
                 XXPermissions.with(this).permission(Permission.ACCESS_COARSE_LOCATION).permission(Permission.ACCESS_FINE_LOCATION).permission(Permission.ACCESS_BACKGROUND_LOCATION).request(object : OnPermissionCallback {
                     override fun onGranted(permissions: List<String>, all: Boolean) {
-                        restartLocationService()
+                        restartLocationService("START")
                     }
 
                     override fun onDenied(permissions: List<String>, never: Boolean) {
@@ -478,11 +478,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                         }
                         SettingUtils.enableLocation = false
                         switchEnableLocation.isChecked = false
-                        restartLocationService()
+                        restartLocationService("STOP")
                     }
                 })
             } else {
-                restartLocationService()
+                restartLocationService("STOP")
             }
             layoutLocationSetting.visibility = if (isChecked) View.VISIBLE else View.GONE
         }
@@ -502,7 +502,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 R.id.rb_accuracy_no_requirement -> Criteria.NO_REQUIREMENT
                 else -> Criteria.ACCURACY_FINE
             }
-            restartLocationService()
+            //TODO: MainActivity.kt 中压入 FragmentManager 时会导致定位服务重启，暂时注释掉
+            //restartLocationService()
         }
         //设置电量消耗：低电耗（默认）
         rgPowerRequirement.check(
@@ -522,26 +523,30 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 R.id.rb_power_requirement_no_requirement -> Criteria.NO_REQUIREMENT
                 else -> Criteria.POWER_LOW
             }
-            restartLocationService()
+            //TODO: MainActivity.kt 中压入 FragmentManager 时会导致定位服务重启，暂时注释掉
+            //restartLocationService()
         }
         //设置位置更新最小时间间隔（单位：毫秒）； 默认间隔：10000毫秒，最小间隔：1000毫秒
         xsbMinInterval.setDefaultValue((SettingUtils.locationMinInterval / 1000).toInt())
         xsbMinInterval.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
             SettingUtils.locationMinInterval = newValue * 1000L
-            restartLocationService()
+            //TODO: MainActivity.kt 中压入 FragmentManager 时会导致定位服务重启，暂时注释掉
+            //restartLocationService()
         }
         //设置位置更新最小距离（单位：米）；默认距离：0米
         xsbMinDistance.setDefaultValue(SettingUtils.locationMinDistance)
         xsbMinDistance.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
             SettingUtils.locationMinDistance = newValue
-            restartLocationService()
+            //TODO: MainActivity.kt 中压入 FragmentManager 时会导致定位服务重启，暂时注释掉
+            //restartLocationService()
         }
     }
 
     //重启定位服务
-    private fun restartLocationService() {
+    private fun restartLocationService(action: String = "RESTART") {
+        Log.d(TAG, "restartLocationService, action: $action")
         val serviceIntent = Intent(requireContext(), LocationService::class.java)
-        serviceIntent.action = "START"
+        serviceIntent.action = action
         requireContext().startService(serviceIntent)
     }
 
