@@ -60,17 +60,6 @@
         <item name="android:overScrollMode">never</item>
     </style>
 
-    <style name="SuperButton.Primary.Login">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">40dp</item>
-        <item name="android:layout_marginStart">50dp</item>
-        <item name="android:layout_marginEnd">50dp</item>
-        <item name="sCornersRadius">20dp</item>
-        <item name="sSelectorNormalColor">?attr/colorAccent</item>
-        <item name="sSelectorPressedColor">?attr/colorAccent</item>
-        <item name="android:textColor">@color/xui_config_color_white</item>
-    </style>
-
     <style name="XUILayout">
         <item name="xui_borderWidth">0dp</item>
         <item name="xui_radius">8dp</item>
@@ -187,7 +176,7 @@
         <item name="android:minWidth">0dp</item>
         <item name="android:minHeight">0dp</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
     </style>
 
     <style name="rg_style">
@@ -203,10 +192,10 @@
         <item name="android:singleLine">true</item>
         <item name="android:padding">0dp</item>
         <item name="android:layout_margin">0dp</item>
-        <item name="android:drawablePadding">5dp</item>
+        <item name="android:drawablePadding">5dp</item>S
         <item name="android:minHeight">30dp</item>
         <item name="android:minWidth">30dp</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
         <item name="android:button">@drawable/custom_radio_button</item>
     </style>
 
@@ -219,7 +208,7 @@
         <item name="android:drawablePadding">5dp</item>
         <item name="android:minHeight">30dp</item>
         <item name="android:minWidth">30dp</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
         <item name="android:layout_marginEnd">5dp</item>
         <item name="android:button">@drawable/custom_radio_button</item>
     </style>
@@ -229,8 +218,28 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:singleLine">true</item>
-        <!--<item name="android:textSize">12sp</item>-->
+        <!--<item name="android:textSize">@dimen/text_size_small</item>-->
         <item name="android:button">@drawable/custom_radio_button</item>
+    </style>
+
+    <style name="TabLayoutStyle" parent="Base.Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">?attr/colorAccent</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabPaddingStart">12dp</item>
+        <item name="tabPaddingEnd">12dp</item>
+        <item name="tabTextAppearance">@style/TabText</item>
+        <item name="tabSelectedTextColor">?attr/colorAccent</item>
+        <item name="tabTextColor">@color/xui_config_color_gray_6</item>
+    </style>
+
+    <style name="TabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">@color/selector_tab_text_color</item>
+        <item name="android:textSize">?attr/xui_config_size_content_text</item>
+    </style>
+
+    <style name="TabText.Explain">
+        <item name="android:textColor">@color/selector_tab_text_color</item>
+        <item name="android:textSize">?attr/xui_config_size_explain_text</item>
     </style>
 
 </resources>

@@ -1,15 +1,20 @@
 package com.idormy.sms.forwarder.fragment
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 import com.alibaba.android.vlayout.VirtualLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.adapter.SenderPagingAdapter
+import com.idormy.sms.forwarder.adapter.WidgetItemAdapter
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.database.entity.Sender
 import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
@@ -34,6 +39,7 @@ import com.idormy.sms.forwarder.fragment.senders.WeworkRobotFragment
 import com.idormy.sms.forwarder.utils.KEY_SENDER_CLONE
 import com.idormy.sms.forwarder.utils.KEY_SENDER_ID
 import com.idormy.sms.forwarder.utils.KEY_SENDER_TYPE
+import com.idormy.sms.forwarder.utils.SENDER_FRAGMENT_LIST
 import com.idormy.sms.forwarder.utils.TYPE_BARK
 import com.idormy.sms.forwarder.utils.TYPE_DINGTALK_GROUP_ROBOT
 import com.idormy.sms.forwarder.utils.TYPE_DINGTALK_INNER_ROBOT
@@ -52,10 +58,17 @@ import com.idormy.sms.forwarder.utils.TYPE_WEWORK_AGENT
 import com.idormy.sms.forwarder.utils.TYPE_WEWORK_ROBOT
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
+import com.xuexiang.xpage.base.XPageFragment
 import com.xuexiang.xpage.core.PageOption
+import com.xuexiang.xpage.model.PageInfo
+import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder
+import com.xuexiang.xui.utils.DensityUtils
 import com.xuexiang.xui.utils.ResUtils
+import com.xuexiang.xui.utils.WidgetUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
+import com.xuexiang.xui.widget.alpha.XUIAlphaTextView
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import kotlinx.coroutines.flow.collectLatest
@@ -63,11 +76,16 @@ import kotlinx.coroutines.launch
 
 @Suppress("PrivatePropertyName", "DEPRECATION")
 @Page(name = "发送通道")
-class SendersFragment : BaseFragment<FragmentSendersBinding?>(), SenderPagingAdapter.OnItemClickListener {
+class SendersFragment : BaseFragment<FragmentSendersBinding?>(),
+    SenderPagingAdapter.OnItemClickListener,
+    RecyclerViewHolder.OnItemClickListener<PageInfo> {
 
     private val TAG: String = SendersFragment::class.java.simpleName
+    private val that = this
+    private var titleBar: TitleBar? = null
     private var adapter = SenderPagingAdapter(this)
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
+    private val dialog: BottomSheetDialog by lazy { BottomSheetDialog(requireContext()) }
     private var currentStatus: Int = 1
     //private val statusValueArray = ResUtils.getIntArray(R.array.status_param_value)
 
@@ -78,11 +96,38 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(), SenderPagingAda
         return FragmentSendersBinding.inflate(inflater, container, false)
     }
 
-    /**
-     * @return 返回为 null意为不需要导航栏
-     */
     override fun initTitle(): TitleBar? {
-        return null
+        titleBar = super.initTitle()!!.setImmersive(false)
+        titleBar!!.setLeftImageResource(R.drawable.ic_action_menu)
+        titleBar!!.setTitle(R.string.menu_senders)
+        titleBar!!.setLeftClickListener { getContainer()?.openMenu() }
+        titleBar!!.addAction(object : TitleBar.ImageAction(R.drawable.ic_add) {
+            @SuppressLint("InflateParams")
+            @SingleClick
+            override fun performAction(view: View) {
+                val bottomSheet: View = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_sender_bottom_sheet, null)
+                val recyclerView: RecyclerView = bottomSheet.findViewById(R.id.recyclerView)
+
+                WidgetUtils.initGridRecyclerView(recyclerView, 4, DensityUtils.dp2px(1f))
+                val widgetItemAdapter = WidgetItemAdapter(SENDER_FRAGMENT_LIST)
+                widgetItemAdapter.setOnItemClickListener(that)
+                recyclerView.adapter = widgetItemAdapter
+
+                val bottomSheetCloseButton: XUIAlphaTextView = bottomSheet.findViewById(R.id.bottom_sheet_close_button)
+                bottomSheetCloseButton.setOnClickListener { dialog.dismiss() }
+
+                dialog.setContentView(bottomSheet)
+                dialog.setCancelable(true)
+                dialog.setCanceledOnTouchOutside(true)
+                dialog.show()
+                WidgetUtils.transparentBottomSheetDialogBackground(dialog)
+            }
+        })
+        return titleBar
+    }
+
+    private fun getContainer(): MainActivity? {
+        return activity as MainActivity?
     }
 
     /**
@@ -127,27 +172,8 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(), SenderPagingAda
         Log.e(TAG, item.toString())
         when (view?.id) {
             R.id.iv_copy -> {
-                PageOption.to(
-                    when (item.type) {
-                        TYPE_DINGTALK_GROUP_ROBOT -> DingtalkGroupRobotFragment::class.java
-                        TYPE_EMAIL -> EmailFragment::class.java
-                        TYPE_BARK -> BarkFragment::class.java
-                        TYPE_WEBHOOK -> WebhookFragment::class.java
-                        TYPE_WEWORK_ROBOT -> WeworkRobotFragment::class.java
-                        TYPE_WEWORK_AGENT -> WeworkAgentFragment::class.java
-                        TYPE_SERVERCHAN -> ServerchanFragment::class.java
-                        TYPE_TELEGRAM -> TelegramFragment::class.java
-                        TYPE_SMS -> SmsFragment::class.java
-                        TYPE_FEISHU -> FeishuFragment::class.java
-                        TYPE_PUSHPLUS -> PushplusFragment::class.java
-                        TYPE_GOTIFY -> GotifyFragment::class.java
-                        TYPE_DINGTALK_INNER_ROBOT -> DingtalkInnerRobotFragment::class.java
-                        TYPE_FEISHU_APP -> FeishuAppFragment::class.java
-                        TYPE_URL_SCHEME -> UrlSchemeFragment::class.java
-                        TYPE_SOCKET -> SocketFragment::class.java
-                        else -> DingtalkGroupRobotFragment::class.java
-                    }
-                ).setNewActivity(true)
+                PageOption.to(getFragment(item.type))
+                    .setNewActivity(true)
                     .putLong(KEY_SENDER_ID, item.id)
                     .putInt(KEY_SENDER_TYPE, item.type)
                     .putBoolean(KEY_SENDER_CLONE, true)
@@ -155,27 +181,8 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(), SenderPagingAda
             }
 
             R.id.iv_edit -> {
-                PageOption.to(
-                    when (item.type) {
-                        TYPE_DINGTALK_GROUP_ROBOT -> DingtalkGroupRobotFragment::class.java
-                        TYPE_EMAIL -> EmailFragment::class.java
-                        TYPE_BARK -> BarkFragment::class.java
-                        TYPE_WEBHOOK -> WebhookFragment::class.java
-                        TYPE_WEWORK_ROBOT -> WeworkRobotFragment::class.java
-                        TYPE_WEWORK_AGENT -> WeworkAgentFragment::class.java
-                        TYPE_SERVERCHAN -> ServerchanFragment::class.java
-                        TYPE_TELEGRAM -> TelegramFragment::class.java
-                        TYPE_SMS -> SmsFragment::class.java
-                        TYPE_FEISHU -> FeishuFragment::class.java
-                        TYPE_PUSHPLUS -> PushplusFragment::class.java
-                        TYPE_GOTIFY -> GotifyFragment::class.java
-                        TYPE_DINGTALK_INNER_ROBOT -> DingtalkInnerRobotFragment::class.java
-                        TYPE_FEISHU_APP -> FeishuAppFragment::class.java
-                        TYPE_URL_SCHEME -> UrlSchemeFragment::class.java
-                        TYPE_SOCKET -> SocketFragment::class.java
-                        else -> DingtalkGroupRobotFragment::class.java
-                    }
-                ).setNewActivity(true)
+                PageOption.to(getFragment(item.type))
+                    .setNewActivity(true)
                     .putLong(KEY_SENDER_ID, item.id)
                     .putInt(KEY_SENDER_TYPE, item.type)
                     .open(this)
@@ -199,5 +206,41 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(), SenderPagingAda
     }
 
     override fun onItemRemove(view: View?, id: Int) {}
+
+    @SingleClick
+    override fun onItemClick(itemView: View, widgetInfo: PageInfo, pos: Int) {
+        try {
+            @Suppress("UNCHECKED_CAST")
+            PageOption.to(Class.forName(widgetInfo.classPath) as Class<XPageFragment>) //跳转的fragment
+                .setNewActivity(true)
+                .putInt(KEY_SENDER_TYPE, pos) //注意：目前刚好是这个顺序而已
+                .open(this)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            XToastUtils.error(e.message.toString())
+        }
+    }
+
+    private fun getFragment(type: Int): Class<out XPageFragment> {
+        return when (type) {
+            TYPE_DINGTALK_GROUP_ROBOT -> DingtalkGroupRobotFragment::class.java
+            TYPE_EMAIL -> EmailFragment::class.java
+            TYPE_BARK -> BarkFragment::class.java
+            TYPE_WEBHOOK -> WebhookFragment::class.java
+            TYPE_WEWORK_ROBOT -> WeworkRobotFragment::class.java
+            TYPE_WEWORK_AGENT -> WeworkAgentFragment::class.java
+            TYPE_SERVERCHAN -> ServerchanFragment::class.java
+            TYPE_TELEGRAM -> TelegramFragment::class.java
+            TYPE_SMS -> SmsFragment::class.java
+            TYPE_FEISHU -> FeishuFragment::class.java
+            TYPE_PUSHPLUS -> PushplusFragment::class.java
+            TYPE_GOTIFY -> GotifyFragment::class.java
+            TYPE_DINGTALK_INNER_ROBOT -> DingtalkInnerRobotFragment::class.java
+            TYPE_FEISHU_APP -> FeishuAppFragment::class.java
+            TYPE_URL_SCHEME -> UrlSchemeFragment::class.java
+            TYPE_SOCKET -> SocketFragment::class.java
+            else -> DingtalkGroupRobotFragment::class.java
+        }
+    }
 
 }

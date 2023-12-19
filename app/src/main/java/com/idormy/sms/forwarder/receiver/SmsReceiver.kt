@@ -20,7 +20,7 @@ import com.xuexiang.xrouter.utils.TextUtils
 import java.util.Date
 
 //短信广播
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "unused", "UNUSED_PARAMETER")
 class SmsReceiver : BroadcastReceiver() {
 
     private var TAG = SmsReceiver::class.java.simpleName

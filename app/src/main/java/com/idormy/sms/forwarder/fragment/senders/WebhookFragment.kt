@@ -157,15 +157,9 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
         binding!!.btnAddHeader.setOnClickListener {
-            addHeaderItemLinearLayout(
-                headerItemMap,
-                binding!!.layoutHeaders,
-                null,
-                null
-            )
+            addHeaderItemLinearLayout(headerItemMap, binding!!.layoutHeaders, null, null)
         }
-        LiveEventBus.get(KEY_SENDER_TEST, String::class.java)
-            .observe(this) { mCountDownHelper?.finish() }
+        LiveEventBus.get(KEY_SENDER_TEST, String::class.java).observe(this) { mCountDownHelper?.finish() }
     }
 
     @SingleClick

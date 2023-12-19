@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <integer name="abc_config_activityDefaultDur">220</integer>
     <integer name="abc_config_activityShortDur">150</integer>
     <integer name="abc_max_action_buttons">5</integer>
@@ -46,11 +46,11 @@
     <integer name="immersion_menu_enter_duration">150</integer>
     <integer name="immersion_menu_exit_duration">150</integer>
     <integer name="layoutDirection">1</integer>
-    <integer name="m3_btn_anim_delay_ms">100</integer>
-    <integer name="m3_btn_anim_duration_ms">100</integer>
-    <integer name="m3_card_anim_delay_ms">75</integer>
-    <integer name="m3_card_anim_duration_ms">120</integer>
-    <integer name="m3_chip_anim_duration">100</integer>
+    <integer name="m3_btn_anim_delay_ms" tools:ignore="PrivateResource">100</integer>
+    <integer name="m3_btn_anim_duration_ms" tools:ignore="PrivateResource">100</integer>
+    <integer name="m3_card_anim_delay_ms" tools:ignore="PrivateResource">75</integer>
+    <integer name="m3_card_anim_duration_ms" tools:ignore="PrivateResource">120</integer>
+    <integer name="m3_chip_anim_duration" tools:ignore="PrivateResource">100</integer>
     <integer name="m3_sys_motion_duration_100">100</integer>
     <integer name="m3_sys_motion_duration_1000">1000</integer>
     <integer name="m3_sys_motion_duration_150">150</integer>
@@ -67,14 +67,14 @@
     <integer name="m3_sys_motion_duration_700">700</integer>
     <integer name="m3_sys_motion_duration_800">800</integer>
     <integer name="m3_sys_motion_duration_900">900</integer>
-    <integer name="m3_sys_motion_path">0</integer>
+    <integer name="m3_sys_motion_path" tools:ignore="PrivateResource">0</integer>
     <integer name="material_motion_duration_long_1">300</integer>
     <integer name="material_motion_duration_long_2">350</integer>
     <integer name="material_motion_duration_medium_1">200</integer>
     <integer name="material_motion_duration_medium_2">250</integer>
     <integer name="material_motion_duration_short_1">75</integer>
     <integer name="material_motion_duration_short_2">150</integer>
-    <integer name="material_motion_path">0</integer>
+    <integer name="material_motion_path" tools:ignore="PrivateResource">0</integer>
     <integer name="mtrl_badge_max_character_count">4</integer>
     <integer name="mtrl_btn_anim_delay_ms">100</integer>
     <integer name="mtrl_btn_anim_duration_ms">100</integer>
@@ -85,22 +85,22 @@
     <integer name="mtrl_card_anim_duration_ms">120</integer>
     <integer name="mtrl_chip_anim_duration">100</integer>
     <integer name="mtrl_tab_indicator_anim_duration_ms">250</integer>
-    <integer name="mtrl_view_gone">2</integer>
-    <integer name="mtrl_view_invisible">1</integer>
-    <integer name="mtrl_view_visible">0</integer>
+    <integer name="mtrl_view_gone" tools:ignore="PrivateResource">2</integer>
+    <integer name="mtrl_view_invisible" tools:ignore="PrivateResource">1</integer>
+    <integer name="mtrl_view_visible" tools:ignore="PrivateResource">0</integer>
     <integer name="perm_risk_app_emptyview_transY">0</integer>
-    <integer name="preferences_detail_pane_weight">1</integer>
-    <integer name="preferences_header_pane_weight">0</integer>
+    <integer name="preferences_detail_pane_weight" tools:ignore="PrivateResource">1</integer>
+    <integer name="preferences_header_pane_weight" tools:ignore="PrivateResource">0</integer>
     <integer name="show_password_duration">200</integer>
     <integer name="status_bar_notification_info_maxnum">999</integer>
-    <item type="integer" name="svg_fill_alpha_w006_d01">0.06</item>
-    <item type="integer" name="svg_fill_alpha_w006_d02">0.06</item>
-    <item type="integer" name="svg_fill_alpha_w01_d02">0.1</item>
-    <item type="integer" name="svg_fill_alpha_w03_d04">0.3</item>
-    <item type="integer" name="svg_fill_alpha_w03_d05">0.3</item>
-    <item type="integer" name="svg_fill_alpha_w06_d02">0.6</item>
-    <item type="integer" name="svg_fill_alpha_w06_d07">0.6</item>
-    <item type="integer" name="svg_fill_alpha_w1_d04">1.0</item>
+    <item name="svg_fill_alpha_w006_d01" type="integer">0.06</item>
+    <item name="svg_fill_alpha_w006_d02" type="integer">0.06</item>
+    <item name="svg_fill_alpha_w01_d02" type="integer">0.1</item>
+    <item name="svg_fill_alpha_w03_d04" type="integer">0.3</item>
+    <item name="svg_fill_alpha_w03_d05" type="integer">0.3</item>
+    <item name="svg_fill_alpha_w06_d02" type="integer">0.6</item>
+    <item name="svg_fill_alpha_w06_d07" type="integer">0.6</item>
+    <item name="svg_fill_alpha_w1_d04" type="integer">1.0</item>
     <integer name="textDirection">3</integer>
     <integer name="window_translucent_status">100</integer>
 </resources>

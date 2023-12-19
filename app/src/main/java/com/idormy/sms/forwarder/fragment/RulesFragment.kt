@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 import com.alibaba.android.vlayout.VirtualLayoutManager
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.adapter.RulePagingAdapter
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.database.entity.Rule
@@ -21,6 +22,7 @@ import com.idormy.sms.forwarder.utils.KEY_RULE_TYPE
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xpage.core.PageOption
 import com.xuexiang.xui.utils.ResUtils
@@ -35,7 +37,9 @@ import kotlinx.coroutines.launch
 class RulesFragment : BaseFragment<FragmentRulesBinding?>(), RulePagingAdapter.OnItemClickListener {
 
     //private val TAG: String = RulesFragment::class.java.simpleName
+    private val that = this
     private var adapter = RulePagingAdapter(this)
+    private var titleBar: TitleBar? = null
     private val viewModel by viewModels<RuleViewModel> { BaseViewModelFactory(context) }
     private var currentType: String = "sms"
 
@@ -46,11 +50,25 @@ class RulesFragment : BaseFragment<FragmentRulesBinding?>(), RulePagingAdapter.O
         return FragmentRulesBinding.inflate(inflater, container, false)
     }
 
-    /**
-     * @return 返回为 null意为不需要导航栏
-     */
     override fun initTitle(): TitleBar? {
-        return null
+        titleBar = super.initTitle()!!.setImmersive(false)
+        titleBar!!.setLeftImageResource(R.drawable.ic_action_menu)
+        titleBar!!.setTitle(R.string.menu_rules)
+        titleBar!!.setLeftClickListener { getContainer()?.openMenu() }
+        titleBar!!.addAction(object : TitleBar.ImageAction(R.drawable.ic_add) {
+            @SingleClick
+            override fun performAction(view: View) {
+                PageOption.to(RulesEditFragment::class.java)
+                    .putString(KEY_RULE_TYPE, currentType)
+                    .setNewActivity(true)
+                    .open(that)
+            }
+        })
+        return titleBar
+    }
+
+    private fun getContainer(): MainActivity? {
+        return activity as MainActivity?
     }
 
     /**
@@ -132,5 +150,4 @@ class RulesFragment : BaseFragment<FragmentRulesBinding?>(), RulePagingAdapter.O
     }
 
     override fun onItemRemove(view: View?, id: Int) {}
-
 }

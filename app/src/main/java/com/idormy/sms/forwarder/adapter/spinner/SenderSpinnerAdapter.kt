@@ -76,8 +76,8 @@ class SenderSpinnerAdapter<T> : BaseEditSpinnerAdapter<T>, EditSpinnerFilter {
         holder.statusView.setImageDrawable(
             ResUtils.getDrawable(
                 when (item.status) {
-                    STATUS_OFF -> R.drawable.icon_off
-                    else -> R.drawable.icon_on
+                    STATUS_OFF -> R.drawable.ic_stop
+                    else -> R.drawable.ic_start
                 }
             )
         )

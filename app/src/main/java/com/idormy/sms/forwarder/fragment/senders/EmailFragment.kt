@@ -44,7 +44,7 @@ import io.reactivex.schedulers.Schedulers
 import java.util.Date
 
 @Page(name = "Email")
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClickListener {
 
     private val TAG: String = EmailFragment::class.java.simpleName

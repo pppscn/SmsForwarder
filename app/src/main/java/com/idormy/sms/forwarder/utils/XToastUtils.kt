@@ -12,7 +12,6 @@ import com.xuexiang.xui.widget.toast.XToast
  * @author xuexiang
  * @since 2019-06-30 19:04
  */
-@Suppress("unused")
 class XToastUtils private constructor() {
     @SuppressLint("CheckResult")
     companion object {

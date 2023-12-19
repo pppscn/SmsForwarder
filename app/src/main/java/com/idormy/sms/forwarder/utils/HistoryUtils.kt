@@ -13,7 +13,7 @@ import kotlin.reflect.KProperty
  * @author pppscn
  * @since 2022年5月9日
  */
-@Suppress("UNCHECKED_CAST", "MemberVisibilityCanBePrivate", "unused")
+@Suppress("UNCHECKED_CAST", "unused")
 class HistoryUtils<T>(private val name: String, private val default: T) : ReadWriteProperty<Any?, T> {
 
     companion object {

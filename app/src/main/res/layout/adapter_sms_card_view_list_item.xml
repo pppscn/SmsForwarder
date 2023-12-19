@@ -45,7 +45,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold" />
 
                 <TextView
@@ -80,7 +80,7 @@
                     android:layout_marginTop="3dp"
                     android:layout_weight="1"
                     android:gravity="start"
-                    android:textSize="11sp" />
+                    android:textSize="@dimen/text_size_small" />
 
                 <ImageView
                     android:id="@+id/iv_reply"

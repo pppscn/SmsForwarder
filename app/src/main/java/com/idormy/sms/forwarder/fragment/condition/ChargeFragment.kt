@@ -23,7 +23,7 @@ import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xui.widget.actionbar.TitleBar
 
 @Page(name = "Charge")
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "SameParameterValue")
 class ChargeFragment : BaseFragment<FragmentTasksConditionChargeBinding?>(), View.OnClickListener {
 
     private val TAG: String = ChargeFragment::class.java.simpleName

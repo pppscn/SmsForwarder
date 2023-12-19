@@ -4,6 +4,7 @@ import com.idormy.sms.forwarder.R
 import com.xuexiang.xui.utils.ResUtils
 import java.io.Serializable
 
+@Suppress("DEPRECATION")
 data class LocationInfo(
     var longitude: Double = 0.0,
     var latitude: Double = 0.0,

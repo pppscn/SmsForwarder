@@ -12,7 +12,7 @@ import com.xuexiang.xutil.XUtil.getContentResolver
 import com.yanzhenjie.andserver.annotation.*
 
 
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "SameReturnValue")
 @RestController
 @RequestMapping(path = ["/contact"])
 class ContactController {

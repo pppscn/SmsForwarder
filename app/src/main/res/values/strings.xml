@@ -1,7 +1,25 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <string name="app_browser_name">通用浏览器</string>
+    <string name="type_param_sms">短信</string>
+    <string name="type_param_call">通话</string>
+    <string name="type_param_app">应用</string>
+    <string name="status_param_option_enabled">已启用</string>
+    <string name="status_param_option_disabled">已禁用</string>
+    <string name="sms_type_option_receive">接收</string>
+    <string name="sms_type_option_send">发送</string>
+    <string name="call_type_option_missed">未接来电</string>
+    <string name="call_type_option_call_out">本机去电</string>
+    <string name="call_type_option_received">已接来电</string>
+    <string name="clone_type_option_network">网络模式</string>
+    <string name="clone_type_option_offline">离线模式</string>
+    <string name="app_type_option_user">用户应用</string>
+    <string name="app_type_option_system">系统应用</string>
+    <string name="task_type_option_mine">我的任务</string>
+    <string name="task_type_option_fixed">任务中心</string>
 
+    <string name="app_browser_name">通用浏览器</string>
+    <string name="description_navigation_main">导航条</string>
+    <string name="guide_key_sliding_root_navigation">guide_key_sliding_root_navigation</string>
     <string name="navigation_drawer_open">打开导航抽屉</string>
     <string name="navigation_drawer_close">关闭导航抽屉</string>
 
@@ -9,6 +27,11 @@
     <string name="menu_senders">发送通道</string>
     <string name="menu_rules">转发规则</string>
     <string name="menu_settings">通用设置</string>
+
+    <string name="menu_settings_step">通用设置·第一步</string>
+    <string name="menu_senders_step">发送通道·第二步</string>
+    <string name="menu_rules_step">转发规则·第三步</string>
+    <string name="menu_logs_step">转发日志·第四步</string>
 
     <string name="menu_tasks">自动任务·快捷指令</string>
     <string name="menu_server">主动控制·服务端</string>
@@ -18,11 +41,6 @@
     <string name="menu_logcat">日志抓取·Logcat</string>
     <string name="menu_help">使用帮助</string>
     <string name="menu_about">关于软件</string>
-
-    <string name="menu_notifications">通知</string>
-    <string name="menu_issues">问题</string>
-    <string name="menu_starred">收藏</string>
-    <string name="menu_search">搜索</string>
 
     <string name="about_app_version">软件版本：%s</string>
     <string name="about_cache_size">缓存大小：%s</string>
@@ -150,12 +168,17 @@
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
     <string name="discard">丢弃</string>
+    <string name="discard_btn">丢　　弃</string>
     <string name="quit">退出</string>
     <string name="del">删除</string>
+    <string name="del_btn">删　　除</string>
     <string name="save">保存</string>
+    <string name="save_btn">保　　存</string>
     <string name="submit">提交</string>
+    <string name="submit_btn">提　　交</string>
     <string name="send">发送</string>
     <string name="test">测试</string>
+    <string name="test_btn">测　　试</string>
     <string name="confirm">确认</string>
     <string name="all">全部</string>
     <string name="select">选择</string>
@@ -347,6 +370,7 @@
     <string name="OnlyNoNetwork">仅当无网络时启用</string>
     <!--SettingActivity-->
     <string name="notify_content">通知文案</string>
+    <string name="notify_content_label">通知栏文案</string>
     <string name="device_name">设备名称</string>
     <string name="sim_sub_id">卡槽主键</string>
     <string name="sim1_remark" tools:ignore="Typos">SIM1主键/备注</string>
@@ -559,15 +583,18 @@
     <string name="network_state_monitor">网络状态监控</string>
     <string name="network_state_change_remind">网络状态改变提醒</string>
     <string name="keep_alive">保活措施</string>
-    <string name="keep_alive_tips">建议开启前三项授权或设置，不要禁用通知栏，避免APP被杀</string>
+    <string name="keep_alive_tips">开启前三项授权或设置，不禁用通知栏，避免APP被杀</string>
     <string name="custom_settings">个性设置</string>
     <string name="custom_settings_tips">请手动填写备注 或 点击刷新按钮自动获取</string>
     <string name="times">次</string>
     <string name="interval">间隔</string>
+    <string name="interval_label">递增间隔</string>
     <string name="timeout">超时</string>
+    <string name="timeout_label">单次超时</string>
     <string name="seconds">秒</string>
     <string name="seconds_n">%s 秒</string>
     <string name="retry">重试</string>
+    <string name="retry_label">最多重试</string>
     <string name="test_sender_sms">【%s】恭喜您，该发送通道测试成功，请继续添加转发规则！</string>
     <string name="test_sender_name">测试通道</string>
     <string name="test_sim_info" tools:ignore="Typos">SIM1_测试运营商_18888888888</string>
@@ -1062,7 +1089,7 @@
     <string name="network_type">网络类型</string>
     <string name="operator_name">运营商</string>
     <string name="host_address">本地IP</string>
-    <string name="loading_app_list">正在异步加载应用列表…</string>
+    <string name="loading_app_list">努力加载应用列表中，请稍候…</string>
 
     <string name="carrier_name">运营商名</string>
     <string name="icc_id">ICC ID</string>
@@ -1089,7 +1116,7 @@
 
     <string name="enable_location">启用GPS定位功能</string>
     <string name="enable_location_dialog">必须开启定位服务，才能使用获取！\n是否立即启用？</string>
-    <string name="enable_location_tips">用于支持 查找手机、{{定位信息}}标签 功能；设置项改变后需开关以生效</string>
+    <string name="enable_location_tips">以便支持 查找手机、{{定位信息}}标签 等需要GPS的功能</string>
     <string name="accuracy">位置精度</string>
     <string name="accuracy_fine">精确位置</string>
     <string name="accuracy_coarse">模糊位置</string>
@@ -1098,8 +1125,8 @@
     <string name="power_requirement_low">低</string>
     <string name="power_requirement_medium">中</string>
     <string name="power_requirement_high">高</string>
-    <string name="min_interval">位置更新：最小间隔</string>
-    <string name="min_distance">最小距离</string>
+    <string name="min_interval">位置更新：最小时间间隔</string>
+    <string name="min_distance">最小距离间隔</string>
     <string name="meter">米</string>
     <string name="uid">UID</string>
 
@@ -1134,7 +1161,7 @@
     <string name="task_to_address">到达地点</string>
     <string name="task_to_address_tips">采用经纬度坐标（WGS-84坐标系）</string>
     <string name="task_leave_address">离开地点</string>
-    <string name="task_leave_address_tips">采用经纬度坐标（WGS-84坐标系）</string>
+    <string name="task_leave_address_tips">经纬度采用WGS-84坐标系</string>
     <string name="task_network">网络状态</string>
     <string name="task_network_tips">当网络状态改变时触发</string>
     <string name="task_sim">SIM卡状态</string>
@@ -1204,9 +1231,9 @@
     <string name="last_week_of_month_2" />
     <string name="cron_expression_check">Cron表达式测试结果</string>
     <string name="invalid_cron_expression">Cron表达式无效：\n%s</string>
-    <string name="next_execution_times">最近 %s 次运行时间：\n%s</string>
+    <string name="next_execution_times" formatted="false">最近 %s 次运行时间：\n%s</string>
 
-    <string name="send_sms_to">通过卡槽 SIM-%s 发送短信到：\n%s</string>
+    <string name="send_sms_to" formatted="false">通过卡槽 SIM-%s 发送短信到：\n%s</string>
     <string name="discharged_to">放电到指定电量</string>
     <string name="charged_to">充电到指定电量</string>
     <string name="battery_discharged_to">电池放电低到%s%%</string>
@@ -1244,9 +1271,9 @@
     <string name="keyword_leave_address_2">则表示离开</string>
     <string name="calc_type_distance_error">经纬度或距离都不能为空</string>
     <string name="calc_type_address_error">地址关键字不能为空</string>
-    <string name="to_address_distance_description">进入以经纬度(%s,%s)为中心, %s米为半径的区域</string>
+    <string name="to_address_distance_description" formatted="false">进入以经纬度(%s,%s)为中心, %s米为半径的区域</string>
     <string name="to_address_keyword_description">进入GPS地址包含[%s]关键字区域</string>
-    <string name="leave_address_distance_description">离开以经纬度(%s,%s)为中心, %s米为半径的区域</string>
+    <string name="leave_address_distance_description" formatted="false">离开以经纬度(%s,%s)为中心, %s米为半径的区域</string>
     <string name="leave_address_keyword_description">离开GPS地址包含[%s]关键字区域</string>
     <string name="condition_already_exists">已添加过该类型条件</string>
     <string name="action_already_exists">已添加过该类型动作</string>

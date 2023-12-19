@@ -30,6 +30,7 @@
                 android:layout_height="@dimen/card_view_image_size"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_menu_frpc"
+                app:tint="#299EE3"
                 tools:ignore="ContentDescription,ImageContrastCheck" />
 
             <ImageView
@@ -71,7 +72,7 @@
                     android:id="@+id/iv_play"
                     android:layout_width="@dimen/card_view_image_size"
                     android:layout_height="@dimen/card_view_image_size"
-                    android:padding="@dimen/card_view_image_padding"
+                    android:padding="7dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_start"
                     app:tint="@color/colorStart"
@@ -121,7 +122,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:lines="1"
-                    android:textSize="11sp"
+                    android:textSize="@dimen/text_size_small"
                     tools:ignore="SmallSp" />
 
             </LinearLayout>

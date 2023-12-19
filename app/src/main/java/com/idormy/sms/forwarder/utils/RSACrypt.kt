@@ -11,7 +11,6 @@ import javax.crypto.Cipher
 /**
  * 非对称加密RSA加密和解密
  */
-@Suppress("unused")
 object RSACrypt {
 
     private const val transformation = "RSA"

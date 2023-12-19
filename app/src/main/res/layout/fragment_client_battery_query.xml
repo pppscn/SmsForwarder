@@ -18,11 +18,13 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_margin="10dp"
                 android:contentDescription="@string/api_battery_query"
-                app:srcCompat="@drawable/icon_api_battery_query" />
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/icon_api_battery_query"
+                tools:ignore="ImageContrastCheck" />
 
             <com.xuexiang.xui.widget.grouplist.XUIGroupListView
                 android:id="@+id/info_list"

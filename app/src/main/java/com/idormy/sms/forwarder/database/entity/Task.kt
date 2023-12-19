@@ -32,8 +32,8 @@ data class Task(
 
     val statusImageId: Int
         get() = when (status) {
-            STATUS_OFF -> R.drawable.icon_off
-            else -> R.drawable.icon_on
+            STATUS_OFF -> R.drawable.ic_stop
+            else -> R.drawable.ic_start
         }
 
 }

@@ -38,7 +38,7 @@
         android:gravity="center"
         android:maxEms="10"
         android:maxLines="1"
-        android:textSize="9sp"
+        android:textSize="@dimen/text_size_mini"
         tools:ignore="SmallSp" />
 
 </LinearLayout>

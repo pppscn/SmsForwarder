@@ -31,7 +31,7 @@ import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 
 @Page(name = "LeaveAddress")
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "SameParameterValue")
 class LeaveAddressFragment : BaseFragment<FragmentTasksConditionLeaveAddressBinding?>(), View.OnClickListener {
 
     private val TAG: String = LeaveAddressFragment::class.java.simpleName
@@ -78,17 +78,18 @@ class LeaveAddressFragment : BaseFragment<FragmentTasksConditionLeaveAddressBind
             }
         }
 
-        Log.d(TAG, "initViews eventData:$eventData")
+        var settingVo = LocationSetting(getString(R.string.task_leave_address_tips), "leave")
         if (eventData != null) {
-            val settingVo = Gson().fromJson(eventData, LocationSetting::class.java)
-            Log.d(TAG, "initViews settingVo:$settingVo")
-            binding!!.tvDescription.text = settingVo.description
-            binding!!.etLongitude.setText(settingVo.longitude.toString())
-            binding!!.etLatitude.setText(settingVo.latitude.toString())
-            binding!!.etDistance.setText(settingVo.distance.toString())
-            binding!!.etAddress.setText(settingVo.address)
-            binding!!.rgCalcType.check(settingVo.getCalcTypeCheckId())
+            Log.d(TAG, "initViews eventData:$eventData")
+            settingVo = Gson().fromJson(eventData, LocationSetting::class.java)
         }
+        Log.d(TAG, "initViews settingVo:$settingVo")
+        binding!!.tvDescription.text = settingVo.description
+        binding!!.etLongitude.setText(settingVo.longitude.toString())
+        binding!!.etLatitude.setText(settingVo.latitude.toString())
+        binding!!.etDistance.setText(settingVo.distance.toString())
+        binding!!.etAddress.setText(settingVo.address)
+        binding!!.rgCalcType.check(settingVo.getCalcTypeCheckId())
     }
 
     @SuppressLint("SetTextI18n")
@@ -220,7 +221,7 @@ class LeaveAddressFragment : BaseFragment<FragmentTasksConditionLeaveAddressBind
                 if (latitude.isNaN() || longitude.isNaN() || distance.isNaN()) {
                     throw Exception(getString(R.string.calc_type_distance_error))
                 }
-                description = String.format(getString(R.string.to_address_distance_description), longitude, latitude, distance)
+                description = String.format(getString(R.string.leave_address_distance_description), longitude, latitude, distance)
                 "distance"
             }
 
@@ -228,7 +229,7 @@ class LeaveAddressFragment : BaseFragment<FragmentTasksConditionLeaveAddressBind
                 if (address.isEmpty()) {
                     throw Exception(getString(R.string.calc_type_address_error))
                 }
-                description = String.format(getString(R.string.to_address_keyword_description), address)
+                description = String.format(getString(R.string.leave_address_keyword_description), address)
                 "address"
             }
         }

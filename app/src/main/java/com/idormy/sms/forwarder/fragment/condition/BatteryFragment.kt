@@ -24,7 +24,7 @@ import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xui.widget.actionbar.TitleBar
 
 @Page(name = "Battery")
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "SameParameterValue")
 class BatteryFragment : BaseFragment<FragmentTasksConditionBatteryBinding?>(), View.OnClickListener {
 
     private val TAG: String = BatteryFragment::class.java.simpleName

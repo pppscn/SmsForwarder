@@ -1,77 +1,94 @@
 package com.idormy.sms.forwarder.activity
 
-import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.widget.Toolbar
+import android.widget.LinearLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.tabs.TabLayout
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
-import com.idormy.sms.forwarder.adapter.WidgetItemAdapter
+import com.idormy.sms.forwarder.adapter.menu.DrawerAdapter
+import com.idormy.sms.forwarder.adapter.menu.DrawerItem
+import com.idormy.sms.forwarder.adapter.menu.SimpleItem
+import com.idormy.sms.forwarder.adapter.menu.SpaceItem
 import com.idormy.sms.forwarder.core.BaseActivity
 import com.idormy.sms.forwarder.core.webview.AgentWebActivity
-import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.databinding.ActivityMainBinding
-import com.idormy.sms.forwarder.fragment.*
+import com.idormy.sms.forwarder.fragment.AboutFragment
+import com.idormy.sms.forwarder.fragment.AppListFragment
+import com.idormy.sms.forwarder.fragment.ClientFragment
+import com.idormy.sms.forwarder.fragment.FrpcFragment
+import com.idormy.sms.forwarder.fragment.LogsFragment
+import com.idormy.sms.forwarder.fragment.RulesFragment
+import com.idormy.sms.forwarder.fragment.SendersFragment
+import com.idormy.sms.forwarder.fragment.ServerFragment
+import com.idormy.sms.forwarder.fragment.SettingsFragment
+import com.idormy.sms.forwarder.fragment.TasksFragment
 import com.idormy.sms.forwarder.service.ForegroundService
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.FRPC_LIB_DOWNLOAD_URL
+import com.idormy.sms.forwarder.utils.FRPC_LIB_VERSION
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.XToastUtils
 import com.idormy.sms.forwarder.utils.sdkinit.XUpdateInit
 import com.idormy.sms.forwarder.widget.GuideTipsDialog.Companion.showTips
-import com.idormy.sms.forwarder.widget.GuideTipsDialog.Companion.showTipsForce
 import com.idormy.sms.forwarder.workers.LoadAppListWorker
-import com.jeremyliao.liveeventbus.LiveEventBus
-import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.callback.DownloadProgressCallBack
 import com.xuexiang.xhttp2.exception.ApiException
-import com.xuexiang.xpage.base.XPageFragment
-import com.xuexiang.xpage.core.PageOption
-import com.xuexiang.xpage.model.PageInfo
-import com.xuexiang.xui.adapter.FragmentAdapter
-import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder
-import com.xuexiang.xui.utils.DensityUtils
 import com.xuexiang.xui.utils.ResUtils
+import com.xuexiang.xui.utils.ThemeUtils
+import com.xuexiang.xui.utils.ViewUtils
 import com.xuexiang.xui.utils.WidgetUtils
-import com.xuexiang.xui.widget.alpha.XUIAlphaTextView
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.GravityEnum
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xutil.file.FileUtils
 import com.xuexiang.xutil.net.NetworkUtils
+import com.yarolegovich.slidingrootnav.SlideGravity
+import com.yarolegovich.slidingrootnav.SlidingRootNav
+import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder
+import com.yarolegovich.slidingrootnav.callback.DragStateListener
 import frpclib.Frpclib
-import io.reactivex.CompletableObserver
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import java.io.File
 
-@Suppress("DEPRECATION", "PrivatePropertyName")
-class MainActivity : BaseActivity<ActivityMainBinding?>(),
-    View.OnClickListener,
-    BottomNavigationView.OnNavigationItemSelectedListener,
-    Toolbar.OnMenuItemClickListener,
-    RecyclerViewHolder.OnItemClickListener<PageInfo> {
+@Suppress("PrivatePropertyName", "unused", "DEPRECATION")
+class MainActivity : BaseActivity<ActivityMainBinding?>(), DrawerAdapter.OnItemSelectedListener {
 
     private val TAG: String = MainActivity::class.java.simpleName
-    private lateinit var mTitles: Array<String>
-    private var logsType: String = "sms"
-    private var ruleType: String = "sms"
+    //private lateinit var mTitles: Array<String>
+    //private var logsType: String = "sms"
+    //private var ruleType: String = "sms"
+
+    private val POS_LOG = 0
+    private val POS_RULE = 1
+    private val POS_SENDER = 2
+    private val POS_SETTING = 3
+    private val POS_TASK = 5 //4为空行
+    private val POS_SERVER = 6
+    private val POS_CLIENT = 7
+    private val POS_FRPC = 8
+    private val POS_APPS = 9
+    private val POS_HELP = 11 //10为空行
+    private val POS_ABOUT = 12
+
+    private lateinit var mTabLayout: TabLayout
+    private lateinit var mSlidingRootNav: SlidingRootNav
+    private lateinit var mLLMenu: LinearLayout
+    private lateinit var mMenuTitles: Array<String>
+    private lateinit var mMenuIcons: Array<Drawable>
+    private lateinit var mAdapter: DrawerAdapter
 
     override fun viewBindingInflate(inflater: LayoutInflater?): ActivityMainBinding {
         return ActivityMainBinding.inflate(inflater!!)
@@ -79,9 +96,10 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initViews()
+
         initData()
-        initListeners()
+        initViews()
+        initSlidingMenu(savedInstanceState)
 
         //不在最近任务列表中显示
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && SettingUtils.enableExcludeFromRecents) {
@@ -95,26 +113,23 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
         }
 
         //检查通知权限是否获取
-        XXPermissions.with(this)
-            .permission(Permission.NOTIFICATION_SERVICE)
-            .permission(Permission.POST_NOTIFICATIONS)
-            .request(OnPermissionCallback { _, allGranted ->
-                if (!allGranted) {
-                    XToastUtils.error(R.string.tips_notification)
-                    return@OnPermissionCallback
-                }
+        XXPermissions.with(this).permission(Permission.NOTIFICATION_SERVICE).permission(Permission.POST_NOTIFICATIONS).request(OnPermissionCallback { _, allGranted ->
+            if (!allGranted) {
+                XToastUtils.error(R.string.tips_notification)
+                return@OnPermissionCallback
+            }
 
-                //启动前台服务
-                if (!ForegroundService.isRunning) {
-                    val serviceIntent = Intent(this, ForegroundService::class.java)
-                    serviceIntent.action = "START"
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        startForegroundService(serviceIntent)
-                    } else {
-                        startService(serviceIntent)
-                    }
+            //启动前台服务
+            if (!ForegroundService.isRunning) {
+                val serviceIntent = Intent(this, ForegroundService::class.java)
+                serviceIntent.action = "START"
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService(serviceIntent)
+                } else {
+                    startService(serviceIntent)
                 }
-            })
+            }
+        })
     }
 
     override val isSupportSlideBack: Boolean
@@ -122,265 +137,41 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
 
     private fun initViews() {
         WidgetUtils.clearActivityBackground(this)
-        mTitles = ResUtils.getStringArray(R.array.home_titles)
-        binding!!.includeMain.toolbar.title = mTitles[0]
-        binding!!.includeMain.toolbar.inflateMenu(R.menu.menu_logs)
-        binding!!.includeMain.toolbar.setOnMenuItemClickListener(this)
+        initTab()
+    }
 
-        //主页内容填充
-        val fragments = arrayOf(
-            LogsFragment(),
-            RulesFragment(),
-            SendersFragment(),
-            SettingsFragment()
-        )
-        val adapter = FragmentAdapter(supportFragmentManager, fragments)
-        binding!!.includeMain.viewPager.offscreenPageLimit = mTitles.size - 1
-        binding!!.includeMain.viewPager.adapter = adapter
+    private fun initTab() {
+        mTabLayout = binding!!.tabs
+        WidgetUtils.addTabWithoutRipple(mTabLayout, getString(R.string.menu_logs), R.drawable.selector_icon_tabbar_logs)
+        WidgetUtils.addTabWithoutRipple(mTabLayout, getString(R.string.menu_rules), R.drawable.selector_icon_tabbar_rules)
+        WidgetUtils.addTabWithoutRipple(mTabLayout, getString(R.string.menu_senders), R.drawable.selector_icon_tabbar_senders)
+        WidgetUtils.addTabWithoutRipple(mTabLayout, getString(R.string.menu_settings), R.drawable.selector_icon_tabbar_settings)
+        WidgetUtils.setTabLayoutTextFont(mTabLayout)
+        switchPage(LogsFragment::class.java)
+        mTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                mAdapter.setSelected(tab.position)
+                when (tab.position) {
+                    POS_LOG -> switchPage(LogsFragment::class.java)
+                    POS_RULE -> switchPage(RulesFragment::class.java)
+                    POS_SENDER -> switchPage(SendersFragment::class.java)
+                    POS_SETTING -> switchPage(SettingsFragment::class.java)
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
     }
 
     private fun initData() {
+        mMenuTitles = ResUtils.getStringArray(this, R.array.menu_titles)
+        mMenuIcons = ResUtils.getDrawableArray(this, R.array.menu_icons)
+
         //仅当开启自动检查且有网络时自动检查更新/获取提示
         if (SettingUtils.autoCheckUpdate && NetworkUtils.isHaveInternet()) {
             showTips(this)
             XUpdateInit.checkUpdate(this, false)
-        }
-    }
-
-    fun initListeners() {
-        val toggle = ActionBarDrawerToggle(
-            this,
-            binding!!.drawerLayout,
-            binding!!.includeMain.toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        )
-        binding!!.drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        //侧边栏点击事件
-        binding!!.navView.setNavigationItemSelectedListener { menuItem: MenuItem ->
-            if (menuItem.isCheckable) {
-                binding!!.drawerLayout.closeDrawers()
-                return@setNavigationItemSelectedListener handleNavigationItemSelected(menuItem)
-            } else {
-                when (menuItem.itemId) {
-                    R.id.nav_task -> openNewPage(TasksFragment::class.java)
-                    R.id.nav_server -> openNewPage(ServerFragment::class.java)
-                    R.id.nav_client -> openNewPage(ClientFragment::class.java)
-                    R.id.nav_frpc -> {
-                        if (!FileUtils.isFileExists(filesDir.absolutePath + "/libs/libgojni.so")) {
-                            MaterialDialog.Builder(this)
-                                .title(
-                                    String.format(
-                                        getString(R.string.frpclib_download_title),
-                                        FRPC_LIB_VERSION
-                                    )
-                                )
-                                .content(R.string.download_frpc_tips)
-                                .positiveText(R.string.lab_yes)
-                                .negativeText(R.string.lab_no)
-                                .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                                    downloadFrpcLib()
-                                }
-                                .show()
-                            return@setNavigationItemSelectedListener false
-                        }
-
-                        if (FRPC_LIB_VERSION == Frpclib.getVersion()) {
-                            openNewPage(FrpcFragment::class.java)
-                        } else {
-                            MaterialDialog.Builder(this)
-                                .title(R.string.frpclib_version_mismatch)
-                                .content(R.string.download_frpc_tips)
-                                .positiveText(R.string.lab_yes)
-                                .negativeText(R.string.lab_no)
-                                .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                                    downloadFrpcLib()
-                                }
-                                .show()
-                        }
-                    }
-
-                    R.id.nav_app_list -> {
-                        if (App.UserAppList.isEmpty() && App.SystemAppList.isEmpty()) {
-                            XToastUtils.info(getString(R.string.loading_app_list))
-                            val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
-                            WorkManager.getInstance(this).enqueue(request)
-                            Thread.sleep(2000)
-                        }
-                        openNewPage(AppListFragment::class.java)
-                    }
-                    //R.id.nav_logcat -> openNewPage(LogcatFragment::class.java)
-                    R.id.nav_help -> AgentWebActivity.goWeb(this, getString(R.string.url_help))
-                    R.id.nav_about -> openNewPage(AboutFragment::class.java)
-                    else -> XToastUtils.toast("Click:" + menuItem.title)
-                }
-            }
-            true
-        }
-
-        //主页事件监听
-        binding!!.includeMain.viewPager.addOnPageChangeListener(object :
-            ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int,
-            ) {
-            }
-
-            override fun onPageSelected(position: Int) {
-                val item = binding!!.includeMain.bottomNavigation.menu.getItem(position)
-                binding!!.includeMain.toolbar.title = item.title
-                binding!!.includeMain.toolbar.menu.clear()
-                when (item.title) {
-                    getString(R.string.menu_rules) -> binding!!.includeMain.toolbar.inflateMenu(
-                        R.menu.menu_rules
-                    )
-
-                    getString(R.string.menu_senders) -> binding!!.includeMain.toolbar.inflateMenu(
-                        R.menu.menu_senders
-                    )
-
-                    getString(R.string.menu_settings) -> binding!!.includeMain.toolbar.inflateMenu(
-                        R.menu.menu_settings
-                    )
-
-                    else -> binding!!.includeMain.toolbar.inflateMenu(R.menu.menu_logs)
-                }
-                item.isChecked = true
-                updateSideNavStatus(item)
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {}
-        })
-        binding!!.includeMain.bottomNavigation.setOnNavigationItemSelectedListener(this)
-
-        //tabBar分类切换
-        LiveEventBus.get(EVENT_UPDATE_LOGS_TYPE, String::class.java).observe(this) { type: String ->
-            logsType = type
-        }
-        LiveEventBus.get(EVENT_UPDATE_RULE_TYPE, String::class.java).observe(this) { type: String ->
-            ruleType = type
-        }
-    }
-
-    /**
-     * 处理侧边栏点击事件
-     *
-     * @param menuItem
-     * @return
-     */
-    private fun handleNavigationItemSelected(menuItem: MenuItem): Boolean {
-        for (index in mTitles.indices) {
-            if (mTitles[index] == menuItem.title) {
-                binding!!.includeMain.toolbar.title = menuItem.title
-                binding!!.includeMain.viewPager.setCurrentItem(index, false)
-                return true
-            }
-        }
-        return false
-    }
-
-    @SuppressLint("InflateParams")
-    override fun onMenuItemClick(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_notifications -> {
-                showTipsForce(this)
-            }
-
-            R.id.action_clear_logs -> {
-                MaterialDialog.Builder(this)
-                    .content(R.string.delete_type_log_tips)
-                    .positiveText(R.string.lab_yes)
-                    .negativeText(R.string.lab_no)
-                    .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                        AppDatabase.getInstance(this)
-                            .msgDao()
-                            .deleteAll(logsType)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(object : CompletableObserver {
-                                override fun onSubscribe(d: Disposable) {}
-                                override fun onComplete() {
-                                    XToastUtils.success(R.string.delete_type_log_toast)
-                                }
-
-                                override fun onError(e: Throwable) {
-                                    e.message?.let { XToastUtils.error(it) }
-                                }
-                            })
-                    }
-                    .show()
-            }
-
-            R.id.action_add_sender -> {
-                val dialog = BottomSheetDialog(this)
-                val view: View =
-                    LayoutInflater.from(this).inflate(R.layout.dialog_sender_bottom_sheet, null)
-                val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
-
-                WidgetUtils.initGridRecyclerView(recyclerView, 4, DensityUtils.dp2px(1f))
-                val widgetItemAdapter = WidgetItemAdapter(SENDER_FRAGMENT_LIST)
-                widgetItemAdapter.setOnItemClickListener(this)
-                recyclerView.adapter = widgetItemAdapter
-
-                val bottomSheetCloseButton: XUIAlphaTextView = view.findViewById(R.id.bottom_sheet_close_button)
-                bottomSheetCloseButton.setOnClickListener { dialog.dismiss() }
-
-                dialog.setContentView(view)
-                dialog.setCancelable(true)
-                dialog.setCanceledOnTouchOutside(true)
-                dialog.show()
-                WidgetUtils.transparentBottomSheetDialogBackground(dialog)
-            }
-
-            R.id.action_add_rule -> {
-                PageOption.to(RulesEditFragment::class.java)
-                    .putString(KEY_RULE_TYPE, ruleType)
-                    .setNewActivity(true)
-                    .open(this)
-            }
-            /*R.id.action_restore_settings -> {
-                XToastUtils.success(logsType)
-            }*/
-        }
-        return false
-    }
-
-    @SingleClick
-    override fun onClick(v: View) {
-    }
-
-    //================Navigation================//
-    /**
-     * 底部导航栏点击事件
-     *
-     * @param menuItem
-     * @return
-     */
-    override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-        for (index in mTitles.indices) {
-            if (mTitles[index] == menuItem.title) {
-                binding!!.includeMain.toolbar.title = menuItem.title
-                binding!!.includeMain.viewPager.setCurrentItem(index, false)
-                updateSideNavStatus(menuItem)
-                return true
-            }
-        }
-        return false
-    }
-
-    /**
-     * 更新侧边栏菜单选中状态
-     *
-     * @param menuItem
-     */
-    private fun updateSideNavStatus(menuItem: MenuItem) {
-        val side = binding!!.navView.menu.findItem(menuItem.itemId)
-        if (side != null) {
-            side.isChecked = true
         }
     }
 
@@ -393,18 +184,135 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(),
         startActivity(intent)
     }
 
-    @SingleClick
-    override fun onItemClick(itemView: View, widgetInfo: PageInfo, pos: Int) {
-        try {
-            @Suppress("UNCHECKED_CAST")
-            PageOption.to(Class.forName(widgetInfo.classPath) as Class<XPageFragment>) //跳转的fragment
-                .setNewActivity(true)
-                .putInt(KEY_SENDER_TYPE, pos) //注意：目前刚好是这个顺序而已
-                .open(this)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            XToastUtils.error(e.message.toString())
+    fun openMenu() {
+        mSlidingRootNav.openMenu()
+    }
+
+    fun closeMenu() {
+        mSlidingRootNav.closeMenu()
+    }
+
+    fun isMenuOpen(): Boolean {
+        return mSlidingRootNav.isMenuOpened
+    }
+
+    private fun initSlidingMenu(savedInstanceState: Bundle?) {
+        mSlidingRootNav = SlidingRootNavBuilder(this).withGravity(if (ResUtils.isRtl(this)) SlideGravity.RIGHT else SlideGravity.LEFT).withMenuOpened(false).withContentClickableWhenMenuOpened(false).withSavedState(savedInstanceState).withMenuLayout(R.layout.menu_left_drawer).inject()
+        mLLMenu = mSlidingRootNav.layout.findViewById(R.id.ll_menu)
+        //val ivQrcode = mSlidingRootNav.layout.findViewById<AppCompatImageView>(R.id.iv_qrcode)
+        //ivQrcode.setOnClickListener { openNewPage(SettingsFragment::class.java) }
+        //val ivSetting = mSlidingRootNav.layout.findViewById<AppCompatImageView>(R.id.iv_setting)
+        //ivSetting.setOnClickListener { openNewPage(SettingsFragment::class.java) }
+        ViewUtils.setVisibility(mLLMenu, false)
+        mAdapter = DrawerAdapter(
+            mutableListOf(
+                createItemFor(POS_LOG).setChecked(true),
+                createItemFor(POS_RULE),
+                createItemFor(POS_SENDER),
+                createItemFor(POS_SETTING),
+                SpaceItem(15),
+                createItemFor(POS_TASK),
+                createItemFor(POS_SERVER),
+                createItemFor(POS_CLIENT),
+                createItemFor(POS_FRPC),
+                createItemFor(POS_APPS),
+                SpaceItem(15),
+                createItemFor(POS_HELP),
+                createItemFor(POS_ABOUT),
+            )
+        )
+        mAdapter.setListener(this)
+        val list: RecyclerView = findViewById(R.id.list)
+        list.isNestedScrollingEnabled = false
+        list.layoutManager = LinearLayoutManager(this)
+        list.adapter = mAdapter
+        mAdapter.setSelected(POS_LOG)
+        mSlidingRootNav.isMenuLocked = false
+        mSlidingRootNav.layout.addDragStateListener(object : DragStateListener {
+            override fun onDragStart() {
+                ViewUtils.setVisibility(mLLMenu, true)
+            }
+
+            override fun onDragEnd(isMenuOpened: Boolean) {
+                ViewUtils.setVisibility(mLLMenu, isMenuOpened)
+                /*if (isMenuOpened) {
+                    if (!GuideCaseView.isShowOnce(this@MainActivity, getString(R.string.guide_key_sliding_root_navigation))) {
+                        val guideStep1 = GuideCaseView.Builder(this@MainActivity)
+                            .title("点击进入，可切换主题样式哦～～")
+                            .titleSize(18, TypedValue.COMPLEX_UNIT_SP)
+                            .focusOn(ivSetting)
+                            .build()
+                        val guideStep2 = GuideCaseView.Builder(this@MainActivity)
+                            .title("点击进入，扫码关注哦～～")
+                            .titleSize(18, TypedValue.COMPLEX_UNIT_SP)
+                            .focusOn(ivQrcode)
+                            .build()
+                        GuideCaseQueue()
+                            .add(guideStep1)
+                            .add(guideStep2)
+                            .show()
+                        GuideCaseView.setShowOnce(this@MainActivity, getString(R.string.guide_key_sliding_root_navigation))
+                    }
+                }*/
+            }
+        })
+    }
+
+    override fun onItemSelected(position: Int) {
+        when (position) {
+            POS_LOG, POS_RULE, POS_SENDER, POS_SETTING -> {
+                val tab = mTabLayout.getTabAt(position)
+                tab?.select()
+                mSlidingRootNav.closeMenu()
+            }
+
+            POS_TASK -> openNewPage(TasksFragment::class.java)
+            POS_SERVER -> openNewPage(ServerFragment::class.java)
+            POS_CLIENT -> openNewPage(ClientFragment::class.java)
+            POS_FRPC -> {
+                if (FileUtils.isFileExists(filesDir.absolutePath + "/libs/libgojni.so") && FRPC_LIB_VERSION == Frpclib.getVersion()) {
+                    openNewPage(FrpcFragment::class.java)
+                    return
+                }
+
+                val title = if (!FileUtils.isFileExists(filesDir.absolutePath + "/libs/libgojni.so")) {
+                    String.format(getString(R.string.frpclib_download_title), FRPC_LIB_VERSION)
+                } else {
+                    getString(R.string.frpclib_version_mismatch)
+                }
+
+                MaterialDialog.Builder(this)
+                    .title(title)
+                    .content(R.string.download_frpc_tips)
+                    .positiveText(R.string.lab_yes)
+                    .negativeText(R.string.lab_no)
+                    .onPositive { _: MaterialDialog?, _: DialogAction? ->
+                        downloadFrpcLib()
+                    }
+                    .show()
+            }
+
+            POS_APPS -> {
+                if (App.UserAppList.isEmpty() && App.SystemAppList.isEmpty()) {
+                    XToastUtils.info(getString(R.string.loading_app_list))
+                    val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
+                    WorkManager.getInstance(this).enqueue(request)
+                    return
+                }
+                openNewPage(AppListFragment::class.java)
+            }
+
+            POS_HELP -> AgentWebActivity.goWeb(this, getString(R.string.url_help))
+            POS_ABOUT -> openNewPage(AboutFragment::class.java)
         }
+    }
+
+    private fun createItemFor(position: Int): DrawerItem<*> {
+        return SimpleItem(mMenuIcons[position], mMenuTitles[position])
+            .withIconTint(ThemeUtils.resolveColor(this, R.attr.xui_config_color_content_text))
+            .withTextTint(ThemeUtils.resolveColor(this, R.attr.xui_config_color_content_text))
+            .withSelectedIconTint(ThemeUtils.getMainThemeColor(this))
+            .withSelectedTextTint(ThemeUtils.getMainThemeColor(this))
     }
 
     //动态加载FrpcLib

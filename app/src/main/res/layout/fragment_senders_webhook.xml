@@ -38,14 +38,16 @@
                     android:layout_marginStart="5dp"
                     android:layout_weight="1"
                     android:singleLine="true"
-                    app:met_clearButton="true" />
+                    app:met_clearButton="true"
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                 <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
                     android:id="@+id/sb_enable"
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true" />
+                    android:checked="true"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -71,22 +73,26 @@
                         android:id="@+id/rb_method_post"
                         style="@style/rg_rb_style"
                         android:checked="true"
-                        android:text="@string/post" />
+                        android:text="@string/post"
+                        tools:ignore="TouchTargetSizeCheck" />
 
                     <RadioButton
                         android:id="@+id/rb_method_get"
                         style="@style/rg_rb_style"
-                        android:text="@string/get" />
+                        android:text="@string/get"
+                        tools:ignore="TouchTargetSizeCheck" />
 
                     <RadioButton
                         android:id="@+id/rb_method_put"
                         style="@style/rg_rb_style"
-                        android:text="@string/put" />
+                        android:text="@string/put"
+                        tools:ignore="TouchTargetSizeCheck" />
 
                     <RadioButton
                         android:id="@+id/rb_method_patch"
                         style="@style/rg_rb_style"
-                        android:text="@string/patch" />
+                        android:text="@string/patch"
+                        tools:ignore="TouchTargetSizeCheck" />
 
                 </RadioGroup>
 
@@ -114,7 +120,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:text="@string/webhook_server_tips"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
 
                 </LinearLayout>
@@ -125,7 +131,8 @@
                     android:layout_height="wrap_content"
                     android:inputType="textUri"
                     android:singleLine="true"
-                    app:met_clearButton="true" />
+                    app:met_clearButton="true"
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -145,7 +152,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/webhook_params_tips"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/text_size_mini"
                     tools:ignore="SmallSp" />
 
                 <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
@@ -155,7 +162,8 @@
                     android:hint="@string/optional"
                     android:inputType="textUri"
                     android:singleLine="true"
-                    app:met_clearButton="true" />
+                    app:met_clearButton="true"
+                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -177,7 +185,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/optional"
                     android:singleLine="true"
-                    app:met_passWordButton="true" />
+                    app:met_passWordButton="true"
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -199,7 +208,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/optional"
                     android:singleLine="true"
-                    app:met_clearButton="true" />
+                    app:met_clearButton="true"
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -214,7 +224,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -222,13 +233,14 @@
                         android:text="@string/headers"
                         android:textStyle="bold" />
 
-                    <com.xuexiang.xui.widget.button.shadowbutton.ShadowButton
+                    <ImageView
                         android:id="@+id/btn_add_header"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
-                        android:layout_marginStart="10dp"
-                        android:background="@drawable/icon_add"
-                        app:sb_shape_type="round" />
+                        android:layout_marginStart="@dimen/config_margin_5dp"
+                        android:src="@drawable/ic_add"
+                        app:tint="#299EE3"
+                        tools:ignore="ContentDescription,ImageContrastCheck" />
 
                 </LinearLayout>
 
@@ -248,31 +260,34 @@
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_del"
             style="@style/SuperButton.Gray.Icon"
-            android:drawableStart="@drawable/icon_delete"
-            android:paddingStart="15dp"
-            android:text="@string/del"
-            android:textSize="11sp"
-            tools:ignore="RtlSymmetry" />
+            android:drawableStart="@drawable/ic_delete"
+            android:paddingStart="10dp"
+            android:text="@string/del_btn"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/text_size_medium"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_save"
             style="@style/SuperButton.Blue.Icon"
             android:layout_marginStart="10dp"
-            android:drawableStart="@drawable/icon_save"
-            android:paddingStart="15dp"
-            android:text="@string/save"
-            android:textSize="11sp"
-            tools:ignore="RtlSymmetry" />
+            android:drawableStart="@drawable/ic_save"
+            android:paddingStart="13dp"
+            android:text="@string/save_btn"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/text_size_medium"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_test"
             style="@style/SuperButton.Green.Icon"
             android:layout_marginStart="10dp"
-            android:drawableStart="@drawable/icon_test"
-            android:paddingStart="15dp"
-            android:text="@string/test"
-            android:textSize="11sp"
-            tools:ignore="RtlSymmetry" />
+            android:drawableStart="@drawable/ic_test"
+            android:paddingStart="10dp"
+            android:text="@string/test_btn"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/text_size_medium"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
     </LinearLayout>
 

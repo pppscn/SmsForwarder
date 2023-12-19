@@ -25,6 +25,7 @@ import com.zzhoujay.richtext.RichText
  * @author xuexiang
  * @since 2019-08-22 17:02
  */
+@Suppress("SameReturnValue")
 class GuideTipsDialog(context: Context?, tips: List<TipInfo>) :
     BaseDialog(context, R.layout.dialog_guide_tips), View.OnClickListener,
     CompoundButton.OnCheckedChangeListener {
@@ -85,10 +86,12 @@ class GuideTipsDialog(context: Context?, tips: List<TipInfo>) :
                         mTvPrevious!!.isEnabled = false
                         mTvNext!!.isEnabled = true
                     }
+
                     mTips!!.size - 1 -> {
                         mTvPrevious!!.isEnabled = true
                         mTvNext!!.isEnabled = false
                     }
+
                     else -> {
                         mTvPrevious!!.isEnabled = true
                         mTvNext!!.isEnabled = true

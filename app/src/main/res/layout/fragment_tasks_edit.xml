@@ -64,14 +64,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/task_conditions"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/text_size_large" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:text="@string/task_conditions_tips"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/text_size_small"
                     tools:ignore="SmallSp" />
             </LinearLayout>
 
@@ -120,7 +120,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/add_condition"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_size_medium"
                             android:textStyle="bold" />
 
                         <TextView
@@ -128,7 +128,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/add_condition_tips"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/text_size_small" />
 
                     </LinearLayout>
 
@@ -149,14 +149,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/task_actions"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/text_size_large" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="@string/task_actions_tips"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/text_size_small"
                     tools:ignore="SmallSp" />
             </LinearLayout>
 
@@ -205,7 +205,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/add_action"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_size_medium"
                             android:textStyle="bold" />
 
                         <TextView
@@ -213,7 +213,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/add_action_tips"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/text_size_small" />
 
                     </LinearLayout>
 
@@ -235,33 +235,33 @@
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_del"
             style="@style/SuperButton.Gray.Icon"
-            android:drawableStart="@drawable/icon_delete"
-            android:paddingStart="15dp"
-            android:text="@string/del"
+            android:drawableStart="@drawable/ic_delete"
+            android:paddingStart="10dp"
+            android:text="@string/del_btn"
             android:textColor="#FFFFFF"
-            android:textSize="11sp"
+            android:textSize="@dimen/text_size_medium"
             tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_save"
             style="@style/SuperButton.Blue.Icon"
             android:layout_marginStart="10dp"
-            android:drawableStart="@drawable/icon_save"
-            android:paddingStart="15dp"
-            android:text="@string/save"
+            android:drawableStart="@drawable/ic_save"
+            android:paddingStart="13dp"
+            android:text="@string/save_btn"
             android:textColor="#FFFFFF"
-            android:textSize="11sp"
+            android:textSize="@dimen/text_size_medium"
             tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_test"
             style="@style/SuperButton.Green.Icon"
             android:layout_marginStart="10dp"
-            android:drawableStart="@drawable/icon_test"
-            android:paddingStart="15dp"
-            android:text="@string/test"
+            android:drawableStart="@drawable/ic_test"
+            android:paddingStart="10dp"
+            android:text="@string/test_btn"
             android:textColor="#FFFFFF"
-            android:textSize="11sp"
+            android:textSize="@dimen/text_size_medium"
             android:visibility="gone"
             tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 

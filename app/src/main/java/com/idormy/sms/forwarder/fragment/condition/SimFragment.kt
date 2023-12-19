@@ -23,7 +23,7 @@ import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xui.widget.actionbar.TitleBar
 
 @Page(name = "Sim")
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "SameParameterValue")
 class SimFragment : BaseFragment<FragmentTasksConditionSimBinding?>(), View.OnClickListener {
 
     private val TAG: String = SimFragment::class.java.simpleName

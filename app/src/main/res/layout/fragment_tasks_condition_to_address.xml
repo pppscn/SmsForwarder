@@ -38,7 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/task_to_address"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_size_big"
                     android:textStyle="bold" />
 
                 <TextView
@@ -46,7 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/task_to_address_tips"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/text_size_mini"
                     tools:ignore="SmallSp" />
 
                 <View
@@ -129,7 +129,7 @@
                                 android:padding="5dp"
                                 android:text="@string/current_coordinates"
                                 android:textColor="@color/white"
-                                android:textSize="10sp"
+                                android:textSize="@dimen/text_size_mini"
                                 app:sb_color_unpressed="@color/colorPrimary"
                                 app:sb_ripple_color="@color/white"
                                 app:sb_ripple_duration="500"
@@ -233,20 +233,34 @@
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_del"
             style="@style/SuperButton.Gray.Icon"
-            android:drawableStart="@drawable/icon_delete"
-            android:paddingStart="15dp"
-            android:text="@string/discard"
-            android:textSize="11sp"
+            android:drawableStart="@drawable/ic_delete"
+            android:paddingStart="10dp"
+            android:text="@string/discard_btn"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/text_size_medium"
             tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_save"
             style="@style/SuperButton.Blue.Icon"
             android:layout_marginStart="10dp"
-            android:drawableStart="@drawable/icon_save"
-            android:paddingStart="15dp"
-            android:text="@string/submit"
-            android:textSize="11sp"
+            android:drawableStart="@drawable/ic_save"
+            android:paddingStart="13dp"
+            android:text="@string/submit_btn"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/text_size_medium"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_test"
+            style="@style/SuperButton.Green.Icon"
+            android:layout_marginStart="10dp"
+            android:drawableStart="@drawable/ic_test"
+            android:paddingStart="10dp"
+            android:text="@string/test_btn"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/text_size_medium"
+            android:visibility="gone"
             tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
     </LinearLayout>

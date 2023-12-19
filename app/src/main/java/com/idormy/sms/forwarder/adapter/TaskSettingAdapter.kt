@@ -1,5 +1,3 @@
-@file:Suppress("DEPRECATION")
-
 package com.idormy.sms.forwarder.adapter
 
 import android.annotation.SuppressLint
@@ -14,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.TaskSetting
 
+@Suppress("DEPRECATION", "unused")
 class TaskSettingAdapter(
     val itemList: MutableList<TaskSetting>,
     private val editClickListener: (Int) -> Unit,
@@ -90,11 +89,10 @@ class TaskSettingAdapter(
         notifyItemMoved(fromPosition, toPosition)
     }
 
-    override fun onDragFinished() {
-        TODO("Not yet implemented")
-    }
+    override fun onDragFinished() {}
 }
 
+@Suppress("DEPRECATION")
 class ItemMoveCallback(private val listener: Listener) : ItemTouchHelper.Callback() {
 
     interface Listener {

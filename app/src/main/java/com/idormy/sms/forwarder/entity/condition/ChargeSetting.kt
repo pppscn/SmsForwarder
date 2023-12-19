@@ -6,7 +6,7 @@ import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xutil.resource.ResUtils.getString
 import java.io.Serializable
 
-@Suppress("DEPRECATION", "unused")
+@Suppress("DEPRECATION")
 data class ChargeSetting(
     var description: String = "", //描述
     var status: Int = BatteryManager.BATTERY_STATUS_UNKNOWN, //状态

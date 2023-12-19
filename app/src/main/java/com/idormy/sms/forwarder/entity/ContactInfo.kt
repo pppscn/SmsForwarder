@@ -7,6 +7,7 @@ import com.xuexiang.xui.utils.ResUtils.getString
 import java.io.Serializable
 import java.util.*
 
+@Suppress("DEPRECATION")
 data class ContactInfo(
     val name: String = "",
     @SerializedName("phone_number")

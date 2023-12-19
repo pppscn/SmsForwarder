@@ -1,7 +1,25 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <string name="app_browser_name">Universal Browser</string>
+    <string name="type_param_sms">短信</string>
+    <string name="type_param_call">通话</string>
+    <string name="type_param_app">应用</string>
+    <string name="status_param_option_enabled">已启用</string>
+    <string name="status_param_option_disabled">已禁用</string>
+    <string name="sms_type_option_receive">接收</string>
+    <string name="sms_type_option_send">发送</string>
+    <string name="call_type_option_missed">未接来电</string>
+    <string name="call_type_option_call_out">本机去电</string>
+    <string name="call_type_option_received">已接来电</string>
+    <string name="clone_type_option_network">网络模式</string>
+    <string name="clone_type_option_offline">离线模式</string>
+    <string name="app_type_option_user">用户应用</string>
+    <string name="app_type_option_system">系统应用</string>
+    <string name="task_type_option_mine">我的任务</string>
+    <string name="task_type_option_fixed">任务中心</string>
 
+    <string name="app_browser_name">Universal Browser</string>
+    <string name="description_navigation_main">navigation</string>
+    <string name="guide_key_sliding_root_navigation">guide_key_sliding_root_navigation</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -9,6 +27,11 @@
     <string name="menu_senders">Senders</string>
     <string name="menu_rules">Rules</string>
     <string name="menu_settings">Settings</string>
+
+    <string name="menu_settings_step">Settings·Step-1</string>
+    <string name="menu_senders_step">Senders·Step-2</string>
+    <string name="menu_rules_step">Rules·Step-3</string>
+    <string name="menu_logs_step">Logs·Step-4</string>
 
     <string name="menu_tasks">Task</string>
     <string name="menu_server">Server</string>
@@ -18,11 +41,6 @@
     <string name="menu_logcat">Logcat</string>
     <string name="menu_help">Help</string>
     <string name="menu_about">About</string>
-
-    <string name="menu_notifications">Notifications</string>
-    <string name="menu_issues">Issues</string>
-    <string name="menu_starred">Starred</string>
-    <string name="menu_search">Search</string>
 
     <string name="about_app_version">App Version: %s</string>
     <string name="about_cache_size">Cache Size: %s</string>
@@ -149,12 +167,17 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="discard">Discard</string>
+    <string name="discard_btn">Discard</string>
     <string name="quit">Quit</string>
     <string name="del">Delete</string>
+    <string name="del_btn">Delete</string>
     <string name="save">Save</string>
+    <string name="save_btn">Save</string>
     <string name="submit">Submit</string>
+    <string name="submit_btn">Submit</string>
     <string name="send">Send</string>
     <string name="test">Test</string>
+    <string name="test_btn">Test</string>
     <string name="confirm">Confirm</string>
     <string name="all">All</string>
     <string name="select">Select</string>
@@ -346,6 +369,7 @@
     <string name="OnlyNoNetwork">Enable only when no network</string>
     <!--SettingActivity-->
     <string name="notify_content">Notify Content</string>
+    <string name="notify_content_label">Notification</string>
     <string name="device_name">Device Name</string>
     <string name="sim_sub_id">SIM SubId</string>
     <string name="sim1_remark" tools:ignore="Typos">SIM1 SubId/Label</string>
@@ -563,10 +587,13 @@
     <string name="custom_settings_tips">Please fill in the remarks manually or click the refresh button to get it automatically</string>
     <string name="times">times</string>
     <string name="interval">Interval</string>
+    <string name="interval_label">Increasing Interval</string>
     <string name="timeout">Timeout</string>
+    <string name="timeout_label">Single Timeout</string>
     <string name="seconds">secs</string>
     <string name="seconds_n">%s sec</string>
     <string name="retry">Retry</string>
+    <string name="retry_label">Max Retries</string>
     <string name="test_sender_sms">[%s] Congratulations, the sending channel test is successful, please continue to add forwarding rules!</string>
     <string name="test_sender_name">Test Channel</string>
     <string name="test_sim_info" tools:ignore="Typos">SIM1_TestOperator_18888888888</string>
@@ -1061,7 +1088,7 @@
     <string name="network_type">Network Type</string>
     <string name="operator_name">Operator Name</string>
     <string name="host_address">Host Address</string>
-    <string name="loading_app_list">Loading app list async…</string>
+    <string name="loading_app_list">Loading the list of apps, please wait…</string>
 
     <string name="carrier_name">Carrier Name</string>
     <string name="icc_id">ICC ID</string>
@@ -1203,9 +1230,9 @@
     <string name="last_week_of_month_2">of this month.</string>
     <string name="cron_expression_check">Cron Expression Test Result</string>
     <string name="invalid_cron_expression">Cron expression is invalid:\n%s</string>
-    <string name="next_execution_times">The next %s execution times:\n%s</string>
+    <string name="next_execution_times" formatted="false">The next %s execution times:\n%s</string>
 
-    <string name="send_sms_to">Use SIM-%s to send sms\n%s</string>
+    <string name="send_sms_to" formatted="false">Use SIM-%s to send sms\n%s</string>
     <string name="discharged_to">Discharged to the specified battery level</string>
     <string name="charged_to">Charged to the specified battery level</string>
     <string name="battery_discharged_to">The battery discharged to %s%%</string>
@@ -1243,9 +1270,9 @@
     <string name="keyword_leave_address_2"> = leaved</string>
     <string name="calc_type_distance_error">Latitude and longitude or distance cannot be empty.</string>
     <string name="calc_type_address_error">Address keyword cannot be empty.</string>
-    <string name="to_address_distance_description">Entering area centered at (%s, %s) with a radius of %s-meter.</string>
+    <string name="to_address_distance_description" formatted="false">Entering area centered at (%s, %s) with a radius of %s-meter.</string>
     <string name="to_address_keyword_description">GPS address contains %s means arrival.</string>
-    <string name="leave_address_distance_description">Leave area centered at (%s, %s) with a radius of %s-meter.</string>
+    <string name="leave_address_distance_description" formatted="false">Leave area centered at (%s, %s) with a radius of %s-meter.</string>
     <string name="leave_address_keyword_description">GPS address NOT contains %s means leaved.</string>
     <string name="condition_already_exists">This type of condition already exists.</string>
     <string name="action_already_exists">This type of action already exists.</string>

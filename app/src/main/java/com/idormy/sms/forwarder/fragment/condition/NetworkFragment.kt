@@ -25,7 +25,7 @@ import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xui.widget.actionbar.TitleBar
 
 @Page(name = "Network")
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "SameParameterValue")
 class NetworkFragment : BaseFragment<FragmentTasksConditionNetworkBinding?>(), View.OnClickListener {
 
     private val TAG: String = NetworkFragment::class.java.simpleName

@@ -21,10 +21,11 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_margin="10dp"
                 android:contentDescription="@string/api_sms_send"
+                android:scaleType="fitCenter"
                 app:srcCompat="@drawable/icon_api_sms_send"
                 tools:ignore="ImageContrastCheck" />
 

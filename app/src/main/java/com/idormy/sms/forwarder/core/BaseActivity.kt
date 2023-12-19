@@ -26,7 +26,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper
  * @author XUE
  * @since 2019/3/22 11:21
  */
-@Suppress("MemberVisibilityCanBePrivate", "UNCHECKED_CAST", "DEPRECATION")
+@Suppress("MemberVisibilityCanBePrivate", "UNCHECKED_CAST", "DEPRECATION", "EmptyMethod")
 open class BaseActivity<Binding : ViewBinding?> : XPageActivity() {
     /**
      * 获取Binding

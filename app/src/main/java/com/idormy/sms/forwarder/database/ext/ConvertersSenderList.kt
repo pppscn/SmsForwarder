@@ -4,7 +4,6 @@ import androidx.room.TypeConverter
 import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.Sender
 
-@Suppress("unused")
 class ConvertersSenderList {
 
     @TypeConverter

@@ -378,7 +378,7 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
         val tvSenderName = layoutSenderItem.findViewById<TextView>(R.id.tv_sender_name)
 
         ivSenderImage.setImageDrawable(sender.icon)
-        ivSenderStatus.setImageDrawable(ResUtils.getDrawable(if (STATUS_OFF == sender.status) R.drawable.icon_off else R.drawable.icon_on))
+        ivSenderStatus.setImageDrawable(ResUtils.getDrawable(if (STATUS_OFF == sender.status) R.drawable.ic_stop else R.drawable.ic_start))
         val senderItemId = sender.id as Long
         tvSenderName.text = "ID-$senderItemId：${sender.title}"
 

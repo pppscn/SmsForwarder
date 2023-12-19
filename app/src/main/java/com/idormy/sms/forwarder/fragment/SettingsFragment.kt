@@ -28,6 +28,7 @@ import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.adapter.spinner.AppListAdapterItem
 import com.idormy.sms.forwarder.adapter.spinner.AppListSpinnerAdapter
 import com.idormy.sms.forwarder.core.BaseFragment
@@ -37,6 +38,7 @@ import com.idormy.sms.forwarder.receiver.BootCompletedReceiver
 import com.idormy.sms.forwarder.service.ForegroundService
 import com.idormy.sms.forwarder.service.LocationService
 import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.widget.GuideTipsDialog
 import com.idormy.sms.forwarder.workers.LoadAppListWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
@@ -60,6 +62,7 @@ import java.util.*
 class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickListener {
 
     private val TAG: String = SettingsFragment::class.java.simpleName
+    private var titleBar: TitleBar? = null
     private val mTimeOption = DataProvider.timePeriodOption
 
     //已安装App信息列表
@@ -77,15 +80,38 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         return FragmentSettingsBinding.inflate(inflater, container, false)
     }
 
-    /**
-     * @return 返回为 null意为不需要导航栏
-     */
     override fun initTitle(): TitleBar? {
-        return null
+        titleBar = super.initTitle()!!.setImmersive(false)
+        titleBar!!.setLeftImageResource(R.drawable.ic_action_menu)
+        titleBar!!.setTitle(R.string.menu_settings)
+        titleBar!!.setLeftClickListener { getContainer()?.openMenu() }
+        titleBar!!.addAction(object : TitleBar.ImageAction(R.drawable.ic_menu_notifications_white) {
+            @SingleClick
+            override fun performAction(view: View) {
+                GuideTipsDialog.showTipsForce(requireContext())
+            }
+        })/*titleBar!!.addAction(object : TitleBar.ImageAction(R.drawable.ic_restore) {
+            @SingleClick
+            override fun performAction(view: View) {
+                MaterialDialog.Builder(requireContext())
+                    .content(R.string.delete_type_log_tips)
+                    .positiveText(R.string.lab_yes)
+                    .negativeText(R.string.lab_no)
+                    .onPositive { _: MaterialDialog?, _: DialogAction? ->
+                    }
+                    .show()
+            }
+        })*/
+        return titleBar
+    }
+
+    private fun getContainer(): MainActivity? {
+        return activity as MainActivity?
     }
 
     @SuppressLint("NewApi", "SetTextI18n")
     override fun initViews() {
+
         //转发短信广播
         switchEnableSms(binding!!.sbEnableSms)
         //转发通话记录
@@ -94,7 +120,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         switchEnableAppNotify(binding!!.sbEnableAppNotify, binding!!.scbCancelAppNotify, binding!!.scbNotUserPresent)
 
         //启用GPS定位功能
-        switchEnableLocation(binding!!.sbEnableLocation, binding!!.layoutLocationSetting, binding!!.rgAccuracy, binding!!.rgPowerRequirement, binding!!.xsbMinInterval, binding!!.xsbMinDistance)
+        switchEnableLocation(binding!!.sbEnableLocation, binding!!.layoutLocationSetting, binding!!.rgAccuracy, binding!!.rgPowerRequirement, binding!!.etMinInterval, binding!!.etMinDistance)
         //短信指令
         switchEnableSmsCommand(binding!!.sbEnableSmsCommand, binding!!.etSafePhone)
         //启动时异步获取已安装App信息
@@ -140,6 +166,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         switchDirectlyToClient(binding!!.sbDirectlyToClient)
         //纯自动任务模式
         switchDirectlyToTask(binding!!.sbDirectlyToTask)
+
     }
 
     override fun onResume() {
@@ -456,7 +483,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     }
 
     //启用定位功能
-    private fun switchEnableLocation(@SuppressLint("UseSwitchCompatOrMaterialCode") switchEnableLocation: SwitchButton, layoutLocationSetting: LinearLayout, rgAccuracy: RadioGroup, rgPowerRequirement: RadioGroup, xsbMinInterval: XSeekBar, xsbMinDistance: XSeekBar) {
+    private fun switchEnableLocation(@SuppressLint("UseSwitchCompatOrMaterialCode") switchEnableLocation: SwitchButton, layoutLocationSetting: LinearLayout, rgAccuracy: RadioGroup, rgPowerRequirement: RadioGroup, etMinInterval: EditText, etMinDistance: EditText) {
         //是否启用定位功能
         switchEnableLocation.isChecked = SettingUtils.enableLocation
         layoutLocationSetting.visibility = if (SettingUtils.enableLocation) View.VISIBLE else View.GONE
@@ -486,6 +513,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             }
             layoutLocationSetting.visibility = if (isChecked) View.VISIBLE else View.GONE
         }
+
         //设置位置精度：高精度（默认）
         rgAccuracy.check(
             when (SettingUtils.locationAccuracy) {
@@ -502,9 +530,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 R.id.rb_accuracy_no_requirement -> Criteria.NO_REQUIREMENT
                 else -> Criteria.ACCURACY_FINE
             }
-            //TODO: MainActivity.kt 中压入 FragmentManager 时会导致定位服务重启，暂时注释掉
-            //restartLocationService()
+            restartLocationService("rgAccuracy")
         }
+
         //设置电量消耗：低电耗（默认）
         rgPowerRequirement.check(
             when (SettingUtils.locationPowerRequirement) {
@@ -523,23 +551,42 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 R.id.rb_power_requirement_no_requirement -> Criteria.NO_REQUIREMENT
                 else -> Criteria.POWER_LOW
             }
-            //TODO: MainActivity.kt 中压入 FragmentManager 时会导致定位服务重启，暂时注释掉
-            //restartLocationService()
+            restartLocationService("rgPowerRequirement")
         }
+
         //设置位置更新最小时间间隔（单位：毫秒）； 默认间隔：10000毫秒，最小间隔：1000毫秒
-        xsbMinInterval.setDefaultValue((SettingUtils.locationMinInterval / 1000).toInt())
-        xsbMinInterval.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
-            SettingUtils.locationMinInterval = newValue * 1000L
-            //TODO: MainActivity.kt 中压入 FragmentManager 时会导致定位服务重启，暂时注释掉
-            //restartLocationService()
-        }
+        etMinInterval.setText((SettingUtils.locationMinInterval / 1000).toString())
+        etMinInterval.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                val changedText = s.toString()
+                if (changedText.isEmpty() || changedText == "0") {
+                    etMinInterval.setText("1")
+                    etMinInterval.setSelection(etMinInterval.text.length) // 将光标移至文本末尾
+                    return
+                }
+                SettingUtils.locationMinInterval = changedText.toLong() * 1000
+                restartLocationService()
+            }
+        })
+
         //设置位置更新最小距离（单位：米）；默认距离：0米
-        xsbMinDistance.setDefaultValue(SettingUtils.locationMinDistance)
-        xsbMinDistance.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
-            SettingUtils.locationMinDistance = newValue
-            //TODO: MainActivity.kt 中压入 FragmentManager 时会导致定位服务重启，暂时注释掉
-            //restartLocationService()
-        }
+        etMinDistance.setText(SettingUtils.locationMinDistance.toString())
+        etMinDistance.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                val changedText = s.toString()
+                if (changedText.isEmpty()) {
+                    etMinDistance.setText("0")
+                    etMinDistance.setSelection(etMinInterval.text.length) // 将光标移至文本末尾
+                    return
+                }
+                SettingUtils.locationMinDistance = changedText.toInt()
+                restartLocationService()
+            }
+        })
     }
 
     //重启定位服务
@@ -772,6 +819,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         xsbRetryTimes.setDefaultValue(SettingUtils.requestRetryTimes)
         xsbRetryTimes.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
             SettingUtils.requestRetryTimes = newValue
+            binding!!.layoutDelayTime.visibility = if (newValue > 0) View.VISIBLE else View.GONE
         }
         xsbDelayTime.setDefaultValue(SettingUtils.requestDelayTime)
         xsbDelayTime.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->

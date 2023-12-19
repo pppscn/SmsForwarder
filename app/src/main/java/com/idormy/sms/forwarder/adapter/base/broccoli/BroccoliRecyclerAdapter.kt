@@ -12,6 +12,7 @@ import me.samlss.broccoli.Broccoli
  * @author XUE
  * @since 2019/4/8 16:33
  */
+@Suppress("unused")
 abstract class BroccoliRecyclerAdapter<T>(collection: Collection<T>?) :
     BaseRecyclerAdapter<T>(collection) {
     /**

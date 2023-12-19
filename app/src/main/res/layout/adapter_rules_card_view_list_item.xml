@@ -34,10 +34,10 @@
                 android:id="@+id/iv_rule_status"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="-16dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/icon_off"
+                android:src="@drawable/ic_stop"
                 tools:ignore="ContentDescription" />
 
         </LinearLayout>
@@ -59,7 +59,7 @@
                 android:gravity="start"
                 android:maxEms="8"
                 android:maxLines="3"
-                android:textSize="11sp" />
+                android:textSize="@dimen/text_size_small" />
 
             <LinearLayout
                 android:id="@+id/layout_Senders"

@@ -18,6 +18,7 @@ import com.idormy.sms.forwarder.databinding.AdapterTasksCardViewListItemBinding
 import com.idormy.sms.forwarder.entity.TaskSetting
 import com.xuexiang.xutil.data.DateUtils
 
+@Suppress("EmptyMethod", "unused")
 class TaskPagingAdapter(private val itemClickListener: OnItemClickListener) : PagingDataAdapter<Task, MyViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

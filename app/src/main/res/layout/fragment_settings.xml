@@ -37,8 +37,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="@string/forwarding_function_tips"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/text_size_mini"
                     tools:ignore="SmallSp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -63,7 +64,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/forward_sms_tips"
-                        android:textSize="9sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
                 </LinearLayout>
 
@@ -71,7 +72,8 @@
                     android:id="@+id/sb_enable_sms"
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="DuplicateSpeakableTextCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -96,7 +98,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/forward_missed_calls_tips"
-                        android:textSize="9sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
 
                     <LinearLayout
@@ -110,7 +112,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/mandatory_type"
-                            android:textSize="10sp"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold"
                             tools:ignore="SmallSp" />
 
@@ -130,14 +132,15 @@
                                     android:id="@+id/scb_call_type3"
                                     android:layout_width="15dp"
                                     android:layout_height="15dp"
-                                    app:scb_color_checked="@color/colorPrimary" />
+                                    app:scb_color_checked="@color/colorPrimary"
+                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:singleLine="true"
                                     android:text="@string/missed_call"
-                                    android:textSize="10sp"
+                                    android:textSize="@dimen/text_size_small"
                                     tools:ignore="SmallSp" />
 
                                 <com.xuexiang.xui.widget.button.SmoothCheckBox
@@ -145,14 +148,15 @@
                                     android:layout_width="15dp"
                                     android:layout_height="15dp"
                                     android:layout_marginStart="5dp"
-                                    app:scb_color_checked="@color/colorPrimary" />
+                                    app:scb_color_checked="@color/colorPrimary"
+                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:singleLine="true"
                                     android:text="@string/incoming_call_ended"
-                                    android:textSize="10sp"
+                                    android:textSize="@dimen/text_size_small"
                                     tools:ignore="SmallSp" />
 
                                 <com.xuexiang.xui.widget.button.SmoothCheckBox
@@ -160,14 +164,15 @@
                                     android:layout_width="15dp"
                                     android:layout_height="15dp"
                                     android:layout_marginStart="5dp"
-                                    app:scb_color_checked="@color/colorPrimary" />
+                                    app:scb_color_checked="@color/colorPrimary"
+                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:singleLine="true"
                                     android:text="@string/outgoing_call_ended"
-                                    android:textSize="10sp"
+                                    android:textSize="@dimen/text_size_small"
                                     tools:ignore="SmallSp" />
 
                             </LinearLayout>
@@ -183,14 +188,15 @@
                                     android:id="@+id/scb_call_type4"
                                     android:layout_width="15dp"
                                     android:layout_height="15dp"
-                                    app:scb_color_checked="@color/colorPrimary" />
+                                    app:scb_color_checked="@color/colorPrimary"
+                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:singleLine="true"
                                     android:text="@string/incoming_call_received"
-                                    android:textSize="10sp"
+                                    android:textSize="@dimen/text_size_small"
                                     tools:ignore="SmallSp" />
 
                                 <com.xuexiang.xui.widget.button.SmoothCheckBox
@@ -198,14 +204,15 @@
                                     android:layout_width="15dp"
                                     android:layout_height="15dp"
                                     android:layout_marginStart="5dp"
-                                    app:scb_color_checked="@color/colorPrimary" />
+                                    app:scb_color_checked="@color/colorPrimary"
+                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:singleLine="true"
                                     android:text="@string/incoming_call_answered"
-                                    android:textSize="10sp"
+                                    android:textSize="@dimen/text_size_small"
                                     tools:ignore="SmallSp" />
 
                                 <com.xuexiang.xui.widget.button.SmoothCheckBox
@@ -213,14 +220,15 @@
                                     android:layout_width="15dp"
                                     android:layout_height="15dp"
                                     android:layout_marginStart="5dp"
-                                    app:scb_color_checked="@color/colorPrimary" />
+                                    app:scb_color_checked="@color/colorPrimary"
+                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:singleLine="true"
                                     android:text="@string/outgoing_call_started"
-                                    android:textSize="10sp"
+                                    android:textSize="@dimen/text_size_small"
                                     tools:ignore="SmallSp" />
 
                             </LinearLayout>
@@ -235,7 +243,8 @@
                     android:id="@+id/sb_enable_phone"
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -262,7 +271,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/forward_app_notify_tips"
-                        android:textSize="9sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
 
                     <LinearLayout
@@ -277,7 +286,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/optional_action"
-                            android:textSize="10sp"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold"
                             tools:ignore="SmallSp" />
 
@@ -291,7 +300,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/cancel_app_notify"
-                            android:textSize="10sp"
+                            android:textSize="@dimen/text_size_small"
                             tools:ignore="SmallSp" />
 
                         <com.xuexiang.xui.widget.button.SmoothCheckBox
@@ -305,7 +314,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/not_user_present"
-                            android:textSize="10sp"
+                            android:textSize="@dimen/text_size_small"
                             tools:ignore="SmallSp" />
 
                     </LinearLayout>
@@ -316,7 +325,8 @@
                     android:id="@+id/sb_enable_app_notify"
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
 
             </LinearLayout>
 
@@ -340,8 +350,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="@string/extra_function_tips"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/text_size_mini"
                     tools:ignore="SmallSp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -374,7 +385,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/enable_location_tips"
-                            android:textSize="9sp"
+                            android:textSize="@dimen/text_size_mini"
                             tools:ignore="SmallSp" />
 
                     </LinearLayout>
@@ -383,7 +394,8 @@
                         android:id="@+id/sb_enable_location"
                         style="@style/SwitchButtonStyle"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        tools:ignore="TouchTargetSizeCheck" />
 
                 </LinearLayout>
 
@@ -410,7 +422,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/accuracy"
-                            android:textSize="10sp"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold"
                             tools:ignore="SmallSp" />
 
@@ -424,17 +436,20 @@
                                 android:id="@+id/rb_accuracy_fine"
                                 style="@style/rg_rb_style_wrap"
                                 android:checked="true"
-                                android:text="@string/accuracy_fine" />
+                                android:text="@string/accuracy_fine"
+                                tools:ignore="TouchTargetSizeCheck" />
 
                             <RadioButton
                                 android:id="@+id/rb_accuracy_coarse"
                                 style="@style/rg_rb_style_wrap"
-                                android:text="@string/accuracy_coarse" />
+                                android:text="@string/accuracy_coarse"
+                                tools:ignore="TouchTargetSizeCheck" />
 
                             <RadioButton
                                 android:id="@+id/rb_accuracy_no_requirement"
                                 style="@style/rg_rb_style_wrap"
-                                android:text="@string/no_requirement" />
+                                android:text="@string/no_requirement"
+                                tools:ignore="DuplicateSpeakableTextCheck,TouchTargetSizeCheck" />
 
                         </RadioGroup>
 
@@ -450,7 +465,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/power_requirement"
-                            android:textSize="10sp"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold"
                             tools:ignore="SmallSp" />
 
@@ -464,22 +479,26 @@
                                 android:id="@+id/rb_power_requirement_low"
                                 style="@style/rg_rb_style_wrap"
                                 android:checked="true"
-                                android:text="@string/power_requirement_low" />
+                                android:text="@string/power_requirement_low"
+                                tools:ignore="TouchTargetSizeCheck" />
 
                             <RadioButton
                                 android:id="@+id/rb_power_requirement_medium"
                                 style="@style/rg_rb_style_wrap"
-                                android:text="@string/power_requirement_medium" />
+                                android:text="@string/power_requirement_medium"
+                                tools:ignore="TouchTargetSizeCheck" />
 
                             <RadioButton
                                 android:id="@+id/rb_power_requirement_high"
                                 style="@style/rg_rb_style_wrap"
-                                android:text="@string/power_requirement_high" />
+                                android:text="@string/power_requirement_high"
+                                tools:ignore="TouchTargetSizeCheck" />
 
                             <RadioButton
                                 android:id="@+id/rb_power_requirement_no_requirement"
                                 style="@style/rg_rb_style_wrap"
-                                android:text="@string/no_requirement" />
+                                android:text="@string/no_requirement"
+                                tools:ignore="TouchTargetSizeCheck" />
 
                         </RadioGroup>
 
@@ -495,25 +514,31 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/min_interval"
-                            android:textSize="10sp"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold"
                             tools:ignore="SmallSp" />
 
-                        <com.xuexiang.xui.widget.picker.XSeekBar
-                            android:id="@+id/xsb_min_interval"
+                        <EditText
+                            android:id="@+id/et_min_interval"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
-                            app:xsb_max="120"
-                            app:xsb_min="1" />
+                            android:digits="0123456789"
+                            android:importantForAutofill="no"
+                            android:inputType="number"
+                            android:paddingTop="0dp"
+                            android:paddingBottom="3dp"
+                            android:singleLine="true"
+                            android:textAlignment="center"
+                            tools:ignore="LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:text="@string/seconds"
-                            android:textSize="12sp"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold" />
 
                         <TextView
@@ -521,25 +546,31 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/config_margin_10dp"
                             android:text="@string/min_distance"
-                            android:textSize="10sp"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold"
                             tools:ignore="SmallSp" />
 
-                        <com.xuexiang.xui.widget.picker.XSeekBar
-                            android:id="@+id/xsb_min_distance"
+                        <EditText
+                            android:id="@+id/et_min_distance"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
-                            app:xsb_max="120"
-                            app:xsb_min="0" />
+                            android:digits="0123456789"
+                            android:importantForAutofill="no"
+                            android:inputType="number"
+                            android:paddingTop="0dp"
+                            android:paddingBottom="3dp"
+                            android:singleLine="true"
+                            android:textAlignment="center"
+                            tools:ignore="LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:text="@string/meter"
-                            android:textSize="12sp"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -571,7 +602,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/sms_command_tips"
-                        android:textSize="9sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
 
                     <com.xuexiang.xui.widget.edittext.ClearEditText
@@ -587,7 +618,8 @@
                     android:id="@+id/sb_enable_sms_command"
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -613,20 +645,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/load_app_list_tips"
-                        android:textSize="9sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="25dp"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        tools:ignore="TextSizeCheck">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/optional_type"
-                            android:textSize="10sp"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold"
                             tools:ignore="SmallSp" />
 
@@ -634,14 +667,15 @@
                             android:id="@+id/scb_load_user_app"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
-                            app:scb_color_checked="@color/colorPrimary" />
+                            app:scb_color_checked="@color/colorPrimary"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
                             android:text="@string/user_app"
-                            android:textSize="10sp"
+                            android:textSize="@dimen/text_size_small"
                             tools:ignore="SmallSp" />
 
                         <com.xuexiang.xui.widget.button.SmoothCheckBox
@@ -649,13 +683,14 @@
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_marginStart="5dp"
-                            app:scb_color_checked="@color/colorPrimary" />
+                            app:scb_color_checked="@color/colorPrimary"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/system_app"
-                            android:textSize="10sp"
+                            android:textSize="@dimen/text_size_small"
                             tools:ignore="SmallSp" />
 
                     </LinearLayout>
@@ -666,7 +701,8 @@
                     android:id="@+id/sb_enable_load_app_list"
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
 
             </LinearLayout>
 
@@ -691,7 +727,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/extra_app_hint"
                     android:inputType="textMultiLine"
-                    app:met_clearButton="true" />
+                    app:met_clearButton="true"
+                    tools:ignore="TextContrastCheck" />
 
                 <LinearLayout
                     android:id="@+id/layout_sp_app"
@@ -706,7 +743,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/choose_app"
-                        android:textSize="12sp"
+                        android:textSize="@dimen/text_size_small"
                         android:textStyle="bold" />
 
                     <com.xuexiang.xui.widget.spinner.editspinner.EditSpinner
@@ -726,6 +763,7 @@
                 style="@style/settingBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:baselineAligned="false"
                 android:paddingEnd="15dp"
                 tools:ignore="RtlSymmetry">
 
@@ -745,27 +783,39 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/filtering_duplicate_messages_tips"
-                        android:textSize="9sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
 
                 </LinearLayout>
 
-                <com.xuexiang.xui.widget.picker.XSeekBar
-                    android:id="@+id/xsb_duplicate_messages_limits"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginStart="5dp"
                     android:layout_weight="1"
-                    app:xsb_max="120"
-                    app:xsb_min="0" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/seconds"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                    <com.xuexiang.xui.widget.picker.XSeekBar
+                        android:id="@+id/xsb_duplicate_messages_limits"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="0dp"
+                        app:xsb_max="120"
+                        app:xsb_min="0"
+                        tools:ignore="NestedWeights" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/seconds"
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -779,7 +829,8 @@
                 <LinearLayout
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="TextSizeCheck">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -792,7 +843,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/silent_time_period_tips"
-                        android:textSize="9sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
 
                 </LinearLayout>
@@ -814,12 +865,12 @@
                     android:padding="5dp"
                     android:text="@string/select"
                     android:textColor="@color/white"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/text_size_small"
                     app:sb_color_unpressed="@color/colorPrimary"
                     app:sb_ripple_color="@color/white"
                     app:sb_ripple_duration="500"
                     app:sb_shape_type="rectangle"
-                    tools:ignore="SmallSp" />
+                    tools:ignore="SmallSp,TextContrastCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -843,7 +894,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="@string/keep_alive_tips"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/text_size_mini"
                     tools:ignore="SmallSp" />
 
             </LinearLayout>
@@ -870,7 +921,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/auto_startup"
-                        android:textSize="9sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
                 </LinearLayout>
 
@@ -878,7 +929,8 @@
                     android:id="@+id/sb_with_reboot"
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -905,7 +957,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/battery_setting_tips"
-                        android:textSize="9sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
                 </LinearLayout>
 
@@ -913,7 +965,8 @@
                     android:id="@+id/sb_battery_setting"
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -940,7 +993,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/enable_exclude_from_recents_tips"
-                        android:textSize="9sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
                 </LinearLayout>
 
@@ -948,7 +1001,8 @@
                     android:id="@+id/sb_exclude_from_recents"
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -974,7 +1028,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/enabe_cactus_tips"
-                        android:textSize="9sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
 
                     <LinearLayout
@@ -989,7 +1043,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/optional_components"
-                            android:textSize="10sp"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold"
                             tools:ignore="SmallSp" />
 
@@ -1003,7 +1057,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/play_silence_music"
-                            android:textSize="10sp"
+                            android:textSize="@dimen/text_size_small"
                             tools:ignore="SmallSp" />
 
                         <LinearLayout
@@ -1023,7 +1077,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/one_pixel_activity"
-                                android:textSize="10sp"
+                                android:textSize="@dimen/text_size_small"
                                 tools:ignore="SmallSp" />
 
                         </LinearLayout>
@@ -1036,7 +1090,8 @@
                     android:id="@+id/sb_enable_cactus"
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -1067,7 +1122,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/retry_interval_tips"
-                        android:textSize="9sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
                 </LinearLayout>
 
@@ -1080,14 +1135,15 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
-                            android:text="@string/retry"
-                            android:textSize="12sp"
+                            android:text="@string/retry_label"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold" />
 
                         <com.xuexiang.xui.widget.picker.XSeekBar
@@ -1096,6 +1152,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
+                            android:padding="0dp"
                             app:xsb_max="10"
                             app:xsb_min="0" />
 
@@ -1104,21 +1161,25 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:text="@string/times"
-                            android:textSize="12sp"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold" />
+
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/layout_delay_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
-                            android:text="@string/interval"
-                            android:textSize="12sp"
+                            android:text="@string/interval_label"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold" />
 
                         <com.xuexiang.xui.widget.picker.XSeekBar
@@ -1127,6 +1188,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
+                            android:padding="0dp"
                             app:xsb_max="60"
                             app:xsb_min="1" />
 
@@ -1135,21 +1197,23 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:text="@string/seconds"
-                            android:textSize="12sp"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold" />
+
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
-                            android:text="@string/timeout"
-                            android:textSize="12sp"
+                            android:text="@string/timeout_label"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold" />
 
                         <com.xuexiang.xui.widget.picker.XSeekBar
@@ -1158,6 +1222,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
+                            android:padding="0dp"
                             app:xsb_max="60"
                             app:xsb_min="1" />
 
@@ -1166,8 +1231,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:text="@string/seconds"
-                            android:textSize="12sp"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold" />
+
                     </LinearLayout>
 
                 </LinearLayout>
@@ -1194,7 +1260,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="@string/custom_settings_tips"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/text_size_mini"
                     tools:ignore="SmallSp" />
             </LinearLayout>
 
@@ -1227,7 +1293,7 @@
                     android:padding="5dp"
                     android:text="@string/refresh"
                     android:textColor="@color/white"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/text_size_small"
                     app:sb_color_unpressed="@color/colorPrimary"
                     app:sb_ripple_color="@color/white"
                     app:sb_ripple_duration="500"
@@ -1258,7 +1324,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/carrier_mobile"
-                        android:textSize="9sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
                 </LinearLayout>
 
@@ -1298,7 +1364,7 @@
                     android:padding="5dp"
                     android:text="@string/refresh"
                     android:textColor="@color/white"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/text_size_small"
                     app:sb_color_unpressed="@color/colorPrimary"
                     app:sb_ripple_color="@color/white"
                     app:sb_ripple_duration="500"
@@ -1329,7 +1395,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/carrier_mobile"
-                        android:textSize="9sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
                 </LinearLayout>
 
@@ -1369,7 +1435,7 @@
                     android:padding="5dp"
                     android:text="@string/refresh"
                     android:textColor="@color/white"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/text_size_small"
                     app:sb_color_unpressed="@color/colorPrimary"
                     app:sb_ripple_color="@color/white"
                     app:sb_ripple_duration="500"
@@ -1388,7 +1454,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/notify_content"
+                    android:text="@string/notify_content_label"
                     android:textStyle="bold" />
 
                 <com.xuexiang.xui.widget.edittext.ClearEditText
@@ -1424,7 +1490,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/enable_custom_templates_tips"
-                        android:textSize="9sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
                 </LinearLayout>
 
@@ -1461,7 +1527,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:text="@string/custom_template_tips"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
 
                 </LinearLayout>
@@ -1537,7 +1603,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/pure_client_mode_tips"
-                        android:textSize="9sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
                 </LinearLayout>
 
@@ -1572,7 +1638,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/pure_task_mode_tips"
-                        android:textSize="9sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
                 </LinearLayout>
 

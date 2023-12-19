@@ -21,11 +21,13 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_margin="10dp"
                 android:contentDescription="@string/api_contact_add"
-                app:srcCompat="@drawable/icon_api_contact_add" />
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/icon_api_contact_add"
+                tools:ignore="ImageContrastCheck" />
 
             <LinearLayout
                 style="@style/senderBarStyle"
@@ -47,7 +49,8 @@
                     app:met_clearButton="true"
                     app:met_errorMessage="@string/phone_numbers_error"
                     app:met_regexp="@string/phone_numbers_regex"
-                    app:met_validateOnFocusLost="true" />
+                    app:met_validateOnFocusLost="true"
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -68,7 +71,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/display_name_hint"
                     android:singleLine="true"
-                    app:met_clearButton="true" />
+                    app:met_clearButton="true"
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -89,7 +93,7 @@
             android:drawableStart="@drawable/ic_send_white"
             android:paddingStart="20dp"
             android:text="@string/send"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
     </LinearLayout>
 

@@ -298,3 +298,7 @@
 -dontwarn javax.lang.model.**
 -dontwarn javax.naming.**
 -dontwarn javax.naming.directory.**
+
+# This is generated automatically by the Android Gradle plugin.
+-dontwarn org.joda.convert.**
+-dontwarn org.slf4j.impl.**

@@ -15,6 +15,7 @@ import me.samlss.broccoli.Broccoli
  * @author xuexiang
  * @since 2021/1/9 4:52 PM
  */
+@Suppress("unused")
 abstract class BroccoliSimpleDelegateAdapter<T> : SimpleDelegateAdapter<T> {
     /**
      * 是否已经加载成功

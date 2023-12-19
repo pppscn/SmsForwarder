@@ -12,7 +12,6 @@ import com.idormy.sms.forwarder.database.entity.LogsAndRuleAndSender
 import com.idormy.sms.forwarder.databinding.AdapterLogsCardViewListItemBinding
 import com.xuexiang.xutil.data.DateUtils
 
-@Suppress("unused")
 class LogsPagingAdapter(private val itemClickListener: OnItemClickListener) : PagingDataAdapter<LogsAndRuleAndSender, MyViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

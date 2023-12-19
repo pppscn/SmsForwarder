@@ -13,7 +13,7 @@ import com.yanzhenjie.andserver.http.HttpMethod
 import com.yanzhenjie.andserver.http.HttpRequest
 import com.yanzhenjie.andserver.http.HttpResponse
 
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 @Interceptor
 class LoggerInterceptor : HandlerInterceptor {
 

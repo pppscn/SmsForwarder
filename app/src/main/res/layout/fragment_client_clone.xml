@@ -26,7 +26,7 @@
                 app:indicator_height="42dp"
                 app:indicator_line_height="2dp"
                 app:indicator_line_show="true"
-                app:indicator_textSize="14sp"
+                app:indicator_textSize="@dimen/text_size_medium"
                 app:indicator_width="0dp" />
 
             <LinearLayout
@@ -57,13 +57,14 @@
                             android:background="@drawable/send_btn"
                             android:text="@string/push"
                             android:textColor="@android:color/white"
-                            android:textSize="30sp" />
+                            android:textSize="30sp"
+                            tools:ignore="TextContrastCheck" />
 
                         <TextView
                             android:id="@+id/tv_send"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10sp"
+                            android:layout_marginTop="10dp"
                             android:text="@string/old_mobile_phone" />
 
                     </LinearLayout>
@@ -97,7 +98,7 @@
                             android:id="@+id/tv_receive"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10sp"
+                            android:layout_marginTop="10dp"
                             android:text="@string/new_mobile_phone" />
 
                     </LinearLayout>
@@ -116,7 +117,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:text="@string/operating_instruction"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
 
                 </LinearLayout>
@@ -158,7 +159,7 @@
                             android:id="@+id/tv_export"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10sp"
+                            android:layout_marginTop="10dp"
                             android:text="@string/old_mobile_phone" />
 
                     </LinearLayout>
@@ -192,7 +193,7 @@
                             android:id="@+id/tv_import"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10sp"
+                            android:layout_marginTop="10dp"
                             android:text="@string/new_mobile_phone" />
 
                     </LinearLayout>
@@ -218,7 +219,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="11sp"
+                        android:textSize="@dimen/text_size_small"
                         android:textStyle="bold" />
 
                     <TextView
@@ -226,7 +227,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:text="@string/operating_instruction_offline"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
 
                 </LinearLayout>

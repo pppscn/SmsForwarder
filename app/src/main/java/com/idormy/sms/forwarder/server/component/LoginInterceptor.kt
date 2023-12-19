@@ -9,7 +9,6 @@ import com.yanzhenjie.andserver.http.HttpRequest
 import com.yanzhenjie.andserver.http.HttpResponse
 
 //@Interceptor
-@Suppress("unused")
 class LoginInterceptor : HandlerInterceptor {
     override fun onIntercept(
         request: HttpRequest,

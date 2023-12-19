@@ -53,16 +53,14 @@ import java.util.*
 
 
 @Page(name = "自动任务·编辑器")
-@Suppress("PrivatePropertyName", "unused", "DEPRECATION", "UNUSED_PARAMETER")
+@Suppress("PrivatePropertyName", "DEPRECATION", "UNUSED_PARAMETER", "EmptyMethod", "unused")
 class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClickListener, RecyclerViewHolder.OnItemClickListener<PageInfo> {
 
     private val TAG: String = TasksEditFragment::class.java.simpleName
     private val that = this
     private var titleBar: TitleBar? = null
     private val viewModel by viewModels<TaskViewModel> { BaseViewModelFactory(context) }
-    private val dialog: BottomSheetDialog by lazy {
-        BottomSheetDialog(requireContext())
-    }
+    private val dialog: BottomSheetDialog by lazy { BottomSheetDialog(requireContext()) }
 
     @JvmField
     @AutoWired(name = KEY_TASK_ID)
@@ -170,20 +168,20 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
         try {
             when (v.id) {
                 R.id.layout_add_condition -> {
-                    val view: View = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_task_condition_bottom_sheet, null)
-                    val tvTitle: TextView = view.findViewById(R.id.tv_title)
+                    val bottomSheet: View = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_task_condition_bottom_sheet, null)
+                    val tvTitle: TextView = bottomSheet.findViewById(R.id.tv_title)
                     tvTitle.text = if (itemListConditions.isEmpty()) getString(R.string.select_task_trigger) else getString(R.string.select_task_condition)
 
-                    val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
+                    val recyclerView: RecyclerView = bottomSheet.findViewById(R.id.recyclerView)
                     WidgetUtils.initGridRecyclerView(recyclerView, 4, DensityUtils.dp2px(1f))
                     val widgetItemAdapter = WidgetItemAdapter(TASK_CONDITION_FRAGMENT_LIST)
                     widgetItemAdapter.setOnItemClickListener(that)
                     recyclerView.adapter = widgetItemAdapter
 
-                    val bottomSheetCloseButton: XUIAlphaTextView = view.findViewById(R.id.bottom_sheet_close_button)
+                    val bottomSheetCloseButton: XUIAlphaTextView = bottomSheet.findViewById(R.id.bottom_sheet_close_button)
                     bottomSheetCloseButton.setOnClickListener { dialog.dismiss() }
 
-                    dialog.setContentView(view)
+                    dialog.setContentView(bottomSheet)
                     dialog.setCancelable(true)
                     dialog.setCanceledOnTouchOutside(true)
                     dialog.show()
@@ -191,18 +189,18 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                 }
 
                 R.id.layout_add_action -> {
-                    val view: View = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_task_action_bottom_sheet, null)
-                    val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
+                    val bottomSheet: View = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_task_action_bottom_sheet, null)
+                    val recyclerView: RecyclerView = bottomSheet.findViewById(R.id.recyclerView)
 
                     WidgetUtils.initGridRecyclerView(recyclerView, 4, DensityUtils.dp2px(1f))
                     val widgetItemAdapter = WidgetItemAdapter(TASK_ACTION_FRAGMENT_LIST)
                     widgetItemAdapter.setOnItemClickListener(that)
                     recyclerView.adapter = widgetItemAdapter
 
-                    val bottomSheetCloseButton: XUIAlphaTextView = view.findViewById(R.id.bottom_sheet_close_button)
+                    val bottomSheetCloseButton: XUIAlphaTextView = bottomSheet.findViewById(R.id.bottom_sheet_close_button)
                     bottomSheetCloseButton.setOnClickListener { dialog.dismiss() }
 
-                    dialog.setContentView(view)
+                    dialog.setContentView(bottomSheet)
                     dialog.setCancelable(true)
                     dialog.setCanceledOnTouchOutside(true)
                     dialog.show()

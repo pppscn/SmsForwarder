@@ -94,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:text="@string/server_chan_channel_tips"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
 
                 </LinearLayout>
@@ -132,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:text="@string/server_chan_openid_tips"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
 
                 </LinearLayout>
@@ -161,31 +161,34 @@
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_del"
             style="@style/SuperButton.Gray.Icon"
-            android:drawableStart="@drawable/icon_delete"
-            android:paddingStart="15dp"
-            android:text="@string/del"
-            android:textSize="11sp"
-            tools:ignore="RtlSymmetry" />
+            android:drawableStart="@drawable/ic_delete"
+            android:paddingStart="10dp"
+            android:text="@string/del_btn"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/text_size_medium"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_save"
             style="@style/SuperButton.Blue.Icon"
             android:layout_marginStart="10dp"
-            android:drawableStart="@drawable/icon_save"
-            android:paddingStart="15dp"
-            android:text="@string/save"
-            android:textSize="11sp"
-            tools:ignore="RtlSymmetry" />
+            android:drawableStart="@drawable/ic_save"
+            android:paddingStart="13dp"
+            android:text="@string/save_btn"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/text_size_medium"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_test"
             style="@style/SuperButton.Green.Icon"
             android:layout_marginStart="10dp"
-            android:drawableStart="@drawable/icon_test"
-            android:paddingStart="15dp"
-            android:text="@string/test"
-            android:textSize="11sp"
-            tools:ignore="RtlSymmetry" />
+            android:drawableStart="@drawable/ic_test"
+            android:paddingStart="10dp"
+            android:text="@string/test_btn"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/text_size_medium"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
     </LinearLayout>
 

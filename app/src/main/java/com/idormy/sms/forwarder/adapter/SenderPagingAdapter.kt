@@ -11,6 +11,7 @@ import com.idormy.sms.forwarder.adapter.SenderPagingAdapter.MyViewHolder
 import com.idormy.sms.forwarder.database.entity.Sender
 import com.idormy.sms.forwarder.databinding.AdapterSendersCardViewListItemBinding
 
+@Suppress("EmptyMethod", "unused")
 class SenderPagingAdapter(private val itemClickListener: OnItemClickListener) : PagingDataAdapter<Sender, MyViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

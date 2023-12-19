@@ -5,10 +5,14 @@ import android.util.Log
 import androidx.work.Configuration
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.BuildConfig
-import com.idormy.sms.forwarder.database.repository.*
+import com.idormy.sms.forwarder.database.repository.FrpcRepository
+import com.idormy.sms.forwarder.database.repository.LogsRepository
+import com.idormy.sms.forwarder.database.repository.MsgRepository
+import com.idormy.sms.forwarder.database.repository.RuleRepository
+import com.idormy.sms.forwarder.database.repository.SenderRepository
+import com.idormy.sms.forwarder.database.repository.TaskRepository
 import kotlinx.coroutines.launch
 
-@Suppress("unused")
 object Core : Configuration.Provider {
     lateinit var app: Application
     val frpc: FrpcRepository by lazy { (app as App).frpcRepository }

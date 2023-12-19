@@ -11,7 +11,6 @@ import com.just.agentweb.core.AgentWeb
  * @author xuexiang
  * @since 2019/5/28 10:22
  */
-@Suppress("unused")
 abstract class BaseWebViewFragment : BaseFragment<ViewBinding?>() {
     private var mAgentWeb: AgentWeb? = null
 

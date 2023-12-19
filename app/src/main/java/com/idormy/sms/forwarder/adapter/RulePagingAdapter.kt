@@ -16,6 +16,7 @@ import com.idormy.sms.forwarder.adapter.RulePagingAdapter.MyViewHolder
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.databinding.AdapterRulesCardViewListItemBinding
 
+@Suppress("EmptyMethod", "unused")
 class RulePagingAdapter(private val itemClickListener: OnItemClickListener) : PagingDataAdapter<Rule, MyViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

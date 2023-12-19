@@ -11,7 +11,7 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.webview.WebViewInterceptDialog.Companion.show
 import com.just.agentweb.core.client.MiddlewareWebClientBase
 import com.xuexiang.xui.utils.ResUtils
-import java.util.*
+import java.util.Locale
 
 /**
  * 【网络请求、加载】
@@ -47,7 +47,7 @@ import java.util.*
  *
  * 这里主要是做去广告的工作
  */
-@Suppress("UNUSED_PARAMETER", "DEPRECATION", "OVERRIDE_DEPRECATION")
+@Suppress("UNUSED_PARAMETER", "DEPRECATION", "OVERRIDE_DEPRECATION", "unused")
 open class MiddlewareWebViewClient : MiddlewareWebClientBase() {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {

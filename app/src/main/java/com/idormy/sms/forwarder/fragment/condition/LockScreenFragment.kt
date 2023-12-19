@@ -23,7 +23,7 @@ import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xui.widget.actionbar.TitleBar
 
 @Page(name = "LockScreen")
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "SameParameterValue")
 class LockScreenFragment : BaseFragment<FragmentTasksConditionLockScreenBinding?>(), View.OnClickListener {
 
     private val TAG: String = LockScreenFragment::class.java.simpleName

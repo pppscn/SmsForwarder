@@ -18,7 +18,7 @@ import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
-@Suppress("unused", "RegExpRedundantEscape")
+@Suppress("RegExpRedundantEscape")
 class BarkUtils {
     companion object {
 

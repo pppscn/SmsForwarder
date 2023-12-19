@@ -134,9 +134,6 @@ class CallQueryFragment : BaseFragment<FragmentClientCallQueryBinding?>() {
                     .addPlaceholder(PlaceholderHelper.getParameter(holder.findView(R.id.iv_reply)))
             }
 
-            override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
-                TODO("Not yet implemented")
-            }
         }
 
         val delegateAdapter = DelegateAdapter(virtualLayoutManager)

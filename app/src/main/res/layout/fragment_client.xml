@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="@string/server_settings_tips2"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/text_size_mini"
                     tools:ignore="SmallSp" />
 
             </LinearLayout>
@@ -88,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:text="@string/safety_measures_tips"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
 
                 </LinearLayout>
@@ -150,7 +150,7 @@
                     android:maxLines="5"
                     android:minLines="1"
                     android:scrollbars="vertical"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/text_size_mini"
                     tools:ignore="LabelFor,SmallSp" />
 
             </LinearLayout>
@@ -217,7 +217,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="@string/click_test_button_first"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/text_size_mini"
                     tools:ignore="SmallSp" />
 
             </LinearLayout>

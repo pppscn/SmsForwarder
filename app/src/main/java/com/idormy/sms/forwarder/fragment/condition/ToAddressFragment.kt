@@ -31,7 +31,7 @@ import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 
 @Page(name = "ToAddress")
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "SameParameterValue")
 class ToAddressFragment : BaseFragment<FragmentTasksConditionToAddressBinding?>(), View.OnClickListener {
 
     private val TAG: String = ToAddressFragment::class.java.simpleName
@@ -78,17 +78,18 @@ class ToAddressFragment : BaseFragment<FragmentTasksConditionToAddressBinding?>(
             }
         }
 
-        Log.d(TAG, "initViews eventData:$eventData")
+        var settingVo = LocationSetting(getString(R.string.task_leave_address_tips), "to")
         if (eventData != null) {
-            val settingVo = Gson().fromJson(eventData, LocationSetting::class.java)
-            Log.d(TAG, "initViews settingVo:$settingVo")
-            binding!!.tvDescription.text = settingVo.description
-            binding!!.etLongitude.setText(settingVo.longitude.toString())
-            binding!!.etLatitude.setText(settingVo.latitude.toString())
-            binding!!.etDistance.setText(settingVo.distance.toString())
-            binding!!.etAddress.setText(settingVo.address)
-            binding!!.rgCalcType.check(settingVo.getCalcTypeCheckId())
+            Log.d(TAG, "initViews eventData:$eventData")
+            settingVo = Gson().fromJson(eventData, LocationSetting::class.java)
         }
+        Log.d(TAG, "initViews settingVo:$settingVo")
+        binding!!.tvDescription.text = settingVo.description
+        binding!!.etLongitude.setText(settingVo.longitude.toString())
+        binding!!.etLatitude.setText(settingVo.latitude.toString())
+        binding!!.etDistance.setText(settingVo.distance.toString())
+        binding!!.etAddress.setText(settingVo.address)
+        binding!!.rgCalcType.check(settingVo.getCalcTypeCheckId())
     }
 
     @SuppressLint("SetTextI18n")

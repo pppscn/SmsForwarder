@@ -74,8 +74,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         /**
          * @return 当前app是否是调试开发模式
          */
-        val isDebug: Boolean
-            get() = BuildConfig.DEBUG
+        val isDebug: Boolean = BuildConfig.DEBUG
 
         //Cactus相关
         val mEndDate = MutableLiveData<String>() //结束时间

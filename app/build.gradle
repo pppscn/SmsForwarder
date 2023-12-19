@@ -306,6 +306,11 @@ dependencies {
     implementation 'gatewayapps.crondroid:crondroid:1.0.0'
     //Java Parser For Cron Expressions: https://github.com/grahamar/cron-parser
     implementation 'net.redhogs.cronparser:cron-parser-core:3.5'
+
+    // 侧边栏菜单：https://github.com/yarolegovich/SlidingRootNav
+    implementation 'com.yarolegovich:sliding-root-nav:1.1.1'
+    // TabBar：https://github.com/xuexiangjys/JPTabBar
+    // implementation 'com.github.xuexiangjys:JPTabBar:1.0.1'
 }
 //自动添加X-Library依赖
 apply from: 'x-library.gradle'

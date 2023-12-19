@@ -56,7 +56,7 @@
             android:gravity="start"
             android:maxEms="8"
             android:maxLines="3"
-            android:textSize="11sp" />
+            android:textSize="@dimen/text_size_small" />
 
         <View
             android:layout_width="match_parent"

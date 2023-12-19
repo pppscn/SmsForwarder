@@ -9,6 +9,7 @@ import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder
  * @author xuexiang
  * @since 2020/3/20 12:44 AM
  */
+@Suppress("unused")
 abstract class BaseDelegateAdapter<T> : XDelegateAdapter<T, RecyclerViewHolder> {
     constructor() : super()
     constructor(list: Collection<T>?) : super(list)

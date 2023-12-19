@@ -31,7 +31,7 @@ import com.xuexiang.xui.utils.WidgetUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xutil.XUtil
 
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 @Page(name = "应用列表")
 class AppListFragment : BaseFragment<FragmentAppListBinding?>() {
 

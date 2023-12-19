@@ -19,10 +19,12 @@
             android:paddingBottom="5dp">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
+                android:layout_width="240dp"
+                android:layout_height="120dp"
                 android:contentDescription="@string/logo"
-                app:srcCompat="@drawable/ic_splash_app_logo" />
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_splash_app_logo"
+                tools:ignore="ImageContrastCheck" />
 
             <TextView
                 android:id="@+id/tv_slogan"
@@ -60,7 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/auto_check"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
 
                     <com.xuexiang.xui.widget.button.CountDownButton
@@ -73,7 +75,7 @@
                         android:minHeight="0dp"
                         android:padding="5dp"
                         android:text="@string/check_update"
-                        android:textSize="11sp"
+                        android:textSize="@dimen/text_size_small"
                         app:cdbt_countDown="3000"
                         app:cdbt_enableCountDown="true" />
 
@@ -98,7 +100,7 @@
                     android:minHeight="0dp"
                     android:padding="5dp"
                     android:text="@string/clear_cache"
-                    android:textSize="11sp"
+                    android:textSize="@dimen/text_size_small"
                     app:cdbt_countDown="1000"
                     app:cdbt_enableCountDown="true" />
 
@@ -122,7 +124,7 @@
                     android:minHeight="0dp"
                     android:padding="5dp"
                     android:text="@string/delete_frpc"
-                    android:textSize="11sp"
+                    android:textSize="@dimen/text_size_small"
                     app:cdbt_countDown="1000"
                     app:cdbt_enableCountDown="true" />
 
@@ -166,7 +168,7 @@
                     android:minHeight="0dp"
                     android:padding="5dp"
                     android:text="@string/about_item_github"
-                    android:textSize="11sp"
+                    android:textSize="@dimen/text_size_small"
                     app:cdbt_countDown="500"
                     app:cdbt_enableCountDown="true" />
 
@@ -182,7 +184,7 @@
                     android:minHeight="0dp"
                     android:padding="5dp"
                     android:text="@string/about_item_gitee"
-                    android:textSize="11sp"
+                    android:textSize="@dimen/text_size_small"
                     app:cdbt_countDown="500"
                     app:cdbt_enableCountDown="true" />
 

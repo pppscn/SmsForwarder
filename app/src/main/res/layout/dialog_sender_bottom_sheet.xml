@@ -38,6 +38,6 @@
         android:gravity="center"
         android:text="@string/bottom_sheet_close"
         android:textColor="#49505A"
-        android:textSize="14sp" />
+        android:textSize="@dimen/text_size_medium" />
 
 </LinearLayout>

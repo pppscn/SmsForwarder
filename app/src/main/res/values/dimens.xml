@@ -70,4 +70,10 @@
     <dimen name="view_dimen_64">23.269989dip</dimen>
     <dimen name="view_dimen_68">24.72998dip</dimen>
     <dimen name="view_dimen_100">36.359985dip</dimen>
+
+    <dimen name="text_size_large">21sp</dimen>
+    <dimen name="text_size_big">18sp</dimen>
+    <dimen name="text_size_medium">15sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_mini">9sp</dimen>
 </resources>

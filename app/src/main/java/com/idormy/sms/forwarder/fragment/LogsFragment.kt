@@ -11,8 +11,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 import com.alibaba.android.vlayout.VirtualLayoutManager
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.adapter.MsgPagingAdapter
 import com.idormy.sms.forwarder.core.BaseFragment
+import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.database.entity.LogsDetail
 import com.idormy.sms.forwarder.database.entity.MsgAndLogs
 import com.idormy.sms.forwarder.database.entity.Rule
@@ -25,12 +27,17 @@ import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xutil.data.DateUtils
+import io.reactivex.CompletableObserver
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -41,6 +48,7 @@ import java.util.*
 class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnItemClickListener {
 
     private val TAG: String = LogsFragment::class.java.simpleName
+    private var titleBar: TitleBar? = null
     private var adapter = MsgPagingAdapter(this)
     private val viewModel by viewModels<MsgViewModel> { BaseViewModelFactory(context) }
     private var currentType: String = "sms"
@@ -52,11 +60,49 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
         return FragmentLogsBinding.inflate(inflater, container, false)
     }
 
-    /**
-     * @return 返回为 null意为不需要导航栏
-     */
     override fun initTitle(): TitleBar? {
-        return null
+        titleBar = super.initTitle()!!.setImmersive(false)
+        titleBar!!.setLeftImageResource(R.drawable.ic_action_menu)
+        titleBar!!.setTitle(R.string.menu_logs)
+        titleBar!!.setLeftClickListener { getContainer()?.openMenu() }
+        /*titleBar!!.addAction(object : TitleBar.ImageAction(R.drawable.ic_menu_notifications_white) {
+            @SingleClick
+            override fun performAction(view: View) {
+                showTipsForce(requireContext())
+            }
+        })*/
+        titleBar!!.addAction(object : TitleBar.ImageAction(R.drawable.ic_delete) {
+            @SingleClick
+            override fun performAction(view: View) {
+                MaterialDialog.Builder(requireContext())
+                    .content(R.string.delete_type_log_tips)
+                    .positiveText(R.string.lab_yes)
+                    .negativeText(R.string.lab_no)
+                    .onPositive { _: MaterialDialog?, _: DialogAction? ->
+                        AppDatabase.getInstance(requireContext())
+                            .msgDao()
+                            .deleteAll(currentType)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(object : CompletableObserver {
+                                override fun onSubscribe(d: Disposable) {}
+                                override fun onComplete() {
+                                    XToastUtils.success(R.string.delete_type_log_toast)
+                                }
+
+                                override fun onError(e: Throwable) {
+                                    e.message?.let { XToastUtils.error(it) }
+                                }
+                            })
+                    }
+                    .show()
+            }
+        })
+        return titleBar
+    }
+
+    private fun getContainer(): MainActivity? {
+        return activity as MainActivity?
     }
 
     /**

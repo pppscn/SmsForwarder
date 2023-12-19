@@ -34,10 +34,6 @@
         <item name="xui_config_splash_company_logo">@drawable/ic_splash_company_logo</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
     <!--DialogTheme，用于将Activity作为Dialog的主题-->
     <style name="DialogTheme" parent="XUITheme.Phone">
         <!--设置dialog的背景，此处为系统给定的透明值-->
