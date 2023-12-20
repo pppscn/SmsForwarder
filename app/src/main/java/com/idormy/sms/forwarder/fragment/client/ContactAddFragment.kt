@@ -24,7 +24,7 @@ import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xutil.data.ConvertTools
 
-@Suppress("PrivatePropertyName", "DEPRECATION")
+@Suppress("PrivatePropertyName")
 @Page(name = "远程加话簿")
 class ContactAddFragment : BaseFragment<FragmentClientContactAddBinding?>(), View.OnClickListener {
 

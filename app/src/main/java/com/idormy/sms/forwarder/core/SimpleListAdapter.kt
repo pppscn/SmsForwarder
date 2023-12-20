@@ -13,7 +13,6 @@ import com.xuexiang.xutil.common.StringUtils
  * @author xuexiang
  * @since 2018/12/19 上午12:19
  */
-@Suppress("unused")
 class SimpleListAdapter(context: Context?, data: List<Map<String?, String?>?>?) :
     BaseListAdapter<Map<String?, String?>, SimpleListAdapter.ViewHolder>(context, data) {
     override fun newViewHolder(convertView: View): ViewHolder {

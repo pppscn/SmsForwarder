@@ -238,6 +238,7 @@ const val TASK_ACTION_SENDSMS = 2000
 const val TASK_ACTION_NOTIFICATION = 2001
 const val TASK_ACTION_FRPC = 2002
 const val TASK_ACTION_HTTPSERVER = 2003
+const val TASK_ACTION_CLEANER = 2004
 
 const val SP_BATTERY_INFO = "battery_info"
 const val SP_BATTERY_STATUS = "battery_status"

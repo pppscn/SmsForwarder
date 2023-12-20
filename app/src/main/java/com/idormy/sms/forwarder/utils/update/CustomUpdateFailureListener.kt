@@ -13,7 +13,6 @@ import com.xuexiang.xutil.resource.ResUtils.getString
  * @author xuexiang
  * @since 2019/4/15 上午12:01
  */
-@Suppress("DEPRECATION")
 class CustomUpdateFailureListener @JvmOverloads constructor(
     /**
      * 是否需要错误提示

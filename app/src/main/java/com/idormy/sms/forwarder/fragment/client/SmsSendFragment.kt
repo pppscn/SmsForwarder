@@ -25,7 +25,7 @@ import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xutil.data.ConvertTools
 
-@Suppress("PrivatePropertyName", "DEPRECATION")
+@Suppress("PrivatePropertyName")
 @Page(name = "远程发短信")
 class SmsSendFragment : BaseFragment<FragmentClientSmsSendBinding?>(), View.OnClickListener {
 

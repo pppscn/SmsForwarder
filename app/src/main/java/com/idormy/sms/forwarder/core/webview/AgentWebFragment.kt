@@ -11,8 +11,18 @@ import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
-import android.view.*
-import android.webkit.*
+import android.view.Gravity
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.webkit.DownloadListener
+import android.webkit.WebChromeClient
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -46,7 +56,6 @@ import com.xuexiang.xutil.net.JsonUtil
  */
 @Suppress(
     "unused",
-    "MemberVisibilityCanBePrivate",
     "ProtectedInFinal",
     "NAME_SHADOWING",
     "UNUSED_PARAMETER",
@@ -147,6 +156,7 @@ class AgentWebFragment : Fragment(), FragmentKeyDown {
                 if (!mAgentWeb!!.back()) {
                     this.requireActivity().finish()
                 }
+
             R.id.iv_finish -> this.requireActivity().finish()
             R.id.iv_more -> showPoPup(v)
             else -> {}
@@ -459,24 +469,28 @@ class AgentWebFragment : Fragment(), FragmentKeyDown {
                 }
                 true
             }
+
             R.id.copy -> {
                 if (mAgentWeb != null) {
                     mAgentWeb!!.webCreator.webView.url?.let { toCopy(context, it) }
                 }
                 true
             }
+
             R.id.default_browser -> {
                 if (mAgentWeb != null) {
                     mAgentWeb!!.webCreator.webView.url?.let { openBrowser(it) }
                 }
                 true
             }
+
             R.id.share -> {
                 if (mAgentWeb != null) {
                     mAgentWeb!!.webCreator.webView.url?.let { shareWebUrl(it) }
                 }
                 true
             }
+
             else -> false
         }
     }

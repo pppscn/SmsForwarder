@@ -43,7 +43,7 @@ import java.util.regex.Pattern
 /**
  * 常用工具类
  */
-@Suppress("RegExpRedundantEscape", "unused", "RegExpUnnecessaryNonCapturingGroup", "DEPRECATION")
+@Suppress("RegExpRedundantEscape", "unused", "RegExpUnnecessaryNonCapturingGroup")
 class CommonUtils private constructor() {
     companion object {
         /**

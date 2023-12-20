@@ -1,7 +1,13 @@
 package com.idormy.sms.forwarder.database.dao
 
 import androidx.paging.PagingSource
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
+import androidx.room.Update
 import com.idormy.sms.forwarder.database.entity.Logs
 import com.idormy.sms.forwarder.database.entity.LogsAndRuleAndSender
 import io.reactivex.Completable
@@ -24,9 +30,6 @@ interface LogsDao {
 
     @Query("DELETE FROM Logs")
     fun deleteAll()
-
-    @Query("DELETE FROM Logs where time<:time")
-    fun deleteTimeAgo(time: Long)
 
     @Update
     fun update(logs: Logs): Completable

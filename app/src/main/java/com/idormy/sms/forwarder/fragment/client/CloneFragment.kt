@@ -34,7 +34,6 @@ import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
-import com.xuexiang.xutil.app.AppUtils
 import com.xuexiang.xutil.data.ConvertTools
 import com.xuexiang.xutil.file.FileIOUtils
 import com.xuexiang.xutil.file.FileUtils

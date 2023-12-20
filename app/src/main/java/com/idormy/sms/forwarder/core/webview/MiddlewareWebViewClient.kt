@@ -47,7 +47,7 @@ import java.util.Locale
  *
  * 这里主要是做去广告的工作
  */
-@Suppress("UNUSED_PARAMETER", "DEPRECATION", "OVERRIDE_DEPRECATION", "unused")
+@Suppress("UNUSED_PARAMETER", "DEPRECATION", "OVERRIDE_DEPRECATION")
 open class MiddlewareWebViewClient : MiddlewareWebClientBase() {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {

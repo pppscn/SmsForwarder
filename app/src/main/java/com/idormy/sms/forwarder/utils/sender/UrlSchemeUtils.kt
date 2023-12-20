@@ -7,10 +7,10 @@ import android.util.Log
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.UrlSchemeSetting
+import com.idormy.sms.forwarder.utils.AppUtils
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.xuexiang.xutil.XUtil
-import com.xuexiang.xutil.app.AppUtils
 import java.net.URLEncoder
 import java.text.SimpleDateFormat
 import java.util.*

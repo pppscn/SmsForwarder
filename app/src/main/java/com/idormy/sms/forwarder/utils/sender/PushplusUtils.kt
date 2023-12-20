@@ -16,7 +16,6 @@ import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
 import com.xuexiang.xutil.resource.ResUtils.getString
 
-@Suppress("DEPRECATION")
 class PushplusUtils private constructor() {
     companion object {
 

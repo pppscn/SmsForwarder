@@ -22,7 +22,7 @@ import com.idormy.sms.forwarder.utils.TaskWorker
 import com.idormy.sms.forwarder.utils.task.TaskUtils
 import com.idormy.sms.forwarder.workers.NetworkWorker
 
-@Suppress("PrivatePropertyName", "DEPRECATION", "UNUSED_PARAMETER", "unused")
+@Suppress("PrivatePropertyName", "DEPRECATION", "UNUSED_PARAMETER")
 class NetworkChangeReceiver : BroadcastReceiver() {
 
     private val TAG: String = NetworkChangeReceiver::class.java.simpleName

@@ -5,6 +5,7 @@ import android.text.TextUtils
 import android.util.Log
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.utils.AppUtils
 import com.idormy.sms.forwarder.utils.BatteryUtils
 import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
@@ -12,7 +13,6 @@ import com.idormy.sms.forwarder.utils.SettingUtils.Companion.enableSmsTemplate
 import com.idormy.sms.forwarder.utils.SettingUtils.Companion.extraDeviceMark
 import com.idormy.sms.forwarder.utils.SettingUtils.Companion.smsTemplate
 import com.idormy.sms.forwarder.utils.task.TaskUtils
-import com.xuexiang.xutil.app.AppUtils
 import com.xuexiang.xutil.resource.ResUtils.getString
 import java.io.Serializable
 import java.text.SimpleDateFormat

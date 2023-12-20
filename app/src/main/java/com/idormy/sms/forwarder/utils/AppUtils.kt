@@ -49,13 +49,35 @@ object AppUtils {
         return appsInfo
     }
 
-    fun getAppVersionName(): String? {
+    fun getAppVersionCode(): Int {
+        return getAppVersionCode(App.context.packageName)
+    }
+
+    private fun getAppVersionCode(packageName: String?): Int {
+        if (packageName.isNullOrBlank()) {
+            return -1
+        }
+        return try {
+            val pm: PackageManager = App.context.packageManager
+            val pi: PackageInfo = pm.getPackageInfo(packageName, 0)
+            pi.versionCode
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+            -1
+        }
+    }
+
+    fun getAppPackageName(): String {
+        return App.context.packageName
+    }
+
+    fun getAppVersionName(): String {
         return getAppVersionName(App.context.packageName)
     }
 
-    fun getAppVersionName(packageName: String): String? {
+    private fun getAppVersionName(packageName: String): String {
         if (packageName.isBlank()) {
-            return null
+            return ""
         }
         return try {
             val pm: PackageManager = App.context.packageManager
@@ -63,7 +85,7 @@ object AppUtils {
             pi.versionName
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
-            null
+            ""
         }
     }
 

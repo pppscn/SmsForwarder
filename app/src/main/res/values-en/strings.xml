@@ -1139,7 +1139,7 @@
     <string name="delete_task_tips">Are you sure to delete this task?</string>
     <string name="delete_task_toast">The task has deleted.</string>
     <string name="add_condition">Add Condition</string>
-    <string name="add_condition_tips" tools:ignore="StringFormatCount">Example: Below 20% battery</string>
+    <string name="add_condition_tips" tools:ignore="StringFormatCount">Example: battery level below 20%</string>
     <string name="add_condition_continue">Continue to add condition</string>
     <string name="add_action">Add Action</string>
     <string name="add_action_tips">Example: Disable all forwarding</string>

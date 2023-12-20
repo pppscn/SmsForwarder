@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.TaskSetting
 
-@Suppress("DEPRECATION", "unused")
+@Suppress("DEPRECATION")
 class TaskSettingAdapter(
     val itemList: MutableList<TaskSetting>,
     private val editClickListener: (Int) -> Unit,

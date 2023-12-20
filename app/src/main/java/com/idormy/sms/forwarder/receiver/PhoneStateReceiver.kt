@@ -8,7 +8,7 @@ import android.util.Log
 import com.idormy.sms.forwarder.utils.SettingUtils
 import java.util.Date
 
-@Suppress("DEPRECATION", "unused")
+@Suppress("DEPRECATION")
 abstract class PhoneStateReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {

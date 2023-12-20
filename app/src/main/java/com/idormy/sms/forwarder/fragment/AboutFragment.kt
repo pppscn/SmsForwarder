@@ -10,6 +10,7 @@ import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.core.webview.AgentWebActivity
 import com.idormy.sms.forwarder.databinding.FragmentAboutBinding
+import com.idormy.sms.forwarder.utils.AppUtils
 import com.idormy.sms.forwarder.utils.CacheUtils
 import com.idormy.sms.forwarder.utils.CommonUtils.Companion.gotoProtocol
 import com.idormy.sms.forwarder.utils.CommonUtils.Companion.previewMarkdown
@@ -25,7 +26,6 @@ import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-import com.xuexiang.xutil.app.AppUtils
 import com.xuexiang.xutil.file.FileUtils
 import frpclib.Frpclib
 import java.io.File

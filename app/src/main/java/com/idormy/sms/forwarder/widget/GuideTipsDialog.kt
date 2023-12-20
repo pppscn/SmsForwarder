@@ -10,13 +10,13 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.http.api.ApiService.IGetService
 import com.idormy.sms.forwarder.core.http.callback.NoTipCallBack
 import com.idormy.sms.forwarder.core.http.entity.TipInfo
+import com.idormy.sms.forwarder.utils.AppUtils
 import com.idormy.sms.forwarder.utils.SharedPreference
 import com.xuexiang.constant.TimeConstants
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xui.widget.dialog.BaseDialog
-import com.xuexiang.xutil.app.AppUtils
 import com.zzhoujay.richtext.RichText
 
 /**

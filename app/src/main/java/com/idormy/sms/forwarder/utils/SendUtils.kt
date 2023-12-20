@@ -25,7 +25,6 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 
-@Suppress("DEPRECATION")
 object SendUtils {
     private const val TAG = "SendUtils"
 

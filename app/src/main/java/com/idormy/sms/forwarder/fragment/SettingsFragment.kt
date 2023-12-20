@@ -40,6 +40,7 @@ import com.idormy.sms.forwarder.receiver.BootCompletedReceiver
 import com.idormy.sms.forwarder.service.ForegroundService
 import com.idormy.sms.forwarder.service.LocationService
 import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.AppUtils.getAppPackageName
 import com.idormy.sms.forwarder.widget.GuideTipsDialog
 import com.idormy.sms.forwarder.workers.LoadAppListWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
@@ -55,7 +56,6 @@ import com.xuexiang.xui.widget.picker.widget.builder.OptionsPickerBuilder
 import com.xuexiang.xui.widget.picker.widget.listener.OnOptionsSelectListener
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.XUtil.getPackageManager
-import com.xuexiang.xutil.app.AppUtils.getAppPackageName
 import kotlinx.coroutines.*
 import java.util.*
 

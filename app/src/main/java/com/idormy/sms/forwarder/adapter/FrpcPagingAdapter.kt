@@ -15,7 +15,7 @@ import com.idormy.sms.forwarder.databinding.AdapterFrpcsCardViewListItemBinding
 import com.xuexiang.xutil.resource.ResUtils.getColors
 import frpclib.Frpclib
 
-@Suppress("EmptyMethod", "unused")
+@Suppress("EmptyMethod")
 class FrpcPagingAdapter(private val itemClickListener: OnItemClickListener) : PagingDataAdapter<Frpc, MyViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

@@ -29,7 +29,7 @@ import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.grouplist.XUIGroupListView
 import com.xuexiang.xutil.data.ConvertTools
 
-@Suppress("PrivatePropertyName", "DEPRECATION")
+@Suppress("PrivatePropertyName")
 @Page(name = "远程找手机")
 class LocationFragment : BaseFragment<FragmentClientLocationBinding?>(), View.OnClickListener {
 

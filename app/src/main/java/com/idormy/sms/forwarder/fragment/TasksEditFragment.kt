@@ -54,7 +54,7 @@ import java.util.*
 
 
 @Page(name = "自动任务·编辑器")
-@Suppress("PrivatePropertyName", "DEPRECATION", "UNUSED_PARAMETER", "EmptyMethod", "unused")
+@Suppress("PrivatePropertyName", "DEPRECATION", "UNUSED_PARAMETER", "EmptyMethod")
 class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClickListener, RecyclerViewHolder.OnItemClickListener<PageInfo> {
 
     private val TAG: String = TasksEditFragment::class.java.simpleName

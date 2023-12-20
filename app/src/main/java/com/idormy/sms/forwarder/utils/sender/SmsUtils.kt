@@ -16,7 +16,6 @@ import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.net.NetworkUtils
 import com.xuexiang.xutil.resource.ResUtils.getString
 
-@Suppress("DEPRECATION")
 class SmsUtils {
     companion object {
 

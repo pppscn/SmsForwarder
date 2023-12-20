@@ -4,10 +4,10 @@ import android.util.Log
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.server.model.BaseRequest
 import com.idormy.sms.forwarder.server.model.ConfigData
+import com.idormy.sms.forwarder.utils.AppUtils
 import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
-import com.xuexiang.xutil.app.AppUtils
 import com.yanzhenjie.andserver.annotation.*
 
 @Suppress("PrivatePropertyName")
