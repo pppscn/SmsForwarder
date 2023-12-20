@@ -19,7 +19,7 @@ import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.TaskWorker
 import com.idormy.sms.forwarder.utils.task.ConditionUtils
 import com.idormy.sms.forwarder.utils.task.TaskUtils
-import com.xuexiang.xutil.resource.ResUtils
+import com.xuexiang.xutil.resource.ResUtils.getString
 import java.util.Date
 
 @Suppress("PrivatePropertyName", "DEPRECATION")
@@ -64,19 +64,19 @@ class SimWorker(context: Context, params: WorkerParameters) : CoroutineWorker(co
             }
 
             val msg = StringBuilder()
-            msg.append(String.format(ResUtils.getString(R.string.sim_state), simStateStr)).append("\n")
+            msg.append(String.format(getString(R.string.sim_state), simStateStr)).append("\n")
             if (TaskUtils.simState == TelephonyManager.SIM_STATE_READY) {
                 // 获取 SIM 卡信息
                 App.SimInfoList = PhoneUtils.getSimMultiInfo()
                 //Log.d(TAG, App.SimInfoList.toString())
                 App.SimInfoList.forEach {
                     msg.append("[SIM-").append(it.key + 1).append("]\n")
-                    msg.append(ResUtils.getString(R.string.carrier_name)).append(": ").append(it.value.mCarrierName).append("\n")
+                    msg.append(getString(R.string.carrier_name)).append(": ").append(it.value.mCarrierName).append("\n")
                     //msg.append(getString(R.string.icc_id)).append(": ").append(it.value.mIccId).append("\n")
-                    msg.append(ResUtils.getString(R.string.sim_slot_index)).append(": ").append(it.value.mSimSlotIndex).append("\n")
-                    msg.append(ResUtils.getString(R.string.number)).append(": ").append(it.value.mNumber).append("\n")
-                    msg.append(ResUtils.getString(R.string.country_iso)).append(": ").append(it.value.mCountryIso).append("\n")
-                    msg.append(ResUtils.getString(R.string.subscription_id)).append(": ").append(it.value.mSubscriptionId).append("\n")
+                    msg.append(getString(R.string.sim_slot_index)).append(": ").append(it.value.mSimSlotIndex).append("\n")
+                    msg.append(getString(R.string.number)).append(": ").append(it.value.mNumber).append("\n")
+                    msg.append(getString(R.string.country_iso)).append(": ").append(it.value.mCountryIso).append("\n")
+                    msg.append(getString(R.string.subscription_id)).append(": ").append(it.value.mSubscriptionId).append("\n")
                 }
             }
 

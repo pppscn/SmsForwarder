@@ -1,11 +1,9 @@
-@file:Suppress("DEPRECATION")
-
 package com.idormy.sms.forwarder.utils
 
 import android.util.Log
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.MsgInfo
-import com.xuexiang.xui.utils.ResUtils.getString
+import com.xuexiang.xutil.resource.ResUtils.getString
 import java.util.*
 
 @Suppress("unused")

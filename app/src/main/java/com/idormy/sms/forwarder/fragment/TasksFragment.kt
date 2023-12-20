@@ -22,15 +22,15 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xpage.core.PageOption
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.utils.ThemeUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
+import com.xuexiang.xutil.resource.ResUtils.getStringArray
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@Suppress("PrivatePropertyName", "DEPRECATION")
+@Suppress("PrivatePropertyName")
 @Page(name = "自动任务")
 class TasksFragment : BaseFragment<FragmentTasksBinding?>(), TaskPagingAdapter.OnItemClickListener {
 
@@ -70,7 +70,7 @@ class TasksFragment : BaseFragment<FragmentTasksBinding?>(), TaskPagingAdapter.O
         binding!!.recyclerView.setRecycledViewPool(viewPool)
         viewPool.setMaxRecycledViews(0, 10)
 
-        binding!!.tabBar.setTabTitles(ResUtils.getStringArray(R.array.task_type_option))
+        binding!!.tabBar.setTabTitles(getStringArray(R.array.task_type_option))
         binding!!.tabBar.setOnTabClickListener { _, position ->
             //XToastUtils.toast("点击了$title--$position")
             currentType = when (position) {

@@ -9,9 +9,8 @@ import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.mail.Mail
 import com.idormy.sms.forwarder.utils.mail.MailSender
-import com.xuexiang.xui.utils.ResUtils
+import com.xuexiang.xutil.resource.ResUtils.getString
 
-@Suppress("DEPRECATION")
 class EmailUtils {
     companion object {
 
@@ -154,7 +153,7 @@ class EmailUtils {
                 }
 
                 override fun onSuccess() {
-                    SendUtils.updateLogs(logId, 2, ResUtils.getString(R.string.request_succeeded))
+                    SendUtils.updateLogs(logId, 2, getString(R.string.request_succeeded))
                     SendUtils.senderLogic(2, msgInfo, rule, senderIndex, msgId)
                 }
             })

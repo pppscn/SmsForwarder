@@ -5,10 +5,10 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.CloneInfo
 import com.idormy.sms.forwarder.server.model.BaseRequest
 import com.idormy.sms.forwarder.utils.HttpServerUtils
-import com.xuexiang.xui.utils.ResUtils.getString
+import com.xuexiang.xutil.resource.ResUtils.getString
 import com.yanzhenjie.andserver.annotation.*
 
-@Suppress("PrivatePropertyName", "DEPRECATION")
+@Suppress("PrivatePropertyName")
 @RestController
 @RequestMapping(path = ["/clone"])
 class CloneController {

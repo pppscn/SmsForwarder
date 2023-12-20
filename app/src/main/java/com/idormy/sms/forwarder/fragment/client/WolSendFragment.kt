@@ -24,13 +24,13 @@ import com.xuexiang.xhttp2.exception.ApiException
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xui.utils.CountDownButtonHelper
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xutil.data.ConvertTools
+import com.xuexiang.xutil.resource.ResUtils.getColors
 
-@Suppress("PrivatePropertyName", "DEPRECATION")
+@Suppress("PrivatePropertyName")
 @Page(name = "远程WOL")
 class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnClickListener {
 
@@ -101,7 +101,7 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
                     .positiveText(R.string.select)
                     .negativeText(R.string.cancel)
                     .neutralText(R.string.clear_history)
-                    .neutralColor(ResUtils.getColors(R.color.red))
+                    .neutralColor(getColors(R.color.red))
                     .onNeutral { _: MaterialDialog?, _: DialogAction? ->
                         wolHistory.clear()
                         HttpServerUtils.wolHistory = ""
@@ -125,21 +125,21 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
                 val mac = binding!!.etMac.text.toString()
                 val macRegex = getString(R.string.mac_regex).toRegex()
                 if (!macRegex.matches(mac)) {
-                    XToastUtils.error(ResUtils.getString(R.string.mac_error))
+                    XToastUtils.error(getString(R.string.mac_error))
                     return
                 }
 
                 val ip = binding!!.etIp.text.toString()
                 val ipRegex = getString(R.string.ip_regex).toRegex()
                 if (!TextUtils.isEmpty(ip) && !ipRegex.matches(ip)) {
-                    XToastUtils.error(ResUtils.getString(R.string.ip_error))
+                    XToastUtils.error(getString(R.string.ip_error))
                     return
                 }
 
                 val port = binding!!.etPort.text.toString()
                 val portRegex = getString(R.string.wol_port_regex).toRegex()
                 if (!TextUtils.isEmpty(port) && !portRegex.matches(port)) {
-                    XToastUtils.error(ResUtils.getString(R.string.wol_port_error))
+                    XToastUtils.error(getString(R.string.wol_port_error))
                     return
                 }
 
@@ -166,7 +166,7 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
                             requestMsg = RSACrypt.encryptByPublicKey(requestMsg, publicKey)
                             Log.i(TAG, "requestMsg: $requestMsg")
                         } catch (e: Exception) {
-                            XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
+                            XToastUtils.error(getString(R.string.request_failed) + e.message)
                             e.printStackTrace()
                             return
                         }
@@ -181,7 +181,7 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
                             requestMsg = ConvertTools.bytes2HexString(encryptCBC)
                             Log.i(TAG, "requestMsg: $requestMsg")
                         } catch (e: Exception) {
-                            XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
+                            XToastUtils.error(getString(R.string.request_failed) + e.message)
                             e.printStackTrace()
                             return
                         }
@@ -216,16 +216,16 @@ class WolSendFragment : BaseFragment<FragmentClientWolSendBinding?>(), View.OnCl
                             }
                             val resp: BaseResponse<String> = Gson().fromJson(json, object : TypeToken<BaseResponse<String>>() {}.type)
                             if (resp.code == 200) {
-                                XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
+                                XToastUtils.success(getString(R.string.request_succeeded))
                                 //添加到历史记录
                                 wolHistory[mac] = ip
                                 HttpServerUtils.wolHistory = Gson().toJson(wolHistory)
                             } else {
-                                XToastUtils.error(ResUtils.getString(R.string.request_failed) + resp.msg)
+                                XToastUtils.error(getString(R.string.request_failed) + resp.msg)
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
-                            XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
+                            XToastUtils.error(getString(R.string.request_failed) + response)
                         }
                         mCountDownHelper?.finish()
                     }

@@ -33,6 +33,7 @@ import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xpage.base.XPageFragment
 import com.xuexiang.xpage.core.PageOption
+import com.xuexiang.xpage.enums.CoreAnim
 import com.xuexiang.xpage.model.PageInfo
 import com.xuexiang.xrouter.annotation.AutoWired
 import com.xuexiang.xrouter.launcher.XRouter
@@ -82,6 +83,96 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
 
     private var itemListConditions = mutableListOf<TaskSetting>()
     private var itemListActions = mutableListOf<TaskSetting>()
+
+    private var TASK_CONDITION_FRAGMENT_LIST = listOf(
+        PageInfo(
+            getString(R.string.task_cron),
+            "com.idormy.sms.forwarder.fragment.condition.CronFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_custom_time,
+        ),
+        PageInfo(
+            getString(R.string.task_to_address),
+            "com.idormy.sms.forwarder.fragment.condition.ToAddressFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_to_address,
+        ),
+        PageInfo(
+            getString(R.string.task_leave_address),
+            "com.idormy.sms.forwarder.fragment.condition.LeaveAddressFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_leave_address,
+        ),
+        PageInfo(
+            getString(R.string.task_network),
+            "com.idormy.sms.forwarder.fragment.condition.NetworkFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_network
+        ),
+        PageInfo(
+            getString(R.string.task_sim),
+            "com.idormy.sms.forwarder.fragment.condition.SimFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_sim
+        ),
+        PageInfo(
+            getString(R.string.task_battery),
+            "com.idormy.sms.forwarder.fragment.condition.BatteryFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_battery
+        ),
+        PageInfo(
+            getString(R.string.task_charge),
+            "com.idormy.sms.forwarder.fragment.condition.ChargeFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_charge
+        ),
+        PageInfo(
+            getString(R.string.task_lock_screen),
+            "com.idormy.sms.forwarder.fragment.condition.LockScreenFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_lock_screen
+        ),
+    )
+
+    private var TASK_ACTION_FRAGMENT_LIST = listOf(
+        PageInfo(
+            getString(R.string.task_sendsms),
+            "com.idormy.sms.forwarder.fragment.action.SendSmsFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_sms
+        ),
+        PageInfo(
+            getString(R.string.task_notification),
+            "com.idormy.sms.forwarder.fragment.action.NotificationFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_sender,
+        ),
+        PageInfo(
+            getString(R.string.task_frpc),
+            "com.idormy.sms.forwarder.fragment.action.FrpcFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_frpc
+        ),
+        PageInfo(
+            getString(R.string.task_server),
+            "com.idormy.sms.forwarder.fragment.action.HttpServerFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_http_server
+        ),
+    )
 
     override fun initArgs() {
         XRouter.getInstance().inject(this)

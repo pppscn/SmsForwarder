@@ -16,9 +16,9 @@ import androidx.annotation.DrawableRes
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.utils.STATUS_OFF
 import com.xuexiang.xui.utils.CollectionUtils
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.spinner.editspinner.BaseEditSpinnerAdapter
 import com.xuexiang.xui.widget.spinner.editspinner.EditSpinnerFilter
+import com.xuexiang.xutil.resource.ResUtils.getDrawable
 
 @Suppress("unused", "NAME_SHADOWING", "DEPRECATION")
 class SenderSpinnerAdapter<T> : BaseEditSpinnerAdapter<T>, EditSpinnerFilter {
@@ -74,7 +74,7 @@ class SenderSpinnerAdapter<T> : BaseEditSpinnerAdapter<T>, EditSpinnerFilter {
         val item = CollectionUtils.getListItem(mDataSource, mIndexs[position]) as SenderAdapterItem
         holder.iconView.setImageDrawable(item.icon)
         holder.statusView.setImageDrawable(
-            ResUtils.getDrawable(
+            getDrawable(
                 when (item.status) {
                     STATUS_OFF -> R.drawable.ic_stop
                     else -> R.drawable.ic_start

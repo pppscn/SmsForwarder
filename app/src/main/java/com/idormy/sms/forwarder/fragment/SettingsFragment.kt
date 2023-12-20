@@ -92,18 +92,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             override fun performAction(view: View) {
                 GuideTipsDialog.showTipsForce(requireContext())
             }
-        })/*titleBar!!.addAction(object : TitleBar.ImageAction(R.drawable.ic_restore) {
-            @SingleClick
-            override fun performAction(view: View) {
-                MaterialDialog.Builder(requireContext())
-                    .content(R.string.delete_type_log_tips)
-                    .positiveText(R.string.lab_yes)
-                    .negativeText(R.string.lab_no)
-                    .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                    }
-                    .show()
-            }
-        })*/
+        })
         return titleBar
     }
 
@@ -168,10 +157,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         switchDirectlyToClient(binding!!.sbDirectlyToClient)
         //纯自动任务模式
         switchDirectlyToTask(binding!!.sbDirectlyToTask)
-
         //多语言设置
         switchLanguage(binding!!.rgMainLanguages)
-
     }
 
     override fun onResume() {
@@ -1031,8 +1018,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             // 重启应用
             if (restart) {
                 XToastUtils.toast(R.string.multi_languages_toast)
-                val intent = requireActivity().baseContext.packageManager.getLaunchIntentForPackage(requireActivity().baseContext.packageName)
-                intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                val intent = Intent(App.context, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
                 requireActivity().finish()
             }

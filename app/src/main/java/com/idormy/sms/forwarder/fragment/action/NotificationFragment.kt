@@ -25,10 +25,10 @@ import com.xuexiang.xrouter.annotation.AutoWired
 import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xui.utils.CountDownButtonHelper
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.picker.widget.builder.OptionsPickerBuilder
 import com.xuexiang.xui.widget.picker.widget.listener.OnOptionsSelectListener
+import com.xuexiang.xutil.resource.ResUtils.getDrawable
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -37,7 +37,7 @@ import kotlinx.coroutines.*
 import java.util.*
 
 @Page(name = "Notification")
-@Suppress("PrivatePropertyName", "DEPRECATION")
+@Suppress("PrivatePropertyName")
 class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding?>(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private val TAG: String = NotificationFragment::class.java.simpleName
@@ -316,8 +316,6 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
                     senderSpinnerList.add(SenderAdapterItem(name, sender.imageId, sender.id, sender.status))
                 }
                 senderSpinnerAdapter = SenderSpinnerAdapter(senderSpinnerList)
-                    //.setTextColor(ResUtils.getColor(R.color.green))
-                    //.setTextSize(12F)
                     .setIsFilterKey(true).setFilterColor("#EF5362").setBackgroundSelector(R.drawable.selector_custom_spinner_bg)
                 binding!!.spSender.setAdapter(senderSpinnerAdapter)
 
@@ -378,7 +376,7 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
         val tvSenderName = layoutSenderItem.findViewById<TextView>(R.id.tv_sender_name)
 
         ivSenderImage.setImageDrawable(sender.icon)
-        ivSenderStatus.setImageDrawable(ResUtils.getDrawable(if (STATUS_OFF == sender.status) R.drawable.ic_stop else R.drawable.ic_start))
+        ivSenderStatus.setImageDrawable(getDrawable(if (STATUS_OFF == sender.status) R.drawable.ic_stop else R.drawable.ic_start))
         val senderItemId = sender.id as Long
         tvSenderName.text = "ID-$senderItemId：${sender.title}"
 

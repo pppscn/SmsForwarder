@@ -7,13 +7,12 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.ext.ConvertersSenderList
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.utils.*
-import com.xuexiang.xui.utils.ResUtils.getString
+import com.xuexiang.xutil.resource.ResUtils.getString
 import kotlinx.parcelize.Parcelize
 import java.util.*
 import java.util.regex.Pattern
 import java.util.regex.PatternSyntaxException
 
-@Suppress("DEPRECATION")
 @Parcelize
 @Entity(
     tableName = "Rule",
@@ -55,6 +54,47 @@ data class Rule(
 
     companion object {
         val TAG: String = Rule::class.java.simpleName
+
+        //通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
+        val CALL_TYPE_MAP = mapOf(
+            //"0" to getString(R.string.unknown_call),
+            "1" to getString(R.string.incoming_call_ended),
+            "2" to getString(R.string.outgoing_call_ended),
+            "3" to getString(R.string.missed_call),
+            "4" to getString(R.string.incoming_call_received),
+            "5" to getString(R.string.incoming_call_answered),
+            "6" to getString(R.string.outgoing_call_started),
+        )
+        val FILED_MAP = object : HashMap<String, String>() {
+            init {
+                put("transpond_all", getString(R.string.rule_transpond_all))
+                put("phone_num", getString(R.string.rule_phone_num))
+                put("msg_content", getString(R.string.rule_msg_content))
+                put("multi_match", getString(R.string.rule_multi_match))
+                put("package_name", getString(R.string.rule_package_name))
+                put("inform_content", getString(R.string.rule_inform_content))
+                put("call_type", getString(R.string.rule_call_type))
+                put("uid", getString(R.string.rule_uid))
+            }
+        }
+        val CHECK_MAP = object : HashMap<String, String>() {
+            init {
+                put("is", getString(R.string.rule_is))
+                put("notis", getString(R.string.rule_notis))
+                put("contain", getString(R.string.rule_contain))
+                put("startwith", getString(R.string.rule_startwith))
+                put("endwith", getString(R.string.rule_endwith))
+                put("notcontain", getString(R.string.rule_notcontain))
+                put("regex", getString(R.string.rule_regex))
+            }
+        }
+        val SIM_SLOT_MAP = object : HashMap<String, String>() {
+            init {
+                put("ALL", getString(R.string.rule_all))
+                put("SIM1", "SIM1")
+                put("SIM2", "SIM2")
+            }
+        }
 
         fun getRuleMatch(filed: String?, check: String?, value: String?, simSlot: String?): Any {
             val sb = StringBuilder()

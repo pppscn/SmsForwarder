@@ -4,8 +4,8 @@ import android.graphics.Rect
 import android.os.Parcel
 import android.os.Parcelable.Creator
 import com.idormy.sms.forwarder.R
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.imageview.preview.enitity.IPreviewInfo
+import com.xuexiang.xutil.resource.ResUtils.getString
 
 /**
  * 图片预览实体类
@@ -20,7 +20,7 @@ data class ImageInfo(
     //记录坐标
     var mBounds: Rect? = null,
     var mVideoUrl: String? = null,
-    var description: String? = ResUtils.getString(R.string.description),
+    var description: String? = getString(R.string.description),
 ) : IPreviewInfo {
 
     constructor(url: String) : this(mUrl = url)

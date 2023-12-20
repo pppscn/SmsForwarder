@@ -2,11 +2,9 @@ package com.idormy.sms.forwarder.entity.condition
 
 import android.os.BatteryManager
 import com.idormy.sms.forwarder.R
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xutil.resource.ResUtils.getString
 import java.io.Serializable
 
-@Suppress("DEPRECATION")
 data class ChargeSetting(
     var description: String = "", //描述
     var status: Int = BatteryManager.BATTERY_STATUS_UNKNOWN, //状态
@@ -34,12 +32,12 @@ data class ChargeSetting(
 
     private fun getStatusStr(status: Int): String {
         return when (status) {
-            BatteryManager.BATTERY_STATUS_CHARGING -> ResUtils.getString(R.string.battery_charging)
-            BatteryManager.BATTERY_STATUS_DISCHARGING -> ResUtils.getString(R.string.battery_discharging)
-            BatteryManager.BATTERY_STATUS_NOT_CHARGING -> ResUtils.getString(R.string.battery_not_charging)
-            BatteryManager.BATTERY_STATUS_FULL -> ResUtils.getString(R.string.battery_full)
-            BatteryManager.BATTERY_STATUS_UNKNOWN -> ResUtils.getString(R.string.battery_unknown)
-            else -> ResUtils.getString(R.string.battery_unknown)
+            BatteryManager.BATTERY_STATUS_CHARGING -> getString(R.string.battery_charging)
+            BatteryManager.BATTERY_STATUS_DISCHARGING -> getString(R.string.battery_discharging)
+            BatteryManager.BATTERY_STATUS_NOT_CHARGING -> getString(R.string.battery_not_charging)
+            BatteryManager.BATTERY_STATUS_FULL -> getString(R.string.battery_full)
+            BatteryManager.BATTERY_STATUS_UNKNOWN -> getString(R.string.battery_unknown)
+            else -> getString(R.string.battery_unknown)
         }
     }
 
@@ -56,10 +54,10 @@ data class ChargeSetting(
 
     private fun getPluggedStr(plugged: Int): String {
         return when (plugged) {
-            BatteryManager.BATTERY_PLUGGED_AC -> ResUtils.getString(R.string.battery_ac)
-            BatteryManager.BATTERY_PLUGGED_USB -> ResUtils.getString(R.string.battery_usb)
-            BatteryManager.BATTERY_PLUGGED_WIRELESS -> ResUtils.getString(R.string.battery_wireless)
-            else -> ResUtils.getString(R.string.battery_unknown)
+            BatteryManager.BATTERY_PLUGGED_AC -> getString(R.string.battery_ac)
+            BatteryManager.BATTERY_PLUGGED_USB -> getString(R.string.battery_usb)
+            BatteryManager.BATTERY_PLUGGED_WIRELESS -> getString(R.string.battery_wireless)
+            else -> getString(R.string.battery_unknown)
         }
     }
 

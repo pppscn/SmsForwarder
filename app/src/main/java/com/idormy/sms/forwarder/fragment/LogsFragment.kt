@@ -21,17 +21,17 @@ import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
 import com.idormy.sms.forwarder.database.viewmodel.MsgViewModel
 import com.idormy.sms.forwarder.databinding.FragmentLogsBinding
-import com.idormy.sms.forwarder.utils.FORWARD_STATUS_MAP
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xutil.data.DateUtils
+import com.xuexiang.xutil.resource.ResUtils.getColors
+import com.xuexiang.xutil.resource.ResUtils.getStringArray
 import io.reactivex.CompletableObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -41,7 +41,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Suppress("PrivatePropertyName", "DEPRECATION")
+@Suppress("PrivatePropertyName")
 @Page(name = "转发日志")
 class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnItemClickListener {
 
@@ -50,6 +50,13 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
     private var adapter = MsgPagingAdapter(this)
     private val viewModel by viewModels<MsgViewModel> { BaseViewModelFactory(context) }
     private var currentType: String = "sms"
+    private val FORWARD_STATUS_MAP = object : HashMap<Int, String>() {
+        init {
+            put(0, getString(R.string.failed))
+            put(1, getString(R.string.processing))
+            put(2, getString(R.string.success))
+        }
+    }
 
     override fun viewBindingInflate(
         inflater: LayoutInflater,
@@ -63,12 +70,6 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
         titleBar!!.setLeftImageResource(R.drawable.ic_action_menu)
         titleBar!!.setTitle(R.string.menu_logs)
         titleBar!!.setLeftClickListener { getContainer()?.openMenu() }
-        /*titleBar!!.addAction(object : TitleBar.ImageAction(R.drawable.ic_menu_notifications_white) {
-            @SingleClick
-            override fun performAction(view: View) {
-                showTipsForce(requireContext())
-            }
-        })*/
         titleBar!!.addAction(object : TitleBar.ImageAction(R.drawable.ic_delete) {
             @SingleClick
             override fun performAction(view: View) {
@@ -114,7 +115,7 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
         viewPool.setMaxRecycledViews(0, 10)
         binding!!.recyclerView.isFocusableInTouchMode = false
 
-        binding!!.tabBar.setTabTitles(ResUtils.getStringArray(R.array.type_param_option))
+        binding!!.tabBar.setTabTitles(getStringArray(R.array.type_param_option))
         binding!!.tabBar.setOnTabClickListener { _, position ->
             //XToastUtils.toast("点击了$title--$position")
             currentType = when (position) {
@@ -147,22 +148,22 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
         Log.d(TAG, "item: $item")
 
         val detailStr = StringBuilder()
-        detailStr.append(ResUtils.getString(R.string.from)).append(item.msg.from).append("\n\n")
+        detailStr.append(getString(R.string.from)).append(item.msg.from).append("\n\n")
         if (!TextUtils.isEmpty(item.msg.simInfo)) {
             if (item.msg.type == "app") {
                 val splitSimInfo = item.msg.simInfo.split("#####")
                 val title = splitSimInfo.getOrElse(0) { item.msg.simInfo }
                 val scheme = splitSimInfo.getOrElse(1) { "" }
-                detailStr.append(ResUtils.getString(R.string.title)).append(title).append("\n\n")
-                detailStr.append(ResUtils.getString(R.string.msg)).append(item.msg.content).append("\n\n")
-                if (!TextUtils.isEmpty(scheme) && scheme != "null") detailStr.append(ResUtils.getString(R.string.scheme)).append(scheme).append("\n\n")
+                detailStr.append(getString(R.string.title)).append(title).append("\n\n")
+                detailStr.append(getString(R.string.msg)).append(item.msg.content).append("\n\n")
+                if (!TextUtils.isEmpty(scheme) && scheme != "null") detailStr.append(getString(R.string.scheme)).append(scheme).append("\n\n")
             } else {
-                detailStr.append(ResUtils.getString(R.string.msg)).append(item.msg.content).append("\n\n")
-                detailStr.append(ResUtils.getString(R.string.slot)).append(item.msg.simInfo).append("\n\n")
+                detailStr.append(getString(R.string.msg)).append(item.msg.content).append("\n\n")
+                detailStr.append(getString(R.string.slot)).append(item.msg.simInfo).append("\n\n")
             }
         }
         @SuppressLint("SimpleDateFormat") val utcFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        detailStr.append(ResUtils.getString(R.string.time)).append(DateUtils.date2String(item.msg.time, utcFormatter))
+        detailStr.append(getString(R.string.time)).append(DateUtils.date2String(item.msg.time, utcFormatter))
 
         MaterialDialog.Builder(requireContext())
             .iconRes(item.msg.simImageId)
@@ -175,7 +176,7 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
                 XToastUtils.success(R.string.delete_log_toast)
             }
             .neutralText(R.string.rematch)
-            .neutralColor(ResUtils.getColors(R.color.red))
+            .neutralColor(getColors(R.color.red))
             .onNeutral { _: MaterialDialog?, _: DialogAction? ->
                 XToastUtils.toast(R.string.rematch_toast)
                 SendUtils.rematchSendMsg(item)
@@ -188,10 +189,10 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
         val ruleStr = StringBuilder()
         ruleStr.append(Rule.getRuleMatch(item.ruleFiled, item.ruleCheck, item.ruleValue, item.ruleSimSlot)).append(item.senderName)
         val detailStr = StringBuilder()
-        detailStr.append(ResUtils.getString(R.string.rule)).append(ruleStr.toString()).append("\n\n")
+        detailStr.append(getString(R.string.rule)).append(ruleStr.toString()).append("\n\n")
         @SuppressLint("SimpleDateFormat") val utcFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        detailStr.append(ResUtils.getString(R.string.time)).append(DateUtils.date2String(item.time, utcFormatter)).append("\n\n")
-        detailStr.append(ResUtils.getString(R.string.result)).append(FORWARD_STATUS_MAP[item.forwardStatus]).append("\n--------------------\n").append(item.forwardResponse)
+        detailStr.append(getString(R.string.time)).append(DateUtils.date2String(item.time, utcFormatter)).append("\n\n")
+        detailStr.append(getString(R.string.result)).append(FORWARD_STATUS_MAP[item.forwardStatus]).append("\n--------------------\n").append(item.forwardResponse)
 
         MaterialDialog.Builder(requireContext())
             .title(R.string.details)

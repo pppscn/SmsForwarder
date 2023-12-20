@@ -2,9 +2,8 @@ package com.idormy.sms.forwarder.utils
 
 import android.location.Criteria
 import com.idormy.sms.forwarder.R
-import com.xuexiang.xui.utils.ResUtils.getString
+import com.xuexiang.xutil.resource.ResUtils.getString
 
-@Suppress("DEPRECATION")
 class SettingUtils private constructor() {
     companion object {
 

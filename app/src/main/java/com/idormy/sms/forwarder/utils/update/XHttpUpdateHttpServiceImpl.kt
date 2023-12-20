@@ -7,11 +7,11 @@ import com.xuexiang.xhttp2.XHttpSDK
 import com.xuexiang.xhttp2.callback.DownloadProgressCallBack
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xupdate.proxy.IUpdateHttpService
 import com.xuexiang.xupdate.proxy.IUpdateHttpService.DownloadCallback
 import com.xuexiang.xutil.file.FileUtils
 import com.xuexiang.xutil.net.JsonUtil
+import com.xuexiang.xutil.resource.ResUtils.getString
 
 /**
  * XHttp2实现的请求更新
@@ -19,7 +19,6 @@ import com.xuexiang.xutil.net.JsonUtil
  * @author xuexiang
  * @since 2018/8/12 上午11:46
  */
-@Suppress("DEPRECATION")
 class XHttpUpdateHttpServiceImpl : IUpdateHttpService {
     override fun asyncGet(
         url: String,
@@ -88,7 +87,7 @@ class XHttpUpdateHttpServiceImpl : IUpdateHttpService {
     }
 
     override fun cancelDownload(url: String) {
-        XToastUtils.info(ResUtils.getString(R.string.update_cancelled))
+        XToastUtils.info(getString(R.string.update_cancelled))
         XHttpSDK.cancelRequest(url)
     }
 }

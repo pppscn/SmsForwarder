@@ -3,11 +3,11 @@ package com.idormy.sms.forwarder.utils
 import android.util.Log
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.MsgInfo
-import com.xuexiang.xui.utils.ResUtils.getString
+import com.xuexiang.xutil.resource.ResUtils.getString
 import java.util.regex.Pattern
 import java.util.regex.PatternSyntaxException
 
-@Suppress("unused", "DEPRECATION")
+@Suppress("unused")
 class RuleLine(line: String, lineNum: Int, beforeRuleLine: RuleLine?) {
     companion object {
         val CONJUNCTION_AND: String = getString(R.string.CONJUNCTION_AND)

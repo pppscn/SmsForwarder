@@ -3,7 +3,7 @@ package com.idormy.sms.forwarder.server.component
 import android.util.Log
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.utils.HttpServerUtils
-import com.xuexiang.xui.utils.ResUtils.getString
+import com.xuexiang.xutil.resource.ResUtils.getString
 import com.yanzhenjie.andserver.annotation.Interceptor
 import com.yanzhenjie.andserver.error.HttpException
 import com.yanzhenjie.andserver.framework.HandlerInterceptor
@@ -13,7 +13,7 @@ import com.yanzhenjie.andserver.http.HttpMethod
 import com.yanzhenjie.andserver.http.HttpRequest
 import com.yanzhenjie.andserver.http.HttpResponse
 
-@Suppress("PrivatePropertyName", "DEPRECATION")
+@Suppress("PrivatePropertyName")
 @Interceptor
 class LoggerInterceptor : HandlerInterceptor {
 

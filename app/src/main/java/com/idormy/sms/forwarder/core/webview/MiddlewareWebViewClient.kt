@@ -10,7 +10,7 @@ import androidx.annotation.RequiresApi
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.webview.WebViewInterceptDialog.Companion.show
 import com.just.agentweb.core.client.MiddlewareWebClientBase
-import com.xuexiang.xui.utils.ResUtils
+import com.xuexiang.xutil.resource.ResUtils.getStringArray
 import java.util.Locale
 
 /**
@@ -121,7 +121,7 @@ open class MiddlewareWebViewClient : MiddlewareWebClientBase() {
          * @return
          */
         private fun hasAdUrl(url: String): Boolean {
-            val adUrls = ResUtils.getStringArray(R.array.adBlockUrl)
+            val adUrls = getStringArray(R.array.adBlockUrl)
             for (adUrl in adUrls) {
                 if (url.contains(adUrl)) {
                     return true

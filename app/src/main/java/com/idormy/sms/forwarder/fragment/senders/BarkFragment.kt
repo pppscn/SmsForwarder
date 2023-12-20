@@ -17,8 +17,6 @@ import com.idormy.sms.forwarder.database.viewmodel.SenderViewModel
 import com.idormy.sms.forwarder.databinding.FragmentSendersBarkBinding
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.BarkSetting
-import com.idormy.sms.forwarder.utils.BARK_ENCRYPTION_ALGORITHM_MAP
-import com.idormy.sms.forwarder.utils.BARK_LEVEL_MAP
 import com.idormy.sms.forwarder.utils.CommonUtils
 import com.idormy.sms.forwarder.utils.EVENT_TOAST_ERROR
 import com.idormy.sms.forwarder.utils.KEY_SENDER_CLONE
@@ -55,6 +53,20 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
     private var mCountDownHelper: CountDownButtonHelper? = null
     private var barkLevel: String = "active" //通知级别
     private var transformation: String = "none" //加密算法
+    private val BARK_LEVEL_MAP = mapOf(
+        "active" to getString(R.string.bark_level_active),
+        "timeSensitive" to getString(R.string.bark_level_timeSensitive),
+        "passive" to getString(R.string.bark_level_passive)
+    )
+    private val BARK_ENCRYPTION_ALGORITHM_MAP = mapOf(
+        "none" to getString(R.string.bark_encryption_algorithm_none),
+        "AES128/CBC/PKCS7Padding" to "AES128/CBC/PKCS7Padding",
+        "AES128/ECB/PKCS7Padding" to "AES128/ECB/PKCS7Padding",
+        "AES192/CBC/PKCS7Padding" to "AES192/CBC/PKCS7Padding",
+        "AES192/ECB/PKCS7Padding" to "AES192/ECB/PKCS7Padding",
+        "AES256/CBC/PKCS7Padding" to "AES256/CBC/PKCS7Padding",
+        "AES256/ECB/PKCS7Padding" to "AES256/ECB/PKCS7Padding",
+    )
 
     @JvmField
     @AutoWired(name = KEY_SENDER_ID)

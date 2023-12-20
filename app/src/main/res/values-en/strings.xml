@@ -436,8 +436,8 @@
     <string name="ssl">SSL</string>
     <!--CloneActivity-->
     <string name="local_ip">Local IP: </string>
-    <string name="operating_instruction">Instructions: \n[Note] The APP version of the sender and receiver must be the same!\n1. Please keep the SOURCE and DESTINATION phones in the same Wi-Fi network, and do not turn on isolation. \n2. Tap "Send" on SOURCE mobile phone, and get "server IP" \n3. After filling in "Server IP" on DESTINATION phone, tap "Receive". \n [NOTE:] sender(s), forwarding rule(s) and log(s) will be overwritten after cloning!</string> <!-- 原文是“新旧手机”，英文翻译中处理为“源”手机和“目标”手机，因为担心“新旧”的表述引起混淆（有没一种可能就是用户就是用从新手机的设备复制到旧手机上去呢？）。 -->
-    <string name="operating_instruction_offline">[NOTE:] sender(s), forwarding rule(s) and log(s) will be overwritten after cloning!</string> <!-- 原文是“新旧手机”，英文翻译中处理为“源”手机和“目标”手机，因为担心“新旧”的表述引起混淆（有没一种可能就是用户就是用从新手机的设备复制到旧手机上去呢？）。 -->
+    <string name="operating_instruction">Important Note:\nThis feature is intended solely for personal use in switching between old and new phones. Any consequences arising from illegal use are the user\'s responsibility!\n\nInstructions:\n1. Connect both old and new phones to the same WiFi network (disable AP isolation). If internal network penetration is needed, configure Frpc first.\n2. [Choose One] On the old phone, tap the "Push" button to send this device\'s configuration to the server.\n3. [Choose One] On the new phone, tap the "Pull" button to fetch the server\'s configuration to this device.\n\nNotes:\n1. The client and server app versions must match for successful cloning.\n2. Upon successful import, the sending channels and forwarding rules will be entirely replaced, clearing the historical records.\n3. Active requests, keep-alive measures, and personal settings are not included in the cloning scope.\n4. After successful import, it\'s crucial to re-enter the [General Settings] and toggle on the functions you need! (Or manually grant permissions in system settings).</string>
+    <string name="operating_instruction_offline">Important Note:\nThis feature is strictly intended for personal use in switching between old and new phones. Any consequences arising from illegal use are the user\'s responsibility!\n\nNotes:\n1. The exporting and importing apps must have identical versions for one-click cloning to work!\n2. Upon successful import on the new phone, the sending channels and forwarding rules will be entirely replaced, clearing the history records!\n3. Active requests, keep-alive measures, and personal settings are not included in the cloning process.\n4. After a successful import, it\'s crucial to re-enter the [General Settings] and toggle on the functions you need! (Or manually grant permissions in system settings).</string>
     <string name="push">Push</string>
     <string name="pull">Pull</string>
     <string name="stop">Stop</string>
@@ -1139,7 +1139,7 @@
     <string name="delete_task_tips">Are you sure to delete this task?</string>
     <string name="delete_task_toast">The task has deleted.</string>
     <string name="add_condition">Add Condition</string>
-    <string name="add_condition_tips">Example: Below 20% battery</string>
+    <string name="add_condition_tips" tools:ignore="StringFormatCount">Example: Below 20% battery</string>
     <string name="add_condition_continue">Continue to add condition</string>
     <string name="add_action">Add Action</string>
     <string name="add_action_tips">Example: Disable all forwarding</string>

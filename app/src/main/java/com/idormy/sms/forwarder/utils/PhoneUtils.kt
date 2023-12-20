@@ -28,7 +28,7 @@ import com.idormy.sms.forwarder.entity.SmsInfo
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.app.IntentUtils
 import com.xuexiang.xutil.data.DateUtils
-import com.xuexiang.xutil.resource.ResUtils
+import com.xuexiang.xutil.resource.ResUtils.getString
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -381,31 +381,31 @@ class PhoneUtils private constructor() {
         //获取通话记录转发内容
         fun getCallMsg(callInfo: CallInfo): String {
             val sb = StringBuilder()
-            sb.append(ResUtils.getString(R.string.contact)).append(callInfo.name).append("\n")
-            if (!TextUtils.isEmpty(callInfo.viaNumber)) sb.append(ResUtils.getString(R.string.via_number)).append(callInfo.viaNumber).append("\n")
-            if (callInfo.dateLong > 0L) sb.append(ResUtils.getString(R.string.call_date)).append(
+            sb.append(getString(R.string.contact)).append(callInfo.name).append("\n")
+            if (!TextUtils.isEmpty(callInfo.viaNumber)) sb.append(getString(R.string.via_number)).append(callInfo.viaNumber).append("\n")
+            if (callInfo.dateLong > 0L) sb.append(getString(R.string.call_date)).append(
                 DateUtils.millis2String(
                     callInfo.dateLong, SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
                 )
             ).append("\n")
             if (callInfo.duration > 0) {
                 if (callInfo.type == 3) {
-                    sb.append(ResUtils.getString(R.string.ring_duration))
+                    sb.append(getString(R.string.ring_duration))
                 } else {
-                    sb.append(ResUtils.getString(R.string.call_duration))
+                    sb.append(getString(R.string.call_duration))
                 }
                 sb.append(callInfo.duration).append("s\n")
             }
-            sb.append(ResUtils.getString(R.string.mandatory_type))
+            sb.append(getString(R.string.mandatory_type))
             //通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
             when (callInfo.type) {
-                1 -> sb.append(ResUtils.getString(R.string.incoming_call_ended))
-                2 -> sb.append(ResUtils.getString(R.string.outgoing_call_ended))
-                3 -> sb.append(ResUtils.getString(R.string.missed_call))
-                4 -> sb.append(ResUtils.getString(R.string.incoming_call_received))
-                5 -> sb.append(ResUtils.getString(R.string.incoming_call_answered))
-                6 -> sb.append(ResUtils.getString(R.string.outgoing_call_started))
-                else -> sb.append(ResUtils.getString(R.string.unknown_call))
+                1 -> sb.append(getString(R.string.incoming_call_ended))
+                2 -> sb.append(getString(R.string.outgoing_call_ended))
+                3 -> sb.append(getString(R.string.missed_call))
+                4 -> sb.append(getString(R.string.incoming_call_received))
+                5 -> sb.append(getString(R.string.incoming_call_answered))
+                6 -> sb.append(getString(R.string.outgoing_call_started))
+                else -> sb.append(getString(R.string.unknown_call))
             }
             return sb.toString()
         }
@@ -477,7 +477,7 @@ class PhoneUtils private constructor() {
                         val phoneNumber = cursor.getString(indexAddress)
                         // 根据手机号码查询用户名
                         val contacts = getContactByNumber(phoneNumber)
-                        smsInfo.name = if (contacts.isNotEmpty()) contacts[0].name else ResUtils.getString(R.string.unknown_number)
+                        smsInfo.name = if (contacts.isNotEmpty()) contacts[0].name else getString(R.string.unknown_number)
                         // 联系人号码
                         smsInfo.number = phoneNumber
                         // 短信内容

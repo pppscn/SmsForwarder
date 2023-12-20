@@ -40,16 +40,17 @@ import com.xuexiang.xpage.base.XPageActivity
 import com.xuexiang.xpage.core.PageOption
 import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.utils.SnackbarUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.searchview.MaterialSearchView
 import com.xuexiang.xui.widget.searchview.MaterialSearchView.SearchViewListener
 import com.xuexiang.xutil.data.ConvertTools
 import com.xuexiang.xutil.data.DateUtils
+import com.xuexiang.xutil.resource.ResUtils.getColor
+import com.xuexiang.xutil.resource.ResUtils.getStringArray
 import me.samlss.broccoli.Broccoli
 
-@Suppress("PrivatePropertyName", "DEPRECATION")
+@Suppress("PrivatePropertyName")
 @Page(name = "远程查短信")
 class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
 
@@ -128,7 +129,7 @@ class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
         delegateAdapter.addAdapter(mAdapter)
         binding!!.recyclerView.adapter = delegateAdapter
 
-        binding!!.tabBar.setTabTitles(ResUtils.getStringArray(R.array.sms_type_option))
+        binding!!.tabBar.setTabTitles(getStringArray(R.array.sms_type_option))
         binding!!.tabBar.setOnTabClickListener { _, position ->
             //XToastUtils.toast("点击了$title--$position")
             smsType = position + 1
@@ -144,7 +145,7 @@ class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
         binding!!.searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 SnackbarUtils.Indefinite(view, String.format(getString(R.string.search_keyword), query)).info()
-                    .actionColor(ResUtils.getColor(R.color.xui_config_color_white))
+                    .actionColor(getColor(R.color.xui_config_color_white))
                     .setAction(getString(R.string.clear)) {
                         keyword = ""
                         loadRemoteData(true)
@@ -222,7 +223,7 @@ class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
                     requestMsg = RSACrypt.encryptByPublicKey(requestMsg, publicKey)
                     Log.i(TAG, "requestMsg: $requestMsg")
                 } catch (e: Exception) {
-                    XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
+                    XToastUtils.error(getString(R.string.request_failed) + e.message)
                     e.printStackTrace()
                     return
                 }
@@ -237,7 +238,7 @@ class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
                     requestMsg = ConvertTools.bytes2HexString(encryptCBC)
                     Log.i(TAG, "requestMsg: $requestMsg")
                 } catch (e: Exception) {
-                    XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
+                    XToastUtils.error(getString(R.string.request_failed) + e.message)
                     e.printStackTrace()
                     return
                 }
@@ -270,7 +271,6 @@ class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
                     }
                     val resp: BaseResponse<List<SmsInfo>?> = Gson().fromJson(json, object : TypeToken<BaseResponse<List<SmsInfo>?>>() {}.type)
                     if (resp.code == 200) {
-                        //XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
                         pageNum++
                         if (refresh) {
                             mAdapter!!.refresh(resp.data)
@@ -281,11 +281,11 @@ class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
                             binding!!.refreshLayout.finishLoadMore()
                         }
                     } else {
-                        XToastUtils.error(ResUtils.getString(R.string.request_failed) + resp.msg)
+                        XToastUtils.error(getString(R.string.request_failed) + resp.msg)
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
+                    XToastUtils.error(getString(R.string.request_failed) + response)
                 }
             }
         })

@@ -1,9 +1,9 @@
 package com.idormy.sms.forwarder.adapter.spinner
 
 import android.graphics.drawable.Drawable
-import com.xuexiang.xui.utils.ResUtils
+import com.xuexiang.xutil.resource.ResUtils
 
-@Suppress("unused", "DEPRECATION")
+@Suppress("unused")
 class AppListAdapterItem {
 
     var name: String = ""

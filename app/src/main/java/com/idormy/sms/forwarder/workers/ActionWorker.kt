@@ -32,12 +32,12 @@ import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDSMS
 import com.idormy.sms.forwarder.utils.TaskWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xrouter.utils.TextUtils
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xutil.file.FileUtils
+import com.xuexiang.xutil.resource.ResUtils.getString
 import frpclib.Frpclib
 
 //执行每个task具体动作任务
-@Suppress("PrivatePropertyName", "DEPRECATION")
+@Suppress("PrivatePropertyName")
 class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
 
     private val TAG: String = ActionWorker::class.java.simpleName
@@ -87,7 +87,7 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                         val mSubscriptionId: Int = App.SimInfoList[simSlotIndex]?.mSubscriptionId ?: -1
 
                         if (ActivityCompat.checkSelfPermission(App.context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                            val msg = ResUtils.getString(R.string.no_sms_sending_permission)
+                            val msg = getString(R.string.no_sms_sending_permission)
                             writeLog(msg, "ERROR")
                         } else {
                             val msg = PhoneUtils.sendSms(mSubscriptionId, smsSetting.phoneNumbers, smsSetting.msgContent)

@@ -19,13 +19,13 @@ import com.idormy.sms.forwarder.utils.XToastUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.utils.ThemeUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.button.switchbutton.SwitchButton
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+import com.xuexiang.xutil.resource.ResUtils.getColors
 
 @Suppress("DEPRECATION")
 @Page(name = "Frp内网穿透·编辑配置")
@@ -88,13 +88,13 @@ class FrpcEditFragment : BaseFragment<FragmentFrpcEditBinding?>() {
                     .cancelable(false)
                     .autoDismiss(false)
                     .neutralText(R.string.action_quit)
-                    .neutralColor(ResUtils.getColors(R.color.red))
+                    .neutralColor(getColors(R.color.red))
                     .onNeutral { dialog: MaterialDialog?, _: DialogAction? ->
                         dialog?.dismiss()
                         activity?.onBackPressed()
                     }
                     .negativeText(R.string.action_back)
-                    .negativeColor(ResUtils.getColors(R.color.colorBlueGrey))
+                    .negativeColor(getColors(R.color.colorBlueGrey))
                     .onNegative { dialog: MaterialDialog?, _: DialogAction? ->
                         dialog?.dismiss()
                     }

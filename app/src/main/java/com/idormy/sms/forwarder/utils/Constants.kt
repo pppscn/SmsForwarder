@@ -1,18 +1,13 @@
-@file:Suppress("unused", "DEPRECATION")
-
 package com.idormy.sms.forwarder.utils
-
-import com.idormy.sms.forwarder.R
-import com.xuexiang.xpage.enums.CoreAnim
-import com.xuexiang.xpage.model.PageInfo
-import com.xuexiang.xui.utils.ResUtils.getString
 
 object Worker {
     const val sendMsgInfo = "send_msg_info"
-    const val sendLogId = "send_log_id"
-    const val sendSbnId = "send_sbn_id"
+
+    //const val sendLogId = "send_log_id"
+    //const val sendSbnId = "send_sbn_id"
     const val updateLogs = "update_logs"
-    const val ruleId = "rule_id"
+
+    //const val ruleId = "rule_id"
     const val rule = "rule"
     const val senderIndex = "sender_index"
     const val msgId = "msg_id"
@@ -30,7 +25,6 @@ object TaskWorker {
 
 //初始化相关
 const val AUTO_CHECK_UPDATE = "auto_check_update"
-const val IS_FIRST_OPEN_KEY = "is_first_open_key"
 const val IS_AGREE_PRIVACY_KEY = "is_agree_privacy_key"
 
 //数据库
@@ -95,9 +89,6 @@ const val CACTUS_LAST_TIMER = "cactus_last_timer"
 const val CACTUS_DATE = "cactus_date"
 const val CACTUS_END_DATE = "cactus_end_date"
 
-//OkHttp 请求超时时间
-const val REQUEST_TIMEOUT_SECONDS = 5
-
 //规则相关
 const val STATUS_ON = 1
 const val STATUS_OFF = 0
@@ -125,75 +116,6 @@ const val SENDER_LOGIC_ALL = "ALL"
 const val SENDER_LOGIC_UNTIL_FAIL = "UntilFail"
 const val SENDER_LOGIC_UNTIL_SUCCESS = "UntilSuccess"
 const val SENDER_LOGIC_RETRY = "Retry"
-val TYPE_MAP = object : HashMap<String, String>() {
-    init {
-        put("sms", getString(R.string.rule_sms))
-        put("call", getString(R.string.rule_call))
-        put("app", getString(R.string.rule_app))
-    }
-}
-val FILED_MAP = object : HashMap<String, String>() {
-    init {
-        put("transpond_all", getString(R.string.rule_transpond_all))
-        put("phone_num", getString(R.string.rule_phone_num))
-        put("msg_content", getString(R.string.rule_msg_content))
-        put("multi_match", getString(R.string.rule_multi_match))
-        put("package_name", getString(R.string.rule_package_name))
-        put("inform_content", getString(R.string.rule_inform_content))
-        put("call_type", getString(R.string.rule_call_type))
-        put("uid", getString(R.string.rule_uid))
-    }
-}
-val CHECK_MAP = object : HashMap<String, String>() {
-    init {
-        put("is", getString(R.string.rule_is))
-        put("notis", getString(R.string.rule_notis))
-        put("contain", getString(R.string.rule_contain))
-        put("startwith", getString(R.string.rule_startwith))
-        put("endwith", getString(R.string.rule_endwith))
-        put("notcontain", getString(R.string.rule_notcontain))
-        put("regex", getString(R.string.rule_regex))
-    }
-}
-val SIM_SLOT_MAP = object : HashMap<String, String>() {
-    init {
-        put("ALL", getString(R.string.rule_all))
-        put("SIM1", "SIM1")
-        put("SIM2", "SIM2")
-    }
-}
-val FORWARD_STATUS_MAP = object : HashMap<Int, String>() {
-    init {
-        put(0, getString(R.string.failed))
-        put(1, getString(R.string.processing))
-        put(2, getString(R.string.success))
-    }
-}
-val BARK_LEVEL_MAP = mapOf(
-    "active" to getString(R.string.bark_level_active),
-    "timeSensitive" to getString(R.string.bark_level_timeSensitive),
-    "passive" to getString(R.string.bark_level_passive)
-)
-val BARK_ENCRYPTION_ALGORITHM_MAP = mapOf(
-    "none" to getString(R.string.bark_encryption_algorithm_none),
-    "AES128/CBC/PKCS7Padding" to "AES128/CBC/PKCS7Padding",
-    "AES128/ECB/PKCS7Padding" to "AES128/ECB/PKCS7Padding",
-    "AES192/CBC/PKCS7Padding" to "AES192/CBC/PKCS7Padding",
-    "AES192/ECB/PKCS7Padding" to "AES192/ECB/PKCS7Padding",
-    "AES256/CBC/PKCS7Padding" to "AES256/CBC/PKCS7Padding",
-    "AES256/ECB/PKCS7Padding" to "AES256/ECB/PKCS7Padding",
-)
-
-//通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
-val CALL_TYPE_MAP = mapOf(
-    //"0" to getString(R.string.unknown_call),
-    "1" to getString(R.string.incoming_call_ended),
-    "2" to getString(R.string.outgoing_call_ended),
-    "3" to getString(R.string.missed_call),
-    "4" to getString(R.string.incoming_call_received),
-    "5" to getString(R.string.incoming_call_answered),
-    "6" to getString(R.string.outgoing_call_started),
-)
 
 //发送通道
 const val TYPE_DINGTALK_GROUP_ROBOT = 0
@@ -212,120 +134,6 @@ const val TYPE_DINGTALK_INNER_ROBOT = 12
 const val TYPE_FEISHU_APP = 13
 const val TYPE_URL_SCHEME = 14
 const val TYPE_SOCKET = 15
-var SENDER_FRAGMENT_LIST = listOf(
-    PageInfo(
-        getString(R.string.dingtalk_robot),
-        "com.idormy.sms.forwarder.fragment.senders.DingtalkGroupRobotFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_dingtalk
-    ),
-    PageInfo(
-        getString(R.string.email),
-        "com.idormy.sms.forwarder.fragment.senders.EmailFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_email
-    ),
-    PageInfo(
-        getString(R.string.bark),
-        "com.idormy.sms.forwarder.fragment.senders.BarkFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_bark
-    ),
-    PageInfo(
-        getString(R.string.webhook),
-        "com.idormy.sms.forwarder.fragment.senders.WebhookFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_webhook
-    ),
-    PageInfo(
-        getString(R.string.wework_robot),
-        "com.idormy.sms.forwarder.fragment.senders.WeworkRobotFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_wework_robot
-    ),
-    PageInfo(
-        getString(R.string.wework_agent),
-        "com.idormy.sms.forwarder.fragment.senders.WeworkAgentFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_wework_agent
-    ),
-    PageInfo(
-        getString(R.string.server_chan),
-        "com.idormy.sms.forwarder.fragment.senders.ServerchanFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_serverchan
-    ),
-    PageInfo(
-        getString(R.string.telegram),
-        "com.idormy.sms.forwarder.fragment.senders.TelegramFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_telegram
-    ),
-    PageInfo(
-        getString(R.string.sms_menu),
-        "com.idormy.sms.forwarder.fragment.senders.SmsFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_sms
-    ),
-    PageInfo(
-        getString(R.string.feishu),
-        "com.idormy.sms.forwarder.fragment.senders.FeishuFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_feishu
-    ),
-    PageInfo(
-        getString(R.string.pushplus),
-        "com.idormy.sms.forwarder.fragment.senders.PushplusFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_pushplus
-    ),
-    PageInfo(
-        getString(R.string.gotify),
-        "com.idormy.sms.forwarder.fragment.senders.GotifyFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_gotify
-    ),
-    PageInfo(
-        getString(R.string.dingtalk_inner_robot),
-        "com.idormy.sms.forwarder.fragment.senders.DingtalkInnerRobotFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_dingtalk_inner
-    ),
-    PageInfo(
-        getString(R.string.feishu_app),
-        "com.idormy.sms.forwarder.fragment.senders.FeishuAppFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_feishu_app
-    ),
-    PageInfo(
-        getString(R.string.url_scheme),
-        "com.idormy.sms.forwarder.fragment.senders.UrlSchemeFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_url_scheme
-    ),
-    PageInfo(
-        getString(R.string.socket),
-        "com.idormy.sms.forwarder.fragment.senders.SocketFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_socket
-    ),
-)
 
 //前台服务
 const val FRONT_NOTIFY_ID = 0x1010
@@ -342,15 +150,6 @@ const val EVENT_FRPC_RUNNING_ERROR = "EVENT_FRPC_RUNNING_ERROR"
 const val EVENT_FRPC_RUNNING_SUCCESS = "EVENT_FRPC_RUNNING_SUCCESS"
 const val INTENT_FRPC_EDIT_FILE = "INTENT_FRPC_EDIT_FILE"
 const val INTENT_FRPC_APPLY_FILE = "INTENT_FRPC_APPLY_FILE"
-
-//来电监听
-const val ACTION_CALL_IN = "android.intent.action.PHONE_STATE"
-const val ACTION_CALL_OUT = "android.intent.action.NEW_OUTGOING_CALL"
-const val EXTRA_PHONE_NUMBER = "android.intent.extra.PHONE_NUMBER"
-
-//Markdown 查看页面
-const val KEY_TITLE = "key_title"
-const val KEY_URL = "key_url"
 
 //吐司监听
 const val EVENT_TOAST_SUCCESS = "key_toast_success"
@@ -380,17 +179,10 @@ const val EVENT_KEY_PHONE_NUMBERS = "EVENT_KEY_PHONE_NUMBERS"
 const val KEY_UPDATE_URL = "https://xupdate.ppps.cn/update/checkVersion"
 
 //HttpServer相关
-const val ENABLE_HTTP_SERVER = "enable_http_server"
 const val HTTP_SERVER_PORT = 5000
 const val HTTP_SERVER_TIME_OUT = 10
-const val HTTP_SERVER_NOTIFY_ID = 0x1011
-const val HTTP_SERVER_CHANNEL_ID = "http_server_notification_channel"
-const val HTTP_SERVER_CHANNEL_NAME = "Http-Server Service"
-const val START_ACTION = "start"
-const val STOP_ACTION = "stop"
 const val HTTP_SUCCESS_CODE: Int = 200
 const val HTTP_FAILURE_CODE: Int = 500
-const val SP_ENABLE_SERVER = "enable_server"
 const val SP_ENABLE_SERVER_AUTORUN = "enable_server_autorun"
 const val SP_SERVER_SAFETY_MEASURES = "server_safety_measures"
 const val SP_SERVER_SIGN_KEY = "server_sign_key"
@@ -416,71 +208,6 @@ const val SP_SERVER_CONFIG = "server_config"
 const val SP_CLIENT_SAFETY_MEASURES = "client_safety_measures"
 const val SP_CLIENT_SIGN_KEY = "client_sign_key"
 
-var CLIENT_FRAGMENT_LIST = listOf(
-    PageInfo(
-        getString(R.string.api_clone),
-        "com.idormy.sms.forwarder.fragment.client.CloneFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_api_clone
-    ),
-    PageInfo(
-        getString(R.string.api_sms_query),
-        "com.idormy.sms.forwarder.fragment.client.SmsQueryFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_api_sms_query
-    ),
-    PageInfo(
-        getString(R.string.api_sms_send),
-        "com.idormy.sms.forwarder.fragment.client.SmsSendFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_api_sms_send
-    ),
-    PageInfo(
-        getString(R.string.api_call_query),
-        "com.idormy.sms.forwarder.fragment.client.CallQueryFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_api_call_query
-    ),
-    PageInfo(
-        getString(R.string.api_contact_query),
-        "com.idormy.sms.forwarder.fragment.client.ContactQueryFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_api_contact_query
-    ),
-    PageInfo(
-        getString(R.string.api_contact_add),
-        "com.idormy.sms.forwarder.fragment.client.ContactAddFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_api_contact_add
-    ),
-    PageInfo(
-        getString(R.string.api_wol),
-        "com.idormy.sms.forwarder.fragment.client.WolSendFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_api_wol
-    ),
-    PageInfo(
-        getString(R.string.api_location),
-        "com.idormy.sms.forwarder.fragment.client.LocationFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_api_location
-    ),
-    PageInfo(
-        getString(R.string.api_battery_query),
-        "com.idormy.sms.forwarder.fragment.client.BatteryQueryFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.icon_api_battery_query
-    ),
-)
 
 //自动任务
 const val MAX_SETTING_NUM = 5 //最大条件/动作设置条数
@@ -505,100 +232,12 @@ const val TASK_CONDITION_SIM = 1004
 const val TASK_CONDITION_BATTERY = 1005
 const val TASK_CONDITION_CHARGE = 1006
 const val TASK_CONDITION_LOCK_SCREEN = 1007
-var TASK_CONDITION_FRAGMENT_LIST = listOf(
-    PageInfo(
-        getString(R.string.task_cron),
-        "com.idormy.sms.forwarder.fragment.condition.CronFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.auto_task_icon_custom_time,
-    ),
-    PageInfo(
-        getString(R.string.task_to_address),
-        "com.idormy.sms.forwarder.fragment.condition.ToAddressFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.auto_task_icon_to_address,
-    ),
-    PageInfo(
-        getString(R.string.task_leave_address),
-        "com.idormy.sms.forwarder.fragment.condition.LeaveAddressFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.auto_task_icon_leave_address,
-    ),
-    PageInfo(
-        getString(R.string.task_network),
-        "com.idormy.sms.forwarder.fragment.condition.NetworkFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.auto_task_icon_network
-    ),
-    PageInfo(
-        getString(R.string.task_sim),
-        "com.idormy.sms.forwarder.fragment.condition.SimFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.auto_task_icon_sim
-    ),
-    PageInfo(
-        getString(R.string.task_battery),
-        "com.idormy.sms.forwarder.fragment.condition.BatteryFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.auto_task_icon_battery
-    ),
-    PageInfo(
-        getString(R.string.task_charge),
-        "com.idormy.sms.forwarder.fragment.condition.ChargeFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.auto_task_icon_charge
-    ),
-    PageInfo(
-        getString(R.string.task_lock_screen),
-        "com.idormy.sms.forwarder.fragment.condition.LockScreenFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.auto_task_icon_lock_screen
-    ),
-)
 
 //注意：TASK_ACTION_XXX 枚举值 等于 TASK_ACTION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_ACTION，不可改变
 const val TASK_ACTION_SENDSMS = 2000
 const val TASK_ACTION_NOTIFICATION = 2001
 const val TASK_ACTION_FRPC = 2002
 const val TASK_ACTION_HTTPSERVER = 2003
-var TASK_ACTION_FRAGMENT_LIST = listOf(
-    PageInfo(
-        getString(R.string.task_sendsms),
-        "com.idormy.sms.forwarder.fragment.action.SendSmsFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.auto_task_icon_sms
-    ),
-    PageInfo(
-        getString(R.string.task_notification),
-        "com.idormy.sms.forwarder.fragment.action.NotificationFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.auto_task_icon_sender,
-    ),
-    PageInfo(
-        getString(R.string.task_frpc),
-        "com.idormy.sms.forwarder.fragment.action.FrpcFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.auto_task_icon_frpc
-    ),
-    PageInfo(
-        getString(R.string.task_server),
-        "com.idormy.sms.forwarder.fragment.action.HttpServerFragment",
-        "{\"\":\"\"}",
-        CoreAnim.slide,
-        R.drawable.auto_task_icon_http_server
-    ),
-)
 
 const val SP_BATTERY_INFO = "battery_info"
 const val SP_BATTERY_STATUS = "battery_status"

@@ -2,9 +2,10 @@ package com.idormy.sms.forwarder.adapter.spinner
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import com.xuexiang.xui.utils.ResUtils
+import com.xuexiang.xutil.resource.ResUtils.getDrawable
+import com.xuexiang.xutil.resource.ResUtils.getString
 
-@Suppress("unused", "DEPRECATION")
+@Suppress("unused")
 class SenderAdapterItem {
 
     //标题内容
@@ -41,15 +42,15 @@ class SenderAdapterItem {
         this.status = status
     }
 
-    constructor(title: CharSequence, drawableId: Int) : this(title, ResUtils.getDrawable(drawableId))
-    constructor(title: CharSequence, drawableId: Int, id: Long) : this(title, ResUtils.getDrawable(drawableId), id)
-    constructor(title: CharSequence, drawableId: Int, id: Long, status: Int) : this(title, ResUtils.getDrawable(drawableId), id, status)
-    constructor(context: Context?, titleId: Int, drawableId: Int) : this(ResUtils.getString(titleId), ResUtils.getDrawable(context, drawableId))
-    constructor(context: Context?, titleId: Int, drawableId: Int, id: Long) : this(ResUtils.getString(titleId), ResUtils.getDrawable(context, drawableId), id)
-    constructor(context: Context?, titleId: Int, drawableId: Int, id: Long, status: Int) : this(ResUtils.getString(titleId), ResUtils.getDrawable(context, drawableId), id, status)
-    constructor(context: Context?, title: CharSequence, drawableId: Int) : this(title, ResUtils.getDrawable(context, drawableId))
-    constructor(context: Context?, title: CharSequence, drawableId: Int, id: Long) : this(title, ResUtils.getDrawable(context, drawableId), id)
-    constructor(context: Context?, title: CharSequence, drawableId: Int, id: Long, status: Int) : this(title, ResUtils.getDrawable(context, drawableId), id, status)
+    constructor(title: CharSequence, drawableId: Int) : this(title, getDrawable(drawableId))
+    constructor(title: CharSequence, drawableId: Int, id: Long) : this(title, getDrawable(drawableId), id)
+    constructor(title: CharSequence, drawableId: Int, id: Long, status: Int) : this(title, getDrawable(drawableId), id, status)
+    constructor(context: Context?, titleId: Int, drawableId: Int) : this(getString(titleId), getDrawable(context, drawableId))
+    constructor(context: Context?, titleId: Int, drawableId: Int, id: Long) : this(getString(titleId), getDrawable(context, drawableId), id)
+    constructor(context: Context?, titleId: Int, drawableId: Int, id: Long, status: Int) : this(getString(titleId), getDrawable(context, drawableId), id, status)
+    constructor(context: Context?, title: CharSequence, drawableId: Int) : this(title, getDrawable(context, drawableId))
+    constructor(context: Context?, title: CharSequence, drawableId: Int, id: Long) : this(title, getDrawable(context, drawableId), id)
+    constructor(context: Context?, title: CharSequence, drawableId: Int, id: Long, status: Int) : this(title, getDrawable(context, drawableId), id, status)
 
     fun setStatus(status: Int): SenderAdapterItem {
         this.status = status

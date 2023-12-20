@@ -15,10 +15,9 @@ import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
-import com.xuexiang.xui.utils.ResUtils.getString
+import com.xuexiang.xutil.resource.ResUtils.getString
 
 //飞书企业应用
-@Suppress("DEPRECATION")
 class FeishuAppUtils private constructor() {
     companion object {
 

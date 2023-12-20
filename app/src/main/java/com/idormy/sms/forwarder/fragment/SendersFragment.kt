@@ -39,7 +39,6 @@ import com.idormy.sms.forwarder.fragment.senders.WeworkRobotFragment
 import com.idormy.sms.forwarder.utils.KEY_SENDER_CLONE
 import com.idormy.sms.forwarder.utils.KEY_SENDER_ID
 import com.idormy.sms.forwarder.utils.KEY_SENDER_TYPE
-import com.idormy.sms.forwarder.utils.SENDER_FRAGMENT_LIST
 import com.idormy.sms.forwarder.utils.TYPE_BARK
 import com.idormy.sms.forwarder.utils.TYPE_DINGTALK_GROUP_ROBOT
 import com.idormy.sms.forwarder.utils.TYPE_DINGTALK_INNER_ROBOT
@@ -62,15 +61,16 @@ import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xpage.base.XPageFragment
 import com.xuexiang.xpage.core.PageOption
+import com.xuexiang.xpage.enums.CoreAnim
 import com.xuexiang.xpage.model.PageInfo
 import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder
 import com.xuexiang.xui.utils.DensityUtils
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.utils.WidgetUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.alpha.XUIAlphaTextView
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
+import com.xuexiang.xutil.resource.ResUtils.getStringArray
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -87,7 +87,120 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(),
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
     private val dialog: BottomSheetDialog by lazy { BottomSheetDialog(requireContext()) }
     private var currentStatus: Int = 1
-    //private val statusValueArray = ResUtils.getIntArray(R.array.status_param_value)
+    private var SENDER_FRAGMENT_LIST = listOf(
+        PageInfo(
+            getString(R.string.dingtalk_robot),
+            "com.idormy.sms.forwarder.fragment.senders.DingtalkGroupRobotFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.icon_dingtalk
+        ),
+        PageInfo(
+            getString(R.string.email),
+            "com.idormy.sms.forwarder.fragment.senders.EmailFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.icon_email
+        ),
+        PageInfo(
+            getString(R.string.bark),
+            "com.idormy.sms.forwarder.fragment.senders.BarkFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.icon_bark
+        ),
+        PageInfo(
+            getString(R.string.webhook),
+            "com.idormy.sms.forwarder.fragment.senders.WebhookFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.icon_webhook
+        ),
+        PageInfo(
+            getString(R.string.wework_robot),
+            "com.idormy.sms.forwarder.fragment.senders.WeworkRobotFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.icon_wework_robot
+        ),
+        PageInfo(
+            getString(R.string.wework_agent),
+            "com.idormy.sms.forwarder.fragment.senders.WeworkAgentFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.icon_wework_agent
+        ),
+        PageInfo(
+            getString(R.string.server_chan),
+            "com.idormy.sms.forwarder.fragment.senders.ServerchanFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.icon_serverchan
+        ),
+        PageInfo(
+            getString(R.string.telegram),
+            "com.idormy.sms.forwarder.fragment.senders.TelegramFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.icon_telegram
+        ),
+        PageInfo(
+            getString(R.string.sms_menu),
+            "com.idormy.sms.forwarder.fragment.senders.SmsFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.icon_sms
+        ),
+        PageInfo(
+            getString(R.string.feishu),
+            "com.idormy.sms.forwarder.fragment.senders.FeishuFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.icon_feishu
+        ),
+        PageInfo(
+            getString(R.string.pushplus),
+            "com.idormy.sms.forwarder.fragment.senders.PushplusFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.icon_pushplus
+        ),
+        PageInfo(
+            getString(R.string.gotify),
+            "com.idormy.sms.forwarder.fragment.senders.GotifyFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.icon_gotify
+        ),
+        PageInfo(
+            getString(R.string.dingtalk_inner_robot),
+            "com.idormy.sms.forwarder.fragment.senders.DingtalkInnerRobotFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.icon_dingtalk_inner
+        ),
+        PageInfo(
+            getString(R.string.feishu_app),
+            "com.idormy.sms.forwarder.fragment.senders.FeishuAppFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.icon_feishu_app
+        ),
+        PageInfo(
+            getString(R.string.url_scheme),
+            "com.idormy.sms.forwarder.fragment.senders.UrlSchemeFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.icon_url_scheme
+        ),
+        PageInfo(
+            getString(R.string.socket),
+            "com.idormy.sms.forwarder.fragment.senders.SocketFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.icon_socket
+        ),
+    )
 
     override fun viewBindingInflate(
         inflater: LayoutInflater,
@@ -140,7 +253,7 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(),
         binding!!.recyclerView.setRecycledViewPool(viewPool)
         viewPool.setMaxRecycledViews(0, 10)
 
-        binding!!.tabBar.setTabTitles(ResUtils.getStringArray(R.array.status_param_option))
+        binding!!.tabBar.setTabTitles(getStringArray(R.array.status_param_option))
         binding!!.tabBar.setOnTabClickListener { _, position ->
             //XToastUtils.toast("点击了$title--$position")
             //currentStatus = statusValueArray[position]

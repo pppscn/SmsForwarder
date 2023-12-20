@@ -17,8 +17,8 @@ import com.xuexiang.xpage.base.XPageFragment
 import com.xuexiang.xpage.core.CoreSwitchBean
 import com.xuexiang.xrouter.facade.service.SerializationService
 import com.xuexiang.xrouter.launcher.XRouter
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.slideback.SlideBack
+import com.xuexiang.xutil.resource.ResUtils.isRtl
 
 /**
  * 基础容器Activity
@@ -144,7 +144,7 @@ open class BaseActivity<Binding : ViewBinding?> : XPageActivity() {
         if (isSupportSlideBack) {
             SlideBack.with(this)
                 .haveScroll(true)
-                .edgeMode(if (ResUtils.isRtl()) SlideBack.EDGE_RIGHT else SlideBack.EDGE_LEFT)
+                .edgeMode(if (isRtl()) SlideBack.EDGE_RIGHT else SlideBack.EDGE_LEFT)
                 .callBack { popPage() }
                 .register()
         }

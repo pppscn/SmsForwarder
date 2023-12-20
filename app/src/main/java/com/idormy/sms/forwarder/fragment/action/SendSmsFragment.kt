@@ -37,7 +37,6 @@ import com.xuexiang.xrouter.annotation.AutoWired
 import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xui.utils.CountDownButtonHelper
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xutil.XUtil
 
@@ -165,7 +164,7 @@ class SendSmsFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
                                         val mSubscriptionId: Int = App.SimInfoList[simSlotIndex]?.mSubscriptionId ?: -1
 
                                         val msg = if (ActivityCompat.checkSelfPermission(XUtil.getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                                            ResUtils.getString(R.string.no_sms_sending_permission)
+                                            getString(R.string.no_sms_sending_permission)
                                         } else {
                                             PhoneUtils.sendSms(mSubscriptionId, settingVo.phoneNumbers, settingVo.msgContent) ?: "success"
                                         }
@@ -178,7 +177,7 @@ class SendSmsFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
                             }
 
                             override fun onDenied(permissions: List<String>, never: Boolean) {
-                                LiveEventBus.get(KEY_TEST_ACTION, String::class.java).post(ResUtils.getString(R.string.no_sms_sending_permission))
+                                LiveEventBus.get(KEY_TEST_ACTION, String::class.java).post(getString(R.string.no_sms_sending_permission))
                             }
                         })
                     return

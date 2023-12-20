@@ -4,9 +4,9 @@ import android.content.Intent
 import android.os.BatteryManager
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.BatteryInfo
-import com.xuexiang.xui.utils.ResUtils.getString
+import com.xuexiang.xutil.resource.ResUtils.getString
 
-@Suppress("DEPRECATION", "MemberVisibilityCanBePrivate")
+@Suppress("MemberVisibilityCanBePrivate")
 object BatteryUtils {
     //private const val TAG = "BatteryUtils"
 

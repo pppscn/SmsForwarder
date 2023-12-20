@@ -25,11 +25,11 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xui.utils.DensityUtils
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.utils.ThemeUtils
 import com.xuexiang.xui.utils.WidgetUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xutil.XUtil
+import com.xuexiang.xutil.resource.ResUtils.getStringArray
 
 @Suppress("PrivatePropertyName", "DEPRECATION")
 @Page(name = "应用列表")
@@ -69,7 +69,7 @@ class AppListFragment : BaseFragment<FragmentAppListBinding?>() {
         WidgetUtils.initRecyclerView(binding!!.recyclerView, DensityUtils.dp2px(5f), ThemeUtils.resolveColor(context, R.attr.xui_config_color_background))
         binding!!.recyclerView.adapter = AppListAdapter(true).also { appListAdapter = it }
 
-        binding!!.tabBar.setTabTitles(ResUtils.getStringArray(R.array.app_type_option))
+        binding!!.tabBar.setTabTitles(getStringArray(R.array.app_type_option))
         binding!!.tabBar.setOnTabClickListener { _, position ->
             //XToastUtils.toast("点击了$title--$position")
             currentType = when (position) {
@@ -101,7 +101,7 @@ class AppListFragment : BaseFragment<FragmentAppListBinding?>() {
             val cm = requireContext().getSystemService(AppCompatActivity.CLIPBOARD_SERVICE) as ClipboardManager
             val mClipData = ClipData.newPlainText("pkgName", item?.packageName)
             cm.setPrimaryClip(mClipData)
-            XToastUtils.toast(ResUtils.getString(R.string.package_name_copied) + item?.packageName, 2000)
+            XToastUtils.toast(getString(R.string.package_name_copied) + item?.packageName, 2000)
         }
 
         //设置刷新加载时禁止所有列表操作

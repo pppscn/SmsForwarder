@@ -32,11 +32,11 @@ import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
 import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xui.utils.CountDownButtonHelper
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner
+import com.xuexiang.xutil.resource.ResUtils.getStringArray
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -44,7 +44,7 @@ import io.reactivex.schedulers.Schedulers
 import java.util.Date
 
 @Page(name = "Email")
-@Suppress("PrivatePropertyName", "DEPRECATION")
+@Suppress("PrivatePropertyName")
 class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClickListener {
 
     private val TAG: String = EmailFragment::class.java.simpleName
@@ -97,7 +97,7 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
             }
         })
 
-        val mailTypeArray = ResUtils.getStringArray(R.array.MailType)
+        val mailTypeArray = getStringArray(R.array.MailType)
         Log.d(TAG, mailTypeArray.toString())
         binding!!.spMailType.setOnItemSelectedListener { _: MaterialSpinner?, position: Int, _: Long, item: Any ->
             mailType = item.toString()

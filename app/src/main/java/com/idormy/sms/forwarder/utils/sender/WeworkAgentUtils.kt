@@ -16,8 +16,8 @@ import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
-import com.xuexiang.xui.utils.ResUtils.getString
 import com.xuexiang.xutil.net.NetworkUtils
+import com.xuexiang.xutil.resource.ResUtils.getString
 import okhttp3.Credentials
 import okhttp3.Response
 import okhttp3.Route
@@ -26,7 +26,6 @@ import java.net.InetSocketAddress
 import java.net.PasswordAuthentication
 import java.net.Proxy
 
-@Suppress("DEPRECATION")
 class WeworkAgentUtils private constructor() {
     companion object {
 

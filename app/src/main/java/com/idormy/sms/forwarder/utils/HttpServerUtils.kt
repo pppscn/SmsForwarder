@@ -10,8 +10,8 @@ import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.entity.CloneInfo
 import com.idormy.sms.forwarder.entity.LocationInfo
 import com.idormy.sms.forwarder.server.model.BaseRequest
-import com.xuexiang.xui.utils.ResUtils.getString
 import com.xuexiang.xutil.app.AppUtils
+import com.xuexiang.xutil.resource.ResUtils.getString
 import com.yanzhenjie.andserver.error.HttpException
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -21,7 +21,6 @@ import javax.crypto.spec.SecretKeySpec
 /**
  * HttpServer工具类
  */
-@Suppress("DEPRECATION")
 class HttpServerUtils private constructor() {
 
     companion object {

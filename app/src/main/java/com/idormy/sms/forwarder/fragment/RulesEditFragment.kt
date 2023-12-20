@@ -32,7 +32,6 @@ import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
 import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xrouter.utils.TextUtils
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
@@ -40,6 +39,8 @@ import com.xuexiang.xui.widget.picker.widget.builder.OptionsPickerBuilder
 import com.xuexiang.xui.widget.picker.widget.listener.OnOptionsSelectListener
 import com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner
 import com.xuexiang.xutil.XUtil
+import com.xuexiang.xutil.resource.ResUtils.getColors
+import com.xuexiang.xutil.resource.ResUtils.getDrawable
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -48,12 +49,23 @@ import kotlinx.coroutines.*
 import java.util.*
 
 @Page(name = "转发规则·编辑器")
-@Suppress("PrivatePropertyName", "DEPRECATION")
+@Suppress("PrivatePropertyName")
 class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private val TAG: String = RulesEditFragment::class.java.simpleName
     private var titleBar: TitleBar? = null
     private val viewModel by viewModels<RuleViewModel> { BaseViewModelFactory(context) }
+
+    //通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
+    private val CALL_TYPE_MAP = mapOf(
+        //"0" to getString(R.string.unknown_call),
+        "1" to getString(R.string.incoming_call_ended),
+        "2" to getString(R.string.outgoing_call_ended),
+        "3" to getString(R.string.missed_call),
+        "4" to getString(R.string.incoming_call_received),
+        "5" to getString(R.string.incoming_call_answered),
+        "6" to getString(R.string.outgoing_call_started),
+    )
 
     private var callType = 1
     private var callTypeIndex = 0
@@ -412,8 +424,6 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                     senderSpinnerList.add(SenderAdapterItem(name, sender.imageId, sender.id, sender.status))
                 }
                 senderSpinnerAdapter = SenderSpinnerAdapter(senderSpinnerList)
-                    //.setTextColor(ResUtils.getColor(R.color.green))
-                    //.setTextSize(12F)
                     .setIsFilterKey(true).setFilterColor("#EF5362").setBackgroundSelector(R.drawable.selector_custom_spinner_bg)
                 binding!!.spSender.setAdapter(senderSpinnerAdapter)
 
@@ -474,7 +484,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
         val tvSenderName = layoutSenderItem.findViewById<TextView>(R.id.tv_sender_name)
 
         ivSenderImage.setImageDrawable(sender.icon)
-        ivSenderStatus.setImageDrawable(ResUtils.getDrawable(if (STATUS_OFF == sender.status) R.drawable.ic_stop else R.drawable.ic_start))
+        ivSenderStatus.setImageDrawable(getDrawable(if (STATUS_OFF == sender.status) R.drawable.ic_stop else R.drawable.ic_start))
         val senderItemId = sender.id as Long
         tvSenderName.text = "ID-$senderItemId：${sender.title}"
 
@@ -762,7 +772,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
             spCallType.selectedIndex = callTypeIndexTest
         }
 
-        MaterialDialog.Builder(requireContext()).iconRes(android.R.drawable.ic_dialog_email).title(R.string.rule_tester).customView(dialogTest, true).cancelable(false).autoDismiss(false).neutralText(R.string.action_back).neutralColor(ResUtils.getColors(R.color.darkGrey)).onNeutral { dialog: MaterialDialog?, _: DialogAction? ->
+        MaterialDialog.Builder(requireContext()).iconRes(android.R.drawable.ic_dialog_email).title(R.string.rule_tester).customView(dialogTest, true).cancelable(false).autoDismiss(false).neutralText(R.string.action_back).neutralColor(getColors(R.color.darkGrey)).onNeutral { dialog: MaterialDialog?, _: DialogAction? ->
             dialog?.dismiss()
         }.positiveText(R.string.action_test).onPositive { _: MaterialDialog?, _: DialogAction? ->
             try {
@@ -794,10 +804,10 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 if (ruleType == "call") {
                     val phoneNumber = etFrom.text.toString()
                     val contacts = PhoneUtils.getContactByNumber(phoneNumber)
-                    val contactName = if (contacts.isNotEmpty()) contacts[0].name else ResUtils.getString(R.string.unknown_number)
-                    msg.append(ResUtils.getString(R.string.contact)).append(contactName).append("\n")
-                    msg.append(ResUtils.getString(R.string.mandatory_type))
-                    msg.append(CALL_TYPE_MAP[callType.toString()] ?: ResUtils.getString(R.string.unknown_call))
+                    val contactName = if (contacts.isNotEmpty()) contacts[0].name else getString(R.string.unknown_number)
+                    msg.append(getString(R.string.contact)).append(contactName).append("\n")
+                    msg.append(getString(R.string.mandatory_type))
+                    msg.append(CALL_TYPE_MAP[callType.toString()] ?: getString(R.string.unknown_call))
                 } else {
                     msg.append(etContent.text.toString())
                 }

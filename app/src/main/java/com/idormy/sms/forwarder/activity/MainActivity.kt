@@ -37,6 +37,7 @@ import com.idormy.sms.forwarder.fragment.ServerFragment
 import com.idormy.sms.forwarder.fragment.SettingsFragment
 import com.idormy.sms.forwarder.fragment.TasksFragment
 import com.idormy.sms.forwarder.service.ForegroundService
+import com.idormy.sms.forwarder.utils.EVENT_LOAD_APP_LIST
 import com.idormy.sms.forwarder.utils.FRPC_LIB_DOWNLOAD_URL
 import com.idormy.sms.forwarder.utils.FRPC_LIB_VERSION
 import com.idormy.sms.forwarder.utils.SettingUtils
@@ -44,6 +45,7 @@ import com.idormy.sms.forwarder.utils.XToastUtils
 import com.idormy.sms.forwarder.utils.sdkinit.XUpdateInit
 import com.idormy.sms.forwarder.widget.GuideTipsDialog.Companion.showTips
 import com.idormy.sms.forwarder.workers.LoadAppListWorker
+import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.callback.DownloadProgressCallBack
 import com.xuexiang.xhttp2.exception.ApiException
@@ -78,6 +80,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(), DrawerAdapter.OnItemS
     private val POS_APPS = 9
     private val POS_HELP = 11 //10为空行
     private val POS_ABOUT = 12
+    private var needToAppListFragment = false
 
     private lateinit var mTabLayout: TabLayout
     private lateinit var mSlidingRootNav: SlidingRootNav
@@ -126,6 +129,13 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(), DrawerAdapter.OnItemS
                 }
             }
         })
+
+        //监听已安装App信息列表加载完成事件
+        LiveEventBus.get(EVENT_LOAD_APP_LIST, String::class.java).observe(this) {
+            if (needToAppListFragment) {
+                openNewPage(AppListFragment::class.java)
+            }
+        }
     }
 
     override val isSupportSlideBack: Boolean
@@ -146,6 +156,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(), DrawerAdapter.OnItemS
         switchPage(LogsFragment::class.java)
         mTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
+                needToAppListFragment = false
                 mAdapter.setSelected(tab.position)
                 when (tab.position) {
                     POS_LOG -> switchPage(LogsFragment::class.java)
@@ -255,6 +266,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(), DrawerAdapter.OnItemS
     }
 
     override fun onItemSelected(position: Int) {
+        needToAppListFragment = false
         when (position) {
             POS_LOG, POS_RULE, POS_SENDER, POS_SETTING -> {
                 val tab = mTabLayout.getTabAt(position)
@@ -293,6 +305,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(), DrawerAdapter.OnItemS
                     XToastUtils.info(getString(R.string.loading_app_list))
                     val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
                     WorkManager.getInstance(this).enqueue(request)
+                    needToAppListFragment = true
                     return
                 }
                 openNewPage(AppListFragment::class.java)
