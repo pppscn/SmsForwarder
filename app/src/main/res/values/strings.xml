@@ -168,17 +168,12 @@
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
     <string name="discard">丢弃</string>
-    <string name="discard_btn">丢　　弃</string>
     <string name="quit">退出</string>
     <string name="del">删除</string>
-    <string name="del_btn">删　　除</string>
     <string name="save">保存</string>
-    <string name="save_btn">保　　存</string>
     <string name="submit">提交</string>
-    <string name="submit_btn">提　　交</string>
     <string name="send">发送</string>
     <string name="test">测试</string>
-    <string name="test_btn">测　　试</string>
     <string name="confirm">确认</string>
     <string name="all">全部</string>
     <string name="select">选择</string>

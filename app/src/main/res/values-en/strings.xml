@@ -167,17 +167,12 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="discard">Discard</string>
-    <string name="discard_btn">Discard</string>
     <string name="quit">Quit</string>
     <string name="del">Delete</string>
-    <string name="del_btn">Delete</string>
     <string name="save">Save</string>
-    <string name="save_btn">Save</string>
     <string name="submit">Submit</string>
-    <string name="submit_btn">Submit</string>
     <string name="send">Send</string>
     <string name="test">Test</string>
-    <string name="test_btn">Test</string>
     <string name="confirm">Confirm</string>
     <string name="all">All</string>
     <string name="select">Select</string>

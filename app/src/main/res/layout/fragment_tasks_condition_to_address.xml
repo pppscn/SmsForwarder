@@ -232,35 +232,16 @@
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_del"
-            style="@style/SuperButton.Gray.Icon"
+            style="@style/SuperButton.Gray.Icon.Spacing"
             android:drawableStart="@drawable/ic_delete"
-            android:paddingStart="10dp"
-            android:text="@string/discard_btn"
-            android:textColor="#FFFFFF"
-            android:textSize="@dimen/text_size_medium"
+            android:text="@string/discard"
             tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_save"
-            style="@style/SuperButton.Blue.Icon"
-            android:layout_marginStart="10dp"
+            style="@style/SuperButton.Blue.Icon.Spacing"
             android:drawableStart="@drawable/ic_save"
-            android:paddingStart="13dp"
-            android:text="@string/submit_btn"
-            android:textColor="#FFFFFF"
-            android:textSize="@dimen/text_size_medium"
-            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
-
-        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
-            android:id="@+id/btn_test"
-            style="@style/SuperButton.Green.Icon"
-            android:layout_marginStart="10dp"
-            android:drawableStart="@drawable/ic_test"
-            android:paddingStart="10dp"
-            android:text="@string/test_btn"
-            android:textColor="#FFFFFF"
-            android:textSize="@dimen/text_size_medium"
-            android:visibility="gone"
+            android:text="@string/submit"
             tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
     </LinearLayout>

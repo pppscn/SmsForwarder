@@ -57,24 +57,29 @@
     </style>
 
     <style name="SuperButton.Gray.Icon.Spacing">
-        <item name="android:layout_marginStart">10dp</item>
-        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingStart">15dp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:drawablePadding">0dp</item>
+        <item name="android:letterSpacing">0.8</item>
     </style>
 
     <style name="SuperButton.Blue.Icon.Spacing">
         <item name="android:layout_marginStart">10dp</item>
-        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingStart">15dp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:drawablePadding">0dp</item>
+        <item name="android:letterSpacing">0.8</item>
     </style>
 
     <style name="SuperButton.Green.Icon.Spacing">
         <item name="android:layout_marginStart">10dp</item>
-        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingStart">15dp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:drawablePadding">0dp</item>
+        <item name="android:letterSpacing">0.8</item>
     </style>
 
 </resources>
