@@ -302,3 +302,6 @@
 # This is generated automatically by the Android Gradle plugin.
 -dontwarn org.joda.convert.**
 -dontwarn org.slf4j.impl.**
+
+# MultiLanguages
+-keep class com.hjq.language.** {*;}

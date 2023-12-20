@@ -1,0 +1,85 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- 拓展主题 theme. -->
+    <style name="XUITheme" parent="XUIBaseTheme" tools:ignore="PrivateResource">
+        <!--设置默认窗口的动画样式-->
+        <item name="android:windowAnimationStyle">@style/WindowAnimStyle</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="XUITheme.Phone">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="xui_actionbar_height">?actionBarSize</item>
+        <!-- 解决 Android 5.1 及以上版本 Button 英文字符串自动变大写的问题 -->
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="AppTheme.Launch">
+        <item name="xui_config_color_splash_bg">@color/xui_config_color_white</item>
+        <item name="xui_config_app_logo_bottom" tools:ignore="PrivateResource">
+            @dimen/xui_config_app_logo_bottom
+        </item>
+        <item name="xui_config_company_logo_bottom" tools:ignore="PrivateResource">
+            @dimen/xui_config_company_logo_bottom
+        </item>
+        <item name="android:windowBackground">@drawable/xui_config_bg_splash</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <!--窗体背景，这个背景能在第一时间显示, 避免启动时白屏，黑屏问题-->
+    <style name="AppTheme.Launch.App">
+        <!--注意修改图标-->
+        <item name="xui_config_splash_app_logo">@drawable/ic_splash_app_logo</item>
+        <item name="xui_config_splash_company_logo">@drawable/ic_splash_company_logo</item>
+    </style>
+
+    <!--DialogTheme，用于将Activity作为Dialog的主题-->
+    <style name="DialogTheme" parent="XUITheme.Phone">
+        <!--设置dialog的背景，此处为系统给定的透明值-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--Dialog的windowFrame框为无-->
+        <item name="android:windowFrame">@null</item>
+        <!--无标题-->
+        <item name="android:windowNoTitle">true</item>　　　　　
+        <!--是否浮现在activity之上-->
+        <item name="android:windowIsFloating" tools:ignore="TranslucentOrientation">true</item>
+        <!--是否半透明-->
+        <item name="android:windowIsTranslucent">true</item>
+        <!--是否有覆盖-->
+        <item name="android:windowContentOverlay">@null</item>
+        <!--设置Activity出现方式-->
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <!--背景是否模糊显示-->
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="SuperButton.Gray.Icon.Spacing">
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:drawablePadding">0dp</item>
+        <item name="android:letterSpacing">0.8</item>
+    </style>
+
+    <style name="SuperButton.Blue.Icon.Spacing">
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:drawablePadding">0dp</item>
+        <item name="android:letterSpacing">0.8</item>
+    </style>
+
+    <style name="SuperButton.Green.Icon.Spacing">
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:drawablePadding">0dp</item>
+        <item name="android:letterSpacing">0.8</item>
+    </style>
+
+</resources>

@@ -15,11 +15,9 @@ import com.idormy.sms.forwarder.database.entity.Task
 import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
 import com.idormy.sms.forwarder.database.viewmodel.TaskViewModel
 import com.idormy.sms.forwarder.databinding.FragmentTasksBinding
-import com.idormy.sms.forwarder.utils.EVENT_UPDATE_TASK_TYPE
 import com.idormy.sms.forwarder.utils.KEY_TASK_CLONE
 import com.idormy.sms.forwarder.utils.KEY_TASK_ID
 import com.idormy.sms.forwarder.utils.XToastUtils
-import com.jeremyliao.liveeventbus.LiveEventBus
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
@@ -80,7 +78,6 @@ class TasksFragment : BaseFragment<FragmentTasksBinding?>(), TaskPagingAdapter.O
                 else -> "mine"
             }
             viewModel.setType(currentType)
-            LiveEventBus.get(EVENT_UPDATE_TASK_TYPE, String::class.java).post(currentType)
             adapter.refresh()
             binding!!.recyclerView.scrollToPosition(0)
         }

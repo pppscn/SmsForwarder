@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.viewbinding.ViewBinding
+import com.hjq.language.MultiLanguages
 import com.idormy.sms.forwarder.utils.EVENT_TOAST_ERROR
 import com.idormy.sms.forwarder.utils.EVENT_TOAST_INFO
 import com.idormy.sms.forwarder.utils.EVENT_TOAST_SUCCESS
@@ -18,7 +19,6 @@ import com.xuexiang.xrouter.facade.service.SerializationService
 import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.slideback.SlideBack
-import io.github.inflationx.viewpump.ViewPumpContextWrapper
 
 /**
  * 基础容器Activity
@@ -41,7 +41,10 @@ open class BaseActivity<Binding : ViewBinding?> : XPageActivity() {
 
     override fun attachBaseContext(newBase: Context) {
         //注入字体
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
+        //super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
+        // 绑定语种
+        //super.attachBaseContext(ViewPumpContextWrapper.wrap(MultiLanguages.attach(newBase)))
+        super.attachBaseContext(MultiLanguages.attach(newBase))
     }
 
     override fun getCustomRootView(): View? {

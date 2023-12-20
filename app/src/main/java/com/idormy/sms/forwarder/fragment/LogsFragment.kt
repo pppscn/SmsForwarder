@@ -21,11 +21,9 @@ import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
 import com.idormy.sms.forwarder.database.viewmodel.MsgViewModel
 import com.idormy.sms.forwarder.databinding.FragmentLogsBinding
-import com.idormy.sms.forwarder.utils.EVENT_UPDATE_LOGS_TYPE
 import com.idormy.sms.forwarder.utils.FORWARD_STATUS_MAP
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.XToastUtils
-import com.jeremyliao.liveeventbus.LiveEventBus
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
@@ -125,7 +123,6 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
                 else -> "sms"
             }
             viewModel.setType(currentType)
-            LiveEventBus.get(EVENT_UPDATE_LOGS_TYPE, String::class.java).post(currentType)
             adapter.refresh()
             binding!!.recyclerView.scrollToPosition(0)
         }

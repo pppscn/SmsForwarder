@@ -67,10 +67,6 @@ import java.io.File
 class MainActivity : BaseActivity<ActivityMainBinding?>(), DrawerAdapter.OnItemSelectedListener {
 
     private val TAG: String = MainActivity::class.java.simpleName
-    //private lateinit var mTitles: Array<String>
-    //private var logsType: String = "sms"
-    //private var ruleType: String = "sms"
-
     private val POS_LOG = 0
     private val POS_RULE = 1
     private val POS_SENDER = 2

@@ -1306,6 +1306,7 @@
                 style="@style/settingBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:paddingEnd="15dp"
                 tools:ignore="RtlSymmetry">
 
@@ -1377,6 +1378,7 @@
                 style="@style/settingBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:paddingEnd="15dp"
                 tools:ignore="RtlSymmetry">
 
@@ -1647,6 +1649,68 @@
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/settingBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingEnd="15dp"
+                tools:ignore="RtlSymmetry">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/multi_languages"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/multi_languages_tips"
+                        android:textSize="@dimen/text_size_mini"
+                        tools:ignore="SmallSp" />
+
+                </LinearLayout>
+
+                <RadioGroup
+                    android:id="@+id/rg_main_languages"
+                    style="@style/rg_style"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_main_language_auto"
+                        style="@style/rg_rb_style"
+                        android:checked="true"
+                        android:text="@string/follow_system" />
+
+                    <RadioButton
+                        android:id="@+id/rb_main_language_cn"
+                        style="@style/rg_rb_style"
+                        android:text="@string/simplified_chinese" />
+
+                    <RadioButton
+                        android:id="@+id/rb_main_language_tw"
+                        style="@style/rg_rb_style"
+                        android:text="@string/traditional_chinese" />
+
+                    <RadioButton
+                        android:id="@+id/rb_main_language_en"
+                        style="@style/rg_rb_style"
+                        android:text="@string/english" />
+
+                </RadioGroup>
 
             </LinearLayout>
 

@@ -15,12 +15,10 @@ import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
 import com.idormy.sms.forwarder.database.viewmodel.RuleViewModel
 import com.idormy.sms.forwarder.databinding.FragmentRulesBinding
-import com.idormy.sms.forwarder.utils.EVENT_UPDATE_RULE_TYPE
 import com.idormy.sms.forwarder.utils.KEY_RULE_CLONE
 import com.idormy.sms.forwarder.utils.KEY_RULE_ID
 import com.idormy.sms.forwarder.utils.KEY_RULE_TYPE
 import com.idormy.sms.forwarder.utils.XToastUtils
-import com.jeremyliao.liveeventbus.LiveEventBus
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
@@ -90,7 +88,6 @@ class RulesFragment : BaseFragment<FragmentRulesBinding?>(), RulePagingAdapter.O
                 else -> "sms"
             }
             viewModel.setType(currentType)
-            LiveEventBus.get(EVENT_UPDATE_RULE_TYPE, String::class.java).post(currentType)
             adapter.refresh()
             binding!!.recyclerView.scrollToPosition(0)
         }

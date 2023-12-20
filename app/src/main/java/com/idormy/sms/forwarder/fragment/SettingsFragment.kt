@@ -23,6 +23,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.hjq.language.LocaleContract
+import com.hjq.language.MultiLanguages
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
@@ -166,6 +168,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         switchDirectlyToClient(binding!!.sbDirectlyToClient)
         //纯自动任务模式
         switchDirectlyToTask(binding!!.sbDirectlyToTask)
+
+        //多语言设置
+        switchLanguage(binding!!.rgMainLanguages)
 
     }
 
@@ -978,6 +983,58 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 MaterialDialog.Builder(requireContext()).content(getString(R.string.enabling_pure_client_mode)).positiveText(R.string.lab_yes).onPositive { _: MaterialDialog?, _: DialogAction? ->
                     XUtil.exitApp()
                 }.negativeText(R.string.lab_no).show()
+            }
+        }
+    }
+
+    //多语言设置
+    private fun switchLanguage(rgMainLanguages: RadioGroup) {
+        rgMainLanguages.check(
+            if (MultiLanguages.isSystemLanguage(requireContext())) {
+                R.id.rb_main_language_auto
+            } else {
+                when (MultiLanguages.getAppLanguage(requireContext())) {
+                    LocaleContract.getSimplifiedChineseLocale() -> R.id.rb_main_language_cn
+                    LocaleContract.getTraditionalChineseLocale() -> R.id.rb_main_language_tw
+                    LocaleContract.getEnglishLocale() -> R.id.rb_main_language_en
+                    else -> R.id.rb_main_language_auto
+                }
+            }
+        )
+
+        rgMainLanguages.setOnCheckedChangeListener { _, checkedId ->
+            // 是否需要重启
+            val restart = when (checkedId) {
+                R.id.rb_main_language_auto -> {
+                    // 跟随系统
+                    MultiLanguages.clearAppLanguage(requireContext())
+                }
+
+                R.id.rb_main_language_cn -> {
+                    // 简体中文
+                    MultiLanguages.setAppLanguage(requireContext(), LocaleContract.getSimplifiedChineseLocale())
+                }
+
+                R.id.rb_main_language_tw -> {
+                    // 繁体中文
+                    MultiLanguages.setAppLanguage(requireContext(), LocaleContract.getTraditionalChineseLocale())
+                }
+
+                R.id.rb_main_language_en -> {
+                    // 英语
+                    MultiLanguages.setAppLanguage(requireContext(), LocaleContract.getEnglishLocale())
+                }
+
+                else -> false
+            }
+
+            // 重启应用
+            if (restart) {
+                XToastUtils.toast(R.string.multi_languages_toast)
+                val intent = requireActivity().baseContext.packageManager.getLaunchIntentForPackage(requireActivity().baseContext.packageName)
+                intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
+                requireActivity().finish()
             }
         }
     }

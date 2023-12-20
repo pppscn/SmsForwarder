@@ -1279,7 +1279,7 @@
     <string name="specified_uid">指定配置</string>
     <string name="specified_uid_hint">填写frpc的uid，多个以半角逗号分隔</string>
 
-    <string name="current_language">跟随系统</string>
+    <string name="current_language">简体中文</string>
     <string name="current_activity_language">当前 Activity 语种：</string>
     <string name="current_application_language">当前 Application 语种：</string>
     <string name="current_system_language">当前 System 语种：</string>

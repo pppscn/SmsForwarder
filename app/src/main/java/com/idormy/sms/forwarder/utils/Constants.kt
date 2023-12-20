@@ -358,11 +358,6 @@ const val EVENT_TOAST_ERROR = "key_toast_error"
 const val EVENT_TOAST_INFO = "key_toast_info"
 const val EVENT_TOAST_WARNING = "key_toast_warning"
 
-//主页监听时间
-const val EVENT_UPDATE_LOGS_TYPE = "key_logs_type"
-const val EVENT_UPDATE_RULE_TYPE = "key_rules_type"
-const val EVENT_UPDATE_TASK_TYPE = "key_tasks_type"
-
 const val KEY_SENDER_ID = "key_sender_id"
 const val KEY_SENDER_TYPE = "key_sender_type"
 const val KEY_SENDER_CLONE = "key_sender_clone"

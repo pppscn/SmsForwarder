@@ -17,6 +17,8 @@ import androidx.work.Configuration
 import com.gyf.cactus.Cactus
 import com.gyf.cactus.callback.CactusCallback
 import com.gyf.cactus.ext.cactus
+import com.hjq.language.MultiLanguages
+import com.hjq.language.OnLanguageListener
 import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.AppDatabase
@@ -90,7 +92,9 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
     }
 
     override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(base)
+        //super.attachBaseContext(base)
+        // 绑定语种
+        super.attachBaseContext(MultiLanguages.attach(base))
         //解决4.x运行崩溃的问题
         MultiDex.install(this)
     }
@@ -230,6 +234,18 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         XUpdateInit.init(this)
         // 运营统计数据
         UMengInit.init(this)
+        // 初始化语种切换框架
+        MultiLanguages.init(this)
+        // 设置语种变化监听器
+        MultiLanguages.setOnLanguageListener(object : OnLanguageListener {
+            override fun onAppLocaleChange(oldLocale: Locale, newLocale: Locale) {
+                Log.i(TAG, "监听到应用切换了语种，旧语种：$oldLocale，新语种：$newLocale")
+            }
+
+            override fun onSystemLocaleChange(oldLocale: Locale, newLocale: Locale) {
+                Log.i(TAG, "监听到系统切换了语种，旧语种：" + oldLocale + "，新语种：" + newLocale + "，是否跟随系统：" + MultiLanguages.isSystemLanguage(this@App))
+            }
+        })
     }
 
     @SuppressLint("CheckResult")
