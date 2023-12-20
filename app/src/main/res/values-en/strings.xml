@@ -897,6 +897,7 @@
     <string name="copy" tools:ignore="PrivateResource">Copy</string>
     <string name="random">Random</string>
     <string name="enable_function">Enable Function</string>
+    <string name="disable_function">Disable Function</string>
     <string name="enable_function_tips">Select the features you want to enable remote control as needed</string>
     <string name="api_clone">OneKey Clone</string>
     <string name="api_clone_tips">One-click cloning of the general config of the machine, sender, and rules to the new machine</string>
@@ -1169,7 +1170,10 @@
     <string name="task_notification">Notification</string>
     <string name="task_frpc">Frpc Setting</string>
     <string name="task_frpc_tips">Control the start/stop of FRPC.</string>
-    <string name="task_server">Server Setting</string>
+    <string name="task_http_server">Server Setting</string>
+    <string name="task_http_server_tips">Manage HttpServer start/stop and enable/disable functions</string>
+    <string name="task_cleaner">Cleaner</string>
+    <string name="task_cleaner_tips">Delete FW. logs older than N days, delete cache, etc.</string>
 
     <string name="second">Second</string>
     <string name="minute">Minute</string>

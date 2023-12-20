@@ -32,7 +32,7 @@ class CronWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
         }
 
         val task = AppDatabase.getInstance(App.context).taskDao().getOne(taskId)
-        if (task.status == 0) {
+        if (task == null || task.status == 0) {
             Log.d(TAG, "TASK-${task.id}：task is disabled")
             return Result.success()
         }

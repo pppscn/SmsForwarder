@@ -166,11 +166,18 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
             R.drawable.auto_task_icon_frpc
         ),
         PageInfo(
-            getString(R.string.task_server),
+            getString(R.string.task_http_server),
             "com.idormy.sms.forwarder.fragment.action.HttpServerFragment",
             "{\"\":\"\"}",
             CoreAnim.slide,
             R.drawable.auto_task_icon_http_server
+        ),
+        PageInfo(
+            getString(R.string.task_cleaner),
+            "com.idormy.sms.forwarder.fragment.action.CleanerFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_cleaner
         ),
     )
 

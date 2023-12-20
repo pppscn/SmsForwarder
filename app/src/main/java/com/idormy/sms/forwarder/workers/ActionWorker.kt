@@ -11,20 +11,26 @@ import androidx.work.WorkerParameters
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.TaskSetting
+import com.idormy.sms.forwarder.entity.action.CleanerSetting
 import com.idormy.sms.forwarder.entity.action.FrpcSetting
 import com.idormy.sms.forwarder.entity.action.HttpServerSetting
 import com.idormy.sms.forwarder.entity.action.SmsSetting
 import com.idormy.sms.forwarder.service.HttpServerService
+import com.idormy.sms.forwarder.utils.CacheUtils
 import com.idormy.sms.forwarder.utils.EVENT_TOAST_ERROR
 import com.idormy.sms.forwarder.utils.EVENT_TOAST_INFO
 import com.idormy.sms.forwarder.utils.EVENT_TOAST_SUCCESS
 import com.idormy.sms.forwarder.utils.EVENT_TOAST_WARNING
+import com.idormy.sms.forwarder.utils.HistoryUtils
+import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.SendUtils
+import com.idormy.sms.forwarder.utils.TASK_ACTION_CLEANER
 import com.idormy.sms.forwarder.utils.TASK_ACTION_FRPC
 import com.idormy.sms.forwarder.utils.TASK_ACTION_HTTPSERVER
 import com.idormy.sms.forwarder.utils.TASK_ACTION_NOTIFICATION
@@ -35,6 +41,7 @@ import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xutil.file.FileUtils
 import com.xuexiang.xutil.resource.ResUtils.getString
 import frpclib.Frpclib
+import java.util.Calendar
 
 //执行每个task具体动作任务
 @Suppress("PrivatePropertyName")
@@ -153,6 +160,16 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                             writeLog("httpServerSetting is null")
                             continue
                         }
+
+                        HttpServerUtils.enableApiClone = httpServerSetting.enableApiClone
+                        HttpServerUtils.enableApiSmsQuery = httpServerSetting.enableApiSmsQuery
+                        HttpServerUtils.enableApiSmsSend = httpServerSetting.enableApiSmsSend
+                        HttpServerUtils.enableApiCallQuery = httpServerSetting.enableApiCallQuery
+                        HttpServerUtils.enableApiContactQuery = httpServerSetting.enableApiContactQuery
+                        HttpServerUtils.enableApiContactAdd = httpServerSetting.enableApiContactAdd
+                        HttpServerUtils.enableApiWol = httpServerSetting.enableApiWol
+                        HttpServerUtils.enableApiLocation = httpServerSetting.enableApiLocation
+                        HttpServerUtils.enableApiBatteryQuery = httpServerSetting.enableApiBatteryQuery
                         Intent(App.context, HttpServerService::class.java).also {
                             if (httpServerSetting.action == "start") {
                                 App.context.startService(it)
@@ -163,6 +180,27 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
 
                         successNum++
                         writeLog("httpServer success", "SUCCESS")
+                    }
+
+                    TASK_ACTION_CLEANER -> {
+                        val cleanerSetting = Gson().fromJson(action.setting, CleanerSetting::class.java)
+                        if (cleanerSetting == null) {
+                            writeLog("cleanerSetting is null")
+                            continue
+                        }
+                        if (cleanerSetting.days > 0) {
+                            val cal = Calendar.getInstance()
+                            cal.add(Calendar.DAY_OF_MONTH, 0 - cleanerSetting.days)
+                            Core.msg.deleteTimeAgo(cal.timeInMillis)
+                        } else {
+                            Core.msg.deleteAll()
+                        }
+                        //清理缓存
+                        HistoryUtils.clearPreference()
+                        CacheUtils.clearAllCache(App.context)
+
+                        successNum++
+                        writeLog("cleaner success", "SUCCESS")
                     }
 
                     else -> {

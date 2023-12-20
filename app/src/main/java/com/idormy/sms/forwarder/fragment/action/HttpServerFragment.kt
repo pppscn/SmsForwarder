@@ -9,9 +9,10 @@ import android.view.ViewGroup
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
-import com.idormy.sms.forwarder.databinding.FragmentTasksActionSendSmsBinding
-import com.idormy.sms.forwarder.entity.condition.CronSetting
+import com.idormy.sms.forwarder.databinding.FragmentTasksActionHttpServerBinding
+import com.idormy.sms.forwarder.entity.action.HttpServerSetting
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_ACTION
+import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_ACTION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_ACTION
 import com.idormy.sms.forwarder.utils.KEY_TEST_ACTION
 import com.idormy.sms.forwarder.utils.TASK_ACTION_HTTPSERVER
@@ -26,7 +27,7 @@ import com.xuexiang.xui.widget.actionbar.TitleBar
 
 @Page(name = "HttpServer")
 @Suppress("PrivatePropertyName")
-class HttpServerFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View.OnClickListener {
+class HttpServerFragment : BaseFragment<FragmentTasksActionHttpServerBinding?>(), View.OnClickListener {
 
     private val TAG: String = HttpServerFragment::class.java.simpleName
     private var titleBar: TitleBar? = null
@@ -36,9 +37,6 @@ class HttpServerFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), V
     @AutoWired(name = KEY_EVENT_DATA_ACTION)
     var eventData: String? = null
 
-    private var expression = "* * * * * ? *"
-    private var description = "测试描述"
-
     override fun initArgs() {
         XRouter.getInstance().inject(this)
     }
@@ -46,12 +44,12 @@ class HttpServerFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), V
     override fun viewBindingInflate(
         inflater: LayoutInflater,
         container: ViewGroup,
-    ): FragmentTasksActionSendSmsBinding {
-        return FragmentTasksActionSendSmsBinding.inflate(inflater, container, false)
+    ): FragmentTasksActionHttpServerBinding {
+        return FragmentTasksActionHttpServerBinding.inflate(inflater, container, false)
     }
 
     override fun initTitle(): TitleBar? {
-        titleBar = super.initTitle()!!.setImmersive(false).setTitle(R.string.task_server)
+        titleBar = super.initTitle()!!.setImmersive(false).setTitle(R.string.task_http_server)
         return titleBar
     }
 
@@ -72,10 +70,21 @@ class HttpServerFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), V
         })
 
         Log.d(TAG, "initViews eventData:$eventData")
+        var settingVo = HttpServerSetting(getString(R.string.task_http_server_tips))
         if (eventData != null) {
-            val settingVo = Gson().fromJson(eventData, CronSetting::class.java)
+            settingVo = Gson().fromJson(eventData, HttpServerSetting::class.java)
             Log.d(TAG, "initViews settingVo:$settingVo")
         }
+        binding!!.rgHttpServerState.check(if (settingVo.action == "start") R.id.rb_start_server else R.id.rb_stop_server)
+        binding!!.sbApiClone.isChecked = settingVo.enableApiClone
+        binding!!.sbApiQuerySms.isChecked = settingVo.enableApiSmsQuery
+        binding!!.sbApiSendSms.isChecked = settingVo.enableApiSmsSend
+        binding!!.sbApiQueryCall.isChecked = settingVo.enableApiCallQuery
+        binding!!.sbApiQueryContacts.isChecked = settingVo.enableApiContactQuery
+        binding!!.sbApiAddContacts.isChecked = settingVo.enableApiContactAdd
+        binding!!.sbApiWol.isChecked = settingVo.enableApiWol
+        binding!!.sbApiLocation.isChecked = settingVo.enableApiLocation
+        binding!!.sbApiQueryBattery.isChecked = settingVo.enableApiBatteryQuery
     }
 
     @SuppressLint("SetTextI18n")
@@ -121,6 +130,7 @@ class HttpServerFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), V
                 R.id.btn_save -> {
                     val settingVo = checkSetting()
                     val intent = Intent()
+                    intent.putExtra(KEY_BACK_DESCRIPTION_ACTION, settingVo.description)
                     intent.putExtra(KEY_BACK_DATA_ACTION, Gson().toJson(settingVo))
                     setFragmentResult(TASK_ACTION_HTTPSERVER, intent)
                     popToBack()
@@ -135,7 +145,52 @@ class HttpServerFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), V
 
     //检查设置
     @SuppressLint("SetTextI18n")
-    private fun checkSetting(): CronSetting {
-        return CronSetting(description, expression)
+    private fun checkSetting(): HttpServerSetting {
+        val enableList = mutableListOf<String>()
+        val disableList = mutableListOf<String>()
+
+        val enableApiClone = binding!!.sbApiClone.isChecked
+        if (enableApiClone) enableList.add(getString(R.string.api_clone)) else disableList.add(getString(R.string.api_clone))
+
+        val enableApiSmsSend = binding!!.sbApiSendSms.isChecked
+        if (enableApiSmsSend) enableList.add(getString(R.string.api_sms_query)) else disableList.add(getString(R.string.api_sms_query))
+
+        val enableApiSmsQuery = binding!!.sbApiQuerySms.isChecked
+        if (enableApiSmsQuery) enableList.add(getString(R.string.api_sms_send)) else disableList.add(getString(R.string.api_sms_send))
+
+        val enableApiCallQuery = binding!!.sbApiQueryCall.isChecked
+        if (enableApiCallQuery) enableList.add(getString(R.string.api_call_query)) else disableList.add(getString(R.string.api_call_query))
+
+        val enableApiContactQuery = binding!!.sbApiQueryContacts.isChecked
+        if (enableApiContactQuery) enableList.add(getString(R.string.api_contact_query)) else disableList.add(getString(R.string.api_contact_query))
+
+        val enableApiContactAdd = binding!!.sbApiAddContacts.isChecked
+        if (enableApiContactAdd) enableList.add(getString(R.string.api_contact_add)) else disableList.add(getString(R.string.api_contact_add))
+
+        val enableApiWol = binding!!.sbApiWol.isChecked
+        if (enableApiWol) enableList.add(getString(R.string.api_wol)) else disableList.add(getString(R.string.api_wol))
+
+        val enableApiLocation = binding!!.sbApiLocation.isChecked
+        if (enableApiLocation) enableList.add(getString(R.string.api_location)) else disableList.add(getString(R.string.api_location))
+
+        val enableApiBatteryQuery = binding!!.sbApiQueryBattery.isChecked
+        if (enableApiBatteryQuery) enableList.add(getString(R.string.api_battery_query)) else disableList.add(getString(R.string.api_battery_query))
+
+        val description = StringBuilder()
+        val action = if (binding!!.rgHttpServerState.checkedRadioButtonId == R.id.rb_start_server) {
+            description.append(getString(R.string.start_server))
+            if (enableList.isNotEmpty()) {
+                description.append(", ").append(getString(R.string.enable_function)).append(": ").append(enableList.joinToString("/"))
+            }
+            if (disableList.isNotEmpty()) {
+                description.append(", ").append(getString(R.string.disable_function)).append(": ").append(disableList.joinToString("/"))
+            }
+            "start"
+        } else {
+            description.append(getString(R.string.stop_server))
+            "stop"
+        }
+
+        return HttpServerSetting(description.toString(), action, enableApiClone, enableApiSmsSend, enableApiSmsQuery, enableApiCallQuery, enableApiContactQuery, enableApiContactAdd, enableApiWol, enableApiLocation, enableApiBatteryQuery)
     }
 }

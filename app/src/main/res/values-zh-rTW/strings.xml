@@ -898,6 +898,7 @@
     <string name="rsa_key_tips2">已複製公鑰到剪貼板</string>
     <string name="sign_key_tips">已生成密鑰，並複製到剪貼板</string>
     <string name="enable_function">啟用功能</string>
+    <string name="disable_function">禁用功能</string>
     <string name="enable_function_tips">按需選擇您要啟用遠程控制的功能</string>
     <string name="api_clone">一鍵換新機</string>
     <string name="api_clone_tips">一鍵克隆本機的通用配置、發送通道、轉發規則到新機器</string>
@@ -1170,7 +1171,10 @@
     <string name="task_notification">通道推送</string>
     <string name="task_frpc">Frpc設置</string>
     <string name="task_frpc_tips">控制內網穿透·FRPC的啟動/停止</string>
-    <string name="task_server">HttpServer設置</string>
+    <string name="task_http_server">HttpServer設置</string>
+    <string name="task_http_server_tips">控制HttpServer的啟動/停止，並支持啟用/禁用功能</string>
+    <string name="task_cleaner">清理日誌</string>
+    <string name="task_cleaner_tips">批量刪除N天前的轉發記錄、刪除快取等</string>
 
     <string name="second">秒</string>
     <string name="minute">分</string>
