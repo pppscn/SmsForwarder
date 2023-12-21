@@ -1296,4 +1296,6 @@
     <string name="simplified_chinese">简体中文</string>
     <string name="traditional_chinese">繁體中文</string>
     <string name="english">English</string>
+    <string name="log_export_failed">日誌匯出失敗！</string>
+    <string name="log_export_success">日誌匯出成功！儲存路徑：</string>
 </resources>

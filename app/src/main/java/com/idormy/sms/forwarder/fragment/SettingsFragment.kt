@@ -300,12 +300,12 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                                 val srcDirPath = App.context.cacheDir.absolutePath + "/logs"
                                 val destDirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path + "/SmsForwarder"
                                 if (FileUtils.copyDir(srcDirPath, destDirPath, null)) {
-                                    XToastUtils.success("导出日志成功！存放路径：$destDirPath")
+                                    XToastUtils.success(getString(R.string.log_export_success) + destDirPath)
                                 } else {
-                                    XToastUtils.error("导出日志失败！")
+                                    XToastUtils.error(getString(R.string.log_export_failed))
                                 }
                             } catch (e: Exception) {
-                                XToastUtils.error("导出日志失败！")
+                                XToastUtils.error(getString(R.string.log_export_failed) + e.message)
                                 e.printStackTrace()
                             }
                         }
@@ -1038,7 +1038,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
         rgMainLanguages.setOnCheckedChangeListener { _, checkedId ->
             // 是否需要重启
-            val restart = when (checkedId) {
+            when (checkedId) {
                 R.id.rb_main_language_auto -> {
                     // 跟随系统
                     MultiLanguages.clearAppLanguage(requireContext())
@@ -1058,18 +1058,14 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                     // 英语
                     MultiLanguages.setAppLanguage(requireContext(), LocaleContract.getEnglishLocale())
                 }
-
-                else -> false
             }
 
             // 重启应用
-            if (restart) {
-                XToastUtils.toast(R.string.multi_languages_toast)
-                val intent = Intent(App.context, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                startActivity(intent)
-                requireActivity().finish()
-            }
+            XToastUtils.toast(R.string.multi_languages_toast)
+            val intent = Intent(App.context, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
+            requireActivity().finish()
         }
     }
 
