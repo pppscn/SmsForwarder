@@ -1,6 +1,6 @@
 package com.idormy.sms.forwarder.server.component
 
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.xuexiang.xutil.resource.ResUtils.getString

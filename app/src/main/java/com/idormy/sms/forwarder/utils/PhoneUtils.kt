@@ -15,7 +15,6 @@ import android.telephony.SmsManager
 import android.telephony.SubscriptionInfo
 import android.telephony.SubscriptionManager
 import android.text.TextUtils
-import android.util.Log
 import androidx.annotation.RequiresPermission
 import androidx.core.app.ActivityCompat
 import com.idormy.sms.forwarder.App
@@ -90,6 +89,7 @@ class PhoneUtils private constructor() {
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
+                Log.e(TAG, "getSimMultiInfo:", e)
             }
             //仍然获取不到/只获取到一个->取出备注
             if (infoList.isEmpty() || infoList.size == 1) {
@@ -152,6 +152,7 @@ class PhoneUtils private constructor() {
                 Settings.Secure.getString(XUtil.getContentResolver(), "bluetooth_name")
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.e(TAG, "getDeviceName:", e)
                 Build.BRAND + " " + Build.MODEL
             }
         }
@@ -499,6 +500,7 @@ class PhoneUtils private constructor() {
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
+                Log.e(TAG, "getSmsInfoList:", e)
             }
             return smsInfoList
         }

@@ -301,6 +301,7 @@ class CommonUtils private constructor() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.e("CommonUtils", "getIPAddresses: ${e.message}")
             }
 
             return ipAddresses

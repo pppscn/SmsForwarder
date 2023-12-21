@@ -1,11 +1,11 @@
 package com.idormy.sms.forwarder.utils.task
 
-import android.util.Log
 import androidx.work.Data
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.idormy.sms.forwarder.database.entity.Task
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.TaskWorker
 import com.idormy.sms.forwarder.workers.CronWorker
 import java.util.concurrent.TimeUnit

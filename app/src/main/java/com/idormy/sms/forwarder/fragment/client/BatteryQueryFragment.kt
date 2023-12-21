@@ -1,6 +1,5 @@
 package com.idormy.sms.forwarder.fragment.client
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.google.gson.Gson
@@ -12,6 +11,7 @@ import com.idormy.sms.forwarder.entity.BatteryInfo
 import com.idormy.sms.forwarder.server.model.BaseResponse
 import com.idormy.sms.forwarder.utils.Base64
 import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.RSACrypt
 import com.idormy.sms.forwarder.utils.SM4Crypt
 import com.idormy.sms.forwarder.utils.SettingUtils
@@ -82,6 +82,7 @@ class BatteryQueryFragment : BaseFragment<FragmentClientBatteryQueryBinding?>() 
                 } catch (e: Exception) {
                     XToastUtils.error(getString(R.string.request_failed) + e.message)
                     e.printStackTrace()
+                    Log.e(TAG, e.toString())
                     return
                 }
                 postRequest.upString(requestMsg)
@@ -97,6 +98,7 @@ class BatteryQueryFragment : BaseFragment<FragmentClientBatteryQueryBinding?>() 
                 } catch (e: Exception) {
                     XToastUtils.error(getString(R.string.request_failed) + e.message)
                     e.printStackTrace()
+                    Log.e(TAG, e.toString())
                     return
                 }
                 postRequest.upString(requestMsg)
@@ -147,6 +149,7 @@ class BatteryQueryFragment : BaseFragment<FragmentClientBatteryQueryBinding?>() 
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Log.e(TAG, e.toString())
                     XToastUtils.error(getString(R.string.request_failed) + response)
                 }
             }

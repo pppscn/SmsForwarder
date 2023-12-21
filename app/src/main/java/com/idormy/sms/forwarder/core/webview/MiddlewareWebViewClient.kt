@@ -2,7 +2,7 @@ package com.idormy.sms.forwarder.core.webview
 
 import android.net.Uri
 import android.os.Build
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView

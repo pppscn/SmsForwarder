@@ -3,12 +3,12 @@ package com.idormy.sms.forwarder.utils.sender
 import android.annotation.SuppressLint
 import android.text.TextUtils
 import android.util.Base64
-import android.util.Log
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.SocketSetting
 import com.idormy.sms.forwarder.utils.AppUtils
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
@@ -91,6 +91,7 @@ class SocketUtils {
                     SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Log.e(TAG, "An error occurred: ${e.message}")
                     val status = 0
                     SendUtils.updateLogs(logId, status, e.message.toString())
                     SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)

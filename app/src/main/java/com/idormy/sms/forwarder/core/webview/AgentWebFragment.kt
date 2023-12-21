@@ -10,7 +10,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.Gravity
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -30,7 +29,9 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.just.agentweb.action.PermissionInterceptor
 import com.just.agentweb.core.AgentWeb
@@ -105,7 +106,7 @@ class AgentWebFragment : Fragment(), FragmentKeyDown {
             .ready() //设置 WebSettings。
             //WebView载入该url地址的页面并显示。
             .go(url)
-        if (com.idormy.sms.forwarder.App.isDebug) {
+        if (App.isDebug) {
             AgentWebConfig.debug()
         }
 

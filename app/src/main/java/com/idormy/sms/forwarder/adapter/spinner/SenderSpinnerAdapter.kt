@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.text.Html
 import android.text.TextUtils
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +13,7 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.STATUS_OFF
 import com.xuexiang.xui.utils.CollectionUtils
 import com.xuexiang.xui.widget.spinner.editspinner.BaseEditSpinnerAdapter
@@ -109,6 +109,7 @@ class SenderSpinnerAdapter<T> : BaseEditSpinnerAdapter<T>, EditSpinnerFilter {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.e("SenderSpinnerAdapter", "onFilter error: ${e.message}")
             }
         }
         Log.d("SenderSpinnerAdapter", "mDisplayData = $mDisplayData")

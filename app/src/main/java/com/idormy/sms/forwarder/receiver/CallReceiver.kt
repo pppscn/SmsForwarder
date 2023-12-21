@@ -1,7 +1,7 @@
 package com.idormy.sms.forwarder.receiver
 
 import android.content.Context
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf

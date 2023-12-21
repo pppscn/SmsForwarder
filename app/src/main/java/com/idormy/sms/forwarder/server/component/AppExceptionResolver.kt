@@ -1,8 +1,8 @@
 package com.idormy.sms.forwarder.server.component
 
-import android.util.Log
 import com.idormy.sms.forwarder.utils.Base64
 import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.RSACrypt
 import com.idormy.sms.forwarder.utils.SM4Crypt
 import com.xuexiang.xutil.data.ConvertTools
@@ -22,7 +22,7 @@ class AppExceptionResolver : ExceptionResolver {
     private val TAG: String = "AppExceptionResolver"
 
     override fun onResolve(request: HttpRequest, response: HttpResponse, e: Throwable) {
-        e.printStackTrace()
+        Log.e(TAG, "onResolve: ${e.message}")
         if (e is HttpException) {
             //response.status = e.statusCode
             //异常捕获返回 http 200
@@ -41,12 +41,14 @@ class AppExceptionResolver : ExceptionResolver {
                 resp = RSACrypt.encryptByPrivateKey(resp, privateKey)
                 response.setBody(StringBody(resp))
             }
+
             3 -> {
                 val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.serverSm4Key)
                 //response = Base64.encode(response.toByteArray())
                 val encryptCBC = SM4Crypt.encrypt(resp.toByteArray(), sm4Key)
                 response.setBody(StringBody(ConvertTools.bytes2HexString(encryptCBC)))
             }
+
             else -> {
                 response.setBody(JsonBody(resp))
             }

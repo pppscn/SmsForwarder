@@ -1,7 +1,6 @@
 package com.idormy.sms.forwarder.fragment.senders
 
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +23,7 @@ import com.idormy.sms.forwarder.utils.KEY_SENDER_CLONE
 import com.idormy.sms.forwarder.utils.KEY_SENDER_ID
 import com.idormy.sms.forwarder.utils.KEY_SENDER_TEST
 import com.idormy.sms.forwarder.utils.KEY_SENDER_TYPE
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.idormy.sms.forwarder.utils.sender.WeworkRobotUtils
@@ -114,6 +114,7 @@ class WeworkRobotFragment : BaseFragment<FragmentSendersWeworkRobotBinding?>(), 
 
                 override fun onError(e: Throwable) {
                     e.printStackTrace()
+                    Log.e(TAG, "onError:$e")
                 }
 
                 override fun onSuccess(sender: Sender) {
@@ -178,6 +179,7 @@ class WeworkRobotFragment : BaseFragment<FragmentSendersWeworkRobotBinding?>(), 
                             WeworkRobotUtils.sendMsg(settingVo, msgInfo)
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            Log.e(TAG, "onClick: $e")
                             LiveEventBus.get(EVENT_TOAST_ERROR, String::class.java).post(e.message.toString())
                         }
                         LiveEventBus.get(KEY_SENDER_TEST, String::class.java).post("finish")
@@ -226,6 +228,7 @@ class WeworkRobotFragment : BaseFragment<FragmentSendersWeworkRobotBinding?>(), 
         } catch (e: Exception) {
             XToastUtils.error(e.message.toString())
             e.printStackTrace()
+            Log.e(TAG, "onClick: $e")
         }
     }
 

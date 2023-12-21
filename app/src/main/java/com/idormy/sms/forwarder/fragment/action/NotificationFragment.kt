@@ -2,7 +2,6 @@ package com.idormy.sms.forwarder.fragment.action
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -255,6 +254,7 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
                             SendUtils.sendMsgSender(msgInfo, settingVo)
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            Log.e(TAG, "onClick error: ${e.message}")
                             LiveEventBus.get(EVENT_TOAST_ERROR, String::class.java).post(e.message.toString())
                         }
                     }.start()
@@ -288,6 +288,7 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
         } catch (e: Exception) {
             XToastUtils.error(e.message.toString())
             e.printStackTrace()
+            Log.e(TAG, "onClick error: ${e.message}")
         }
     }
 
@@ -302,6 +303,7 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
 
             override fun onError(e: Throwable) {
                 e.printStackTrace()
+                Log.e(TAG, "initSenderSpinner error: ${e.message}")
             }
 
             override fun onSuccess(senderList: List<Sender>) {

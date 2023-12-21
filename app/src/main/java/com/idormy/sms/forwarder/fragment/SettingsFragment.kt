@@ -9,11 +9,11 @@ import android.content.pm.PackageManager
 import android.location.Criteria
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,6 +56,7 @@ import com.xuexiang.xui.widget.picker.widget.builder.OptionsPickerBuilder
 import com.xuexiang.xui.widget.picker.widget.listener.OnOptionsSelectListener
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.XUtil.getPackageManager
+import com.xuexiang.xutil.file.FileUtils
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -157,6 +158,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         switchDirectlyToClient(binding!!.sbDirectlyToClient)
         //纯自动任务模式
         switchDirectlyToTask(binding!!.sbDirectlyToTask)
+        //调试模式
+        switchDebugMode(binding!!.sbDebugMode)
         //多语言设置
         switchLanguage(binding!!.rgMainLanguages)
     }
@@ -177,6 +180,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         binding!!.btInsertExtra.setOnClickListener(this)
         binding!!.btInsertTime.setOnClickListener(this)
         binding!!.btInsertDeviceName.setOnClickListener(this)
+        binding!!.btnExportLog.setOnClickListener(this)
 
         //监听已安装App信息列表加载完成事件
         LiveEventBus.get(EVENT_LOAD_APP_LIST, String::class.java).observeStickyForever(appListObserver)
@@ -282,6 +286,40 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 CommonUtils.insertOrReplaceText2Cursor(
                     etSmsTemplate, getString(R.string.tag_device_name)
                 )
+                return
+            }
+
+            R.id.btn_export_log -> {
+                // 申请储存权限
+                XXPermissions.with(this)
+                    //.permission(*Permission.Group.STORAGE)
+                    .permission(Permission.MANAGE_EXTERNAL_STORAGE).request(object : OnPermissionCallback {
+                        @SuppressLint("SetTextI18n")
+                        override fun onGranted(permissions: List<String>, all: Boolean) {
+                            try {
+                                val srcDirPath = App.context.cacheDir.absolutePath + "/logs"
+                                val destDirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path + "/SmsForwarder"
+                                if (FileUtils.copyDir(srcDirPath, destDirPath, null)) {
+                                    XToastUtils.success("导出日志成功！存放路径：$destDirPath")
+                                } else {
+                                    XToastUtils.error("导出日志失败！")
+                                }
+                            } catch (e: Exception) {
+                                XToastUtils.error("导出日志失败！")
+                                e.printStackTrace()
+                            }
+                        }
+
+                        override fun onDenied(permissions: List<String>, never: Boolean) {
+                            if (never) {
+                                XToastUtils.error(R.string.toast_denied_never)
+                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                XXPermissions.startPermissionActivity(requireContext(), permissions)
+                            } else {
+                                XToastUtils.error(R.string.toast_denied)
+                            }
+                        }
+                    })
                 return
             }
 
@@ -974,6 +1012,15 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         }
     }
 
+    //调试模式
+    private fun switchDebugMode(@SuppressLint("UseSwitchCompatOrMaterialCode") switchDebugMode: SwitchButton) {
+        switchDebugMode.isChecked = SettingUtils.enableDebugMode
+        switchDebugMode.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            SettingUtils.enableDebugMode = isChecked
+            App.isDebug = isChecked
+        }
+    }
+
     //多语言设置
     private fun switchLanguage(rgMainLanguages: RadioGroup) {
         rgMainLanguages.check(
@@ -1179,6 +1226,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                             break
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            Log.e("Util", "******************e:" + e.message)
                         }
                     }
                 }
@@ -1194,6 +1242,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 context.startActivity(intent)
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.e("Util", "******************e:" + e.message)
                 val intent = Intent(Settings.ACTION_SETTINGS)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 context.startActivity(intent)

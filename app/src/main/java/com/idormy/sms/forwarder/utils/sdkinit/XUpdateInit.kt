@@ -2,6 +2,7 @@ package com.idormy.sms.forwarder.utils.sdkinit
 
 import android.app.Application
 import android.content.Context
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.utils.KEY_UPDATE_URL
 import com.idormy.sms.forwarder.utils.update.CustomUpdateDownloader
 import com.idormy.sms.forwarder.utils.update.CustomUpdateFailureListener
@@ -26,7 +27,7 @@ class XUpdateInit private constructor() {
          */
         fun init(application: Application) {
             XUpdate.get()
-                .debug(com.idormy.sms.forwarder.App.isDebug)
+                .debug(App.isDebug)
                 //默认设置只在wifi下检查版本更新
                 .isWifiOnly(false)
                 //默认设置使用get请求检查版本

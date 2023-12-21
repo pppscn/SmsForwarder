@@ -1,6 +1,6 @@
 package com.idormy.sms.forwarder.server.component
 
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import com.google.gson.GsonBuilder
 import com.idormy.sms.forwarder.server.model.BaseRequest
 import com.idormy.sms.forwarder.utils.Base64

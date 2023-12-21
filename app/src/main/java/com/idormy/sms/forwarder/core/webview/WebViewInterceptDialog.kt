@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.xuexiang.xui.widget.dialog.DialogLoader
 import com.xuexiang.xutil.XUtil
@@ -54,6 +55,7 @@ class WebViewInterceptDialog : AppCompatActivity(), DialogInterface.OnDismissLis
             return intent.scheme
         } catch (e: URISyntaxException) {
             e.printStackTrace()
+            Log.e("WebViewInterceptDialog", e.toString())
         }
         return ""
     }

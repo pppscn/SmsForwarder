@@ -1,7 +1,6 @@
 package com.idormy.sms.forwarder.utils.task
 
 import android.os.BatteryManager
-import android.util.Log
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.entity.TaskSetting
 import com.idormy.sms.forwarder.entity.condition.BatterySetting
@@ -12,6 +11,7 @@ import com.idormy.sms.forwarder.entity.condition.LockScreenSetting
 import com.idormy.sms.forwarder.entity.condition.NetworkSetting
 import com.idormy.sms.forwarder.entity.condition.SimSetting
 import com.idormy.sms.forwarder.utils.DELAY_TIME_AFTER_SIM_READY
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_BATTERY
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CHARGE
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CRON

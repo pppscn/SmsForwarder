@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +25,7 @@ import com.idormy.sms.forwarder.utils.KEY_SENDER_CLONE
 import com.idormy.sms.forwarder.utils.KEY_SENDER_ID
 import com.idormy.sms.forwarder.utils.KEY_SENDER_TEST
 import com.idormy.sms.forwarder.utils.KEY_SENDER_TYPE
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.idormy.sms.forwarder.utils.sender.UrlSchemeUtils
@@ -116,6 +116,7 @@ class UrlSchemeFragment : BaseFragment<FragmentSendersUrlSchemeBinding?>(), View
 
                 override fun onError(e: Throwable) {
                     e.printStackTrace()
+                    Log.e(TAG, "onError:$e")
                 }
 
                 override fun onSuccess(sender: Sender) {
@@ -158,6 +159,7 @@ class UrlSchemeFragment : BaseFragment<FragmentSendersUrlSchemeBinding?>(), View
                             UrlSchemeUtils.sendMsg(settingVo, msgInfo)
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            Log.e(TAG, "onClick: $e")
                             LiveEventBus.get(EVENT_TOAST_ERROR, String::class.java).post(e.message.toString())
                         }
                         LiveEventBus.get(KEY_SENDER_TEST, String::class.java).post("finish")
@@ -206,6 +208,7 @@ class UrlSchemeFragment : BaseFragment<FragmentSendersUrlSchemeBinding?>(), View
         } catch (e: Exception) {
             XToastUtils.error(e.message.toString())
             e.printStackTrace()
+            Log.e(TAG, "onClick: $e")
         }
     }
 

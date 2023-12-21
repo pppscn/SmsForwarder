@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +26,7 @@ import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_ACTION
 import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_ACTION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_ACTION
 import com.idormy.sms.forwarder.utils.KEY_TEST_ACTION
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDSMS
 import com.idormy.sms.forwarder.utils.XToastUtils
@@ -172,6 +172,7 @@ class SendSmsFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
                                     } catch (e: Exception) {
                                         LiveEventBus.get(KEY_TEST_ACTION, String::class.java).post(e.message.toString())
                                         e.printStackTrace()
+                                        Log.e(TAG, "onClick error: ${e.message}")
                                     }
                                 }.start()
                             }
@@ -201,6 +202,7 @@ class SendSmsFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
         } catch (e: Exception) {
             XToastUtils.error(e.message.toString(), 30000)
             e.printStackTrace()
+            Log.e(TAG, "onClick error: ${e.message}")
         }
     }
 

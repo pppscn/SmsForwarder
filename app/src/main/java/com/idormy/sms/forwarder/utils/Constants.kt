@@ -77,6 +77,7 @@ const val SP_SMS_TEMPLATE = "sms_template"
 
 const val SP_PURE_CLIENT_MODE = "enable_pure_client_mode"
 const val SP_PURE_TASK_MODE = "enable_pure_task_mode"
+const val SP_DEBUG_MODE = "enable_debug_mode"
 const val SP_LOCATION = "enable_location"
 const val SP_LOCATION_ACCURACY = "location_accuracy"
 const val SP_LOCATION_POWER_REQUIREMENT = "location_power_requirement"

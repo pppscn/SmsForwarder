@@ -2,7 +2,6 @@ package com.idormy.sms.forwarder.fragment.senders
 
 import android.annotation.SuppressLint
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -109,6 +108,7 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
 
                 override fun onError(e: Throwable) {
                     e.printStackTrace()
+                    Log.e(TAG, "onError:$e")
                 }
 
                 override fun onSuccess(sender: Sender) {
@@ -209,6 +209,7 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
                             WeworkAgentUtils.sendMsg(settingVo, msgInfo)
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            Log.e(TAG, "onClick: $e")
                             LiveEventBus.get(EVENT_TOAST_ERROR, String::class.java).post(e.message.toString())
                         }
                         LiveEventBus.get(KEY_SENDER_TEST, String::class.java).post("finish")
@@ -257,6 +258,7 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
         } catch (e: Exception) {
             XToastUtils.error(e.message.toString())
             e.printStackTrace()
+            Log.e(TAG, "onClick: $e")
         }
     }
 

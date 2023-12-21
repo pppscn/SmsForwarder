@@ -1,6 +1,6 @@
 package com.idormy.sms.forwarder.server.controller
 
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.server.model.BaseRequest
 import com.idormy.sms.forwarder.server.model.WolData
 import com.xuexiang.xrouter.utils.TextUtils

@@ -1,7 +1,6 @@
 package com.idormy.sms.forwarder.fragment.client
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -115,6 +114,7 @@ class ContactAddFragment : BaseFragment<FragmentClientContactAddBinding?>(), Vie
                         } catch (e: Exception) {
                             XToastUtils.error(getString(R.string.request_failed) + e.message)
                             e.printStackTrace()
+                            Log.e(TAG, e.toString())
                             return
                         }
                         postRequest.upString(requestMsg)
@@ -130,6 +130,7 @@ class ContactAddFragment : BaseFragment<FragmentClientContactAddBinding?>(), Vie
                         } catch (e: Exception) {
                             XToastUtils.error(getString(R.string.request_failed) + e.message)
                             e.printStackTrace()
+                            Log.e(TAG, e.toString())
                             return
                         }
                         postRequest.upString(requestMsg)
@@ -169,6 +170,7 @@ class ContactAddFragment : BaseFragment<FragmentClientContactAddBinding?>(), Vie
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            Log.e(TAG, e.toString())
                             XToastUtils.error(getString(R.string.request_failed) + response)
                         }
                         mCountDownHelper?.finish()

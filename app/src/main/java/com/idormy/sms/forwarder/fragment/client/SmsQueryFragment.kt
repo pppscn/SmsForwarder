@@ -1,6 +1,5 @@
 package com.idormy.sms.forwarder.fragment.client
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +22,7 @@ import com.idormy.sms.forwarder.utils.DataProvider.emptySmsInfo
 import com.idormy.sms.forwarder.utils.EVENT_KEY_PHONE_NUMBERS
 import com.idormy.sms.forwarder.utils.EVENT_KEY_SIM_SLOT
 import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.PlaceholderHelper
 import com.idormy.sms.forwarder.utils.RSACrypt
 import com.idormy.sms.forwarder.utils.SM4Crypt
@@ -225,6 +225,7 @@ class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
                 } catch (e: Exception) {
                     XToastUtils.error(getString(R.string.request_failed) + e.message)
                     e.printStackTrace()
+                    Log.e(TAG, e.toString())
                     return
                 }
                 postRequest.upString(requestMsg)
@@ -240,6 +241,7 @@ class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
                 } catch (e: Exception) {
                     XToastUtils.error(getString(R.string.request_failed) + e.message)
                     e.printStackTrace()
+                    Log.e(TAG, e.toString())
                     return
                 }
                 postRequest.upString(requestMsg)
@@ -285,6 +287,7 @@ class SmsQueryFragment : BaseFragment<FragmentClientSmsQueryBinding?>() {
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Log.e(TAG, e.toString())
                     XToastUtils.error(getString(R.string.request_failed) + response)
                 }
             }

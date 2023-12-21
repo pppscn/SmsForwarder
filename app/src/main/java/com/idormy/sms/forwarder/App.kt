@@ -10,7 +10,6 @@ import android.location.Geocoder
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import android.os.Build
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.multidex.MultiDex
 import androidx.work.Configuration
@@ -76,7 +75,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         /**
          * @return 当前app是否是调试开发模式
          */
-        val isDebug: Boolean = BuildConfig.DEBUG
+        var isDebug: Boolean = BuildConfig.DEBUG
 
         //Cactus相关
         val mEndDate = MutableLiveData<String>() //结束时间
@@ -216,6 +215,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
 
         } catch (e: Exception) {
             e.printStackTrace()
+            Log.e(TAG, "onCreate: $e")
         }
     }
 
@@ -226,6 +226,9 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         Core.init(this)
         // 配置文件初始化
         SharedPreference.init(applicationContext)
+        // 初始化日志打印
+        isDebug = SettingUtils.enableDebugMode
+        Log.init(applicationContext)
         // 转发历史工具类初始化
         HistoryUtils.init(applicationContext)
         // X系列基础库初始化

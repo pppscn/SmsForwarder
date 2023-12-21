@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,6 +39,7 @@ import com.idormy.sms.forwarder.service.ForegroundService
 import com.idormy.sms.forwarder.utils.EVENT_LOAD_APP_LIST
 import com.idormy.sms.forwarder.utils.FRPC_LIB_DOWNLOAD_URL
 import com.idormy.sms.forwarder.utils.FRPC_LIB_VERSION
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.idormy.sms.forwarder.utils.sdkinit.XUpdateInit

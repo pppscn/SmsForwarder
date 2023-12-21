@@ -17,6 +17,7 @@ import com.idormy.sms.forwarder.utils.CommonUtils.Companion.previewMarkdown
 import com.idormy.sms.forwarder.utils.CommonUtils.Companion.previewPicture
 import com.idormy.sms.forwarder.utils.HistoryUtils
 import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.idormy.sms.forwarder.utils.sdkinit.XUpdateInit
@@ -99,6 +100,7 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
                     .show()
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.e("AboutFragment", "btnFrpc.setOnClickListener error: ${e.message}")
                 XToastUtils.error(e.message.toString())
             }
         }

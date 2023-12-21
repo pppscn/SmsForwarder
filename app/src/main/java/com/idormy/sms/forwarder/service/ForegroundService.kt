@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.os.Build
 import android.os.IBinder
 import android.text.TextUtils
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.Observer
 import androidx.work.OneTimeWorkRequestBuilder
@@ -56,6 +55,7 @@ class ForegroundService : Service() {
 
             override fun onError(e: Throwable) {
                 e.printStackTrace()
+                Log.e(TAG, "onError: ${e.message}")
                 LiveEventBus.get(EVENT_FRPC_RUNNING_ERROR, String::class.java).post(uid)
             }
 
@@ -169,6 +169,7 @@ class ForegroundService : Service() {
             isRunning = true
         } catch (e: Exception) {
             e.printStackTrace()
+            Log.e(TAG, "startForegroundService: $e")
             isRunning = false
         }
 
@@ -182,6 +183,7 @@ class ForegroundService : Service() {
             isRunning = false
         } catch (e: Exception) {
             e.printStackTrace()
+            Log.e(TAG, "stopForegroundService: $e")
             isRunning = true
         }
     }

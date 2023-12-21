@@ -43,6 +43,7 @@ object AppUtils {
                 appsInfo.add(appInfo)
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()
+                Log.e("AppUtils", "getAppsInfo: ${e.message}")
             }
         }
 
@@ -63,6 +64,7 @@ object AppUtils {
             pi.versionCode
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
+            Log.e("AppUtils", "getAppVersionCode: ${e.message}")
             -1
         }
     }
@@ -85,6 +87,7 @@ object AppUtils {
             pi.versionName
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
+            Log.e("AppUtils", "getAppVersionName: ${e.message}")
             ""
         }
     }

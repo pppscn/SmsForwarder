@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentLogcatBinding
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
@@ -98,6 +99,7 @@ class LogcatFragment : BaseFragment<FragmentLogcatBinding?>() {
 
                 override fun onError(e: Throwable) {
                     e.printStackTrace()
+                    Log.e("LogcatFragment", "readLog error: ${e.message}")
                 }
 
                 override fun onComplete() {}

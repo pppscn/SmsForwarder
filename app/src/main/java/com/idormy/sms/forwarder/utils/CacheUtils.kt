@@ -23,6 +23,7 @@ class CacheUtils private constructor() {
                 getFormatSize(cacheSize.toDouble())
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.e("CacheUtils", "getTotalCacheSize: ${e.message}")
                 "0KB"
             }
         }
@@ -69,6 +70,7 @@ class CacheUtils private constructor() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.e("CacheUtils", "getFolderSize: ${e.message}")
             }
             return size
         }

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +18,7 @@ import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_CONDITION
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_TO_ADDRESS
 import com.idormy.sms.forwarder.utils.XToastUtils
@@ -75,6 +75,7 @@ class ToAddressFragment : BaseFragment<FragmentTasksConditionToAddressBinding?>(
                 checkSetting(true)
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.e(TAG, "initViews error:$e")
             }
         }
 
@@ -111,6 +112,7 @@ class ToAddressFragment : BaseFragment<FragmentTasksConditionToAddressBinding?>(
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Log.e(TAG, "afterTextChanged error:$e")
                 }
             }
         })
@@ -128,6 +130,7 @@ class ToAddressFragment : BaseFragment<FragmentTasksConditionToAddressBinding?>(
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Log.e(TAG, "afterTextChanged error:$e")
                 }
             }
         })
@@ -145,6 +148,7 @@ class ToAddressFragment : BaseFragment<FragmentTasksConditionToAddressBinding?>(
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Log.e(TAG, "afterTextChanged error:$e")
                 }
             }
         })
@@ -156,6 +160,7 @@ class ToAddressFragment : BaseFragment<FragmentTasksConditionToAddressBinding?>(
                     checkSetting(true)
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Log.e(TAG, "afterTextChanged error:$e")
                 }
             }
         })
@@ -205,6 +210,7 @@ class ToAddressFragment : BaseFragment<FragmentTasksConditionToAddressBinding?>(
         } catch (e: Exception) {
             XToastUtils.error(e.message.toString(), 30000)
             e.printStackTrace()
+            Log.e(TAG, "onClick error:$e")
         }
     }
 

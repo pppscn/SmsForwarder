@@ -2,7 +2,6 @@ package com.idormy.sms.forwarder.workers
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
@@ -105,6 +104,7 @@ class SendWorker(
 
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.e("SendWorker", "SendWorker error: ${e.message}")
                 return@withContext Result.failure(workDataOf("send" to e.message.toString()))
             }
 

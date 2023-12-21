@@ -1,6 +1,6 @@
 package com.idormy.sms.forwarder.utils.mail
 
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async

@@ -1,7 +1,6 @@
 package com.idormy.sms.forwarder.fragment
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -396,6 +395,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
         } catch (e: Exception) {
             XToastUtils.error(e.message.toString())
             e.printStackTrace()
+            Log.e(TAG, e.toString())
         }
     }
 
@@ -410,6 +410,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
 
             override fun onError(e: Throwable) {
                 e.printStackTrace()
+                Log.e(TAG, e.toString())
             }
 
             override fun onSuccess(senderList: List<Sender>) {
@@ -572,6 +573,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
 
             override fun onError(e: Throwable) {
                 e.printStackTrace()
+                Log.e(TAG, e.toString())
             }
 
             override fun onSuccess(rule: Rule) {
@@ -822,6 +824,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                         SendUtils.sendMsgSender(msgInfo, rule)
                     } catch (e: Exception) {
                         e.printStackTrace()
+                        Log.e(TAG, e.toString())
                         LiveEventBus.get(EVENT_TOAST_ERROR, String::class.java).post(e.message.toString())
                     }
                 }.start()

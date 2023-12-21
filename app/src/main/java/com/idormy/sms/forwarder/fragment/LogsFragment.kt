@@ -2,7 +2,6 @@ package com.idormy.sms.forwarder.fragment
 
 import android.annotation.SuppressLint
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +20,7 @@ import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
 import com.idormy.sms.forwarder.database.viewmodel.MsgViewModel
 import com.idormy.sms.forwarder.databinding.FragmentLogsBinding
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.scwang.smartrefresh.layout.api.RefreshLayout

@@ -2,7 +2,7 @@ package com.idormy.sms.forwarder.entity
 
 import android.annotation.SuppressLint
 import android.text.TextUtils
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.utils.AppUtils

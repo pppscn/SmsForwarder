@@ -2,7 +2,7 @@ package com.idormy.sms.forwarder.utils.sender
 
 import android.text.TextUtils
 import android.util.Base64
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo

@@ -1,6 +1,6 @@
 package com.idormy.sms.forwarder.server.controller
 
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.entity.CallInfo
 import com.idormy.sms.forwarder.server.model.BaseRequest
 import com.idormy.sms.forwarder.server.model.CallQueryData

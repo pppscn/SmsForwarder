@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Build
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
-import android.util.Log
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
@@ -14,6 +13,7 @@ import com.google.gson.Gson
 import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.PACKAGE_NAME
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.Worker
@@ -117,6 +117,7 @@ class NotificationService : NotificationListenerService() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.e(TAG, "Failed to get scheme from PendingIntent", e)
             }
 
             //不处理空消息（标题跟内容都为空）

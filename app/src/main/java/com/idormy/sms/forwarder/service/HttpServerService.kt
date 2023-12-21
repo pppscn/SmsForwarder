@@ -3,7 +3,7 @@ package com.idormy.sms.forwarder.service
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.HTTP_SERVER_PORT
 import com.idormy.sms.forwarder.utils.HTTP_SERVER_TIME_OUT
 import com.idormy.sms.forwarder.utils.SettingUtils

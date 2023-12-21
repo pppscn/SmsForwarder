@@ -2,17 +2,21 @@ package com.idormy.sms.forwarder.utils.mail
 
 import android.text.Html
 import android.text.Spanned
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import com.xuexiang.xrouter.utils.TextUtils
 import java.io.UnsupportedEncodingException
-import java.util.*
+import java.util.Properties
 import javax.activation.DataHandler
 import javax.activation.FileDataSource
 import javax.mail.Authenticator
 import javax.mail.Message
 import javax.mail.PasswordAuthentication
 import javax.mail.Session
-import javax.mail.internet.*
+import javax.mail.internet.InternetAddress
+import javax.mail.internet.MimeBodyPart
+import javax.mail.internet.MimeMessage
+import javax.mail.internet.MimeMultipart
+import javax.mail.internet.MimeUtility
 
 /**
  * desc: 邮件帮助类
@@ -56,6 +60,7 @@ object MailUtil {
                     nickname = MimeUtility.encodeText(nickname)
                 } catch (e: UnsupportedEncodingException) {
                     e.printStackTrace()
+                    Log.e("createMailMessage", "UnsupportedEncodingException = ${e.message}")
                 }
 
                 Log.d("createMailMessage", "nickname = $nickname")
@@ -86,6 +91,7 @@ object MailUtil {
                 subject = MimeUtility.encodeText(subject)
             } catch (e: UnsupportedEncodingException) {
                 e.printStackTrace()
+                Log.e("createMailMessage", "UnsupportedEncodingException = ${e.message}")
             }
 
             // 邮件内容

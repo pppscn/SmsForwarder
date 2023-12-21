@@ -1,7 +1,6 @@
 package com.idormy.sms.forwarder.fragment
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +38,7 @@ import com.idormy.sms.forwarder.fragment.senders.WeworkRobotFragment
 import com.idormy.sms.forwarder.utils.KEY_SENDER_CLONE
 import com.idormy.sms.forwarder.utils.KEY_SENDER_ID
 import com.idormy.sms.forwarder.utils.KEY_SENDER_TYPE
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.TYPE_BARK
 import com.idormy.sms.forwarder.utils.TYPE_DINGTALK_GROUP_ROBOT
 import com.idormy.sms.forwarder.utils.TYPE_DINGTALK_INNER_ROBOT
@@ -330,6 +330,7 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(),
                 .open(this)
         } catch (e: Exception) {
             e.printStackTrace()
+            Log.e(TAG, "onItemClick error: ${e.message}")
             XToastUtils.error(e.message.toString())
         }
     }

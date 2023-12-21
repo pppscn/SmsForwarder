@@ -1,7 +1,7 @@
 package com.idormy.sms.forwarder.database.entity
 
 import android.os.Parcelable
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import androidx.room.*
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.ext.ConvertersSenderList

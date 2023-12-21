@@ -5,7 +5,6 @@ import android.app.Service
 import android.content.Intent
 import android.location.Location
 import android.os.IBinder
-import android.util.Log
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
@@ -13,6 +12,7 @@ import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.entity.LocationInfo
 import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_LEAVE_ADDRESS
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_TO_ADDRESS
@@ -175,6 +175,7 @@ class LocationService : Service(), Server.ServerListener {
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            Log.e(TAG, "startService: ${e.message}")
             isRunning = false
         }
     }
@@ -194,6 +195,7 @@ class LocationService : Service(), Server.ServerListener {
             false
         } catch (e: Exception) {
             e.printStackTrace()
+            Log.e(TAG, "stopService: ${e.message}")
             true
         }
     }

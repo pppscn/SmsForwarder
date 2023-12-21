@@ -122,6 +122,9 @@ class SettingUtils private constructor() {
         //是否纯任务模式
         var enablePureTaskMode: Boolean by SharedPreference(SP_PURE_TASK_MODE, false)
 
+        //是否调试模式
+        var enableDebugMode: Boolean by SharedPreference(SP_DEBUG_MODE, false)
+
         //是否启用定位功能
         var enableLocation: Boolean by SharedPreference(SP_LOCATION, false)
 

@@ -2,7 +2,6 @@ package com.idormy.sms.forwarder.fragment
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -337,6 +336,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
         } catch (e: Exception) {
             XToastUtils.error(e.message.toString())
             e.printStackTrace()
+            Log.e(TAG, "onClick error: ${e.message}")
         }
     }
 
@@ -347,6 +347,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
 
             override fun onError(e: Throwable) {
                 e.printStackTrace()
+                Log.e(TAG, "initForm error: ${e.message}")
             }
 
             @SuppressLint("NotifyDataSetChanged")
@@ -381,6 +382,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Log.e(TAG, "initForm error: ${e.message}")
                     XToastUtils.error(e.message.toString())
                 }
             }
@@ -503,6 +505,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                 .open(this)
         } catch (e: Exception) {
             e.printStackTrace()
+            Log.e(TAG, "onItemClick error: ${e.message}")
             XToastUtils.error(e.message.toString())
         }
     }

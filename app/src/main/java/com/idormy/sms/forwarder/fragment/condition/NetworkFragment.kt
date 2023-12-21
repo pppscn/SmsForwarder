@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import com.idormy.sms.forwarder.entity.condition.NetworkSetting
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_CONDITION
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_NETWORK
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.xuexiang.xaop.annotation.SingleClick
@@ -113,6 +113,7 @@ class NetworkFragment : BaseFragment<FragmentTasksConditionNetworkBinding?>(), V
         } catch (e: Exception) {
             XToastUtils.error(e.message.toString(), 30000)
             e.printStackTrace()
+            Log.e(TAG, "onClick error:$e")
         }
     }
 

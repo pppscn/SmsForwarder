@@ -3,7 +3,7 @@ package com.idormy.sms.forwarder.server.controller
 import android.content.ContentUris
 import android.content.ContentValues
 import android.provider.ContactsContract
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.entity.ContactInfo
 import com.idormy.sms.forwarder.server.model.BaseRequest
 import com.idormy.sms.forwarder.server.model.ContactQueryData

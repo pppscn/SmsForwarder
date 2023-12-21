@@ -1,7 +1,6 @@
 package com.idormy.sms.forwarder.workers
 
 import android.content.Context
-import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.google.gson.Gson
@@ -9,6 +8,7 @@ import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.Logs
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.Worker
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +28,6 @@ class SendLogicWorker(
         val msgId = inputData.getLong(Worker.msgId, 0L)
         Log.d("SendLogicWorker", "msgInfoJson: $msgInfoJson, ruleJson: $ruleJson, senderIndex: $senderIndex, msgId: $msgId")
 
-        //val rule = Core.rule.getOne(ruleId)
         val rule = Gson().fromJson(ruleJson, Rule::class.java) ?: return@withContext Result.failure()
         if (senderIndex >= rule.senderList.size) return@withContext Result.failure()
         val sender = rule.senderList[senderIndex]

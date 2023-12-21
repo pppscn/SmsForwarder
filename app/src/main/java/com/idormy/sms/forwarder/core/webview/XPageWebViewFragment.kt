@@ -9,14 +9,25 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.text.TextUtils
-import android.view.*
-import android.webkit.*
+import android.view.Gravity
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.webkit.DownloadListener
+import android.webkit.WebChromeClient
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentAgentwebBinding
@@ -97,7 +108,7 @@ class XPageWebViewFragment : BaseFragment<FragmentAgentwebBinding?>(), View.OnCl
             .ready() //设置 WebSettings。
             //WebView载入该url地址的页面并显示。
             .go(url)
-        if (com.idormy.sms.forwarder.App.isDebug) {
+        if (App.isDebug) {
             AgentWebConfig.debug()
         }
         pageNavigator(View.GONE)
@@ -420,24 +431,28 @@ class XPageWebViewFragment : BaseFragment<FragmentAgentwebBinding?>(), View.OnCl
                 }
                 return@OnMenuItemClickListener true
             }
+
             R.id.copy -> {
                 if (mAgentWeb != null) {
                     mAgentWeb!!.webCreator.webView.url?.let { toCopy(context, it) }
                 }
                 return@OnMenuItemClickListener true
             }
+
             R.id.default_browser -> {
                 if (mAgentWeb != null) {
                     mAgentWeb!!.webCreator.webView.url?.let { openBrowser(it) }
                 }
                 return@OnMenuItemClickListener true
             }
+
             R.id.share -> {
                 if (mAgentWeb != null) {
                     mAgentWeb!!.webCreator.webView.url?.let { shareWebUrl(it) }
                 }
                 return@OnMenuItemClickListener true
             }
+
             else -> false
         }
     }

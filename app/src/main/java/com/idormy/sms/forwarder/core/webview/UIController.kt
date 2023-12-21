@@ -2,7 +2,7 @@ package com.idormy.sms.forwarder.core.webview
 
 import android.app.Activity
 import android.os.Handler
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import android.webkit.WebView
 import com.just.agentweb.core.web.AgentWebUIControllerImplBase
 import java.lang.ref.WeakReference

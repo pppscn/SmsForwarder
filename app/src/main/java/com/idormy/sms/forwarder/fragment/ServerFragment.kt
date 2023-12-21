@@ -7,7 +7,6 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -390,6 +389,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 binding!!.tvServerTips.text = getString(R.string.http_server_running, inetAddress!!.hostAddress, HTTP_SERVER_PORT)
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.e("ServerFragment", "refreshButtonText error: ${e.message}")
                 binding!!.tvServerTips.text = getString(R.string.http_server_running, "127.0.0.1", HTTP_SERVER_PORT)
             }
         } else {

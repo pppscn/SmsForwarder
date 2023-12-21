@@ -2,7 +2,6 @@ package com.idormy.sms.forwarder.fragment
 
 import android.content.ClipData
 import android.content.ClipboardManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +16,7 @@ import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentAppListBinding
 import com.idormy.sms.forwarder.utils.AppInfo
 import com.idormy.sms.forwarder.utils.EVENT_LOAD_APP_LIST
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.idormy.sms.forwarder.workers.LoadAppListWorker
 import com.jeremyliao.liveeventbus.LiveEventBus

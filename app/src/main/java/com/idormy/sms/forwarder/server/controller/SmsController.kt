@@ -2,7 +2,7 @@ package com.idormy.sms.forwarder.server.controller
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import androidx.core.app.ActivityCompat
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R

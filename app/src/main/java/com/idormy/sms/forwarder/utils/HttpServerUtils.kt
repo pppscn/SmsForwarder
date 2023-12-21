@@ -3,7 +3,6 @@ package com.idormy.sms.forwarder.utils
 
 import android.text.TextUtils
 import android.util.Base64
-import android.util.Log
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.Core
@@ -197,6 +196,7 @@ class HttpServerUtils private constructor() {
                 true
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.e("restoreSettings", e.message.toString())
                 throw HttpException(500, e.message)
                 //false
             }

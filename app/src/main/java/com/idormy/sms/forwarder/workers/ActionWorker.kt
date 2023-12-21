@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -28,6 +27,7 @@ import com.idormy.sms.forwarder.utils.EVENT_TOAST_SUCCESS
 import com.idormy.sms.forwarder.utils.EVENT_TOAST_WARNING
 import com.idormy.sms.forwarder.utils.HistoryUtils
 import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.TASK_ACTION_CLEANER
@@ -209,6 +209,7 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.e(TAG, "action.type is ${action.type}, exception: ${e.message}")
                 writeLog("action.type is ${action.type}, exception: ${e.message}")
             }
         }

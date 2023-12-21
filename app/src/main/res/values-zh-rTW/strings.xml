@@ -1019,6 +1019,8 @@
     <string name="pure_task_mode_tips">啟動APP時直接進入自動任務</string>
     <string name="exit_pure_task_mode">退出純自動任務模式</string>
     <string name="enabling_pure_task_mode">是否立即退出App，並手動啟動以生效純自動任務模式？</string>
+    <string name="debug_mode">开啟調試模式</string>
+    <string name="debug_mode_tips">將 Log.* 寫入檔案，以便排查問題；可匯出至下載目錄</string>
     <string name="optional_components">可選組件：</string>
     <string name="enable_cactus">啟用 Cactus 增強保活措施（會增加耗電）</string>
     <string name="enabe_cactus_tips">雙進程前台服務/JobScheduler/WorkManager/1像素/無聲音樂</string>

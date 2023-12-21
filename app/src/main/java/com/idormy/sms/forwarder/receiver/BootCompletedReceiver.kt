@@ -3,8 +3,8 @@ package com.idormy.sms.forwarder.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import com.idormy.sms.forwarder.activity.SplashActivity
+import com.idormy.sms.forwarder.utils.Log
 
 @Suppress("PrivatePropertyName")
 class BootCompletedReceiver : BroadcastReceiver() {
@@ -22,6 +22,7 @@ class BootCompletedReceiver : BroadcastReceiver() {
             context.startActivity(intent1)
         } catch (e: Exception) {
             e.printStackTrace()
+            Log.e(TAG, "强制重启APP失败:${e.message}")
         }
 
     }

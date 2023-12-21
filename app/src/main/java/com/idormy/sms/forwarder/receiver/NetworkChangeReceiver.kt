@@ -12,11 +12,11 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import android.telephony.SubscriptionInfo
 import android.telephony.SubscriptionManager
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_NETWORK
 import com.idormy.sms.forwarder.utils.TaskWorker
 import com.idormy.sms.forwarder.utils.task.TaskUtils
@@ -139,6 +139,7 @@ class NetworkChangeReceiver : BroadcastReceiver() {
             SubscriptionManager.getSlotIndex(subscriptionId)
         } catch (e: Exception) {
             e.printStackTrace()
+            Log.e(TAG, "getSlotIndex: $e")
             -1
         }
     }
@@ -160,6 +161,7 @@ class NetworkChangeReceiver : BroadcastReceiver() {
             } ?: defaultDataSlotId
         } catch (e: Exception) {
             e.printStackTrace()
+            Log.e(TAG, "getDataSubId: $e")
             defaultDataSlotId
         }
     }
@@ -176,6 +178,7 @@ class NetworkChangeReceiver : BroadcastReceiver() {
                     return subInfo?.simSlotIndex ?: -1
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Log.e(TAG, "getDefaultDataSlotId: $e")
                 }
             }
         } else {
@@ -188,6 +191,7 @@ class NetworkChangeReceiver : BroadcastReceiver() {
                 return getSlotId.invoke(null, subId) as? Int ?: -1
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.e(TAG, "getDefaultDataSlotId: $e")
             }
         }
         return -1

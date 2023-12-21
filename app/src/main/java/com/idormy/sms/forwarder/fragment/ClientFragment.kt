@@ -2,7 +2,6 @@ package com.idormy.sms.forwarder.fragment
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +18,7 @@ import com.idormy.sms.forwarder.server.model.ConfigData
 import com.idormy.sms.forwarder.utils.Base64
 import com.idormy.sms.forwarder.utils.CommonUtils
 import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.RSACrypt
 import com.idormy.sms.forwarder.utils.SM4Crypt
 import com.idormy.sms.forwarder.utils.SettingUtils
@@ -164,6 +164,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                         XUtil.exitApp()
                     } catch (e: InterruptedException) {
                         e.printStackTrace()
+                        Log.e(TAG, "InterruptedException: ${e.message}")
                     }
                 }
             })
@@ -351,6 +352,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
             PageOption.to(Class.forName(item.classPath) as Class<XPageFragment>).setNewActivity(true).open(this)
         } catch (e: Exception) {
             e.printStackTrace()
+            Log.e(TAG, "onItemClick error: ${e.message}")
             XToastUtils.error(e.message.toString())
         }
     }
@@ -391,6 +393,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                 } catch (e: Exception) {
                     if (needToast) XToastUtils.error(getString(R.string.request_failed) + e.message)
                     e.printStackTrace()
+                    Log.e(TAG, "RSACrypt error: ${e.message}")
                     return
                 }
                 postRequest.upString(requestMsg)
@@ -406,6 +409,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                 } catch (e: Exception) {
                     if (needToast) XToastUtils.error(getString(R.string.request_failed) + e.message)
                     e.printStackTrace()
+                    Log.e(TAG, "SM4Crypt error: ${e.message}")
                     return
                 }
                 postRequest.upString(requestMsg)
@@ -458,6 +462,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                     if (needToast) mCountDownHelper?.finish()
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Log.e(TAG, "onSuccess error: ${e.message}")
                     if (needToast) {
                         XToastUtils.error(getString(R.string.request_failed) + response)
                         mCountDownHelper?.finish()

@@ -3,7 +3,6 @@ package com.idormy.sms.forwarder.fragment.client
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Environment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -269,6 +268,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                 } catch (e: Exception) {
                     XToastUtils.error(getString(R.string.request_failed) + e.message)
                     e.printStackTrace()
+                    Log.e(TAG, e.toString())
                     return
                 }
                 postRequest.upString(requestMsg)
@@ -284,6 +284,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                 } catch (e: Exception) {
                     XToastUtils.error(getString(R.string.request_failed) + e.message)
                     e.printStackTrace()
+                    Log.e(TAG, e.toString())
                     return
                 }
                 postRequest.upString(requestMsg)
@@ -322,6 +323,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Log.e(TAG, e.toString())
                     XToastUtils.error(getString(R.string.request_failed) + response)
                 }
                 pushCountDownHelper?.finish()
@@ -370,6 +372,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                 } catch (e: Exception) {
                     XToastUtils.error(getString(R.string.request_failed) + e.message)
                     e.printStackTrace()
+                    Log.e(TAG, e.toString())
                     return
                 }
                 postRequest.upString(requestMsg)
@@ -385,6 +388,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                 } catch (e: Exception) {
                     XToastUtils.error(getString(R.string.request_failed) + e.message)
                     e.printStackTrace()
+                    Log.e(TAG, e.toString())
                     return
                 }
                 postRequest.upString(requestMsg)
@@ -442,6 +446,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
 
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Log.e(TAG, e.toString())
                     XToastUtils.error(getString(R.string.request_failed) + response)
                 }
                 exportCountDownHelper?.finish()

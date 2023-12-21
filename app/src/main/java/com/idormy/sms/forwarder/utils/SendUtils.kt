@@ -1,7 +1,6 @@
 package com.idormy.sms.forwarder.utils
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
@@ -44,7 +43,6 @@ object SendUtils {
     //重试发送消息
     fun retrySendMsg(logId: Long) {
         val item = Core.logs.getOne(logId)
-
         val msgInfo = MsgInfo(item.msg.type, item.msg.from, item.msg.content, item.msg.time, item.msg.simInfo, item.msg.simSlot, item.msg.subId)
         Log.d(TAG, "msgInfo = $msgInfo")
 
@@ -190,6 +188,7 @@ object SendUtils {
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            Log.e(TAG, "sendMsgSender: ${e.message}")
             updateLogs(logId, 0, e.message.toString())
             senderLogic(0, msgInfo, rule, senderIndex, msgId)
         }
