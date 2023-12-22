@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/setting_bar_color" /> <!-- 背景颜色 -->
+    <corners android:radius="8dp" /> <!-- 圆角半径 -->
+</shape>

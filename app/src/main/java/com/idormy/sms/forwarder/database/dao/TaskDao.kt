@@ -19,7 +19,7 @@ interface TaskDao {
     fun get(id: Long): Single<Task>
 
     @Query("SELECT * FROM Task where id=:id")
-    fun getOne(id: Long): Task
+    suspend fun getOne(id: Long): Task?
 
     @Query("SELECT * FROM Task where type < 1000 ORDER BY id DESC")
     fun pagingSourceFixed(): PagingSource<Int, Task>

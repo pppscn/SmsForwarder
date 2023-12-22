@@ -172,7 +172,7 @@ class ToAddressFragment : BaseFragment<FragmentTasksConditionToAddressBinding?>(
             when (v.id) {
                 R.id.btn_current_coordinates -> {
                     if (!App.LocationClient.isStarted()) {
-                        MaterialDialog.Builder(requireContext()).iconRes(R.drawable.auto_task_icon_location).title(R.string.enable_location).content(R.string.enable_location_dialog).cancelable(false).positiveText(R.string.lab_yes).negativeText(R.string.lab_no).onPositive { _: MaterialDialog?, _: DialogAction? ->
+                        MaterialDialog.Builder(requireContext()).iconRes(R.drawable.icon_location).title(R.string.enable_location).content(R.string.enable_location_dialog).cancelable(false).positiveText(R.string.lab_yes).negativeText(R.string.lab_no).onPositive { _: MaterialDialog?, _: DialogAction? ->
                             SettingUtils.enableLocation = true
                             val serviceIntent = Intent(requireContext(), LocationService::class.java)
                             serviceIntent.action = "START"

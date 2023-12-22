@@ -29,7 +29,7 @@
                 tools:ignore="ImageContrastCheck" />
 
             <LinearLayout
-                style="@style/taskBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -105,7 +105,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/settingBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -140,7 +140,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/settingBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -175,7 +175,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/settingBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -210,7 +210,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/settingBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -245,7 +245,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/settingBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -280,7 +280,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/settingBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:ignore="TooManyViews">
@@ -316,7 +316,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/settingBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -351,7 +351,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/settingBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -386,7 +386,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/settingBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:ignore="TooManyViews">

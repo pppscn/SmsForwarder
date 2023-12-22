@@ -5,6 +5,8 @@
     <string name="type_param_app">App</string>
     <string name="status_param_option_enabled">Enabled</string>
     <string name="status_param_option_disabled">Disabled</string>
+    <string name="enable">Enabled</string>
+    <string name="disable">Disabled</string>
     <string name="sms_type_option_receive">Receive</string>
     <string name="sms_type_option_send">Send</string>
     <string name="call_type_option_missed">Missed</string>
@@ -233,6 +235,7 @@
     <string name="delete_rule_toast">The rule has deleted.</string>
     <string name="new_sender_first">Please add a new sender and then choose it.</string>
     <string name="add_sender_first">Please add a sender first.</string>
+    <string name="add_rule_first">Please add a rule first.</string>
     <string name="select_sender">Select Sender</string>
     <string name="rule_tester">Rule tester:</string>
     <string name="test_sim_slot">Test SIM Slot</string>
@@ -821,6 +824,7 @@
     <string name="feishu_webhook_hint">Group Robot → Webhook Address</string>
     <string name="feishu_secret_hint">Group Robot → Security Settings → Signature Verification</string>
     <string name="pushplus_token_hint">Please go to the corresponding official website to obtain</string>
+    <string name="choose_rule">Drop-down selection, keyword fuzzy match</string>
     <string name="choose_sender">Drop-down selection, keyword fuzzy match</string>
     <string name="choose_app">Installed Apps</string>
     <string name="extra_app">Extra Apps</string>
@@ -969,7 +973,9 @@
     <string name="frpc_failed_to_run">Frpc failed to run</string>
     <string name="successfully_deleted">Successfully deleted</string>
     <string name="sender_disabled_tips">[Note] The sending channel has been disabled, and its associated rules will not be sent even if they match!</string>
+    <string name="rule_disabled_tips">[Note] The rule has been disabled, will not be sent even if they match!</string>
     <string name="sender_contains_tips">[Note] The sending channel is already in the list, no need to add it again!</string>
+    <string name="rule_contains_tips">[Note] The rule is already in the list, no need to add it again!</string>
     <string name="local_call">Local Call:</string>
     <string name="remote_sms">Remote SMS：</string>
     <string name="clear">Clear</string>
@@ -1079,6 +1085,7 @@
     <string name="sm4_key">SM4 Key</string>
     <string name="sm4_key_tips">Client or server interaction messages are all encrypted and decrypted using SM4</string>
 
+    <string name="rule_del">Del Rule</string>
     <string name="sender_del">Del Sender</string>
     <string name="sender_disabled">Sender is disabled</string>
     <string name="unknown_sender">Unknown sender</string>
@@ -1110,7 +1117,7 @@
     <string name="ipv4">IPv4</string>
     <string name="ipv6">IPv6</string>
 
-    <string name="enable_location">Enable Location Function</string>
+    <string name="enable_location">Location Service</string>
     <string name="enable_location_dialog">Enable location services to use this feature. Yes or No?</string>
     <string name="enable_location_tips">Used for locating the phone, {{LOCATION}} tag.</string>
     <string name="accuracy">Accuracy</string>
@@ -1176,6 +1183,12 @@
     <string name="task_http_server_tips">Manage HttpServer start/stop and enable/disable functions</string>
     <string name="task_cleaner">Cleaner</string>
     <string name="task_cleaner_tips">Delete FW. logs older than N days, delete cache, etc.</string>
+    <string name="task_settings">Settings</string>
+    <string name="task_settings_tips">Control the configuration switch of "Settings".</string>
+    <string name="task_rule">Rules On/Off</string>
+    <string name="task_rule_tips">Control enabling/disabling of "Forwarding Rules"</string>
+    <string name="task_sender">Channels On/Off</string>
+    <string name="task_sender_tips">Control enabling/disabling of "Sending Channels"</string>
 
     <string name="second">Second</string>
     <string name="minute">Minute</string>
@@ -1282,7 +1295,11 @@
     <string name="current_distance_from_center">, %s meters from the center.</string>
 
     <string name="specified_uid">Specified Uid</string>
-    <string name="specified_uid_hint">Enter FRPC config UIDs, separate with commas.</string>
+    <string name="specified_uid_hint">Enter FRPC UIDs (comma-separated)</string>
+    <string name="specified_rule">Specified Rule</string>
+    <string name="specified_rule_hint">Enter Rule IDs (comma-separated)</string>
+    <string name="specified_sender">Specified Sender</string>
+    <string name="specified_sender_hint">Enter Sender IDs (comma-separated)</string>
 
     <string name="current_language">English</string>
     <string name="current_activity_language">Current Activity language: </string>

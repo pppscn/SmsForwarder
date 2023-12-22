@@ -20,7 +20,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                style="@style/ruleBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -112,7 +112,7 @@
 
             <LinearLayout
                 android:id="@+id/layout_sim_slot"
-                style="@style/ruleBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -120,7 +120,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
                     android:text="@string/match_sim_slot"
                     android:textStyle="bold" />
 
@@ -150,7 +149,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/ruleBarStyleWithSwitch"
+                style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -158,7 +157,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
                     android:text="@string/match_field"
                     android:textStyle="bold" />
 
@@ -214,7 +212,7 @@
 
             <LinearLayout
                 android:id="@+id/layout_match_type"
-                style="@style/ruleBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -275,7 +273,7 @@
 
             <LinearLayout
                 android:id="@+id/layout_match_value"
-                style="@style/ruleBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -284,7 +282,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
                     android:text="@string/match_value"
                     android:textStyle="bold" />
 
@@ -313,7 +310,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
                         android:text="@string/choose_app"
                         android:textSize="@dimen/text_size_small"
                         android:textStyle="bold" />
@@ -340,7 +336,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/ruleBarStyleWithSwitch"
+                style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -362,7 +358,7 @@
 
             <LinearLayout
                 android:id="@+id/layout_sms_template"
-                style="@style/ruleBarStyleNoMarginTop"
+                style="@style/BarStyle.NoMT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -444,7 +440,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/ruleBarStyleWithSwitch"
+                style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -466,7 +462,7 @@
 
             <LinearLayout
                 android:id="@+id/layout_regex_replace"
-                style="@style/ruleBarStyleNoMarginTop"
+                style="@style/BarStyle.NoMT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -488,7 +484,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/ruleBarStyleWithSwitch"
+                style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -511,10 +507,9 @@
 
             <LinearLayout
                 android:id="@+id/layout_silent_period"
-                style="@style/ruleBarStyleWithSwitch"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingEnd="15dp"
                 tools:ignore="RtlSymmetry">
 
                 <LinearLayout

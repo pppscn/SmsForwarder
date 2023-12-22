@@ -1,7 +1,6 @@
 package com.idormy.sms.forwarder.database.entity
 
 import android.os.Parcelable
-import com.idormy.sms.forwarder.utils.Log
 import androidx.room.*
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.ext.ConvertersSenderList
@@ -116,6 +115,23 @@ data class Rule(
         }
 
     }
+
+    val name: String
+        get() {
+            val sb = StringBuilder()
+            when (type) {
+                "app" -> sb.append("[").append(getString(R.string.type_param_app)).append("]")
+                "call" -> sb.append("[").append(getString(R.string.type_param_call)).append("]").append(SIM_SLOT_MAP[simSlot].toString()).append(getString(R.string.rule_card))
+                else -> sb.append("[").append(getString(R.string.type_param_sms)).append("]").append(SIM_SLOT_MAP[simSlot].toString()).append(getString(R.string.rule_card))
+            }
+            when (filed) {
+                FILED_TRANSPOND_ALL -> sb.append(getString(R.string.rule_all_fw_to))
+                FILED_CALL_TYPE -> sb.append(getString(R.string.rule_when) + FILED_MAP[filed] + CHECK_MAP[check] + CALL_TYPE_MAP[value] + getString(R.string.rule_fw_to))
+                else -> sb.append(getString(R.string.rule_when) + FILED_MAP[filed] + CHECK_MAP[check] + value + getString(R.string.rule_fw_to))
+            }
+            sb.append(senderList.joinToString(",") { it.name })
+            return sb.toString()
+        }
 
     val ruleMatch: String
         get() {

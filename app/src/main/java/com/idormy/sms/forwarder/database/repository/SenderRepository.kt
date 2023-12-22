@@ -1,10 +1,10 @@
 package com.idormy.sms.forwarder.database.repository
 
 import androidx.annotation.WorkerThread
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.idormy.sms.forwarder.database.dao.SenderDao
 import com.idormy.sms.forwarder.database.entity.Sender
 import kotlinx.coroutines.flow.Flow
-import androidx.sqlite.db.SimpleSQLiteQuery
 
 class SenderRepository(private val senderDao: SenderDao) {
 
@@ -22,6 +22,8 @@ class SenderRepository(private val senderDao: SenderDao) {
     fun get(id: Long) = senderDao.get(id)
 
     fun getOne(id: Long) = senderDao.getOne(id)
+
+    fun getByIds(ids: List<Long>) = senderDao.getByIds(ids)
 
     fun update(sender: Sender) = senderDao.update(sender)
 

@@ -1,7 +1,13 @@
 package com.idormy.sms.forwarder.database.dao
 
 import androidx.paging.PagingSource
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.RawQuery
+import androidx.room.Transaction
+import androidx.room.Update
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.idormy.sms.forwarder.database.entity.Sender
 import io.reactivex.Completable
@@ -28,6 +34,9 @@ interface SenderDao {
 
     @Query("SELECT * FROM Sender where id=:id")
     fun getOne(id: Long): Sender
+
+    @Query("SELECT * FROM Sender WHERE id IN (:ids)")
+    fun getByIds(ids: List<Long>): List<Sender>
 
     @Query("SELECT count(*) FROM Sender where type=:type and status=:status")
     fun count(type: String, status: Int): Single<Int>

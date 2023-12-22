@@ -5,7 +5,11 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import com.google.gson.Gson
+import com.hjq.permissions.OnPermissionCallback
+import com.hjq.permissions.Permission
+import com.hjq.permissions.XXPermissions
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentTasksActionHttpServerBinding
@@ -15,6 +19,7 @@ import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_ACTION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_ACTION
 import com.idormy.sms.forwarder.utils.KEY_TEST_ACTION
 import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.TASK_ACTION_HTTPSERVER
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
@@ -99,6 +104,34 @@ class HttpServerFragment : BaseFragment<FragmentTasksActionHttpServerBinding?>()
                 XToastUtils.success("测试通过", 30000)
             } else {
                 XToastUtils.error(it, 30000)
+            }
+        }
+
+        binding!!.sbApiSendSms.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            if (isChecked) checkSendSmsPermission()
+        }
+
+        binding!!.sbApiQuerySms.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            if (isChecked) checkReadSmsPermission()
+        }
+
+        binding!!.sbApiQueryCall.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            if (isChecked) checkCallPermission()
+        }
+
+        binding!!.sbApiQueryContacts.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            if (isChecked) checkContactsPermission()
+        }
+
+        binding!!.sbApiAddContacts.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            if (isChecked) checkContactsPermission()
+        }
+
+        binding!!.sbApiLocation.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            if (isChecked && !SettingUtils.enableLocation) {
+                XToastUtils.error(getString(R.string.api_location_permission_tips))
+                binding!!.sbApiLocation.isChecked = false
+                return@setOnCheckedChangeListener
             }
         }
     }
@@ -195,4 +228,96 @@ class HttpServerFragment : BaseFragment<FragmentTasksActionHttpServerBinding?>()
 
         return HttpServerSetting(description.toString(), action, enableApiClone, enableApiSmsSend, enableApiSmsQuery, enableApiCallQuery, enableApiContactQuery, enableApiContactAdd, enableApiWol, enableApiLocation, enableApiBatteryQuery)
     }
+
+    //发送短信权限
+    private fun checkSendSmsPermission() {
+        XXPermissions.with(this)
+            // 发送短信
+            .permission(Permission.SEND_SMS).request(object : OnPermissionCallback {
+                override fun onGranted(permissions: List<String>, all: Boolean) {
+                }
+
+                override fun onDenied(permissions: List<String>, never: Boolean) {
+                    if (never) {
+                        XToastUtils.error(R.string.toast_denied_never)
+                        // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                        XXPermissions.startPermissionActivity(requireContext(), permissions)
+                    } else {
+                        XToastUtils.error(R.string.toast_denied)
+                    }
+                    binding!!.sbApiSendSms.isChecked = false
+                }
+            })
+    }
+
+    //读取短信权限
+    private fun checkReadSmsPermission() {
+        XXPermissions.with(this)
+            // 接收短信
+            .permission(Permission.RECEIVE_SMS)
+            // 发送短信
+            .permission(Permission.SEND_SMS)
+            // 读取短信
+            .permission(Permission.READ_SMS).request(object : OnPermissionCallback {
+                override fun onGranted(permissions: List<String>, all: Boolean) {
+                }
+
+                override fun onDenied(permissions: List<String>, never: Boolean) {
+                    if (never) {
+                        XToastUtils.error(R.string.toast_denied_never)
+                        // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                        XXPermissions.startPermissionActivity(requireContext(), permissions)
+                    } else {
+                        XToastUtils.error(R.string.toast_denied)
+                    }
+                    binding!!.sbApiQuerySms.isChecked = false
+                }
+            })
+    }
+
+    //电话权限
+    private fun checkCallPermission() {
+        XXPermissions.with(this)
+            // 读取电话状态
+            .permission(Permission.READ_PHONE_STATE)
+            // 读取手机号码
+            .permission(Permission.READ_PHONE_NUMBERS)
+            // 读取通话记录
+            .permission(Permission.READ_CALL_LOG).request(object : OnPermissionCallback {
+                override fun onGranted(permissions: List<String>, all: Boolean) {
+                }
+
+                override fun onDenied(permissions: List<String>, never: Boolean) {
+                    if (never) {
+                        XToastUtils.error(R.string.toast_denied_never)
+                        // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                        XXPermissions.startPermissionActivity(requireContext(), permissions)
+                    } else {
+                        XToastUtils.error(R.string.toast_denied)
+                    }
+                    binding!!.sbApiQueryCall.isChecked = false
+                }
+            })
+    }
+
+    //联系人权限
+    private fun checkContactsPermission() {
+        XXPermissions.with(this).permission(*Permission.Group.CONTACTS).request(object : OnPermissionCallback {
+            override fun onGranted(permissions: List<String>, all: Boolean) {
+            }
+
+            override fun onDenied(permissions: List<String>, never: Boolean) {
+                if (never) {
+                    XToastUtils.error(R.string.toast_denied_never)
+                    // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                    XXPermissions.startPermissionActivity(requireContext(), permissions)
+                } else {
+                    XToastUtils.error(R.string.toast_denied)
+                }
+                binding!!.sbApiQueryContacts.isChecked = false
+                binding!!.sbApiAddContacts.isChecked = false
+            }
+        })
+    }
+
 }

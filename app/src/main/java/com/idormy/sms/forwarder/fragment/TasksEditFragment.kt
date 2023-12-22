@@ -155,7 +155,21 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
             "com.idormy.sms.forwarder.fragment.action.NotificationFragment",
             "{\"\":\"\"}",
             CoreAnim.slide,
-            R.drawable.auto_task_icon_sender,
+            R.drawable.auto_task_icon_notification,
+        ),
+        PageInfo(
+            getString(R.string.task_cleaner),
+            "com.idormy.sms.forwarder.fragment.action.CleanerFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_cleaner
+        ),
+        PageInfo(
+            getString(R.string.task_settings),
+            "com.idormy.sms.forwarder.fragment.action.SettingsFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_settings
         ),
         PageInfo(
             getString(R.string.task_frpc),
@@ -172,11 +186,18 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
             R.drawable.auto_task_icon_http_server
         ),
         PageInfo(
-            getString(R.string.task_cleaner),
-            "com.idormy.sms.forwarder.fragment.action.CleanerFragment",
+            getString(R.string.task_rule),
+            "com.idormy.sms.forwarder.fragment.action.RuleFragment",
             "{\"\":\"\"}",
             CoreAnim.slide,
-            R.drawable.auto_task_icon_cleaner
+            R.drawable.auto_task_icon_rule
+        ),
+        PageInfo(
+            getString(R.string.task_sender),
+            "com.idormy.sms.forwarder.fragment.action.SenderFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_sender
         ),
     )
 
@@ -469,7 +490,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                     //必须开启定位服务，才能使用进入地点 或 离开地点 类型条件
                     if ((typeCondition == TASK_CONDITION_TO_ADDRESS || typeCondition == TASK_CONDITION_LEAVE_ADDRESS) && !App.LocationClient.isStarted()) {
                         MaterialDialog.Builder(requireContext())
-                            .iconRes(R.drawable.auto_task_icon_location)
+                            .iconRes(R.drawable.icon_location)
                             .title(R.string.enable_location)
                             .content(R.string.enable_location_dialog)
                             .cancelable(false)

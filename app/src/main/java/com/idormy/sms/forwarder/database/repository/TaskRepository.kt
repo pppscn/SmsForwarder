@@ -10,7 +10,7 @@ class TaskRepository(private val taskDao: TaskDao) {
     @WorkerThread
     fun insert(task: Task) = taskDao.insert(task)
 
-    fun getOne(id: Long) = taskDao.getOne(id)
+    suspend fun getOne(id: Long) = taskDao.getOne(id)
 
     fun update(task: Task) = taskDao.update(task)
 

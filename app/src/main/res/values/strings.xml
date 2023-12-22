@@ -5,6 +5,8 @@
     <string name="type_param_app">应用</string>
     <string name="status_param_option_enabled">已启用</string>
     <string name="status_param_option_disabled">已禁用</string>
+    <string name="enable">启用</string>
+    <string name="disable">禁用</string>
     <string name="sms_type_option_receive">接收</string>
     <string name="sms_type_option_send">发送</string>
     <string name="call_type_option_missed">未接来电</string>
@@ -234,6 +236,7 @@
     <string name="delete_rule_toast">该条规则已经删除！</string>
     <string name="new_sender_first">请选择发送通道（若无，请先添加）</string>
     <string name="add_sender_first">请先去设置发送通道页面添加</string>
+    <string name="add_rule_first">请先去设置转发规则页面添加</string>
     <string name="select_sender">发送通道</string>
     <string name="rule_tester">转发规则测试</string>
     <string name="test_sim_slot">测试模拟的接收卡槽</string>
@@ -789,7 +792,7 @@
     <string name="wework_webHook_tips">示例：https://qyapi.weixin.qq.com/cgixx?key=xxx</string>
     <string name="wework_msg_type">消息类型</string>
     <string name="wework_msg_type_text">纯文本</string>
-    <string name="wework_msg_type_markdown">markdown</string>
+    <string name="wework_msg_type_markdown">Markdown</string>
     <string name="wework_at_mobiles">被@人的手机号</string>
     <string name="wework_at_mobiles_tip">Tips：多个手机号用逗号分开，例如：18888888888,19999999999</string>
     <string name="wework_at_userids">被@人的userid</string>
@@ -822,6 +825,7 @@
     <string name="feishu_webhook_hint">群机器人→Webhook 地址</string>
     <string name="feishu_secret_hint">群机器人→安全设置→签名校验</string>
     <string name="pushplus_token_hint">请前往对应的官网地址获取</string>
+    <string name="choose_rule">下拉选择，关键字模糊匹配</string>
     <string name="choose_sender">下拉选择，关键字模糊匹配</string>
     <string name="choose_app">已装APP列表</string>
     <string name="extra_app">额外消除应用通知</string>
@@ -970,7 +974,9 @@
     <string name="frpc_failed_to_run">Frpc运行失败</string>
     <string name="successfully_deleted">删除成功</string>
     <string name="sender_disabled_tips">【注意】该发送通道已经禁用，其关联的规则即便匹配上也不会发送！</string>
+    <string name="rule_disabled_tips">【注意】该转发规则已经禁用，即便匹配上也不会发送！</string>
     <string name="sender_contains_tips">【注意】该发送通道已经在列表中，无需重复添加！</string>
+    <string name="rule_contains_tips">【注意】该转发规则已经在列表中，无需重复添加！</string>
     <string name="local_call">本地呼叫：</string>
     <string name="remote_sms">远程发短信：</string>
     <string name="clear">清除</string>
@@ -1080,6 +1086,7 @@
     <string name="sm4_key">SM4密钥</string>
     <string name="sm4_key_tips">客户端/服务端交互采用SM4加解密</string>
 
+    <string name="rule_del">删除转发规则</string>
     <string name="sender_del">删除发送通道</string>
     <string name="sender_disabled">发送通道已禁用</string>
     <string name="unknown_sender">未知发送通道</string>
@@ -1111,7 +1118,7 @@
     <string name="ipv4">IPv4</string>
     <string name="ipv6">IPv6</string>
 
-    <string name="enable_location">启用GPS定位功能</string>
+    <string name="enable_location">GPS定位服务</string>
     <string name="enable_location_dialog">必须开启定位服务，才能使用获取！\n是否立即启用？</string>
     <string name="enable_location_tips">以便支持 查找手机、{{定位信息}}标签 等需要GPS的功能</string>
     <string name="accuracy">位置精度</string>
@@ -1170,13 +1177,19 @@
     <string name="task_lock_screen">锁屏解锁</string>
     <string name="task_lock_screen_tips">在屏幕锁定或解锁后立即或指定时间触发</string>
     <string name="task_sendsms">发送短信</string>
-    <string name="task_notification">通道推送</string>
+    <string name="task_notification">推送通知</string>
     <string name="task_frpc">Frpc设置</string>
     <string name="task_frpc_tips">控制内网穿透·FRPC的启动/停止</string>
     <string name="task_http_server">HttpServer设置</string>
     <string name="task_http_server_tips">控制HttpServer的启动/停止，并支持启用/禁用功能</string>
     <string name="task_cleaner">清理日志</string>
     <string name="task_cleaner_tips">批量删除N天前的转发记录、删除缓存等</string>
+    <string name="task_settings">通用设置</string>
+    <string name="task_settings_tips">控制【通用设置】的配置开关</string>
+    <string name="task_rule">启停规则</string>
+    <string name="task_rule_tips">控制【转发规则】的启用/禁用</string>
+    <string name="task_sender">启停通道</string>
+    <string name="task_sender_tips">控制【发送通道】的启用/禁用</string>
 
     <string name="second">秒</string>
     <string name="minute">分</string>
@@ -1284,6 +1297,10 @@
 
     <string name="specified_uid">指定配置</string>
     <string name="specified_uid_hint">填写frpc的uid，多个以半角逗号分隔</string>
+    <string name="specified_rule">指定规则</string>
+    <string name="specified_rule_hint">填写转发规则的id，多个以半角逗号分隔</string>
+    <string name="specified_sender">指定通道</string>
+    <string name="specified_sender_hint">填写发送通道的id，多个以半角逗号分隔</string>
 
     <string name="current_language">跟随系统</string>
     <string name="current_activity_language">当前 Activity 语种：</string>

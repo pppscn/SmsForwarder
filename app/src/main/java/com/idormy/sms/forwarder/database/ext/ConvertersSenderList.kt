@@ -8,20 +8,11 @@ class ConvertersSenderList {
 
     @TypeConverter
     fun stringToObject(value: String): List<Sender> {
-        val senderList: MutableList<Sender> = mutableListOf()
-        value.split(",").map { it.trim() }.forEach {
-            val sender = Core.sender.getOne(it.toLong())
-            senderList.add(sender)
-        }
-        return senderList
+        return Core.sender.getByIds(value.split(",").map { it.trim().toLong() })
     }
 
     @TypeConverter
     fun objectToString(list: List<Sender>): String {
-        val senderList = ArrayList<Long>()
-        list.forEach {
-            senderList += it.id
-        }
-        return senderList.joinToString(",")
+        return list.joinToString(",") { it.id.toString() }
     }
 }

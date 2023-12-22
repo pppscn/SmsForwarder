@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.work.CoroutineWorker
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
@@ -18,8 +20,10 @@ import com.idormy.sms.forwarder.entity.TaskSetting
 import com.idormy.sms.forwarder.entity.action.CleanerSetting
 import com.idormy.sms.forwarder.entity.action.FrpcSetting
 import com.idormy.sms.forwarder.entity.action.HttpServerSetting
+import com.idormy.sms.forwarder.entity.action.SettingsSetting
 import com.idormy.sms.forwarder.entity.action.SmsSetting
 import com.idormy.sms.forwarder.service.HttpServerService
+import com.idormy.sms.forwarder.service.LocationService
 import com.idormy.sms.forwarder.utils.CacheUtils
 import com.idormy.sms.forwarder.utils.EVENT_TOAST_ERROR
 import com.idormy.sms.forwarder.utils.EVENT_TOAST_INFO
@@ -30,14 +34,17 @@ import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.SendUtils
+import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.TASK_ACTION_CLEANER
 import com.idormy.sms.forwarder.utils.TASK_ACTION_FRPC
 import com.idormy.sms.forwarder.utils.TASK_ACTION_HTTPSERVER
 import com.idormy.sms.forwarder.utils.TASK_ACTION_NOTIFICATION
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDSMS
+import com.idormy.sms.forwarder.utils.TASK_ACTION_SETTINGS
 import com.idormy.sms.forwarder.utils.TaskWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xrouter.utils.TextUtils
+import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.file.FileUtils
 import com.xuexiang.xutil.resource.ResUtils.getString
 import frpclib.Frpclib
@@ -112,6 +119,73 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                         writeLog("send notification success", "SUCCESS")
                     }
 
+                    TASK_ACTION_CLEANER -> {
+                        val cleanerSetting = Gson().fromJson(action.setting, CleanerSetting::class.java)
+                        if (cleanerSetting == null) {
+                            writeLog("cleanerSetting is null")
+                            continue
+                        }
+                        if (cleanerSetting.days > 0) {
+                            val cal = Calendar.getInstance()
+                            cal.add(Calendar.DAY_OF_MONTH, 0 - cleanerSetting.days)
+                            Core.msg.deleteTimeAgo(cal.timeInMillis)
+                        } else {
+                            Core.msg.deleteAll()
+                        }
+                        //清理缓存
+                        HistoryUtils.clearPreference()
+                        CacheUtils.clearAllCache(App.context)
+
+                        successNum++
+                        writeLog("cleaner success", "SUCCESS")
+                    }
+
+                    TASK_ACTION_SETTINGS -> {
+                        val settingsSetting = Gson().fromJson(action.setting, SettingsSetting::class.java)
+                        if (settingsSetting == null) {
+                            writeLog("settingsSetting is null")
+                            continue
+                        }
+
+                        SettingUtils.enableSms = settingsSetting.enableSms
+                        SettingUtils.enablePhone = settingsSetting.enablePhone
+                        SettingUtils.enableCallType1 = settingsSetting.enableCallType1
+                        SettingUtils.enableCallType2 = settingsSetting.enableCallType2
+                        SettingUtils.enableCallType3 = settingsSetting.enableCallType3
+                        SettingUtils.enableCallType4 = settingsSetting.enableCallType4
+                        SettingUtils.enableCallType5 = settingsSetting.enableCallType5
+                        SettingUtils.enableCallType6 = settingsSetting.enableCallType6
+                        SettingUtils.enableAppNotify = settingsSetting.enableAppNotify
+                        SettingUtils.enableCancelAppNotify = settingsSetting.enableCancelAppNotify
+                        SettingUtils.enableNotUserPresent = settingsSetting.enableNotUserPresent
+                        SettingUtils.enableLocation = settingsSetting.enableLocation
+                        SettingUtils.locationAccuracy = settingsSetting.locationAccuracy
+                        SettingUtils.locationPowerRequirement = settingsSetting.locationPowerRequirement
+                        SettingUtils.locationMinInterval = settingsSetting.locationMinInterval
+                        SettingUtils.locationMinDistance = settingsSetting.locationMinDistance
+                        SettingUtils.enableSmsCommand = settingsSetting.enableSmsCommand
+                        SettingUtils.smsCommandSafePhone = settingsSetting.smsCommandSafePhone
+                        SettingUtils.enableLoadAppList = settingsSetting.enableLoadAppList
+                        SettingUtils.enableLoadUserAppList = settingsSetting.enableLoadUserAppList
+                        SettingUtils.enableLoadSystemAppList = settingsSetting.enableLoadSystemAppList
+                        SettingUtils.cancelExtraAppNotify = settingsSetting.cancelExtraAppNotify
+                        SettingUtils.duplicateMessagesLimits = settingsSetting.duplicateMessagesLimits
+
+                        if (settingsSetting.enableLocation) {
+                            val serviceIntent = Intent(App.context, LocationService::class.java)
+                            serviceIntent.action = "RESTART"
+                            App.context.startService(serviceIntent)
+                        }
+
+                        if (settingsSetting.enableLoadAppList) {
+                            val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
+                            WorkManager.getInstance(XUtil.getContext()).enqueue(request)
+                        }
+
+                        successNum++
+                        writeLog("send settings success", "SUCCESS")
+                    }
+
                     TASK_ACTION_FRPC -> {
                         if (!FileUtils.isFileExists(App.context.filesDir?.absolutePath + "/libs/libgojni.so")) {
                             writeLog("还未下载Frpc库")
@@ -180,27 +254,6 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
 
                         successNum++
                         writeLog("httpServer success", "SUCCESS")
-                    }
-
-                    TASK_ACTION_CLEANER -> {
-                        val cleanerSetting = Gson().fromJson(action.setting, CleanerSetting::class.java)
-                        if (cleanerSetting == null) {
-                            writeLog("cleanerSetting is null")
-                            continue
-                        }
-                        if (cleanerSetting.days > 0) {
-                            val cal = Calendar.getInstance()
-                            cal.add(Calendar.DAY_OF_MONTH, 0 - cleanerSetting.days)
-                            Core.msg.deleteTimeAgo(cal.timeInMillis)
-                        } else {
-                            Core.msg.deleteAll()
-                        }
-                        //清理缓存
-                        HistoryUtils.clearPreference()
-                        CacheUtils.clearAllCache(App.context)
-
-                        successNum++
-                        writeLog("cleaner success", "SUCCESS")
                     }
 
                     else -> {

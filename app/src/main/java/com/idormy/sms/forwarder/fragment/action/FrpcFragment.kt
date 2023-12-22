@@ -37,8 +37,6 @@ class FrpcFragment : BaseFragment<FragmentTasksActionFrpcBinding?>(), View.OnCli
     @AutoWired(name = KEY_EVENT_DATA_ACTION)
     var eventData: String? = null
 
-    private var description = "测试描述"
-
     override fun initArgs() {
         XRouter.getInstance().inject(this)
     }
@@ -139,7 +137,7 @@ class FrpcFragment : BaseFragment<FragmentTasksActionFrpcBinding?>(), View.OnCli
                 R.id.btn_save -> {
                     val settingVo = checkSetting()
                     val intent = Intent()
-                    intent.putExtra(KEY_BACK_DESCRIPTION_ACTION, description)
+                    intent.putExtra(KEY_BACK_DESCRIPTION_ACTION, settingVo.description)
                     intent.putExtra(KEY_BACK_DATA_ACTION, Gson().toJson(settingVo))
                     setFragmentResult(TASK_ACTION_FRPC, intent)
                     popToBack()
@@ -158,6 +156,7 @@ class FrpcFragment : BaseFragment<FragmentTasksActionFrpcBinding?>(), View.OnCli
     private fun checkSetting(): FrpcSetting {
         val startUid = binding!!.etStartUid.text.toString().trim()
         val stopUid = binding!!.etStopUid.text.toString().trim()
+        val description: String
         val action: String
         val uids: String
         if (binding!!.rgFrpcState.checkedRadioButtonId == R.id.rb_start_server) {

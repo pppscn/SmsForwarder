@@ -69,98 +69,39 @@
 
     <!-- SwitchButton -->
     <style name="SwitchButtonStyle">
-        <item name="android:paddingStart">?attr/xui_config_content_spacing_horizontal</item>
-        <item name="android:paddingEnd">?attr/xui_config_content_spacing_horizontal</item>
-        <item name="android:paddingTop">?attr/xui_config_content_spacing_vertical</item>
-        <item name="android:paddingBottom">?attr/xui_config_content_spacing_vertical</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:paddingEnd">5dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
     </style>
 
-    <style name="settingBarStyle">
+    <style name="BarStyle">
         <item name="android:layout_marginTop">5dp</item>
-        <item name="android:paddingStart">10dp</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
-        <item name="android:background">@color/setting_bar_color</item>
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@drawable/rounded_background</item>
         <item name="android:gravity">center_vertical</item>
         <!--<item name="android:orientation">horizontal</item>-->
     </style>
 
-    <style name="taskBarStyle">
+    <style name="BarStyle.Switch">
         <item name="android:layout_marginTop">5dp</item>
         <item name="android:layout_marginStart">5dp</item>
         <item name="android:layout_marginEnd">5dp</item>
         <item name="android:paddingStart">10dp</item>
-        <item name="android:paddingEnd">10dp</item>
-        <item name="android:paddingTop">5dp</item>
-        <item name="android:paddingBottom">5dp</item>
-        <item name="android:background">@color/setting_bar_color</item>
+        <item name="android:paddingEnd">5dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:background">@drawable/rounded_background</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 
-    <style name="taskBarStyleWithSwitch">
-        <item name="android:layout_marginTop">5dp</item>
+    <style name="BarStyle.NoMT">
         <item name="android:layout_marginStart">5dp</item>
         <item name="android:layout_marginEnd">5dp</item>
-        <item name="android:paddingStart">10dp</item>
-        <item name="android:paddingTop">5dp</item>
-        <item name="android:paddingBottom">5dp</item>
-        <item name="android:background">@color/setting_bar_color</item>
-        <item name="android:gravity">center_vertical</item>
-    </style>
-
-    <style name="senderBarStyle">
-        <item name="android:layout_marginTop">5dp</item>
-        <item name="android:layout_marginStart">5dp</item>
-        <item name="android:layout_marginEnd">5dp</item>
-        <item name="android:paddingStart">10dp</item>
-        <item name="android:paddingEnd">10dp</item>
-        <item name="android:paddingTop">5dp</item>
-        <item name="android:paddingBottom">5dp</item>
-        <item name="android:background">@color/setting_bar_color</item>
-        <item name="android:gravity">center_vertical</item>
-    </style>
-
-    <style name="senderBarStyleWithSwitch">
-        <item name="android:layout_marginTop">5dp</item>
-        <item name="android:layout_marginStart">5dp</item>
-        <item name="android:layout_marginEnd">5dp</item>
-        <item name="android:paddingStart">10dp</item>
-        <item name="android:paddingTop">5dp</item>
-        <item name="android:paddingBottom">5dp</item>
-        <item name="android:background">@color/setting_bar_color</item>
-        <item name="android:gravity">center_vertical</item>
-    </style>
-
-    <style name="ruleBarStyle">
-        <item name="android:layout_marginTop">5dp</item>
-        <item name="android:layout_marginStart">5dp</item>
-        <item name="android:layout_marginEnd">5dp</item>
-        <item name="android:paddingStart">10dp</item>
-        <item name="android:paddingEnd">10dp</item>
-        <item name="android:paddingTop">5dp</item>
-        <item name="android:paddingBottom">5dp</item>
-        <item name="android:background">@color/setting_bar_color</item>
-        <item name="android:gravity">center_vertical</item>
-    </style>
-
-    <style name="ruleBarStyleNoMarginTop">
-        <item name="android:layout_marginStart">5dp</item>
-        <item name="android:layout_marginEnd">5dp</item>
-        <item name="android:paddingStart">10dp</item>
-        <item name="android:paddingEnd">10dp</item>
-        <item name="android:paddingBottom">5dp</item>
-        <item name="android:background">@color/setting_bar_color</item>
-        <item name="android:gravity">center_vertical</item>
-    </style>
-
-    <style name="ruleBarStyleWithSwitch">
-        <item name="android:layout_marginTop">5dp</item>
-        <item name="android:layout_marginStart">5dp</item>
-        <item name="android:layout_marginEnd">5dp</item>
-        <item name="android:paddingStart">10dp</item>
-        <item name="android:paddingTop">5dp</item>
-        <item name="android:paddingBottom">5dp</item>
-        <item name="android:background">@color/setting_bar_color</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@drawable/rounded_background</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 

@@ -315,7 +315,7 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
                 senderListAll = senderList as MutableList<Sender>
                 for (sender in senderList) {
                     val name = if (sender.name.length > 20) sender.name.substring(0, 19) else sender.name
-                    senderSpinnerList.add(SenderAdapterItem(name, sender.imageId, sender.id, sender.status))
+                    senderSpinnerList.add(SenderAdapterItem(name, getDrawable(sender.imageId), sender.id, sender.status))
                 }
                 senderSpinnerAdapter = SenderSpinnerAdapter(senderSpinnerList)
                     .setIsFilterKey(true).setFilterColor("#EF5362").setBackgroundSelector(R.drawable.selector_custom_spinner_bg)

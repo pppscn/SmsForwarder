@@ -513,11 +513,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     }
 
     //启用定位功能
-    private fun switchEnableLocation(@SuppressLint("UseSwitchCompatOrMaterialCode") switchEnableLocation: SwitchButton, layoutLocationSetting: LinearLayout, rgAccuracy: RadioGroup, rgPowerRequirement: RadioGroup, etMinInterval: EditText, etMinDistance: EditText) {
+    private fun switchEnableLocation(@SuppressLint("UseSwitchCompatOrMaterialCode") sbEnableLocation: SwitchButton, layoutLocationSetting: LinearLayout, rgAccuracy: RadioGroup, rgPowerRequirement: RadioGroup, etMinInterval: EditText, etMinDistance: EditText) {
         //是否启用定位功能
-        switchEnableLocation.isChecked = SettingUtils.enableLocation
+        sbEnableLocation.isChecked = SettingUtils.enableLocation
         layoutLocationSetting.visibility = if (SettingUtils.enableLocation) View.VISIBLE else View.GONE
-        switchEnableLocation.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+        sbEnableLocation.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             SettingUtils.enableLocation = isChecked
             if (isChecked) {
                 XXPermissions.with(this).permission(Permission.ACCESS_COARSE_LOCATION).permission(Permission.ACCESS_FINE_LOCATION).permission(Permission.ACCESS_BACKGROUND_LOCATION).request(object : OnPermissionCallback {
@@ -534,7 +534,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                             XToastUtils.error(R.string.toast_denied)
                         }
                         SettingUtils.enableLocation = false
-                        switchEnableLocation.isChecked = false
+                        sbEnableLocation.isChecked = false
                         restartLocationService("STOP")
                     }
                 })

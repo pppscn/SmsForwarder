@@ -2,15 +2,13 @@ package com.idormy.sms.forwarder.utils
 
 object Worker {
     const val sendMsgInfo = "send_msg_info"
-
-    //const val sendLogId = "send_log_id"
-    //const val sendSbnId = "send_sbn_id"
     const val updateLogs = "update_logs"
-
-    //const val ruleId = "rule_id"
     const val rule = "rule"
     const val senderIndex = "sender_index"
     const val msgId = "msg_id"
+    //const val ruleId = "rule_id"
+    //const val sendLogId = "send_log_id"
+    //const val sendSbnId = "send_sbn_id"
 }
 
 object TaskWorker {
@@ -237,9 +235,12 @@ const val TASK_CONDITION_LOCK_SCREEN = 1007
 //注意：TASK_ACTION_XXX 枚举值 等于 TASK_ACTION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_ACTION，不可改变
 const val TASK_ACTION_SENDSMS = 2000
 const val TASK_ACTION_NOTIFICATION = 2001
-const val TASK_ACTION_FRPC = 2002
-const val TASK_ACTION_HTTPSERVER = 2003
-const val TASK_ACTION_CLEANER = 2004
+const val TASK_ACTION_CLEANER = 2002
+const val TASK_ACTION_SETTINGS = 2003
+const val TASK_ACTION_HTTPSERVER = 2004
+const val TASK_ACTION_FRPC = 2005
+const val TASK_ACTION_RULE = 2006
+const val TASK_ACTION_SENDER = 2007
 
 const val SP_BATTERY_INFO = "battery_info"
 const val SP_BATTERY_STATUS = "battery_status"

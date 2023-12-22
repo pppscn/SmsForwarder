@@ -22,7 +22,10 @@ import com.idormy.sms.forwarder.utils.TASK_ACTION_CLEANER
 import com.idormy.sms.forwarder.utils.TASK_ACTION_FRPC
 import com.idormy.sms.forwarder.utils.TASK_ACTION_HTTPSERVER
 import com.idormy.sms.forwarder.utils.TASK_ACTION_NOTIFICATION
+import com.idormy.sms.forwarder.utils.TASK_ACTION_RULE
+import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDER
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDSMS
+import com.idormy.sms.forwarder.utils.TASK_ACTION_SETTINGS
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_BATTERY
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CHARGE
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CRON
@@ -51,10 +54,13 @@ class TaskUtils private constructor() {
                 TASK_CONDITION_CHARGE -> R.drawable.auto_task_icon_charge
                 TASK_CONDITION_LOCK_SCREEN -> R.drawable.auto_task_icon_lock_screen
                 TASK_ACTION_SENDSMS -> R.drawable.auto_task_icon_sms
-                TASK_ACTION_NOTIFICATION -> R.drawable.auto_task_icon_sender
-                TASK_ACTION_FRPC -> R.drawable.auto_task_icon_frpc
-                TASK_ACTION_HTTPSERVER -> R.drawable.auto_task_icon_http_server
+                TASK_ACTION_NOTIFICATION -> R.drawable.auto_task_icon_notification
                 TASK_ACTION_CLEANER -> R.drawable.auto_task_icon_cleaner
+                TASK_ACTION_SETTINGS -> R.drawable.auto_task_icon_settings
+                TASK_ACTION_HTTPSERVER -> R.drawable.auto_task_icon_http_server
+                TASK_ACTION_FRPC -> R.drawable.auto_task_icon_frpc
+                TASK_ACTION_RULE -> R.drawable.auto_task_icon_rule
+                TASK_ACTION_SENDER -> R.drawable.auto_task_icon_sender
                 else -> R.drawable.auto_task_icon_custom_time
             }
         }
@@ -71,10 +77,13 @@ class TaskUtils private constructor() {
                 TASK_CONDITION_CHARGE -> R.drawable.auto_task_icon_charge_grey
                 TASK_CONDITION_LOCK_SCREEN -> R.drawable.auto_task_icon_lock_screen_grey
                 TASK_ACTION_SENDSMS -> R.drawable.auto_task_icon_sms_grey
-                TASK_ACTION_NOTIFICATION -> R.drawable.auto_task_icon_sender_grey
-                TASK_ACTION_FRPC -> R.drawable.auto_task_icon_frpc_grey
-                TASK_ACTION_HTTPSERVER -> R.drawable.auto_task_icon_http_server_grey
+                TASK_ACTION_NOTIFICATION -> R.drawable.auto_task_icon_notification_grey
                 TASK_ACTION_CLEANER -> R.drawable.auto_task_icon_cleaner_grey
+                TASK_ACTION_SETTINGS -> R.drawable.auto_task_icon_settings_grey
+                TASK_ACTION_HTTPSERVER -> R.drawable.auto_task_icon_http_server_grey
+                TASK_ACTION_FRPC -> R.drawable.auto_task_icon_frpc_grey
+                TASK_ACTION_RULE -> R.drawable.auto_task_icon_rule_grey
+                TASK_ACTION_SENDER -> R.drawable.auto_task_icon_sender_grey
                 else -> R.drawable.auto_task_icon_custom_time_grey
             }
         }
