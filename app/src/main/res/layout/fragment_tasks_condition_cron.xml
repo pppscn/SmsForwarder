@@ -66,49 +66,56 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="@string/second" />
+                        android:text="@string/second"
+                        android:textSize="@dimen/text_size_mini" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="@string/minute" />
+                        android:text="@string/minute"
+                        android:textSize="@dimen/text_size_mini" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="@string/hour" />
+                        android:text="@string/hour"
+                        android:textSize="@dimen/text_size_mini" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="@string/day" />
+                        android:text="@string/day"
+                        android:textSize="@dimen/text_size_mini" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="@string/month" />
+                        android:text="@string/month"
+                        android:textSize="@dimen/text_size_mini" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="@string/week" />
+                        android:text="@string/week"
+                        android:textSize="@dimen/text_size_mini" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="@string/year" />
+                        android:text="@string/year"
+                        android:textSize="@dimen/text_size_mini" />
                 </LinearLayout>
 
                 <View

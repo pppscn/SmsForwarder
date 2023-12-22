@@ -4,27 +4,31 @@ import androidx.annotation.WorkerThread
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.idormy.sms.forwarder.database.dao.TaskDao
 import com.idormy.sms.forwarder.database.entity.Task
+import java.util.Date
 
 class TaskRepository(private val taskDao: TaskDao) {
 
     @WorkerThread
-    fun insert(task: Task) = taskDao.insert(task)
+    fun insert(task: Task): Long = taskDao.insert(task)
 
-    suspend fun getOne(id: Long) = taskDao.getOne(id)
+    @WorkerThread
+    fun delete(id: Long) = taskDao.delete(id)
+
+    fun deleteAll() = taskDao.deleteAll()
 
     fun update(task: Task) = taskDao.update(task)
+
+    fun updateExecTime(taskId: Long, lastExecTime: Date, nextExecTime: Date, status: Int) = taskDao.updateExecTime(taskId, lastExecTime, nextExecTime, status)
+
+    fun get(id: Long) = taskDao.get(id)
+
+    suspend fun getOne(id: Long) = taskDao.getOne(id)
 
     fun getAllNonCache(): List<Task> {
         val query = SimpleSQLiteQuery("SELECT * FROM Task ORDER BY id ASC")
         return taskDao.getAllRaw(query)
     }
 
-    @WorkerThread
-    fun delete(id: Long) {
-        taskDao.delete(id)
-    }
+    fun getByType(type: Int): List<Task> = taskDao.getByType(type)
 
-    fun deleteAll() {
-        taskDao.deleteAll()
-    }
 }

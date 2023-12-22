@@ -9,7 +9,7 @@ import androidx.work.WorkerParameters
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
-import com.idormy.sms.forwarder.database.AppDatabase
+import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.TaskSetting
 import com.idormy.sms.forwarder.entity.condition.NetworkSetting
@@ -34,7 +34,7 @@ class NetworkWorker(context: Context, params: WorkerParameters) : CoroutineWorke
     override suspend fun doWork(): Result {
         try {
             val conditionType = inputData.getInt(TaskWorker.conditionType, -1)
-            val taskList = AppDatabase.getInstance(App.context).taskDao().getByType(conditionType)
+            val taskList = Core.task.getByType(conditionType)
             for (task in taskList) {
                 Log.d(TAG, "task = $task")
 
@@ -61,7 +61,7 @@ class NetworkWorker(context: Context, params: WorkerParameters) : CoroutineWorke
                     continue
                 }
 
-                //TODO：判断其他条件是否满足
+                //TODO：判断其他条件是否满足，注意：延迟5秒（给够搜索信号时间）才执行任务
                 if (!ConditionUtils.checkCondition(task.id, conditionList)) {
                     Log.d(TAG, "TASK-${task.id}：other condition is not satisfied")
                     continue
@@ -92,7 +92,6 @@ class NetworkWorker(context: Context, params: WorkerParameters) : CoroutineWorke
                             }
                         }
 
-                        Thread.sleep(1000) //延迟2秒，等待获取IP地址
                         ipv4 = getPublicIP(false)
                         ipv6 = getPublicIP(true)
                     }
@@ -106,7 +105,6 @@ class NetworkWorker(context: Context, params: WorkerParameters) : CoroutineWorke
                         msg.append(getString(R.string.net_wifi)).append("\n")
                         msg.append(getString(R.string.wifi_ssid)).append(": ").append(TaskUtils.wifiSsid).append("\n")
 
-                        Thread.sleep(2000) //延迟2秒，等待获取IP地址
                         ipv4 = getPublicIP(false)
                         ipv6 = getPublicIP(true)
                     }
@@ -154,6 +152,8 @@ class NetworkWorker(context: Context, params: WorkerParameters) : CoroutineWorke
 
     //获取公网IP地址
     private fun getPublicIP(ipv6: Boolean = false): String {
+        if (TaskUtils.networkState == 0) return ""
+
         return try {
             val url = if (ipv6) URL("https://api6.ipify.org/") else URL("https://api.ipify.org/")
             val urlConnection = url.openConnection() as HttpURLConnection

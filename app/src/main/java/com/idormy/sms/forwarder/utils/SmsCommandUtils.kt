@@ -8,7 +8,7 @@ import android.net.wifi.WifiManager
 import androidx.core.app.ActivityCompat
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
-import com.idormy.sms.forwarder.database.AppDatabase
+import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.server.model.SmsSendData
 import com.idormy.sms.forwarder.service.HttpServerService
 import com.xuexiang.xrouter.utils.TextUtils
@@ -50,10 +50,10 @@ class SmsCommandUtils {
 
                     GlobalScope.async(Dispatchers.IO) {
                         val frpcList = if (param.isEmpty()) {
-                            AppDatabase.getInstance(App.context).frpcDao().getAutorun()
+                            Core.frpc.getAutorun()
                         } else {
                             val uids = param.split(",")
-                            AppDatabase.getInstance(App.context).frpcDao().getByUids(uids)
+                            Core.frpc.getByUids(uids)
                         }
 
                         if (frpcList.isEmpty()) {

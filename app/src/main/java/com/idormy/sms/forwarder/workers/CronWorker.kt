@@ -7,8 +7,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.google.gson.Gson
-import com.idormy.sms.forwarder.App
-import com.idormy.sms.forwarder.database.AppDatabase
+import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.TaskSetting
 import com.idormy.sms.forwarder.entity.condition.CronSetting
@@ -32,7 +31,7 @@ class CronWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
                 return Result.failure()
             }
 
-            val task = AppDatabase.getInstance(App.context).taskDao().getOne(taskId)
+            val task = Core.task.getOne(taskId)
             if (task == null || task.status == 0) {
                 Log.d(TAG, "TASK-$taskId：task is disabled")
                 return Result.success()
@@ -77,7 +76,7 @@ class CronWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
             }
 
             // 更新任务信息
-            AppDatabase.getInstance(App.context).taskDao().updateExecTime(task.id, task.lastExecTime, task.nextExecTime, task.status)
+            Core.task.updateExecTime(task.id, task.lastExecTime, task.nextExecTime, task.status)
 
             if (task.status == 0) {
                 Log.d(TAG, "TASK-${task.id}：task is disabled")

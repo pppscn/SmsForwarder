@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
-import com.idormy.sms.forwarder.database.AppDatabase
+import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.Sender
 import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
 import com.idormy.sms.forwarder.database.viewmodel.SenderViewModel
@@ -103,9 +103,7 @@ class FeishuAppFragment : BaseFragment<FragmentSendersFeishuAppBinding?>(), View
 
         //编辑
         binding!!.btnDel.setText(R.string.del)
-        AppDatabase.getInstance(requireContext())
-            .senderDao()
-            .get(senderId)
+        Core.sender.get(senderId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : SingleObserver<Sender> {

@@ -66,6 +66,7 @@
                         android:text="@string/forward_sms_tips"
                         android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
+
                 </LinearLayout>
 
                 <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
@@ -928,7 +929,7 @@
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:ignore="TouchTargetSizeCheck" />
+                    tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
 
             </LinearLayout>
 
@@ -1119,6 +1120,7 @@
                         android:text="@string/retry_interval_tips"
                         android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -1257,6 +1259,7 @@
                     android:text="@string/custom_settings_tips"
                     android:textSize="@dimen/text_size_mini"
                     tools:ignore="SmallSp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -1276,7 +1279,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                 <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
                     android:id="@+id/btn_extra_device_mark"
@@ -1292,7 +1296,7 @@
                     app:sb_ripple_color="@color/white"
                     app:sb_ripple_duration="500"
                     app:sb_shape_type="rectangle"
-                    tools:ignore="SmallSp" />
+                    tools:ignore="SmallSp,DuplicateSpeakableTextCheck,TextContrastCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -1320,6 +1324,7 @@
                         android:text="@string/carrier_mobile"
                         android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
+
                 </LinearLayout>
 
                 <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
@@ -1337,7 +1342,8 @@
                     app:met_autoValidate="true"
                     app:met_errorMessage="@string/tip_number_only_error_message"
                     app:met_regexp="@string/regexp_number_only"
-                    app:met_validateOnFocusLost="true" />
+                    app:met_validateOnFocusLost="true"
+                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,TouchTargetSizeCheck" />
 
                 <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                     android:id="@+id/et_extra_sim1"
@@ -1347,7 +1353,8 @@
                     android:layout_weight="3"
                     android:hint="@string/custom_settings_tips"
                     android:singleLine="true"
-                    app:met_clearButton="true" />
+                    app:met_clearButton="true"
+                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,TouchTargetSizeCheck" />
 
                 <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
                     android:id="@+id/btn_extra_sim1"
@@ -1363,7 +1370,7 @@
                     app:sb_ripple_color="@color/white"
                     app:sb_ripple_duration="500"
                     app:sb_shape_type="rectangle"
-                    tools:ignore="SmallSp" />
+                    tools:ignore="SmallSp,TextContrastCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -1391,6 +1398,7 @@
                         android:text="@string/carrier_mobile"
                         android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
+
                 </LinearLayout>
 
                 <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
@@ -1408,7 +1416,8 @@
                     app:met_autoValidate="true"
                     app:met_errorMessage="@string/tip_number_only_error_message"
                     app:met_regexp="@string/regexp_number_only"
-                    app:met_validateOnFocusLost="true" />
+                    app:met_validateOnFocusLost="true"
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
                 <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                     android:id="@+id/et_extra_sim2"
@@ -1418,7 +1427,8 @@
                     android:layout_weight="3"
                     android:hint="@string/custom_settings_tips"
                     android:singleLine="true"
-                    app:met_clearButton="true" />
+                    app:met_clearButton="true"
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
                 <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
                     android:id="@+id/btn_extra_sim2"
@@ -1434,7 +1444,7 @@
                     app:sb_ripple_color="@color/white"
                     app:sb_ripple_duration="500"
                     app:sb_shape_type="rectangle"
-                    tools:ignore="SmallSp" />
+                    tools:ignore="SmallSp,TextContrastCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -1457,7 +1467,8 @@
                     android:layout_marginStart="5dp"
                     android:layout_weight="1"
                     android:inputType="textMultiLine"
-                    android:minLines="1" />
+                    android:minLines="1"
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -1485,13 +1496,15 @@
                         android:text="@string/enable_custom_templates_tips"
                         android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
+
                 </LinearLayout>
 
                 <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
                     android:id="@+id/sb_sms_template"
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -1533,7 +1546,7 @@
                     android:inputType="textMultiLine"
                     android:minLines="1"
                     android:text=""
-                    tools:ignore="RtlHardcoded" />
+                    tools:ignore="RtlHardcoded,SpeakableTextPresentCheck" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1597,6 +1610,7 @@
                         android:text="@string/pure_client_mode_tips"
                         android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
+
                 </LinearLayout>
 
                 <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
@@ -1631,6 +1645,7 @@
                         android:text="@string/pure_task_mode_tips"
                         android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
+
                 </LinearLayout>
 
                 <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
@@ -1652,12 +1667,36 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/debug_mode"
-                        android:textStyle="bold"
-                        tools:ignore="RelativeOverlap" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/debug_mode"
+                            android:textStyle="bold"
+                            tools:ignore="RelativeOverlap" />
+
+                        <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                            android:id="@+id/btn_export_log"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="@string/export"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_mini"
+                            app:sb_color_unpressed="@color/colorPrimary"
+                            app:sb_ripple_color="@color/white"
+                            app:sb_ripple_duration="500"
+                            app:sb_shape_type="rectangle"
+                            tools:ignore="PrivateResource,SmallSp" />
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -1665,22 +1704,8 @@
                         android:text="@string/debug_mode_tips"
                         android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
-                </LinearLayout>
 
-                <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                    android:id="@+id/btn_export_log"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/export"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_small"
-                    app:sb_color_unpressed="@color/colorPrimary"
-                    app:sb_ripple_color="@color/white"
-                    app:sb_ripple_duration="500"
-                    app:sb_shape_type="rectangle"
-                    tools:ignore="SmallSp" />
+                </LinearLayout>
 
                 <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
                     android:id="@+id/sb_debug_mode"

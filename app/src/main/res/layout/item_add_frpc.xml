@@ -25,13 +25,13 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/iv_rule_image"
+                android:id="@+id/iv_frpc_image"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 tools:ignore="ContentDescription,UseAppTint" />
 
             <ImageView
-                android:id="@+id/iv_rule_status"
+                android:id="@+id/iv_frpc_status"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_marginStart="14dp"
@@ -41,7 +41,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_rule_name"
+            android:id="@+id/tv_frpc_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -56,10 +56,10 @@
             tools:ignore="PrivateResource" />
 
         <ImageView
-            android:id="@+id/iv_remove_rule"
+            android:id="@+id/iv_remove_frpc"
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:contentDescription="@string/rule_del"
+            android:contentDescription="@string/frpc_del"
             android:src="@drawable/ic_delete"
             app:tint="#F15C58" />
 

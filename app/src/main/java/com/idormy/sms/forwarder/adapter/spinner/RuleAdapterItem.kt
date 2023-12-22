@@ -36,10 +36,12 @@ class RuleAdapterItem(
     }
 
     companion object {
+        @JvmStatic
         fun of(title: CharSequence): RuleAdapterItem {
             return RuleAdapterItem(title)
         }
 
+        @JvmStatic
         fun arrayOf(vararg titles: CharSequence): Array<RuleAdapterItem> {
             return titles.map { RuleAdapterItem(it) }.toTypedArray()
         }

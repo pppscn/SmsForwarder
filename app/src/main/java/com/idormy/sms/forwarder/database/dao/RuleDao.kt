@@ -31,6 +31,9 @@ interface RuleDao {
     @Update
     fun update(rule: Rule)
 
+    @Query("UPDATE Rule SET status=:status WHERE id IN (:ids)")
+    fun updateStatusByIds(ids: List<Long>, status: Int)
+
     @Query("SELECT * FROM Rule where id=:id")
     fun get(id: Long): Single<Rule>
 
@@ -54,4 +57,5 @@ interface RuleDao {
 
     @Query("SELECT * FROM Rule ORDER BY id DESC")
     fun getAll(): Single<List<Rule>>
+
 }

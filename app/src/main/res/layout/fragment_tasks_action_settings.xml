@@ -54,7 +54,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/BarStyle"
+                style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -69,7 +69,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/forward_sms"
                         android:textStyle="bold"
-                        tools:ignore="RelativeOverlap,TextContrastCheck" />
+                        tools:ignore="RelativeOverlap" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -77,6 +77,7 @@
                         android:text="@string/forward_sms_tips"
                         android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
+
                 </LinearLayout>
 
                 <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
@@ -89,7 +90,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/BarStyle"
+                style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -260,7 +261,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/BarStyle"
+                style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -290,7 +291,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="25dp"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        tools:ignore="TextSizeCheck">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -304,7 +306,8 @@
                             android:id="@+id/scb_cancel_app_notify"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
-                            app:scb_color_checked="@color/colorPrimary" />
+                            app:scb_color_checked="@color/colorPrimary"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -318,7 +321,8 @@
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_marginStart="5dp"
-                            app:scb_color_checked="@color/colorPrimary" />
+                            app:scb_color_checked="@color/colorPrimary"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -344,7 +348,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -366,7 +370,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/BarStyle"
+                style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -413,7 +417,7 @@
                     android:id="@+id/layout_location_setting"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="5dp"
                     android:orientation="vertical">
 
                     <View
@@ -589,7 +593,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/BarStyle"
+                style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">
@@ -618,7 +622,8 @@
                         android:id="@+id/et_safe_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/safe_phone_tips" />
+                        android:hint="@string/safe_phone_tips"
+                        tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
                 </LinearLayout>
 
@@ -632,7 +637,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/BarStyle"
+                style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

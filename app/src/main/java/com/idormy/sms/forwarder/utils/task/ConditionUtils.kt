@@ -43,9 +43,9 @@ class ConditionUtils private constructor() {
                 return true
             }
 
-            //注意：触发条件 = SIM卡已准备就绪时，延迟5秒（给够搜索信号时间）才执行任务
+            //注意：触发条件 = SIM卡已准备就绪/网络状态改变时，延迟5秒（给够搜索信号时间）才执行任务
             val firstCondition = conditionList.firstOrNull()
-            val needDelay = firstCondition?.type == TASK_CONDITION_SIM && TaskUtils.simState == 5
+            val needDelay = (firstCondition?.type == TASK_CONDITION_SIM && TaskUtils.simState == 5) || (firstCondition?.type == TASK_CONDITION_NETWORK && TaskUtils.networkState != 0)
 
             for (i in startIndex until conditionList.size) {
                 val condition = conditionList[i]

@@ -10,7 +10,7 @@ import androidx.work.WorkerParameters
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
-import com.idormy.sms.forwarder.database.AppDatabase
+import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.TaskSetting
 import com.idormy.sms.forwarder.entity.condition.SimSetting
@@ -31,7 +31,7 @@ class SimWorker(context: Context, params: WorkerParameters) : CoroutineWorker(co
         try {
             val conditionType = inputData.getInt(TaskWorker.conditionType, -1)
             val simStateStr = inputData.getString(TaskWorker.msg)
-            val taskList = AppDatabase.getInstance(App.context).taskDao().getByType(conditionType)
+            val taskList = Core.task.getByType(conditionType)
             for (task in taskList) {
                 Log.d(TAG, "task = $task")
 

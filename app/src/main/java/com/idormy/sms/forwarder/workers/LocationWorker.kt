@@ -7,9 +7,8 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.google.gson.Gson
-import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
-import com.idormy.sms.forwarder.database.AppDatabase
+import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.entity.LocationInfo
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.TaskSetting
@@ -51,7 +50,7 @@ class LocationWorker(context: Context, params: WorkerParameters) : CoroutineWork
 
                 //到达地点
                 TASK_CONDITION_TO_ADDRESS -> {
-                    val taskList = AppDatabase.getInstance(App.context).taskDao().getByType(conditionType)
+                    val taskList = Core.task.getByType(conditionType)
                     for (task in taskList) {
                         Log.d(TAG, "task = $task")
 
@@ -114,7 +113,7 @@ class LocationWorker(context: Context, params: WorkerParameters) : CoroutineWork
 
                 //离开地点
                 TASK_CONDITION_LEAVE_ADDRESS -> {
-                    val taskList = AppDatabase.getInstance(App.context).taskDao().getByType(conditionType)
+                    val taskList = Core.task.getByType(conditionType)
                     for (task in taskList) {
                         Log.d(TAG, "task = $task")
 

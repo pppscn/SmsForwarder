@@ -8,8 +8,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.google.gson.Gson
-import com.idormy.sms.forwarder.App
-import com.idormy.sms.forwarder.database.AppDatabase
+import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.TaskSetting
 import com.idormy.sms.forwarder.entity.condition.LockScreenSetting
@@ -29,7 +28,7 @@ class LockScreenWorker(context: Context, params: WorkerParameters) : CoroutineWo
             val conditionType = inputData.getInt(TaskWorker.conditionType, -1)
             val action = inputData.getString(TaskWorker.action)
 
-            val taskList = AppDatabase.getInstance(App.context).taskDao().getByType(conditionType)
+            val taskList = Core.task.getByType(conditionType)
             for (task in taskList) {
                 Log.d(TAG, "task = $task")
 

@@ -14,7 +14,7 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.spinner.SenderAdapterItem
 import com.idormy.sms.forwarder.adapter.spinner.SenderSpinnerAdapter
 import com.idormy.sms.forwarder.core.BaseFragment
-import com.idormy.sms.forwarder.database.AppDatabase
+import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.Sender
 import com.idormy.sms.forwarder.databinding.FragmentTasksActionSenderBinding
 import com.idormy.sms.forwarder.entity.action.SenderSetting
@@ -96,7 +96,7 @@ class SenderFragment : BaseFragment<FragmentTasksActionSenderBinding?>(), View.O
         Log.d(TAG, "initViews eventData:$eventData")
         if (eventData != null) {
             val settingVo = Gson().fromJson(eventData, SenderSetting::class.java)
-            binding!!.rgStatus.check(if (settingVo.status == "enable") R.id.rb_status_enable else R.id.rb_status_disable)
+            binding!!.rgStatus.check(if (settingVo.status == 1) R.id.rb_status_enable else R.id.rb_status_disable)
             Log.d(TAG, settingVo.senderList.toString())
             settingVo.senderList.forEach {
                 senderId = it.id
@@ -170,7 +170,7 @@ class SenderFragment : BaseFragment<FragmentTasksActionSenderBinding?>(), View.O
     //初始化发送通道下拉框
     @SuppressLint("SetTextI18n")
     private fun initSenderSpinner() {
-        AppDatabase.getInstance(requireContext()).senderDao().getAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<List<Sender>> {
+        Core.sender.getAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<List<Sender>> {
             override fun onSubscribe(d: Disposable) {}
 
             override fun onError(e: Throwable) {
@@ -222,9 +222,9 @@ class SenderFragment : BaseFragment<FragmentTasksActionSenderBinding?>(), View.O
                         }
                     }
 
-                    if (STATUS_OFF == sender.status) {
+                    /*if (STATUS_OFF == sender.status) {
                         XToastUtils.warning(getString(R.string.sender_disabled_tips))
-                    }
+                    }*/
                 }
             } catch (e: Exception) {
                 XToastUtils.error(e.message.toString())
@@ -277,21 +277,21 @@ class SenderFragment : BaseFragment<FragmentTasksActionSenderBinding?>(), View.O
     //检查设置
     @SuppressLint("SetTextI18n")
     private fun checkSetting(): SenderSetting {
+        if (senderListSelected.isEmpty() || senderId == 0L) {
+            throw Exception(getString(R.string.new_sender_first))
+        }
+
         val description = StringBuilder()
-        val status: String
+        val status: Int
         if (binding!!.rgStatus.checkedRadioButtonId == R.id.rb_status_enable) {
-            status = "enable"
+            status = 1
             description.append(getString(R.string.enable))
         } else {
-            status = "disable"
+            status = 0
             description.append(getString(R.string.disable))
         }
-        description.append(getString(R.string.menu_senders))
-
-        if (senderListSelected.isNotEmpty()) {
-            description.append(", ").append(getString(R.string.specified_sender)).append(": ")
-            description.append(senderListSelected.joinToString("/") { it.name })
-        }
+        description.append(getString(R.string.menu_senders)).append(", ").append(getString(R.string.specified_sender)).append(": ")
+        description.append(senderListSelected.joinToString(",") { it.name })
 
         return SenderSetting(description.toString(), status, senderListSelected)
     }

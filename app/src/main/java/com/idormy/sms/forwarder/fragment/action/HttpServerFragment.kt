@@ -215,10 +215,10 @@ class HttpServerFragment : BaseFragment<FragmentTasksActionHttpServerBinding?>()
         val action = if (binding!!.rgHttpServerState.checkedRadioButtonId == R.id.rb_start_server) {
             description.append(getString(R.string.start_server))
             if (enableList.isNotEmpty()) {
-                description.append(", ").append(getString(R.string.enable_function)).append(": ").append(enableList.joinToString("/"))
+                description.append(", ").append(getString(R.string.enable_function)).append(": ").append(enableList.joinToString(","))
             }
             if (disableList.isNotEmpty()) {
-                description.append(", ").append(getString(R.string.disable_function)).append(": ").append(disableList.joinToString("/"))
+                description.append(", ").append(getString(R.string.disable_function)).append(": ").append(disableList.joinToString(","))
             }
             "start"
         } else {

@@ -11,7 +11,7 @@ import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
-import com.idormy.sms.forwarder.database.AppDatabase
+import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.Sender
 import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
 import com.idormy.sms.forwarder.database.viewmodel.SenderViewModel
@@ -86,27 +86,25 @@ class SmsFragment : BaseFragment<FragmentSendersSmsBinding?>(), View.OnClickList
      */
     override fun initViews() {
         //检查发短信权限
-        XXPermissions.with(this)
-            .permission(Permission.SEND_SMS)
-            .request(object : OnPermissionCallback {
-                override fun onGranted(permissions: List<String>, all: Boolean) {
-                    if (!all) {
-                        XToastUtils.error(R.string.toast_granted_part)
-                        HttpServerUtils.enableApiSmsSend = false
-                    }
-                }
-
-                override fun onDenied(permissions: List<String>, never: Boolean) {
+        XXPermissions.with(this).permission(Permission.SEND_SMS).request(object : OnPermissionCallback {
+            override fun onGranted(permissions: List<String>, all: Boolean) {
+                if (!all) {
+                    XToastUtils.error(R.string.toast_granted_part)
                     HttpServerUtils.enableApiSmsSend = false
-                    if (never) {
-                        XToastUtils.error(R.string.toast_denied_never)
-                        // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                        XXPermissions.startPermissionActivity(requireContext(), permissions)
-                    } else {
-                        XToastUtils.error(R.string.toast_denied)
-                    }
                 }
-            })
+            }
+
+            override fun onDenied(permissions: List<String>, never: Boolean) {
+                HttpServerUtils.enableApiSmsSend = false
+                if (never) {
+                    XToastUtils.error(R.string.toast_denied_never)
+                    // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                    XXPermissions.startPermissionActivity(requireContext(), permissions)
+                } else {
+                    XToastUtils.error(R.string.toast_denied)
+                }
+            }
+        })
 
         //测试按钮增加倒计时，避免重复点击
         mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, SettingUtils.requestTimeout)
@@ -129,37 +127,32 @@ class SmsFragment : BaseFragment<FragmentSendersSmsBinding?>(), View.OnClickList
 
         //编辑
         binding!!.btnDel.setText(R.string.del)
-        AppDatabase.getInstance(requireContext())
-            .senderDao()
-            .get(senderId)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : SingleObserver<Sender> {
-                override fun onSubscribe(d: Disposable) {}
+        Core.sender.get(senderId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<Sender> {
+            override fun onSubscribe(d: Disposable) {}
 
-                override fun onError(e: Throwable) {
-                    e.printStackTrace()
-                    Log.e(TAG, "onError:$e")
-                }
+            override fun onError(e: Throwable) {
+                e.printStackTrace()
+                Log.e(TAG, "onError:$e")
+            }
 
-                override fun onSuccess(sender: Sender) {
-                    if (isClone) {
-                        titleBar?.setSubTitle(getString(R.string.clone_sender) + ": " + sender.name)
-                        binding!!.btnDel.setText(R.string.discard)
-                    } else {
-                        titleBar?.setSubTitle(getString(R.string.edit_sender) + ": " + sender.name)
-                    }
-                    binding!!.etName.setText(sender.name)
-                    binding!!.sbEnable.isChecked = sender.status == 1
-                    val settingVo = Gson().fromJson(sender.jsonSetting, SmsSetting::class.java)
-                    Log.d(TAG, settingVo.toString())
-                    if (settingVo != null) {
-                        binding!!.rgSimSlot.check(settingVo.getSmsSimSlotCheckId())
-                        binding!!.etMobiles.setText(settingVo.mobiles)
-                        binding!!.sbOnlyNoNetwork.isChecked = settingVo.onlyNoNetwork == true
-                    }
+            override fun onSuccess(sender: Sender) {
+                if (isClone) {
+                    titleBar?.setSubTitle(getString(R.string.clone_sender) + ": " + sender.name)
+                    binding!!.btnDel.setText(R.string.discard)
+                } else {
+                    titleBar?.setSubTitle(getString(R.string.edit_sender) + ": " + sender.name)
                 }
-            })
+                binding!!.etName.setText(sender.name)
+                binding!!.sbEnable.isChecked = sender.status == 1
+                val settingVo = Gson().fromJson(sender.jsonSetting, SmsSetting::class.java)
+                Log.d(TAG, settingVo.toString())
+                if (settingVo != null) {
+                    binding!!.rgSimSlot.check(settingVo.getSmsSimSlotCheckId())
+                    binding!!.etMobiles.setText(settingVo.mobiles)
+                    binding!!.sbOnlyNoNetwork.isChecked = settingVo.onlyNoNetwork == true
+                }
+            }
+        })
     }
 
     override fun initListeners() {
@@ -204,17 +197,11 @@ class SmsFragment : BaseFragment<FragmentSendersSmsBinding?>(), View.OnClickList
                         return
                     }
 
-                    MaterialDialog.Builder(requireContext())
-                        .title(R.string.delete_sender_title)
-                        .content(R.string.delete_sender_tips)
-                        .positiveText(R.string.lab_yes)
-                        .negativeText(R.string.lab_no)
-                        .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                            viewModel.delete(senderId)
-                            XToastUtils.success(R.string.delete_sender_toast)
-                            popToBack()
-                        }
-                        .show()
+                    MaterialDialog.Builder(requireContext()).title(R.string.delete_sender_title).content(R.string.delete_sender_tips).positiveText(R.string.lab_yes).negativeText(R.string.lab_no).onPositive { _: MaterialDialog?, _: DialogAction? ->
+                        viewModel.delete(senderId)
+                        XToastUtils.success(R.string.delete_sender_toast)
+                        popToBack()
+                    }.show()
                     return
                 }
 

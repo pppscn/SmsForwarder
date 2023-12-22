@@ -21,9 +21,6 @@
 
     <string name="app_browser_name">通用浏览器</string>
     <string name="description_navigation_main">导航条</string>
-    <string name="guide_key_sliding_root_navigation">guide_key_sliding_root_navigation</string>
-    <string name="navigation_drawer_open">打开导航抽屉</string>
-    <string name="navigation_drawer_close">关闭导航抽屉</string>
 
     <string name="menu_logs">转发日志</string>
     <string name="menu_senders">发送通道</string>
@@ -235,8 +232,11 @@
     <string name="delete_rule_tips">删除转发规则后会级联删除其相关的转发日志的所有记录！\n\n确定删除该条规则?</string>
     <string name="delete_rule_toast">该条规则已经删除！</string>
     <string name="new_sender_first">请选择发送通道（若无，请先添加）</string>
+    <string name="new_rule_first">请选择发送通道（若无，请先添加）</string>
+    <string name="new_frpc_first">请选择发送通道（若无，请先添加）</string>
     <string name="add_sender_first">请先去设置发送通道页面添加</string>
     <string name="add_rule_first">请先去设置转发规则页面添加</string>
+    <string name="add_frpc_first">请先去设置FRPC页面添加</string>
     <string name="select_sender">发送通道</string>
     <string name="rule_tester">转发规则测试</string>
     <string name="test_sim_slot">测试模拟的接收卡槽</string>
@@ -345,9 +345,9 @@
     <string name="touser">指定成员</string>
     <string name="toparty">指定部门</string>
     <string name="totag">指定标签</string>
-    <string name="touser_tips">Tip：接收消息的成员ID列表（多个接收者用‘|’分隔，最多支持1000个）</string>
-    <string name="toparty_tips">Tip：接收消息的部门ID列表（多个接收者用‘|’分隔，最多支持1000个）</string>
-    <string name="totag_tips">Tip：接收消息的标签ID列表（多个接收者用‘|’分隔，最多支持1000个）</string>
+    <string name="touser_tips">Tip：接收消息的成员ID列表（多个用‘|’分隔，最多支持1000个）</string>
+    <string name="toparty_tips">Tip：接收消息的部门ID列表（多个用‘|’分隔，最多支持1000个）</string>
+    <string name="totag_tips">Tip：接收消息的标签ID列表（多个用‘|’分隔，最多支持1000个）</string>
     <string name="customize_api_tips">Tip：通过反向代理(proxy_pass)绕过IP白名单限制</string>
     <string name="specified_member_tips2">Tip：接收用户的userid，每次最多传20个（用‘|’分隔）</string>
     <string name="server_chan_send_key">SendKey</string>
@@ -827,6 +827,7 @@
     <string name="pushplus_token_hint">请前往对应的官网地址获取</string>
     <string name="choose_rule">下拉选择，关键字模糊匹配</string>
     <string name="choose_sender">下拉选择，关键字模糊匹配</string>
+    <string name="choose_frpc">下拉选择，关键字模糊匹配</string>
     <string name="choose_app">已装APP列表</string>
     <string name="extra_app">额外消除应用通知</string>
     <string name="extra_app_hint">一行一个包名\n开启异步加载App列表以便选择</string>
@@ -977,6 +978,7 @@
     <string name="rule_disabled_tips">【注意】该转发规则已经禁用，即便匹配上也不会发送！</string>
     <string name="sender_contains_tips">【注意】该发送通道已经在列表中，无需重复添加！</string>
     <string name="rule_contains_tips">【注意】该转发规则已经在列表中，无需重复添加！</string>
+    <string name="frpc_contains_tips">【注意】该Frpc已经在列表中，无需重复添加！</string>
     <string name="local_call">本地呼叫：</string>
     <string name="remote_sms">远程发短信：</string>
     <string name="clear">清除</string>
@@ -1088,6 +1090,7 @@
 
     <string name="rule_del">删除转发规则</string>
     <string name="sender_del">删除发送通道</string>
+    <string name="frpc_del">删除Frpc</string>
     <string name="sender_disabled">发送通道已禁用</string>
     <string name="unknown_sender">未知发送通道</string>
     <string name="network_type">网络类型</string>
@@ -1178,9 +1181,9 @@
     <string name="task_lock_screen_tips">在屏幕锁定或解锁后立即或指定时间触发</string>
     <string name="task_sendsms">发送短信</string>
     <string name="task_notification">推送通知</string>
-    <string name="task_frpc">Frpc设置</string>
+    <string name="task_frpc">启停Frpc</string>
     <string name="task_frpc_tips">控制内网穿透·FRPC的启动/停止</string>
-    <string name="task_http_server">HttpServer设置</string>
+    <string name="task_http_server">启停HttpServer</string>
     <string name="task_http_server_tips">控制HttpServer的启动/停止，并支持启用/禁用功能</string>
     <string name="task_cleaner">清理日志</string>
     <string name="task_cleaner_tips">批量删除N天前的转发记录、删除缓存等</string>
@@ -1315,4 +1318,6 @@
     <string name="english">English</string>
     <string name="log_export_failed">导出日志失败！</string>
     <string name="log_export_success">导出日志成功！存放路径：</string>
+    <string name="all_auto_started_frpc">所有自启动的Frpc</string>
+    <string name="specified_frpc">指定的Frpc</string>
 </resources>

@@ -11,7 +11,7 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.spinner.SenderAdapterItem
 import com.idormy.sms.forwarder.adapter.spinner.SenderSpinnerAdapter
 import com.idormy.sms.forwarder.core.BaseFragment
-import com.idormy.sms.forwarder.database.AppDatabase
+import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.database.entity.Sender
 import com.idormy.sms.forwarder.databinding.FragmentTasksActionNotificationBinding
@@ -268,7 +268,7 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
 
                 R.id.btn_save -> {
                     val settingVo = checkSetting()
-                    var description = getString(R.string.select_sender) + ": "
+                    var description = getString(R.string.task_notification) + ": "
                     description += settingVo.senderList.joinToString(",") { it.name }
                     if (settingVo.senderList.size > 1) {
                         description += "; " + getString(R.string.sender_logic) + ": " + when (settingVo.senderLogic) {
@@ -298,7 +298,7 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
         //免打扰(禁用转发)时间段
         binding!!.tvSilentPeriod.text = mTimeOption[silentPeriodStart] + " ~ " + mTimeOption[silentPeriodEnd]
 
-        AppDatabase.getInstance(requireContext()).senderDao().getAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<List<Sender>> {
+        Core.sender.getAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<List<Sender>> {
             override fun onSubscribe(d: Disposable) {}
 
             override fun onError(e: Throwable) {

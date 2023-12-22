@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,10 +17,8 @@ import com.idormy.sms.forwarder.adapter.ItemMoveCallback
 import com.idormy.sms.forwarder.adapter.TaskSettingAdapter
 import com.idormy.sms.forwarder.adapter.WidgetItemAdapter
 import com.idormy.sms.forwarder.core.BaseFragment
-import com.idormy.sms.forwarder.database.AppDatabase
+import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.Task
-import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
-import com.idormy.sms.forwarder.database.viewmodel.TaskViewModel
 import com.idormy.sms.forwarder.databinding.FragmentTasksEditBinding
 import com.idormy.sms.forwarder.entity.TaskSetting
 import com.idormy.sms.forwarder.entity.condition.CronSetting
@@ -59,7 +56,6 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
     private val TAG: String = TasksEditFragment::class.java.simpleName
     private val that = this
     private var titleBar: TitleBar? = null
-    private val viewModel by viewModels<TaskViewModel> { BaseViewModelFactory(context) }
     private val dialog: BottomSheetDialog by lazy { BottomSheetDialog(requireContext()) }
 
     @JvmField
@@ -345,10 +341,14 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                     val taskNew = checkForm()
                     if (isClone) taskNew.id = 0
                     Log.d(TAG, taskNew.toString())
+                    //保存任务
+                    if (taskNew.id > 0) {
+                        Core.task.update(taskNew)
+                    } else {
+                        taskNew.id = Core.task.insert(taskNew)
+                    }
                     //应用任务
                     applyTask(taskNew)
-                    //保存任务
-                    viewModel.insertOrUpdate(taskNew)
                     XToastUtils.success(R.string.tipSaveSuccess)
                     popToBack()
                     return
@@ -363,7 +363,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
 
     //初始化表单
     private fun initForm() {
-        AppDatabase.getInstance(requireContext()).taskDao().get(taskId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<Task> {
+        Core.task.get(taskId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<Task> {
             override fun onSubscribe(d: Disposable) {}
 
             override fun onError(e: Throwable) {
@@ -464,6 +464,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
         when (task.type) {
             //定时任务
             TASK_CONDITION_CRON -> {
+                if (task.id <= 0) return
                 //取消旧任务的定时器 & 设置新的定时器
                 CronJobScheduler.cancelTask(task.id)
                 CronJobScheduler.scheduleTask(task)
@@ -490,7 +491,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                     //必须开启定位服务，才能使用进入地点 或 离开地点 类型条件
                     if ((typeCondition == TASK_CONDITION_TO_ADDRESS || typeCondition == TASK_CONDITION_LEAVE_ADDRESS) && !App.LocationClient.isStarted()) {
                         MaterialDialog.Builder(requireContext())
-                            .iconRes(R.drawable.icon_location)
+                            .iconRes(R.drawable.auto_task_icon_location)
                             .title(R.string.enable_location)
                             .content(R.string.enable_location_dialog)
                             .cancelable(false)

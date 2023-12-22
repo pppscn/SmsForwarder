@@ -12,10 +12,9 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.Observer
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.activity.MainActivity
-import com.idormy.sms.forwarder.database.AppDatabase
+import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.utils.task.CronJobScheduler
 import com.idormy.sms.forwarder.workers.LoadAppListWorker
@@ -45,7 +44,7 @@ class ForegroundService : Service() {
         if (Frpclib.isRunning(uid)) {
             return@Observer
         }
-        AppDatabase.getInstance(App.context).frpcDao().get(uid).flatMap { (uid1, _, config) ->
+        Core.frpc.get(uid).flatMap { (uid1, _, config) ->
             val error = Frpclib.runContent(uid1, config)
             Single.just(error)
         }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<String> {
@@ -130,7 +129,7 @@ class ForegroundService : Service() {
 
             //启动定时任务
             GlobalScope.async(Dispatchers.IO) {
-                val taskList = AppDatabase.getInstance(App.context).taskDao().getByType(TASK_CONDITION_CRON)
+                val taskList = Core.task.getByType(TASK_CONDITION_CRON)
                 taskList.forEach { task ->
                     Log.d(TAG, "task = $task")
                     CronJobScheduler.cancelTask(task.id)
@@ -150,7 +149,7 @@ class ForegroundService : Service() {
                 LiveEventBus.get(INTENT_FRPC_APPLY_FILE, String::class.java).observeStickyForever(frpcObserver)
                 //自启动的Frpc
                 GlobalScope.async(Dispatchers.IO) {
-                    val frpcList = AppDatabase.getInstance(App.context).frpcDao().getAutorun()
+                    val frpcList = Core.frpc.getAutorun()
 
                     if (frpcList.isEmpty()) {
                         Log.d(TAG, "没有自启动的Frpc")

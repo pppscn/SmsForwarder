@@ -14,7 +14,7 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.spinner.RuleAdapterItem
 import com.idormy.sms.forwarder.adapter.spinner.RuleSpinnerAdapter
 import com.idormy.sms.forwarder.core.BaseFragment
-import com.idormy.sms.forwarder.database.AppDatabase
+import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.databinding.FragmentTasksActionRuleBinding
 import com.idormy.sms.forwarder.entity.action.RuleSetting
@@ -24,7 +24,7 @@ import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_ACTION
 import com.idormy.sms.forwarder.utils.KEY_TEST_ACTION
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.STATUS_OFF
-import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDER
+import com.idormy.sms.forwarder.utils.TASK_ACTION_RULE
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
@@ -52,7 +52,7 @@ class RuleFragment : BaseFragment<FragmentTasksActionRuleBinding?>(), View.OnCli
     private var ruleListSelected: MutableList<Rule> = mutableListOf()
     private var ruleItemMap = HashMap<Long, LinearLayout>(2)
 
-    //发送通道列表
+    //转发规则列表
     private var ruleListAll: MutableList<Rule> = mutableListOf()
     private val ruleSpinnerList = ArrayList<RuleAdapterItem>()
     private lateinit var ruleSpinnerAdapter: RuleSpinnerAdapter<*>
@@ -96,7 +96,7 @@ class RuleFragment : BaseFragment<FragmentTasksActionRuleBinding?>(), View.OnCli
         Log.d(TAG, "initViews eventData:$eventData")
         if (eventData != null) {
             val settingVo = Gson().fromJson(eventData, RuleSetting::class.java)
-            binding!!.rgStatus.check(if (settingVo.status == "enable") R.id.rb_status_enable else R.id.rb_status_disable)
+            binding!!.rgStatus.check(if (settingVo.status == 1) R.id.rb_status_enable else R.id.rb_status_disable)
             Log.d(TAG, settingVo.ruleList.toString())
             settingVo.ruleList.forEach {
                 ruleId = it.id
@@ -105,7 +105,7 @@ class RuleFragment : BaseFragment<FragmentTasksActionRuleBinding?>(), View.OnCli
             Log.d(TAG, "initViews settingVo:$settingVo")
         }
 
-        //初始化发送通道下拉框
+        //初始化转发规则下拉框
         initRuleSpinner()
     }
 
@@ -155,7 +155,7 @@ class RuleFragment : BaseFragment<FragmentTasksActionRuleBinding?>(), View.OnCli
                     val intent = Intent()
                     intent.putExtra(KEY_BACK_DESCRIPTION_ACTION, settingVo.description)
                     intent.putExtra(KEY_BACK_DATA_ACTION, Gson().toJson(settingVo))
-                    setFragmentResult(TASK_ACTION_SENDER, intent)
+                    setFragmentResult(TASK_ACTION_RULE, intent)
                     popToBack()
                     return
                 }
@@ -167,10 +167,10 @@ class RuleFragment : BaseFragment<FragmentTasksActionRuleBinding?>(), View.OnCli
         }
     }
 
-    //初始化发送通道下拉框
+    //初始化转发规则下拉框
     @SuppressLint("SetTextI18n")
     private fun initRuleSpinner() {
-        AppDatabase.getInstance(requireContext()).ruleDao().getAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<List<Rule>> {
+        Core.rule.getAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<List<Rule>> {
             override fun onSubscribe(d: Disposable) {}
 
             override fun onError(e: Throwable) {
@@ -187,7 +187,13 @@ class RuleFragment : BaseFragment<FragmentTasksActionRuleBinding?>(), View.OnCli
                 ruleListAll = ruleList as MutableList<Rule>
                 for (rule in ruleList) {
                     val name = if (rule.name.length > 20) rule.name.substring(0, 19) else rule.name
-                    ruleSpinnerList.add(RuleAdapterItem(name, getDrawable(rule.imageId), rule.id, rule.status))
+                    val icon = when (rule.type) {
+                        "sms" -> R.drawable.auto_task_icon_sms
+                        "call" -> R.drawable.auto_task_icon_incall
+                        "app" -> R.drawable.auto_task_icon_start_activity
+                        else -> R.drawable.auto_task_icon_sms
+                    }
+                    ruleSpinnerList.add(RuleAdapterItem(name, getDrawable(icon), rule.id, rule.status))
                 }
                 ruleSpinnerAdapter = RuleSpinnerAdapter(ruleSpinnerList)
                     .setIsFilterKey(true).setFilterColor("#EF5362").setBackgroundSelector(R.drawable.selector_custom_spinner_bg)
@@ -222,9 +228,9 @@ class RuleFragment : BaseFragment<FragmentTasksActionRuleBinding?>(), View.OnCli
                         }
                     }
 
-                    if (STATUS_OFF == rule.status) {
+                    /*if (STATUS_OFF == rule.status) {
                         XToastUtils.warning(getString(R.string.rule_disabled_tips))
-                    }
+                    }*/
                 }
             } catch (e: Exception) {
                 XToastUtils.error(e.message.toString())
@@ -277,21 +283,21 @@ class RuleFragment : BaseFragment<FragmentTasksActionRuleBinding?>(), View.OnCli
     //检查设置
     @SuppressLint("SetTextI18n")
     private fun checkSetting(): RuleSetting {
+        if (ruleListSelected.isEmpty() || ruleId == 0L) {
+            throw Exception(getString(R.string.new_sender_first))
+        }
+
         val description = StringBuilder()
-        val status: String
+        val status: Int
         if (binding!!.rgStatus.checkedRadioButtonId == R.id.rb_status_enable) {
-            status = "enable"
+            status = 1
             description.append(getString(R.string.enable))
         } else {
-            status = "disable"
+            status = 0
             description.append(getString(R.string.disable))
         }
-        description.append(getString(R.string.menu_rules))
-
-        if (ruleListSelected.isNotEmpty()) {
-            description.append(", ").append(getString(R.string.specified_rule)).append(": ")
-            description.append(ruleListSelected.joinToString("/") { it.id.toString() })
-        }
+        description.append(getString(R.string.menu_rules)).append(", ").append(getString(R.string.specified_rule)).append(": ")
+        description.append(ruleListSelected.joinToString(",") { it.id.toString() })
 
         return RuleSetting(description.toString(), status, ruleListSelected)
     }

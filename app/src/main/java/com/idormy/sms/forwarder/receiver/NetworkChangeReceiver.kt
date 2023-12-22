@@ -16,11 +16,13 @@ import androidx.annotation.RequiresApi
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
+import com.idormy.sms.forwarder.utils.DELAY_TIME_AFTER_SIM_READY
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_NETWORK
 import com.idormy.sms.forwarder.utils.TaskWorker
 import com.idormy.sms.forwarder.utils.task.TaskUtils
 import com.idormy.sms.forwarder.workers.NetworkWorker
+import java.util.concurrent.TimeUnit
 
 @Suppress("PrivatePropertyName", "DEPRECATION", "UNUSED_PARAMETER")
 class NetworkChangeReceiver : BroadcastReceiver() {
@@ -84,12 +86,14 @@ class NetworkChangeReceiver : BroadcastReceiver() {
             return
         }
 
-        //获取公网IP地址后执行任务
-        val request = OneTimeWorkRequestBuilder<NetworkWorker>().setInputData(
-            workDataOf(
-                TaskWorker.conditionType to TASK_CONDITION_NETWORK,
-            )
-        ).build()
+        //【注意】延迟5秒（给够搜索信号时间）才执行任务
+        val request = OneTimeWorkRequestBuilder<NetworkWorker>()
+            .setInitialDelay(DELAY_TIME_AFTER_SIM_READY, TimeUnit.MILLISECONDS)
+            .setInputData(
+                workDataOf(
+                    TaskWorker.conditionType to TASK_CONDITION_NETWORK,
+                )
+            ).build()
         WorkManager.getInstance(context).enqueue(request)
     }
 

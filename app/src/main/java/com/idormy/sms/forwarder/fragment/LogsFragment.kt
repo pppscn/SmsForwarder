@@ -13,7 +13,7 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.adapter.MsgPagingAdapter
 import com.idormy.sms.forwarder.core.BaseFragment
-import com.idormy.sms.forwarder.database.AppDatabase
+import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.LogsDetail
 import com.idormy.sms.forwarder.database.entity.MsgAndLogs
 import com.idormy.sms.forwarder.database.entity.Rule
@@ -78,9 +78,7 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
                     .positiveText(R.string.lab_yes)
                     .negativeText(R.string.lab_no)
                     .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                        AppDatabase.getInstance(requireContext())
-                            .msgDao()
-                            .deleteAll(currentType)
+                        Core.msg.deleteAll(currentType)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(object : CompletableObserver {

@@ -22,6 +22,9 @@ data class Frpc(
     @Ignore var connecting: Boolean = false,
 ) : Parcelable {
 
+    val imageId: Int
+        get() = R.drawable.ic_menu_frpc
+
     val autorunImageId: Int
         get() = when (autorun) {
             STATUS_ON -> R.drawable.ic_autorun

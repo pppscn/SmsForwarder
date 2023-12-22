@@ -26,8 +26,14 @@ interface SenderDao {
     @Query("DELETE FROM Sender where id=:id")
     fun delete(id: Long)
 
+    @Query("DELETE FROM Sender")
+    fun deleteAll()
+
     @Update
     fun update(sender: Sender)
+
+    @Query("UPDATE Sender SET status=:status WHERE id IN (:ids)")
+    fun updateStatusByIds(ids: List<Long>, status: Int)
 
     @Query("SELECT * FROM Sender where id=:id")
     fun get(id: Long): Single<Sender>
@@ -54,6 +60,4 @@ interface SenderDao {
     @Query("SELECT COUNT(id) FROM Sender WHERE status = 1")
     fun getOnCount(): Flow<Long>
 
-    @Query("DELETE FROM Sender")
-    fun deleteAll()
 }

@@ -13,13 +13,14 @@ import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.Core
-import com.idormy.sms.forwarder.database.AppDatabase
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.TaskSetting
 import com.idormy.sms.forwarder.entity.action.CleanerSetting
 import com.idormy.sms.forwarder.entity.action.FrpcSetting
 import com.idormy.sms.forwarder.entity.action.HttpServerSetting
+import com.idormy.sms.forwarder.entity.action.RuleSetting
+import com.idormy.sms.forwarder.entity.action.SenderSetting
 import com.idormy.sms.forwarder.entity.action.SettingsSetting
 import com.idormy.sms.forwarder.entity.action.SmsSetting
 import com.idormy.sms.forwarder.service.HttpServerService
@@ -39,6 +40,8 @@ import com.idormy.sms.forwarder.utils.TASK_ACTION_CLEANER
 import com.idormy.sms.forwarder.utils.TASK_ACTION_FRPC
 import com.idormy.sms.forwarder.utils.TASK_ACTION_HTTPSERVER
 import com.idormy.sms.forwarder.utils.TASK_ACTION_NOTIFICATION
+import com.idormy.sms.forwarder.utils.TASK_ACTION_RULE
+import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDER
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDSMS
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SETTINGS
 import com.idormy.sms.forwarder.utils.TaskWorker
@@ -197,11 +200,8 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                             continue
                         }
 
-                        val frpcList = if (frpcSetting.uids.isEmpty()) {
-                            AppDatabase.getInstance(App.context).frpcDao().getAutorun()
-                        } else {
-                            val uids = frpcSetting.uids.split(",")
-                            AppDatabase.getInstance(App.context).frpcDao().getByUids(uids)
+                        val frpcList = frpcSetting.frpcList.ifEmpty {
+                            Core.frpc.getAutorun()
                         }
 
                         if (frpcList.isEmpty()) {
@@ -254,6 +254,38 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
 
                         successNum++
                         writeLog("httpServer success", "SUCCESS")
+                    }
+
+                    TASK_ACTION_RULE -> {
+                        val ruleSetting = Gson().fromJson(action.setting, RuleSetting::class.java)
+                        if (ruleSetting == null) {
+                            writeLog("httpServerSetting is null")
+                            continue
+                        }
+
+                        val ids = ruleSetting.ruleList.map { it.id }
+                        if (ids.isNotEmpty()) {
+                            Core.rule.updateStatusByIds(ids, ruleSetting.status)
+                        }
+
+                        successNum++
+                        writeLog("update rule success", "SUCCESS")
+                    }
+
+                    TASK_ACTION_SENDER -> {
+                        val senderSetting = Gson().fromJson(action.setting, SenderSetting::class.java)
+                        if (senderSetting == null) {
+                            writeLog("senderSetting is null")
+                            continue
+                        }
+
+                        val ids = senderSetting.senderList.map { it.id }
+                        if (ids.isNotEmpty()) {
+                            Core.sender.updateStatusByIds(ids, senderSetting.status)
+                        }
+
+                        successNum++
+                        writeLog("update sender success", "SUCCESS")
                     }
 
                     else -> {

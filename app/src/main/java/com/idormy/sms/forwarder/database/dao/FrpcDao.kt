@@ -24,6 +24,9 @@ interface FrpcDao {
     @Query("DELETE FROM Frpc where uid=:uid")
     fun delete(uid: String)
 
+    @Query("DELETE FROM Frpc")
+    fun deleteAll()
+
     @Update
     fun update(frpc: Frpc)
 
@@ -43,10 +46,11 @@ interface FrpcDao {
     @Query("SELECT * FROM Frpc ORDER BY time DESC")
     fun pagingSource(): PagingSource<Int, Frpc>
 
+    @Query("SELECT * FROM Frpc ORDER BY time DESC")
+    fun getAll(): Single<List<Frpc>>
+
     @Transaction
     @RawQuery(observedEntities = [Frpc::class])
     fun getAllRaw(query: SupportSQLiteQuery): List<Frpc>
 
-    @Query("DELETE FROM Frpc")
-    fun deleteAll()
 }

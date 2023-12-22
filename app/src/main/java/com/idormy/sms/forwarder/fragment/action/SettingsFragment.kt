@@ -476,10 +476,10 @@ class SettingsFragment : BaseFragment<FragmentTasksActionSettingsBinding?>(), Vi
 
         val description = StringBuilder()
         if (enableList.isNotEmpty()) {
-            description.append(" ").append(getString(R.string.enable_function)).append(": ").append(enableList.joinToString("/"))
+            description.append(" ").append(getString(R.string.enable_function)).append(": ").append(enableList.joinToString(","))
         }
         if (disableList.isNotEmpty()) {
-            description.append(" ").append(getString(R.string.disable_function)).append(": ").append(disableList.joinToString("/"))
+            description.append(" ").append(getString(R.string.disable_function)).append(": ").append(disableList.joinToString(","))
         }
 
         return SettingsSetting(description.toString().trim(), enableSms, enablePhone, enableCallType1, enableCallType2, enableCallType3, enableCallType4, enableCallType5, enableCallType6, enableAppNotify, enableCancelAppNotify, enableNotUserPresent, enableLocation, locationAccuracy, locationPowerRequirement, locationMinInterval, locationMinDistance, enableSmsCommand, smsCommandSafePhone, enableLoadAppList, enableLoadUserAppList, enableLoadSystemAppList, cancelExtraAppNotify, duplicateMessagesLimits)

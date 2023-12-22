@@ -21,9 +21,6 @@
 
     <string name="app_browser_name">Universal Browser</string>
     <string name="description_navigation_main">navigation</string>
-    <string name="guide_key_sliding_root_navigation">guide_key_sliding_root_navigation</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="menu_logs">Logs</string>
     <string name="menu_senders">Senders</string>
@@ -234,8 +231,11 @@
     <string name="delete_rule_tips">Are you sure to delete this rule?</string>
     <string name="delete_rule_toast">The rule has deleted.</string>
     <string name="new_sender_first">Please add a new sender and then choose it.</string>
+    <string name="new_rule_first">Please add a new rule and then choose it.</string>
+    <string name="new_frpc_first">Please add a new frpc and then choose it.</string>
     <string name="add_sender_first">Please add a sender first.</string>
     <string name="add_rule_first">Please add a rule first.</string>
+    <string name="add_frpc_first">Please add a frpc first.</string>
     <string name="select_sender">Select Sender</string>
     <string name="rule_tester">Rule tester:</string>
     <string name="test_sim_slot">Test SIM Slot</string>
@@ -336,7 +336,7 @@
     <string name="Customize_API">Customize API</string>
     <string name="Corp_ID">Corp ID</string>
     <string name="Agent_ID">Agent ID</string>
-    <string name="App_Secret">App Secret</string>
+    <string name="App_Secret">Secret</string>
     <string name="is_at_all">Is At All</string>
     <string name="specified_member">Specified Member</string>
     <string name="at_all">\@all</string>
@@ -826,6 +826,7 @@
     <string name="pushplus_token_hint">Please go to the corresponding official website to obtain</string>
     <string name="choose_rule">Drop-down selection, keyword fuzzy match</string>
     <string name="choose_sender">Drop-down selection, keyword fuzzy match</string>
+    <string name="choose_frpc">Drop-down selection, keyword fuzzy match</string>
     <string name="choose_app">Installed Apps</string>
     <string name="extra_app">Extra Apps</string>
     <string name="extra_app_hint">One package name per line\nEnable async loading of the App list for selection.</string>
@@ -976,6 +977,7 @@
     <string name="rule_disabled_tips">[Note] The rule has been disabled, will not be sent even if they match!</string>
     <string name="sender_contains_tips">[Note] The sending channel is already in the list, no need to add it again!</string>
     <string name="rule_contains_tips">[Note] The rule is already in the list, no need to add it again!</string>
+    <string name="frpc_contains_tips">[Note] The frpc is already in the list, no need to add it again!</string>
     <string name="local_call">Local Call:</string>
     <string name="remote_sms">Remote SMS：</string>
     <string name="clear">Clear</string>
@@ -1087,6 +1089,7 @@
 
     <string name="rule_del">Del Rule</string>
     <string name="sender_del">Del Sender</string>
+    <string name="frpc_del">Del Frpc</string>
     <string name="sender_disabled">Sender is disabled</string>
     <string name="unknown_sender">Unknown sender</string>
     <string name="network_type">Network Type</string>
@@ -1176,10 +1179,10 @@
     <string name="task_lock_screen">Screen Off/On</string>
     <string name="task_lock_screen_tips">Trigger upon screen lock/unlock instantly or after a set time.</string>
     <string name="task_sendsms">Send Sms</string>
-    <string name="task_notification">Notification</string>
-    <string name="task_frpc">Frpc Setting</string>
+    <string name="task_notification">Notify</string>
+    <string name="task_frpc">Frpc On/Off</string>
     <string name="task_frpc_tips">Control the start/stop of FRPC.</string>
-    <string name="task_http_server">Server Setting</string>
+    <string name="task_http_server">Server On/Off</string>
     <string name="task_http_server_tips">Manage HttpServer start/stop and enable/disable functions</string>
     <string name="task_cleaner">Cleaner</string>
     <string name="task_cleaner_tips">Delete FW. logs older than N days, delete cache, etc.</string>
@@ -1314,4 +1317,6 @@
     <string name="english">English</string>
     <string name="log_export_failed">Log Export Failed!</string>
     <string name="log_export_success">Log exported successfully! Path:</string>
+    <string name="all_auto_started_frpc">All auto-started Frpc</string>
+    <string name="specified_frpc">Specified Frpc</string>
 </resources>
