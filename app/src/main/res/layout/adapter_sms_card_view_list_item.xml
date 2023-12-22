@@ -22,8 +22,8 @@
 
         <ImageView
             android:id="@+id/iv_image"
-            android:layout_width="@dimen/card_view_image_size"
-            android:layout_height="@dimen/card_view_image_size"
+            android:layout_width="@dimen/card_view_icon_size"
+            android:layout_height="@dimen/card_view_icon_size"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_sms"
             tools:ignore="ContentDescription,ImageContrastCheck" />

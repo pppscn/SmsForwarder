@@ -103,8 +103,8 @@
                     android:paddingBottom="@dimen/config_padding_5dp">
 
                     <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
+                        android:layout_width="@dimen/card_view_icon_size"
+                        android:layout_height="@dimen/card_view_icon_size"
                         android:src="@drawable/ic_add"
                         app:tint="@color/gray_text_light"
                         tools:ignore="ContentDescription,ImageContrastCheck" />
@@ -129,7 +129,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/add_condition_tips"
-                            android:textSize="@dimen/text_size_small" />
+                            android:textSize="@dimen/text_size_mini" />
 
                     </LinearLayout>
 
@@ -189,8 +189,8 @@
                     android:paddingBottom="@dimen/config_padding_5dp">
 
                     <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
+                        android:layout_width="@dimen/card_view_icon_size"
+                        android:layout_height="@dimen/card_view_icon_size"
                         android:src="@drawable/ic_add"
                         app:tint="@color/gray_text_light"
                         tools:ignore="ContentDescription,ImageContrastCheck" />
@@ -215,7 +215,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/add_action_tips"
-                            android:textSize="@dimen/text_size_small" />
+                            android:textSize="@dimen/text_size_mini" />
 
                     </LinearLayout>
 

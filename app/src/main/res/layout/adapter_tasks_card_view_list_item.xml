@@ -9,7 +9,7 @@
     android:layout_marginStart="@dimen/config_margin_5dp"
     android:layout_marginTop="@dimen/config_margin_5dp"
     android:layout_marginEnd="@dimen/config_margin_5dp"
-    android:padding="@dimen/config_padding_5dp">
+    android:padding="@dimen/config_padding_10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:id="@+id/layout_icons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/config_margin_5dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -49,8 +49,7 @@
                 android:id="@+id/sb_enable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/config_padding_5dp"
-                android:paddingBottom="@dimen/config_padding_5dp"
+                android:padding="0dp"
                 tools:ignore="TouchTargetSizeCheck" />
 
         </LinearLayout>
@@ -66,7 +65,6 @@
                 android:id="@+id/layout_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/config_margin_10dp"
                 android:orientation="vertical"
                 android:visibility="gone">
 
@@ -91,7 +89,6 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 

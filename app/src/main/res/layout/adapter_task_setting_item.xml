@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/iv_icon"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="@dimen/card_view_icon_size"
+            android:layout_height="@dimen/card_view_icon_size"
             android:src="@drawable/ic_add"
             tools:ignore="ContentDescription,ImageContrastCheck" />
 
@@ -46,7 +46,7 @@
                 android:gravity="start"
                 android:maxLines="2"
                 android:text="@string/add_action_tips"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_mini" />
 
         </LinearLayout>
 

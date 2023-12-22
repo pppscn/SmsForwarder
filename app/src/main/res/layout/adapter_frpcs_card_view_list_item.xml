@@ -26,8 +26,8 @@
 
             <ImageView
                 android:id="@+id/iv_image"
-                android:layout_width="@dimen/card_view_image_size"
-                android:layout_height="@dimen/card_view_image_size"
+                android:layout_width="@dimen/card_view_icon_size"
+                android:layout_height="@dimen/card_view_icon_size"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_menu_frpc"
                 app:tint="#299EE3"
@@ -72,7 +72,7 @@
                     android:id="@+id/iv_play"
                     android:layout_width="@dimen/card_view_image_size"
                     android:layout_height="@dimen/card_view_image_size"
-                    android:padding="7dp"
+                    android:padding="5dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_start"
                     app:tint="@color/colorStart"

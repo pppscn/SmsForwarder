@@ -58,8 +58,9 @@
     <dimen name="config_padding_20dp">20dp</dimen>
     <dimen name="config_padding_24dp">24dp</dimen>
     <dimen name="config_padding_30dp">30dp</dimen>
-    <dimen name="card_view_image_size">32dp</dimen>
-    <dimen name="card_view_image_padding">4dp</dimen>
+    <dimen name="card_view_icon_size">36dp</dimen>
+    <dimen name="card_view_image_size">26dp</dimen>
+    <dimen name="card_view_image_padding">2dp</dimen>
 
     <dimen name="view_dimen_3">1.0899963dip</dimen>
     <dimen name="view_dimen_10">3.6399841dip</dimen>
