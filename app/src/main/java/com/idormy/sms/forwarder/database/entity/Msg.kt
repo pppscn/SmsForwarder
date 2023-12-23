@@ -32,14 +32,14 @@ data class Msg(
 
     val simImageId: Int
         get() {
-            if (simInfo.isNotEmpty()) {
-                if (simInfo.replace("-", "").startsWith("SIM2")) {
-                    return R.drawable.ic_sim2 //mipmap
-                } else if (simInfo.replace("-", "").startsWith("SIM1")) {
-                    return R.drawable.ic_sim1
-                }
+            return when {
+                type == "app" -> R.drawable.ic_app
+                simSlot == 0 -> R.drawable.ic_sim1
+                simSlot == 1 -> R.drawable.ic_sim2
+                simInfo.isNotEmpty() && simInfo.replace("-", "").startsWith("SIM2") -> R.drawable.ic_sim2
+                simInfo.isNotEmpty() && simInfo.replace("-", "").startsWith("SIM1") -> R.drawable.ic_sim1
+                else -> R.drawable.ic_sim
             }
-            return R.drawable.ic_sim
         }
 
 }

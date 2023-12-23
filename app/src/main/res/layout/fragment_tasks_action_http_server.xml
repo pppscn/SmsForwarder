@@ -59,8 +59,7 @@
                 <RadioGroup
                     android:id="@+id/rg_http_server_state"
                     style="@style/rg_style"
-                    android:orientation="horizontal"
-                    android:paddingBottom="@dimen/config_padding_5dp">
+                    android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/rb_start_server"

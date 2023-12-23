@@ -11,7 +11,8 @@
         android:id="@+id/iv_setting_icon"
         android:layout_width="@dimen/card_view_image_size"
         android:layout_height="@dimen/card_view_image_size"
-        android:padding="@dimen/card_view_image_padding"
+        android:paddingStart="0dp"
+        android:paddingEnd="3dp"
         android:scaleType="fitCenter"
         tools:ignore="ContentDescription" />
 

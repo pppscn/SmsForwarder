@@ -33,7 +33,7 @@
                 android:id="@+id/iv_arrow"
                 android:layout_width="@dimen/card_view_image_size"
                 android:layout_height="@dimen/card_view_image_size"
-                android:padding="@dimen/config_padding_8dp"
+                android:padding="4dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/auto_task_icon_left_arrow"
                 tools:ignore="ContentDescription,ImageContrastCheck" />
@@ -92,45 +92,23 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:gravity="start"
-                    android:maxEms="10"
-                    android:maxLines="1"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:gravity="start"
-                    android:maxLines="2"
-                    android:textSize="@dimen/text_size_mini" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="bottom|end"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:textSize="@dimen/text_size_small" />
-
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="start"
+                        android:maxEms="10"
+                        android:maxLines="1"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:id="@+id/iv_copy"
@@ -161,6 +139,32 @@
                         android:src="@drawable/ic_delete"
                         app:tint="@color/toast_error_color"
                         tools:ignore="ContentDescription,PrivateResource" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_description"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="start"
+                        android:maxLines="2"
+                        android:paddingEnd="@dimen/config_padding_10dp"
+                        android:textSize="@dimen/text_size_mini"
+                        tools:ignore="RtlSymmetry" />
+
+                    <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|end"
+                        android:textSize="@dimen/text_size_small" />
 
                 </LinearLayout>
 
