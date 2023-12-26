@@ -3,29 +3,29 @@ package com.idormy.sms.forwarder.adapter.spinner
 import android.graphics.drawable.Drawable
 
 @Suppress("unused")
-class FrpcAdapterItem(
+class FrpcSpinnerItem(
     var title: CharSequence,
     var icon: Drawable? = null,
     var uid: String = "",
     var autorun: Int? = 1
 ) {
 
-    fun setTitle(title: CharSequence): FrpcAdapterItem {
+    fun setTitle(title: CharSequence): FrpcSpinnerItem {
         this.title = title
         return this
     }
 
-    fun setIcon(icon: Drawable?): FrpcAdapterItem {
+    fun setIcon(icon: Drawable?): FrpcSpinnerItem {
         this.icon = icon
         return this
     }
 
-    fun setUid(uid: String): FrpcAdapterItem {
+    fun setUid(uid: String): FrpcSpinnerItem {
         this.uid = uid
         return this
     }
 
-    fun setAutorun(autorun: Int): FrpcAdapterItem {
+    fun setAutorun(autorun: Int): FrpcSpinnerItem {
         this.autorun = autorun
         return this
     }
@@ -37,13 +37,13 @@ class FrpcAdapterItem(
 
     companion object {
         @JvmStatic
-        fun of(title: CharSequence): FrpcAdapterItem {
-            return FrpcAdapterItem(title)
+        fun of(title: CharSequence): FrpcSpinnerItem {
+            return FrpcSpinnerItem(title)
         }
 
         @JvmStatic
-        fun arrayOf(vararg titles: CharSequence): Array<FrpcAdapterItem> {
-            return titles.map { FrpcAdapterItem(it) }.toTypedArray()
+        fun arrayOf(vararg titles: CharSequence): Array<FrpcSpinnerItem> {
+            return titles.map { FrpcSpinnerItem(it) }.toTypedArray()
         }
     }
 }

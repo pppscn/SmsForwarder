@@ -187,7 +187,8 @@
                         android:layout_marginStart="@dimen/config_margin_10dp"
                         android:layout_marginEnd="@dimen/config_margin_10dp"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"

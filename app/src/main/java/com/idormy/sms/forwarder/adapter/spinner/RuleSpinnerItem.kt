@@ -3,29 +3,29 @@ package com.idormy.sms.forwarder.adapter.spinner
 import android.graphics.drawable.Drawable
 
 @Suppress("unused")
-class SenderAdapterItem(
+class RuleSpinnerItem(
     var title: CharSequence,
     var icon: Drawable? = null,
     var id: Long? = 0L,
     var status: Int? = 1
 ) {
 
-    fun setTitle(title: CharSequence): SenderAdapterItem {
+    fun setTitle(title: CharSequence): RuleSpinnerItem {
         this.title = title
         return this
     }
 
-    fun setIcon(icon: Drawable?): SenderAdapterItem {
+    fun setIcon(icon: Drawable?): RuleSpinnerItem {
         this.icon = icon
         return this
     }
 
-    fun setId(id: Long): SenderAdapterItem {
+    fun setId(id: Long): RuleSpinnerItem {
         this.id = id
         return this
     }
 
-    fun setStatus(status: Int): SenderAdapterItem {
+    fun setStatus(status: Int): RuleSpinnerItem {
         this.status = status
         return this
     }
@@ -37,13 +37,13 @@ class SenderAdapterItem(
 
     companion object {
         @JvmStatic
-        fun of(title: CharSequence): SenderAdapterItem {
-            return SenderAdapterItem(title)
+        fun of(title: CharSequence): RuleSpinnerItem {
+            return RuleSpinnerItem(title)
         }
 
         @JvmStatic
-        fun arrayOf(vararg titles: CharSequence): Array<SenderAdapterItem> {
-            return titles.map { SenderAdapterItem(it) }.toTypedArray()
+        fun arrayOf(vararg titles: CharSequence): Array<RuleSpinnerItem> {
+            return titles.map { RuleSpinnerItem(it) }.toTypedArray()
         }
     }
 }

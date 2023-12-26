@@ -53,7 +53,7 @@ class SmsCommandUtils {
                             Core.frpc.getAutorun()
                         } else {
                             val uids = param.split(",")
-                            Core.frpc.getByUids(uids)
+                            Core.frpc.getByUids(uids, param)
                         }
 
                         if (frpcList.isEmpty()) {

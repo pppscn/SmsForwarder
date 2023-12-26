@@ -31,6 +31,6 @@ class FrpcRepository(private val frpcDao: FrpcDao) {
 
     fun getAutorun(): List<Frpc> = frpcDao.getAutorun()
 
-    fun getByUids(uids: List<String>): List<Frpc> = frpcDao.getByUids(uids)
+    fun getByUids(uids: List<String>, instr: String): List<Frpc> = frpcDao.getByUids(uids, instr)
 
 }

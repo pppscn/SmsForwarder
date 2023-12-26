@@ -8,7 +8,7 @@ class ConvertersSenderList {
 
     @TypeConverter
     fun stringToObject(value: String): List<Sender> {
-        return Core.sender.getByIds(value.split(",").map { it.trim().toLong() })
+        return Core.sender.getByIds(value.split(",").map { it.trim().toLong() }, value)
     }
 
     @TypeConverter

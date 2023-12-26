@@ -41,8 +41,9 @@ interface SenderDao {
     @Query("SELECT * FROM Sender where id=:id")
     fun getOne(id: Long): Sender
 
-    @Query("SELECT * FROM Sender WHERE id IN (:ids)")
-    fun getByIds(ids: List<Long>): List<Sender>
+    //使用 ORDER BY 子句和 instr() 函数按照列表中 ID 的顺序返回结果
+    @Query("SELECT * FROM Sender WHERE id IN (:ids) ORDER BY instr(:instr, id)")
+    fun getByIds(ids: List<Long>, instr: String): List<Sender>
 
     @Query("SELECT count(*) FROM Sender where type=:type and status=:status")
     fun count(type: String, status: Int): Single<Int>

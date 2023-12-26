@@ -11,20 +11,20 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.base.ItemMoveCallback
-import com.idormy.sms.forwarder.entity.TaskSetting
+import com.idormy.sms.forwarder.database.entity.Frpc
 import java.util.Collections
 
 @Suppress("DEPRECATION")
-class TaskSettingAdapter(
-    var itemList: MutableList<TaskSetting>,
+class FrpcRecyclerAdapter(
+    var itemList: MutableList<Frpc>,
     private var removeClickListener: ((Int) -> Unit)? = null,
     private var editClickListener: ((Int) -> Unit)? = null,
-) : RecyclerView.Adapter<TaskSettingAdapter.ViewHolder>(), ItemMoveCallback.Listener {
+) : RecyclerView.Adapter<FrpcRecyclerAdapter.ViewHolder>(), ItemMoveCallback.Listener {
 
     private lateinit var touchHelper: ItemTouchHelper
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_task_setting_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_frpc_list_item, parent, false)
         return ViewHolder(view)
     }
 
@@ -36,14 +36,14 @@ class TaskSettingAdapter(
     override fun getItemCount(): Int = itemList.size
 
     fun setTouchHelper(touchHelper: ItemTouchHelper) {
-        this@TaskSettingAdapter.touchHelper = touchHelper
+        this@FrpcRecyclerAdapter.touchHelper = touchHelper
     }
 
     @SuppressLint("ClickableViewAccessibility")
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        private val icon: ImageView = itemView.findViewById(R.id.iv_icon)
+        private val image: ImageView = itemView.findViewById(R.id.iv_image)
+        private val status: ImageView = itemView.findViewById(R.id.iv_status)
         private val title: TextView = itemView.findViewById(R.id.tv_title)
-        private val description: TextView = itemView.findViewById(R.id.tv_description)
         private val editIcon: ImageView = itemView.findViewById(R.id.iv_edit)
         private val removeIcon: ImageView = itemView.findViewById(R.id.iv_remove)
         private val dragIcon: ImageView = itemView.findViewById(R.id.iv_drag)
@@ -69,10 +69,10 @@ class TaskSettingAdapter(
             }
         }
 
-        fun bind(taskSetting: TaskSetting) {
-            icon.setImageResource(taskSetting.iconId)
-            title.text = taskSetting.title
-            description.text = taskSetting.description
+        fun bind(frpc: Frpc) {
+            image.setImageResource(frpc.imageId)
+            status.setImageResource(frpc.autorunImageId)
+            title.text = frpc.name
         }
 
         override fun onClick(v: View?) {
@@ -101,3 +101,4 @@ class TaskSettingAdapter(
 
     override fun onDragFinished() {}
 }
+

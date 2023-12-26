@@ -6,27 +6,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
-import com.idormy.sms.forwarder.adapter.spinner.RuleAdapterItem
+import com.idormy.sms.forwarder.adapter.RuleRecyclerAdapter
+import com.idormy.sms.forwarder.adapter.base.ItemMoveCallback
 import com.idormy.sms.forwarder.adapter.spinner.RuleSpinnerAdapter
+import com.idormy.sms.forwarder.adapter.spinner.RuleSpinnerItem
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.databinding.FragmentTasksActionRuleBinding
+import com.idormy.sms.forwarder.entity.MsgInfo
+import com.idormy.sms.forwarder.entity.TaskSetting
 import com.idormy.sms.forwarder.entity.action.RuleSetting
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_ACTION
 import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_ACTION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_ACTION
-import com.idormy.sms.forwarder.utils.KEY_TEST_ACTION
 import com.idormy.sms.forwarder.utils.Log
-import com.idormy.sms.forwarder.utils.STATUS_OFF
 import com.idormy.sms.forwarder.utils.TASK_ACTION_RULE
+import com.idormy.sms.forwarder.utils.TaskWorker
 import com.idormy.sms.forwarder.utils.XToastUtils
-import com.jeremyliao.liveeventbus.LiveEventBus
+import com.idormy.sms.forwarder.workers.ActionWorker
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
@@ -38,24 +44,26 @@ import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.util.Date
 
 @Page(name = "Rule")
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 class RuleFragment : BaseFragment<FragmentTasksActionRuleBinding?>(), View.OnClickListener {
 
     private val TAG: String = RuleFragment::class.java.simpleName
     private var titleBar: TitleBar? = null
     private var mCountDownHelper: CountDownButtonHelper? = null
 
-    //当前转发规则
-    private var ruleId = 0L
-    private var ruleListSelected: MutableList<Rule> = mutableListOf()
-    private var ruleItemMap = HashMap<Long, LinearLayout>(2)
-
-    //转发规则列表
-    private var ruleListAll: MutableList<Rule> = mutableListOf()
-    private val ruleSpinnerList = ArrayList<RuleAdapterItem>()
+    //所有转发规则下拉框
+    private var ruleListAll = mutableListOf<Rule>()
+    private val ruleSpinnerList = mutableListOf<RuleSpinnerItem>()
     private lateinit var ruleSpinnerAdapter: RuleSpinnerAdapter<*>
+
+    //已选转发规则列表
+    private var ruleId = 0L
+    private var ruleListSelected = mutableListOf<Rule>()
+    private lateinit var ruleRecyclerView: RecyclerView
+    private lateinit var ruleRecyclerAdapter: RuleRecyclerAdapter
 
     @JvmField
     @AutoWired(name = KEY_EVENT_DATA_ACTION)
@@ -82,7 +90,7 @@ class RuleFragment : BaseFragment<FragmentTasksActionRuleBinding?>(), View.OnCli
      */
     override fun initViews() {
         //测试按钮增加倒计时，避免重复点击
-        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 3)
+        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 1)
         mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
             override fun onCountDown(time: Int) {
                 binding!!.btnTest.text = String.format(getString(R.string.seconds_n), time)
@@ -90,6 +98,8 @@ class RuleFragment : BaseFragment<FragmentTasksActionRuleBinding?>(), View.OnCli
 
             override fun onFinished() {
                 binding!!.btnTest.text = getString(R.string.test)
+                //获取转发规则列表
+                getRuleList()
             }
         })
 
@@ -106,7 +116,7 @@ class RuleFragment : BaseFragment<FragmentTasksActionRuleBinding?>(), View.OnCli
         }
 
         //初始化转发规则下拉框
-        initRuleSpinner()
+        initRule()
     }
 
     @SuppressLint("SetTextI18n")
@@ -114,15 +124,6 @@ class RuleFragment : BaseFragment<FragmentTasksActionRuleBinding?>(), View.OnCli
         binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
-        LiveEventBus.get(KEY_TEST_ACTION, String::class.java).observe(this) {
-            mCountDownHelper?.finish()
-
-            if (it == "success") {
-                XToastUtils.success("测试通过", 30000)
-            } else {
-                XToastUtils.error(it, 30000)
-            }
-        }
     }
 
     @SingleClick
@@ -131,17 +132,21 @@ class RuleFragment : BaseFragment<FragmentTasksActionRuleBinding?>(), View.OnCli
             when (v.id) {
                 R.id.btn_test -> {
                     mCountDownHelper?.start()
-                    Thread {
-                        try {
-                            val settingVo = checkSetting()
-                            Log.d(TAG, settingVo.toString())
-                            LiveEventBus.get(KEY_TEST_ACTION, String::class.java).post("success")
-                        } catch (e: Exception) {
-                            LiveEventBus.get(KEY_TEST_ACTION, String::class.java).post(e.message.toString())
-                            e.printStackTrace()
-                            Log.e(TAG, "onClick error: ${e.message}")
-                        }
-                    }.start()
+                    try {
+                        val settingVo = checkSetting()
+                        Log.d(TAG, settingVo.toString())
+                        val taskAction = TaskSetting(TASK_ACTION_RULE, getString(R.string.task_rule), settingVo.description, Gson().toJson(settingVo), requestCode)
+                        val taskActionsJson = Gson().toJson(arrayListOf(taskAction))
+                        val msgInfo = MsgInfo("task", getString(R.string.task_rule), settingVo.description, Date(), getString(R.string.task_rule))
+                        val actionData = Data.Builder().putLong(TaskWorker.taskId, 0).putString(TaskWorker.taskActions, taskActionsJson).putString(TaskWorker.msgInfo, Gson().toJson(msgInfo)).build()
+                        val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
+                        WorkManager.getInstance().enqueue(actionRequest)
+                    } catch (e: Exception) {
+                        mCountDownHelper?.finish()
+                        e.printStackTrace()
+                        Log.e(TAG, "onClick error: ${e.message}")
+                        XToastUtils.error(e.message.toString(), 30000)
+                    }
                     return
                 }
 
@@ -167,53 +172,14 @@ class RuleFragment : BaseFragment<FragmentTasksActionRuleBinding?>(), View.OnCli
         }
     }
 
-    //初始化转发规则下拉框
-    @SuppressLint("SetTextI18n")
-    private fun initRuleSpinner() {
-        Core.rule.getAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<List<Rule>> {
-            override fun onSubscribe(d: Disposable) {}
-
-            override fun onError(e: Throwable) {
-                e.printStackTrace()
-                Log.e(TAG, "initRuleSpinner error: ${e.message}")
-            }
-
-            override fun onSuccess(ruleList: List<Rule>) {
-                if (ruleList.isEmpty()) {
-                    XToastUtils.error(R.string.add_rule_first)
-                    return
-                }
-
-                ruleListAll = ruleList as MutableList<Rule>
-                for (rule in ruleList) {
-                    val name = if (rule.name.length > 20) rule.name.substring(0, 19) else rule.name
-                    val icon = when (rule.type) {
-                        "sms" -> R.drawable.auto_task_icon_sms
-                        "call" -> R.drawable.auto_task_icon_incall
-                        "app" -> R.drawable.auto_task_icon_start_activity
-                        else -> R.drawable.auto_task_icon_sms
-                    }
-                    ruleSpinnerList.add(RuleAdapterItem(name, getDrawable(icon), rule.id, rule.status))
-                }
-                ruleSpinnerAdapter = RuleSpinnerAdapter(ruleSpinnerList)
-                    .setIsFilterKey(true).setFilterColor("#EF5362").setBackgroundSelector(R.drawable.selector_custom_spinner_bg)
-                binding!!.spRule.setAdapter(ruleSpinnerAdapter)
-
-                if (ruleListSelected.isNotEmpty()) {
-                    for (rule in ruleListSelected) {
-                        for (ruleItem in ruleSpinnerList) {
-                            if (rule.id == ruleItem.id) {
-                                addRuleItemLinearLayout(ruleItemMap, binding!!.layoutRules, ruleItem)
-                            }
-                        }
-                    }
-                }
-            }
-        })
+    //初始化转发规则
+    @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
+    private fun initRule() {
+        //初始化转发规则下拉框
         binding!!.spRule.setOnItemClickListener { _: AdapterView<*>, _: View, position: Int, _: Long ->
             try {
-                val rule = ruleSpinnerAdapter.getItemSource(position) as RuleAdapterItem
-                ruleId = rule.id!!
+                val item = ruleSpinnerAdapter.getItemSource(position) as RuleSpinnerItem
+                ruleId = item.id!!
                 if (ruleId > 0L) {
                     ruleListSelected.forEach {
                         if (ruleId == it.id) {
@@ -224,67 +190,100 @@ class RuleFragment : BaseFragment<FragmentTasksActionRuleBinding?>(), View.OnCli
                     ruleListAll.forEach {
                         if (ruleId == it.id) {
                             ruleListSelected.add(it)
-                            addRuleItemLinearLayout(ruleItemMap, binding!!.layoutRules, rule)
                         }
                     }
-
-                    /*if (STATUS_OFF == rule.status) {
-                        XToastUtils.warning(getString(R.string.rule_disabled_tips))
-                    }*/
+                    ruleRecyclerAdapter.notifyDataSetChanged()
                 }
             } catch (e: Exception) {
                 XToastUtils.error(e.message.toString())
             }
         }
+
+        // 初始化已选转发规则列表 RecyclerView 和 Adapter
+        ruleRecyclerView = binding!!.recyclerRules
+        ruleRecyclerAdapter = RuleRecyclerAdapter(ruleListSelected, { position ->
+            ruleListSelected.removeAt(position)
+            ruleRecyclerAdapter.notifyItemRemoved(position)
+            ruleRecyclerAdapter.notifyItemRangeChanged(position, ruleListSelected.size) // 更新索引
+        })
+        ruleRecyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = ruleRecyclerAdapter
+        }
+        val ruleMoveCallback = ItemMoveCallback(object : ItemMoveCallback.Listener {
+            override fun onItemMove(fromPosition: Int, toPosition: Int) {
+                Log.d(TAG, "onItemMove: $fromPosition $toPosition")
+                ruleRecyclerAdapter.onItemMove(fromPosition, toPosition)
+                ruleListSelected = ruleRecyclerAdapter.itemList
+            }
+
+            override fun onDragFinished() {
+                ruleListSelected = ruleRecyclerAdapter.itemList
+                //ruleRecyclerAdapter.notifyDataSetChanged()
+                Log.d(TAG, "onDragFinished: $ruleListSelected")
+            }
+        })
+        val ruleTouchHelper = ItemTouchHelper(ruleMoveCallback)
+        ruleTouchHelper.attachToRecyclerView(ruleRecyclerView)
+        ruleRecyclerAdapter.setTouchHelper(ruleTouchHelper)
+
+        //获取转发规则列表
+        getRuleList()
     }
 
-    /**
-     * 动态增删Rule
-     *
-     * @param ruleItemMap          管理item的map，用于删除指定header
-     * @param layoutRules          需要挂载item的LinearLayout
-     * @param rule                 RuleAdapterItem
-     */
-    @SuppressLint("SetTextI18n")
-    private fun addRuleItemLinearLayout(
-        ruleItemMap: MutableMap<Long, LinearLayout>, layoutRules: LinearLayout, rule: RuleAdapterItem
-    ) {
-        val layoutRuleItem = View.inflate(requireContext(), R.layout.item_add_rule, null) as LinearLayout
-        val ivRemoveRule = layoutRuleItem.findViewById<ImageView>(R.id.iv_remove_rule)
-        val ivRuleImage = layoutRuleItem.findViewById<ImageView>(R.id.iv_rule_image)
-        val ivRuleStatus = layoutRuleItem.findViewById<ImageView>(R.id.iv_rule_status)
-        val tvRuleName = layoutRuleItem.findViewById<TextView>(R.id.tv_rule_name)
+    //获取转发规则列表
+    private fun getRuleList() {
+        Core.rule.getAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<List<Rule>> {
+            override fun onSubscribe(d: Disposable) {}
 
-        ivRuleImage.setImageDrawable(rule.icon)
-        ivRuleStatus.setImageDrawable(getDrawable(if (STATUS_OFF == rule.status) R.drawable.ic_stop else R.drawable.ic_start))
-        val ruleItemId = rule.id as Long
-        tvRuleName.text = "ID-$ruleItemId：${rule.title}"
-
-        ivRemoveRule.tag = ruleItemId
-        ivRemoveRule.setOnClickListener { view2: View ->
-            val tagId = view2.tag as Long
-            layoutRules.removeView(ruleItemMap[tagId])
-            ruleItemMap.remove(tagId)
-            //ruleListSelected.removeIf { it.id == tagId }
-            for (it in ruleListSelected) {
-                if (it.id == tagId) {
-                    ruleListSelected -= it
-                    break
-                }
+            override fun onError(e: Throwable) {
+                e.printStackTrace()
+                Log.e(TAG, "getRuleList error: ${e.message}")
             }
-            Log.d(TAG, ruleListSelected.count().toString())
-            Log.d(TAG, ruleListSelected.toString())
-            if (ruleListSelected.isEmpty()) ruleId = 0L
-        }
-        layoutRules.addView(layoutRuleItem)
-        ruleItemMap[ruleItemId] = layoutRuleItem
+
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onSuccess(ruleList: List<Rule>) {
+                if (ruleList.isEmpty()) {
+                    XToastUtils.error(R.string.add_rule_first)
+                    return
+                }
+
+                ruleSpinnerList.clear()
+                ruleListAll = ruleList as MutableList<Rule>
+                for (rule in ruleList) {
+                    val name = if (rule.name.length > 20) rule.name.substring(0, 19) else rule.name
+                    val icon = when (rule.type) {
+                        "sms" -> R.drawable.auto_task_icon_sms
+                        "call" -> R.drawable.auto_task_icon_incall
+                        "app" -> R.drawable.auto_task_icon_start_activity
+                        else -> R.drawable.auto_task_icon_sms
+                    }
+                    ruleSpinnerList.add(RuleSpinnerItem(name, getDrawable(icon), rule.id, rule.status))
+                }
+                ruleSpinnerAdapter = RuleSpinnerAdapter(ruleSpinnerList).setIsFilterKey(true).setFilterColor("#EF5362").setBackgroundSelector(R.drawable.selector_custom_spinner_bg)
+                binding!!.spRule.setAdapter(ruleSpinnerAdapter)
+                //ruleSpinnerAdapter.notifyDataSetChanged()
+
+                //更新ruleListSelected的状态与名称
+                ruleListSelected.forEach {
+                    ruleListAll.forEach { rule ->
+                        if (it.id == rule.id) {
+                            //it.name = rule.name
+                            it.status = rule.status
+                        }
+                    }
+                }
+                ruleRecyclerAdapter.notifyDataSetChanged()
+
+            }
+        })
     }
 
     //检查设置
     @SuppressLint("SetTextI18n")
     private fun checkSetting(): RuleSetting {
         if (ruleListSelected.isEmpty() || ruleId == 0L) {
-            throw Exception(getString(R.string.new_sender_first))
+            throw Exception(getString(R.string.new_rule_first))
         }
 
         val description = StringBuilder()

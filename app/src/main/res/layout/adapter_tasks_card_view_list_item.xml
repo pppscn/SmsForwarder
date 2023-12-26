@@ -107,44 +107,22 @@
                         android:gravity="start"
                         android:maxEms="10"
                         android:maxLines="1"
+                        android:text="@string/task_cron"
                         android:textSize="@dimen/text_size_medium"
                         android:textStyle="bold" />
 
-                    <ImageView
-                        android:id="@+id/iv_copy"
-                        android:layout_width="@dimen/card_view_image_size"
-                        android:layout_height="@dimen/card_view_image_size"
-                        android:padding="@dimen/card_view_image_padding"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ic_copy"
-                        app:tint="@color/colorStart"
-                        tools:ignore="ContentDescription,ImageContrastCheck" />
-
-                    <ImageView
-                        android:id="@+id/iv_edit"
-                        android:layout_width="@dimen/card_view_image_size"
-                        android:layout_height="@dimen/card_view_image_size"
-                        android:padding="@dimen/card_view_image_padding"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ic_edit"
-                        app:tint="@color/toast_info_color"
-                        tools:ignore="ContentDescription,PrivateResource,ImageContrastCheck" />
-
-                    <ImageView
-                        android:id="@+id/iv_delete"
-                        android:layout_width="@dimen/card_view_image_size"
-                        android:layout_height="@dimen/card_view_image_size"
-                        android:padding="@dimen/card_view_image_padding"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ic_delete"
-                        app:tint="@color/toast_error_color"
-                        tools:ignore="ContentDescription,PrivateResource" />
+                    <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_small" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="bottom"
                     android:orientation="horizontal">
 
                     <TextView
@@ -155,16 +133,38 @@
                         android:ellipsize="end"
                         android:gravity="start"
                         android:maxLines="2"
-                        android:paddingEnd="@dimen/config_padding_10dp"
-                        android:textSize="@dimen/text_size_mini"
-                        tools:ignore="RtlSymmetry" />
+                        android:text="@string/task_cron_tips"
+                        android:textSize="@dimen/text_size_mini" />
 
-                    <TextView
-                        android:id="@+id/tv_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|end"
-                        android:textSize="@dimen/text_size_small" />
+                    <ImageView
+                        android:id="@+id/iv_copy"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="10dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_copy"
+                        app:tint="@color/colorStart"
+                        tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                    <ImageView
+                        android:id="@+id/iv_edit"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_edit"
+                        app:tint="@color/toast_info_color"
+                        tools:ignore="ContentDescription,PrivateResource,ImageContrastCheck" />
+
+                    <ImageView
+                        android:id="@+id/iv_delete"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_delete"
+                        app:tint="@color/toast_error_color"
+                        tools:ignore="ContentDescription,PrivateResource" />
 
                 </LinearLayout>
 

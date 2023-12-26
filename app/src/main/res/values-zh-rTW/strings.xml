@@ -590,7 +590,7 @@
     <string name="timeout">超時</string>
     <string name="timeout_label">單次超時</string>
     <string name="seconds">秒</string>
-    <string name="seconds_n">%s 秒</string>
+    <string name="seconds_n">%s秒</string>
     <string name="retry">重試</string>
     <string name="retry_label">最多重試</string>
     <string name="test_sender_sms">【%s】恭喜您，該發送通道測試成功，請繼續添加轉發規則！</string>

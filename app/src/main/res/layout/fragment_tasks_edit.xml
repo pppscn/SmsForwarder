@@ -51,14 +51,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="5dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+            <LinearLayout style="@style/BarTitleStyle.Task">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -69,7 +62,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginStart="10dp"
                     android:text="@string/task_conditions_tips"
                     android:textSize="@dimen/text_size_mini"
                     tools:ignore="SmallSp" />
@@ -137,14 +130,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="5dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+            <LinearLayout style="@style/BarTitleStyle.Task">
 
                 <TextView
                     android:layout_width="wrap_content"

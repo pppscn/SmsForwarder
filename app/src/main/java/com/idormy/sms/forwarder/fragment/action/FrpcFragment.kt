@@ -6,13 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
-import com.idormy.sms.forwarder.adapter.spinner.FrpcAdapterItem
+import com.idormy.sms.forwarder.adapter.FrpcRecyclerAdapter
+import com.idormy.sms.forwarder.adapter.base.ItemMoveCallback
 import com.idormy.sms.forwarder.adapter.spinner.FrpcSpinnerAdapter
+import com.idormy.sms.forwarder.adapter.spinner.FrpcSpinnerItem
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.Frpc
@@ -23,7 +25,6 @@ import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_ACTION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_ACTION
 import com.idormy.sms.forwarder.utils.KEY_TEST_ACTION
 import com.idormy.sms.forwarder.utils.Log
-import com.idormy.sms.forwarder.utils.STATUS_ON
 import com.idormy.sms.forwarder.utils.TASK_ACTION_FRPC
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
@@ -47,15 +48,16 @@ class FrpcFragment : BaseFragment<FragmentTasksActionFrpcBinding?>(), View.OnCli
     private var titleBar: TitleBar? = null
     private var mCountDownHelper: CountDownButtonHelper? = null
 
-    //当前发送通道
-    private var frpcUid = ""
-    private var frpcListSelected: MutableList<Frpc> = mutableListOf()
-    private var frpcItemMap = HashMap<String, LinearLayout>(2)
-
-    //发送通道列表
-    private var frpcListAll: MutableList<Frpc> = mutableListOf()
-    private val frpcSpinnerList = ArrayList<FrpcAdapterItem>()
+    //所有Frpc下拉框
+    private var frpcListAll = mutableListOf<Frpc>()
+    private val frpcSpinnerList = mutableListOf<FrpcSpinnerItem>()
     private lateinit var frpcSpinnerAdapter: FrpcSpinnerAdapter<*>
+
+    //已选Frpc列表
+    private var frpcUid = ""
+    private var frpcListSelected = mutableListOf<Frpc>()
+    private lateinit var frpcRecyclerView: RecyclerView
+    private lateinit var frpcRecyclerAdapter: FrpcRecyclerAdapter
 
     @JvmField
     @AutoWired(name = KEY_EVENT_DATA_ACTION)
@@ -101,7 +103,7 @@ class FrpcFragment : BaseFragment<FragmentTasksActionFrpcBinding?>(), View.OnCli
         }
 
         //初始化发送通道下拉框
-        initFrpcSpinner()
+        initFrpc()
     }
 
     @SuppressLint("SetTextI18n")
@@ -162,47 +164,14 @@ class FrpcFragment : BaseFragment<FragmentTasksActionFrpcBinding?>(), View.OnCli
         }
     }
 
-    //初始化发送通道下拉框
-    @SuppressLint("SetTextI18n")
-    private fun initFrpcSpinner() {
-        Core.frpc.getAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<List<Frpc>> {
-            override fun onSubscribe(d: Disposable) {}
-
-            override fun onError(e: Throwable) {
-                e.printStackTrace()
-                Log.e(TAG, "initFrpcSpinner error: ${e.message}")
-            }
-
-            override fun onSuccess(frpcList: List<Frpc>) {
-                if (frpcList.isEmpty()) {
-                    XToastUtils.error(R.string.add_frpc_first)
-                    return
-                }
-
-                frpcListAll = frpcList as MutableList<Frpc>
-                for (frpc in frpcList) {
-                    val name = if (frpc.name.length > 20) frpc.name.substring(0, 19) else frpc.name
-                    frpcSpinnerList.add(FrpcAdapterItem(name, getDrawable(R.drawable.auto_task_icon_frpc), frpc.uid, frpc.autorun))
-                }
-                frpcSpinnerAdapter = FrpcSpinnerAdapter(frpcSpinnerList)
-                    .setIsFilterKey(true).setFilterColor("#EF5362").setBackgroundSelector(R.drawable.selector_custom_spinner_bg)
-                binding!!.spFrpc.setAdapter(frpcSpinnerAdapter)
-
-                if (frpcListSelected.isNotEmpty()) {
-                    for (frpc in frpcListSelected) {
-                        for (frpcItem in frpcSpinnerList) {
-                            if (frpc.uid == frpcItem.uid) {
-                                addFrpcItemLinearLayout(frpcItemMap, binding!!.layoutFrpcs, frpcItem)
-                            }
-                        }
-                    }
-                }
-            }
-        })
+    //初始化Frpc
+    @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
+    private fun initFrpc() {
+        //初始化Frpc下拉框
         binding!!.spFrpc.setOnItemClickListener { _: AdapterView<*>, _: View, position: Int, _: Long ->
             try {
-                val frpc = frpcSpinnerAdapter.getItemSource(position) as FrpcAdapterItem
-                frpcUid = frpc.uid
+                val item = frpcSpinnerAdapter.getItemSource(position) as FrpcSpinnerItem
+                frpcUid = item.uid
                 if (frpcUid.isNotEmpty()) {
                     frpcListSelected.forEach {
                         if (frpcUid == it.uid) {
@@ -213,60 +182,87 @@ class FrpcFragment : BaseFragment<FragmentTasksActionFrpcBinding?>(), View.OnCli
                     frpcListAll.forEach {
                         if (frpcUid == it.uid) {
                             frpcListSelected.add(it)
-                            addFrpcItemLinearLayout(frpcItemMap, binding!!.layoutFrpcs, frpc)
                         }
                     }
-
-                    /*if (STATUS_OFF == frpc.status) {
-                        XToastUtils.warning(getString(R.string.frpc_disabled_tips))
-                    }*/
+                    frpcRecyclerAdapter.notifyDataSetChanged()
                 }
             } catch (e: Exception) {
                 XToastUtils.error(e.message.toString())
             }
         }
+
+        // 初始化已选Frpc列表 RecyclerView 和 Adapter
+        frpcRecyclerView = binding!!.recyclerFrpcs
+        frpcRecyclerAdapter = FrpcRecyclerAdapter(frpcListSelected, { position ->
+            frpcListSelected.removeAt(position)
+            frpcRecyclerAdapter.notifyItemRemoved(position)
+            frpcRecyclerAdapter.notifyItemRangeChanged(position, frpcListSelected.size) // 更新索引
+        })
+        frpcRecyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = frpcRecyclerAdapter
+        }
+        val frpcMoveCallback = ItemMoveCallback(object : ItemMoveCallback.Listener {
+            override fun onItemMove(fromPosition: Int, toPosition: Int) {
+                Log.d(TAG, "onItemMove: $fromPosition $toPosition")
+                frpcRecyclerAdapter.onItemMove(fromPosition, toPosition)
+                frpcListSelected = frpcRecyclerAdapter.itemList
+            }
+
+            override fun onDragFinished() {
+                frpcListSelected = frpcRecyclerAdapter.itemList
+                //frpcRecyclerAdapter.notifyDataSetChanged()
+                Log.d(TAG, "onDragFinished: $frpcListSelected")
+            }
+        })
+        val frpcTouchHelper = ItemTouchHelper(frpcMoveCallback)
+        frpcTouchHelper.attachToRecyclerView(frpcRecyclerView)
+        frpcRecyclerAdapter.setTouchHelper(frpcTouchHelper)
+
+        //获取Frpc列表
+        getFrpcList()
     }
 
-    /**
-     * 动态增删Frpc
-     *
-     * @param frpcItemMap          管理item的map，用于删除指定header
-     * @param layoutFrpcs          需要挂载item的LinearLayout
-     * @param frpc                 FrpcAdapterItem
-     */
-    @SuppressLint("SetTextI18n")
-    private fun addFrpcItemLinearLayout(
-        frpcItemMap: MutableMap<String, LinearLayout>, layoutFrpcs: LinearLayout, frpc: FrpcAdapterItem
-    ) {
-        val layoutFrpcItem = View.inflate(requireContext(), R.layout.item_add_frpc, null) as LinearLayout
-        val ivRemoveFrpc = layoutFrpcItem.findViewById<ImageView>(R.id.iv_remove_frpc)
-        val ivFrpcImage = layoutFrpcItem.findViewById<ImageView>(R.id.iv_frpc_image)
-        val ivFrpcStatus = layoutFrpcItem.findViewById<ImageView>(R.id.iv_frpc_status)
-        val tvFrpcName = layoutFrpcItem.findViewById<TextView>(R.id.tv_frpc_name)
+    //获取Frpc列表
+    private fun getFrpcList() {
+        Core.frpc.getAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<List<Frpc>> {
+            override fun onSubscribe(d: Disposable) {}
 
-        ivFrpcImage.setImageDrawable(frpc.icon)
-        ivFrpcStatus.setImageDrawable(getDrawable(if (STATUS_ON == frpc.autorun) R.drawable.ic_autorun else R.drawable.ic_manual))
-        val frpcItemId = frpc.uid
-        tvFrpcName.text = frpc.title
-
-        ivRemoveFrpc.tag = frpcItemId
-        ivRemoveFrpc.setOnClickListener { view2: View ->
-            val tagId = view2.tag
-            layoutFrpcs.removeView(frpcItemMap[tagId])
-            frpcItemMap.remove(tagId)
-            //frpcListSelected.removeIf { it.uid == tagId }
-            for (it in frpcListSelected) {
-                if (it.uid == tagId) {
-                    frpcListSelected -= it
-                    break
-                }
+            override fun onError(e: Throwable) {
+                e.printStackTrace()
+                Log.e(TAG, "getFrpcList error: ${e.message}")
             }
-            Log.d(TAG, frpcListSelected.count().toString())
-            Log.d(TAG, frpcListSelected.toString())
-            if (frpcListSelected.isEmpty()) frpcUid = ""
-        }
-        layoutFrpcs.addView(layoutFrpcItem)
-        frpcItemMap[frpcItemId] = layoutFrpcItem
+
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onSuccess(frpcList: List<Frpc>) {
+                if (frpcList.isEmpty()) {
+                    XToastUtils.error(R.string.add_frpc_first)
+                    return
+                }
+
+                frpcSpinnerList.clear()
+                frpcListAll = frpcList as MutableList<Frpc>
+                for (frpc in frpcList) {
+                    val name = if (frpc.name.length > 20) frpc.name.substring(0, 19) else frpc.name
+                    frpcSpinnerList.add(FrpcSpinnerItem(name, getDrawable(R.drawable.auto_task_icon_frpc), frpc.uid, frpc.autorun))
+                }
+                frpcSpinnerAdapter = FrpcSpinnerAdapter(frpcSpinnerList).setIsFilterKey(true).setFilterColor("#EF5362").setBackgroundSelector(R.drawable.selector_custom_spinner_bg)
+                binding!!.spFrpc.setAdapter(frpcSpinnerAdapter)
+                //frpcSpinnerAdapter.notifyDataSetChanged()
+
+                //更新frpcListSelected的状态与名称
+                frpcListSelected.forEach {
+                    frpcListAll.forEach { frpc ->
+                        if (it.uid == frpc.uid) {
+                            it.name = frpc.name
+                            it.autorun = frpc.autorun
+                        }
+                    }
+                }
+                frpcRecyclerAdapter.notifyDataSetChanged()
+
+            }
+        })
     }
 
     //检查设置

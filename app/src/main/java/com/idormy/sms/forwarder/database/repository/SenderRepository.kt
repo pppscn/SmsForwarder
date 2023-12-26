@@ -30,7 +30,7 @@ class SenderRepository(private val senderDao: SenderDao) {
 
     fun getOne(id: Long) = senderDao.getOne(id)
 
-    fun getByIds(ids: List<Long>) = senderDao.getByIds(ids)
+    fun getByIds(ids: List<Long>, instr: String) = senderDao.getByIds(ids, instr)
 
     fun getAllNonCache(): List<Sender> {
         val query = SimpleSQLiteQuery("SELECT * FROM Sender ORDER BY id ASC")

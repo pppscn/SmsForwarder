@@ -6,10 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
-import com.idormy.sms.forwarder.adapter.spinner.SenderAdapterItem
+import com.idormy.sms.forwarder.adapter.SenderRecyclerAdapter
+import com.idormy.sms.forwarder.adapter.base.ItemMoveCallback
 import com.idormy.sms.forwarder.adapter.spinner.SenderSpinnerAdapter
+import com.idormy.sms.forwarder.adapter.spinner.SenderSpinnerItem
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.Rule
@@ -52,15 +57,16 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
     private var silentPeriodStart = 0
     private var silentPeriodEnd = 0
 
-    //当前发送通道
-    var senderId = 0L
-    var senderListSelected: MutableList<Sender> = mutableListOf()
-    private var senderItemMap = HashMap<Long, LinearLayout>(2)
-
-    //发送通道列表
-    var senderListAll: MutableList<Sender> = mutableListOf()
-    private val senderSpinnerList = ArrayList<SenderAdapterItem>()
+    //所有发送通道下拉框
+    private var senderListAll = mutableListOf<Sender>()
+    private val senderSpinnerList = mutableListOf<SenderSpinnerItem>()
     private lateinit var senderSpinnerAdapter: SenderSpinnerAdapter<*>
+
+    //已选发送通道列表
+    private var senderId = 0L
+    private var senderListSelected = mutableListOf<Sender>()
+    private lateinit var sendersRecyclerView: RecyclerView
+    private lateinit var senderRecyclerAdapter: SenderRecyclerAdapter
 
     private var ruleId: Long = 0
     private var ruleType: String = "app"
@@ -109,6 +115,7 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
                 senderListSelected.add(it)
             }
 
+            checkSenderLogicShow()
             binding!!.rgSenderLogic.check(settingVo.getSenderLogicCheckId())
             if (!TextUtils.isEmpty(settingVo.smsTemplate.trim())) {
                 binding!!.sbSmsTemplate.isChecked = true
@@ -293,49 +300,16 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
     }
 
     //初始化发送通道下拉框
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
     private fun initSenderSpinner() {
         //免打扰(禁用转发)时间段
         binding!!.tvSilentPeriod.text = mTimeOption[silentPeriodStart] + " ~ " + mTimeOption[silentPeriodEnd]
 
-        Core.sender.getAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<List<Sender>> {
-            override fun onSubscribe(d: Disposable) {}
-
-            override fun onError(e: Throwable) {
-                e.printStackTrace()
-                Log.e(TAG, "initSenderSpinner error: ${e.message}")
-            }
-
-            override fun onSuccess(senderList: List<Sender>) {
-                if (senderList.isEmpty()) {
-                    XToastUtils.error(R.string.add_sender_first)
-                    return
-                }
-
-                senderListAll = senderList as MutableList<Sender>
-                for (sender in senderList) {
-                    val name = if (sender.name.length > 20) sender.name.substring(0, 19) else sender.name
-                    senderSpinnerList.add(SenderAdapterItem(name, getDrawable(sender.imageId), sender.id, sender.status))
-                }
-                senderSpinnerAdapter = SenderSpinnerAdapter(senderSpinnerList)
-                    .setIsFilterKey(true).setFilterColor("#EF5362").setBackgroundSelector(R.drawable.selector_custom_spinner_bg)
-                binding!!.spSender.setAdapter(senderSpinnerAdapter)
-
-                if (senderListSelected.isNotEmpty()) {
-                    for (sender in senderListSelected) {
-                        for (senderItem in senderSpinnerList) {
-                            if (sender.id == senderItem.id) {
-                                addSenderItemLinearLayout(senderItemMap, binding!!.layoutSenders, senderItem)
-                            }
-                        }
-                    }
-                }
-            }
-        })
+        //初始化发送通道下拉框
         binding!!.spSender.setOnItemClickListener { _: AdapterView<*>, _: View, position: Int, _: Long ->
             try {
-                val sender = senderSpinnerAdapter.getItemSource(position) as SenderAdapterItem
-                senderId = sender.id!!
+                val item = senderSpinnerAdapter.getItemSource(position) as SenderSpinnerItem
+                senderId = item.id!!
                 if (senderId > 0L) {
                     senderListSelected.forEach {
                         if (senderId == it.id) {
@@ -346,11 +320,14 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
                     senderListAll.forEach {
                         if (senderId == it.id) {
                             senderListSelected.add(it)
-                            addSenderItemLinearLayout(senderItemMap, binding!!.layoutSenders, sender)
                         }
                     }
 
-                    if (STATUS_OFF == sender.status) {
+                    checkSenderLogicShow()
+
+                    senderRecyclerAdapter.notifyDataSetChanged()
+
+                    if (STATUS_OFF == item.status) {
                         XToastUtils.warning(getString(R.string.sender_disabled_tips))
                     }
                 }
@@ -358,55 +335,84 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
                 XToastUtils.error(e.message.toString())
             }
         }
+
+        // 初始化已选发送通道列表 RecyclerView 和 Adapter
+        sendersRecyclerView = binding!!.recyclerSenders
+        senderRecyclerAdapter = SenderRecyclerAdapter(senderListSelected, { position ->
+            senderListSelected.removeAt(position)
+            senderRecyclerAdapter.notifyItemRemoved(position)
+            senderRecyclerAdapter.notifyItemRangeChanged(position, senderListSelected.size) // 更新索引
+            checkSenderLogicShow()
+        })
+        sendersRecyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = senderRecyclerAdapter
+        }
+        val senderMoveCallback = ItemMoveCallback(object : ItemMoveCallback.Listener {
+            override fun onItemMove(fromPosition: Int, toPosition: Int) {
+                Log.d(TAG, "onItemMove: $fromPosition $toPosition")
+                senderRecyclerAdapter.onItemMove(fromPosition, toPosition)
+                senderListSelected = senderRecyclerAdapter.itemList
+            }
+
+            override fun onDragFinished() {
+                senderListSelected = senderRecyclerAdapter.itemList
+                //senderRecyclerAdapter.notifyDataSetChanged()
+                Log.d(TAG, "onDragFinished: $senderListSelected")
+            }
+        })
+        val senderTouchHelper = ItemTouchHelper(senderMoveCallback)
+        senderTouchHelper.attachToRecyclerView(sendersRecyclerView)
+        senderRecyclerAdapter.setTouchHelper(senderTouchHelper)
+
+        //获取发送通道列表
+        getSenderList()
     }
 
-    /**
-     * 动态增删Sender
-     *
-     * @param senderItemMap          管理item的map，用于删除指定header
-     * @param layoutSenders          需要挂载item的LinearLayout
-     * @param sender                 SenderAdapterItem
-     */
-    @SuppressLint("SetTextI18n")
-    private fun addSenderItemLinearLayout(
-        senderItemMap: MutableMap<Long, LinearLayout>, layoutSenders: LinearLayout, sender: SenderAdapterItem
-    ) {
-        val layoutSenderItem = View.inflate(requireContext(), R.layout.item_add_sender, null) as LinearLayout
-        val ivRemoveSender = layoutSenderItem.findViewById<ImageView>(R.id.iv_remove_sender)
-        val ivSenderImage = layoutSenderItem.findViewById<ImageView>(R.id.iv_sender_image)
-        val ivSenderStatus = layoutSenderItem.findViewById<ImageView>(R.id.iv_sender_status)
-        val tvSenderName = layoutSenderItem.findViewById<TextView>(R.id.tv_sender_name)
+    //获取发送通道列表
+    private fun getSenderList() {
+        Core.sender.getAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<List<Sender>> {
+            override fun onSubscribe(d: Disposable) {}
 
-        ivSenderImage.setImageDrawable(sender.icon)
-        ivSenderStatus.setImageDrawable(getDrawable(if (STATUS_OFF == sender.status) R.drawable.ic_stop else R.drawable.ic_start))
-        val senderItemId = sender.id as Long
-        tvSenderName.text = "ID-$senderItemId：${sender.title}"
+            override fun onError(e: Throwable) {
+                e.printStackTrace()
+                Log.e(TAG, "getSenderList error: ${e.message}")
+            }
 
-        ivRemoveSender.tag = senderItemId
-        ivRemoveSender.setOnClickListener { view2: View ->
-            val tagId = view2.tag as Long
-            layoutSenders.removeView(senderItemMap[tagId])
-            senderItemMap.remove(tagId)
-            //senderListSelected.removeIf { it.id == tagId }
-            for (it in senderListSelected) {
-                if (it.id == tagId) {
-                    senderListSelected -= it
-                    break
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onSuccess(senderList: List<Sender>) {
+                if (senderList.isEmpty()) {
+                    XToastUtils.error(R.string.add_sender_first)
+                    return
                 }
+
+                senderSpinnerList.clear()
+                senderListAll = senderList as MutableList<Sender>
+                for (sender in senderList) {
+                    val name = if (sender.name.length > 20) sender.name.substring(0, 19) else sender.name
+                    senderSpinnerList.add(SenderSpinnerItem(name, getDrawable(sender.imageId), sender.id, sender.status))
+                }
+                senderSpinnerAdapter = SenderSpinnerAdapter(senderSpinnerList).setIsFilterKey(true).setFilterColor("#EF5362").setBackgroundSelector(R.drawable.selector_custom_spinner_bg)
+                binding!!.spSender.setAdapter(senderSpinnerAdapter)
+                //senderSpinnerAdapter.notifyDataSetChanged()
+
+                //更新senderListSelected的状态与名称
+                senderListSelected.forEach {
+                    senderListAll.forEach { sender ->
+                        if (it.id == sender.id) {
+                            it.name = sender.name
+                            it.status = sender.status
+                        }
+                    }
+                }
+                senderRecyclerAdapter.notifyDataSetChanged()
+
             }
-            Log.d(TAG, senderListSelected.count().toString())
-            Log.d(TAG, senderListSelected.toString())
-            if (senderListSelected.isEmpty()) senderId = 0L
-            if (senderListSelected.count() > 1) {
-                binding!!.layoutSenderLogic.visibility = View.VISIBLE
-            } else {
-                binding!!.layoutSenderLogic.visibility = View.GONE
-                binding!!.rgSenderLogic.check(R.id.rb_sender_logic_all)
-            }
-        }
-        layoutSenders.addView(layoutSenderItem)
-        senderItemMap[senderItemId] = layoutSenderItem
-        if (senderListSelected.count() > 1) {
+        })
+    }
+
+    private fun checkSenderLogicShow() {
+        if (senderListSelected.size > 1) {
             binding!!.layoutSenderLogic.visibility = View.VISIBLE
         } else {
             binding!!.layoutSenderLogic.visibility = View.GONE

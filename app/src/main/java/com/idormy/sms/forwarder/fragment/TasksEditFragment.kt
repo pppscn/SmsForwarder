@@ -13,9 +13,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
-import com.idormy.sms.forwarder.adapter.ItemMoveCallback
 import com.idormy.sms.forwarder.adapter.TaskSettingAdapter
 import com.idormy.sms.forwarder.adapter.WidgetItemAdapter
+import com.idormy.sms.forwarder.adapter.base.ItemMoveCallback
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.Task
@@ -50,7 +50,7 @@ import java.util.*
 
 
 @Page(name = "自动任务·编辑器")
-@Suppress("PrivatePropertyName", "DEPRECATION", "UNUSED_PARAMETER", "EmptyMethod")
+@Suppress("PrivatePropertyName", "DEPRECATION", "UNUSED_PARAMETER", "EmptyMethod", "NotifyDataSetChanged")
 class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClickListener, RecyclerViewHolder.OnItemClickListener<PageInfo> {
 
     private val TAG: String = TasksEditFragment::class.java.simpleName
@@ -70,14 +70,13 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
     @AutoWired(name = KEY_TASK_CLONE)
     var isClone: Boolean = false
 
-    private lateinit var recyclerConditions: RecyclerView
-    private lateinit var recyclerActions: RecyclerView
-
+    private lateinit var conditionsRecyclerView: RecyclerView
     private lateinit var conditionsAdapter: TaskSettingAdapter
-    private lateinit var actionsAdapter: TaskSettingAdapter
+    private var conditionsList = mutableListOf<TaskSetting>()
 
-    private var itemListConditions = mutableListOf<TaskSetting>()
-    private var itemListActions = mutableListOf<TaskSetting>()
+    private lateinit var actionsRecyclerView: RecyclerView
+    private lateinit var actionsAdapter: TaskSettingAdapter
+    private var actionsList = mutableListOf<TaskSetting>()
 
     private var TASK_CONDITION_FRAGMENT_LIST = listOf(
         PageInfo(
@@ -218,8 +217,8 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
      * 初始化控件
      */
     override fun initViews() {
-        recyclerConditions = findViewById(R.id.recycler_conditions)
-        recyclerActions = findViewById(R.id.recycler_actions)
+        conditionsRecyclerView = findViewById(R.id.recycler_conditions)
+        actionsRecyclerView = findViewById(R.id.recycler_actions)
 
         // 初始化 RecyclerView 和 Adapter
         initRecyclerViews()
@@ -229,34 +228,38 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
             override fun onItemMove(fromPosition: Int, toPosition: Int) {
                 Log.d(TAG, "onItemMove: $fromPosition $toPosition")
                 conditionsAdapter.onItemMove(fromPosition, toPosition)
+                conditionsList = conditionsAdapter.itemList
             }
 
             override fun onDragFinished() {
-                //itemListConditions保持与adapter一致
-                itemListConditions = conditionsAdapter.itemList.toMutableList()
-                Log.d(TAG, "onItemMove: $itemListConditions")
+                //conditionsList保持与adapter一致
+                conditionsList = conditionsAdapter.itemList
+                Log.d(TAG, "onDragFinished: $conditionsList")
+                //conditionsAdapter.notifyDataSetChanged()
             }
         })
 
         val itemTouchHelperConditions = ItemTouchHelper(conditionsCallback)
-        itemTouchHelperConditions.attachToRecyclerView(recyclerConditions)
+        itemTouchHelperConditions.attachToRecyclerView(conditionsRecyclerView)
         conditionsAdapter.setTouchHelper(itemTouchHelperConditions)
 
         val actionsCallback = ItemMoveCallback(object : ItemMoveCallback.Listener {
             override fun onItemMove(fromPosition: Int, toPosition: Int) {
                 Log.d(TAG, "onItemMove: $fromPosition $toPosition")
                 actionsAdapter.onItemMove(fromPosition, toPosition)
+                actionsList = actionsAdapter.itemList
             }
 
             override fun onDragFinished() {
-                //itemListActions保持与adapter一致
-                itemListActions = actionsAdapter.itemList.toMutableList()
-                Log.d(TAG, "onItemMove: $itemListActions")
+                //actionsList保持与adapter一致
+                actionsList = actionsAdapter.itemList
+                Log.d(TAG, "onDragFinished: $actionsList")
+                //actionsAdapter.notifyDataSetChanged()
             }
         })
 
         val itemTouchHelperActions = ItemTouchHelper(actionsCallback)
-        itemTouchHelperActions.attachToRecyclerView(recyclerActions)
+        itemTouchHelperActions.attachToRecyclerView(actionsRecyclerView)
         actionsAdapter.setTouchHelper(itemTouchHelperActions)
 
         if (taskId <= 0) { //新增
@@ -284,7 +287,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                 R.id.layout_add_condition -> {
                     val bottomSheet: View = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_task_condition_bottom_sheet, null)
                     val tvTitle: TextView = bottomSheet.findViewById(R.id.tv_title)
-                    tvTitle.text = if (itemListConditions.isEmpty()) getString(R.string.select_task_trigger) else getString(R.string.select_task_condition)
+                    tvTitle.text = if (conditionsList.isEmpty()) getString(R.string.select_task_trigger) else getString(R.string.select_task_condition)
 
                     val recyclerView: RecyclerView = bottomSheet.findViewById(R.id.recyclerView)
                     WidgetUtils.initGridRecyclerView(recyclerView, 4, DensityUtils.dp2px(1f))
@@ -386,20 +389,20 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                     if (task.conditions.isNotEmpty()) {
                         val conditionList = Gson().fromJson(task.conditions, Array<TaskSetting>::class.java).toMutableList()
                         for (condition in conditionList) {
-                            itemListConditions.add(condition)
+                            this@TasksEditFragment.conditionsList.add(condition)
                         }
-                        Log.d(TAG, "itemListConditions: $itemListConditions")
+                        Log.d(TAG, "conditionsList: ${this@TasksEditFragment.conditionsList}")
                         conditionsAdapter.notifyDataSetChanged()
-                        binding!!.layoutAddCondition.visibility = if (itemListConditions.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
+                        binding!!.layoutAddCondition.visibility = if (this@TasksEditFragment.conditionsList.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
                     }
                     if (task.actions.isNotEmpty()) {
                         val actionList = Gson().fromJson(task.actions, Array<TaskSetting>::class.java).toMutableList()
                         for (action in actionList) {
-                            itemListActions.add(action)
+                            this@TasksEditFragment.actionsList.add(action)
                         }
-                        Log.d(TAG, "itemListActions: $itemListActions")
+                        Log.d(TAG, "actionsList: ${this@TasksEditFragment.actionsList}")
                         actionsAdapter.notifyDataSetChanged()
-                        binding!!.layoutAddAction.visibility = if (itemListActions.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
+                        binding!!.layoutAddAction.visibility = if (this@TasksEditFragment.actionsList.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -416,10 +419,10 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
         if (taskName.isEmpty()) {
             throw Exception("请输入任务名称")
         }
-        if (itemListConditions.size <= 0) {
+        if (conditionsList.size <= 0) {
             throw Exception("请添加触发条件")
         }
-        if (itemListActions.size <= 0) {
+        if (actionsList.size <= 0) {
             throw Exception("请添加执行动作")
         }
 
@@ -427,7 +430,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
         // 将毫秒部分设置为 0，避免因为毫秒部分不同导致的任务重复执行
         lastExecTime.time = lastExecTime.time / 1000 * 1000
         var nextExecTime = lastExecTime
-        val firstCondition = itemListConditions[0]
+        val firstCondition = conditionsList[0]
         taskType = firstCondition.type
 
         when (taskType) {
@@ -445,13 +448,13 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
         //拼接任务描述
         val description = StringBuilder()
         description.append(getString(R.string.task_conditions)).append(" ")
-        description.append(itemListConditions.map { it.description }.toTypedArray().joinToString(","))
+        description.append(conditionsList.map { it.description }.toTypedArray().joinToString(","))
         description.append(" ").append(getString(R.string.task_actions)).append(" ")
-        description.append(itemListActions.map { it.description }.toTypedArray().joinToString(","))
+        description.append(actionsList.map { it.description }.toTypedArray().joinToString(","))
 
         val status = if (binding!!.sbStatus.isChecked) STATUS_ON else STATUS_OFF
         return Task(
-            taskId, taskType, taskName, description.toString(), Gson().toJson(itemListConditions), Gson().toJson(itemListActions), status, lastExecTime, nextExecTime
+            taskId, taskType, taskName, description.toString(), Gson().toJson(conditionsList), Gson().toJson(actionsList), status, lastExecTime, nextExecTime
         )
     }
 
@@ -481,7 +484,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
             if (widgetInfo.classPath.contains(".condition.")) {
                 val typeCondition = pos + KEY_BACK_CODE_CONDITION
                 //判断是否已经添加过该类型条件
-                for (item in itemListConditions) {
+                for (item in conditionsList) {
                     //注意：TASK_CONDITION_XXX 枚举值 等于 TASK_CONDITION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_CONDITION，不可改变
                     if (item.type == typeCondition) {
                         XToastUtils.error(getString(R.string.condition_already_exists))
@@ -514,7 +517,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
             } else {
                 val typeAction = pos + KEY_BACK_CODE_ACTION
                 //判断是否已经添加过该类型动作
-                for (item in itemListActions) {
+                for (item in actionsList) {
                     //注意：TASK_ACTION_XXX 枚举值 等于 TASK_ACTION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_ACTION，不可改变
                     if (item.type == typeAction) {
                         XToastUtils.error(getString(R.string.action_already_exists))
@@ -549,15 +552,17 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                 val widgetInfo = TASK_CONDITION_FRAGMENT_LIST[widgetInfoIndex]
                 description = extras.getString(KEY_BACK_DESCRIPTION_CONDITION) ?: widgetInfo.name.toString()
                 val taskSetting = TaskSetting(resultCode, widgetInfo.name, description, setting, requestCode)
-                //requestCode: 等于 itemListConditions 的索引加1
+                //requestCode: 等于 conditionsList 的索引加1
                 if (requestCode == 0) {
-                    taskSetting.position = itemListConditions.size
-                    itemListConditions.add(taskSetting)
+                    taskSetting.position = conditionsList.size
+                    conditionsList.add(taskSetting)
+                    conditionsAdapter.notifyItemInserted(conditionsList.size - 1)
                 } else {
-                    itemListConditions[requestCode - 1] = taskSetting
+                    conditionsList[requestCode - 1] = taskSetting
+                    conditionsAdapter.notifyItemChanged(requestCode - 1)
                 }
-                conditionsAdapter.notifyDataSetChanged()
-                binding!!.layoutAddCondition.visibility = if (itemListConditions.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
+                //conditionsAdapter.notifyDataSetChanged()
+                binding!!.layoutAddCondition.visibility = if (conditionsList.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
             } else if (resultCode in KEY_BACK_CODE_ACTION..KEY_BACK_CODE_ACTION + 999) {
                 setting = extras.getString(KEY_BACK_DATA_ACTION) ?: return
                 //注意：TASK_ACTION_XXX 枚举值 等于 TASK_ACTION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_ACTION，不可改变
@@ -566,31 +571,33 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                 val widgetInfo = TASK_ACTION_FRAGMENT_LIST[widgetInfoIndex]
                 description = extras.getString(KEY_BACK_DESCRIPTION_ACTION) ?: widgetInfo.name.toString()
                 val taskSetting = TaskSetting(resultCode, widgetInfo.name, description, setting, requestCode)
-                //requestCode: 等于 itemListActions 的索引加1
+                //requestCode: 等于 actionsList 的索引加1
                 if (requestCode == 0) {
-                    taskSetting.position = itemListActions.size
-                    itemListActions.add(taskSetting)
+                    taskSetting.position = actionsList.size
+                    actionsList.add(taskSetting)
+                    actionsAdapter.notifyItemInserted(actionsList.size - 1)
                 } else {
-                    itemListActions[requestCode - 1] = taskSetting
+                    actionsList[requestCode - 1] = taskSetting
+                    actionsAdapter.notifyItemChanged(requestCode - 1)
                 }
-                actionsAdapter.notifyDataSetChanged()
-                binding!!.layoutAddAction.visibility = if (itemListActions.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
+                //actionsAdapter.notifyDataSetChanged()
+                binding!!.layoutAddAction.visibility = if (actionsList.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
             }
             Log.d(TAG, "requestCode:$requestCode resultCode:$resultCode setting:$setting")
         }
     }
 
     private fun initRecyclerViews() {
-        conditionsAdapter = TaskSettingAdapter(itemListConditions, { position -> editCondition(position) }, { position -> removeCondition(position) })
+        conditionsAdapter = TaskSettingAdapter(conditionsList, { position -> removeCondition(position) }, { position -> editCondition(position) })
 
-        actionsAdapter = TaskSettingAdapter(itemListActions, { position -> editAction(position) }, { position -> removeAction(position) })
+        actionsAdapter = TaskSettingAdapter(actionsList, { position -> removeAction(position) }, { position -> editAction(position) })
 
-        recyclerConditions.apply {
+        conditionsRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = conditionsAdapter
         }
 
-        recyclerActions.apply {
+        actionsRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = actionsAdapter
         }
@@ -599,42 +606,48 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
     private fun editCondition(position: Int) {
         // 实现编辑条件项目的逻辑
         // 根据 position 对特定项目进行编辑
-        val condition = itemListConditions[position]
+        val condition = conditionsList[position]
         Log.d(TAG, "editCondition: $position, $condition")
 
         val widgetInfoIndex = condition.type - KEY_BACK_CODE_CONDITION
         //判断是否存在
         if (widgetInfoIndex < 0 || widgetInfoIndex >= TASK_CONDITION_FRAGMENT_LIST.size) return
         val widgetInfo = TASK_CONDITION_FRAGMENT_LIST[condition.type - KEY_BACK_CODE_CONDITION]
-        @Suppress("UNCHECKED_CAST") PageOption.to(Class.forName(widgetInfo.classPath) as Class<XPageFragment>) //跳转的fragment
-            .setRequestCode(position + 1) //requestCode: 0 新增 、>0 编辑（itemListConditions 的索引加1）
-            .putString(KEY_EVENT_DATA_CONDITION, condition.setting).open(this)
+        @Suppress("UNCHECKED_CAST")
+        PageOption.to(Class.forName(widgetInfo.classPath) as Class<XPageFragment>) //跳转的fragment
+            .setRequestCode(position + 1) //requestCode: 0 新增 、>0 编辑（conditionsList 的索引加1）
+            .putString(KEY_EVENT_DATA_CONDITION, condition.setting)
+            .open(this)
     }
 
     private fun removeCondition(position: Int) {
-        itemListConditions.removeAt(position)
+        conditionsList.removeAt(position)
         conditionsAdapter.notifyItemRemoved(position)
-        binding!!.layoutAddCondition.visibility = if (itemListConditions.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
+        conditionsAdapter.notifyItemRangeChanged(position, conditionsList.size) // 更新索引
+        binding!!.layoutAddCondition.visibility = if (conditionsList.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
     }
 
     private fun editAction(position: Int) {
         // 实现编辑操作项目的逻辑
         // 根据 position 对特定项目进行编辑
-        val action = itemListActions[position]
+        val action = actionsList[position]
         Log.d(TAG, "editAction: $position, $action")
 
         val widgetInfoIndex = action.type - KEY_BACK_CODE_ACTION
         //判断是否存在
         if (widgetInfoIndex < 0 || widgetInfoIndex >= TASK_ACTION_FRAGMENT_LIST.size) return
         val widgetInfo = TASK_ACTION_FRAGMENT_LIST[action.type - KEY_BACK_CODE_ACTION]
-        @Suppress("UNCHECKED_CAST") PageOption.to(Class.forName(widgetInfo.classPath) as Class<XPageFragment>) //跳转的fragment
-            .setRequestCode(position + 1) //requestCode: 0 新增 、>0 编辑（itemListActions 的索引加1）
-            .putString(KEY_EVENT_DATA_ACTION, action.setting).open(this)
+        @Suppress("UNCHECKED_CAST")
+        PageOption.to(Class.forName(widgetInfo.classPath) as Class<XPageFragment>) //跳转的fragment
+            .setRequestCode(position + 1) //requestCode: 0 新增 、>0 编辑（actionsList 的索引加1）
+            .putString(KEY_EVENT_DATA_ACTION, action.setting)
+            .open(this)
     }
 
     private fun removeAction(position: Int) {
-        itemListActions.removeAt(position)
+        actionsList.removeAt(position)
         actionsAdapter.notifyItemRemoved(position)
-        binding!!.layoutAddAction.visibility = if (itemListActions.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
+        actionsAdapter.notifyItemRangeChanged(position, actionsList.size) // 更新索引
+        binding!!.layoutAddAction.visibility = if (actionsList.size >= MAX_SETTING_NUM) View.GONE else View.VISIBLE
     }
 }

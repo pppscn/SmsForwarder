@@ -103,12 +103,11 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/layout_senders"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_senders"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/config_margin_5dp"
-                    android:orientation="vertical" />
+                    android:layout_marginTop="@dimen/config_margin_5dp" />
 
             </LinearLayout>
 

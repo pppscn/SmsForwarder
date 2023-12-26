@@ -71,7 +71,7 @@ class FrpcSpinnerAdapter<T> : BaseEditSpinnerAdapter<T>, EditSpinnerFilter {
         } else {
             holder = convertView.tag as ViewHolder
         }
-        val item = CollectionUtils.getListItem(mDataSource, mIndexs[position]) as FrpcAdapterItem
+        val item = CollectionUtils.getListItem(mDataSource, mIndexs[position]) as FrpcSpinnerItem
         holder.iconView.setImageDrawable(item.icon)
         holder.statusView.setImageDrawable(
             getDrawable(
