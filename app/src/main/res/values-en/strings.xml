@@ -1319,4 +1319,5 @@
     <string name="log_export_success">Log exported successfully! Path:</string>
     <string name="all_auto_started_frpc">All auto-started Frpc</string>
     <string name="specified_frpc">Specified Frpc</string>
+    <string name="successful_execution">Execution successful: %s</string>
 </resources>

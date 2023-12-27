@@ -9,6 +9,9 @@ import android.widget.AdapterView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.FrpcRecyclerAdapter
@@ -19,15 +22,17 @@ import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.Frpc
 import com.idormy.sms.forwarder.databinding.FragmentTasksActionFrpcBinding
+import com.idormy.sms.forwarder.entity.MsgInfo
+import com.idormy.sms.forwarder.entity.TaskSetting
 import com.idormy.sms.forwarder.entity.action.FrpcSetting
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_ACTION
 import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_ACTION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_ACTION
-import com.idormy.sms.forwarder.utils.KEY_TEST_ACTION
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.TASK_ACTION_FRPC
+import com.idormy.sms.forwarder.utils.TaskWorker
 import com.idormy.sms.forwarder.utils.XToastUtils
-import com.jeremyliao.liveeventbus.LiveEventBus
+import com.idormy.sms.forwarder.workers.ActionWorker
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
@@ -39,9 +44,10 @@ import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.util.Date
 
 @Page(name = "Frpc")
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 class FrpcFragment : BaseFragment<FragmentTasksActionFrpcBinding?>(), View.OnClickListener {
 
     private val TAG: String = FrpcFragment::class.java.simpleName
@@ -84,7 +90,7 @@ class FrpcFragment : BaseFragment<FragmentTasksActionFrpcBinding?>(), View.OnCli
      */
     override fun initViews() {
         //测试按钮增加倒计时，避免重复点击
-        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 3)
+        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 2)
         mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
             override fun onCountDown(time: Int) {
                 binding!!.btnTest.text = String.format(getString(R.string.seconds_n), time)
@@ -92,6 +98,8 @@ class FrpcFragment : BaseFragment<FragmentTasksActionFrpcBinding?>(), View.OnCli
 
             override fun onFinished() {
                 binding!!.btnTest.text = getString(R.string.test)
+                //获取Frpc列表
+                getFrpcList()
             }
         })
 
@@ -111,15 +119,6 @@ class FrpcFragment : BaseFragment<FragmentTasksActionFrpcBinding?>(), View.OnCli
         binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
-        LiveEventBus.get(KEY_TEST_ACTION, String::class.java).observe(this) {
-            mCountDownHelper?.finish()
-
-            if (it == "success") {
-                XToastUtils.success("测试通过", 30000)
-            } else {
-                XToastUtils.error(it, 30000)
-            }
-        }
     }
 
     @SingleClick
@@ -128,17 +127,21 @@ class FrpcFragment : BaseFragment<FragmentTasksActionFrpcBinding?>(), View.OnCli
             when (v.id) {
                 R.id.btn_test -> {
                     mCountDownHelper?.start()
-                    Thread {
-                        try {
-                            val settingVo = checkSetting()
-                            Log.d(TAG, settingVo.toString())
-                            LiveEventBus.get(KEY_TEST_ACTION, String::class.java).post("success")
-                        } catch (e: Exception) {
-                            LiveEventBus.get(KEY_TEST_ACTION, String::class.java).post(e.message.toString())
-                            e.printStackTrace()
-                            Log.e(TAG, "onClick error: ${e.message}")
-                        }
-                    }.start()
+                    try {
+                        val settingVo = checkSetting()
+                        Log.d(TAG, settingVo.toString())
+                        val taskAction = TaskSetting(TASK_ACTION_FRPC, getString(R.string.task_frpc), settingVo.description, Gson().toJson(settingVo), requestCode)
+                        val taskActionsJson = Gson().toJson(arrayListOf(taskAction))
+                        val msgInfo = MsgInfo("task", getString(R.string.task_frpc), settingVo.description, Date(), getString(R.string.task_frpc))
+                        val actionData = Data.Builder().putLong(TaskWorker.taskId, 0).putString(TaskWorker.taskActions, taskActionsJson).putString(TaskWorker.msgInfo, Gson().toJson(msgInfo)).build()
+                        val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
+                        WorkManager.getInstance().enqueue(actionRequest)
+                    } catch (e: Exception) {
+                        mCountDownHelper?.finish()
+                        e.printStackTrace()
+                        Log.e(TAG, "onClick error: ${e.message}")
+                        XToastUtils.error(e.message.toString(), 30000)
+                    }
                     return
                 }
 
@@ -244,7 +247,7 @@ class FrpcFragment : BaseFragment<FragmentTasksActionFrpcBinding?>(), View.OnCli
                 frpcListAll = frpcList as MutableList<Frpc>
                 for (frpc in frpcList) {
                     val name = if (frpc.name.length > 20) frpc.name.substring(0, 19) else frpc.name
-                    frpcSpinnerList.add(FrpcSpinnerItem(name, getDrawable(R.drawable.auto_task_icon_frpc), frpc.uid, frpc.autorun))
+                    frpcSpinnerList.add(FrpcSpinnerItem(name, getDrawable(frpc.imageId), frpc.uid, frpc.status))
                 }
                 frpcSpinnerAdapter = FrpcSpinnerAdapter(frpcSpinnerList).setIsFilterKey(true).setFilterColor("#EF5362").setBackgroundSelector(R.drawable.selector_custom_spinner_bg)
                 binding!!.spFrpc.setAdapter(frpcSpinnerAdapter)

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.CompoundButton
 import androidx.lifecycle.Observer
+import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.google.gson.Gson
@@ -24,17 +25,20 @@ import com.idormy.sms.forwarder.adapter.spinner.AppListAdapterItem
 import com.idormy.sms.forwarder.adapter.spinner.AppListSpinnerAdapter
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentTasksActionSettingsBinding
+import com.idormy.sms.forwarder.entity.MsgInfo
+import com.idormy.sms.forwarder.entity.TaskSetting
 import com.idormy.sms.forwarder.entity.action.SettingsSetting
 import com.idormy.sms.forwarder.utils.CommonUtils
 import com.idormy.sms.forwarder.utils.EVENT_LOAD_APP_LIST
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_ACTION
 import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_ACTION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_ACTION
-import com.idormy.sms.forwarder.utils.KEY_TEST_ACTION
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SETTINGS
+import com.idormy.sms.forwarder.utils.TaskWorker
 import com.idormy.sms.forwarder.utils.XToastUtils
+import com.idormy.sms.forwarder.workers.ActionWorker
 import com.idormy.sms.forwarder.workers.LoadAppListWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
@@ -44,9 +48,10 @@ import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xutil.XUtil
+import java.util.Date
 
 @Page(name = "Settings")
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 class SettingsFragment : BaseFragment<FragmentTasksActionSettingsBinding?>(), View.OnClickListener {
 
     private val TAG: String = SettingsFragment::class.java.simpleName
@@ -86,7 +91,7 @@ class SettingsFragment : BaseFragment<FragmentTasksActionSettingsBinding?>(), Vi
      */
     override fun initViews() {
         //测试按钮增加倒计时，避免重复点击
-        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 3)
+        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 1)
         mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
             override fun onCountDown(time: Int) {
                 binding!!.btnTest.text = String.format(getString(R.string.seconds_n), time)
@@ -148,15 +153,6 @@ class SettingsFragment : BaseFragment<FragmentTasksActionSettingsBinding?>(), Vi
         binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
-        LiveEventBus.get(KEY_TEST_ACTION, String::class.java).observe(this) {
-            mCountDownHelper?.finish()
-
-            if (it == "success") {
-                XToastUtils.success("测试通过", 30000)
-            } else {
-                XToastUtils.error(it, 30000)
-            }
-        }
 
         //监听已安装App信息列表加载完成事件
         LiveEventBus.get(EVENT_LOAD_APP_LIST, String::class.java).observeStickyForever(appListObserver)
@@ -335,17 +331,21 @@ class SettingsFragment : BaseFragment<FragmentTasksActionSettingsBinding?>(), Vi
             when (v.id) {
                 R.id.btn_test -> {
                     mCountDownHelper?.start()
-                    Thread {
-                        try {
-                            val settingVo = checkSetting()
-                            Log.d(TAG, settingVo.toString())
-                            LiveEventBus.get(KEY_TEST_ACTION, String::class.java).post("success")
-                        } catch (e: Exception) {
-                            LiveEventBus.get(KEY_TEST_ACTION, String::class.java).post(e.message.toString())
-                            e.printStackTrace()
-                            Log.e(TAG, "onClick error: ${e.message}")
-                        }
-                    }.start()
+                    try {
+                        val settingVo = checkSetting()
+                        Log.d(TAG, settingVo.toString())
+                        val taskAction = TaskSetting(TASK_ACTION_SETTINGS, getString(R.string.task_settings), settingVo.description, Gson().toJson(settingVo), requestCode)
+                        val taskActionsJson = Gson().toJson(arrayListOf(taskAction))
+                        val msgInfo = MsgInfo("task", getString(R.string.task_settings), settingVo.description, Date(), getString(R.string.task_settings))
+                        val actionData = Data.Builder().putLong(TaskWorker.taskId, 0).putString(TaskWorker.taskActions, taskActionsJson).putString(TaskWorker.msgInfo, Gson().toJson(msgInfo)).build()
+                        val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
+                        WorkManager.getInstance().enqueue(actionRequest)
+                    } catch (e: Exception) {
+                        mCountDownHelper?.finish()
+                        e.printStackTrace()
+                        Log.e(TAG, "onClick error: ${e.message}")
+                        XToastUtils.error(e.message.toString(), 30000)
+                    }
                     return
                 }
 

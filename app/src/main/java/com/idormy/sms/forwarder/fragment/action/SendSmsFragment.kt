@@ -1,22 +1,23 @@
 package com.idormy.sms.forwarder.fragment.action
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
-import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentTasksActionSendSmsBinding
+import com.idormy.sms.forwarder.entity.MsgInfo
+import com.idormy.sms.forwarder.entity.TaskSetting
 import com.idormy.sms.forwarder.entity.action.SmsSetting
 import com.idormy.sms.forwarder.server.model.ConfigData
 import com.idormy.sms.forwarder.utils.EVENT_KEY_PHONE_NUMBERS
@@ -25,11 +26,11 @@ import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_ACTION
 import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_ACTION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_ACTION
-import com.idormy.sms.forwarder.utils.KEY_TEST_ACTION
 import com.idormy.sms.forwarder.utils.Log
-import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDSMS
+import com.idormy.sms.forwarder.utils.TaskWorker
 import com.idormy.sms.forwarder.utils.XToastUtils
+import com.idormy.sms.forwarder.workers.ActionWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
@@ -38,10 +39,10 @@ import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.widget.actionbar.TitleBar
-import com.xuexiang.xutil.XUtil
+import java.util.Date
 
 @Page(name = "SendSms")
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 class SendSmsFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View.OnClickListener {
 
     private val TAG: String = SendSmsFragment::class.java.simpleName
@@ -79,7 +80,7 @@ class SendSmsFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
     @SuppressLint("SetTextI18n")
     override fun initViews() {
         //测试按钮增加倒计时，避免重复点击
-        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 3)
+        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 1)
         mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
             override fun onCountDown(time: Int) {
                 binding!!.btnTest.text = String.format(getString(R.string.seconds_n), time)
@@ -124,15 +125,6 @@ class SendSmsFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
         LiveEventBus.get(EVENT_KEY_PHONE_NUMBERS, String::class.java).observeSticky(this) { value: String ->
             binding!!.etPhoneNumbers.setText(value)
         }
-        LiveEventBus.get(KEY_TEST_ACTION, String::class.java).observe(this) {
-            mCountDownHelper?.finish()
-
-            if (it == "success") {
-                XToastUtils.success("测试通过", 30000)
-            } else {
-                XToastUtils.error(it, 30000)
-            }
-        }
     }
 
     @SingleClick
@@ -147,38 +139,27 @@ class SendSmsFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
                         .permission(Permission.SEND_SMS)
                         .request(object : OnPermissionCallback {
                             override fun onGranted(permissions: List<String>, all: Boolean) {
-                                Thread {
-                                    try {
-                                        val settingVo = checkSetting()
-                                        Log.d(TAG, settingVo.toString())
-
-                                        //获取卡槽信息
-                                        if (App.SimInfoList.isEmpty()) {
-                                            App.SimInfoList = PhoneUtils.getSimMultiInfo()
-                                        }
-                                        Log.d(TAG, App.SimInfoList.toString())
-
-                                        //发送卡槽: 1=SIM1, 2=SIM2
-                                        val simSlotIndex = settingVo.simSlot - 1
-                                        //TODO：取不到卡槽信息时，采用默认卡槽发送
-                                        val mSubscriptionId: Int = App.SimInfoList[simSlotIndex]?.mSubscriptionId ?: -1
-
-                                        val msg = if (ActivityCompat.checkSelfPermission(XUtil.getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                                            getString(R.string.no_sms_sending_permission)
-                                        } else {
-                                            PhoneUtils.sendSms(mSubscriptionId, settingVo.phoneNumbers, settingVo.msgContent) ?: "success"
-                                        }
-                                        LiveEventBus.get(KEY_TEST_ACTION, String::class.java).post(msg)
-                                    } catch (e: Exception) {
-                                        LiveEventBus.get(KEY_TEST_ACTION, String::class.java).post(e.message.toString())
-                                        e.printStackTrace()
-                                        Log.e(TAG, "onClick error: ${e.message}")
-                                    }
-                                }.start()
+                                mCountDownHelper?.start()
+                                try {
+                                    val settingVo = checkSetting()
+                                    Log.d(TAG, settingVo.toString())
+                                    val taskAction = TaskSetting(TASK_ACTION_SENDSMS, getString(R.string.task_sendsms), settingVo.description, Gson().toJson(settingVo), requestCode)
+                                    val taskActionsJson = Gson().toJson(arrayListOf(taskAction))
+                                    val msgInfo = MsgInfo("task", getString(R.string.task_sendsms), settingVo.description, Date(), getString(R.string.task_sendsms))
+                                    val actionData = Data.Builder().putLong(TaskWorker.taskId, 0).putString(TaskWorker.taskActions, taskActionsJson).putString(TaskWorker.msgInfo, Gson().toJson(msgInfo)).build()
+                                    val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
+                                    WorkManager.getInstance().enqueue(actionRequest)
+                                } catch (e: Exception) {
+                                    mCountDownHelper?.finish()
+                                    e.printStackTrace()
+                                    Log.e(TAG, "onClick error: ${e.message}")
+                                    XToastUtils.error(e.message.toString(), 30000)
+                                }
+                                return
                             }
 
                             override fun onDenied(permissions: List<String>, never: Boolean) {
-                                LiveEventBus.get(KEY_TEST_ACTION, String::class.java).post(getString(R.string.no_sms_sending_permission))
+                                XToastUtils.error(getString(R.string.no_sms_sending_permission), 30000)
                             }
                         })
                     return

@@ -28,7 +28,7 @@
             android:text=""
             android:textSize="@dimen/text_size_big"
             app:sShapeType="oval"
-            app:sSolidColor="?attr/colorControlNormal"
+            app:sSolidColor="#BEC2C7"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         <LinearLayout

@@ -9,6 +9,9 @@ import android.widget.*
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.SenderRecyclerAdapter
@@ -21,8 +24,9 @@ import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.database.entity.Sender
 import com.idormy.sms.forwarder.databinding.FragmentTasksActionNotificationBinding
 import com.idormy.sms.forwarder.entity.MsgInfo
+import com.idormy.sms.forwarder.entity.TaskSetting
 import com.idormy.sms.forwarder.utils.*
-import com.jeremyliao.liveeventbus.LiveEventBus
+import com.idormy.sms.forwarder.workers.ActionWorker
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
@@ -41,7 +45,7 @@ import kotlinx.coroutines.*
 import java.util.*
 
 @Page(name = "Notification")
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding?>(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private val TAG: String = NotificationFragment::class.java.simpleName
@@ -71,6 +75,8 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
     private var ruleId: Long = 0
     private var ruleType: String = "app"
 
+    private var description: String = ""
+
     override fun initArgs() {
         XRouter.getInstance().inject(this)
     }
@@ -93,7 +99,7 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
      */
     override fun initViews() {
         //测试按钮增加倒计时，避免重复点击
-        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 3)
+        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 2)
         mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
             override fun onCountDown(time: Int) {
                 binding!!.btnTest.text = String.format(getString(R.string.seconds_n), time)
@@ -247,24 +253,22 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
                 }
 
                 R.id.btn_test -> {
-                    val settingVo = checkSetting()
-                    val from = "测试号码"
-                    val content = "测试内容"
-                    val simInfo = "SIM1_123456789"
-                    val msgInfo = MsgInfo(ruleType, from, content, Date(), simInfo)
-                    if (!settingVo.checkMsg(msgInfo)) {
-                        throw Exception(getString(R.string.unmatched_rule))
+                    mCountDownHelper?.start()
+                    try {
+                        val settingVo = checkSetting()
+                        Log.d(TAG, settingVo.toString())
+                        val taskAction = TaskSetting(TASK_ACTION_NOTIFICATION, getString(R.string.task_notification), description, Gson().toJson(settingVo), requestCode)
+                        val taskActionsJson = Gson().toJson(arrayListOf(taskAction))
+                        val msgInfo = MsgInfo("task", getString(R.string.task_notification), description, Date(), getString(R.string.task_notification))
+                        val actionData = Data.Builder().putLong(TaskWorker.taskId, 0).putString(TaskWorker.taskActions, taskActionsJson).putString(TaskWorker.msgInfo, Gson().toJson(msgInfo)).build()
+                        val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
+                        WorkManager.getInstance().enqueue(actionRequest)
+                    } catch (e: Exception) {
+                        mCountDownHelper?.finish()
+                        e.printStackTrace()
+                        Log.e(TAG, "onClick error: ${e.message}")
+                        XToastUtils.error(e.message.toString(), 30000)
                     }
-
-                    Thread {
-                        try {
-                            SendUtils.sendMsgSender(msgInfo, settingVo)
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                            Log.e(TAG, "onClick error: ${e.message}")
-                            LiveEventBus.get(EVENT_TOAST_ERROR, String::class.java).post(e.message.toString())
-                        }
-                    }.start()
                     return
                 }
 
@@ -275,15 +279,6 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
 
                 R.id.btn_save -> {
                     val settingVo = checkSetting()
-                    var description = getString(R.string.task_notification) + ": "
-                    description += settingVo.senderList.joinToString(",") { it.name }
-                    if (settingVo.senderList.size > 1) {
-                        description += "; " + getString(R.string.sender_logic) + ": " + when (settingVo.senderLogic) {
-                            SENDER_LOGIC_UNTIL_FAIL -> getString(R.string.sender_logic_until_fail)
-                            SENDER_LOGIC_UNTIL_SUCCESS -> getString(R.string.sender_logic_until_success)
-                            else -> getString(R.string.sender_logic_all)
-                        }
-                    }
                     val intent = Intent()
                     intent.putExtra(KEY_BACK_DESCRIPTION_ACTION, description)
                     intent.putExtra(KEY_BACK_DATA_ACTION, Gson().toJson(settingVo))
@@ -444,7 +439,7 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
             else -> SENDER_LOGIC_ALL
         }
 
-        return Rule(
+        val settingVo = Rule(
             ruleId,
             ruleType,
             filed,
@@ -461,6 +456,18 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
             silentPeriodStart,
             silentPeriodEnd
         )
+
+        description = getString(R.string.task_notification) + ": "
+        description += settingVo.senderList.joinToString(",") { it.name }
+        if (settingVo.senderList.size > 1) {
+            description += "; " + getString(R.string.sender_logic) + ": " + when (settingVo.senderLogic) {
+                SENDER_LOGIC_UNTIL_FAIL -> getString(R.string.sender_logic_until_fail)
+                SENDER_LOGIC_UNTIL_SUCCESS -> getString(R.string.sender_logic_until_success)
+                else -> getString(R.string.sender_logic_all)
+            }
+        }
+
+        return settingVo
     }
 
     //检查正则替换填写是否正确

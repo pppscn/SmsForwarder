@@ -1321,4 +1321,5 @@
     <string name="log_export_success">日誌匯出成功！儲存路徑：</string>
     <string name="all_auto_started_frpc">所有自動啟動的Frpc</string>
     <string name="specified_frpc">特定的Frpc</string>
+    <string name="successful_execution">執行成功：%s</string>
 </resources>

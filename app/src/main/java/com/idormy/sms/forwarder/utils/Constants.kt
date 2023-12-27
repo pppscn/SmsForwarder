@@ -216,7 +216,6 @@ const val KEY_BACK_CODE_CONDITION = 1000
 const val KEY_BACK_DATA_CONDITION = "back_data_condition"
 const val KEY_BACK_DESCRIPTION_CONDITION = "back_description_condition"
 
-const val KEY_TEST_ACTION = "key_test_action"
 const val KEY_EVENT_DATA_ACTION = "event_data_action"
 const val KEY_BACK_CODE_ACTION = 2000
 const val KEY_BACK_DATA_ACTION = "back_data_action"

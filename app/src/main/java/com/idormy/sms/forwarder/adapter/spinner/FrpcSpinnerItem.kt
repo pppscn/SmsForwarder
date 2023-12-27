@@ -7,7 +7,8 @@ class FrpcSpinnerItem(
     var title: CharSequence,
     var icon: Drawable? = null,
     var uid: String = "",
-    var autorun: Int? = 1
+    //var autorun: Int? = 1,
+    var status: Int? = 1
 ) {
 
     fun setTitle(title: CharSequence): FrpcSpinnerItem {
@@ -25,8 +26,13 @@ class FrpcSpinnerItem(
         return this
     }
 
-    fun setAutorun(autorun: Int): FrpcSpinnerItem {
+    /*fun setAutorun(autorun: Int): FrpcSpinnerItem {
         this.autorun = autorun
+        return this
+    }*/
+
+    fun setStatus(status: Int): FrpcSpinnerItem {
+        this.status = status
         return this
     }
 

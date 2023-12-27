@@ -14,7 +14,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.utils.Log
-import com.idormy.sms.forwarder.utils.STATUS_ON
+import com.idormy.sms.forwarder.utils.STATUS_OFF
 import com.xuexiang.xui.utils.CollectionUtils
 import com.xuexiang.xui.widget.spinner.editspinner.BaseEditSpinnerAdapter
 import com.xuexiang.xui.widget.spinner.editspinner.EditSpinnerFilter
@@ -75,9 +75,13 @@ class FrpcSpinnerAdapter<T> : BaseEditSpinnerAdapter<T>, EditSpinnerFilter {
         holder.iconView.setImageDrawable(item.icon)
         holder.statusView.setImageDrawable(
             getDrawable(
-                when (item.autorun) {
+                /*when (item.autorun) {
                     STATUS_ON -> R.drawable.ic_autorun
                     else -> R.drawable.ic_manual
+                }*/
+                when (item.status) {
+                    STATUS_OFF -> R.drawable.ic_stop
+                    else -> R.drawable.ic_start
                 }
             )
         )

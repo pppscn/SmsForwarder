@@ -5,28 +5,34 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentTasksActionCleanerBinding
+import com.idormy.sms.forwarder.entity.MsgInfo
+import com.idormy.sms.forwarder.entity.TaskSetting
 import com.idormy.sms.forwarder.entity.action.CleanerSetting
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_ACTION
 import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_ACTION
 import com.idormy.sms.forwarder.utils.KEY_EVENT_DATA_ACTION
-import com.idormy.sms.forwarder.utils.KEY_TEST_ACTION
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.TASK_ACTION_CLEANER
+import com.idormy.sms.forwarder.utils.TaskWorker
 import com.idormy.sms.forwarder.utils.XToastUtils
-import com.jeremyliao.liveeventbus.LiveEventBus
+import com.idormy.sms.forwarder.workers.ActionWorker
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
 import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.widget.actionbar.TitleBar
+import java.util.Date
 
 @Page(name = "Cleaner")
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 class CleanerFragment : BaseFragment<FragmentTasksActionCleanerBinding?>(), View.OnClickListener {
 
     private val TAG: String = CleanerFragment::class.java.simpleName
@@ -58,7 +64,7 @@ class CleanerFragment : BaseFragment<FragmentTasksActionCleanerBinding?>(), View
      */
     override fun initViews() {
         //测试按钮增加倒计时，避免重复点击
-        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 3)
+        mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 1)
         mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
             override fun onCountDown(time: Int) {
                 binding!!.btnTest.text = String.format(getString(R.string.seconds_n), time)
@@ -83,15 +89,6 @@ class CleanerFragment : BaseFragment<FragmentTasksActionCleanerBinding?>(), View
         binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
-        LiveEventBus.get(KEY_TEST_ACTION, String::class.java).observe(this) {
-            mCountDownHelper?.finish()
-
-            if (it == "success") {
-                XToastUtils.success("测试通过", 30000)
-            } else {
-                XToastUtils.error(it, 30000)
-            }
-        }
     }
 
     @SingleClick
@@ -100,17 +97,21 @@ class CleanerFragment : BaseFragment<FragmentTasksActionCleanerBinding?>(), View
             when (v.id) {
                 R.id.btn_test -> {
                     mCountDownHelper?.start()
-                    Thread {
-                        try {
-                            val settingVo = checkSetting()
-                            Log.d(TAG, settingVo.toString())
-                            LiveEventBus.get(KEY_TEST_ACTION, String::class.java).post("success")
-                        } catch (e: Exception) {
-                            LiveEventBus.get(KEY_TEST_ACTION, String::class.java).post(e.message.toString())
-                            e.printStackTrace()
-                            Log.e(TAG, "onClick error: ${e.message}")
-                        }
-                    }.start()
+                    try {
+                        val settingVo = checkSetting()
+                        Log.d(TAG, settingVo.toString())
+                        val taskAction = TaskSetting(TASK_ACTION_CLEANER, getString(R.string.task_cleaner), settingVo.description, Gson().toJson(settingVo), requestCode)
+                        val taskActionsJson = Gson().toJson(arrayListOf(taskAction))
+                        val msgInfo = MsgInfo("task", getString(R.string.task_cleaner), settingVo.description, Date(), getString(R.string.task_cleaner))
+                        val actionData = Data.Builder().putLong(TaskWorker.taskId, 0).putString(TaskWorker.taskActions, taskActionsJson).putString(TaskWorker.msgInfo, Gson().toJson(msgInfo)).build()
+                        val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
+                        WorkManager.getInstance().enqueue(actionRequest)
+                    } catch (e: Exception) {
+                        mCountDownHelper?.finish()
+                        e.printStackTrace()
+                        Log.e(TAG, "onClick error: ${e.message}")
+                        XToastUtils.error(e.message.toString(), 30000)
+                    }
                     return
                 }
 

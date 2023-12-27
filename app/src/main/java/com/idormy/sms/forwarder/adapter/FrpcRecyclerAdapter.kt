@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.base.ItemMoveCallback
 import com.idormy.sms.forwarder.database.entity.Frpc
+import com.idormy.sms.forwarder.utils.STATUS_OFF
 import java.util.Collections
 
 @Suppress("DEPRECATION")
@@ -71,7 +72,12 @@ class FrpcRecyclerAdapter(
 
         fun bind(frpc: Frpc) {
             image.setImageResource(frpc.imageId)
-            status.setImageResource(frpc.autorunImageId)
+            status.setImageResource(
+                when (frpc.status) {
+                    STATUS_OFF -> R.drawable.ic_stop
+                    else -> R.drawable.ic_start
+                }
+            )
             title.text = frpc.name
         }
 

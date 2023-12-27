@@ -1320,4 +1320,5 @@
     <string name="log_export_success">导出日志成功！存放路径：</string>
     <string name="all_auto_started_frpc">所有自启动的Frpc</string>
     <string name="specified_frpc">指定的Frpc</string>
+    <string name="successful_execution">执行成功：%s</string>
 </resources>

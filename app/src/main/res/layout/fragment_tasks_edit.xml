@@ -99,7 +99,7 @@
                         android:layout_width="@dimen/card_view_icon_size"
                         android:layout_height="@dimen/card_view_icon_size"
                         android:src="@drawable/ic_add"
-                        app:tint="@color/gray_text_light"
+                        app:tint="#BEC2C7"
                         tools:ignore="ContentDescription,ImageContrastCheck" />
 
                     <LinearLayout
@@ -178,7 +178,7 @@
                         android:layout_width="@dimen/card_view_icon_size"
                         android:layout_height="@dimen/card_view_icon_size"
                         android:src="@drawable/ic_add"
-                        app:tint="@color/gray_text_light"
+                        app:tint="#BEC2C7"
                         tools:ignore="ContentDescription,ImageContrastCheck" />
 
                     <LinearLayout

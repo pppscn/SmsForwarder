@@ -103,23 +103,26 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                         //TODO：取不到卡槽信息时，采用默认卡槽发送
                         val mSubscriptionId: Int = App.SimInfoList[simSlotIndex]?.mSubscriptionId ?: -1
 
-                        if (ActivityCompat.checkSelfPermission(App.context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                            val msg = getString(R.string.no_sms_sending_permission)
-                            writeLog(msg, "ERROR")
+                        val msg = if (ActivityCompat.checkSelfPermission(App.context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                            getString(R.string.no_sms_sending_permission)
                         } else {
-                            val msg = PhoneUtils.sendSms(mSubscriptionId, smsSetting.phoneNumbers, smsSetting.msgContent)
+                            PhoneUtils.sendSms(mSubscriptionId, smsSetting.phoneNumbers, smsSetting.msgContent)
+                        }
+                        if (msg == null || msg == "") {
                             successNum++
-                            writeLog("send sms result: $msg", "SUCCESS")
+                            writeLog(String.format(getString(R.string.successful_execution), smsSetting.description), "SUCCESS")
+                        } else {
+                            writeLog(msg, "ERROR")
                         }
                     }
 
                     TASK_ACTION_NOTIFICATION -> {
-                        val settingVo = Gson().fromJson(action.setting, Rule::class.java)
+                        val ruleSetting = Gson().fromJson(action.setting, Rule::class.java)
                         //自动任务的不需要吐司或者更新日志，特殊处理 logId = -1，msgId = -1
-                        SendUtils.sendMsgSender(msgInfo, settingVo, 0, -1L, -1L)
+                        SendUtils.sendMsgSender(msgInfo, ruleSetting, 0, -1L, -1L)
 
                         successNum++
-                        writeLog("send notification success", "SUCCESS")
+                        writeLog(String.format(getString(R.string.successful_execution), ruleSetting.name), "SUCCESS")
                     }
 
                     TASK_ACTION_CLEANER -> {
@@ -140,7 +143,7 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                         CacheUtils.clearAllCache(App.context)
 
                         successNum++
-                        writeLog("cleaner success", "SUCCESS")
+                        writeLog(String.format(getString(R.string.successful_execution), cleanerSetting.description), "SUCCESS")
                     }
 
                     TASK_ACTION_SETTINGS -> {
@@ -186,7 +189,7 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                         }
 
                         successNum++
-                        writeLog("send settings success", "SUCCESS")
+                        writeLog(String.format(getString(R.string.successful_execution), settingsSetting.description), "SUCCESS")
                     }
 
                     TASK_ACTION_FRPC -> {
@@ -225,7 +228,7 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                         }
 
                         successNum++
-                        writeLog("frpc success", "SUCCESS")
+                        writeLog(String.format(getString(R.string.successful_execution), frpcSetting.description), "SUCCESS")
                     }
 
                     TASK_ACTION_HTTPSERVER -> {
@@ -253,7 +256,7 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                         }
 
                         successNum++
-                        writeLog("httpServer success", "SUCCESS")
+                        writeLog(String.format(getString(R.string.successful_execution), httpServerSetting.description), "SUCCESS")
                     }
 
                     TASK_ACTION_RULE -> {
@@ -269,7 +272,7 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                         }
 
                         successNum++
-                        writeLog("update rule success", "SUCCESS")
+                        writeLog(String.format(getString(R.string.successful_execution), ruleSetting.description), "SUCCESS")
                     }
 
                     TASK_ACTION_SENDER -> {
@@ -285,7 +288,7 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                         }
 
                         successNum++
-                        writeLog("update sender success", "SUCCESS")
+                        writeLog(String.format(getString(R.string.successful_execution), senderSetting.description), "SUCCESS")
                     }
 
                     else -> {
