@@ -92,7 +92,7 @@ class PhoneUtils private constructor() {
                 Log.e(TAG, "getSimMultiInfo:", e)
             }
             //仍然获取不到/只获取到一个->取出备注
-            if (infoList.isEmpty() || infoList.size == 1) {
+            /*if (infoList.isEmpty() || infoList.size == 1) {
                 println("3.直接取出备注框的数据作为信息")
                 //为空，两个卡都没有获取到信息
                 if (infoList.isEmpty()) {
@@ -141,7 +141,7 @@ class PhoneUtils private constructor() {
                         infoList[simInfo1.mSimSlotIndex] = simInfo1
                     }
                 }
-            }
+            }*/
             Log.e(TAG, infoList.toString())
             return infoList
         }
