@@ -68,7 +68,7 @@ See more screenshots：https://github.com/pppscn/SmsForwarder/wiki
 | QQ Channel | DingTalk Group | Telegram Group |
 |  :--:  |  :--:  | :--:  |
 | ![QQ Channel: q7oofwp13s](pic/qq_channel.png "QQ Channel: q7oofwp13s") | ![DingTalk Group](pic/dingtalk.png "DingTalk Group") | ![Telegram Group](pic/tg.png "Telegram Group") |
-| QQ Channel: q7oofwp13s |Group No. 29760014208 | [+QBZgnL_fxYM0NjE9](https://t.me/+QBZgnL_fxYM0NjE9) |
+| QQ Channel: q7oofwp13s | [Click To Join.](https://h5.dingtalk.com/ecologicalOrg/index.html?code=v1,k1,P0UtiYy1RqzlfW3+QM/IeMT3HJgK5fP8z86MyUtWVOs=&origin=11#/inviteOutsideJoin?PPPSCN邀请你加入钉钉群聊SmsForwarder交流群，点击进入查看详情) | [+QBZgnL_fxYM0NjE9](https://t.me/+QBZgnL_fxYM0NjE9) |
 
 
 ## Acknowledgements

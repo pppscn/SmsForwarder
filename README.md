@@ -78,7 +78,7 @@
 | QQ频道 | 钉钉客户群 | Tg 群组 |
 |  :--:  |  :--:  | :--:  |
 | ![QQ频道号: q7oofwp13s](pic/qq_channel.png "QQ频道号: q7oofwp13s") | ![钉钉客户群](pic/dingtalk.png "钉钉客户群") | ![Tg 群组](pic/tg.png "Tg 群组") |
-| QQ频道号: q7oofwp13s | 群号：29760014208 | [+QBZgnL_fxYM0NjE9](https://t.me/+QBZgnL_fxYM0NjE9) |
+| QQ频道号: q7oofwp13s | [点击链接加入](https://h5.dingtalk.com/ecologicalOrg/index.html?code=v1,k1,P0UtiYy1RqzlfW3+QM/IeMT3HJgK5fP8z86MyUtWVOs=&origin=11#/inviteOutsideJoin?PPPSCN邀请你加入钉钉群聊SmsForwarder交流群，点击进入查看详情) | [+QBZgnL_fxYM0NjE9](https://t.me/+QBZgnL_fxYM0NjE9) |
 
 ## 感谢
 
