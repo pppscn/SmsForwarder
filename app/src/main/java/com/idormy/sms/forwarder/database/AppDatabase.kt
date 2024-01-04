@@ -7,8 +7,19 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.idormy.sms.forwarder.database.dao.*
-import com.idormy.sms.forwarder.database.entity.*
+import com.idormy.sms.forwarder.database.dao.FrpcDao
+import com.idormy.sms.forwarder.database.dao.LogsDao
+import com.idormy.sms.forwarder.database.dao.MsgDao
+import com.idormy.sms.forwarder.database.dao.RuleDao
+import com.idormy.sms.forwarder.database.dao.SenderDao
+import com.idormy.sms.forwarder.database.dao.TaskDao
+import com.idormy.sms.forwarder.database.entity.Frpc
+import com.idormy.sms.forwarder.database.entity.Logs
+import com.idormy.sms.forwarder.database.entity.LogsDetail
+import com.idormy.sms.forwarder.database.entity.Msg
+import com.idormy.sms.forwarder.database.entity.Rule
+import com.idormy.sms.forwarder.database.entity.Sender
+import com.idormy.sms.forwarder.database.entity.Task
 import com.idormy.sms.forwarder.database.ext.ConvertersDate
 import com.idormy.sms.forwarder.utils.DATABASE_NAME
 
@@ -64,7 +75,7 @@ login_fail_exit = false
 type = tcp
 local_ip = 127.0.0.1
 local_port = 5000
-#只要修改下面这一行
+#只要修改下面这一行（frps所在服务器必须暴露的公网端口）
 remote_port = 5000
 
 #[二选一即可]每台机器不可重复，通过 http://smsf.demo.com 访问
@@ -72,7 +83,7 @@ remote_port = 5000
 type = http
 local_ip = 127.0.0.1
 local_port = 5000
-#只要修改下面这一行
+#只要修改下面这一行（在frps端将域名反代到vhost_http_port）
 custom_domains = smsf.demo.com
 ', 0, '1651334400000')
 """.trimIndent()
@@ -200,7 +211,7 @@ login_fail_exit = false
 type = tcp
 local_ip = 127.0.0.1
 local_port = 5000
-#只要修改下面这一行
+#只要修改下面这一行（frps所在服务器必须暴露的公网端口）
 remote_port = 5000
 
 #[二选一即可]每台机器不可重复，通过 http://smsf.demo.com 访问
@@ -208,7 +219,7 @@ remote_port = 5000
 type = http
 local_ip = 127.0.0.1
 local_port = 5000
-#只要修改下面这一行
+#只要修改下面这一行（在frps端将域名反代到vhost_http_port）
 custom_domains = smsf.demo.com
 ', 0, '1651334400000')
 """.trimIndent()
