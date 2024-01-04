@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2018 xuexiangjys(xuexiangjys@163.com)
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +15,7 @@
   -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" android:color="?attr/colorAccent" />
-    <item android:state_selected="true" android:color="?attr/colorAccent" />
+    <item android:color="#299EE3" android:state_pressed="true" />
+    <item android:color="#299EE3" android:state_selected="true" />
     <item android:color="@color/xui_config_color_gray_6" />
 </selector>

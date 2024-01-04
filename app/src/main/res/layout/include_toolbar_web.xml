@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="?attr/xui_actionbar_height"
-    android:background="?attr/colorAccent"
+    android:background="#299EE3"
     app:contentInsetLeft="0dp"
     app:contentInsetStart="0dp"
     app:titleTextColor="@android:color/white">
@@ -12,7 +12,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorAccent">
+        android:background="#299EE3">
 
         <com.xuexiang.xui.widget.alpha.XUIAlphaImageView
             android:id="@+id/iv_back"

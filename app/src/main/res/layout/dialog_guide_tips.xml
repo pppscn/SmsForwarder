@@ -51,7 +51,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:text="@string/tip_title"
-                        android:textColor="?attr/colorAccent"
+                        android:textColor="#299EE3"
                         tools:ignore="TextContrastCheck" />
 
                     <com.xuexiang.xui.widget.alpha.XUIAlphaImageView
