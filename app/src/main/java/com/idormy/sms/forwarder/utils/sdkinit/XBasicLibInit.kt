@@ -3,9 +3,12 @@ package com.idormy.sms.forwarder.utils.sdkinit
 import android.app.Application
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.core.BaseActivity
+import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.xuexiang.xaop.XAOP
+import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.XHttpSDK
+import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xpage.PageConfig
 import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xui.XUI
@@ -61,13 +64,22 @@ class XBasicLibInit private constructor() {
             if (App.isDebug) {
                 XHttpSDK.debug()
             }
-            //        XHttpSDK.debug(new CustomLoggingInterceptor()); //设置自定义的日志打印拦截器
             //设置网络请求的全局基础地址
             XHttpSDK.setBaseUrl("https://gitee.com/")
-            //        //设置动态参数添加拦截器
-//        XHttpSDK.addInterceptor(new CustomDynamicInterceptor());
-//        //请求失效校验拦截器
-//        XHttpSDK.addInterceptor(new CustomExpiredInterceptor());
+            //设置自定义的日志打印拦截器
+            //XHttpSDK.debug(LoggingInterceptor())
+            //设置动态参数添加拦截器
+            //XHttpSDK.addInterceptor(CustomDynamicInterceptor())
+            //请求失效校验拦截器
+            //XHttpSDK.addInterceptor(CustomExpiredInterceptor())
+            //设置全局超时时间
+            XHttp.getInstance()
+                .debug(App.isDebug)
+                .setCacheMode(CacheMode.NO_CACHE)
+                .setTimeout(SettingUtils.requestTimeout * 1000L) //单次超时时间
+            //.setRetryCount(SettingUtils.requestRetryTimes) //超时重试的次数
+            //.setRetryDelay(SettingUtils.requestDelayTime * 1000) //超时重试的延迟时间
+            //.setRetryIncreaseDelay(SettingUtils.requestDelayTime * 1000) //超时重试叠加延时
         }
 
         /**

@@ -222,7 +222,7 @@ object SendUtils {
         if (logId == null || logId == 0L) {
             if (status == 2) {
                 LiveEventBus.get(EVENT_TOAST_SUCCESS, String::class.java).post(getString(R.string.request_succeeded))
-            } else {
+            } else if (status == 0) {
                 LiveEventBus.get(EVENT_TOAST_ERROR, String::class.java).post(getString(R.string.request_failed) + response)
             }
             return

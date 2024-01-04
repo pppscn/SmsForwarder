@@ -196,11 +196,11 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
             .title(R.string.details)
             .content(detailStr.toString())
             .cancelable(true)
-            .positiveText(R.string.del)
+            /*.positiveText(R.string.del)
             .onPositive { _: MaterialDialog?, _: DialogAction? ->
                 viewModel.delete(item.id)
                 XToastUtils.success(R.string.delete_log_toast)
-            }
+            }*/
             .negativeText(R.string.resend)
             .onNegative { _: MaterialDialog?, _: DialogAction? ->
                 XToastUtils.toast(R.string.resend_toast)

@@ -44,6 +44,15 @@ interface LogsDao {
     )
     fun updateStatus(id: Long, status: Int, response: String): Int
 
+    @Query(
+        "UPDATE Logs SET forward_response=CASE WHEN (trim(forward_response) = '' or trim(forward_response) = 'ok')" +
+                " THEN :response" +
+                " ELSE forward_response || '\n' || :response" +
+                " END" +
+                " where id=:id"
+    )
+    fun updateResponse(id: Long, response: String): Int
+
     @Query("SELECT * FROM Logs where id=:id")
     fun get(id: Long): Single<Logs>
 

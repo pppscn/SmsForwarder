@@ -17,6 +17,9 @@ class LogsRepository(private val logsDao: LogsDao) {
     @WorkerThread
     fun updateStatus(id: Long, status: Int, response: String): Int = logsDao.updateStatus(id, status, response)
 
+    @WorkerThread
+    fun updateResponse(id: Long, response: String): Int = logsDao.updateResponse(id, response)
+
     fun getOne(id: Long) = logsDao.getOne(id)
 
 }

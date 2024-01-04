@@ -359,8 +359,7 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
         var requestMsg: String = Gson().toJson(msgMap)
         Log.i(TAG, "requestMsg:$requestMsg")
 
-        val postRequest = XHttp.post(requestUrl).keepJson(true).timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
-            .cacheMode(CacheMode.NO_CACHE).timeStamp(true)
+        val postRequest = XHttp.post(requestUrl).keepJson(true).timeStamp(true)
 
         when (HttpServerUtils.clientSafetyMeasures) {
             2 -> {

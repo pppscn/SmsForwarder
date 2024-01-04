@@ -14,10 +14,8 @@ import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.RSACrypt
 import com.idormy.sms.forwarder.utils.SM4Crypt
-import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.xuexiang.xhttp2.XHttp
-import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
 import com.xuexiang.xpage.annotation.Page
@@ -66,11 +64,7 @@ class BatteryQueryFragment : BaseFragment<FragmentClientBatteryQueryBinding?>() 
         var requestMsg: String = Gson().toJson(msgMap)
         Log.i(TAG, "requestMsg:$requestMsg")
 
-        val postRequest = XHttp.post(requestUrl)
-            .keepJson(true)
-            .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
-            .cacheMode(CacheMode.NO_CACHE)
-            .timeStamp(true)
+        val postRequest = XHttp.post(requestUrl).keepJson(true).timeStamp(true)
 
         when (HttpServerUtils.clientSafetyMeasures) {
             2 -> {

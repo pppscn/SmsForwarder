@@ -25,7 +25,6 @@ import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xhttp2.XHttp
-import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
 import com.xuexiang.xpage.annotation.Page
@@ -56,67 +55,31 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
     private var mCountDownHelper: CountDownButtonHelper? = null
     private var CLIENT_FRAGMENT_LIST = listOf(
         PageInfo(
-            getString(R.string.api_clone),
-            "com.idormy.sms.forwarder.fragment.client.CloneFragment",
-            "{\"\":\"\"}",
-            CoreAnim.slide,
-            R.drawable.icon_api_clone
+            getString(R.string.api_clone), "com.idormy.sms.forwarder.fragment.client.CloneFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_clone
         ),
         PageInfo(
-            getString(R.string.api_sms_query),
-            "com.idormy.sms.forwarder.fragment.client.SmsQueryFragment",
-            "{\"\":\"\"}",
-            CoreAnim.slide,
-            R.drawable.icon_api_sms_query
+            getString(R.string.api_sms_query), "com.idormy.sms.forwarder.fragment.client.SmsQueryFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_sms_query
         ),
         PageInfo(
-            getString(R.string.api_sms_send),
-            "com.idormy.sms.forwarder.fragment.client.SmsSendFragment",
-            "{\"\":\"\"}",
-            CoreAnim.slide,
-            R.drawable.icon_api_sms_send
+            getString(R.string.api_sms_send), "com.idormy.sms.forwarder.fragment.client.SmsSendFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_sms_send
         ),
         PageInfo(
-            getString(R.string.api_call_query),
-            "com.idormy.sms.forwarder.fragment.client.CallQueryFragment",
-            "{\"\":\"\"}",
-            CoreAnim.slide,
-            R.drawable.icon_api_call_query
+            getString(R.string.api_call_query), "com.idormy.sms.forwarder.fragment.client.CallQueryFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_call_query
         ),
         PageInfo(
-            getString(R.string.api_contact_query),
-            "com.idormy.sms.forwarder.fragment.client.ContactQueryFragment",
-            "{\"\":\"\"}",
-            CoreAnim.slide,
-            R.drawable.icon_api_contact_query
+            getString(R.string.api_contact_query), "com.idormy.sms.forwarder.fragment.client.ContactQueryFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_contact_query
         ),
         PageInfo(
-            getString(R.string.api_contact_add),
-            "com.idormy.sms.forwarder.fragment.client.ContactAddFragment",
-            "{\"\":\"\"}",
-            CoreAnim.slide,
-            R.drawable.icon_api_contact_add
+            getString(R.string.api_contact_add), "com.idormy.sms.forwarder.fragment.client.ContactAddFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_contact_add
         ),
         PageInfo(
-            getString(R.string.api_wol),
-            "com.idormy.sms.forwarder.fragment.client.WolSendFragment",
-            "{\"\":\"\"}",
-            CoreAnim.slide,
-            R.drawable.icon_api_wol
+            getString(R.string.api_wol), "com.idormy.sms.forwarder.fragment.client.WolSendFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_wol
         ),
         PageInfo(
-            getString(R.string.api_location),
-            "com.idormy.sms.forwarder.fragment.client.LocationFragment",
-            "{\"\":\"\"}",
-            CoreAnim.slide,
-            R.drawable.icon_api_location
+            getString(R.string.api_location), "com.idormy.sms.forwarder.fragment.client.LocationFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_location
         ),
         PageInfo(
-            getString(R.string.api_battery_query),
-            "com.idormy.sms.forwarder.fragment.client.BatteryQueryFragment",
-            "{\"\":\"\"}",
-            CoreAnim.slide,
-            R.drawable.icon_api_battery_query
+            getString(R.string.api_battery_query), "com.idormy.sms.forwarder.fragment.client.BatteryQueryFragment", "{\"\":\"\"}", CoreAnim.slide, R.drawable.icon_api_battery_query
         ),
     )
 
@@ -348,8 +311,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                 XToastUtils.error(getString(R.string.disabled_on_the_server))
                 return
             }
-            @Suppress("UNCHECKED_CAST")
-            PageOption.to(Class.forName(item.classPath) as Class<XPageFragment>).setNewActivity(true).open(this)
+            @Suppress("UNCHECKED_CAST") PageOption.to(Class.forName(item.classPath) as Class<XPageFragment>).setNewActivity(true).open(this)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "onItemClick error: ${e.message}")
@@ -380,8 +342,7 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
         var requestMsg: String = Gson().toJson(msgMap)
         Log.i(TAG, "requestMsg:$requestMsg")
 
-        val postRequest = XHttp.post(requestUrl).keepJson(true).timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
-            .cacheMode(CacheMode.NO_CACHE).timeStamp(true)
+        val postRequest = XHttp.post(requestUrl).keepJson(true).timeStamp(true)
 
         when (HttpServerUtils.clientSafetyMeasures) {
             2 -> {

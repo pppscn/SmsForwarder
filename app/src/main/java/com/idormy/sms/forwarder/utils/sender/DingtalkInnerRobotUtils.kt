@@ -1,18 +1,17 @@
 package com.idormy.sms.forwarder.utils.sender
 
 import android.text.TextUtils
-import com.idormy.sms.forwarder.utils.Log
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.result.DingtalkInnerRobotResult
 import com.idormy.sms.forwarder.entity.setting.DingtalkInnerRobotSetting
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.SharedPreference
 import com.xuexiang.xhttp2.XHttp
-import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
 import com.xuexiang.xutil.net.NetworkUtils
@@ -89,8 +88,15 @@ class DingtalkInnerRobotUtils private constructor() {
                 }
             }
 
-            request.upJson(requestMsg).keepJson(true).ignoreHttpsCert().timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
-                .cacheMode(CacheMode.NO_CACHE).timeStamp(true).execute(object : SimpleCallBack<String>() {
+            request.upJson(requestMsg)
+                .keepJson(true)
+                .ignoreHttpsCert()
+                .retryCount(SettingUtils.requestRetryTimes) //超时重试的次数
+                .retryDelay(SettingUtils.requestDelayTime * 1000) //超时重试的延迟时间
+                .retryIncreaseDelay(SettingUtils.requestDelayTime * 1000) //超时重试叠加延时
+                .timeStamp(true) //url自动追加时间戳，避免缓存
+                .addInterceptor(LoggingInterceptor(logId)) //增加一个log拦截器, 记录请求日志
+                .execute(object : SimpleCallBack<String>() {
 
                     override fun onError(e: ApiException) {
                         Log.e(TAG, e.detailMessage)
@@ -195,11 +201,12 @@ class DingtalkInnerRobotUtils private constructor() {
             request.upJson(requestMsg).headers("x-acs-dingtalk-access-token", accessToken)
                 .keepJson(true)
                 .ignoreHttpsCert()
-                .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
-                .cacheMode(CacheMode.NO_CACHE).retryCount(SettingUtils.requestRetryTimes) //超时重试的次数
-                .retryDelay(SettingUtils.requestDelayTime) //超时重试的延迟时间
-                .retryIncreaseDelay(SettingUtils.requestDelayTime) //超时重试叠加延时
-                .timeStamp(true).execute(object : SimpleCallBack<String>() {
+                .retryCount(SettingUtils.requestRetryTimes) //超时重试的次数
+                .retryDelay(SettingUtils.requestDelayTime * 1000) //超时重试的延迟时间
+                .retryIncreaseDelay(SettingUtils.requestDelayTime * 1000) //超时重试叠加延时
+                .timeStamp(true) //url自动追加时间戳，避免缓存
+                .addInterceptor(LoggingInterceptor(logId)) //增加一个log拦截器, 记录请求日志
+                .execute(object : SimpleCallBack<String>() {
 
                     override fun onError(e: ApiException) {
                         Log.e(TAG, e.detailMessage)
