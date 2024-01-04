@@ -206,12 +206,14 @@
                     android:text="@string/sign_key"
                     android:textStyle="bold" />
 
-                <com.xuexiang.xui.widget.edittext.ClearEditText
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                     android:id="@+id/et_sign_key"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    app:met_passWordButton="true" />
 
                 <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
                     android:id="@+id/btn_sign_key"
@@ -293,7 +295,7 @@
                     android:text="@string/private_key"
                     android:textStyle="bold" />
 
-                <EditText
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                     android:id="@+id/et_private_key"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -307,7 +309,7 @@
                     android:minLines="2"
                     android:scrollbars="vertical"
                     android:textSize="@dimen/text_size_mini"
-                    tools:ignore="SmallSp" />
+                    app:met_passWordButton="true" />
 
                 <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
                     android:id="@+id/btn_generate_key"
@@ -341,7 +343,7 @@
                     android:text="@string/public_key"
                     android:textStyle="bold" />
 
-                <EditText
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                     android:id="@+id/et_public_key"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -355,7 +357,7 @@
                     android:minLines="2"
                     android:scrollbars="vertical"
                     android:textSize="@dimen/text_size_mini"
-                    tools:ignore="SmallSp" />
+                    app:met_passWordButton="true" />
 
                 <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
                     android:id="@+id/btn_copy_public_key"
@@ -389,13 +391,15 @@
                     android:text="@string/sm4_key"
                     android:textStyle="bold" />
 
-                <com.xuexiang.xui.widget.edittext.ClearEditText
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                     android:id="@+id/et_sm4_key"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_weight="1"
-                    android:hint="@string/sm4_key_tips" />
+                    android:hint="@string/sm4_key_tips"
+                    android:textSize="@dimen/text_size_mini"
+                    app:met_passWordButton="true" />
 
                 <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
                     android:id="@+id/btn_sm4_key"

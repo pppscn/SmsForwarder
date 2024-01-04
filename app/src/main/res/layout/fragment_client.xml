@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -127,6 +128,7 @@
                 style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 tools:ignore="RtlSymmetry">
 
                 <TextView
@@ -136,20 +138,14 @@
                     android:text="@string/sign_key"
                     android:textStyle="bold" />
 
-                <EditText
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                     android:id="@+id/et_sign_key"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_weight="1"
-                    android:gravity="top"
-                    android:importantForAutofill="no"
-                    android:inputType="textMultiLine"
-                    android:maxLines="5"
-                    android:minLines="1"
-                    android:scrollbars="vertical"
-                    android:textSize="@dimen/text_size_mini"
-                    tools:ignore="LabelFor,SmallSp" />
+                    android:singleLine="true"
+                    app:met_passWordButton="true" />
 
             </LinearLayout>
 
