@@ -75,10 +75,10 @@
 + 提交issues 或 pr
 + 加入交流群（群内都是机油互帮互助，禁止发任何与SmsForwarder使用无关的内容）
 
-| QQ频道 | 钉钉客户群 | Tg 群组 |
-|  :--:  |  :--:  | :--:  |
-| ![QQ频道号: q7oofwp13s](pic/qq_channel.png "QQ频道号: q7oofwp13s") | ![钉钉客户群](pic/dingtalk.png "钉钉客户群") | ![Tg 群组](pic/tg.png "Tg 群组") |
-| QQ频道号: q7oofwp13s | [点击链接加入](https://h5.dingtalk.com/ecologicalOrg/index.html?code=v1,k1,P0UtiYy1RqzlfW3+QM/IeMT3HJgK5fP8z86MyUtWVOs=&origin=11#/inviteOutsideJoin?PPPSCN邀请你加入钉钉群聊SmsForwarder交流群，点击进入查看详情) | [+QBZgnL_fxYM0NjE9](https://t.me/+QBZgnL_fxYM0NjE9) |
+| TG Group |
+| :--:  |
+| ![TG Group](pic/tg.png "TG Group") |
+| [+QBZgnL_fxYM0NjE9](https://t.me/+QBZgnL_fxYM0NjE9) |
 
 ## 感谢
 
