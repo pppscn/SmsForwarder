@@ -136,22 +136,6 @@
                 app:sLeftTextString="@string/about_item_wechat_miniprogram" />
 
             <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-                android:id="@+id/menu_qq_channel"
-                style="@style/InfoItem.About"
-                android:layout_marginTop="10dp"
-                app:sLeftTextString="@string/about_item_add_qq_channel" />
-
-            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-                android:id="@+id/menu_dingtalk_group"
-                style="@style/InfoItem.About"
-                app:sLeftTextString="@string/about_item_add_dingtalk_group" />
-
-            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-                android:id="@+id/menu_telegram_group"
-                style="@style/InfoItem.About"
-                app:sLeftTextString="@string/about_item_add_telegram_group" />
-
-            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                 style="@style/InfoItem.AboutWithBtn"
                 android:layout_marginTop="10dp"
                 app:sLeftTextString="@string/about_item_open_source">

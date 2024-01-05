@@ -52,16 +52,10 @@
     <string name="about_item_github">GitHub</string>
     <string name="about_item_gitee">Gitee</string>
     <string name="about_item_donation_link">Reward List</string>
-    <string name="about_item_add_dingtalk_group">DingTalk Group</string>
-    <string name="about_item_add_telegram_group">Telegram Group</string>
-    <string name="about_item_add_qq_channel">QQ Channel</string>
     <string name="url_project_github">https://github.com/pppscn/SmsForwarder</string>
     <string name="url_project_gitee">https://gitee.com/pp/SmsForwarder</string>
     <string name="url_help">https://gitee.com/pp/SmsForwarder/wikis/pages</string>
     <string name="url_donation_link">https://gitee.com/pp/SmsForwarder.wiki/raw/master/%E6%89%93%E8%B5%8F%E5%90%8D%E5%8D%95.md</string>
-    <string name="url_dingtalk_group">https://gitee.com/pp/SmsForwarder/raw/main/pic/dingtalk.png</string>
-    <string name="url_telegram_group">https://gitee.com/pp/SmsForwarder/raw/main/pic/qywechat.png</string>
-    <string name="url_qq_channel">https://qun.qq.com/qqweb/qunpro/share?_wv=3&amp;_wwv=128&amp;appChannel=share&amp;inviteCode=1W5aewP&amp;appChannel=share&amp;businessType=9&amp;from=246610&amp;biz=ka</string>
     <string name="url_wechat_miniprogram">https://gitee.com/pp/SmsForwarder/raw/main/pic/wechat_miniprogram.jpg</string>
 
     <string name="lab_yes">Yes</string>
@@ -1320,4 +1314,21 @@
     <string name="all_auto_started_frpc">All auto-started Frpc</string>
     <string name="specified_frpc">Specified Frpc</string>
     <string name="successful_execution">Execution successful: %s</string>
+
+    <string name="enable_accessibility_service">Enable Accessibility Service</string>
+    <string name="assists_description">Automate SMS confirmation and maintain app activity in the background.</string>
+    <string name="accessibility_service_title">SmsForwarder Accessibility Service</string>
+    <string name="close">Close</string>
+    <string name="display_floating_controls">Floating Controls</string>
+    <string name="back">Back</string>
+    <string name="start_execution">Start Execution</string>
+    <string name="turn_off_auto_scroll">Turn Off Auto Scroll</string>
+    <string name="execution_log">【Execution Log】</string>
+    <string name="do_not_touch_screen_during_execution">Do not touch screen during execution!</string>
+    <string name="view_logs">View Logs</string>
+    <string name="stop_scrolling">Stop Scrolling</string>
+    <string name="continue_scrolling">Continue Scrolling</string>
+    <string name="logs">【Logs】</string>
+    <string name="close_logs">Close Logs</string>
+    <string name="stopped">Stopped</string>
 </resources>

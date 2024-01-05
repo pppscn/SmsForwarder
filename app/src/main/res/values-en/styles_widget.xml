@@ -178,12 +178,12 @@
     </style>
 
     <style name="TabLayoutStyle" parent="Base.Widget.Design.TabLayout">
-        <item name="tabIndicatorColor">?attr/colorAccent</item>
+        <item name="tabIndicatorColor">#299EE3</item>
         <item name="tabIndicatorHeight">2dp</item>
         <item name="tabPaddingStart">12dp</item>
         <item name="tabPaddingEnd">12dp</item>
         <item name="tabTextAppearance">@style/TabText</item>
-        <item name="tabSelectedTextColor">?attr/colorAccent</item>
+        <item name="tabSelectedTextColor">#299EE3</item>
         <item name="tabTextColor">@color/xui_config_color_gray_6</item>
     </style>
 

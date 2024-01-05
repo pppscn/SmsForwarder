@@ -52,16 +52,10 @@
     <string name="about_item_github">GitHub</string>
     <string name="about_item_gitee">Gitee</string>
     <string name="about_item_donation_link">打賞名單</string>
-    <string name="about_item_add_dingtalk_group">釘釘客戶群</string>
-    <string name="about_item_add_telegram_group">Telegram群組</string>
-    <string name="about_item_add_qq_channel">QQ頻道</string>
     <string name="url_project_github">https://github.com/pppscn/SmsForwarder</string>
     <string name="url_project_gitee">https://gitee.com/pp/SmsForwarder</string>
     <string name="url_help">https://gitee.com/pp/SmsForwarder/wikis/pages</string>
     <string name="url_donation_link">https://gitee.com/pp/SmsForwarder.wiki/raw/master/%E6%89%93%E8%B5%8F%E5%90%8D%E5%8D%95.md</string>
-    <string name="url_dingtalk_group">https://gitee.com/pp/SmsForwarder/raw/main/pic/dingtalk.png</string>
-    <string name="url_telegram_group">https://gitee.com/pp/SmsForwarder/raw/main/pic/tg.png</string>
-    <string name="url_qq_channel">https://qun.qq.com/qqweb/qunpro/share?_wv=3&amp;_wwv=128&amp;appChannel=share&amp;inviteCode=1W5aewP&amp;appChannel=share&amp;businessType=9&amp;from=246610&amp;biz=ka</string>
     <string name="url_wechat_miniprogram">https://gitee.com/pp/SmsForwarder/raw/main/pic/wechat_miniprogram.jpg</string>
 
     <string name="lab_yes">是</string>
@@ -1038,7 +1032,7 @@
     <string name="no_server_history">暫無歷史記錄，接口測試通過後自動加入</string>
     <string name="select_time_period">時間段選擇</string>
     <string name="silent_time_period">免打擾(禁用轉發)時間段</string>
-    <string name="silent_time_period_tips">結束時間小於開始時間則跨天；相等則禁用</string>
+    <string name="silent_time_period_tips">結束時間小於開始則跨天；相等則禁用</string>
     <string name="download_frpc_tips">是否立即下載，並重啟加載？</string>
     <string name="download_frpc_tips2">下載成功，是否立即重啟加載？</string>
     <string name="appkey">AppKey</string>
@@ -1322,4 +1316,21 @@
     <string name="all_auto_started_frpc">所有自動啟動的Frpc</string>
     <string name="specified_frpc">特定的Frpc</string>
     <string name="successful_execution">執行成功：%s</string>
+
+    <string name="enable_accessibility_service">啟用無障礙服務</string>
+    <string name="assists_description">實現自動確認發送簡訊與應用程式後台保持活躍</string>
+    <string name="accessibility_service_title">SmsForwarder 無障礙輔助</string>
+    <string name="close">關閉</string>
+    <string name="display_floating_controls">顯示操作浮窗</string>
+    <string name="back">返回</string>
+    <string name="start_execution">開始執行</string>
+    <string name="turn_off_auto_scroll">關閉自動滾動</string>
+    <string name="execution_log">【執行日誌】</string>
+    <string name="do_not_touch_screen_during_execution">執行中請勿操作螢幕！</string>
+    <string name="view_logs">查看日誌</string>
+    <string name="stop_scrolling">停止滾動</string>
+    <string name="continue_scrolling">繼續滾動</string>
+    <string name="logs">【日誌】</string>
+    <string name="close_logs">關閉日誌</string>
+    <string name="stopped">已停止</string>
 </resources>
