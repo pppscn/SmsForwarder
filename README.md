@@ -84,6 +84,8 @@
 
 > [感谢所有赞助本项目的热心网友 --> 打赏名单](https://gitee.com/pp/SmsForwarder/wikis/pages?sort_id=4912193&doc_id=1821427)
 
+> 【特别提醒】为了规避收款码被盗用的风险，即日起加入 [爱发电](https://afdian.net/a/pppscn)，原来的收款账户已被冻结，赞助码全部作废！！！AT.2024-01-08
+
 > 本项目得到以下项目的支持与帮助，在此表示衷心的感谢！
 
 + https://github.com/xiaoyuanhost/TranspondSms (项目原型)
