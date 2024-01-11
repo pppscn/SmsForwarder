@@ -17,6 +17,7 @@ import android.widget.EditText
 import androidx.annotation.ColorInt
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.webview.AgentWebActivity
 import com.idormy.sms.forwarder.core.webview.AgentWebFragment
@@ -314,6 +315,16 @@ class CommonUtils private constructor() {
             } else {
                 ipAddress
             }
+        }
+
+        fun restartApplication() {
+            val context = App.context
+            val packageManager = context.packageManager
+            val intent = packageManager.getLaunchIntentForPackage(context.packageName)
+            val componentName = intent?.component
+            val mainIntent = Intent.makeRestartActivityTask(componentName)
+            context.startActivity(mainIntent)
+            XUtil.exitApp()
         }
     }
 

@@ -1,12 +1,9 @@
 package com.idormy.sms.forwarder.fragment
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
-import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.core.webview.AgentWebActivity
 import com.idormy.sms.forwarder.databinding.FragmentAboutBinding
@@ -15,6 +12,7 @@ import com.idormy.sms.forwarder.utils.CacheUtils
 import com.idormy.sms.forwarder.utils.CommonUtils.Companion.gotoProtocol
 import com.idormy.sms.forwarder.utils.CommonUtils.Companion.previewMarkdown
 import com.idormy.sms.forwarder.utils.CommonUtils.Companion.previewPicture
+import com.idormy.sms.forwarder.utils.CommonUtils.Companion.restartApplication
 import com.idormy.sms.forwarder.utils.HistoryUtils
 import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.Log
@@ -93,9 +91,7 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
                     .cancelable(false)
                     .positiveText(R.string.confirm)
                     .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                        val intent = Intent(App.context, MainActivity::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        startActivity(intent)
+                        restartApplication()
                     }
                     .show()
             } catch (e: Exception) {
