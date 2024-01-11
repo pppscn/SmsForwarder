@@ -1,10 +1,10 @@
 package com.idormy.sms.forwarder.utils.sender
 
-import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.EmailSetting
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.mail.Mail
@@ -69,9 +69,9 @@ class EmailUtils {
 
                 "@gmail.com" -> {
                     setting.host = "smtp.gmail.com"
-                    setting.port = "587"
+                    setting.port = "465"
                     setting.ssl = true
-                    setting.startTls = true
+                    //setting.startTls = true
                     setting.fromEmail += setting.mailType
                 }
 

@@ -155,15 +155,17 @@
                     android:textSize="@dimen/text_size_mini"
                     tools:ignore="SmallSp" />
 
-                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                <com.xuexiang.xui.widget.edittext.ClearEditText
                     android:id="@+id/et_webParams"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:autofillHints=""
+                    android:gravity="left|top"
                     android:hint="@string/optional"
-                    android:inputType="textUri"
-                    android:singleLine="true"
-                    app:met_clearButton="true"
-                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,TouchTargetSizeCheck" />
+                    android:inputType="textMultiLine"
+                    android:minLines="3"
+                    android:text=""
+                    tools:ignore="RtlHardcoded,SpeakableTextPresentCheck" />
 
             </LinearLayout>
 
