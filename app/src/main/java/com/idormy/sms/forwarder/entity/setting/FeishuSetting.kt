@@ -8,6 +8,7 @@ data class FeishuSetting(
     val secret: String? = "",
     val msgType: String? = "interactive",
     val titleTemplate: String? = "",
+    val messageCard: String = "", //自定义消息卡片
 ) : Serializable {
 
     fun getMsgTypeCheckId(): Int {

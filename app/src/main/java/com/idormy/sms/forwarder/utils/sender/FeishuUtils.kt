@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.utils.sender
 
+import android.text.TextUtils
 import android.util.Base64
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.database.entity.Rule
@@ -121,8 +122,20 @@ class FeishuUtils private constructor() {
             val requestMsg: String
             if (setting.msgType == null || setting.msgType == "interactive") {
                 msgMap["msg_type"] = "interactive"
-                msgMap["card"] = "{{CARD_BODY}}"
-                requestMsg = Gson().toJson(msgMap).replace("\"{{CARD_BODY}}\"", buildMsg(title, content, from, msgInfo.date))
+                if (TextUtils.isEmpty(setting.messageCard.trim())) {
+                    msgMap["card"] = "{{CARD_BODY}}"
+                    requestMsg = Gson().toJson(msgMap).replace("\"{{CARD_BODY}}\"", buildMsg(title, content, from, msgInfo.date))
+                } else {
+                    val msgTime = jsonInnerStr(SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(msgInfo.date))
+                    msgMap["card"] = msgInfo.getContentFromJson(
+                        setting.messageCard.trimIndent()
+                            .replace("{{MSG_TITLE}}", jsonInnerStr(title))
+                            .replace("{{MSG_TIME}}", msgTime)
+                            .replace("{{MSG_FROM}}", jsonInnerStr(from))
+                            .replace("{{MSG_CONTENT}}", jsonInnerStr(content))
+                    )
+                    requestMsg = Gson().toJson(msgMap)
+                }
             } else {
                 msgMap["msg_type"] = "text"
                 val contentMap: MutableMap<String, Any> = mutableMapOf()

@@ -323,10 +323,12 @@
     <string name="email_title">Email Title</string>
     <string name="feishu_webhook">Webhook</string>
     <string name="feishu_secret">Secret (optional)</string>
+    <string name="feishu_receive_id_type">Receive Id Type"</string>
     <string name="feishu_msg_type">Msg Type</string>
     <string name="feishu_msg_type_text">Text</string>
     <string name="feishu_msg_type_interactive">Interactive</string>
     <string name="feishu_msg_type_interactive_title">Interactive Title</string>
+    <string name="feishu_msg_type_interactive_message_card">Message Card Json</string>
     <string name="Customize_API">Customize API</string>
     <string name="Corp_ID">Corp ID</string>
     <string name="Agent_ID">Agent ID</string>
@@ -1331,4 +1333,8 @@
     <string name="logs">【Logs】</string>
     <string name="close_logs">Close Logs</string>
     <string name="stopped">Stopped</string>
+    <string name="open_id">Open ID</string>
+    <string name="union_id">Union ID</string>
+    <string name="chat_id">Chat ID</string>
+    <string name="receive_id">Receive ID</string>
 </resources>

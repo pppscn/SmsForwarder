@@ -324,10 +324,12 @@
     <string name="email_title">郵件主題</string>
     <string name="feishu_webhook">Webhook 地址</string>
     <string name="feishu_secret">加簽 Secret (沒有可不填)</string>
+    <string name="feishu_receive_id_type">訊息接收者ID類型</string>
     <string name="feishu_msg_type">消息類型</string>
     <string name="feishu_msg_type_text">純文本</string>
     <string name="feishu_msg_type_interactive">消息卡片</string>
     <string name="feishu_msg_type_interactive_title">標題模板</string>
+    <string name="feishu_msg_type_interactive_message_card">自定義消息卡片</string>
     <string name="Customize_API">自定義API</string>
     <string name="Corp_ID">企業ID</string>
     <string name="Agent_ID">AgentId</string>
@@ -1333,4 +1335,8 @@
     <string name="logs">【日誌】</string>
     <string name="close_logs">關閉日誌</string>
     <string name="stopped">已停止</string>
+    <string name="open_id">Open ID</string>
+    <string name="union_id">Union ID</string>
+    <string name="chat_id">Chat ID</string>
+    <string name="receive_id">訊息接收者ID</string>
 </resources>

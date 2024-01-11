@@ -2,12 +2,13 @@ package com.idormy.sms.forwarder.entity
 
 import android.annotation.SuppressLint
 import android.text.TextUtils
-import com.idormy.sms.forwarder.utils.Log
+import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.utils.AppUtils
 import com.idormy.sms.forwarder.utils.BatteryUtils
 import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.SettingUtils.Companion.enableSmsTemplate
 import com.idormy.sms.forwarder.utils.SettingUtils.Companion.extraDeviceMark
@@ -72,6 +73,10 @@ data class MsgInfo(
             .replace(getString(R.string.tag_device_name), deviceMark)
             .replace(getString(R.string.tag_app_version), versionName)
             .replace(getString(R.string.tag_call_type), callTypeMap[callType.toString()] ?: getString(R.string.unknown_call))
+            .replace(getString(R.string.tag_battery_pct), TaskUtils.batteryPct.toString())
+            .replace(getString(R.string.tag_battery_status), BatteryUtils.getStatus(TaskUtils.batteryStatus))
+            .replace(getString(R.string.tag_battery_plugged), BatteryUtils.getPlugged(TaskUtils.batteryPlugged))
+            .replace(getString(R.string.tag_battery_info), TaskUtils.batteryInfo)
             .trim()
         return replaceLocationTag(replaceAppName(regexReplace(titleForSend, regexReplace), from))
     }
@@ -129,6 +134,42 @@ data class MsgInfo(
         return replaceLocationTag(replaceAppName(regexReplace(smsVoForSend, regexReplace), from))
     }
 
+    @SuppressLint("SimpleDateFormat")
+    fun getContentFromJson(jsonTemplate: String): String {
+        var template = jsonTemplate.replace("null", "")
+        if (TextUtils.isEmpty(template)) template = getString(R.string.tag_from)
+        val deviceMark = extraDeviceMark.trim()
+        val versionName = AppUtils.getAppVersionName()
+        val splitSimInfo = simInfo.split("#####")
+        var title = splitSimInfo.getOrElse(0) { simInfo }
+        title = jsonInnerStr(title)
+        var scheme = splitSimInfo.getOrElse(1) { "" }
+        scheme = jsonInnerStr(scheme)
+        from = jsonInnerStr(from)
+        content = jsonInnerStr(content)
+
+        val msgForSend: String = template.replace(getString(R.string.tag_from), from)
+            .replace(getString(R.string.tag_package_name), from)
+            .replace(getString(R.string.tag_sms), content)
+            .replace(getString(R.string.tag_msg), content)
+            .replace(getString(R.string.tag_card_slot), title)
+            .replace(getString(R.string.tag_card_subid), subId.toString())
+            .replace(getString(R.string.tag_title), title)
+            .replace(getString(R.string.tag_scheme), scheme)
+            .replace(getString(R.string.tag_uid), uid.toString())
+            .replace(getString(R.string.tag_receive_time), jsonInnerStr(SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date)))
+            .replace(getString(R.string.tag_current_time), jsonInnerStr(SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())))
+            .replace(getString(R.string.tag_device_name), jsonInnerStr(deviceMark))
+            .replace(getString(R.string.tag_app_version), jsonInnerStr(versionName))
+            .replace(getString(R.string.tag_call_type), jsonInnerStr(callTypeMap[callType.toString()] ?: getString(R.string.unknown_call)))
+            .replace(getString(R.string.tag_battery_pct), jsonInnerStr(TaskUtils.batteryPct.toString()))
+            .replace(getString(R.string.tag_battery_status), jsonInnerStr(BatteryUtils.getStatus(TaskUtils.batteryStatus)))
+            .replace(getString(R.string.tag_battery_plugged), jsonInnerStr(BatteryUtils.getPlugged(TaskUtils.batteryPlugged)))
+            .replace(getString(R.string.tag_battery_info), jsonInnerStr(TaskUtils.batteryInfo))
+            .trim()
+        return replaceLocationTag(replaceAppName(msgForSend, from, true), true)
+    }
+
     //正则替换内容
     private fun regexReplace(content: String, regexReplace: String): String {
         return if (TextUtils.isEmpty(regexReplace)) content else try {
@@ -150,7 +191,7 @@ data class MsgInfo(
     }
 
     //替换{{APP名称}}标签
-    private fun replaceAppName(content: String, packageName: String): String {
+    private fun replaceAppName(content: String, packageName: String, needJson: Boolean = false): String {
         if (TextUtils.isEmpty(content)) return content
         if (content.indexOf(getString(R.string.tag_app_name)) == -1) return content
 
@@ -171,16 +212,30 @@ data class MsgInfo(
                 }
             }
         }
+        if (needJson) {
+            appName = jsonInnerStr(appName)
+        }
         return content.replace(getString(R.string.tag_app_name), appName)
     }
 
     //替换 {{定位信息}} 标签
-    private fun replaceLocationTag(content: String): String {
+    private fun replaceLocationTag(content: String, needJson: Boolean = false): String {
         if (TextUtils.isEmpty(content)) return content
         if (content.indexOf(getString(R.string.tag_location)) == -1) return content
 
-        val location = HttpServerUtils.apiLocationCache.toString()
+        var location = HttpServerUtils.apiLocationCache.toString()
+        if (needJson) {
+            location = jsonInnerStr(location)
+        }
         return content.replace(getString(R.string.tag_location), location)
+    }
+
+    private fun jsonInnerStr(string: String?): String {
+        if (string == null) return "null"
+        if (string == "") return "\"\""
+
+        val jsonStr: String = Gson().toJson(string)
+        return if (jsonStr.length >= 2) jsonStr.substring(1, jsonStr.length - 1) else jsonStr
     }
 
     override fun toString(): String {

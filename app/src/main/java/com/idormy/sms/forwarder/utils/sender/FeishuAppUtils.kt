@@ -91,7 +91,7 @@ class FeishuAppUtils private constructor() {
             logId: Long = 0L,
             msgId: Long = 0L
         ) {
-            val requestUrl = "https://open.feishu.cn/open-apis/im/v1/messages?receive_id_type=user_id"
+            val requestUrl = "https://open.feishu.cn/open-apis/im/v1/messages?receive_id_type=${setting.receiveIdType}"
             Log.d(TAG, "requestUrl：$requestUrl")
 
             val content: String = if (rule != null) {
@@ -106,7 +106,16 @@ class FeishuAppUtils private constructor() {
                 } else {
                     msgInfo.getTitleForSend(setting.titleTemplate)
                 }
-                "{\"elements\":[{\"tag\":\"markdown\",\"content\":\"**[{{MSG_TITLE}}]({{MSG_URL}})**\\n --------------\\n{{MSG_CONTENT}}\"}]}".trimIndent().replace("{{MSG_TITLE}}", jsonInnerStr(title)).replace("{{MSG_URL}}", jsonInnerStr("https://github.com/pppscn/SmsForwarder")).replace("{{MSG_CONTENT}}", jsonInnerStr(content))
+                if (TextUtils.isEmpty(setting.messageCard.trim())) {
+                    "{\"elements\":[{\"tag\":\"markdown\",\"content\":\"**[{{MSG_TITLE}}]({{MSG_URL}})**\\n --------------\\n{{MSG_CONTENT}}\"}]}".trimIndent().replace("{{MSG_TITLE}}", jsonInnerStr(title)).replace("{{MSG_URL}}", jsonInnerStr("https://github.com/pppscn/SmsForwarder")).replace("{{MSG_CONTENT}}", jsonInnerStr(content))
+                } else {
+                    msgInfo.getContentFromJson(
+                        setting.messageCard.trimIndent()
+                            .replace("{{MSG_TITLE}}", jsonInnerStr(title))
+                            .replace("{{MSG_URL}}", jsonInnerStr("https://github.com/pppscn/SmsForwarder"))
+                            .replace("{{MSG_CONTENT}}", jsonInnerStr(content))
+                    )
+                }
             } else {
                 "{\"text\":\"{{MSG_CONTENT}}\"}".trimIndent().replace("{{MSG_CONTENT}}", jsonInnerStr(content))
             }

@@ -328,6 +328,7 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(),
                 .setNewActivity(true)
                 .putInt(KEY_SENDER_TYPE, pos) //注意：目前刚好是这个顺序而已
                 .open(this)
+            dialog.dismiss()
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "onItemClick error: ${e.message}")

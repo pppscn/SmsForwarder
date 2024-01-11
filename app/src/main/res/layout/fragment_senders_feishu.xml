@@ -123,7 +123,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layout_custom_template"
+                android:id="@+id/layout_title_template"
                 style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -164,26 +164,104 @@
                     android:orientation="horizontal">
 
                     <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                        android:id="@+id/bt_insert_sender"
+                        android:id="@+id/bt_insert_sender_to_title"
                         style="@style/insertButtonStyle"
                         android:text="@string/insert_sender" />
 
                     <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                        android:id="@+id/bt_insert_extra"
+                        android:id="@+id/bt_insert_extra_to_title"
                         style="@style/insertButtonStyle"
                         android:layout_marginStart="5dp"
                         android:text="@string/insert_extra" />
 
                     <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                        android:id="@+id/bt_insert_time"
+                        android:id="@+id/bt_insert_time_to_title"
                         style="@style/insertButtonStyle"
                         android:layout_marginStart="5dp"
                         android:text="@string/insert_time" />
 
                     <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                        android:id="@+id/bt_insert_device_name"
+                        android:id="@+id/bt_insert_device_name_to_title"
                         style="@style/insertButtonStyle"
                         android:layout_marginStart="5dp"
+                        android:text="@string/insert_device_name" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_message_card"
+                style="@style/BarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                tools:ignore="RtlSymmetry">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/feishu_msg_type_interactive_message_card"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/custom_template_tips"
+                        android:textSize="@dimen/text_size_mini"
+                        tools:ignore="SmallSp" />
+
+                </LinearLayout>
+
+                <com.xuexiang.xui.widget.edittext.ClearEditText
+                    android:id="@+id/et_message_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=""
+                    android:gravity="left|top"
+                    android:inputType="textMultiLine"
+                    android:minLines="5"
+                    android:text=""
+                    tools:ignore="RtlHardcoded,SpeakableTextPresentCheck" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/bt_insert_sender"
+                        style="@style/insertButtonStyle"
+                        android:text="@string/insert_sender" />
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/bt_insert_content"
+                        style="@style/insertButtonStyle"
+                        android:layout_marginStart="3dp"
+                        android:text="@string/insert_content" />
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/bt_insert_extra"
+                        style="@style/insertButtonStyle"
+                        android:layout_marginStart="3dp"
+                        android:text="@string/insert_extra" />
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/bt_insert_time"
+                        style="@style/insertButtonStyle"
+                        android:layout_marginStart="3dp"
+                        android:text="@string/insert_time" />
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/bt_insert_device_name"
+                        style="@style/insertButtonStyle"
+                        android:layout_marginStart="3dp"
                         android:text="@string/insert_device_name" />
 
                 </LinearLayout>
