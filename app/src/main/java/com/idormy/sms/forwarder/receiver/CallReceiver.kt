@@ -1,7 +1,6 @@
 package com.idormy.sms.forwarder.receiver
 
 import android.content.Context
-import com.idormy.sms.forwarder.utils.Log
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
@@ -9,6 +8,7 @@ import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.CallInfo
 import com.idormy.sms.forwarder.entity.MsgInfo
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.Worker
@@ -137,9 +137,7 @@ open class CallReceiver : PhoneStateReceiver() {
             callInfo.name = if (contacts.isNotEmpty()) contacts[0].name else getString(R.string.unknown_number)
         }
 
-        val msgInfo = MsgInfo(
-            "call", callInfo.number, PhoneUtils.getCallMsg(callInfo), Date(), simInfo, simSlot, callInfo.subId
-        )
+        val msgInfo = MsgInfo("call", callInfo.number, PhoneUtils.getCallMsg(callInfo), Date(), simInfo, simSlot, callInfo.subId, callType)
         val request = OneTimeWorkRequestBuilder<SendWorker>().setInputData(
             workDataOf(
                 Worker.sendMsgInfo to Gson().toJson(msgInfo)
