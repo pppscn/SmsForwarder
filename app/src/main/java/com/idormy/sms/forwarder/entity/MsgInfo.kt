@@ -232,7 +232,6 @@ data class MsgInfo(
 
     private fun jsonInnerStr(string: String?): String {
         if (string == null) return "null"
-        if (string == "") return "\"\""
 
         val jsonStr: String = Gson().toJson(string)
         return if (jsonStr.length >= 2) jsonStr.substring(1, jsonStr.length - 1) else jsonStr
