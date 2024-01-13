@@ -192,7 +192,7 @@ class ConditionUtils private constructor() {
 
                         val batteryStatus = TaskUtils.batteryStatus
                         val batteryPlugged = TaskUtils.batteryPlugged
-                        if (batteryStatus != chargeSetting.status || batteryPlugged != chargeSetting.plugged) {
+                        if (batteryStatus != chargeSetting.status || (chargeSetting.plugged != 0 && batteryPlugged != chargeSetting.plugged)) {
                             Log.d(TAG, "TASK-$taskId：batteryStatus or batteryPlugged is not match, chargeSetting = $chargeSetting")
                             return false
                         }

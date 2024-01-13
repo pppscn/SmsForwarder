@@ -141,9 +141,9 @@
                         tools:ignore="TouchTargetSizeCheck" />
 
                     <RadioButton
-                        android:id="@+id/rb_plugged_unknown"
+                        android:id="@+id/rb_plugged_unlimited"
                         style="@style/rg_rb_style"
-                        android:text="@string/battery_unknown"
+                        android:text="@string/battery_unlimited"
                         tools:ignore="TouchTargetSizeCheck" />
 
                 </RadioGroup>

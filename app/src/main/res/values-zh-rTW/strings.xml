@@ -939,6 +939,7 @@
     <string name="msg_content_regex">^.{1,390}$</string>
 
     <string name="battery_unknown">未知</string>
+    <string name="battery_unlimited">不限</string>
     <string name="battery_ac">AC</string>
     <string name="battery_usb">USB</string>
     <string name="battery_wireless">無線</string>
