@@ -30,7 +30,12 @@ class SenderRepository(private val senderDao: SenderDao) {
 
     fun getOne(id: Long) = senderDao.getOne(id)
 
-    fun getByIds(ids: List<Long>, instr: String) = senderDao.getByIds(ids, instr)
+    fun getByIds(ids: List<Long>, instr: String): List<Sender> {
+        val senders = senderDao.getByIds(ids)
+        // 将结果按照 instr() 的顺序进行排序
+        senders.sortedBy { instr.indexOf(it.id.toString()) }
+        return senders
+    }
 
     fun getAllNonCache(): List<Sender> {
         val query = SimpleSQLiteQuery("SELECT * FROM Sender ORDER BY id ASC")

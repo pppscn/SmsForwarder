@@ -41,8 +41,10 @@ interface FrpcDao {
     fun getAutorun(): List<Frpc>
 
     //使用 ORDER BY 子句和 instr() 函数按照列表中 uid 的顺序返回结果
-    @Query("SELECT * FROM Frpc WHERE uid IN (:uids) ORDER BY instr(:instr, uid)")
-    fun getByUids(uids: List<String>, instr: String): List<Frpc>
+    //@Query("SELECT * FROM Frpc WHERE uid IN (:uids) ORDER BY instr(:instr, uid)")
+    //fun getByUids(uids: List<String>, instr: String): List<Frpc>
+    @Query("SELECT * FROM Frpc WHERE uid IN (:uids)")
+    fun getByUids(uids: List<String>): List<Frpc>
 
     @Query("SELECT * FROM Frpc ORDER BY time DESC")
     fun pagingSource(): PagingSource<Int, Frpc>
