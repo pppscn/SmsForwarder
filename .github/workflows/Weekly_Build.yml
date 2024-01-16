@@ -14,6 +14,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      output: "${{ github.workspace }}/build/app/outputs/apk/release"
     steps:
       # 检出代码
       - uses: actions/checkout@v2
@@ -41,10 +43,39 @@ jobs:
       # 打包release
       - name: Build with Gradle
         run: bash ./gradlew assembleRelease
-      # 存档打包的文件
-      - name: Archive production artifacts
+      # 存档打包的文件，以便后续上传，TODO: 看起来有点笨，有没有更好的方法？
+      - name: Init APP Version Name
+        run: |
+          echo "ver_name=$(grep -m 1 '\"versionName\":' ${{ env.output }}//output-metadata.json | grep -oP '\"versionName\": \"\K[^\"]+')" >> $GITHUB_ENV
+          echo "ver_code=$(grep -m 1 '\"versionCode\":' ${{ env.output }}//output-metadata.json | grep -oP '\"versionCode\": \K\d+' | tail -c 4)" >> $GITHUB_ENV
+          echo "ver_date=$(grep -m 1 '\"outputFile\":' ${{ env.output }}//output-metadata.json | grep -oP '\"outputFile\": \"[^\"]+' | grep -oP '\d{8}')" >> $GITHUB_ENV
+      - name: Upload App To Artifact universal
+        if: success () || failure ()
         uses: actions/upload-artifact@v3
         with:
-          name: SmsForwarder Weekly Build
-          path: build/app/outputs/apk/release/*.apk
-          if-no-files-found: error
+          name: "SmsF_${{ env.ver_name }}_100${{ env.ver_code }}_universal_${{ env.ver_date }}_release.apk"
+          path: "${{ env.output }}//SmsF_*_universal_*.apk"
+      - name: Upload App To Artifact armeabi-v7a
+        if: success () || failure ()
+        uses: actions/upload-artifact@v3
+        with:
+          name: "SmsF_${{ env.ver_name }}_200${{ env.ver_code }}_armeabi-v7a_${{ env.ver_date }}_release.apk"
+          path: "${{ env.output }}//SmsF_*_armeabi-v7a_*.apk"
+      - name: Upload App To Artifact arm64-v8a
+        if: success () || failure ()
+        uses: actions/upload-artifact@v3
+        with:
+          name: "SmsF_${{ env.ver_name }}_300${{ env.ver_code }}_arm64-v8a_${{ env.ver_date }}_release.apk"
+          path: "${{ env.output }}//SmsF_*_arm64-v8a_*.apk"
+      - name: Upload App To Artifact x86
+        if: success () || failure ()
+        uses: actions/upload-artifact@v3
+        with:
+          name: "SmsF_${{ env.ver_name }}_400${{ env.ver_code }}_x86_${{ env.ver_date }}_release.apk"
+          path: "${{ env.output }}//SmsF_*_x86_${{ env.ver_date }}_*.apk"
+      - name: Upload App To Artifact x86_64
+        if: success () || failure ()
+        uses: actions/upload-artifact@v3
+        with:
+          name: "SmsF_${{ env.ver_name }}_500${{ env.ver_code }}_x86_64_${{ env.ver_date }}_release.apk"
+          path: "${{ env.output }}//SmsF_*_x86_64_${{ env.ver_date }}_*.apk"

@@ -53,4 +53,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          asset_paths: '["./build/app/outputs/apk/release/SmsForwarder_release_*"]'
+          asset_paths: '["./build/app/outputs/apk/release/SmsF_*"]'
