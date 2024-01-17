@@ -305,3 +305,7 @@
 
 # MultiLanguages
 -keep class com.hjq.language.** {*;}
+
+# crontab解析
+-keep class gatewayapps.crondroid.** { *; }
+-keep class net.redhogs.cronparser.** { *; }

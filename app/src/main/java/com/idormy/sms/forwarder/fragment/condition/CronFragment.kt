@@ -2,6 +2,7 @@ package com.idormy.sms.forwarder.fragment.condition
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -161,7 +162,8 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
                     times++
                 }
                 binding!!.tvDescription.text = description
-                binding!!.tvCronExpressionCheckTips.text = "$expression\n$description"
+                //TODO：低版本Android解析Cron表达式会报错，暂时不处理
+                binding!!.tvCronExpressionCheckTips.text = if (expression == description) expression else "$expression\n$description"
                 binding!!.tvNextTimeList.text = String.format(getString(R.string.next_execution_times), times.toString(), nextTimeList.joinToString("\n"))
                 binding!!.tvNextTimeList.visibility = View.VISIBLE
                 binding!!.separatorCronExpressionCheck.visibility = View.VISIBLE
@@ -1589,14 +1591,19 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
         //判断cronExpression是否有效
         CronExpression.validateExpression(expression)
 
-        //生成cron表达式描述
-        val options = Options()
-        options.isTwentyFourHourTime = true
-        //TODO：支持多语言
-        val locale = Locale.getDefault()
-        //Chinese, Japanese, Korean and other East Asian languages have no spaces between words
-        options.isNeedSpaceBetweenWords = locale == Locale("zh") || locale == Locale("ja") || locale == Locale("ko")
-        description = CronExpressionDescriptor.getDescription(expression, options, locale)
+        //TODO：低版本Android解析Cron表达式会报错，暂时不处理
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //生成cron表达式描述
+            val options = Options()
+            options.isTwentyFourHourTime = true
+            //TODO：支持多语言
+            val locale = Locale.getDefault()
+            //Chinese, Japanese, Korean and other East Asian languages have no spaces between words
+            options.isNeedSpaceBetweenWords = locale == Locale("zh") || locale == Locale("ja") || locale == Locale("ko")
+            description = CronExpressionDescriptor.getDescription(expression, options, locale)
+        } else {
+            description = expression
+        }
 
         return CronSetting(description, expression)
     }

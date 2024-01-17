@@ -305,11 +305,6 @@ dependencies {
     //Location 是一个通过 Android 自带的 LocationManager 来实现的定位功能：https://github.com/jenly1314/Location
     implementation 'com.github.pppscn:location:1.0.0'
 
-    //crontab解析库：https://github.com/jmrozanec/cron-utils 官网：http://cron-parser.com
-    //implementation 'com.cronutils:cron-utils:9.2.1'
-    //JSR-310 backport for Android：https://github.com/JakeWharton/ThreeTenABP
-    //implementation 'com.jakewharton.threetenabp:threetenabp:1.4.6'
-
     //Partial implementation of Quartz Cron Java for Android: https://github.com/gatewayapps/crondroid
     implementation 'gatewayapps.crondroid:crondroid:1.0.0'
     //Java Parser For Cron Expressions: https://github.com/grahamar/cron-parser
@@ -317,8 +312,6 @@ dependencies {
 
     //侧边栏菜单：https://github.com/yarolegovich/SlidingRootNav
     implementation 'com.yarolegovich:sliding-root-nav:1.1.1'
-    //TabBar：https://github.com/xuexiangjys/JPTabBar
-    // implementation 'com.github.xuexiangjys:JPTabBar:1.0.1'
 }
 //自动添加X-Library依赖
 apply from: 'x-library.gradle'
