@@ -41,7 +41,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
+import java.io.BufferedWriter
 import java.io.File
+import java.io.FileWriter
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -100,11 +103,28 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
 
     override fun onCreate() {
         super.onCreate()
-        Thread.setDefaultUncaughtExceptionHandler { _, e ->
-            isDebug = true
-            e.printStackTrace()
-            Log.e(TAG, "onCreate: $e")
+
+        // 设置全局异常捕获
+        val defaultHandler = Thread.getDefaultUncaughtExceptionHandler()
+        Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
+            throwable.printStackTrace()
+            try {
+                val logPath = this.cacheDir.absolutePath + "/logs"
+                val logDir = File(logPath)
+                if (!logDir.exists()) logDir.mkdirs()
+                val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
+                val currentDateTime = dateFormat.format(Date())
+                val logFile = File(logPath, "crash_$currentDateTime.txt")
+                BufferedWriter(FileWriter(logFile, true)).use { writer ->
+                    writer.append("$throwable\n")
+                }
+            } catch (ex: IOException) {
+                ex.printStackTrace()
+            }
+            //使用默认的处理方式让APP停止运行
+            defaultHandler?.uncaughtException(thread, throwable)
         }
+
         try {
             context = applicationContext
             initLibs()
