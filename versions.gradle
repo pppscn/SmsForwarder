@@ -2,8 +2,8 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 def build_versions = [:]
-build_versions.version_code = 50
-build_versions.version_name = "3.2.0"
+build_versions.version_code = 51
+build_versions.version_name = "3.3.0"
 build_versions.min_sdk = 19
 build_versions.target_sdk = 33
 build_versions.build_tools = "33.0.1"
@@ -32,7 +32,7 @@ versions.butterknife = "10.2.3"
 versions.runner = "1.4.0"
 versions.gson = "2.10.1" //https://github.com/google/gson
 versions.okhttp3 = "3.12.13" //不可升级，为了支持 API 19
-versions.leakcanary = "2.12" //https://github.com/square/leakcanary
+versions.leakcanary = "2.13" //https://github.com/square/leakcanary
 versions.lifecycle = "2.2.0"
 versions.kotlin = '1.7.21'
 

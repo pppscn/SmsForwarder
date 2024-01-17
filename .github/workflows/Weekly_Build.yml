@@ -18,7 +18,7 @@ jobs:
       output: "${{ github.workspace }}/build/app/outputs/apk/release"
     steps:
       # 检出代码
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       # 删除旧的工作流
       - name: Delete Weekly Build
         uses: Mattraks/delete-workflow-runs@v2
@@ -35,7 +35,7 @@ jobs:
           java-version: 11
       # 获取打包秘钥
       - name: Checkout Android Keystore
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: pppscn/keystore
           token: ${{ secrets.TOKEN }} # 连接仓库的token,需要单独配置

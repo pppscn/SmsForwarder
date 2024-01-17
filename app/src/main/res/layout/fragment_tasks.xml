@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:visibility="gone"
         app:indicator_height="42dp"
         app:indicator_line_height="2dp"
         app:indicator_line_show="true"

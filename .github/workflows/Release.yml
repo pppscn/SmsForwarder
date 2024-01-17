@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # 检出代码
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       # 设置jdk环境为11
       - name: set up JDK 11
         uses: actions/setup-java@v1
@@ -28,7 +28,7 @@ jobs:
           java-version: 11
       # 获取打包秘钥
       - name: Checkout Android Keystore
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: pppscn/keystore
           token: ${{ secrets.TOKEN }} # 连接仓库的token,需要单独配置
