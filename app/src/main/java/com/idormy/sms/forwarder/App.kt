@@ -100,6 +100,11 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
 
     override fun onCreate() {
         super.onCreate()
+        Thread.setDefaultUncaughtExceptionHandler { _, e ->
+            isDebug = true
+            e.printStackTrace()
+            Log.e(TAG, "onCreate: $e")
+        }
         try {
             context = applicationContext
             initLibs()

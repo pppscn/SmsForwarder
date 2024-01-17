@@ -46,18 +46,23 @@ object Log {
 
         if (!App.isDebug) return
 
-        createLogFile()
-
-        logFile?.let { file ->
+        Thread {
             try {
-                val logTimeStamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault()).format(Date())
-                val logWriter = FileWriter(file, true)
-                logWriter.append("$logTimeStamp | $level | $tag | $message\n\n")
-                logWriter.close()
+                createLogFile()
+                logFile?.let { file ->
+                    try {
+                        val logTimeStamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault()).format(Date())
+                        val logWriter = FileWriter(file, true)
+                        logWriter.append("$logTimeStamp | $level | $tag | $message\n\n")
+                        logWriter.close()
+                    } catch (e: Exception) {
+                        AndroidLog.e(TAG, "Error writing to file: ${e.message}")
+                    }
+                }
             } catch (e: Exception) {
                 AndroidLog.e(TAG, "Error writing to file: ${e.message}")
             }
-        }
+        }.start()
     }
 
     fun v(tag: String, message: String) {
