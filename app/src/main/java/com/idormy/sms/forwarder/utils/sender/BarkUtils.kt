@@ -17,7 +17,7 @@ import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
-@Suppress("RegExpRedundantEscape")
+@Suppress("RegExpRedundantEscape", "UselessCallOnNotNull")
 class BarkUtils {
     companion object {
 
@@ -81,7 +81,9 @@ class BarkUtils {
             val requestMsg: String = Gson().toJson(msgMap)
             Log.i(TAG, "requestMsg:$requestMsg")
             //推送加密
-            if (setting.transformation.isNotEmpty() && "none" != setting.transformation && setting.key.isNotEmpty() && setting.iv.isNotEmpty()) {
+            if (setting.transformation.isNullOrBlank() || "none" == setting.transformation || setting.key.isNullOrBlank() || setting.iv.isNullOrBlank()) {
+                request.upJson(requestMsg)
+            } else {
                 val transformation = setting.transformation.replace("AES128", "AES").replace("AES192", "AES").replace("AES256", "AES")
                 val ciphertext = encrypt(requestMsg, transformation, setting.key, setting.iv)
                 //Log.d(TAG, "ciphertext: $ciphertext")
@@ -91,8 +93,6 @@ class BarkUtils {
                 //request.params("iv", URLEncoder.encode(setting.iv, "UTF-8"))
                 request.params("ciphertext", ciphertext)
                 request.headers("Content-Type", "application/x-www-form-urlencoded")
-            } else {
-                request.upJson(requestMsg)
             }
 
             request.ignoreHttpsCert() //忽略https证书
