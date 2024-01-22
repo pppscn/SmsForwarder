@@ -310,6 +310,7 @@
     <string name="invalid_phone_num">接收手機號不能為空</string>
     <string name="invalid_multi_match">多重匹配規則的第 %s 行格式有誤</string>
     <string name="invalid_regex_replace">正則替換內容的第 %s 行格式有誤</string>
+    <string name="invalid_message_card">自定義消息卡片Json不合法</string>
     <string name="set_bark_name">分組名稱/狀態</string>
     <string name="set_name">名稱/狀態</string>
     <string name="email_host">主機</string>
@@ -329,7 +330,7 @@
     <string name="feishu_msg_type_text">純文本</string>
     <string name="feishu_msg_type_interactive">消息卡片</string>
     <string name="feishu_msg_type_interactive_title">標題模板</string>
-    <string name="feishu_msg_type_interactive_message_card">自定義消息卡片</string>
+    <string name="feishu_msg_type_interactive_message_card">自定義消息卡片Json</string>
     <string name="Customize_API">自定義API</string>
     <string name="Corp_ID">企業ID</string>
     <string name="Agent_ID">AgentId</string>

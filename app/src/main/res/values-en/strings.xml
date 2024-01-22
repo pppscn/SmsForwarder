@@ -309,6 +309,7 @@
     <string name="invalid_phone_num">The receiving phone number cannot be empty</string>
     <string name="invalid_multi_match">Malformed multiple match rule line %s</string>
     <string name="invalid_regex_replace">Incorrect format on line %s of regex replacement</string>
+    <string name="invalid_message_card">The Message Card Json is invalid.</string>
     <string name="set_bark_name">Group Name/Status</string>
     <string name="set_name">Name/Status</string>
     <string name="email_host">Host</string>

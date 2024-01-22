@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.viewModels
 import com.google.gson.Gson
+import com.google.gson.JsonParser
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.core.Core
@@ -278,6 +279,13 @@ class FeishuFragment : BaseFragment<FragmentSendersFeishuBinding?>(), View.OnCli
         val msgType = if (binding!!.rgMsgType.checkedRadioButtonId == R.id.rb_msg_type_interactive) "interactive" else "text"
         val title = binding!!.etTitleTemplate.text.toString().trim()
         val messageCard = binding!!.etMessageCard.text.toString().trim()
+
+        try {
+            JsonParser.parseString(messageCard)
+        } catch (e: Exception) {
+            Log.e(TAG, "checkSetting error:$e")
+            throw Exception(getString(R.string.invalid_message_card))
+        }
 
         return FeishuSetting(webhook, secret, msgType, title, messageCard)
     }
