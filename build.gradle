@@ -8,7 +8,7 @@ buildscript {
         classpath deps.android_gradle_plugin
         classpath deps.android_maven_gradle_plugin
         //图片压缩
-        classpath 'com.chenenyu:img-optimizer:1.2.0'
+        classpath 'com.chenenyu:img-optimizer:1.3.0'
         //美团多渠道打包
         //classpath 'com.meituan.android.walle:plugin:1.1.6'
         //滴滴的质量优化框架

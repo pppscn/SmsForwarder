@@ -283,9 +283,9 @@ dependencies {
     testImplementation "androidx.paging:paging-common-ktx:$paging_version"
 
     //权限请求框架：https://github.com/getActivity/XXPermissions
-    implementation 'com.github.getActivity:XXPermissions:18.5'
+    implementation 'com.github.getActivity:XXPermissions:18.6'
     //语种切换框架：https://github.com/getActivity/MultiLanguages
-    implementation 'com.github.getActivity:MultiLanguages:9.3'
+    implementation 'com.github.getActivity:MultiLanguages:b47f7be' //9.3
 
     def mail_version = '1.6.7'
     implementation "com.sun.mail:android-mail:$mail_version"
