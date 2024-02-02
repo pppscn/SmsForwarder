@@ -217,7 +217,6 @@ class WebhookUtils {
         fun formatDateTime(currentTime: Date, format: String?): String {
             val actualFormat = format?.removePrefix(":") ?: "yyyy-MM-dd HH:mm:ss"
             val dateFormat = SimpleDateFormat(actualFormat)
-            dateFormat.timeZone = TimeZone.getTimeZone("UTC")
             return dateFormat.format(currentTime)
         }
 
