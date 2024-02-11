@@ -502,65 +502,86 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/min_interval"
+                            android:text="@string/location_update"
                             android:textSize="@dimen/text_size_small"
                             android:textStyle="bold"
                             tools:ignore="SmallSp" />
 
-                        <EditText
-                            android:id="@+id/et_min_interval"
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
                             android:layout_weight="1"
-                            android:digits="0123456789"
-                            android:importantForAutofill="no"
-                            android:inputType="number"
-                            android:paddingTop="0dp"
-                            android:paddingBottom="3dp"
-                            android:singleLine="true"
-                            android:textAlignment="center"
-                            tools:ignore="LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:text="@string/seconds"
-                            android:textSize="@dimen/text_size_small"
-                            android:textStyle="bold" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/config_margin_10dp"
-                            android:text="@string/min_distance"
-                            android:textSize="@dimen/text_size_small"
-                            android:textStyle="bold"
-                            tools:ignore="SmallSp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:text="@string/min_interval"
+                                    android:textSize="@dimen/text_size_small"
+                                    android:textStyle="bold" />
 
-                        <EditText
-                            android:id="@+id/et_min_distance"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_weight="1"
-                            android:digits="0123456789"
-                            android:importantForAutofill="no"
-                            android:inputType="number"
-                            android:paddingTop="0dp"
-                            android:paddingBottom="3dp"
-                            android:singleLine="true"
-                            android:textAlignment="center"
-                            tools:ignore="LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                                <com.xuexiang.xui.widget.picker.XSeekBar
+                                    android:id="@+id/xsb_min_interval"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_weight="1"
+                                    android:padding="0dp"
+                                    app:xsb_max="120"
+                                    app:xsb_min="1" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:text="@string/meter"
-                            android:textSize="@dimen/text_size_small"
-                            android:textStyle="bold" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:text="@string/seconds"
+                                    android:textSize="@dimen/text_size_small"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:text="@string/min_distance"
+                                    android:textSize="@dimen/text_size_small"
+                                    android:textStyle="bold" />
+
+                                <com.xuexiang.xui.widget.picker.XSeekBar
+                                    android:id="@+id/xsb_min_distance"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_weight="1"
+                                    android:padding="0dp"
+                                    app:xsb_max="100"
+                                    app:xsb_min="1" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:text="@string/meter"
+                                    android:textSize="@dimen/text_size_small"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 

@@ -1129,7 +1129,8 @@
     <string name="power_requirement_low">Low</string>
     <string name="power_requirement_medium">Medium</string>
     <string name="power_requirement_high">High</string>
-    <string name="min_interval">To Update: Min Interval</string>
+    <string name="location_update">Location Update</string>
+    <string name="min_interval">Min Interval</string>
     <string name="min_distance">Min Distance</string>
     <string name="meter">m</string>
     <string name="uid">UID</string>
@@ -1339,4 +1340,5 @@
     <string name="union_id">Union ID</string>
     <string name="chat_id">Chat ID</string>
     <string name="receive_id">Receive ID</string>
+    <string name="toast_gps_not_enabled">GPS is not enabled, please enable GPS first!</string>
 </resources>

@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Criteria
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -112,7 +113,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         switchEnableAppNotify(binding!!.sbEnableAppNotify, binding!!.scbCancelAppNotify, binding!!.scbNotUserPresent)
 
         //启用GPS定位功能
-        switchEnableLocation(binding!!.sbEnableLocation, binding!!.layoutLocationSetting, binding!!.rgAccuracy, binding!!.rgPowerRequirement, binding!!.etMinInterval, binding!!.etMinDistance)
+        switchEnableLocation(binding!!.sbEnableLocation, binding!!.layoutLocationSetting, binding!!.rgAccuracy, binding!!.rgPowerRequirement, binding!!.xsbMinInterval, binding!!.xsbMinDistance)
         //短信指令
         switchEnableSmsCommand(binding!!.sbEnableSmsCommand, binding!!.etSafePhone)
         //启动时异步获取已安装App信息
@@ -513,7 +514,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     }
 
     //启用定位功能
-    private fun switchEnableLocation(@SuppressLint("UseSwitchCompatOrMaterialCode") sbEnableLocation: SwitchButton, layoutLocationSetting: LinearLayout, rgAccuracy: RadioGroup, rgPowerRequirement: RadioGroup, etMinInterval: EditText, etMinDistance: EditText) {
+    private fun switchEnableLocation(@SuppressLint("UseSwitchCompatOrMaterialCode") sbEnableLocation: SwitchButton, layoutLocationSetting: LinearLayout, rgAccuracy: RadioGroup, rgPowerRequirement: RadioGroup, xsbMinInterval: XSeekBar, xsbMinDistance: XSeekBar) {
         //是否启用定位功能
         sbEnableLocation.isChecked = SettingUtils.enableLocation
         layoutLocationSetting.visibility = if (SettingUtils.enableLocation) View.VISIBLE else View.GONE
@@ -560,7 +561,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 R.id.rb_accuracy_no_requirement -> Criteria.NO_REQUIREMENT
                 else -> Criteria.ACCURACY_FINE
             }
-            restartLocationService("rgAccuracy")
+            restartLocationService()
         }
 
         //设置电量消耗：低电耗（默认）
@@ -581,49 +582,38 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 R.id.rb_power_requirement_no_requirement -> Criteria.NO_REQUIREMENT
                 else -> Criteria.POWER_LOW
             }
-            restartLocationService("rgPowerRequirement")
+            restartLocationService()
         }
 
         //设置位置更新最小时间间隔（单位：毫秒）； 默认间隔：10000毫秒，最小间隔：1000毫秒
-        etMinInterval.setText((SettingUtils.locationMinInterval / 1000).toString())
-        etMinInterval.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                val changedText = s.toString()
-                if (changedText.isEmpty() || changedText == "0") {
-                    etMinInterval.setText("1")
-                    etMinInterval.setSelection(etMinInterval.text.length) // 将光标移至文本末尾
-                    return
-                }
-                SettingUtils.locationMinInterval = changedText.toLong() * 1000
-                restartLocationService()
-            }
-        })
+        xsbMinInterval.setDefaultValue((SettingUtils.locationMinInterval / 1000).toInt())
+        xsbMinInterval.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
+            SettingUtils.locationMinInterval = newValue * 1000L
+            restartLocationService()
+        }
 
         //设置位置更新最小距离（单位：米）；默认距离：0米
-        etMinDistance.setText(SettingUtils.locationMinDistance.toString())
-        etMinDistance.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                val changedText = s.toString()
-                if (changedText.isEmpty()) {
-                    etMinDistance.setText("0")
-                    etMinDistance.setSelection(etMinInterval.text.length) // 将光标移至文本末尾
-                    return
-                }
-                SettingUtils.locationMinDistance = changedText.toInt()
-                restartLocationService()
-            }
-        })
+        xsbMinDistance.setDefaultValue(SettingUtils.locationMinDistance)
+        xsbMinDistance.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
+            SettingUtils.locationMinDistance = newValue
+            restartLocationService()
+        }
     }
 
     //重启定位服务
     private fun restartLocationService(action: String = "RESTART") {
         Log.d(TAG, "restartLocationService, action: $action")
         val serviceIntent = Intent(requireContext(), LocationService::class.java)
-        serviceIntent.action = action
+        val locationManager = App.context.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
+        val isGpsEnabled = locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER) == true
+        if (!isGpsEnabled && SettingUtils.enableLocation) {
+            XToastUtils.error(getString(R.string.toast_gps_not_enabled))
+            SettingUtils.enableLocation = false
+            binding!!.sbEnableLocation.isChecked = false
+            serviceIntent.action = "STOP"
+        } else {
+            serviceIntent.action = action
+        }
         requireContext().startService(serviceIntent)
     }
 

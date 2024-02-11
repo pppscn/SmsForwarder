@@ -1130,7 +1130,8 @@
     <string name="power_requirement_low">低</string>
     <string name="power_requirement_medium">中</string>
     <string name="power_requirement_high">高</string>
-    <string name="min_interval">位置更新：最小時間間隔</string>
+    <string name="location_update">位置更新</string>
+    <string name="min_interval">最小時間間隔</string>
     <string name="min_distance">最小距離間隔</string>
     <string name="meter">米</string>
     <string name="uid">UID</string>
@@ -1341,4 +1342,5 @@
     <string name="union_id">Union ID</string>
     <string name="chat_id">Chat ID</string>
     <string name="receive_id">訊息接收者ID</string>
+    <string name="toast_gps_not_enabled">GPS未開啟，請先開啟GPS！</string>
 </resources>
