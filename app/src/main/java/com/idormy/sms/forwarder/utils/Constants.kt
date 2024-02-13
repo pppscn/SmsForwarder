@@ -143,7 +143,7 @@ const val FRONT_CHANNEL_NAME = "SmsForwarder Foreground Service"
 
 //Frp内网穿透
 const val FRPC_LIB_DOWNLOAD_URL = "https://xupdate.ppps.cn/uploads/%s/%s/libgojni.so"
-const val FRPC_LIB_VERSION = "0.53.2"
+const val FRPC_LIB_VERSION = "0.54.0"
 const val EVENT_FRPC_UPDATE_CONFIG = "EVENT_FRPC_UPDATE_CONFIG"
 const val EVENT_FRPC_DELETE_CONFIG = "EVENT_FRPC_DELETE_CONFIG"
 const val EVENT_FRPC_RUNNING_ERROR = "EVENT_FRPC_RUNNING_ERROR"

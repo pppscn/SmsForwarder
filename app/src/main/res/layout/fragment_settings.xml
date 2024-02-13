@@ -384,7 +384,7 @@
                         style="@style/SwitchButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:ignore="TouchTargetSizeCheck" />
+                        tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
 
                 </LinearLayout>
 
@@ -1011,7 +1011,8 @@
             <LinearLayout
                 style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -1158,7 +1159,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/BarStyle.Switch"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
@@ -1679,7 +1680,8 @@
             <LinearLayout
                 style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="0dp"
