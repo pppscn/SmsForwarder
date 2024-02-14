@@ -12,7 +12,9 @@ SmsForwarder - Not only forwarding text messages, but also a must-have for backu
 
 listens to SMS, incoming calls, and App notifications on Android mobile devices, and forward according to user defined rules to another App/device, including DingTalk, WeCom and WeCom Group Bot, Feishu App and Feishu Group Bot, E-mail, Bark, Webhook, Telegram Bot, ServerChan, PushPlus, SMS, etc.
 
-Including active control of the server and client, allowing you to easily and remotely send text messages, check text messages, check calls, check the phone book, check the battery, etc.
+Including active control of the server and client, allowing you to easily and remotely send text messages, check text messages, check calls, check the phone book, check the battery, etc. (New in v3.0+)
+
+Automated Tasks & Quick Commands, effortlessly automate your life, doubling your efficiency, leaving more time to cherish family bonds! (New in v3.3+)
 
 --------
 
@@ -36,7 +38,7 @@ Including active control of the server and client, allowing you to easily and re
 
 ## Screenshots :
 
-![界面预览](pic/界面预览.jpeg "界面预览.jpg")
+![Screenshots](pic/screenshots.jpg "screenshots.jpg")
 
 See more screenshots：https://github.com/pppscn/SmsForwarder/wiki
 
@@ -56,7 +58,7 @@ See more screenshots：https://github.com/pppscn/SmsForwarder/wiki
 
 > ⚠ Gitee: https://gitee.com/pp/SmsForwarder/wikis/pages
 
-![使用流程与问题排查流程](pic/使用流程与问题排查流程.png "使用流程与问题排查流程.png")
+![Troubleshooting_Process](pic/Troubleshooting_Process.png "Troubleshooting_Process.png")
 
 --------
 
@@ -92,7 +94,13 @@ See more screenshots：https://github.com/pppscn/SmsForwarder/wiki
 
 ## Star this repo if you find this application useful!
 
-[![starcharts stargazers over time](https://starchart.cc/pppscn/SmsForwarder.svg)](https://github.com/pppscn/SmsForwarder)
+<a href="https://star-history.com/#pppscn/SmsForwarder&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=pppscn/SmsForwarder&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=pppscn/SmsForwarder&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=pppscn/SmsForwarder&type=Date" />
+  </picture>
+</a>
 
 --------
 
