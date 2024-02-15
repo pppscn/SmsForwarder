@@ -137,7 +137,6 @@ const val TYPE_SOCKET = 15
 
 //前台服务
 const val FRONT_NOTIFY_ID = 0x1010
-const val NOTIFICATION_ID = 101
 const val FRONT_CHANNEL_ID = "com.idormy.sms.forwarder"
 const val FRONT_CHANNEL_NAME = "SmsForwarder Foreground Service"
 

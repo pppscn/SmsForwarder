@@ -122,7 +122,7 @@ class ForegroundService : Service() {
         isRunning = true
 
         val notification = createNotification(SettingUtils.notifyContent)
-        startForeground(NOTIFICATION_ID, notification)
+        startForeground(FRONT_NOTIFY_ID, notification)
 
         try {
             //开关通知监听服务
@@ -211,7 +211,7 @@ class ForegroundService : Service() {
     private fun updateNotification(updatedContent: String) {
         try {
             val notification = createNotification(updatedContent)
-            notificationManager?.notify(NOTIFICATION_ID, notification)
+            notificationManager?.notify(FRONT_NOTIFY_ID, notification)
         } catch (e: Exception) {
             handleException(e, "updateNotification")
         }
