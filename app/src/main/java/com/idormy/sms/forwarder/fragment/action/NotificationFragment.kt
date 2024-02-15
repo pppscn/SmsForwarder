@@ -141,6 +141,11 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
         initSenderSpinner()
     }
 
+    override fun onDestroyView() {
+        if (mCountDownHelper != null) mCountDownHelper!!.recycle()
+        super.onDestroyView()
+    }
+
     override fun initListeners() {
         binding!!.btnSilentPeriod.setOnClickListener(this)
         binding!!.btInsertSender.setOnClickListener(this)

@@ -8,7 +8,6 @@
     android:orientation="vertical"
     tools:ignore="TooManyViews">
 
-
     <androidx.core.widget.NestedScrollView style="@style/ScrollViewStyle">
 
         <LinearLayout

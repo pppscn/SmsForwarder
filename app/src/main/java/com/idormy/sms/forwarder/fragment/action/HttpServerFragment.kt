@@ -98,6 +98,11 @@ class HttpServerFragment : BaseFragment<FragmentTasksActionHttpServerBinding?>()
         binding!!.sbApiQueryBattery.isChecked = settingVo.enableApiBatteryQuery
     }
 
+    override fun onDestroyView() {
+        if (mCountDownHelper != null) mCountDownHelper!!.recycle()
+        super.onDestroyView()
+    }
+
     @SuppressLint("SetTextI18n")
     override fun initListeners() {
         binding!!.btnTest.setOnClickListener(this)

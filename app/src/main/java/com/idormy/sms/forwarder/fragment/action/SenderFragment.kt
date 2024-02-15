@@ -120,6 +120,11 @@ class SenderFragment : BaseFragment<FragmentTasksActionSenderBinding?>(), View.O
         initSender()
     }
 
+    override fun onDestroyView() {
+        if (mCountDownHelper != null) mCountDownHelper!!.recycle()
+        super.onDestroyView()
+    }
+
     @SuppressLint("SetTextI18n")
     override fun initListeners() {
         binding!!.btnTest.setOnClickListener(this)

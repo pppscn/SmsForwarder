@@ -610,6 +610,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             XToastUtils.error(getString(R.string.toast_gps_not_enabled))
             SettingUtils.enableLocation = false
             binding!!.sbEnableLocation.isChecked = false
+            binding!!.layoutLocationSetting.visibility = View.GONE
             serviceIntent.action = "STOP"
         } else {
             serviceIntent.action = action
