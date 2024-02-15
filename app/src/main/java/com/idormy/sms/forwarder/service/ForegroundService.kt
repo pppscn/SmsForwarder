@@ -33,7 +33,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 
 @SuppressLint("SimpleDateFormat")
-@Suppress("PrivatePropertyName", "DeferredResultUnused", "OPT_IN_USAGE", "DEPRECATION", "LiftReturnOrAssignment")
+@Suppress("PrivatePropertyName", "DeferredResultUnused", "OPT_IN_USAGE", "DEPRECATION")
 class ForegroundService : Service() {
 
     private val TAG: String = ForegroundService::class.java.simpleName
@@ -85,7 +85,7 @@ class ForegroundService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
         //纯客户端模式
-        if (SettingUtils.enablePureClientMode) return START_STICKY
+        if (SettingUtils.enablePureClientMode) return START_NOT_STICKY
 
         if (intent != null) {
             when (intent.action) {
@@ -118,6 +118,9 @@ class ForegroundService : Service() {
     }
 
     private fun startForegroundService() {
+        if (isRunning) return
+        isRunning = true
+
         val notification = createNotification(SettingUtils.notifyContent)
         startForeground(NOTIFICATION_ID, notification)
 
@@ -164,12 +167,8 @@ class ForegroundService : Service() {
                     }
                 }
             }
-
-            isRunning = true
         } catch (e: Exception) {
-            e.printStackTrace()
-            Log.e(TAG, "startForegroundService: $e")
-            isRunning = false
+            handleException(e, "startForegroundService")
         }
 
     }
@@ -181,9 +180,7 @@ class ForegroundService : Service() {
             compositeDisposable.dispose()
             isRunning = false
         } catch (e: Exception) {
-            e.printStackTrace()
-            Log.e(TAG, "stopForegroundService: $e")
-            isRunning = true
+            handleException(e, "stopForegroundService")
         }
     }
 
@@ -212,8 +209,18 @@ class ForegroundService : Service() {
     }
 
     private fun updateNotification(updatedContent: String) {
-        val notification = createNotification(updatedContent)
-        notificationManager?.notify(NOTIFICATION_ID, notification)
+        try {
+            val notification = createNotification(updatedContent)
+            notificationManager?.notify(NOTIFICATION_ID, notification)
+        } catch (e: Exception) {
+            handleException(e, "updateNotification")
+        }
+    }
+
+    private fun handleException(e: Exception, methodName: String) {
+        e.printStackTrace()
+        Log.e(TAG, "$methodName: $e")
+        isRunning = false
     }
 
 }
