@@ -16,6 +16,7 @@ import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.entity.LocationInfo
 import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.LocationUtils
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_LEAVE_ADDRESS
@@ -34,10 +35,10 @@ import java.util.Date
 class LocationService : Service() {
 
     private val TAG: String = LocationService::class.java.simpleName
-    private val gpsStatusReceiver = object : BroadcastReceiver() {
+    private val locationStatusReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == LocationManager.PROVIDERS_CHANGED_ACTION) {
-                handleGpsStatusChanged()
+                handleLocationStatusChanged()
             }
         }
     }
@@ -57,7 +58,7 @@ class LocationService : Service() {
         if (!SettingUtils.enableLocation) return
 
         //注册广播接收器
-        registerReceiver(gpsStatusReceiver, IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION))
+        registerReceiver(locationStatusReceiver, IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION))
         startService()
     }
 
@@ -86,7 +87,7 @@ class LocationService : Service() {
         if (!SettingUtils.enableLocation) return
         stopService()
         //在 Service 销毁时记得注销广播接收器
-        unregisterReceiver(gpsStatusReceiver)
+        unregisterReceiver(locationStatusReceiver)
     }
 
     private fun startService() {
@@ -181,7 +182,7 @@ class LocationService : Service() {
         if (App.LocationClient.isStarted()) {
             App.LocationClient.stopLocation()
         }
-        if (isGpsEnabled()) {
+        if (LocationUtils.isLocationEnabled(App.context) && LocationUtils.hasLocationCapability(App.context)) {
             //可根据具体需求设置定位配置参数（这里只列出一些主要的参数）
             val locationOption = App.LocationClient.getLocationOption().setAccuracy(SettingUtils.locationAccuracy)//设置位置精度：高精度
                 .setPowerRequirement(SettingUtils.locationPowerRequirement) //设置电量消耗：低电耗
@@ -209,26 +210,21 @@ class LocationService : Service() {
         WorkManager.getInstance(applicationContext).enqueue(locationWorkerRequest)
     }
 
-    private fun handleGpsStatusChanged() {
-        val isGpsEnabled = isGpsEnabled()
-        //处理 GPS 状态变化
-        if (isGpsEnabled) {
-            //GPS 已启用
-            Log.d(TAG, "handleGpsStatusChanged: GPS 已启用")
+    private fun handleLocationStatusChanged() {
+        //处理状态变化
+        if (LocationUtils.isLocationEnabled(App.context) && LocationUtils.hasLocationCapability(App.context)) {
+            //已启用
+            Log.d(TAG, "handleLocationStatusChanged: 已启用")
             if (SettingUtils.enableLocation && !App.LocationClient.isStarted()) {
                 App.LocationClient.startLocation()
             }
         } else {
-            //GPS 已停用
-            Log.d(TAG, "handleGpsStatusChanged: GPS 已停用")
+            //已停用
+            Log.d(TAG, "handleLocationStatusChanged: 已停用")
             if (SettingUtils.enableLocation && App.LocationClient.isStarted()) {
                 App.LocationClient.stopLocation()
             }
         }
     }
 
-    private fun isGpsEnabled(): Boolean {
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager?
-        return locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER) == true
-    }
 }

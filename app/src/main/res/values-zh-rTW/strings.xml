@@ -1342,5 +1342,5 @@
     <string name="union_id">Union ID</string>
     <string name="chat_id">Chat ID</string>
     <string name="receive_id">訊息接收者ID</string>
-    <string name="toast_gps_not_enabled">GPS未開啟，請先開啟GPS！</string>
+    <string name="toast_location_not_enabled">定位服務未開啟，請先前往系統設置中開啟！</string>
 </resources>

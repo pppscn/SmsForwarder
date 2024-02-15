@@ -1340,5 +1340,5 @@
     <string name="union_id">Union ID</string>
     <string name="chat_id">Chat ID</string>
     <string name="receive_id">Receive ID</string>
-    <string name="toast_gps_not_enabled">GPS is not enabled, please enable GPS first!</string>
+    <string name="toast_location_not_enabled">Location is not enabled, Please go to system settings and activate it.</string>
 </resources>

@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Criteria
-import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -68,6 +67,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     private val TAG: String = SettingsFragment::class.java.simpleName
     private var titleBar: TitleBar? = null
     private val mTimeOption = DataProvider.timePeriodOption
+    private var initViewsFinished = false
 
     //已安装App信息列表
     private val appListSpinnerList = ArrayList<AppListAdapterItem>()
@@ -163,6 +163,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         switchDebugMode(binding!!.sbDebugMode)
         //多语言设置
         switchLanguage(binding!!.rgMainLanguages)
+
+        initViewsFinished = true
     }
 
     override fun onResume() {
@@ -520,6 +522,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         layoutLocationSetting.visibility = if (SettingUtils.enableLocation) View.VISIBLE else View.GONE
         sbEnableLocation.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             SettingUtils.enableLocation = isChecked
+            layoutLocationSetting.visibility = if (isChecked) View.VISIBLE else View.GONE
             if (isChecked) {
                 XXPermissions.with(this).permission(Permission.ACCESS_COARSE_LOCATION).permission(Permission.ACCESS_FINE_LOCATION).permission(Permission.ACCESS_BACKGROUND_LOCATION).request(object : OnPermissionCallback {
                     override fun onGranted(permissions: List<String>, all: Boolean) {
@@ -542,7 +545,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             } else {
                 restartLocationService("STOP")
             }
-            layoutLocationSetting.visibility = if (isChecked) View.VISIBLE else View.GONE
         }
 
         //设置位置精度：高精度（默认）
@@ -588,26 +590,30 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         //设置位置更新最小时间间隔（单位：毫秒）； 默认间隔：10000毫秒，最小间隔：1000毫秒
         xsbMinInterval.setDefaultValue((SettingUtils.locationMinInterval / 1000).toInt())
         xsbMinInterval.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
-            SettingUtils.locationMinInterval = newValue * 1000L
-            restartLocationService()
+            if (newValue * 1000L != SettingUtils.locationMinInterval) {
+                SettingUtils.locationMinInterval = newValue * 1000L
+                restartLocationService()
+            }
         }
 
         //设置位置更新最小距离（单位：米）；默认距离：0米
         xsbMinDistance.setDefaultValue(SettingUtils.locationMinDistance)
         xsbMinDistance.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
-            SettingUtils.locationMinDistance = newValue
-            restartLocationService()
+            if (newValue != SettingUtils.locationMinDistance) {
+                SettingUtils.locationMinDistance = newValue
+                restartLocationService()
+            }
         }
     }
 
     //重启定位服务
     private fun restartLocationService(action: String = "RESTART") {
+        if (!initViewsFinished) return
         Log.d(TAG, "restartLocationService, action: $action")
         val serviceIntent = Intent(requireContext(), LocationService::class.java)
-        val locationManager = App.context.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
-        val isGpsEnabled = locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER) == true
-        if (!isGpsEnabled && SettingUtils.enableLocation) {
-            XToastUtils.error(getString(R.string.toast_gps_not_enabled))
+        //如果定位功能已启用，但是系统定位功能不可用，则关闭定位功能
+        if (SettingUtils.enableLocation && (!LocationUtils.isLocationEnabled(App.context) || !LocationUtils.hasLocationCapability(App.context))) {
+            XToastUtils.error(getString(R.string.toast_location_not_enabled))
             SettingUtils.enableLocation = false
             binding!!.sbEnableLocation.isChecked = false
             binding!!.layoutLocationSetting.visibility = View.GONE
