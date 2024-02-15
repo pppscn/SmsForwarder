@@ -153,15 +153,21 @@ class HttpServerUtils private constructor() {
         //还原设置
         fun restoreSettings(cloneInfo: CloneInfo): Boolean {
             return try {
+                //保留设备名称、SIM卡主键/备注
+                val extraDeviceMark = SettingUtils.extraDeviceMark
+                val subidSim1 = SettingUtils.subidSim1
+                val extraSim1 = SettingUtils.extraSim1
+                val subidSim2 = SettingUtils.subidSim2
+                val extraSim2 = SettingUtils.extraSim2
                 //应用配置
                 SharedPreference.clearPreference()
                 SharedPreference.importPreference(cloneInfo.settings)
                 //需要排除的配置
-                SettingUtils.extraDeviceMark = ""
-                SettingUtils.subidSim1 = 0
-                SettingUtils.extraSim1 = ""
-                SettingUtils.subidSim2 = 0
-                SettingUtils.extraSim2 = ""
+                SettingUtils.extraDeviceMark = extraDeviceMark
+                SettingUtils.subidSim1 = subidSim1
+                SettingUtils.extraSim1 = extraSim1
+                SettingUtils.subidSim2 = subidSim2
+                SettingUtils.extraSim2 = extraSim2
                 //删除消息与转发日志
                 Core.logs.deleteAll()
                 Core.msg.deleteAll()
