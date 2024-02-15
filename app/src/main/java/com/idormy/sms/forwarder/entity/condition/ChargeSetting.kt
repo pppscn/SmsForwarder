@@ -73,7 +73,7 @@ data class ChargeSetting(
 
     fun getMsg(statusNew: Int, statusOld: Int, pluggedNew: Int, pluggedOld: Int, batteryInfo: String): String {
 
-        if (statusNew != status || pluggedNew != plugged) return ""
+        if (statusNew != status || (pluggedNew != plugged && plugged != 0)) return ""
 
         return getString(R.string.battery_status_changed) + getStatusStr(statusOld) + "(" + getPluggedStr(pluggedOld) + ") → " + getStatusStr(statusNew) + "(" + getPluggedStr(pluggedNew) + ")" + batteryInfo
     }
