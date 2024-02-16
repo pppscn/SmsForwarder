@@ -1268,6 +1268,10 @@
     <string name="time_after_screen_off_description">%sAfter Screen Off</string>
     <string name="time_after_screen_on">Time After Screen On (Minutes)</string>
     <string name="time_after_screen_on_description">%sAfter Screen On</string>
+    <string name="time_after_screen_locked">Time After Screen Locked (Minutes)</string>
+    <string name="time_after_screen_locked_description">%sAfter Screen Locked</string>
+    <string name="time_after_screen_unlocked">Time After Screen Unlocked (Minutes)</string>
+    <string name="time_after_screen_unlocked_description">%sAfter Screen Unlocked</string>
     <string name="duration_minute">%s minutes </string>
 
     <string name="calc_type_distance">Calculate distance based on GPS coordinates.</string>

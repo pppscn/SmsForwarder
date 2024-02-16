@@ -1265,10 +1265,14 @@
     <string name="sim_1">SIM-1</string>
     <string name="sim_2">SIM-2</string>
 
-    <string name="time_after_screen_off">屏幕鎖定後多長時間(分鐘)</string>
-    <string name="time_after_screen_off_description">屏幕鎖定%s後</string>
-    <string name="time_after_screen_on">屏幕解鎖後多長時間(分鐘)</string>
-    <string name="time_after_screen_on_description">屏幕解鎖%s後</string>
+    <string name="time_after_screen_off">屏幕息屏後多長時間(分鐘)</string>
+    <string name="time_after_screen_off_description">屏幕息屏%s後</string>
+    <string name="time_after_screen_on">屏幕開屏後多長時間(分鐘)</string>
+    <string name="time_after_screen_on_description">屏幕開屏%s後</string>
+    <string name="time_after_screen_locked">屏幕鎖定後多長時間(分鐘)</string>
+    <string name="time_after_screen_locked_description">屏幕鎖定%s后</string>
+    <string name="time_after_screen_unlocked">屏幕解鎖後多長時間(分鐘)</string>
+    <string name="time_after_screen_unlocked_description">屏幕解鎖%s后</string>
     <string name="duration_minute">%s分鐘</string>
 
     <string name="calc_type_distance">根據GPS坐標計算距離</string>

@@ -186,6 +186,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
             val lockScreenFilter = IntentFilter().apply {
                 addAction(Intent.ACTION_SCREEN_OFF)
                 addAction(Intent.ACTION_SCREEN_ON)
+                addAction(Intent.ACTION_USER_PRESENT)
             }
             registerReceiver(lockScreenReceiver, lockScreenFilter)
 
