@@ -68,7 +68,12 @@ class LockScreenWorker(context: Context, params: WorkerParameters) : CoroutineWo
                     .putString(TaskWorker.taskActions, task.actions)
                     .putString(TaskWorker.msgInfo, Gson().toJson(msgInfo))
                     .build()
-                val duration = if (action == Intent.ACTION_SCREEN_ON) lockScreenSetting.timeAfterScreenOn else lockScreenSetting.timeAfterScreenOff
+                val duration = when (action) {
+                    Intent.ACTION_SCREEN_ON -> lockScreenSetting.timeAfterScreenOn
+                    Intent.ACTION_SCREEN_OFF -> lockScreenSetting.timeAfterScreenOff
+                    Intent.ACTION_USER_PRESENT -> lockScreenSetting.timeAfterScreenUnlocked
+                    else -> lockScreenSetting.timeAfterScreenLocked
+                }
                 val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>()
                     .setInitialDelay(duration.toLong(), TimeUnit.MINUTES)
                     .setInputData(actionData).build()
