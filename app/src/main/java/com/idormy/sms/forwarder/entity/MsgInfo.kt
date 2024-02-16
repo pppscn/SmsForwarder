@@ -221,13 +221,19 @@ data class MsgInfo(
     //替换 {{定位信息}} 标签
     private fun replaceLocationTag(content: String, needJson: Boolean = false): String {
         if (TextUtils.isEmpty(content)) return content
-        if (content.indexOf(getString(R.string.tag_location)) == -1) return content
+        //if (content.indexOf(getString(R.string.tag_location)) == -1) return content
 
-        var location = HttpServerUtils.apiLocationCache.toString()
+        val location = HttpServerUtils.apiLocationCache
+        var locationStr = location.toString()
+        var address = location.address
         if (needJson) {
-            location = jsonInnerStr(location)
+            locationStr = jsonInnerStr(locationStr)
+            address = jsonInnerStr(address)
         }
-        return content.replace(getString(R.string.tag_location), location)
+        return content.replace(getString(R.string.tag_location), locationStr)
+            .replace(getString(R.string.tag_location_longitude), location.longitude.toString())
+            .replace(getString(R.string.tag_location_latitude), location.latitude.toString())
+            .replace(getString(R.string.tag_location_address), address)
     }
 
     private fun jsonInnerStr(string: String?): String {

@@ -623,6 +623,9 @@
     <string name="tag_scheme">{{通知Scheme}}</string>
     <string name="tag_call_type">{{通話類型}}</string>
     <string name="tag_location">{{定位信息}}</string>
+    <string name="tag_location_longitude">{{定位信息_經度}}</string>
+    <string name="tag_location_latitude">{{定位信息_緯度}}</string>
+    <string name="tag_location_address">{{定位信息_地址}}</string>
     <string name="tag_battery_pct">{{電池電量}}</string>
     <string name="tag_battery_status">{{電池狀態}}</string>
     <string name="tag_battery_plugged">{{充電方式}}</string>
