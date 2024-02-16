@@ -33,6 +33,13 @@ class NetworkWorker(context: Context, params: WorkerParameters) : CoroutineWorke
 
     override suspend fun doWork(): Result {
         try {
+            //获取公网IP地址
+            val ipv4 = getPublicIP(false)
+            TaskUtils.ipv4 = if (ipv4Pattern.matches(ipv4)) ipv4 else ""
+            val ipv6 = getPublicIP(true)
+            TaskUtils.ipv6 = if (ipv6Pattern.matches(ipv6)) ipv6 else ""
+            Log.d(TAG, "ipv4 = $ipv4, ipv6 = $ipv6")
+
             val conditionType = inputData.getInt(TaskWorker.conditionType, -1)
             val taskList = Core.task.getByType(conditionType)
             for (task in taskList) {
@@ -67,8 +74,6 @@ class NetworkWorker(context: Context, params: WorkerParameters) : CoroutineWorke
                     continue
                 }
 
-                var ipv4 = ""
-                var ipv6 = ""
                 val msg = StringBuilder()
                 msg.append(getString(R.string.network_type)).append(": ")
                 when (networkSetting.networkState) {
@@ -91,9 +96,6 @@ class NetworkWorker(context: Context, params: WorkerParameters) : CoroutineWorke
                                 msg.append(getString(R.string.carrier_name)).append(": ").append(App.SimInfoList[simIndex]?.mCarrierName).append("\n")
                             }
                         }
-
-                        ipv4 = getPublicIP(false)
-                        ipv6 = getPublicIP(true)
                     }
 
                     //WiFi
@@ -104,9 +106,6 @@ class NetworkWorker(context: Context, params: WorkerParameters) : CoroutineWorke
                         }
                         msg.append(getString(R.string.net_wifi)).append("\n")
                         msg.append(getString(R.string.wifi_ssid)).append(": ").append(TaskUtils.wifiSsid).append("\n")
-
-                        ipv4 = getPublicIP(false)
-                        ipv6 = getPublicIP(true)
                     }
 
                     //未知 && 没有网络
@@ -118,22 +117,16 @@ class NetworkWorker(context: Context, params: WorkerParameters) : CoroutineWorke
                 val isHttpServerRunning = ServiceUtils.isServiceRunning("com.idormy.sms.forwarder.service.HttpServerService")
                 if (ipv4Pattern.matches(ipv4)) {
                     msg.append(getString(R.string.ipv4)).append(": ").append(ipv4).append("\n")
-                    TaskUtils.ipv4 = ipv4
                     if (isHttpServerRunning) {
                         msg.append(getString(R.string.http_server)).append(": ").append("http://${ipv4}:5000").append("\n")
                     }
-                } else {
-                    TaskUtils.ipv4 = ""
                 }
 
                 if (ipv6Pattern.matches(ipv6)) {
                     msg.append(getString(R.string.ipv6)).append(": ").append(ipv6).append("\n")
-                    TaskUtils.ipv6 = ipv6
                     if (isHttpServerRunning) {
                         msg.append(getString(R.string.http_server)).append(": ").append("http://[${ipv6}]:5000").append("\n")
                     }
-                } else {
-                    TaskUtils.ipv6 = ""
                 }
 
                 //TODO: 组装消息体 && 执行具体任务

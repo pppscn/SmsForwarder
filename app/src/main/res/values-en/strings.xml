@@ -630,6 +630,8 @@
     <string name="tag_battery_plugged">{{BATTERY_PLUGGED}}</string>
     <string name="tag_battery_info">{{BATTERY_INFO}}</string>
     <string name="tag_uid">{{UID}}</string>
+    <string name="tag_ipv4">{{IPV4}}</string>
+    <string name="tag_ipv6">{{IPV6}}</string>
     <string name="rule_sms">SMS</string>
     <string name="rule_call">CALL</string>
     <string name="rule_app">APP</string>

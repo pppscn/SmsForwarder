@@ -631,6 +631,8 @@
     <string name="tag_battery_plugged">{{充電方式}}</string>
     <string name="tag_battery_info">{{電池信息}}</string>
     <string name="tag_uid">{{UID}}</string>
+    <string name="tag_ipv4">{{IPV4}}</string>
+    <string name="tag_ipv6">{{IPV6}}</string>
     <string name="rule_sms">簡訊</string>
     <string name="rule_call">來電</string>
     <string name="rule_app">應用</string>
