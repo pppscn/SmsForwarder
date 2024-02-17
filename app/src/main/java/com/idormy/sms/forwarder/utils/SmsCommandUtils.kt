@@ -13,7 +13,6 @@ import com.idormy.sms.forwarder.server.model.SmsSendData
 import com.idormy.sms.forwarder.service.HttpServerService
 import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xutil.XUtil
-import com.xuexiang.xutil.file.FileUtils
 import com.xuexiang.xutil.system.DeviceUtils
 import frpclib.Frpclib
 import kotlinx.coroutines.Dispatchers
@@ -43,7 +42,7 @@ class SmsCommandUtils {
             val param = if (cmdList.count() > 2) cmdList[2] else ""
             when (function) {
                 "frpc" -> {
-                    if (!FileUtils.isFileExists(context.filesDir?.absolutePath + "/libs/libgojni.so")) {
+                    if (!App.FrpclibInited) {
                         Log.d(TAG, "还未下载Frpc库")
                         return false
                     }

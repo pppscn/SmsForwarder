@@ -12,6 +12,7 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.Observer
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.core.Core
@@ -20,7 +21,6 @@ import com.idormy.sms.forwarder.utils.task.CronJobScheduler
 import com.idormy.sms.forwarder.workers.LoadAppListWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xutil.XUtil
-import com.xuexiang.xutil.file.FileUtils
 import frpclib.Frpclib
 import io.reactivex.Single
 import io.reactivex.SingleObserver
@@ -41,9 +41,8 @@ class ForegroundService : Service() {
 
     private val compositeDisposable = CompositeDisposable()
     private val frpcObserver = Observer { uid: String ->
-        if (Frpclib.isRunning(uid)) {
-            return@Observer
-        }
+        if (!App.FrpclibInited || Frpclib.isRunning(uid)) return@Observer
+
         Core.frpc.get(uid).flatMap { (uid1, _, config) ->
             val error = Frpclib.runContent(uid1, config)
             Single.just(error)
@@ -147,7 +146,7 @@ class ForegroundService : Service() {
             }
 
             //启动 Frpc
-            if (FileUtils.isFileExists(filesDir.absolutePath + "/libs/libgojni.so")) {
+            if (App.FrpclibInited) {
                 //监听Frpc启动指令
                 LiveEventBus.get(INTENT_FRPC_APPLY_FILE, String::class.java).observeStickyForever(frpcObserver)
                 //自启动的Frpc

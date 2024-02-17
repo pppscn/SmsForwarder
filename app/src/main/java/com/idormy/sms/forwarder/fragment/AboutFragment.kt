@@ -3,6 +3,7 @@ package com.idormy.sms.forwarder.fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.core.webview.AgentWebActivity
@@ -25,7 +26,6 @@ import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-import com.xuexiang.xutil.file.FileUtils
 import frpclib.Frpclib
 import java.io.File
 import java.text.SimpleDateFormat
@@ -55,7 +55,7 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
         binding!!.menuVersion.setLeftString(String.format(resources.getString(R.string.about_app_version), AppUtils.getAppVersionName()))
         binding!!.menuCache.setLeftString(String.format(resources.getString(R.string.about_cache_size), CacheUtils.getTotalCacheSize(requireContext())))
 
-        if (FileUtils.isFileExists(context?.filesDir?.absolutePath + "/libs/libgojni.so")) {
+        if (App.FrpclibInited) {
             binding!!.menuFrpc.setLeftString(String.format(resources.getString(R.string.about_frpc_version), Frpclib.getVersion()))
             binding!!.menuFrpc.visibility = View.VISIBLE
         }

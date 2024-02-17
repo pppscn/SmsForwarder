@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 import com.alibaba.android.vlayout.VirtualLayoutManager
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.FrpcPagingAdapter
 import com.idormy.sms.forwarder.core.BaseFragment
@@ -21,6 +22,7 @@ import com.idormy.sms.forwarder.utils.EVENT_FRPC_DELETE_CONFIG
 import com.idormy.sms.forwarder.utils.EVENT_FRPC_RUNNING_ERROR
 import com.idormy.sms.forwarder.utils.EVENT_FRPC_RUNNING_SUCCESS
 import com.idormy.sms.forwarder.utils.EVENT_FRPC_UPDATE_CONFIG
+import com.idormy.sms.forwarder.utils.FRPC_LIB_VERSION
 import com.idormy.sms.forwarder.utils.FrpcUtils
 import com.idormy.sms.forwarder.utils.INTENT_FRPC_APPLY_FILE
 import com.idormy.sms.forwarder.utils.INTENT_FRPC_EDIT_FILE
@@ -144,6 +146,11 @@ class FrpcFragment : BaseFragment<FragmentFrpcsBinding?>(), FrpcPagingAdapter.On
             }
 
             R.id.iv_play -> {
+                if (!App.FrpclibInited) {
+                    XToastUtils.error(String.format(getString(R.string.frpclib_download_title), FRPC_LIB_VERSION))
+                    return
+                }
+
                 if (!ForegroundService.isRunning) {
                     val serviceIntent = Intent(requireContext(), ForegroundService::class.java)
                     serviceIntent.action = "START"
@@ -189,6 +196,11 @@ class FrpcFragment : BaseFragment<FragmentFrpcsBinding?>(), FrpcPagingAdapter.On
             }
 
             else -> {
+                if (!App.FrpclibInited) {
+                    XToastUtils.error(String.format(getString(R.string.frpclib_download_title), FRPC_LIB_VERSION))
+                    return
+                }
+
                 //编辑或删除需要先停止客户端
                 if (Frpclib.isRunning(item.uid)) {
                     XToastUtils.warning(R.string.tipServiceRunning)

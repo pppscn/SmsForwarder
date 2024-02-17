@@ -36,6 +36,8 @@ import com.idormy.sms.forwarder.utils.sdkinit.XBasicLibInit
 import com.idormy.sms.forwarder.utils.sdkinit.XUpdateInit
 import com.idormy.sms.forwarder.utils.tinker.TinkerLoadLibrary
 import com.king.location.LocationClient
+import com.xuexiang.xutil.file.FileUtils
+import frpclib.Frpclib
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -91,6 +93,9 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         val LocationClient by lazy { LocationClient(context) }
         val Geocoder by lazy { Geocoder(context) }
         val DateFormat by lazy { SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()) }
+
+        //Frpclib是否已经初始化
+        var FrpclibInited = false
     }
 
     override fun attachBaseContext(base: Context) {
@@ -138,6 +143,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
             if (soFile.exists()) {
                 try {
                     TinkerLoadLibrary.installNativeLibraryPath(classLoader, soFile)
+                    FrpclibInited = FileUtils.isFileExists(filesDir.absolutePath + "/libs/libgojni.so") && FRPC_LIB_VERSION == Frpclib.getVersion()
                 } catch (throwable: Throwable) {
                     Log.e("APP", throwable.message.toString())
                 }

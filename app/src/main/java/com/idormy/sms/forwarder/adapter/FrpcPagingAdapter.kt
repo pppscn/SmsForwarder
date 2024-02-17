@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.FrpcPagingAdapter.MyViewHolder
 import com.idormy.sms.forwarder.database.entity.Frpc
@@ -31,7 +32,7 @@ class FrpcPagingAdapter(private val itemClickListener: OnItemClickListener) : Pa
             holder.binding.tvUid.text = "UID:${item.uid}"
             holder.binding.tvName.text = item.name
 
-            if (item.connecting || Frpclib.isRunning(item.uid)) {
+            if (item.connecting || (App.FrpclibInited && Frpclib.isRunning(item.uid))) {
                 holder.binding.ivPlay.setImageResource(R.drawable.ic_stop)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     holder.binding.ivPlay.imageTintList = getColors(R.color.colorStop)

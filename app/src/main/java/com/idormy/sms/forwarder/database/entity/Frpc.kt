@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.utils.STATUS_OFF
 import com.idormy.sms.forwarder.utils.STATUS_ON
@@ -34,6 +35,6 @@ data class Frpc(
         }
 
     val status: Int
-        get() = if (connecting || Frpclib.isRunning(uid)) STATUS_ON else STATUS_OFF
+        get() = if (connecting || (App.FrpclibInited && Frpclib.isRunning(uid))) STATUS_ON else STATUS_OFF
 
 }

@@ -48,7 +48,6 @@ import com.idormy.sms.forwarder.utils.TaskWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xutil.XUtil
-import com.xuexiang.xutil.file.FileUtils
 import com.xuexiang.xutil.resource.ResUtils.getString
 import frpclib.Frpclib
 import java.util.Calendar
@@ -193,7 +192,7 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                     }
 
                     TASK_ACTION_FRPC -> {
-                        if (!FileUtils.isFileExists(App.context.filesDir?.absolutePath + "/libs/libgojni.so")) {
+                        if (!App.FrpclibInited) {
                             writeLog("还未下载Frpc库")
                             continue
                         }

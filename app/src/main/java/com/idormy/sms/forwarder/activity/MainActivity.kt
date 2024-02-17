@@ -63,7 +63,6 @@ import com.yarolegovich.slidingrootnav.SlideGravity
 import com.yarolegovich.slidingrootnav.SlidingRootNav
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder
 import com.yarolegovich.slidingrootnav.callback.DragStateListener
-import frpclib.Frpclib
 import java.io.File
 
 @Suppress("PrivatePropertyName", "unused", "DEPRECATION")
@@ -279,7 +278,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(), DrawerAdapter.OnItemS
             POS_SERVER -> openNewPage(ServerFragment::class.java)
             POS_CLIENT -> openNewPage(ClientFragment::class.java)
             POS_FRPC -> {
-                if (FileUtils.isFileExists(filesDir.absolutePath + "/libs/libgojni.so") && FRPC_LIB_VERSION == Frpclib.getVersion()) {
+                if (App.FrpclibInited) {
                     openNewPage(FrpcFragment::class.java)
                     return
                 }
