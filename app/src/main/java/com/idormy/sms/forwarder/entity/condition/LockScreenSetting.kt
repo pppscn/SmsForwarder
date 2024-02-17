@@ -43,6 +43,8 @@ data class LockScreenSetting(
 
         timeAfterScreenOff = timeAfterOff
         timeAfterScreenOn = timeAfterOn
+        timeAfterScreenLocked = timeAfterLocked
+        timeAfterScreenUnlocked = timeAfterUnlocked
     }
 
     fun getActionCheckId(): Int {

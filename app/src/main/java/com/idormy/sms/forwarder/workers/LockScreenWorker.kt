@@ -74,6 +74,7 @@ class LockScreenWorker(context: Context, params: WorkerParameters) : CoroutineWo
                     Intent.ACTION_USER_PRESENT -> lockScreenSetting.timeAfterScreenUnlocked
                     else -> lockScreenSetting.timeAfterScreenLocked
                 }
+                Log.d(TAG, "TASK-${task.id}：duration = $duration minutes")
                 val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>()
                     .setInitialDelay(duration.toLong(), TimeUnit.MINUTES)
                     .setInputData(actionData).build()
