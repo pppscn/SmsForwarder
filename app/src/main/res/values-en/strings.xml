@@ -1196,6 +1196,7 @@
     <string name="task_rule_tips">Control enabling/disabling of "Forwarding Rules"</string>
     <string name="task_sender">Channels On/Off</string>
     <string name="task_sender_tips">Control enabling/disabling of "Sending Channels"</string>
+    <string name="task_alarm">Alarm</string>
 
     <string name="second">Second</string>
     <string name="minute">Minute</string>
@@ -1350,4 +1351,6 @@
     <string name="chat_id">Chat ID</string>
     <string name="receive_id">Receive ID</string>
     <string name="toast_location_not_enabled">Location is not enabled, Please go to system settings and activate it.</string>
+    <string name="task_condition_check_again">Recheck when delaying execution.</string>
+    <string name="task_condition_check_again_tips">When used as a triggering condition, recheck during delayed action execution.</string>
 </resources>

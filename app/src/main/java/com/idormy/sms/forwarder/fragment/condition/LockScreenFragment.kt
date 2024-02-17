@@ -77,6 +77,7 @@ class LockScreenFragment : BaseFragment<FragmentTasksConditionLockScreenBinding?
             binding!!.xsbTimeAfterScreenLocked.setDefaultValue(settingVo.timeAfterScreenLocked)
             binding!!.xsbTimeAfterScreenUnlocked.setDefaultValue(settingVo.timeAfterScreenUnlocked)
             binding!!.rgAction.check(settingVo.getActionCheckId())
+            binding!!.sbCheckAgain.isChecked = settingVo.checkAgain
         } else {
             binding!!.xsbTimeAfterScreenOff.setDefaultValue(0)
             binding!!.xsbTimeAfterScreenOn.setDefaultValue(0)
@@ -93,6 +94,15 @@ class LockScreenFragment : BaseFragment<FragmentTasksConditionLockScreenBinding?
             checkSetting(true)
         }
         binding!!.xsbTimeAfterScreenOn.setOnSeekBarListener { _, _ ->
+            checkSetting(true)
+        }
+        binding!!.xsbTimeAfterScreenLocked.setOnSeekBarListener { _, _ ->
+            checkSetting(true)
+        }
+        binding!!.xsbTimeAfterScreenUnlocked.setOnSeekBarListener { _, _ ->
+            checkSetting(true)
+        }
+        binding!!.sbCheckAgain.setOnCheckedChangeListener { _, _ ->
             checkSetting(true)
         }
     }
@@ -132,7 +142,8 @@ class LockScreenFragment : BaseFragment<FragmentTasksConditionLockScreenBinding?
         val timeAfterScreenOn = binding!!.xsbTimeAfterScreenOn.selectedNumber
         val timeAferScreenLocked = binding!!.xsbTimeAfterScreenLocked.selectedNumber
         val timeAfterScreenUnlocked = binding!!.xsbTimeAfterScreenUnlocked.selectedNumber
-        val settingVo = LockScreenSetting(actionCheckId, timeAfterScreenOff, timeAfterScreenOn, timeAferScreenLocked, timeAfterScreenUnlocked)
+        val checkAgain = binding!!.sbCheckAgain.isChecked
+        val settingVo = LockScreenSetting(actionCheckId, timeAfterScreenOff, timeAfterScreenOn, timeAferScreenLocked, timeAfterScreenUnlocked, checkAgain)
 
         if (updateView) {
             binding!!.tvDescription.text = settingVo.description

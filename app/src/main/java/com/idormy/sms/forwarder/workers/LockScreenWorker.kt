@@ -62,21 +62,22 @@ class LockScreenWorker(context: Context, params: WorkerParameters) : CoroutineWo
                 }
 
                 //TODO: 组装消息体 && 执行具体任务
+                val duration = when (action) {
+                    Intent.ACTION_SCREEN_ON -> lockScreenSetting.timeAfterScreenOn * 60000L
+                    Intent.ACTION_SCREEN_OFF -> lockScreenSetting.timeAfterScreenOff * 60000L
+                    Intent.ACTION_USER_PRESENT -> lockScreenSetting.timeAfterScreenUnlocked * 60000L
+                    else -> lockScreenSetting.timeAfterScreenLocked * 60000L
+                }
+                Log.d(TAG, "TASK-${task.id}：duration = $duration milliseconds")
                 val msgInfo = MsgInfo("task", task.name, lockScreenSetting.description, Date(), task.description)
                 val actionData = Data.Builder()
                     .putLong(TaskWorker.taskId, task.id)
+                    .putString(TaskWorker.taskConditions, if (lockScreenSetting.checkAgain && duration > 0) task.conditions else "")
                     .putString(TaskWorker.taskActions, task.actions)
                     .putString(TaskWorker.msgInfo, Gson().toJson(msgInfo))
                     .build()
-                val duration = when (action) {
-                    Intent.ACTION_SCREEN_ON -> lockScreenSetting.timeAfterScreenOn
-                    Intent.ACTION_SCREEN_OFF -> lockScreenSetting.timeAfterScreenOff
-                    Intent.ACTION_USER_PRESENT -> lockScreenSetting.timeAfterScreenUnlocked
-                    else -> lockScreenSetting.timeAfterScreenLocked
-                }
-                Log.d(TAG, "TASK-${task.id}：duration = $duration minutes")
                 val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>()
-                    .setInitialDelay(duration.toLong(), TimeUnit.MINUTES)
+                    .setInitialDelay(duration, TimeUnit.MILLISECONDS)  //TODO: 延迟时间不够精确
                     .setInputData(actionData).build()
                 WorkManager.getInstance().enqueue(actionRequest)
             }

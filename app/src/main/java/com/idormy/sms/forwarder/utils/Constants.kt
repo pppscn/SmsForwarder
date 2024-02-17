@@ -14,6 +14,7 @@ object Worker {
 object TaskWorker {
     const val taskId = "task_id"
     const val task = "task"
+    const val taskConditions = "task_conditions"
     const val taskActions = "task_actions"
     const val conditionType = "condition_type"
     const val msg = "msg"

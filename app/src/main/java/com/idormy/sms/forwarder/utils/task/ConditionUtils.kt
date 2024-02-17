@@ -24,6 +24,7 @@ import gatewayapps.crondroid.CronExpression
 import java.util.Date
 import kotlin.math.atan2
 import kotlin.math.cos
+import kotlin.math.min
 import kotlin.math.sin
 import kotlin.math.sqrt
 
@@ -37,8 +38,9 @@ class ConditionUtils private constructor() {
         private val TAG: String = ConditionUtils::class.java.simpleName
 
         //遍历条件列表，判断是否满足条件，默认不校验第一个条件（第一个条件是触发条件）
-        fun checkCondition(taskId: Long, conditionList: MutableList<TaskSetting>, startIndex: Int = 1): Boolean {
-            if (startIndex >= conditionList.size) {
+        fun checkCondition(taskId: Long, conditionList: MutableList<TaskSetting>, beginIndex: Int = 1, endIndex: Int = -1): Boolean {
+            val untilIndex = if (endIndex == -1) conditionList.size else min(endIndex + 1, conditionList.size)
+            if (beginIndex >= untilIndex) {
                 Log.d(TAG, "TASK-$taskId：no condition need to check")
                 return true
             }
@@ -46,8 +48,7 @@ class ConditionUtils private constructor() {
             //注意：触发条件 = SIM卡已准备就绪/网络状态改变时，延迟5秒（给够搜索信号时间）才执行任务
             val firstCondition = conditionList.firstOrNull()
             val needDelay = (firstCondition?.type == TASK_CONDITION_SIM && TaskUtils.simState == 5) || (firstCondition?.type == TASK_CONDITION_NETWORK && TaskUtils.networkState != 0)
-
-            for (i in startIndex until conditionList.size) {
+            for (i in beginIndex until untilIndex) { //不包括untilIndex
                 val condition = conditionList[i]
                 when (condition.type) {
                     TASK_CONDITION_CRON -> {

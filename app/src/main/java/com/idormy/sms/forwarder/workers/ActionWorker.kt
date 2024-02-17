@@ -45,6 +45,7 @@ import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDER
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDSMS
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SETTINGS
 import com.idormy.sms.forwarder.utils.TaskWorker
+import com.idormy.sms.forwarder.utils.task.ConditionUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xutil.XUtil
@@ -61,12 +62,26 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
 
     override suspend fun doWork(): Result {
         taskId = inputData.getLong(TaskWorker.taskId, -1L)
+        val taskConditionsJson = inputData.getString(TaskWorker.taskConditions)
         val taskActionsJson = inputData.getString(TaskWorker.taskActions)
         val msgInfoJson = inputData.getString(TaskWorker.msgInfo)
         Log.d(TAG, "taskId: $taskId, taskActionsJson: $taskActionsJson, msgInfoJson: $msgInfoJson")
         if (taskId == -1L || taskActionsJson.isNullOrEmpty() || msgInfoJson.isNullOrEmpty()) {
             Log.d(TAG, "taskId is -1L or actionSetting is null")
             return Result.failure()
+        }
+
+        //TODO: 如果传入的taskConditionsJson不为空，需要再次判断触发条件是否满足
+        if (!taskConditionsJson.isNullOrEmpty()) {
+            val conditionList = Gson().fromJson(taskConditionsJson, Array<TaskSetting>::class.java).toMutableList()
+            if (conditionList.isEmpty()) {
+                writeLog("conditionList is empty")
+                return Result.failure()
+            }
+            if (!ConditionUtils.checkCondition(taskId, conditionList, 0, 0)) {
+                writeLog("recheck condition is not pass", "WARN")
+                return Result.failure()
+            }
         }
 
         val actionList = Gson().fromJson(taskActionsJson, Array<TaskSetting>::class.java).toMutableList()

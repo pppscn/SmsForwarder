@@ -1197,6 +1197,7 @@
     <string name="task_rule_tips">控制【转发规则】的启用/禁用</string>
     <string name="task_sender">启停通道</string>
     <string name="task_sender_tips">控制【发送通道】的启用/禁用</string>
+    <string name="task_alarm">声音警报</string>
 
     <string name="second">秒</string>
     <string name="minute">分</string>
@@ -1351,4 +1352,6 @@
     <string name="chat_id">Chat ID</string>
     <string name="receive_id">消息接收者ID</string>
     <string name="toast_location_not_enabled">位置服务未开启，请先前往系统设置中开启！</string>
+    <string name="task_condition_check_again">延迟执行时再次校验</string>
+    <string name="task_condition_check_again_tips">作为触发条件时，在延迟执行动作时再次校验是否满足</string>
 </resources>
