@@ -13,6 +13,7 @@ import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import androidx.multidex.MultiDex
 import androidx.work.Configuration
+import androidx.work.WorkManager
 import com.gyf.cactus.Cactus
 import com.gyf.cactus.callback.CactusCallback
 import com.gyf.cactus.ext.cactus
@@ -136,6 +137,9 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
 
             //纯客户端模式
             if (SettingUtils.enablePureClientMode) return
+
+            //初始化WorkManager
+            WorkManager.initialize(this, Configuration.Builder().build())
 
             //动态加载FrpcLib
             val libPath = filesDir.absolutePath + "/libs"

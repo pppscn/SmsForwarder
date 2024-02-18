@@ -986,6 +986,7 @@
     <string name="remote_sms">远程发短信：</string>
     <string name="clear">清除</string>
     <string name="storage_permission_tips">未授权储存权限，该功能无法使用！</string>
+    <string name="write_settings_permission_tips">未授权修改系统设置权限，该功能无法使用！</string>
     <string name="contact_info" formatted="false">姓名：%s\n号码：%s</string>
     <string name="card_slot_does_not_match">卡槽未匹配中规则</string>
     <string name="unmatched_rule">未匹配中规则</string>
@@ -1062,9 +1063,11 @@
     <string name="wol_port_error">端口号取值范围：1~65535</string>
     <string name="wol_port_regex" tools:ignore="TypographyDashes">^([0-9]|[1-9]\\d|[1-9]\\d{2}|[1-9]\\d{3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])$</string>
     <string name="select_directory">选择目录</string>
+    <string name="select_file">选择文件</string>
     <string name="web_client">Web客户端</string>
     <string name="restarting_httpserver">正在重启HttpServer</string>
     <string name="download_first">请先下载Web客户端并解压到：\n%s</string>
+    <string name="download_music_first">请先下载音乐文件到：\n%s</string>
     <string name="root_directory">根目录：\n%s</string>
     <string name="select_web_client_directory">选择Web客户端目录</string>
     <string name="invalid_feishu_app_parameter">AppId/AppSecret/UserId都不能为空</string>
@@ -1198,6 +1201,7 @@
     <string name="task_sender">启停通道</string>
     <string name="task_sender_tips">控制【发送通道】的启用/禁用</string>
     <string name="task_alarm">声音警报</string>
+    <string name="task_alarm_tips">声音警报</string>
 
     <string name="second">秒</string>
     <string name="minute">分</string>
@@ -1354,4 +1358,12 @@
     <string name="toast_location_not_enabled">位置服务未开启，请先前往系统设置中开启！</string>
     <string name="task_condition_check_again">延迟执行时再次校验</string>
     <string name="task_condition_check_again_tips">作为触发条件时，在延迟执行动作时再次校验是否满足</string>
+
+    <string name="start_alarm">启动警报</string>
+    <string name="stop_alarm">停止警报</string>
+    <string name="alarm_play_settings">播放设置</string>
+    <string name="alarm_music">指定音乐</string>
+    <string name="alarm_music_tips">可选，下载 mp3/ogg/wav 到 Download 目录</string>
+    <string name="alarm_volume">播放音量</string>
+    <string name="alarm_loop_times">循环次数(0=无限)</string>
 </resources>

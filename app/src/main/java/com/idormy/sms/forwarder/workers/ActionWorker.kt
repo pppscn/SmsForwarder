@@ -16,6 +16,7 @@ import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.TaskSetting
+import com.idormy.sms.forwarder.entity.action.AlarmSetting
 import com.idormy.sms.forwarder.entity.action.CleanerSetting
 import com.idormy.sms.forwarder.entity.action.FrpcSetting
 import com.idormy.sms.forwarder.entity.action.HttpServerSetting
@@ -26,6 +27,7 @@ import com.idormy.sms.forwarder.entity.action.SmsSetting
 import com.idormy.sms.forwarder.service.HttpServerService
 import com.idormy.sms.forwarder.service.LocationService
 import com.idormy.sms.forwarder.utils.CacheUtils
+import com.idormy.sms.forwarder.utils.EVENT_ALARM_ACTION
 import com.idormy.sms.forwarder.utils.EVENT_TOAST_ERROR
 import com.idormy.sms.forwarder.utils.EVENT_TOAST_INFO
 import com.idormy.sms.forwarder.utils.EVENT_TOAST_SUCCESS
@@ -36,6 +38,7 @@ import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.TASK_ACTION_ALARM
 import com.idormy.sms.forwarder.utils.TASK_ACTION_CLEANER
 import com.idormy.sms.forwarder.utils.TASK_ACTION_FRPC
 import com.idormy.sms.forwarder.utils.TASK_ACTION_HTTPSERVER
@@ -303,6 +306,20 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
 
                         successNum++
                         writeLog(String.format(getString(R.string.successful_execution), senderSetting.description), "SUCCESS")
+                    }
+
+                    TASK_ACTION_ALARM -> {
+                        val alarmSetting = Gson().fromJson(action.setting, AlarmSetting::class.java)
+                        if (alarmSetting == null) {
+                            writeLog("alarmSetting is null")
+                            continue
+                        }
+
+                        // 发送开始播放指令
+                        LiveEventBus.get<AlarmSetting>(EVENT_ALARM_ACTION).post(alarmSetting)
+
+                        successNum++
+                        writeLog(String.format(getString(R.string.successful_execution), alarmSetting.description), "SUCCESS")
                     }
 
                     else -> {

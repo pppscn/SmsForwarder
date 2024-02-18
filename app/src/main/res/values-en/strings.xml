@@ -210,7 +210,7 @@
     <string name="delete_log_toast">The log entry is deleted.</string>
     <string name="delete_type_log_tips">Are you sure you want to delete all log records for this category?</string>
     <string name="delete_type_log_toast">The category log record has been cleared!</string>
-    <string name="resend_toast">Attempting to resend over the original sending channel</string>
+    <string name="resend_toast">Attempting to resend over the original sender</string>
     <string name="rematch_toast">Rematching rule sending</string>
     <string name="details">Details</string>
     <string name="clear_logs_tips">Are you sure to clear all forwarding logs?</string>
@@ -436,8 +436,8 @@
     <string name="ssl">SSL</string>
     <!--CloneActivity-->
     <string name="local_ip">Local IP: </string>
-    <string name="operating_instruction">Important Note:\nThis feature is intended solely for personal use in switching between old and new phones. Any consequences arising from illegal use are the user\'s responsibility!\n\nInstructions:\n1. Connect both old and new phones to the same WiFi network (disable AP isolation). If internal network penetration is needed, configure Frpc first.\n2. [Choose One] On the old phone, tap the "Push" button to send this device\'s configuration to the server.\n3. [Choose One] On the new phone, tap the "Pull" button to fetch the server\'s configuration to this device.\n\nNotes:\n1. The client and server app versions must match for successful cloning.\n2. Upon successful import, the sending channels and forwarding rules will be entirely replaced, clearing the historical records.\n3. Active requests, keep-alive measures, and personal settings are not included in the cloning scope.\n4. After successful import, it\'s crucial to re-enter the [General Settings] and toggle on the functions you need! (Or manually grant permissions in system settings).</string>
-    <string name="operating_instruction_offline">Important Note:\nThis feature is strictly intended for personal use in switching between old and new phones. Any consequences arising from illegal use are the user\'s responsibility!\n\nNotes:\n1. The exporting and importing apps must have identical versions for one-click cloning to work!\n2. Upon successful import on the new phone, the sending channels and forwarding rules will be entirely replaced, clearing the history records!\n3. Active requests, keep-alive measures, and personal settings are not included in the cloning process.\n4. After a successful import, it\'s crucial to re-enter the [General Settings] and toggle on the functions you need! (Or manually grant permissions in system settings).</string>
+    <string name="operating_instruction">Important Note:\nThis feature is intended solely for personal use in switching between old and new phones. Any consequences arising from illegal use are the user\'s responsibility!\n\nInstructions:\n1. Connect both old and new phones to the same WiFi network (disable AP isolation). If internal network penetration is needed, configure Frpc first.\n2. [Choose One] On the old phone, tap the "Push" button to send this device\'s configuration to the server.\n3. [Choose One] On the new phone, tap the "Pull" button to fetch the server\'s configuration to this device.\n\nNotes:\n1. The client and server app versions must match for successful cloning.\n2. Upon successful import, the senders and forwarding rules will be entirely replaced, clearing the historical records.\n3. Active requests, keep-alive measures, and personal settings are not included in the cloning scope.\n4. After successful import, it\'s crucial to re-enter the [General Settings] and toggle on the functions you need! (Or manually grant permissions in system settings).</string>
+    <string name="operating_instruction_offline">Important Note:\nThis feature is strictly intended for personal use in switching between old and new phones. Any consequences arising from illegal use are the user\'s responsibility!\n\nNotes:\n1. The exporting and importing apps must have identical versions for one-click cloning to work!\n2. Upon successful import on the new phone, the senders and forwarding rules will be entirely replaced, clearing the history records!\n3. Active requests, keep-alive measures, and personal settings are not included in the cloning process.\n4. After a successful import, it\'s crucial to re-enter the [General Settings] and toggle on the functions you need! (Or manually grant permissions in system settings).</string>
     <string name="push">Push</string>
     <string name="pull">Pull</string>
     <string name="stop">Stop</string>
@@ -589,7 +589,7 @@
     <string name="seconds_n">%s sec</string>
     <string name="retry">Retry</string>
     <string name="retry_label">Max Retries</string>
-    <string name="test_sender_sms">[%s] Congratulations, the sending channel test is successful, please continue to add forwarding rules!</string>
+    <string name="test_sender_sms">[%s] Congratulations, the sender test is successful, please continue to add forwarding rules!</string>
     <string name="test_sender_name">Test Channel</string>
     <string name="test_sim_info" tools:ignore="Typos">SIM1_TestOperator_18888888888</string>
     <string name="keep_reminding">Keep Reminding</string>
@@ -822,7 +822,7 @@
     <string name="header_value">Value</string>
     <string name="header_add">Add header</string>
     <string name="header_del">Del header</string>
-    <string name="select_sender_type">Please select send channel type</string>
+    <string name="select_sender_type">Please select sender type</string>
     <string name="feishu_webhook_hint">Group Robot → Webhook Address</string>
     <string name="feishu_secret_hint">Group Robot → Security Settings → Signature Verification</string>
     <string name="pushplus_token_hint">Please go to the corresponding official website to obtain</string>
@@ -976,15 +976,16 @@
     <string name="disabled_on_the_server">Disable this feature on the server</string>
     <string name="frpc_failed_to_run">Frpc failed to run</string>
     <string name="successfully_deleted">Successfully deleted</string>
-    <string name="sender_disabled_tips">[Note] The sending channel has been disabled, and its associated rules will not be sent even if they match!</string>
+    <string name="sender_disabled_tips">[Note] The sender has been disabled, and its associated rules will not be sent even if they match!</string>
     <string name="rule_disabled_tips">[Note] The rule has been disabled, will not be sent even if they match!</string>
-    <string name="sender_contains_tips">[Note] The sending channel is already in the list, no need to add it again!</string>
+    <string name="sender_contains_tips">[Note] The sender is already in the list, no need to add it again!</string>
     <string name="rule_contains_tips">[Note] The rule is already in the list, no need to add it again!</string>
     <string name="frpc_contains_tips">[Note] The frpc is already in the list, no need to add it again!</string>
     <string name="local_call">Local Call:</string>
     <string name="remote_sms">Remote SMS：</string>
     <string name="clear">Clear</string>
     <string name="storage_permission_tips">Unauthorized storage permission, this function cannot be used!</string>
+    <string name="write_settings_permission_tips">Unauthorized write settings permission, this function cannot be used!</string>
     <string name="contact_info" formatted="false">Name：%s\nPhone：%s</string>
     <string name="card_slot_does_not_match">Card slot does not match the rule</string>
     <string name="unmatched_rule">Unmatched rule</string>
@@ -1061,9 +1062,11 @@
     <string name="wol_port_error">Port number value range: 1~65535</string>
     <string name="wol_port_regex" tools:ignore="TypographyDashes">^([0-9]|[1-9]\\d|[1-9]\\d{2}|[1-9]\\d{3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])$</string>
     <string name="select_directory">Select Dir</string>
+    <string name="select_file">Select File</string>
     <string name="web_client">Web Client</string>
     <string name="restarting_httpserver">Restarting HttpServer</string>
     <string name="download_first">Download and unzip to:\n%s</string>
+    <string name="download_music_first">Download music file to:\n%s</string>
     <string name="root_directory">Root Directory:\n%s</string>
     <string name="select_web_client_directory">Select WebClient Directory</string>
     <string name="invalid_feishu_app_parameter">AppId/AppSecret/UserId cannot be empty</string>
@@ -1193,10 +1196,11 @@
     <string name="task_settings">Settings</string>
     <string name="task_settings_tips">Control the configuration switch of "Settings".</string>
     <string name="task_rule">Rules On/Off</string>
-    <string name="task_rule_tips">Control enabling/disabling of "Forwarding Rules"</string>
+    <string name="task_rule_tips">Control enabling/disabling of "Rules"</string>
     <string name="task_sender">Channels On/Off</string>
-    <string name="task_sender_tips">Control enabling/disabling of "Sending Channels"</string>
+    <string name="task_sender_tips">Control enabling/disabling of "Senders"</string>
     <string name="task_alarm">Alarm</string>
+    <string name="task_alarm_tips">Alarm</string>
 
     <string name="second">Second</string>
     <string name="minute">Minute</string>
@@ -1353,4 +1357,12 @@
     <string name="toast_location_not_enabled">Location is not enabled, Please go to system settings and activate it.</string>
     <string name="task_condition_check_again">Recheck when delaying execution.</string>
     <string name="task_condition_check_again_tips">When used as a triggering condition, recheck during delayed action execution.</string>
+
+    <string name="start_alarm">Start Alarm</string>
+    <string name="stop_alarm">Stop Alarm</string>
+    <string name="alarm_play_settings">Playback Settings</string>
+    <string name="alarm_music">Specify Music</string>
+    <string name="alarm_music_tips">Optional, download mp3/ogg/wav to the Download directory.</string>
+    <string name="alarm_volume">Alarm Volume</string>
+    <string name="alarm_loop_times">Loop Times(0=Infinite)</string>
 </resources>

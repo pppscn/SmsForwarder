@@ -110,7 +110,7 @@ class FrpcFragment : BaseFragment<FragmentTasksActionFrpcBinding?>(), View.OnCli
             Log.d(TAG, "initViews settingVo:$settingVo")
         }
 
-        //初始化发送通道下拉框
+        //初始化Frpc下拉框
         initFrpc()
     }
 

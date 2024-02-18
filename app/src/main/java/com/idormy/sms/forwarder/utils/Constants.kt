@@ -77,7 +77,6 @@ const val SP_SMS_TEMPLATE = "sms_template"
 const val SP_PURE_CLIENT_MODE = "enable_pure_client_mode"
 const val SP_PURE_TASK_MODE = "enable_pure_task_mode"
 const val SP_DEBUG_MODE = "enable_debug_mode"
-const val SP_ACCESSIBILITY_SERVICE = "enable_accessibility_service"
 const val SP_LOCATION = "enable_location"
 const val SP_LOCATION_ACCURACY = "location_accuracy"
 const val SP_LOCATION_POWER_REQUIREMENT = "location_power_requirement"
@@ -150,6 +149,9 @@ const val EVENT_FRPC_RUNNING_ERROR = "EVENT_FRPC_RUNNING_ERROR"
 const val EVENT_FRPC_RUNNING_SUCCESS = "EVENT_FRPC_RUNNING_SUCCESS"
 const val INTENT_FRPC_EDIT_FILE = "INTENT_FRPC_EDIT_FILE"
 const val INTENT_FRPC_APPLY_FILE = "INTENT_FRPC_APPLY_FILE"
+
+//声音警报
+const val EVENT_ALARM_ACTION = "EVENT_ALARM_ACTION"
 
 //吐司监听
 const val EVENT_TOAST_SUCCESS = "key_toast_success"
@@ -241,6 +243,7 @@ const val TASK_ACTION_FRPC = 2004
 const val TASK_ACTION_HTTPSERVER = 2005
 const val TASK_ACTION_RULE = 2006
 const val TASK_ACTION_SENDER = 2007
+const val TASK_ACTION_ALARM = 2008
 
 const val SP_BATTERY_INFO = "battery_info"
 const val SP_BATTERY_STATUS = "battery_status"
