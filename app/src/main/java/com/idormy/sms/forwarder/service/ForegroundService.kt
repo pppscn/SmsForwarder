@@ -74,7 +74,7 @@ class ForegroundService : Service() {
     }
 
     private var alarmPlayer: MediaPlayer? = null
-    private var alarmLoopCount = 0
+    private var alarmPlayTimes = 0
     private val alarmObserver = Observer<AlarmSetting> { alarm ->
         Log.d(TAG, "Received alarm: $alarm")
         alarmPlayer?.release()
@@ -109,21 +109,22 @@ class ForegroundService : Service() {
                     setOnPreparedListener {
                         Log.d(TAG, "MediaPlayer prepared")
                         start()
+                        alarmPlayTimes++
                         //更新通知栏
                         updateNotification(alarm.description, R.drawable.auto_task_icon_alarm, true)
                     }
 
                     setOnCompletionListener {
                         Log.d(TAG, "MediaPlayer completed")
-                        if (alarm.loopTimes == 0 || alarmLoopCount < alarm.loopTimes) {
+                        if (alarm.playTimes == 0 || alarmPlayTimes < alarm.playTimes) {
                             start()
-                            alarmLoopCount++
+                            alarmPlayTimes++
                         } else {
                             stop()
                             reset()
                             release()
                             alarmPlayer = null
-                            alarmLoopCount = 0
+                            alarmPlayTimes = 0
                             //恢复音量
                             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0)
                             //恢复通知栏

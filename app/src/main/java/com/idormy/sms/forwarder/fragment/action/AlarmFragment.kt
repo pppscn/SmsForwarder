@@ -96,11 +96,11 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
                 binding!!.layoutAlarmSettings.visibility = View.GONE
             }
             binding!!.xsbVolume.setDefaultValue(settingVo.volume)
-            binding!!.xsbLoopTimes.setDefaultValue(settingVo.loopTimes)
+            binding!!.xsbLoopTimes.setDefaultValue(settingVo.playTimes)
             binding!!.etMusicPath.setText(settingVo.music)
         } else {
-            binding!!.xsbVolume.setDefaultValue(100)
-            binding!!.xsbLoopTimes.setDefaultValue(5)
+            binding!!.xsbVolume.setDefaultValue(80)
+            binding!!.xsbLoopTimes.setDefaultValue(1)
         }
     }
 
@@ -250,7 +250,7 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
         val action = if (binding!!.rgAlarmState.checkedRadioButtonId == R.id.rb_start_alarm) {
             description.append(getString(R.string.start_alarm))
             description.append(", ").append(getString(R.string.alarm_volume)).append(":").append(volume).append("%")
-            description.append(", ").append(getString(R.string.alarm_loop_times)).append(":").append(loopTimes)
+            description.append(", ").append(getString(R.string.alarm_play_times)).append(":").append(loopTimes)
             if (music.isNotEmpty()) {
                 description.append(", ").append(getString(R.string.alarm_music)).append(":").append(music)
             }
