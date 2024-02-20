@@ -72,6 +72,7 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
     private val yearList: List<String> = (2020..2099).map { String.format("%d", it) }
     private var selectedYearList = ""
 
+    private val regexNum = Regex("\\d+")
     private var second = "*"
     private var minute = "*"
     private var hour = "*"
@@ -355,47 +356,51 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
             expression = "$second $minute $hour $day $month $week $year"
             Log.d(TAG, "afterSecondChanged expression:$expression")
             CronExpression.validateExpression(expression)
+
+            when {
+                second == "*" -> {
+                    binding!!.rbSecondTypeAll.isChecked = true
+                }
+
+                second.contains("/") -> {
+                    val secondsArray = second.split("/")
+                    binding!!.etSecondIntervalStart.setText(secondsArray.getOrNull(0) ?: "0")
+                    binding!!.etSecondInterval.setText(secondsArray.getOrNull(1) ?: "1")
+                    binding!!.rbSecondTypeInterval.isChecked = true
+                }
+
+                second.contains(",") -> {
+                    val secondsList = restoreMergedItems(second, "%02d")
+                    Log.d(TAG, "secondsList:$secondsList")
+                    binding!!.flowlayoutMultiSelectSecond.setSelectedItems(secondsList)
+                    binding!!.rbSecondTypeAssigned.isChecked = true
+                    selectedSecondList = secondsList.joinToString(",")
+                }
+
+                second.contains("-") -> {
+                    val secondsArray = second.split("-")
+                    binding!!.etSecondCyclicFrom.setText(secondsArray.getOrNull(0) ?: "00")
+                    binding!!.etSecondCyclicTo.setText(secondsArray.getOrNull(1) ?: "59")
+                    binding!!.rbSecondTypeCyclic.isChecked = true
+                }
+
+                regexNum.matches(second) && secondsList.indexOf(String.format("%02d", second.toInt())) != -1 -> {
+                    binding!!.flowlayoutMultiSelectSecond.setSelectedItems(String.format("%02d", second.toInt()))
+                    binding!!.rbSecondTypeAssigned.isChecked = true
+                    selectedSecondList = second
+                }
+
+                else -> {
+                    second = "*"
+                    binding!!.etSecond.setText(second)
+                    binding!!.rbSecondTypeAll.isChecked = true
+                }
+            }
         } catch (e: Exception) {
+            second = "*"
+            binding!!.etSecond.setText(second)
+            binding!!.rbSecondTypeAll.isChecked = true
             XToastUtils.error("Cron表达式无效：" + e.message, 30000)
-            return
-        }
-
-        when {
-            second == "*" -> {
-                binding!!.rbSecondTypeAll.isChecked = true
-            }
-
-            second.contains("/") -> {
-                val secondsArray = second.split("/")
-                binding!!.etSecondIntervalStart.setText(secondsArray.getOrNull(0) ?: "0")
-                binding!!.etSecondInterval.setText(secondsArray.getOrNull(1) ?: "1")
-                binding!!.rbSecondTypeInterval.isChecked = true
-            }
-
-            second.contains(",") -> {
-                val secondsList = restoreMergedItems(second, "%02d")
-                Log.d(TAG, "secondsList:$secondsList")
-                binding!!.flowlayoutMultiSelectSecond.setSelectedItems(secondsList)
-                binding!!.rbSecondTypeAssigned.isChecked = true
-                selectedSecondList = secondsList.joinToString(",")
-            }
-
-            second.contains("-") -> {
-                val secondsArray = second.split("-")
-                binding!!.etSecondCyclicFrom.setText(secondsArray.getOrNull(0) ?: "00")
-                binding!!.etSecondCyclicTo.setText(secondsArray.getOrNull(1) ?: "59")
-                binding!!.rbSecondTypeCyclic.isChecked = true
-            }
-
-            secondsList.indexOf(String.format("%02d", second.toInt())) != -1 -> {
-                binding!!.flowlayoutMultiSelectSecond.setSelectedItems(String.format("%02d", second.toInt()))
-                binding!!.rbSecondTypeAssigned.isChecked = true
-                selectedSecondList = second
-            }
-
-            else -> {
-                binding!!.rbSecondTypeAll.isChecked = true
-            }
         }
     }
 
@@ -518,47 +523,51 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
             expression = "$second $minute $hour $day $month $week $year"
             Log.d(TAG, "afterMinuteChanged expression:$expression")
             CronExpression.validateExpression(expression)
+
+            when {
+                minute == "*" -> {
+                    binding!!.rbMinuteTypeAll.isChecked = true
+                }
+
+                minute.contains("/") -> {
+                    val minutesArray = minute.split("/")
+                    binding!!.etMinuteIntervalStart.setText(minutesArray.getOrNull(0) ?: "0")
+                    binding!!.etMinuteInterval.setText(minutesArray.getOrNull(1) ?: "1")
+                    binding!!.rbMinuteTypeInterval.isChecked = true
+                }
+
+                minute.contains(",") -> {
+                    val minutesList = restoreMergedItems(minute, "%02d")
+                    Log.d(TAG, "minutesList:$minutesList")
+                    binding!!.flowlayoutMultiSelectMinute.setSelectedItems(minutesList)
+                    binding!!.rbMinuteTypeAssigned.isChecked = true
+                    selectedMinuteList = minutesList.joinToString(",")
+                }
+
+                minute.contains("-") -> {
+                    val minutesArray = minute.split("-")
+                    binding!!.etMinuteCyclicFrom.setText(minutesArray.getOrNull(0) ?: "00")
+                    binding!!.etMinuteCyclicTo.setText(minutesArray.getOrNull(1) ?: "59")
+                    binding!!.rbMinuteTypeCyclic.isChecked = true
+                }
+
+                regexNum.matches(minute) && minutesList.indexOf(String.format("%02d", minute.toInt())) != -1 -> {
+                    binding!!.flowlayoutMultiSelectMinute.setSelectedItems(String.format("%02d", minute.toInt()))
+                    binding!!.rbMinuteTypeAssigned.isChecked = true
+                    selectedMinuteList = minute
+                }
+
+                else -> {
+                    minute = "*"
+                    binding!!.etMinute.setText(minute)
+                    binding!!.rbMinuteTypeAll.isChecked = true
+                }
+            }
         } catch (e: Exception) {
+            minute = "*"
+            binding!!.etMinute.setText(minute)
+            binding!!.rbMinuteTypeAll.isChecked = true
             XToastUtils.error("Cron表达式无效：" + e.message, 30000)
-            return
-        }
-
-        when {
-            minute == "*" -> {
-                binding!!.rbMinuteTypeAll.isChecked = true
-            }
-
-            minute.contains("/") -> {
-                val minutesArray = minute.split("/")
-                binding!!.etMinuteIntervalStart.setText(minutesArray.getOrNull(0) ?: "0")
-                binding!!.etMinuteInterval.setText(minutesArray.getOrNull(1) ?: "1")
-                binding!!.rbMinuteTypeInterval.isChecked = true
-            }
-
-            minute.contains(",") -> {
-                val minutesList = restoreMergedItems(minute, "%02d")
-                Log.d(TAG, "minutesList:$minutesList")
-                binding!!.flowlayoutMultiSelectMinute.setSelectedItems(minutesList)
-                binding!!.rbMinuteTypeAssigned.isChecked = true
-                selectedMinuteList = minutesList.joinToString(",")
-            }
-
-            minute.contains("-") -> {
-                val minutesArray = minute.split("-")
-                binding!!.etMinuteCyclicFrom.setText(minutesArray.getOrNull(0) ?: "00")
-                binding!!.etMinuteCyclicTo.setText(minutesArray.getOrNull(1) ?: "59")
-                binding!!.rbMinuteTypeCyclic.isChecked = true
-            }
-
-            minutesList.indexOf(String.format("%02d", minute.toInt())) != -1 -> {
-                binding!!.flowlayoutMultiSelectMinute.setSelectedItems(String.format("%02d", minute.toInt()))
-                binding!!.rbMinuteTypeAssigned.isChecked = true
-                selectedMinuteList = minute
-            }
-
-            else -> {
-                binding!!.rbMinuteTypeAll.isChecked = true
-            }
         }
     }
 
@@ -681,47 +690,51 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
             expression = "$second $minute $hour $day $month $week $year"
             Log.d(TAG, "afterHourChanged expression:$expression")
             CronExpression.validateExpression(expression)
+
+            when {
+                hour == "*" -> {
+                    binding!!.rbHourTypeAll.isChecked = true
+                }
+
+                hour.contains("/") -> {
+                    val hoursArray = hour.split("/")
+                    binding!!.etHourIntervalStart.setText(hoursArray.getOrNull(0) ?: "0")
+                    binding!!.etHourInterval.setText(hoursArray.getOrNull(1) ?: "1")
+                    binding!!.rbHourTypeInterval.isChecked = true
+                }
+
+                hour.contains(",") -> {
+                    val hoursList = restoreMergedItems(hour, "%02d")
+                    Log.d(TAG, "hoursList:$hoursList")
+                    binding!!.flowlayoutMultiSelectHour.setSelectedItems(hoursList)
+                    binding!!.rbHourTypeAssigned.isChecked = true
+                    selectedHourList = hoursList.joinToString(",")
+                }
+
+                hour.contains("-") -> {
+                    val hoursArray = hour.split("-")
+                    binding!!.etHourCyclicFrom.setText(hoursArray.getOrNull(0) ?: "00")
+                    binding!!.etHourCyclicTo.setText(hoursArray.getOrNull(1) ?: "23")
+                    binding!!.rbHourTypeCyclic.isChecked = true
+                }
+
+                regexNum.matches(hour) && hoursList.indexOf(String.format("%02d", hour.toInt())) != -1 -> {
+                    binding!!.flowlayoutMultiSelectHour.setSelectedItems(String.format("%02d", hour.toInt()))
+                    binding!!.rbHourTypeAssigned.isChecked = true
+                    selectedHourList = hour
+                }
+
+                else -> {
+                    hour = "*"
+                    binding!!.etHour.setText(hour)
+                    binding!!.rbHourTypeAll.isChecked = true
+                }
+            }
         } catch (e: Exception) {
+            hour = "*"
+            binding!!.etHour.setText(hour)
+            binding!!.rbHourTypeAll.isChecked = true
             XToastUtils.error("Cron表达式无效：" + e.message, 30000)
-            return
-        }
-
-        when {
-            hour == "*" -> {
-                binding!!.rbHourTypeAll.isChecked = true
-            }
-
-            hour.contains("/") -> {
-                val hoursArray = hour.split("/")
-                binding!!.etHourIntervalStart.setText(hoursArray.getOrNull(0) ?: "0")
-                binding!!.etHourInterval.setText(hoursArray.getOrNull(1) ?: "1")
-                binding!!.rbHourTypeInterval.isChecked = true
-            }
-
-            hour.contains(",") -> {
-                val hoursList = restoreMergedItems(hour, "%02d")
-                Log.d(TAG, "hoursList:$hoursList")
-                binding!!.flowlayoutMultiSelectHour.setSelectedItems(hoursList)
-                binding!!.rbHourTypeAssigned.isChecked = true
-                selectedHourList = hoursList.joinToString(",")
-            }
-
-            hour.contains("-") -> {
-                val hoursArray = hour.split("-")
-                binding!!.etHourCyclicFrom.setText(hoursArray.getOrNull(0) ?: "00")
-                binding!!.etHourCyclicTo.setText(hoursArray.getOrNull(1) ?: "23")
-                binding!!.rbHourTypeCyclic.isChecked = true
-            }
-
-            hoursList.indexOf(String.format("%02d", hour.toInt())) != -1 -> {
-                binding!!.flowlayoutMultiSelectHour.setSelectedItems(String.format("%02d", hour.toInt()))
-                binding!!.rbHourTypeAssigned.isChecked = true
-                selectedHourList = hour
-            }
-
-            else -> {
-                binding!!.rbHourTypeAll.isChecked = true
-            }
         }
     }
 
@@ -871,66 +884,70 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
             expression = "$second $minute $hour $day $month $week $year"
             Log.d(TAG, "afterDayChanged expression:$expression")
             CronExpression.validateExpression(expression)
+
+            when {
+                day == "*" -> {
+                    binding!!.rbDayTypeAll.isChecked = true
+                }
+
+                day == "?" -> {
+                    binding!!.rbDayTypeNotAssigned.isChecked = true
+                }
+
+                day == "L" -> {
+                    binding!!.rbDayTypeLastDayOfMonth.isChecked = true
+                }
+
+                day == "LW" -> {
+                    binding!!.rbDayTypeLastDayOfMonthRecentDay.isChecked = true
+                    return
+                }
+
+                day.endsWith("W") -> {
+                    binding!!.rbDayTypeRecentDay.isChecked = true
+                    binding!!.etRecentDay.setText(day.removeSuffix("W"))
+                    return
+                }
+
+                day.contains("/") -> {
+                    val dayArray = day.split("/")
+                    binding!!.etDayIntervalStart.setText(dayArray.getOrNull(0) ?: "0")
+                    binding!!.etDayInterval.setText(dayArray.getOrNull(1) ?: "1")
+                    binding!!.rbDayTypeInterval.isChecked = true
+                }
+
+                day.contains(",") -> {
+                    val dayList = restoreMergedItems(day, "%d")
+                    Log.d(TAG, "dayList:$dayList")
+                    binding!!.flowlayoutMultiSelectDay.setSelectedItems(dayList)
+                    binding!!.rbDayTypeAssigned.isChecked = true
+                    selectedDayList = dayList.joinToString(",")
+                }
+
+                day.contains("-") -> {
+                    val dayArray = day.split("-")
+                    binding!!.etDayCyclicFrom.setText(dayArray.getOrNull(0) ?: "1")
+                    binding!!.etDayCyclicTo.setText(dayArray.getOrNull(1) ?: "31")
+                    binding!!.rbDayTypeCyclic.isChecked = true
+                }
+
+                regexNum.matches(day) && dayList.indexOf(String.format("%d", day.toInt())) != -1 -> {
+                    binding!!.flowlayoutMultiSelectDay.setSelectedItems(String.format("%d", day.toInt()))
+                    binding!!.rbDayTypeAssigned.isChecked = true
+                    selectedDayList = day
+                }
+
+                else -> {
+                    day = "*"
+                    binding!!.etDay.setText(day)
+                    binding!!.rbDayTypeAll.isChecked = true
+                }
+            }
         } catch (e: Exception) {
+            day = "*"
+            binding!!.etDay.setText(day)
+            binding!!.rbDayTypeAll.isChecked = true
             XToastUtils.error("Cron表达式无效：" + e.message, 30000)
-            return
-        }
-
-        when {
-            day == "*" -> {
-                binding!!.rbDayTypeAll.isChecked = true
-            }
-
-            day == "?" -> {
-                binding!!.rbDayTypeNotAssigned.isChecked = true
-            }
-
-            day == "L" -> {
-                binding!!.rbDayTypeLastDayOfMonth.isChecked = true
-            }
-
-            day == "LW" -> {
-                binding!!.rbDayTypeLastDayOfMonthRecentDay.isChecked = true
-                return
-            }
-
-            day.endsWith("W") -> {
-                binding!!.rbDayTypeRecentDay.isChecked = true
-                binding!!.etRecentDay.setText(day.removeSuffix("W"))
-                return
-            }
-
-            day.contains("/") -> {
-                val dayArray = day.split("/")
-                binding!!.etDayIntervalStart.setText(dayArray.getOrNull(0) ?: "0")
-                binding!!.etDayInterval.setText(dayArray.getOrNull(1) ?: "1")
-                binding!!.rbDayTypeInterval.isChecked = true
-            }
-
-            day.contains(",") -> {
-                val dayList = restoreMergedItems(day, "%d")
-                Log.d(TAG, "dayList:$dayList")
-                binding!!.flowlayoutMultiSelectDay.setSelectedItems(dayList)
-                binding!!.rbDayTypeAssigned.isChecked = true
-                selectedDayList = dayList.joinToString(",")
-            }
-
-            day.contains("-") -> {
-                val dayArray = day.split("-")
-                binding!!.etDayCyclicFrom.setText(dayArray.getOrNull(0) ?: "1")
-                binding!!.etDayCyclicTo.setText(dayArray.getOrNull(1) ?: "31")
-                binding!!.rbDayTypeCyclic.isChecked = true
-            }
-
-            dayList.indexOf(String.format("%d", day.toInt())) != -1 -> {
-                binding!!.flowlayoutMultiSelectDay.setSelectedItems(String.format("%d", day.toInt()))
-                binding!!.rbDayTypeAssigned.isChecked = true
-                selectedDayList = day
-            }
-
-            else -> {
-                binding!!.rbDayTypeAll.isChecked = true
-            }
         }
     }
 
@@ -1053,47 +1070,51 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
             expression = "$second $minute $hour $day $month $week $year"
             Log.d(TAG, "afterMonthChanged expression:$expression")
             CronExpression.validateExpression(expression)
+
+            when {
+                month == "*" -> {
+                    binding!!.rbMonthTypeAll.isChecked = true
+                }
+
+                month.contains("/") -> {
+                    val monthArray = month.split("/")
+                    binding!!.etMonthIntervalStart.setText(monthArray.getOrNull(0) ?: "0")
+                    binding!!.etMonthInterval.setText(monthArray.getOrNull(1) ?: "1")
+                    binding!!.rbMonthTypeInterval.isChecked = true
+                }
+
+                month.contains(",") -> {
+                    val monthList = restoreMergedItems(month, "%d")
+                    Log.d(TAG, "monthList:$monthList")
+                    binding!!.flowlayoutMultiSelectMonth.setSelectedItems(monthList)
+                    binding!!.rbMonthTypeAssigned.isChecked = true
+                    selectedMonthList = monthList.joinToString(",")
+                }
+
+                month.contains("-") -> {
+                    val monthArray = month.split("-")
+                    binding!!.etMonthCyclicFrom.setText(monthArray.getOrNull(0) ?: "1")
+                    binding!!.etMonthCyclicTo.setText(monthArray.getOrNull(1) ?: "31")
+                    binding!!.rbMonthTypeCyclic.isChecked = true
+                }
+
+                monthList.indexOf(month) != -1 -> {
+                    binding!!.flowlayoutMultiSelectMonth.setSelectedItems(month)
+                    binding!!.rbMonthTypeAssigned.isChecked = true
+                    selectedMonthList = month
+                }
+
+                else -> {
+                    month = "*"
+                    binding!!.etMonth.setText(month)
+                    binding!!.rbMonthTypeAll.isChecked = true
+                }
+            }
         } catch (e: Exception) {
+            month = "*"
+            binding!!.etMonth.setText(month)
+            binding!!.rbMonthTypeAll.isChecked = true
             XToastUtils.error("Cron表达式无效：" + e.message, 30000)
-            return
-        }
-
-        when {
-            month == "*" -> {
-                binding!!.rbMonthTypeAll.isChecked = true
-            }
-
-            month.contains("/") -> {
-                val monthArray = month.split("/")
-                binding!!.etMonthIntervalStart.setText(monthArray.getOrNull(0) ?: "0")
-                binding!!.etMonthInterval.setText(monthArray.getOrNull(1) ?: "1")
-                binding!!.rbMonthTypeInterval.isChecked = true
-            }
-
-            month.contains(",") -> {
-                val monthList = restoreMergedItems(month, "%d")
-                Log.d(TAG, "monthList:$monthList")
-                binding!!.flowlayoutMultiSelectMonth.setSelectedItems(monthList)
-                binding!!.rbMonthTypeAssigned.isChecked = true
-                selectedMonthList = monthList.joinToString(",")
-            }
-
-            month.contains("-") -> {
-                val monthArray = month.split("-")
-                binding!!.etMonthCyclicFrom.setText(monthArray.getOrNull(0) ?: "1")
-                binding!!.etMonthCyclicTo.setText(monthArray.getOrNull(1) ?: "31")
-                binding!!.rbMonthTypeCyclic.isChecked = true
-            }
-
-            monthList.indexOf(month) != -1 -> {
-                binding!!.flowlayoutMultiSelectMonth.setSelectedItems(month)
-                binding!!.rbMonthTypeAssigned.isChecked = true
-                selectedMonthList = month
-            }
-
-            else -> {
-                binding!!.rbMonthTypeAll.isChecked = true
-            }
         }
     }
 
@@ -1252,56 +1273,60 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
             expression = "$second $minute $hour $day $month $week $year"
             Log.d(TAG, "afterWeekChanged expression:$expression")
             CronExpression.validateExpression(expression)
+
+            when {
+                week == "*" -> {
+                    binding!!.rbWeekTypeAll.isChecked = true
+                }
+
+                week == "?" -> {
+                    binding!!.rbWeekTypeNotAssigned.isChecked = true
+                }
+
+                week.contains(",") -> {
+                    val weekList = restoreMergedItems(week, "%d")
+                    Log.d(TAG, "weekList:$weekList")
+                    binding!!.flowlayoutMultiSelectWeek.setSelectedItems(weekList)
+                    binding!!.rbWeekTypeAssigned.isChecked = true
+                    selectedWeekList = weekList.joinToString(",")
+                }
+
+                week.contains("-") -> {
+                    val weekArray = week.split("-")
+                    binding!!.etWeekCyclicFrom.setText(weekArray.getOrNull(0) ?: "1")
+                    binding!!.etWeekCyclicTo.setText(weekArray.getOrNull(1) ?: "31")
+                    binding!!.rbWeekTypeCyclic.isChecked = true
+                }
+
+                week.contains("#") -> {
+                    val weekArray = week.split("#")
+                    binding!!.etWhichWeekOfMonth.setText(weekArray.getOrNull(0) ?: "1")
+                    binding!!.etWhichDayOfWeek.setText(weekArray.getOrNull(1) ?: "1")
+                    binding!!.rbWeekTypeWeeksOfWeek.isChecked = true
+                }
+
+                weekList.indexOf(week) != -1 -> {
+                    binding!!.flowlayoutMultiSelectWeek.setSelectedItems(week)
+                    binding!!.rbWeekTypeAssigned.isChecked = true
+                    selectedWeekList = week
+                }
+
+                week.endsWith("L") -> {
+                    binding!!.rbWeekTypeLastWeekOfMonth.isChecked = true
+                    binding!!.etLastWeekOfMonth.setText(week.removeSuffix("L"))
+                }
+
+                else -> {
+                    week = "*"
+                    binding!!.etWeek.setText(week)
+                    binding!!.rbWeekTypeAll.isChecked = true
+                }
+            }
         } catch (e: Exception) {
+            week = "*"
+            binding!!.etWeek.setText(week)
+            binding!!.rbWeekTypeAll.isChecked = true
             XToastUtils.error("Cron表达式无效：" + e.message, 30000)
-            return
-        }
-
-        when {
-            week == "*" -> {
-                binding!!.rbWeekTypeAll.isChecked = true
-            }
-
-            week == "?" -> {
-                binding!!.rbWeekTypeNotAssigned.isChecked = true
-            }
-
-            week.contains(",") -> {
-                val weekList = restoreMergedItems(week, "%d")
-                Log.d(TAG, "weekList:$weekList")
-                binding!!.flowlayoutMultiSelectWeek.setSelectedItems(weekList)
-                binding!!.rbWeekTypeAssigned.isChecked = true
-                selectedWeekList = weekList.joinToString(",")
-            }
-
-            week.contains("-") -> {
-                val weekArray = week.split("-")
-                binding!!.etWeekCyclicFrom.setText(weekArray.getOrNull(0) ?: "1")
-                binding!!.etWeekCyclicTo.setText(weekArray.getOrNull(1) ?: "31")
-                binding!!.rbWeekTypeCyclic.isChecked = true
-            }
-
-            week.contains("#") -> {
-                val weekArray = week.split("#")
-                binding!!.etWhichWeekOfMonth.setText(weekArray.getOrNull(0) ?: "1")
-                binding!!.etWhichDayOfWeek.setText(weekArray.getOrNull(1) ?: "1")
-                binding!!.rbWeekTypeWeeksOfWeek.isChecked = true
-            }
-
-            weekList.indexOf(week) != -1 -> {
-                binding!!.flowlayoutMultiSelectWeek.setSelectedItems(week)
-                binding!!.rbWeekTypeAssigned.isChecked = true
-                selectedWeekList = week
-            }
-
-            week.endsWith("L") -> {
-                binding!!.rbWeekTypeLastWeekOfMonth.isChecked = true
-                binding!!.etLastWeekOfMonth.setText(week.removeSuffix("L"))
-            }
-
-            else -> {
-                binding!!.rbWeekTypeAll.isChecked = true
-            }
         }
     }
 
@@ -1424,51 +1449,55 @@ class CronFragment : BaseFragment<FragmentTasksConditionCronBinding?>(), View.On
             expression = "$second $minute $hour $day $month $week $year"
             Log.d(TAG, "afterYearChanged expression:$expression")
             CronExpression.validateExpression(expression)
+
+            when {
+                year == "*" -> {
+                    binding!!.rbYearTypeAll.isChecked = true
+                }
+
+                year == "?" -> {
+                    binding!!.rbYearTypeNotAssigned.isChecked = true
+                }
+
+                year.contains("/") -> {
+                    val yearArray = year.split("/")
+                    binding!!.etYearIntervalStart.setText(yearArray.getOrNull(0) ?: "2023")
+                    binding!!.etYearInterval.setText(yearArray.getOrNull(1) ?: "2")
+                    binding!!.rbYearTypeInterval.isChecked = true
+                }
+
+                year.contains(",") -> {
+                    val yearList = restoreMergedItems(year, "%d")
+                    Log.d(TAG, "yearList:$yearList")
+                    binding!!.flowlayoutMultiSelectYear.setSelectedItems(yearList)
+                    binding!!.rbYearTypeAssigned.isChecked = true
+                    selectedYearList = yearList.joinToString(",")
+                }
+
+                year.contains("-") -> {
+                    val yearArray = year.split("-")
+                    binding!!.etYearCyclicFrom.setText(yearArray.getOrNull(0) ?: "1970")
+                    binding!!.etYearCyclicTo.setText(yearArray.getOrNull(1) ?: "2099")
+                    binding!!.rbYearTypeCyclic.isChecked = true
+                }
+
+                yearList.indexOf(year) != -1 -> {
+                    binding!!.flowlayoutMultiSelectYear.setSelectedItems(year)
+                    binding!!.rbYearTypeAssigned.isChecked = true
+                    selectedYearList = year
+                }
+
+                else -> {
+                    year = "*"
+                    binding!!.etYear.setText(year)
+                    binding!!.rbYearTypeAll.isChecked = true
+                }
+            }
         } catch (e: Exception) {
+            year = "*"
+            binding!!.etYear.setText(year)
+            binding!!.rbYearTypeAll.isChecked = true
             XToastUtils.error("Cron表达式无效：" + e.message, 30000)
-            return
-        }
-
-        when {
-            year == "*" -> {
-                binding!!.rbYearTypeAll.isChecked = true
-            }
-
-            year == "?" -> {
-                binding!!.rbYearTypeNotAssigned.isChecked = true
-            }
-
-            year.contains("/") -> {
-                val yearArray = year.split("/")
-                binding!!.etYearIntervalStart.setText(yearArray.getOrNull(0) ?: "2023")
-                binding!!.etYearInterval.setText(yearArray.getOrNull(1) ?: "2")
-                binding!!.rbYearTypeInterval.isChecked = true
-            }
-
-            year.contains(",") -> {
-                val yearList = restoreMergedItems(year, "%d")
-                Log.d(TAG, "yearList:$yearList")
-                binding!!.flowlayoutMultiSelectYear.setSelectedItems(yearList)
-                binding!!.rbYearTypeAssigned.isChecked = true
-                selectedYearList = yearList.joinToString(",")
-            }
-
-            year.contains("-") -> {
-                val yearArray = year.split("-")
-                binding!!.etYearCyclicFrom.setText(yearArray.getOrNull(0) ?: "1970")
-                binding!!.etYearCyclicTo.setText(yearArray.getOrNull(1) ?: "2099")
-                binding!!.rbYearTypeCyclic.isChecked = true
-            }
-
-            yearList.indexOf(year) != -1 -> {
-                binding!!.flowlayoutMultiSelectYear.setSelectedItems(year)
-                binding!!.rbYearTypeAssigned.isChecked = true
-                selectedYearList = year
-            }
-
-            else -> {
-                binding!!.rbYearTypeAll.isChecked = true
-            }
         }
     }
 
