@@ -605,6 +605,7 @@
     <string name="rule">規則：</string>
     <string name="time">時間：</string>
     <string name="result">轉發結果：</string>
+    <string name="original_result">原轉發狀態：</string>
     <string name="success">成功</string>
     <string name="failed">失敗</string>
     <string name="processing">處理中</string>
@@ -1194,6 +1195,7 @@
     <string name="task_http_server_tips">控制HttpServer的啟動/停止，並支持啟用/禁用功能</string>
     <string name="task_cleaner">清理日誌</string>
     <string name="task_cleaner_tips">批量刪除N天前的轉發記錄、刪除快取等</string>
+    <string name="task_cleaner_desc">批量刪除N天前的轉發記錄、刪除快取等</string>
     <string name="task_settings">通用設置</string>
     <string name="task_settings_tips">控制「通用設置」的設定開關</string>
     <string name="task_rule">啟停規則</string>
@@ -1202,6 +1204,10 @@
     <string name="task_sender_tips">控制【發送通道】的啟用/禁用</string>
     <string name="task_alarm">聲音警報</string>
     <string name="task_alarm_tips">聲音警報</string>
+    <string name="task_resend">重發消息</string>
+    <string name="task_resend_tips">自動重發N小時以來的轉發記錄，0=全部</string>
+    <string name="task_resend_desc">自動重發%s小時以來%s的轉發記錄</string>
+    <string name="task_resend_error">必须至少选择一個「原轉發狀態」</string>
 
     <string name="second">秒</string>
     <string name="minute">分</string>

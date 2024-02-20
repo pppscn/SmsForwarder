@@ -604,6 +604,7 @@
     <string name="rule">Rule: </string>
     <string name="time">Time: </string>
     <string name="result">Result:</string>
+    <string name="original_result">Original Result:</string>
     <string name="success">success</string>
     <string name="failed">failed</string>
     <string name="processing">In the processing…</string>
@@ -1193,6 +1194,7 @@
     <string name="task_http_server_tips">Manage HttpServer start/stop and enable/disable functions</string>
     <string name="task_cleaner">Cleaner</string>
     <string name="task_cleaner_tips">Delete FW. logs older than N days, delete cache, etc.</string>
+    <string name="task_cleaner_desc">Delete FW. logs older than %s days, delete cache, etc.</string>
     <string name="task_settings">Settings</string>
     <string name="task_settings_tips">Control the configuration switch of "Settings".</string>
     <string name="task_rule">Rules On/Off</string>
@@ -1201,6 +1203,10 @@
     <string name="task_sender_tips">Control enabling/disabling of "Senders"</string>
     <string name="task_alarm">Alarm</string>
     <string name="task_alarm_tips">Alarm</string>
+    <string name="task_resend">Resend Message</string>
+    <string name="task_resend_tips">Resend forwarded records since N hours ago, 0=ALL</string>
+    <string name="task_resend_desc">Resend forwarding records since %s hours ago for %s</string>
+    <string name="task_resend_error">At least one "Original Result" must be selected</string>
 
     <string name="second">Second</string>
     <string name="minute">Minute</string>

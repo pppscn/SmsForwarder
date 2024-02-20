@@ -244,6 +244,7 @@ const val TASK_ACTION_HTTPSERVER = 2005
 const val TASK_ACTION_RULE = 2006
 const val TASK_ACTION_SENDER = 2007
 const val TASK_ACTION_ALARM = 2008
+const val TASK_ACTION_RESEND = 2009
 
 const val SP_BATTERY_INFO = "battery_info"
 const val SP_BATTERY_STATUS = "battery_status"

@@ -201,6 +201,13 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
             CoreAnim.slide,
             R.drawable.auto_task_icon_alarm
         ),
+        PageInfo(
+            getString(R.string.task_resend),
+            "com.idormy.sms.forwarder.fragment.action.ResendFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_resend
+        ),
     )
 
     override fun initArgs() {

@@ -20,6 +20,7 @@ import com.idormy.sms.forwarder.entity.action.AlarmSetting
 import com.idormy.sms.forwarder.entity.action.CleanerSetting
 import com.idormy.sms.forwarder.entity.action.FrpcSetting
 import com.idormy.sms.forwarder.entity.action.HttpServerSetting
+import com.idormy.sms.forwarder.entity.action.ResendSetting
 import com.idormy.sms.forwarder.entity.action.RuleSetting
 import com.idormy.sms.forwarder.entity.action.SenderSetting
 import com.idormy.sms.forwarder.entity.action.SettingsSetting
@@ -43,6 +44,7 @@ import com.idormy.sms.forwarder.utils.TASK_ACTION_CLEANER
 import com.idormy.sms.forwarder.utils.TASK_ACTION_FRPC
 import com.idormy.sms.forwarder.utils.TASK_ACTION_HTTPSERVER
 import com.idormy.sms.forwarder.utils.TASK_ACTION_NOTIFICATION
+import com.idormy.sms.forwarder.utils.TASK_ACTION_RESEND
 import com.idormy.sms.forwarder.utils.TASK_ACTION_RULE
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDER
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDSMS
@@ -320,6 +322,23 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
 
                         successNum++
                         writeLog(String.format(getString(R.string.successful_execution), alarmSetting.description), "SUCCESS")
+                    }
+
+                    TASK_ACTION_RESEND -> {
+                        val resendSetting = Gson().fromJson(action.setting, ResendSetting::class.java)
+                        if (resendSetting == null) {
+                            writeLog("resendSetting is null")
+                            continue
+                        }
+
+                        val logsList = Core.logs.getIdsByTimeAndStatus(resendSetting.hours, resendSetting.statusList)
+                        logsList.forEach { item ->
+                            Log.d(TAG, "resend logsList item: $item")
+                            SendUtils.retrySendMsg(item.id)
+                        }
+
+                        successNum++
+                        writeLog(String.format(getString(R.string.successful_execution), resendSetting.description), "SUCCESS")
                     }
 
                     else -> {

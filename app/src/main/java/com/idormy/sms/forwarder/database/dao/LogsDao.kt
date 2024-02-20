@@ -6,8 +6,10 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.RawQuery
 import androidx.room.Transaction
 import androidx.room.Update
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.idormy.sms.forwarder.database.entity.Logs
 import com.idormy.sms.forwarder.database.entity.LogsAndRuleAndSender
 import io.reactivex.Completable
@@ -67,4 +69,7 @@ interface LogsDao {
     @Query("SELECT * FROM Logs WHERE type = :type ORDER BY id DESC")
     fun pagingSource(type: String): PagingSource<Int, LogsAndRuleAndSender>
 
+    @Transaction
+    @RawQuery(observedEntities = [Logs::class])
+    fun getLogsRaw(query: SupportSQLiteQuery): List<Logs>
 }

@@ -681,7 +681,6 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:checked="true"
                             android:text="@string/user_app"
                             android:textSize="@dimen/text_size_small"
                             tools:ignore="SmallSp" />
