@@ -604,10 +604,10 @@
     <string name="rule">Rule: </string>
     <string name="time">Time: </string>
     <string name="result">Result:</string>
-    <string name="original_result">Original Result:</string>
-    <string name="success">success</string>
-    <string name="failed">failed</string>
-    <string name="processing">In the processing…</string>
+    <string name="original_result">Ori. Result:</string>
+    <string name="success">Success</string>
+    <string name="failed">Failed</string>
+    <string name="processing">Processing</string>
     <string name="tag_from">{{FROM}}</string>
     <string name="tag_sms">{{SMS}}</string>
     <string name="tag_package_name">{{PACKAGE_NAME}}</string>
