@@ -58,4 +58,6 @@ interface RuleDao {
     @Query("SELECT * FROM Rule ORDER BY id DESC")
     fun getAll(): Single<List<Rule>>
 
+    @RawQuery
+    fun replaceTags(query: SupportSQLiteQuery): Int
 }

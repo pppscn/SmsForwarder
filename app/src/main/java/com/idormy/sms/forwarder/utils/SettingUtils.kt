@@ -140,6 +140,8 @@ class SettingUtils private constructor() {
         //设置位置更新最小距离（单位：米）；默认距离：0米
         var locationMinDistance: Int by SharedPreference(SP_LOCATION_MIN_DISTANCE, 0)
 
+        //是否跟随系统语言
+        //var isFlowSystemLanguage: Boolean by SharedPreference(SP_IS_FLOW_SYSTEM_LANGUAGE, false)
     }
 
     init {

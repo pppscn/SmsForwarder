@@ -1205,7 +1205,7 @@
     <string name="task_alarm_tips">Alarm</string>
     <string name="task_resend">Resend Message</string>
     <string name="task_resend_tips">Resend forwarded records since N hours ago, 0=ALL</string>
-    <string name="task_resend_desc">Resend forwarding records since %s hours ago for %s</string>
+    <string name="task_resend_desc" formatted="false">Resend forwarding records since %s hours ago for %s</string>
     <string name="task_resend_error">At least one "Original Result" must be selected</string>
 
     <string name="second">Second</string>

@@ -46,4 +46,9 @@ class SenderRepository(private val senderDao: SenderDao) {
 
     val count: Flow<Long> = senderDao.getOnCount()
 
+    fun replaceTags(sql: String): Int {
+        val query = SimpleSQLiteQuery(sql)
+        return senderDao.replaceTags(query)
+    }
+
 }

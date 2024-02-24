@@ -41,4 +41,8 @@ class RuleRepository(private val ruleDao: RuleDao) {
 
     fun getRuleList(type: String, status: Int, simSlot: String) = ruleDao.getRuleList(type, status, simSlot)
 
+    fun replaceTags(sql: String): Int {
+        val query = SimpleSQLiteQuery(sql)
+        return ruleDao.replaceTags(query)
+    }
 }

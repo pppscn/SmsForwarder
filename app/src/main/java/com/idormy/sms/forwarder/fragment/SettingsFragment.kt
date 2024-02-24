@@ -1020,11 +1020,12 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //多语言设置
     private fun switchLanguage(rgMainLanguages: RadioGroup) {
+        val context = App.context
         rgMainLanguages.check(
-            if (MultiLanguages.isSystemLanguage(requireContext())) {
+            if (MultiLanguages.isSystemLanguage(context)) {
                 R.id.rb_main_language_auto
             } else {
-                when (MultiLanguages.getAppLanguage(requireContext())) {
+                when (MultiLanguages.getAppLanguage(context)) {
                     LocaleContract.getSimplifiedChineseLocale() -> R.id.rb_main_language_cn
                     LocaleContract.getTraditionalChineseLocale() -> R.id.rb_main_language_tw
                     LocaleContract.getEnglishLocale() -> R.id.rb_main_language_en
@@ -1034,35 +1035,49 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         )
 
         rgMainLanguages.setOnCheckedChangeListener { _, checkedId ->
-            // 是否需要重启
+            val oldLang = MultiLanguages.getAppLanguage(context)
+            var newLang = MultiLanguages.getSystemLanguage(context)
+            //SettingUtils.isFlowSystemLanguage = false
             when (checkedId) {
                 R.id.rb_main_language_auto -> {
+                    // 只为了触发onAppLocaleChange
+                    // MultiLanguages.setAppLanguage(context, newLang)
+                    // SettingUtils.isFlowSystemLanguage = true
                     // 跟随系统
-                    MultiLanguages.clearAppLanguage(requireContext())
+                    MultiLanguages.clearAppLanguage(context)
                 }
 
                 R.id.rb_main_language_cn -> {
                     // 简体中文
-                    MultiLanguages.setAppLanguage(requireContext(), LocaleContract.getSimplifiedChineseLocale())
+                    newLang = LocaleContract.getSimplifiedChineseLocale()
+                    MultiLanguages.setAppLanguage(context, newLang)
                 }
 
                 R.id.rb_main_language_tw -> {
                     // 繁体中文
-                    MultiLanguages.setAppLanguage(requireContext(), LocaleContract.getTraditionalChineseLocale())
+                    newLang = LocaleContract.getTraditionalChineseLocale()
+                    MultiLanguages.setAppLanguage(context, newLang)
                 }
 
                 R.id.rb_main_language_en -> {
                     // 英语
-                    MultiLanguages.setAppLanguage(requireContext(), LocaleContract.getEnglishLocale())
+                    newLang = LocaleContract.getEnglishLocale()
+                    MultiLanguages.setAppLanguage(context, newLang)
                 }
             }
 
             // 重启应用
-            XToastUtils.toast(R.string.multi_languages_toast)
-            val intent = Intent(App.context, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            startActivity(intent)
-            requireActivity().finish()
+            Log.d(TAG, "oldLang: $oldLang, newLang: $newLang")
+            if (oldLang.toString() != newLang.toString()) {
+                //CommonUtils.switchLanguage(oldLang, newLang)
+                XToastUtils.toast(R.string.multi_languages_toast)
+                //切换语种后重启APP
+                Thread.sleep(200)
+                val intent = Intent(App.context, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
+                requireActivity().finish()
+            }
         }
     }
 

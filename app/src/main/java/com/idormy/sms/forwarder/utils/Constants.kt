@@ -77,6 +77,8 @@ const val SP_SMS_TEMPLATE = "sms_template"
 const val SP_PURE_CLIENT_MODE = "enable_pure_client_mode"
 const val SP_PURE_TASK_MODE = "enable_pure_task_mode"
 const val SP_DEBUG_MODE = "enable_debug_mode"
+
+//const val SP_IS_FLOW_SYSTEM_LANGUAGE = "is_flow_system_language"
 const val SP_LOCATION = "enable_location"
 const val SP_LOCATION_ACCURACY = "location_accuracy"
 const val SP_LOCATION_POWER_REQUIREMENT = "location_power_requirement"
@@ -264,3 +266,30 @@ const val SP_LOCK_SCREEN_ACTION = "lock_screen_action"
 
 //SIM卡已准备就绪时，延迟5秒（给够搜索信号时间）才执行任务
 const val DELAY_TIME_AFTER_SIM_READY = 5000L
+
+//切换语言需要替换的自定义模板标签列表
+val TAG_LANG = arrayOf("zh_CN", "zh_TW", "en")
+val TAG_LIST = arrayOf(
+    mapOf("zh_CN" to "{{来源号码}}", "zh_TW" to "{{來源號碼}}", "en" to "{{FROM}}"),
+    mapOf("zh_CN" to "{{短信内容}}", "zh_TW" to "{{簡訊內容}}", "en" to "{{SMS}}"),
+    mapOf("zh_CN" to "{{APP包名}}", "zh_TW" to "{{APP包名}}", "en" to "{{PACKAGE_NAME}}"),
+    mapOf("zh_CN" to "{{APP名称}}", "zh_TW" to "{{APP名稱}}", "en" to "{{APP_NAME}}"),
+    mapOf("zh_CN" to "{{通知内容}}", "zh_TW" to "{{通知內容}}", "en" to "{{MSG}}"),
+    mapOf("zh_CN" to "{{卡槽信息}}", "zh_TW" to "{{卡槽信息}}", "en" to "{{CARD_SLOT}}"),
+    mapOf("zh_CN" to "{{卡槽主键}}", "zh_TW" to "{{卡槽主鍵}}", "en" to "{{CARD_SUBID}}"),
+    mapOf("zh_CN" to "{{接收时间}}", "zh_TW" to "{{接收時間}}", "en" to "{{RECEIVE_TIME}}"),
+    mapOf("zh_CN" to "{{当前时间}}", "zh_TW" to "{{當前時間}}", "en" to "{{CURRENT_TIME}}"),
+    mapOf("zh_CN" to "{{设备名称}}", "zh_TW" to "{{設備名稱}}", "en" to "{{DEVICE_NAME}}"),
+    mapOf("zh_CN" to "{{当前应用版本号}}", "zh_TW" to "{{當前應用版本號}}", "en" to "{{APP_VERSION}}"),
+    mapOf("zh_CN" to "{{通知标题}}", "zh_TW" to "{{通知標題}}", "en" to "{{TITLE}}"),
+    mapOf("zh_CN" to "{{通知Scheme}}", "zh_TW" to "{{通知Scheme}}", "en" to "{{SCHEME}}"),
+    mapOf("zh_CN" to "{{通话类型}}", "zh_TW" to "{{通話類型}}", "en" to "{{CALL_TYPE}}"),
+    mapOf("zh_CN" to "{{定位信息}}", "zh_TW" to "{{定位信息}}", "en" to "{{LOCATION}}"),
+    mapOf("zh_CN" to "{{定位信息_经度}}", "zh_TW" to "{{定位信息_經度}}", "en" to "{{LOCATION_LONGITUDE}}"),
+    mapOf("zh_CN" to "{{定位信息_纬度}}", "zh_TW" to "{{定位信息_緯度}}", "en" to "{{LOCATION_LATITUDE}}"),
+    mapOf("zh_CN" to "{{定位信息_地址}}", "zh_TW" to "{{定位信息_地址}}", "en" to "{{LOCATION_ADDRESS}}"),
+    mapOf("zh_CN" to "{{电池电量}}", "zh_TW" to "{{電池電量}}", "en" to "{{BATTERY_PCT}}"),
+    mapOf("zh_CN" to "{{电池状态}}", "zh_TW" to "{{電池狀態}}", "en" to "{{BATTERY_STATUS}}"),
+    mapOf("zh_CN" to "{{充电方式}}", "zh_TW" to "{{充電方式}}", "en" to "{{BATTERY_PLUGGED}}"),
+    mapOf("zh_CN" to "{{电池信息}}", "zh_TW" to "{{電池信息}}", "en" to "{{BATTERY_INFO}}")
+)

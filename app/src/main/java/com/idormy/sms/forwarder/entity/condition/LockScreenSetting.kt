@@ -65,12 +65,4 @@ data class LockScreenSetting(
         }
     }
 
-    fun getDuration(action: String): Int {
-        return when (action) {
-            Intent.ACTION_SCREEN_ON -> timeAfterScreenOn
-            Intent.ACTION_SCREEN_OFF -> timeAfterScreenOff
-            Intent.ACTION_USER_PRESENT -> timeAfterScreenUnlocked
-            else -> timeAfterScreenLocked
-        }
-    }
 }

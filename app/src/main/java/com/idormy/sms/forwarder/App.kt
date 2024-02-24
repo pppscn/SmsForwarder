@@ -18,7 +18,6 @@ import com.gyf.cactus.Cactus
 import com.gyf.cactus.callback.CactusCallback
 import com.gyf.cactus.ext.cactus
 import com.hjq.language.MultiLanguages
-import com.hjq.language.OnLanguageListener
 import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.AppDatabase
@@ -276,15 +275,21 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         // 初始化语种切换框架
         MultiLanguages.init(this)
         // 设置语种变化监听器
-        MultiLanguages.setOnLanguageListener(object : OnLanguageListener {
+        /*MultiLanguages.setOnLanguageListener(object : OnLanguageListener {
             override fun onAppLocaleChange(oldLocale: Locale, newLocale: Locale) {
+                // 注意：只有setAppLanguage时触发，clearAppLanguage时不触发
                 Log.i(TAG, "监听到应用切换了语种，旧语种：$oldLocale，新语种：$newLocale")
             }
 
             override fun onSystemLocaleChange(oldLocale: Locale, newLocale: Locale) {
-                Log.i(TAG, "监听到系统切换了语种，旧语种：" + oldLocale + "，新语种：" + newLocale + "，是否跟随系统：" + MultiLanguages.isSystemLanguage(this@App))
+                //val isFlowSystem = MultiLanguages.isSystemLanguage(context) //取值不对，一直是false
+                val isFlowSystem = SettingUtils.isFlowSystemLanguage
+                Log.i(TAG, "监听到系统切换了语种，旧语种：$oldLocale，新语种：$newLocale，是否跟随系统：$isFlowSystem")
+                if (isFlowSystem) {
+                    CommonUtils.switchLanguage(oldLocale, newLocale)
+                }
             }
-        })
+        })*/
     }
 
     @SuppressLint("CheckResult")

@@ -22,11 +22,13 @@ import com.idormy.sms.forwarder.database.entity.Sender
 import com.idormy.sms.forwarder.database.entity.Task
 import com.idormy.sms.forwarder.database.ext.ConvertersDate
 import com.idormy.sms.forwarder.utils.DATABASE_NAME
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.TAG_LIST
 
 @Database(
     entities = [Frpc::class, Msg::class, Logs::class, Rule::class, Sender::class, Task::class],
     views = [LogsDetail::class],
-    version = 18,
+    version = 19,
     exportSchema = false
 )
 @TypeConverters(ConvertersDate::class)
@@ -107,6 +109,7 @@ custom_domains = smsf.demo.com
                     MIGRATION_15_16,
                     MIGRATION_16_17,
                     MIGRATION_17_18,
+                    MIGRATION_18_19,
                 )
 
             /*if (BuildConfig.DEBUG) {
@@ -408,7 +411,39 @@ CREATE TABLE "Task" (
 )
 """.trimIndent()
                 )
-                //TODO:原来的电量/网络/SIM卡状态转换为自动化任务
+            }
+        }
+
+        //自定义模板可用变量统一成英文标签
+        private val MIGRATION_18_19 = object : Migration(18, 19) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                //替换自定义模板标签
+                var smsTemplate = SettingUtils.smsTemplate
+                //替换Rule.sms_template中的标签
+                var ruleColumnCN = "sms_template"
+                var ruleColumnTW = "sms_template"
+                //替换Sender.json_setting中的标签
+                var senderColumnCN = "json_setting"
+                var senderColumnTW = "json_setting"
+
+                for (i in TAG_LIST.indices) {
+                    val tagCN = TAG_LIST[i]["zh_CN"].toString()
+                    val tagTW = TAG_LIST[i]["zh_TW"].toString()
+                    val tagEN = TAG_LIST[i]["en"].toString()
+                    smsTemplate = smsTemplate.replace(tagCN, tagEN)
+                    ruleColumnCN = "REPLACE($ruleColumnCN, '$tagCN', '$tagEN')"
+                    ruleColumnTW = "REPLACE($ruleColumnTW, '$tagTW', '$tagEN')"
+                    senderColumnCN = "REPLACE($senderColumnCN, '$tagCN', '$tagEN')"
+                    senderColumnTW = "REPLACE($senderColumnTW, '$tagTW', '$tagEN')"
+                }
+
+                database.execSQL("UPDATE Rule SET sms_template = $ruleColumnCN WHERE sms_template != ''")
+                database.execSQL("UPDATE Rule SET sms_template = $ruleColumnTW WHERE sms_template != ''")
+
+                database.execSQL("UPDATE Sender SET json_setting = $senderColumnCN WHERE type NOT IN (4, 5, 6, 7, 8, 14)")
+                database.execSQL("UPDATE Sender SET json_setting = $senderColumnTW WHERE type NOT IN (4, 5, 6, 7, 8, 14)")
+
+                SettingUtils.smsTemplate = smsTemplate
             }
         }
 
