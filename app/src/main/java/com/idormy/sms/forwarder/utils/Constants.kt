@@ -56,6 +56,7 @@ const val ENABLE_LOAD_SYSTEM_APP_LIST = "enable_load_system_app_list"
 const val SP_DUPLICATE_MESSAGES_LIMITS = "duplicate_messages_limits"
 const val SP_SILENT_PERIOD_START = "silent_period_start"
 const val SP_SILENT_PERIOD_END = "silent_period_end"
+const val SP_ENABLE_SILENT_PERIOD_LOGS = "enable_silent_period_logs"
 
 const val SP_ENABLE_EXCLUDE_FROM_RECENTS = "enable_exclude_from_recents"
 const val SP_ENABLE_PLAY_SILENCE_MUSIC = "enable_play_silence_music"

@@ -1044,6 +1044,7 @@
     <string name="select_time_period">時間段選擇</string>
     <string name="silent_time_period">免打擾(禁用轉發)時間段</string>
     <string name="silent_time_period_tips">結束時間小於開始則跨天；相等則禁用</string>
+    <string name="silent_time_period_logs">記錄日誌</string>
     <string name="download_frpc_tips">是否立即下載，並重啟加載？</string>
     <string name="download_frpc_tips2">下載成功，是否立即重啟加載？</string>
     <string name="appkey">AppKey</string>

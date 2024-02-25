@@ -71,6 +71,9 @@ class SettingUtils private constructor() {
         //免打扰(禁用转发)时间段——结束
         var silentPeriodEnd: Int by SharedPreference(SP_SILENT_PERIOD_END, 0)
 
+        //免打扰(禁用转发)时间段——记录日志
+        var enableSilentPeriodLogs: Boolean by SharedPreference(SP_ENABLE_SILENT_PERIOD_LOGS, false)
+
         //是否不在最近任务列表中显示
         var enableExcludeFromRecents: Boolean by SharedPreference(SP_ENABLE_EXCLUDE_FROM_RECENTS, false)
 
