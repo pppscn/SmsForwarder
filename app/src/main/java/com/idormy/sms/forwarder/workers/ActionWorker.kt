@@ -25,6 +25,7 @@ import com.idormy.sms.forwarder.entity.action.RuleSetting
 import com.idormy.sms.forwarder.entity.action.SenderSetting
 import com.idormy.sms.forwarder.entity.action.SettingsSetting
 import com.idormy.sms.forwarder.entity.action.SmsSetting
+import com.idormy.sms.forwarder.entity.action.TaskActionSetting
 import com.idormy.sms.forwarder.service.HttpServerService
 import com.idormy.sms.forwarder.service.LocationService
 import com.idormy.sms.forwarder.utils.CacheUtils
@@ -49,6 +50,7 @@ import com.idormy.sms.forwarder.utils.TASK_ACTION_RULE
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDER
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDSMS
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SETTINGS
+import com.idormy.sms.forwarder.utils.TASK_ACTION_TASK
 import com.idormy.sms.forwarder.utils.TaskWorker
 import com.idormy.sms.forwarder.utils.task.ConditionUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
@@ -308,6 +310,22 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
 
                         successNum++
                         writeLog(String.format(getString(R.string.successful_execution), senderSetting.description), "SUCCESS")
+                    }
+
+                    TASK_ACTION_TASK -> {
+                        val taskActionSetting = Gson().fromJson(action.setting, TaskActionSetting::class.java)
+                        if (taskActionSetting == null) {
+                            writeLog("taskActionSetting is null")
+                            continue
+                        }
+
+                        val ids = taskActionSetting.taskList.map { it.id }
+                        if (ids.isNotEmpty()) {
+                            Core.task.updateStatusByIds(ids, taskActionSetting.status)
+                        }
+
+                        successNum++
+                        writeLog(String.format(getString(R.string.successful_execution), taskActionSetting.description), "SUCCESS")
                     }
 
                     TASK_ACTION_ALARM -> {

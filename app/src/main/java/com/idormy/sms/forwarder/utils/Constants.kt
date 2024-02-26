@@ -248,6 +248,7 @@ const val TASK_ACTION_RULE = 2006
 const val TASK_ACTION_SENDER = 2007
 const val TASK_ACTION_ALARM = 2008
 const val TASK_ACTION_RESEND = 2009
+const val TASK_ACTION_TASK = 2010
 
 const val SP_BATTERY_INFO = "battery_info"
 const val SP_BATTERY_STATUS = "battery_status"
@@ -269,7 +270,7 @@ const val SP_LOCK_SCREEN_ACTION = "lock_screen_action"
 const val DELAY_TIME_AFTER_SIM_READY = 5000L
 
 //切换语言需要替换的自定义模板标签列表
-val TAG_LANG = arrayOf("zh_CN", "zh_TW", "en")
+//val TAG_LANG = arrayOf("zh_CN", "zh_TW", "en")
 val TAG_LIST = arrayOf(
     mapOf("zh_CN" to "{{来源号码}}", "zh_TW" to "{{來源號碼}}", "en" to "{{FROM}}"),
     mapOf("zh_CN" to "{{短信内容}}", "zh_TW" to "{{簡訊內容}}", "en" to "{{SMS}}"),

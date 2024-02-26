@@ -227,9 +227,11 @@
     <string name="new_sender_first">Please add a new sender and then choose it.</string>
     <string name="new_rule_first">Please add a new rule and then choose it.</string>
     <string name="new_frpc_first">Please add a new frpc and then choose it.</string>
+    <string name="new_task_first">Please add a new task and then choose it.</string>
     <string name="add_sender_first">Please add a sender first.</string>
     <string name="add_rule_first">Please add a rule first.</string>
     <string name="add_frpc_first">Please add a frpc first.</string>
+    <string name="add_task_first">Please add a task first.</string>
     <string name="select_sender">Select Sender</string>
     <string name="rule_tester">Rule tester:</string>
     <string name="test_sim_slot">Test SIM Slot</string>
@@ -830,6 +832,7 @@
     <string name="choose_rule">Drop-down selection, keyword fuzzy match</string>
     <string name="choose_sender">Drop-down selection, keyword fuzzy match</string>
     <string name="choose_frpc">Drop-down selection, keyword fuzzy match</string>
+    <string name="choose_task">Drop-down selection, keyword fuzzy match</string>
     <string name="choose_app">Installed Apps</string>
     <string name="extra_app">Extra Apps</string>
     <string name="extra_app_hint">One package name per line\nEnable async loading of the App list for selection.</string>
@@ -982,6 +985,7 @@
     <string name="sender_contains_tips">[Note] The sender is already in the list, no need to add it again!</string>
     <string name="rule_contains_tips">[Note] The rule is already in the list, no need to add it again!</string>
     <string name="frpc_contains_tips">[Note] The frpc is already in the list, no need to add it again!</string>
+    <string name="task_contains_tips">[Note] The task is already in the list, no need to add it again!</string>
     <string name="local_call">Local Call:</string>
     <string name="remote_sms">Remote SMS：</string>
     <string name="clear">Clear</string>
@@ -1199,15 +1203,17 @@
     <string name="task_settings">Settings</string>
     <string name="task_settings_tips">Control the configuration switch of "Settings".</string>
     <string name="task_rule">Rules On/Off</string>
-    <string name="task_rule_tips">Control enabling/disabling of "Rules"</string>
+    <string name="task_rule_tips">Control the enable/disable of "Rules"</string>
     <string name="task_sender">Channels On/Off</string>
-    <string name="task_sender_tips">Control enabling/disabling of "Senders"</string>
+    <string name="task_sender_tips">Control the enable/disable of "Senders"</string>
     <string name="task_alarm">Alarm</string>
     <string name="task_alarm_tips">Alarm</string>
     <string name="task_resend">Resend Message</string>
     <string name="task_resend_tips">Resend forwarded records since N hours ago, 0=ALL</string>
     <string name="task_resend_desc" formatted="false">Resend forwarding records since %s hours ago for %s</string>
     <string name="task_resend_error">At least one "Original Result" must be selected</string>
+    <string name="task_task">Tasks On/Off</string>
+    <string name="task_task_tips">Control the enable/disable of the "Auto Task"</string>
 
     <string name="second">Second</string>
     <string name="minute">Minute</string>
@@ -1323,6 +1329,8 @@
     <string name="specified_rule_hint">Enter Rule IDs (comma-separated)</string>
     <string name="specified_sender">Specified Sender</string>
     <string name="specified_sender_hint">Enter Sender IDs (comma-separated)</string>
+    <string name="specified_task">Specified Task</string>
+    <string name="specified_task_hint">Enter Task IDs (comma-separated)</string>
 
     <string name="current_language">English</string>
     <string name="current_activity_language">Current Activity language: </string>

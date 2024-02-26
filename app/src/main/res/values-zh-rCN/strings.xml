@@ -228,9 +228,11 @@
     <string name="new_sender_first">请选择发送通道（若无，请先添加）</string>
     <string name="new_rule_first">请选择发送通道（若无，请先添加）</string>
     <string name="new_frpc_first">请选择发送通道（若无，请先添加）</string>
+    <string name="new_task_first">请选择自动任务（若无，请先添加）</string>
     <string name="add_sender_first">请先去设置发送通道页面添加</string>
     <string name="add_rule_first">请先去设置转发规则页面添加</string>
     <string name="add_frpc_first">请先去设置FRPC页面添加</string>
+    <string name="add_task_first">请先去设置自动任务页面添加</string>
     <string name="select_sender">发送通道</string>
     <string name="rule_tester">转发规则测试</string>
     <string name="test_sim_slot">测试模拟的接收卡槽</string>
@@ -831,6 +833,7 @@
     <string name="choose_rule">下拉选择，关键字模糊匹配</string>
     <string name="choose_sender">下拉选择，关键字模糊匹配</string>
     <string name="choose_frpc">下拉选择，关键字模糊匹配</string>
+    <string name="choose_task">下拉选择，关键字模糊匹配</string>
     <string name="choose_app">已装APP列表</string>
     <string name="extra_app">额外消除应用通知</string>
     <string name="extra_app_hint">一行一个包名\n开启异步加载App列表以便选择</string>
@@ -983,6 +986,7 @@
     <string name="sender_contains_tips">【注意】该发送通道已经在列表中，无需重复添加！</string>
     <string name="rule_contains_tips">【注意】该转发规则已经在列表中，无需重复添加！</string>
     <string name="frpc_contains_tips">【注意】该Frpc已经在列表中，无需重复添加！</string>
+    <string name="task_contains_tips">【注意】该自动任务已经在列表中，无需重复添加！</string>
     <string name="local_call">本地呼叫：</string>
     <string name="remote_sms">远程发短信：</string>
     <string name="clear">清除</string>
@@ -1209,6 +1213,8 @@
     <string name="task_resend_tips">自动重发N小时以来的转发记录，0=全部</string>
     <string name="task_resend_desc" formatted="false">自动重发%s小时以来%s的转发记录</string>
     <string name="task_resend_error">必须至少选择一个【原转发状态】</string>
+    <string name="task_task">启停任务</string>
+    <string name="task_task_tips">控制【自动任务】的启用/禁用</string>
 
     <string name="second">秒</string>
     <string name="minute">分</string>
@@ -1324,6 +1330,8 @@
     <string name="specified_rule_hint">填写转发规则的id，多个以半角逗号分隔</string>
     <string name="specified_sender">指定通道</string>
     <string name="specified_sender_hint">填写发送通道的id，多个以半角逗号分隔</string>
+    <string name="specified_task">指定任务</string>
+    <string name="specified_task_hint">填写自动任务的id，多个以半角逗号分隔</string>
 
     <string name="current_language">简体中文</string>
     <string name="current_activity_language">当前 Activity 语种：</string>

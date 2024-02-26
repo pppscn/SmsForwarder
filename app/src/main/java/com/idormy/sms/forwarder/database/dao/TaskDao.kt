@@ -34,6 +34,9 @@ interface TaskDao {
     @Query("UPDATE Task SET status = :status WHERE id = :id")
     fun updateStatus(id: Long, status: Int)
 
+    @Query("UPDATE Task SET status=:status WHERE id IN (:ids)")
+    fun updateStatusByIds(ids: List<Long>, status: Int)
+
     @Query("SELECT * FROM Task where id=:id")
     fun get(id: Long): Single<Task>
 
@@ -45,6 +48,9 @@ interface TaskDao {
 
     @Query("SELECT * FROM Task where type >= 1000 ORDER BY id DESC")
     fun pagingSourceMine(): PagingSource<Int, Task>
+
+    @Query("SELECT * FROM Task ORDER BY id DESC")
+    fun getAll(): Single<List<Task>>
 
     @Transaction
     @RawQuery(observedEntities = [Task::class])
