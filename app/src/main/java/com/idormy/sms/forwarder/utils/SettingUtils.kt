@@ -10,6 +10,9 @@ class SettingUtils private constructor() {
         //是否启动时检查更新
         var autoCheckUpdate: Boolean by SharedPreference(AUTO_CHECK_UPDATE, true)
 
+        //是否加入SmsF预览体验计划
+        var joinPreviewProgram: Boolean by SharedPreference(JOIN_PREVIEW_PROGRAM, false)
+
         //是否同意隐私政策
         var isAgreePrivacy: Boolean by SharedPreference(IS_AGREE_PRIVACY_KEY, false)
 

@@ -17,23 +17,21 @@
     <style name="InfoItem" parent="Container">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">50dp</item>
-        <item name="sLeftViewMarginLeft">10dp</item>
+        <item name="sLeftViewMarginLeft">5dp</item>
         <item name="sRightViewMarginRight">0dp</item>
         <item name="sRightIconMarginRight">0dp</item>
         <item name="sLeftIconMarginLeft">0dp</item>
-        <item name="sLeftTextSize">?attr/xui_config_size_content_text</item>
         <item name="sLeftTextColor">@color/xui_config_color_title_text</item>
         <item name="sCenterTextColor">@color/xui_config_color_black</item>
         <item name="sRightTextColor">@color/xui_config_color_explain_text</item>
-        <item name="sRightTextSize">?attr/xui_config_size_content_text</item>
+        <item name="sLeftTextSize">13sp</item>
+        <item name="sRightTextSize">13sp</item>
     </style>
 
     <style name="InfoItem.About">
-        <item name="sLeftViewWidth">110dp</item>
         <item name="sLeftViewGravity">left_center</item>
         <item name="sCenterViewGravity">left_center</item>
-        <item name="sCenterViewMarginLeft">25dp</item>
-        <item name="sRightTextSize">?attr/xui_config_size_content_text</item>
+        <item name="sCenterViewMarginLeft">10dp</item>
         <item name="sRightViewMarginRight">10dp</item>
         <item name="sRightIconRes">@drawable/icon_arrow_right_grey</item>
     </style>
@@ -41,10 +39,8 @@
     <style name="InfoItem.AboutWithBtn">
         <item name="sLeftViewGravity">left_center</item>
         <item name="sCenterViewGravity">left_center</item>
-        <item name="sCenterViewMarginLeft">25dp</item>
-        <item name="sRightTextSize">?attr/xui_config_size_content_text</item>
+        <item name="sCenterViewMarginLeft">10dp</item>
         <item name="sRightViewMarginRight">10dp</item>
-        <!--<item name="sRightIconRes">@drawable/icon_arrow_right_grey</item>-->
     </style>
 
     <style name="PullDownStyle">

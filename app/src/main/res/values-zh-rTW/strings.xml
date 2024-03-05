@@ -42,6 +42,7 @@
     <string name="menu_about">關於軟體</string>
 
     <string name="about_app_version">軟體版本：%s</string>
+    <string name="about_app_version_tips">版本名稱：%s\n版本代碼：%s\n構建時間：%s\nGit提交ID：%s</string>
     <string name="about_cache_size">緩存大小：%s</string>
     <string name="about_frpc_version">Frpc版本：%s</string>
     <string name="about_item_wechat_miniprogram">微信小程序</string>
@@ -738,6 +739,8 @@
     <string name="add">添加</string>
     <string name="auto_check">啟動時檢查</string>
     <string name="check_update">檢查更新</string>
+    <string name="join_preview_program">加入SmsF預覽體驗計劃</string>
+    <string name="join_preview_program_tips">檢查SmsF每周構建版更新，率先體驗新功能與Bug修復</string>
     <string name="clear_cache">清理緩存</string>
     <string name="delete_frpc">刪除動態庫</string>
 

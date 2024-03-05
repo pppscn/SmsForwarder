@@ -37,9 +37,34 @@
                 android:textStyle="bold" />
 
             <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/menu_join_preview_program"
+                style="@style/InfoItem.AboutWithBtn"
+                android:layout_marginTop="10dp"
+                app:sLeftTextString="@string/join_preview_program">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/sRightImgId"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                        android:id="@+id/sb_join_preview_program"
+                        style="@style/SwitchButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:ignore="DuplicateSpeakableTextCheck,TouchTargetSizeCheck" />
+
+                </LinearLayout>
+
+            </com.xuexiang.xui.widget.textview.supertextview.SuperTextView>
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                 android:id="@+id/menu_version"
                 style="@style/InfoItem.AboutWithBtn"
-                android:layout_marginTop="15dp"
                 app:sLeftTextString="@string/about_app_version">
 
                 <LinearLayout
@@ -198,7 +223,7 @@
                 android:id="@+id/copyright"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="5dp"
                 android:gravity="center_horizontal"
                 android:textColor="@color/xui_config_color_gray_7" />

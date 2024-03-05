@@ -24,6 +24,7 @@ object TaskWorker {
 
 //初始化相关
 const val AUTO_CHECK_UPDATE = "auto_check_update"
+const val JOIN_PREVIEW_PROGRAM = "join_preview_program"
 const val IS_AGREE_PRIVACY_KEY = "is_agree_privacy_key"
 
 //数据库
@@ -180,8 +181,9 @@ const val EVENT_LOAD_APP_LIST = "EVENT_LOAD_APP_LIST"
 const val EVENT_KEY_SIM_SLOT = "EVENT_KEY_SIM_SLOT"
 const val EVENT_KEY_PHONE_NUMBERS = "EVENT_KEY_PHONE_NUMBERS"
 
-//在线升级URL
+//在线升级&预览计划URL
 const val KEY_UPDATE_URL = "https://xupdate.ppps.cn/update/checkVersion"
+const val KEY_PREVIEW_URL = "https://xupdate.ppps.cn/preview/checkVersion"
 
 //HttpServer相关
 const val HTTP_SERVER_PORT = 5000

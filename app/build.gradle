@@ -39,8 +39,15 @@ android {
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode build_versions.version_code
-        versionName build_versions.version_name
+        //版本号拼接编译日期
+        def date = new Date().format("yyMMdd", TimeZone.getTimeZone("GMT+08"))
+        versionName = "${build_versions.version_name}.${date}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        //编译时间
+        def time = new Date().format("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone("GMT+08"))
+        buildConfigField "String", "BUILD_TIME", "\"${time}\""
+        //Git 的 commit ID
+        buildConfigField "String", "GIT_COMMIT_ID", getGitCommitId()
 
         multiDexEnabled true
         //vectorDrawables.useSupportLibrary = true
@@ -164,12 +171,11 @@ android {
     android.applicationVariants.configureEach { variant ->
         // Assigns a different version code for each output APK.
         variant.outputs.each { output ->
-            def date = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08"))
             //noinspection GrDeprecatedAPIUsage
             def abiName = output.getFilter(com.android.build.OutputFile.ABI)
             if (abiName == null) abiName = "universal"
             output.versionCodeOverride = abiCodes.get(abiName, 0) * 100000 + variant.versionCode
-            output.outputFileName = "SmsF_${versionName}_${output.versionCode}_${abiName}_${date}_${variant.name}.apk"
+            output.outputFileName = "SmsF_${versionName}_${output.versionCode}_${abiName}_${variant.name}.apk"
         }
     }
 
@@ -317,3 +323,14 @@ dependencies {
 apply from: 'x-library.gradle'
 //walle多渠道打包
 //apply from: 'multiple-channel.gradle'
+
+//获取 commit ID
+static def getGitCommitId() {
+    try {
+        def commitId = 'git rev-parse --short HEAD'.execute().text.trim()
+        return "\"$commitId\""
+    } catch (Exception e) {
+        e.printStackTrace()
+        return "\"\""
+    }
+}

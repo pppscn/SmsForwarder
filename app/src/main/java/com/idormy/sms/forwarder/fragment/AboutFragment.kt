@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.idormy.sms.forwarder.App
+import com.idormy.sms.forwarder.BuildConfig
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.core.webview.AgentWebActivity
@@ -68,11 +69,19 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
         binding!!.scbAutoCheckUpdate.setOnCheckedChangeListener { _, isChecked ->
             SettingUtils.autoCheckUpdate = isChecked
         }
+
+        binding!!.sbJoinPreviewProgram.isChecked = SettingUtils.joinPreviewProgram
+        binding!!.sbJoinPreviewProgram.setOnCheckedChangeListener { _, isChecked ->
+            SettingUtils.joinPreviewProgram = isChecked
+            if (isChecked) {
+                XToastUtils.success(getString(R.string.join_preview_program_tips))
+            }
+        }
     }
 
     override fun initListeners() {
         binding!!.btnUpdate.setOnClickListener {
-            XUpdateInit.checkUpdate(requireContext(), true)
+            XUpdateInit.checkUpdate(requireContext(), true, SettingUtils.joinPreviewProgram)
         }
         binding!!.btnCache.setOnClickListener {
             HistoryUtils.clearPreference()
@@ -107,6 +116,8 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
             AgentWebActivity.goWeb(context, getString(R.string.url_project_gitee))
         }
 
+        binding!!.menuJoinPreviewProgram.setOnSuperTextViewClickListener(this)
+        binding!!.menuVersion.setOnSuperTextViewClickListener(this)
         binding!!.menuWechatMiniprogram.setOnSuperTextViewClickListener(this)
         binding!!.menuDonation.setOnSuperTextViewClickListener(this)
         binding!!.menuUserProtocol.setOnSuperTextViewClickListener(this)
@@ -116,6 +127,22 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
     @SingleClick
     override fun onClick(v: SuperTextView) {
         when (v.id) {
+            R.id.menu_join_preview_program -> {
+                XToastUtils.info(getString(R.string.join_preview_program_tips))
+            }
+
+            R.id.menu_version -> {
+                XToastUtils.info(
+                    String.format(
+                        getString(R.string.about_app_version_tips),
+                        AppUtils.getAppVersionName(),
+                        AppUtils.getAppVersionCode(),
+                        BuildConfig.BUILD_TIME,
+                        BuildConfig.GIT_COMMIT_ID
+                    )
+                )
+            }
+
             R.id.menu_donation -> {
                 previewMarkdown(this, getString(R.string.about_item_donation_link), getString(R.string.url_donation_link), false)
             }

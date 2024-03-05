@@ -29,10 +29,9 @@
     </style>
 
     <style name="InfoItem.About">
-        <item name="sLeftViewWidth">110dp</item>
         <item name="sLeftViewGravity">left_center</item>
         <item name="sCenterViewGravity">left_center</item>
-        <item name="sCenterViewMarginLeft">25dp</item>
+        <item name="sCenterViewMarginLeft">10dp</item>
         <item name="sRightTextSize">?attr/xui_config_size_content_text</item>
         <item name="sRightViewMarginRight">10dp</item>
         <item name="sRightIconRes">@drawable/icon_arrow_right_grey</item>
@@ -41,10 +40,9 @@
     <style name="InfoItem.AboutWithBtn">
         <item name="sLeftViewGravity">left_center</item>
         <item name="sCenterViewGravity">left_center</item>
-        <item name="sCenterViewMarginLeft">25dp</item>
+        <item name="sCenterViewMarginLeft">10dp</item>
         <item name="sRightTextSize">?attr/xui_config_size_content_text</item>
         <item name="sRightViewMarginRight">10dp</item>
-        <!--<item name="sRightIconRes">@drawable/icon_arrow_right_grey</item>-->
     </style>
 
     <style name="PullDownStyle">

@@ -84,7 +84,7 @@ object AppUtils {
         return try {
             val pm: PackageManager = App.context.packageManager
             val pi: PackageInfo = pm.getPackageInfo(packageName, 0)
-            pi.versionName
+            pi.versionName ?: ""
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
             Log.e("AppUtils", "getAppVersionName: ${e.message}")

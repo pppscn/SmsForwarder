@@ -3,6 +3,8 @@ package com.idormy.sms.forwarder.utils.sdkinit
 import android.app.Application
 import android.content.Context
 import com.idormy.sms.forwarder.App
+import com.idormy.sms.forwarder.BuildConfig
+import com.idormy.sms.forwarder.utils.KEY_PREVIEW_URL
 import com.idormy.sms.forwarder.utils.KEY_UPDATE_URL
 import com.idormy.sms.forwarder.utils.update.CustomUpdateDownloader
 import com.idormy.sms.forwarder.utils.update.CustomUpdateFailureListener
@@ -36,17 +38,27 @@ class XUpdateInit private constructor() {
                 //.isAutoMode(false)
                 //设置默认公共请求参数
                 .param("versionCode", UpdateUtils.getVersionCode(application))
-                .param("appKey", application.packageName) //这个必须设置！实现网络请求功能。
+                .param("appKey", application.packageName)
+                //设置预览计划请求参数
+                .param("versionName", UpdateUtils.getVersionName(application))
+                .param("buildTime", BuildConfig.BUILD_TIME)
+                .param("gitCommitId", BuildConfig.GIT_COMMIT_ID)
+                //这个必须设置！实现网络请求功能。
                 .setIUpdateHttpService(XHttpUpdateHttpServiceImpl())
-                .setIUpdateDownLoader(CustomUpdateDownloader()) //这个必须初始化
+                .setIUpdateDownLoader(CustomUpdateDownloader())
+                //这个必须初始化
                 .init(application)
         }
 
         /**
          * 进行版本更新检查
          */
-        fun checkUpdate(context: Context, needErrorTip: Boolean) {
-            checkUpdate(context, KEY_UPDATE_URL, needErrorTip)
+        fun checkUpdate(context: Context, needErrorTip: Boolean, joinPreviewProgram: Boolean) {
+            if (joinPreviewProgram) {
+                checkUpdate(context, KEY_PREVIEW_URL, needErrorTip)
+            } else {
+                checkUpdate(context, KEY_UPDATE_URL, needErrorTip)
+            }
         }
 
         /**
@@ -61,7 +73,7 @@ class XUpdateInit private constructor() {
                 return
             }
             XUpdate.newBuild(context).updateUrl(url).update()
-            XUpdate.get().setOnUpdateFailureListener(CustomUpdateFailureListener(needErrorTip))
+            XUpdate.get().debug(App.isDebug).setOnUpdateFailureListener(CustomUpdateFailureListener(needErrorTip))
         }
     }
 
