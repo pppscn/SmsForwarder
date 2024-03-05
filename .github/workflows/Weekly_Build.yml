@@ -23,7 +23,7 @@ jobs:
       - name: Delete Weekly Build
         uses: Mattraks/delete-workflow-runs@v2
         with:
-          token: ${{ github.token }}
+          token: ${{ secrets.TOKEN }}
           repository: ${{ github.repository }}
           retain_days: 0 # 全部删除只留正在跑的一条
           keep_minimum_runs: 0 # 全部删除只留正在跑的一条
@@ -45,39 +45,84 @@ jobs:
       # 打包release
       - name: Build with Gradle
         run: bash ./gradlew assembleRelease
-      # 存档打包的文件，以便后续上传，TODO: 看起来有点笨，有没有更好的方法？
-      - name: Init APP Version Name
+      # 自动发布预览计划
+      - name: Parse output-metadata.json and upload APKs to XUpdate
         run: |
-          echo "ver_name=$(grep -m 1 '\"versionName\":' ${{ env.output }}//output-metadata.json | grep -oP '\"versionName\": \"\K[^\"]+')" >> $GITHUB_ENV
-          echo "ver_code=$(grep -m 1 '\"versionCode\":' ${{ env.output }}//output-metadata.json | grep -oP '\"versionCode\": \K\d+' | tail -c 4)" >> $GITHUB_ENV
-          echo "ver_date=$(grep -m 1 '\"outputFile\":' ${{ env.output }}//output-metadata.json | grep -oP '\"outputFile\": \"[^\"]+' | grep -oP '\d{8}')" >> $GITHUB_ENV
+          metadata_file="${{ env.output }}/output-metadata.json"
+          applicationId=$(jq -r '.applicationId' "$metadata_file")
+          buildDate=$(jq -r '.buildDate' "$metadata_file")
+          buildTime=$(jq -r '.buildTime' "$metadata_file")
+          gitCommitId=$(jq -r '.gitCommitId' "$metadata_file")
+
+          # 遍历 elements，并从 outputFile 中提取 versionName 和 versionCode
+          jq -r '.elements | sort_by(.outputFile) | .[].outputFile' "$metadata_file" |
+          while IFS= read -r apk; do
+              echo "APK: $apk"
+              # 使用正则表达式从文件名中提取 versionName、versionCode 和 ABI
+              if [[ $apk =~ SmsF_([^_]+)_([^_]+)_(.+)_release.apk ]]; then
+                  versionName="${BASH_REMATCH[1]}"
+                  versionCode="${BASH_REMATCH[2]}"
+                  abi="${BASH_REMATCH[3]}"
+                  echo "ver_name=$versionName" >> $GITHUB_ENV
+                  echo "ver_code=${versionCode: -3}" >> $GITHUB_ENV
+
+                  response=$(curl --retry 3 -X POST -H "Cache-Control: no-cache" \
+                  -H "Content-Type: application/json" \
+                  -H "Cookie: xupdate_token=${{ secrets.XUPDATE_TOKEN }}" \
+                  -H "X-Token: ${{ secrets.X_TOKEN }}" \
+                  -d "{\"appKey\":\"${applicationId}\",\"versionName\":\"${versionName}\",\"versionCode\":\"${versionCode}\",\"modifyContent\":\"\",\"updateStatus\":1,\"gitCommitId\":\"${gitCommitId}\",\"buildTime\":\"${buildTime}\",\"uploadTime\":\"${buildTime}\"}" \
+                  ${{ secrets.URL_ADD_VERSION }})
+      
+                  version_id=$(echo $response | grep -oP '"versionId":\s*\K\d+') # 提取versionId
+                  echo "versionId: $version_id"
+      
+                  if [[ $version_id =~ ^[0-9]+$ ]]; then
+                      curl --retry 3 -X POST -H "Cache-Control: no-cache" \
+                      -H "Content-Type: multipart/form-data" \
+                      -H "Cookie: xupdate_token=${{ secrets.XUPDATE_TOKEN }}" \
+                      -H "X-Token: ${{ secrets.X_TOKEN }}" \
+                      -F "file=@${{ env.output }}/${apk};filename=${apk}" \
+                      -F "versionId=${version_id}" \
+                      ${{ secrets.URL_UPLOAD_APK }}
+      
+                      # If upload is successful, set success to true to exit the retry loop
+                      if [[ $? -eq 0 ]]; then
+                          success=true
+                      fi
+                  else
+                      echo "Error: version_id is not a valid number. skip upload apk"
+                  fi
+
+              fi
+          done
+      # 存档打包的文件，以便后续上传，TODO: 看起来有点笨，有没有更好的方法？
       - name: Upload App To Artifact universal
         if: success () || failure ()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: "SmsF_${{ env.ver_name }}_100${{ env.ver_code }}_universal_${{ env.ver_date }}_release.apk"
-          path: "${{ env.output }}//SmsF_*_universal_*.apk"
+          name: "SmsF_${{ env.ver_name }}_100${{ env.ver_code }}_universal_release.apk"
+          path: "${{ env.output }}/SmsF_*_universal_*.apk"
       - name: Upload App To Artifact armeabi-v7a
         if: success () || failure ()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: "SmsF_${{ env.ver_name }}_200${{ env.ver_code }}_armeabi-v7a_${{ env.ver_date }}_release.apk"
+          name: "SmsF_${{ env.ver_name }}_200${{ env.ver_code }}_armeabi-v7a_release.apk"
           path: "${{ env.output }}//SmsF_*_armeabi-v7a_*.apk"
       - name: Upload App To Artifact arm64-v8a
         if: success () || failure ()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: "SmsF_${{ env.ver_name }}_300${{ env.ver_code }}_arm64-v8a_${{ env.ver_date }}_release.apk"
+          name: "SmsF_${{ env.ver_name }}_300${{ env.ver_code }}_arm64-v8a_release.apk"
           path: "${{ env.output }}//SmsF_*_arm64-v8a_*.apk"
       - name: Upload App To Artifact x86
         if: success () || failure ()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: "SmsF_${{ env.ver_name }}_400${{ env.ver_code }}_x86_${{ env.ver_date }}_release.apk"
-          path: "${{ env.output }}//SmsF_*_x86_${{ env.ver_date }}_*.apk"
+          name: "SmsF_${{ env.ver_name }}_400${{ env.ver_code }}_x86_release.apk"
+          path: "${{ env.output }}//SmsF_*_x86_*.apk"
       - name: Upload App To Artifact x86_64
         if: success () || failure ()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: "SmsF_${{ env.ver_name }}_500${{ env.ver_code }}_x86_64_${{ env.ver_date }}_release.apk"
-          path: "${{ env.output }}//SmsF_*_x86_64_${{ env.ver_date }}_*.apk"
+          name: "SmsF_${{ env.ver_name }}_500${{ env.ver_code }}_x86_64_release.apk"
+          path: "${{ env.output }}//SmsF_*_x86_64_*.apk"

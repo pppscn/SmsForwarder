@@ -42,10 +42,10 @@
     <string name="menu_about">About</string>
 
     <string name="about_app_version">AppVer: %s</string>
-    <string name="about_app_version_tips">Version Name: %s\nVersion Code: %s\nBuild Time: %s\nGit Commit ID: %s</string>
+    <string name="about_app_version_tips" formatted="false">Version Name: %s\nVersion Code: %s\nBuild Time: %s\nGit Commit ID: %s</string>
     <string name="about_cache_size">Cache Size: %s</string>
     <string name="about_frpc_version">FrpcVer: %s</string>
-    <string name="about_item_wechat_miniprogram">WeChat MiniProgram</string>
+    <string name="about_item_wechat_miniprogram" formatted="false">WeChat MiniProgram</string>
     <string name="about_cache_purged">Cache cleared</string>
     <string name="about_frpc_deleted">Frpc Deleted, App restarting</string>
     <string name="about_copyright">© %1$s PPPSCN All rights reserved.</string>
