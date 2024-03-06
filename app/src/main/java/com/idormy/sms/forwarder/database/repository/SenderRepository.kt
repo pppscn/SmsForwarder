@@ -33,8 +33,7 @@ class SenderRepository(private val senderDao: SenderDao) {
     fun getByIds(ids: List<Long>, instr: String): List<Sender> {
         val senders = senderDao.getByIds(ids)
         // 将结果按照 instr() 的顺序进行排序
-        senders.sortedBy { instr.indexOf(it.id.toString()) }
-        return senders
+        return senders.sortedBy { instr.indexOf(it.id.toString()) }
     }
 
     fun getAllNonCache(): List<Sender> {

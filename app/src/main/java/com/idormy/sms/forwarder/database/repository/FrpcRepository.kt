@@ -34,8 +34,7 @@ class FrpcRepository(private val frpcDao: FrpcDao) {
     fun getByUids(uids: List<String>, instr: String): List<Frpc> {
         val frpcs = frpcDao.getByUids(uids)
         // 将结果按照 instr() 的顺序进行排序
-        frpcs.sortedBy { instr.indexOf(it.uid) }
-        return frpcs
+        return frpcs.sortedBy { instr.indexOf(it.uid) }
     }
 
 }
