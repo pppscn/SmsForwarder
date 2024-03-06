@@ -1,25 +1,22 @@
 package com.idormy.sms.forwarder.utils
 
 object Worker {
-    const val sendMsgInfo = "send_msg_info"
-    const val updateLogs = "update_logs"
-    const val rule = "rule"
-    const val senderIndex = "sender_index"
-    const val msgId = "msg_id"
-    //const val ruleId = "rule_id"
-    //const val sendLogId = "send_log_id"
-    //const val sendSbnId = "send_sbn_id"
+    const val SEND_MSG_INFO = "send_msg_info"
+    const val UPDATE_LOGS = "update_logs"
+    const val RULE = "rule"
+    const val SENDER_INDEX = "sender_index"
+    const val MSG_ID = "msg_id"
 }
 
 object TaskWorker {
-    const val taskId = "task_id"
-    const val task = "task"
-    const val taskConditions = "task_conditions"
-    const val taskActions = "task_actions"
-    const val conditionType = "condition_type"
-    const val msg = "msg"
-    const val msgInfo = "msg_info"
-    const val action = "action"
+    const val TASK_ID = "task_id"
+    const val TASK = "task"
+    const val TASK_CONDITIONS = "task_conditions"
+    const val TASK_ACTIONS = "task_actions"
+    const val CONDITION_TYPE = "condition_type"
+    const val MSG = "msg"
+    const val MSG_INFO = "msg_info"
+    const val ACTION = "action"
 }
 
 //初始化相关

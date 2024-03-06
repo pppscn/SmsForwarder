@@ -25,7 +25,7 @@ class CronWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
 
     override suspend fun doWork(): Result {
         try {
-            val taskId = inputData.getLong(TaskWorker.taskId, -1L)
+            val taskId = inputData.getLong(TaskWorker.TASK_ID, -1L)
             if (taskId == -1L) {
                 Log.d(TAG, "taskId is -1L")
                 return Result.failure()
@@ -85,7 +85,7 @@ class CronWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
 
             //TODO: 组装消息体 && 执行具体任务
             val msgInfo = MsgInfo("task", task.name, task.description, Date(), task.name)
-            val actionData = Data.Builder().putLong(TaskWorker.taskId, task.id).putString(TaskWorker.taskActions, task.actions).putString(TaskWorker.msgInfo, Gson().toJson(msgInfo)).build()
+            val actionData = Data.Builder().putLong(TaskWorker.TASK_ID, task.id).putString(TaskWorker.TASK_ACTIONS, task.actions).putString(TaskWorker.MSG_INFO, Gson().toJson(msgInfo)).build()
             val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
             WorkManager.getInstance().enqueue(actionRequest)
 

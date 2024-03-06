@@ -68,10 +68,10 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
     private var taskId = -1L
 
     override suspend fun doWork(): Result {
-        taskId = inputData.getLong(TaskWorker.taskId, -1L)
-        val taskConditionsJson = inputData.getString(TaskWorker.taskConditions)
-        val taskActionsJson = inputData.getString(TaskWorker.taskActions)
-        val msgInfoJson = inputData.getString(TaskWorker.msgInfo)
+        taskId = inputData.getLong(TaskWorker.TASK_ID, -1L)
+        val taskConditionsJson = inputData.getString(TaskWorker.TASK_CONDITIONS)
+        val taskActionsJson = inputData.getString(TaskWorker.TASK_ACTIONS)
+        val msgInfoJson = inputData.getString(TaskWorker.MSG_INFO)
         Log.d(TAG, "taskId: $taskId, taskActionsJson: $taskActionsJson, msgInfoJson: $msgInfoJson")
         if (taskId == -1L || taskActionsJson.isNullOrEmpty() || msgInfoJson.isNullOrEmpty()) {
             Log.d(TAG, "taskId is -1L or actionSetting is null")

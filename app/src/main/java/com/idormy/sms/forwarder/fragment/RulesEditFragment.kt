@@ -4,7 +4,11 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.CompoundButton
+import android.widget.EditText
+import android.widget.RadioGroup
+import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -28,7 +32,40 @@ import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
 import com.idormy.sms.forwarder.database.viewmodel.RuleViewModel
 import com.idormy.sms.forwarder.databinding.FragmentRulesEditBinding
 import com.idormy.sms.forwarder.entity.MsgInfo
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.CHECK_CONTAIN
+import com.idormy.sms.forwarder.utils.CHECK_END_WITH
+import com.idormy.sms.forwarder.utils.CHECK_IS
+import com.idormy.sms.forwarder.utils.CHECK_NOT_CONTAIN
+import com.idormy.sms.forwarder.utils.CHECK_REGEX
+import com.idormy.sms.forwarder.utils.CHECK_SIM_SLOT_1
+import com.idormy.sms.forwarder.utils.CHECK_SIM_SLOT_2
+import com.idormy.sms.forwarder.utils.CHECK_SIM_SLOT_ALL
+import com.idormy.sms.forwarder.utils.CHECK_START_WITH
+import com.idormy.sms.forwarder.utils.CommonUtils
+import com.idormy.sms.forwarder.utils.DataProvider
+import com.idormy.sms.forwarder.utils.EVENT_LOAD_APP_LIST
+import com.idormy.sms.forwarder.utils.EVENT_TOAST_ERROR
+import com.idormy.sms.forwarder.utils.FILED_CALL_TYPE
+import com.idormy.sms.forwarder.utils.FILED_INFORM_CONTENT
+import com.idormy.sms.forwarder.utils.FILED_MSG_CONTENT
+import com.idormy.sms.forwarder.utils.FILED_MULTI_MATCH
+import com.idormy.sms.forwarder.utils.FILED_PACKAGE_NAME
+import com.idormy.sms.forwarder.utils.FILED_PHONE_NUM
+import com.idormy.sms.forwarder.utils.FILED_TRANSPOND_ALL
+import com.idormy.sms.forwarder.utils.FILED_UID
+import com.idormy.sms.forwarder.utils.KEY_RULE_CLONE
+import com.idormy.sms.forwarder.utils.KEY_RULE_ID
+import com.idormy.sms.forwarder.utils.KEY_RULE_TYPE
+import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.PhoneUtils
+import com.idormy.sms.forwarder.utils.SENDER_LOGIC_ALL
+import com.idormy.sms.forwarder.utils.SENDER_LOGIC_UNTIL_FAIL
+import com.idormy.sms.forwarder.utils.SENDER_LOGIC_UNTIL_SUCCESS
+import com.idormy.sms.forwarder.utils.STATUS_OFF
+import com.idormy.sms.forwarder.utils.STATUS_ON
+import com.idormy.sms.forwarder.utils.SendUtils
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.XToastUtils
 import com.idormy.sms.forwarder.workers.LoadAppListWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
@@ -49,8 +86,7 @@ import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.*
-import java.util.*
+import java.util.Date
 
 @Page(name = "转发规则·编辑器")
 @Suppress("PrivatePropertyName")

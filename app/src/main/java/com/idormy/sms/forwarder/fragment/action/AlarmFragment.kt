@@ -176,7 +176,7 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
                                 val taskAction = TaskSetting(TASK_ACTION_ALARM, getString(R.string.task_alarm), settingVo.description, Gson().toJson(settingVo), requestCode)
                                 val taskActionsJson = Gson().toJson(arrayListOf(taskAction))
                                 val msgInfo = MsgInfo("task", getString(R.string.task_alarm), settingVo.description, Date(), getString(R.string.task_alarm))
-                                val actionData = Data.Builder().putLong(TaskWorker.taskId, 0).putString(TaskWorker.taskActions, taskActionsJson).putString(TaskWorker.msgInfo, Gson().toJson(msgInfo)).build()
+                                val actionData = Data.Builder().putLong(TaskWorker.TASK_ID, 0).putString(TaskWorker.TASK_ACTIONS, taskActionsJson).putString(TaskWorker.MSG_INFO, Gson().toJson(msgInfo)).build()
                                 val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
                                 WorkManager.getInstance().enqueue(actionRequest)
                             } catch (e: Exception) {

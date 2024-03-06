@@ -203,7 +203,7 @@ class LocationService : Service() {
     ) {
         val locationWorkerRequest = OneTimeWorkRequestBuilder<LocationWorker>().setInputData(
             workDataOf(
-                TaskWorker.conditionType to conditionType, "locationJsonOld" to locationJsonOld, "locationJsonNew" to locationJsonNew
+                TaskWorker.CONDITION_TYPE to conditionType, "locationJsonOld" to locationJsonOld, "locationJsonNew" to locationJsonNew
             )
         ).build()
 

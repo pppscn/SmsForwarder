@@ -20,7 +20,7 @@ import com.idormy.sms.forwarder.utils.Worker
 import com.idormy.sms.forwarder.workers.SendWorker
 import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xutil.display.ScreenUtils
-import java.util.*
+import java.util.Date
 
 
 @Suppress("PrivatePropertyName", "DEPRECATION")
@@ -146,7 +146,7 @@ class NotificationService : NotificationListenerService() {
 
             val request = OneTimeWorkRequestBuilder<SendWorker>().setInputData(
                 workDataOf(
-                    Worker.sendMsgInfo to Gson().toJson(msgInfo),
+                    Worker.SEND_MSG_INFO to Gson().toJson(msgInfo),
                 )
             ).build()
             WorkManager.getInstance(applicationContext).enqueue(request)

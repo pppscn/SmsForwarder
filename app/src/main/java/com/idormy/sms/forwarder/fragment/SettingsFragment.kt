@@ -17,7 +17,12 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.CompoundButton
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.RadioGroup
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -39,8 +44,16 @@ import com.idormy.sms.forwarder.entity.SimInfo
 import com.idormy.sms.forwarder.receiver.BootCompletedReceiver
 import com.idormy.sms.forwarder.service.ForegroundService
 import com.idormy.sms.forwarder.service.LocationService
-import com.idormy.sms.forwarder.utils.*
 import com.idormy.sms.forwarder.utils.AppUtils.getAppPackageName
+import com.idormy.sms.forwarder.utils.CommonUtils
+import com.idormy.sms.forwarder.utils.DataProvider
+import com.idormy.sms.forwarder.utils.EVENT_LOAD_APP_LIST
+import com.idormy.sms.forwarder.utils.KeepAliveUtils
+import com.idormy.sms.forwarder.utils.LocationUtils
+import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.PhoneUtils
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.XToastUtils
 import com.idormy.sms.forwarder.widget.GuideTipsDialog
 import com.idormy.sms.forwarder.workers.LoadAppListWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
@@ -57,8 +70,7 @@ import com.xuexiang.xui.widget.picker.widget.listener.OnOptionsSelectListener
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.XUtil.getPackageManager
 import com.xuexiang.xutil.file.FileUtils
-import kotlinx.coroutines.*
-import java.util.*
+import java.util.Locale
 
 @Suppress("SpellCheckingInspection", "PrivatePropertyName")
 @Page(name = "通用设置")

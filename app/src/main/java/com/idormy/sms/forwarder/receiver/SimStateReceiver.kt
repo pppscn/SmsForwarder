@@ -4,12 +4,12 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.telephony.TelephonyManager
-import com.idormy.sms.forwarder.utils.Log
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.utils.DELAY_TIME_AFTER_SIM_READY
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_SIM
 import com.idormy.sms.forwarder.utils.TaskWorker
@@ -68,8 +68,8 @@ class SimStateReceiver : BroadcastReceiver() {
             .setInitialDelay(duration, TimeUnit.MILLISECONDS)
             .setInputData(
                 workDataOf(
-                    TaskWorker.conditionType to TASK_CONDITION_SIM,
-                    TaskWorker.msg to msg.toString().trimEnd(),
+                    TaskWorker.CONDITION_TYPE to TASK_CONDITION_SIM,
+                    TaskWorker.MSG to msg.toString().trimEnd(),
                 )
             ).build()
         WorkManager.getInstance(context).enqueue(request)

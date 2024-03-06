@@ -27,7 +27,7 @@ class BatteryWorker(context: Context, params: WorkerParameters) : CoroutineWorke
 
     override suspend fun doWork(): Result {
         try {
-            when (val conditionType = inputData.getInt(TaskWorker.conditionType, -1)) {
+            when (val conditionType = inputData.getInt(TaskWorker.CONDITION_TYPE, -1)) {
 
                 TASK_CONDITION_BATTERY -> {
                     val status = inputData.getInt("status", -1)
@@ -72,9 +72,9 @@ class BatteryWorker(context: Context, params: WorkerParameters) : CoroutineWorke
                         //TODO: 组装消息体 && 执行具体任务
                         val msgInfo = MsgInfo("task", task.name, msg, Date(), task.name)
                         val actionData = Data.Builder()
-                            .putLong(TaskWorker.taskId, task.id)
-                            .putString(TaskWorker.taskActions, task.actions)
-                            .putString(TaskWorker.msgInfo, Gson().toJson(msgInfo))
+                            .putLong(TaskWorker.TASK_ID, task.id)
+                            .putString(TaskWorker.TASK_ACTIONS, task.actions)
+                            .putString(TaskWorker.MSG_INFO, Gson().toJson(msgInfo))
                             .build()
                         val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
                         WorkManager.getInstance().enqueue(actionRequest)
@@ -131,9 +131,9 @@ class BatteryWorker(context: Context, params: WorkerParameters) : CoroutineWorke
                         //TODO: 组装消息体 && 执行具体任务
                         val msgInfo = MsgInfo("task", task.name, msg, Date(), task.description)
                         val actionData = Data.Builder()
-                            .putLong(TaskWorker.taskId, task.id)
-                            .putString(TaskWorker.taskActions, task.actions)
-                            .putString(TaskWorker.msgInfo, Gson().toJson(msgInfo))
+                            .putLong(TaskWorker.TASK_ID, task.id)
+                            .putString(TaskWorker.TASK_ACTIONS, task.actions)
+                            .putString(TaskWorker.MSG_INFO, Gson().toJson(msgInfo))
                             .build()
                         val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
                         WorkManager.getInstance().enqueue(actionRequest)

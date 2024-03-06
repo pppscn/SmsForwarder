@@ -29,8 +29,8 @@ class SimWorker(context: Context, params: WorkerParameters) : CoroutineWorker(co
 
     override suspend fun doWork(): Result {
         try {
-            val conditionType = inputData.getInt(TaskWorker.conditionType, -1)
-            val simStateStr = inputData.getString(TaskWorker.msg)
+            val conditionType = inputData.getInt(TaskWorker.CONDITION_TYPE, -1)
+            val simStateStr = inputData.getString(TaskWorker.MSG)
             val taskList = Core.task.getByType(conditionType)
             for (task in taskList) {
                 Log.d(TAG, "task = $task")
@@ -83,7 +83,7 @@ class SimWorker(context: Context, params: WorkerParameters) : CoroutineWorker(co
 
                 //TODO: 组装消息体 && 执行具体任务
                 val msgInfo = MsgInfo("task", task.name, msg.toString().trimEnd(), Date(), task.description)
-                val actionData = Data.Builder().putLong(TaskWorker.taskId, task.id).putString(TaskWorker.taskActions, task.actions).putString(TaskWorker.msgInfo, Gson().toJson(msgInfo)).build()
+                val actionData = Data.Builder().putLong(TaskWorker.TASK_ID, task.id).putString(TaskWorker.TASK_ACTIONS, task.actions).putString(TaskWorker.MSG_INFO, Gson().toJson(msgInfo)).build()
                 val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
                 WorkManager.getInstance().enqueue(actionRequest)
             }

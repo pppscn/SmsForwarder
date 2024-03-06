@@ -20,12 +20,12 @@ class SendLogicWorker(
 ) : CoroutineWorker(context, workerParams) {
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
 
-        val msgInfoJson = inputData.getString(Worker.sendMsgInfo)
+        val msgInfoJson = inputData.getString(Worker.SEND_MSG_INFO)
         val msgInfo = Gson().fromJson(msgInfoJson, MsgInfo::class.java) ?: return@withContext Result.failure()
         //val ruleId = inputData.getLong(Worker.ruleId, 0L)
-        val ruleJson = inputData.getString(Worker.rule)
-        val senderIndex = inputData.getInt(Worker.senderIndex, 0)
-        val msgId = inputData.getLong(Worker.msgId, 0L)
+        val ruleJson = inputData.getString(Worker.RULE)
+        val senderIndex = inputData.getInt(Worker.SENDER_INDEX, 0)
+        val msgId = inputData.getLong(Worker.MSG_ID, 0L)
         Log.d("SendLogicWorker", "msgInfoJson: $msgInfoJson, ruleJson: $ruleJson, senderIndex: $senderIndex, msgId: $msgId")
 
         val rule = Gson().fromJson(ruleJson, Rule::class.java) ?: return@withContext Result.failure()

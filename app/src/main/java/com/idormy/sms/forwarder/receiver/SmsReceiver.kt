@@ -111,7 +111,7 @@ class SmsReceiver : BroadcastReceiver() {
 
             val request = OneTimeWorkRequestBuilder<SendWorker>().setInputData(
                 workDataOf(
-                    Worker.sendMsgInfo to Gson().toJson(msgInfo)
+                    Worker.SEND_MSG_INFO to Gson().toJson(msgInfo)
                 )
             ).build()
             WorkManager.getInstance(context).enqueue(request)

@@ -91,7 +91,7 @@ class NetworkChangeReceiver : BroadcastReceiver() {
             .setInitialDelay(DELAY_TIME_AFTER_SIM_READY, TimeUnit.MILLISECONDS)
             .setInputData(
                 workDataOf(
-                    TaskWorker.conditionType to TASK_CONDITION_NETWORK,
+                    TaskWorker.CONDITION_TYPE to TASK_CONDITION_NETWORK,
                 )
             ).build()
         WorkManager.getInstance(context).enqueue(request)

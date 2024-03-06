@@ -95,7 +95,7 @@ open class CallReceiver : PhoneStateReceiver() {
         val msgInfo = MsgInfo("call", phoneNumber.toString(), msg.toString(), Date(), "", -1, 0, callType)
         val request = OneTimeWorkRequestBuilder<SendWorker>().setInputData(
             workDataOf(
-                Worker.sendMsgInfo to Gson().toJson(msgInfo)
+                Worker.SEND_MSG_INFO to Gson().toJson(msgInfo)
             )
         ).build()
         WorkManager.getInstance(context).enqueue(request)
@@ -140,7 +140,7 @@ open class CallReceiver : PhoneStateReceiver() {
         val msgInfo = MsgInfo("call", callInfo.number, PhoneUtils.getCallMsg(callInfo), Date(), simInfo, simSlot, callInfo.subId, callType)
         val request = OneTimeWorkRequestBuilder<SendWorker>().setInputData(
             workDataOf(
-                Worker.sendMsgInfo to Gson().toJson(msgInfo)
+                Worker.SEND_MSG_INFO to Gson().toJson(msgInfo)
             )
         ).build()
         WorkManager.getInstance(context).enqueue(request)

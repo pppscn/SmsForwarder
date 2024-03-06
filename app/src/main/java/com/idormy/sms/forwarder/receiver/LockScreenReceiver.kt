@@ -32,8 +32,8 @@ class LockScreenReceiver : BroadcastReceiver() {
         TaskUtils.lockScreenAction = action
         val request = OneTimeWorkRequestBuilder<LockScreenWorker>().setInputData(
             workDataOf(
-                TaskWorker.conditionType to TASK_CONDITION_LOCK_SCREEN,
-                TaskWorker.action to action,
+                TaskWorker.CONDITION_TYPE to TASK_CONDITION_LOCK_SCREEN,
+                TaskWorker.ACTION to action,
             )
         ).build()
         WorkManager.getInstance(context).enqueue(request)

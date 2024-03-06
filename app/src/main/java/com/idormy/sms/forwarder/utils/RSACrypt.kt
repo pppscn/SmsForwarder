@@ -13,7 +13,7 @@ import javax.crypto.Cipher
  */
 object RSACrypt {
 
-    private const val transformation = "RSA"
+    private const val TRANSFORMATION = "RSA"
     private const val ENCRYPT_MAX_SIZE = 245
     private const val DECRYPT_MAX_SIZE = 256
 
@@ -25,7 +25,7 @@ object RSACrypt {
     fun encryptByPrivateKey(input: String, privateKey: PrivateKey): String {
 
         //创建cipher对象
-        val cipher = Cipher.getInstance(transformation)
+        val cipher = Cipher.getInstance(TRANSFORMATION)
         //初始化cipher
         cipher.init(Cipher.ENCRYPT_MODE, privateKey)
 
@@ -70,7 +70,7 @@ object RSACrypt {
     fun encryptByPublicKey(input: String, publicKey: PublicKey): String {
 
         //创建cipher对象
-        val cipher = Cipher.getInstance(transformation)
+        val cipher = Cipher.getInstance(TRANSFORMATION)
         //初始化cipher
         cipher.init(Cipher.ENCRYPT_MODE, publicKey)
 
@@ -114,7 +114,7 @@ object RSACrypt {
     fun decryptByPrivateKey(input: String, privateKey: PrivateKey): String {
 
         //创建cipher对象
-        val cipher = Cipher.getInstance(transformation)
+        val cipher = Cipher.getInstance(TRANSFORMATION)
         //初始化cipher
         cipher.init(Cipher.DECRYPT_MODE, privateKey)
 
@@ -158,7 +158,7 @@ object RSACrypt {
     fun decryptByPublicKey(input: String, publicKey: PublicKey): String {
 
         //创建cipher对象
-        val cipher = Cipher.getInstance(transformation)
+        val cipher = Cipher.getInstance(TRANSFORMATION)
         //初始化cipher
         cipher.init(Cipher.DECRYPT_MODE, publicKey)
 

@@ -12,14 +12,20 @@ import com.idormy.sms.forwarder.database.entity.Logs
 import com.idormy.sms.forwarder.database.entity.Msg
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.DataProvider
+import com.idormy.sms.forwarder.utils.HistoryUtils
+import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.SendUtils
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.Worker
 import com.xuexiang.xutil.resource.ResUtils
 import com.xuexiang.xutil.security.CipherUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 
 class SendWorker(
     context: Context,
@@ -64,7 +70,7 @@ class SendWorker(
                     }
                 }
 
-                val msgInfoJson = inputData.getString(Worker.sendMsgInfo)
+                val msgInfoJson = inputData.getString(Worker.SEND_MSG_INFO)
                 val msgInfo = Gson().fromJson(msgInfoJson, MsgInfo::class.java)
 
                 // 过滤重复消息机制
