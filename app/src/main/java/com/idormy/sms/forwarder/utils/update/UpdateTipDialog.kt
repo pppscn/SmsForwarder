@@ -39,10 +39,10 @@ class UpdateTipDialog : AppCompatActivity(), DialogInterface.OnDismissListener {
         const val KEY_CONTENT = "com.idormy.sms.forwarder.utils.update.KEY_CONTENT"
 
         // 填写你应用下载类型名
-        const val DOWNLOAD_TYPE_NAME = "酷安"
+        const val DOWNLOAD_TYPE_NAME = "GitHub"
 
         // 填写你应用下载页面的链接
-        private const val DOWNLOAD_URL = "https://www.coolapk.com/apk/com.idormy.sms.forwarder"
+        private const val DOWNLOAD_URL = "https://github.com/pppscn/SmsForwarder/releases"
 
         /**
          * 显示版本更新重试提示弹窗
