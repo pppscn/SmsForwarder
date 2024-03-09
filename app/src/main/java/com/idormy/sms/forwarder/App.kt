@@ -261,13 +261,13 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         Core.init(this)
         // 配置文件初始化
         SharedPreference.init(applicationContext)
+        // X系列基础库初始化
+        XBasicLibInit.init(this)
         // 初始化日志打印
         isDebug = SettingUtils.enableDebugMode
         Log.init(applicationContext)
         // 转发历史工具类初始化
         HistoryUtils.init(applicationContext)
-        // X系列基础库初始化
-        XBasicLibInit.init(this)
         // 版本更新初始化
         XUpdateInit.init(this)
         // 运营统计数据

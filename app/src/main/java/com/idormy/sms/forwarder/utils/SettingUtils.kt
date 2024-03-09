@@ -1,6 +1,8 @@
 package com.idormy.sms.forwarder.utils
 
 import android.location.Criteria
+import com.idormy.sms.forwarder.R
+import com.xuexiang.xutil.resource.ResUtils.getString
 
 class SettingUtils private constructor() {
     companion object {
@@ -97,7 +99,7 @@ class SettingUtils private constructor() {
         var requestTimeout: Int by SharedPreference(SP_REQUEST_TIMEOUT, 10)
 
         //通知内容
-        var notifyContent: String by SharedPreference(SP_NOTIFY_CONTENT, "")
+        var notifyContent: String by SharedPreference(SP_NOTIFY_CONTENT, getString(R.string.notification_content))
 
         //设备名称
         var extraDeviceMark: String by SharedPreference(SP_EXTRA_DEVICE_MARK, "")
