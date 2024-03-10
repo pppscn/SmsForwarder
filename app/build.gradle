@@ -1,4 +1,3 @@
-//file:noinspection GrDeprecatedAPIUsage
 //file:noinspection DependencyNotationArgument
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
@@ -24,7 +23,6 @@ if (isNeedPackage.toBoolean() && isUseBooster.toBoolean()) {
 }
 
 android {
-    //noinspection GradleDependency
     buildToolsVersion build_versions.build_tools
     compileSdkVersion build_versions.target_sdk
 
@@ -88,8 +86,6 @@ android {
             // 调试模式开关
             debuggable false
             jniDebuggable false
-            // 压缩对齐开关
-            zipAlignEnabled true
             // 移除无用的资源
             shrinkResources true
             // 代码混淆开关
@@ -119,8 +115,6 @@ android {
             // 调试模式开关
             debuggable true
             jniDebuggable true
-            // 压缩对齐开关
-            zipAlignEnabled true
             // 移除无用的资源
             shrinkResources true
             // 代码混淆开关
@@ -174,21 +168,24 @@ android {
     }
 
     android.applicationVariants.configureEach { variant ->
-        // Assigns a different version code for each output APK.
         variant.outputs.each { output ->
+            //noinspection GrDeprecatedAPIUsage
             def abiName = output.getFilter(com.android.build.OutputFile.ABI)
             if (abiName == null) abiName = "universal"
             output.versionCodeOverride = abiCodes.get(abiName, 0) * 100000 + variant.versionCode
             output.outputFileName = "SmsF_${versionName}_${output.versionCode}_${abiName}_${variant.name}.apk"
 
             // 修改 output-metadata.json 追加编译日期、编译时间、Git Commit ID
-            variant.assemble.doLast {
-                def metadataFile = file("${variant.outputs[0].outputFile.parent}/output-metadata.json")
-                def metadata = new JsonSlurper().parseText(metadataFile.text)
-                metadata.buildDate = buildDate
-                metadata.buildTime = buildTime
-                metadata.gitCommitId = gitCommitId
-                metadataFile.text = new JsonBuilder(metadata).toPrettyString()
+            def assembleTaskName = "assemble${variant.name.capitalize()}"
+            tasks.named(assembleTaskName) {
+                doLast {
+                    def metadataFile = file("${output.outputFile.parent}/output-metadata.json")
+                    def metadata = new JsonSlurper().parseText(metadataFile.text)
+                    metadata.buildDate = buildDate
+                    metadata.buildTime = buildTime
+                    metadata.gitCommitId = gitCommitId
+                    metadataFile.text = new JsonBuilder(metadata).toPrettyString()
+                }
             }
         }
     }
@@ -209,6 +206,23 @@ android {
     }
     namespace 'com.idormy.sms.forwarder'
 
+    //编译前清理项目缓存
+    preBuild.dependsOn clean
+    //编译后清理垃圾文件
+    gradle.buildFinished { buildResult ->
+        if (buildResult.failure == null) {
+            println "Build succeeded, cleaning text files..."
+            //delete rootProject.buildDir
+            FileTree rootTree = fileTree(dir: rootDir)
+            rootTree.each { File file ->
+                if ((file.toString().contains("ajcore") || file.toString().contains("mapping") || file.toString().contains("seeds") || file.toString().contains("unused")) && file.toString().endsWith(".txt")) {
+                    delete file
+                }
+            }
+        } else {
+            println "Build failed, cleanTxt not executed."
+        }
+    }
 }
 
 dependencies {
@@ -216,10 +230,8 @@ dependencies {
     //frpc
     implementation files('libs/frpclib.aar')
 
-    //kmnkt基于Kotlin Multiplatform的跨平台socket通信统一接口，支持UDP/TCP/MQTT协议
-    //https://github.com/xuankaicat/kmnkt
+    //MQTT协议
     implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
-    //implementation files('libs/socket-2.0.0-alpha06-2.aar')
 
     testImplementation deps.junit
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
@@ -248,7 +260,7 @@ dependencies {
     implementation 'com.github.xuexiangjys.AgentWeb:agentweb-download:1.0.0'//选填
     //屏幕适配AutoSize：https://github.com/JessYanCoding/AndroidAutoSize
     implementation 'me.jessyan:autosize:1.2.1'
-    //umeng统计
+    //友盟统计
     implementation 'com.umeng.umsdk:common:9.6.7'
     implementation 'com.umeng.umsdk:asms:1.8.2'
 
