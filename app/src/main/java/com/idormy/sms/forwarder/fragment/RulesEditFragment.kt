@@ -702,6 +702,10 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
         }
 
         val smsTemplate = binding!!.etSmsTemplate.text.toString().trim()
+        val checkResult = CommonUtils.checkTemplateTag(smsTemplate)
+        if (checkResult.isNotEmpty()) {
+            throw Exception(checkResult)
+        }
         val regexReplace = binding!!.etRegexReplace.text.toString().trim()
         val lineNum = checkRegexReplace(regexReplace)
         if (lineNum > 0) {
@@ -766,6 +770,14 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
         for (line in lineArray!!) {
             val position = line.indexOf("===")
             if (position < 1) return lineNum
+
+            // 校验正则表达式部分是否合法
+            try {
+                line.substring(0, position).toRegex()
+            } catch (e: Exception) {
+                return lineNum
+            }
+
             lineNum++
         }
         return 0

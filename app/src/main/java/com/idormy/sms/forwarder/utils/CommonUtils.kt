@@ -207,6 +207,24 @@ class CommonUtils private constructor() {
             PageOption.to(MarkdownFragment::class.java).putString(MarkdownFragment.KEY_MD_TITLE, title).putString(MarkdownFragment.KEY_MD_URL, url).putBoolean(MarkdownFragment.KEY_IS_IMMERSIVE, isImmersive).open(fragment!!)
         }
 
+        //检查自定义模板中的标签是否合法
+        fun checkTemplateTag(template: String): String {
+            val tagRegex = "\\{\\{[^#]+###([^=]+)===(.*?)\\}\\}".toRegex()
+            tagRegex.findAll(template).forEach {
+                try {
+                    it.groupValues[1].toRegex()
+                    //TODO:怎么测试反向引用是否正确？
+                    /*val replacement = it.groupValues[2]
+                    if (replacement.isNotEmpty()) {
+                        "pppscn/SmsForwarder".replace(regex, replacement)
+                    }*/
+                } catch (e: Exception) {
+                    return String.format(getString(R.string.invalid_tag), it.value, e.message)
+                }
+            }
+            return ""
+        }
+
         //是否合法的url
         fun checkUrl(urls: String?): Boolean {
             return checkUrl(urls, false)

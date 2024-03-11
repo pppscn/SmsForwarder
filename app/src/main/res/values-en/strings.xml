@@ -1383,4 +1383,6 @@
     <string name="alarm_music_tips">Optional, download mp3/ogg/wav to the Download directory.</string>
     <string name="alarm_volume">Alarm Volume</string>
     <string name="alarm_play_times">Play Times(0=Infinite)</string>
+
+    <string name="invalid_tag">%s tag is invalid: %s</string>
 </resources>

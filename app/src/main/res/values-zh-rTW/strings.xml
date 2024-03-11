@@ -1384,4 +1384,6 @@
     <string name="alarm_music_tips">可選，下載 mp3/ogg/wav 到 Download 目錄</string>
     <string name="alarm_volume">播放音量</string>
     <string name="alarm_play_times">播放次數(0=無限)</string>
+
+    <string name="invalid_tag">%s 標籤無效：%s</string>
 </resources>
