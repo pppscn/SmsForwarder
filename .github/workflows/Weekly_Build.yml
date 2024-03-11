@@ -72,10 +72,10 @@ jobs:
                   -H "X-Token: ${{ secrets.X_TOKEN }}" \
                   -d "{\"appKey\":\"${applicationId}\",\"versionName\":\"${versionName}\",\"versionCode\":\"${versionCode}\",\"modifyContent\":\"\",\"updateStatus\":1,\"gitCommitId\":\"${gitCommitId}\",\"buildTime\":\"${buildTime}\",\"uploadTime\":\"${buildTime}\"}" \
                   ${{ secrets.URL_ADD_VERSION }})
-      
+          
                   version_id=$(echo $response | grep -oP '"versionId":\s*\K\d+') # 提取versionId
                   echo "versionId: $version_id"
-      
+          
                   if [[ $version_id =~ ^[0-9]+$ ]]; then
                       curl --retry 3 -X POST -H "Cache-Control: no-cache" \
                       -H "Content-Type: multipart/form-data" \
@@ -84,7 +84,7 @@ jobs:
                       -F "file=@${{ env.output }}/${apk};filename=${apk}" \
                       -F "versionId=${version_id}" \
                       ${{ secrets.URL_UPLOAD_APK }}
-      
+          
                       # If upload is successful, set success to true to exit the retry loop
                       if [[ $? -eq 0 ]]; then
                           success=true
@@ -101,28 +101,28 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: "SmsF_${{ env.ver_name }}_100${{ env.ver_code }}_universal_release.apk"
-          path: "${{ env.output }}/SmsF_*_universal_*.apk"
+          path: "${{ env.output }}/SmsF_*_universal_release.apk"
       - name: Upload App To Artifact armeabi-v7a
         if: success () || failure ()
         uses: actions/upload-artifact@v4
         with:
           name: "SmsF_${{ env.ver_name }}_200${{ env.ver_code }}_armeabi-v7a_release.apk"
-          path: "${{ env.output }}//SmsF_*_armeabi-v7a_*.apk"
+          path: "${{ env.output }}/SmsF_*_armeabi-v7a_release.apk"
       - name: Upload App To Artifact arm64-v8a
         if: success () || failure ()
         uses: actions/upload-artifact@v4
         with:
           name: "SmsF_${{ env.ver_name }}_300${{ env.ver_code }}_arm64-v8a_release.apk"
-          path: "${{ env.output }}//SmsF_*_arm64-v8a_*.apk"
+          path: "${{ env.output }}/SmsF_*_arm64-v8a_release.apk"
       - name: Upload App To Artifact x86
         if: success () || failure ()
         uses: actions/upload-artifact@v4
         with:
           name: "SmsF_${{ env.ver_name }}_400${{ env.ver_code }}_x86_release.apk"
-          path: "${{ env.output }}//SmsF_*_x86_*.apk"
+          path: "${{ env.output }}/SmsF_*_x86_release.apk"
       - name: Upload App To Artifact x86_64
         if: success () || failure ()
         uses: actions/upload-artifact@v4
         with:
           name: "SmsF_${{ env.ver_name }}_500${{ env.ver_code }}_x86_64_release.apk"
-          path: "${{ env.output }}//SmsF_*_x86_64_*.apk"
+          path: "${{ env.output }}/SmsF_*_x86_64_release.apk"
