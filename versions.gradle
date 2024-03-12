@@ -42,7 +42,7 @@ versions.xui = "1.2.3"
 versions.xupdate = "2.1.4"
 versions.xaop = "1.1.0"
 versions.xutil = "2.0.0"
-versions.xhttp2 = "9a17bb5be6" //2.0.9
+versions.xhttp2 = "9115cfcd5a" //2.0.9
 versions.xpage = "3.3.0"
 versions.xrouter = "1.0.1"
 
