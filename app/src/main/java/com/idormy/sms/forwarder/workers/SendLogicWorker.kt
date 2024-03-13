@@ -14,10 +14,8 @@ import com.idormy.sms.forwarder.utils.Worker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class SendLogicWorker(
-    context: Context,
-    workerParams: WorkerParameters,
-) : CoroutineWorker(context, workerParams) {
+class SendLogicWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
+
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
 
         val msgInfoJson = inputData.getString(Worker.SEND_MSG_INFO)

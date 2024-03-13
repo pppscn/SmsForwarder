@@ -28,13 +28,16 @@ import com.idormy.sms.forwarder.utils.TASK_ACTION_RULE
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDER
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDSMS
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SETTINGS
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_APP
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_BATTERY
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_CALL
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CHARGE
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CRON
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_LEAVE_ADDRESS
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_LOCK_SCREEN
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_NETWORK
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_SIM
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_SMS
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_TO_ADDRESS
 
 /**
@@ -55,6 +58,9 @@ class TaskUtils private constructor() {
                 TASK_CONDITION_BATTERY -> R.drawable.auto_task_icon_battery
                 TASK_CONDITION_CHARGE -> R.drawable.auto_task_icon_charge
                 TASK_CONDITION_LOCK_SCREEN -> R.drawable.auto_task_icon_lock_screen
+                TASK_CONDITION_SMS -> R.drawable.auto_task_icon_sms
+                TASK_CONDITION_CALL -> R.drawable.auto_task_icon_incall
+                TASK_CONDITION_APP -> R.drawable.auto_task_icon_start_activity
                 TASK_ACTION_SENDSMS -> R.drawable.auto_task_icon_sms
                 TASK_ACTION_NOTIFICATION -> R.drawable.auto_task_icon_notification
                 TASK_ACTION_CLEANER -> R.drawable.auto_task_icon_cleaner
@@ -80,6 +86,9 @@ class TaskUtils private constructor() {
                 TASK_CONDITION_BATTERY -> R.drawable.auto_task_icon_battery_grey
                 TASK_CONDITION_CHARGE -> R.drawable.auto_task_icon_charge_grey
                 TASK_CONDITION_LOCK_SCREEN -> R.drawable.auto_task_icon_lock_screen_grey
+                TASK_CONDITION_SMS -> R.drawable.auto_task_icon_sms_grey
+                TASK_CONDITION_CALL -> R.drawable.auto_task_icon_incall_grey
+                TASK_CONDITION_APP -> R.drawable.auto_task_icon_start_activity_grey
                 TASK_ACTION_SENDSMS -> R.drawable.auto_task_icon_sms_grey
                 TASK_ACTION_NOTIFICATION -> R.drawable.auto_task_icon_notification_grey
                 TASK_ACTION_CLEANER -> R.drawable.auto_task_icon_cleaner_grey

@@ -217,6 +217,7 @@ const val SP_CLIENT_SIGN_KEY = "client_sign_key"
 const val MAX_SETTING_NUM = 5 //最大条件/动作设置条数
 const val KEY_TEST_CONDITION = "key_test_condition"
 const val KEY_EVENT_DATA_CONDITION = "event_data_condition"
+const val KEY_EVENT_PARAMS_CONDITION = "event_params_condition"
 const val KEY_BACK_CODE_CONDITION = 1000
 const val KEY_BACK_DATA_CONDITION = "back_data_condition"
 const val KEY_BACK_DESCRIPTION_CONDITION = "back_description_condition"
@@ -235,6 +236,9 @@ const val TASK_CONDITION_SIM = 1004
 const val TASK_CONDITION_BATTERY = 1005
 const val TASK_CONDITION_CHARGE = 1006
 const val TASK_CONDITION_LOCK_SCREEN = 1007
+const val TASK_CONDITION_SMS = 1008
+const val TASK_CONDITION_CALL = 1009
+const val TASK_CONDITION_APP = 1010
 
 //注意：TASK_ACTION_XXX 枚举值 等于 TASK_ACTION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_ACTION，不可改变
 const val TASK_ACTION_SENDSMS = 2000

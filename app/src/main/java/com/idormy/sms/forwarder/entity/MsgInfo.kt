@@ -58,7 +58,11 @@ data class MsgInfo(
         var customSmsTemplate: String = getString(R.string.tag_from).toString() + "\n" +
                 getString(R.string.tag_sms) + "\n" +
                 getString(R.string.tag_card_slot) + "\n" +
-                (if (type == "app") "" else "SubId：${getString(R.string.tag_card_subid)}\n") +
+                when (type) {
+                    "sms", "call" -> "SubId：${getString(R.string.tag_card_subid)}\n"
+                    "app" -> "UID：${getString(R.string.tag_uid)}\n"
+                    else -> ""
+                } +
                 getString(R.string.tag_receive_time) + "\n" +
                 getString(R.string.tag_device_name)
 

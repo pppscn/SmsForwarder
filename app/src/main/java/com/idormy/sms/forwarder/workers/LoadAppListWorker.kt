@@ -12,10 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @Suppress("PrivatePropertyName")
-class LoadAppListWorker(
-    context: Context,
-    workerParams: WorkerParameters,
-) : CoroutineWorker(context, workerParams) {
+class LoadAppListWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
 
     private val TAG: String = LoadAppListWorker::class.java.simpleName
 

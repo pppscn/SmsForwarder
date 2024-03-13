@@ -169,6 +169,7 @@
     <string name="test">Test</string>
     <string name="confirm">Confirm</string>
     <string name="all">All</string>
+    <string name="any">Any</string>
     <string name="select">Select</string>
     <string name="clone">Clone</string>
     <string name="setting">Setting</string>
@@ -640,6 +641,7 @@
     <string name="rule_call">CALL</string>
     <string name="rule_app">APP</string>
     <string name="rule_all">ALL</string>
+    <string name="rule_any">ANY</string>
     <string name="rule_transpond_all">Transpond All</string>
     <string name="rule_phone_num">Phone Num</string>
     <string name="rule_msg_content">Msg Content</string>
@@ -997,6 +999,7 @@
     <string name="contact_info" formatted="false">Name：%s\nPhone：%s</string>
     <string name="card_slot_does_not_match">Card slot does not match the rule</string>
     <string name="unmatched_rule">Unmatched rule</string>
+    <string name="matched_rule">Matched rule</string>
     <string name="copied_to_clipboard">Copied to clipboard:\n%s</string>
     <string name="search_keyword">Search Keyword: %s</string>
     <string name="export_succeeded">Export configuration succeeded!</string>
@@ -1194,6 +1197,15 @@
     <string name="task_charge_tips">Trigger when charge status meets condition.</string>
     <string name="task_lock_screen">Screen Off/On</string>
     <string name="task_lock_screen_tips">Trigger upon screen lock/unlock instantly or after a set time.</string>
+    <string name="task_sms">SMS</string>
+    <string name="task_sms_tips">Triggered upon receiving SMS broadcast</string>
+    <string name="task_sms_when">received SMS broadcast from %s</string>
+    <string name="task_call">Call</string>
+    <string name="task_call_tips">Triggered upon receiving call broadcast</string>
+    <string name="task_call_when">received call broadcast from %s</string>
+    <string name="task_app">Notification</string>
+    <string name="task_app_tips">Triggered upon receiving app notification</string>
+    <string name="task_app_when">received app notification</string>
     <string name="task_sendsms">Send Sms</string>
     <string name="task_notification">Notify</string>
     <string name="task_frpc">Frpc On/Off</string>
@@ -1322,6 +1334,8 @@
     <string name="condition_already_exists">This type of condition already exists.</string>
     <string name="action_already_exists">This type of action already exists.</string>
     <string name="only_one_location_condition">"To Address" vs "Leave Address": mutually exclusive.</string>
+    <string name="only_one_msg_condition">SMS/CALL/APP: mutually exclusive.</string>
+    <string name="msg_condition_must_be_trigger">SMS/CALL/APP: must be used as trigger.</string>
     <string name="current_address">Current Address: %s</string>
     <string name="location_failed">Location failed. Please try again later.</string>
     <string name="current_distance_from_center">, %s meters from the center.</string>
@@ -1385,4 +1399,9 @@
     <string name="alarm_play_times">Play Times(0=Infinite)</string>
 
     <string name="invalid_tag">%s tag is invalid: %s</string>
+    <string name="invalid_task_name">Please input task name.</string>
+    <string name="invalid_conditions">Please add trigger conditions.</string>
+    <string name="invalid_actions">Please add execution actions.</string>
+    <string name="invalid_cron">Please set the time for the scheduled task</string>
+    <string name="invalid_proxy_host">Proxy server hostname resolution failed: proxyHost=%s</string>
 </resources>

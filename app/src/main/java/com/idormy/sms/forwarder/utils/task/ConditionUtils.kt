@@ -2,6 +2,7 @@ package com.idormy.sms.forwarder.utils.task
 
 import android.os.BatteryManager
 import com.google.gson.Gson
+import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.TaskSetting
 import com.idormy.sms.forwarder.entity.condition.BatterySetting
 import com.idormy.sms.forwarder.entity.condition.ChargeSetting
@@ -12,13 +13,16 @@ import com.idormy.sms.forwarder.entity.condition.NetworkSetting
 import com.idormy.sms.forwarder.entity.condition.SimSetting
 import com.idormy.sms.forwarder.utils.DELAY_TIME_AFTER_SIM_READY
 import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_APP
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_BATTERY
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_CALL
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CHARGE
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CRON
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_LEAVE_ADDRESS
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_LOCK_SCREEN
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_NETWORK
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_SIM
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_SMS
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_TO_ADDRESS
 import gatewayapps.crondroid.CronExpression
 import java.util.Date
@@ -214,6 +218,16 @@ class ConditionUtils private constructor() {
 
                         Log.d(TAG, "TASK-$taskId：lockScreenAction is match, lockScreenSetting = $lockScreenSetting")
                     }
+
+                    TASK_CONDITION_SMS, TASK_CONDITION_CALL, TASK_CONDITION_APP -> {
+                        val ruleSetting = Gson().fromJson(condition.setting, Rule::class.java)
+                        if (ruleSetting == null) {
+                            Log.d(TAG, "TASK-$taskId：ruleSetting is null")
+                            continue
+                        }
+                        //TODO: 判断消息是否满足条件
+                    }
+
                 }
             }
 

@@ -68,6 +68,10 @@ class BatteryWorker(context: Context, params: WorkerParameters) : CoroutineWorke
                         }
 
                         //TODO：判断其他条件是否满足
+                        if (!ConditionUtils.checkCondition(task.id, conditionList)) {
+                            Log.d(TAG, "TASK-${task.id}：other condition is not satisfied")
+                            continue
+                        }
 
                         //TODO: 组装消息体 && 执行具体任务
                         val msgInfo = MsgInfo("task", task.name, msg, Date(), task.name)

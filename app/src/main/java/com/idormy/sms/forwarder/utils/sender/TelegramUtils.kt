@@ -2,6 +2,7 @@ package com.idormy.sms.forwarder.utils.sender
 
 import android.text.TextUtils
 import com.google.gson.Gson
+import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.result.TelegramResult
@@ -13,6 +14,7 @@ import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
 import com.xuexiang.xutil.net.NetworkUtils
+import com.xuexiang.xutil.resource.ResUtils.getString
 import okhttp3.Credentials
 import okhttp3.Response
 import okhttp3.Route
@@ -76,7 +78,7 @@ class TelegramUtils private constructor() {
                 Log.d(TAG, "proxyHost = ${setting.proxyHost}, proxyPort = ${setting.proxyPort}")
                 val proxyHost = if (NetworkUtils.isIP(setting.proxyHost)) setting.proxyHost else NetworkUtils.getDomainAddress(setting.proxyHost)
                 if (!NetworkUtils.isIP(proxyHost)) {
-                    throw Exception("代理服务器主机名解析失败：proxyHost=$proxyHost")
+                    throw Exception(String.format(getString(R.string.invalid_proxy_host), proxyHost))
                 }
                 val proxyPort: Int = setting.proxyPort?.toInt() ?: 7890
 

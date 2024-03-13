@@ -135,6 +135,27 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
             CoreAnim.slide,
             R.drawable.auto_task_icon_lock_screen
         ),
+        PageInfo(
+            getString(R.string.task_sms),
+            "com.idormy.sms.forwarder.fragment.condition.MsgFragment",
+            "sms",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_sms
+        ),
+        PageInfo(
+            getString(R.string.task_call),
+            "com.idormy.sms.forwarder.fragment.condition.MsgFragment",
+            "call",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_incall
+        ),
+        PageInfo(
+            getString(R.string.task_app),
+            "com.idormy.sms.forwarder.fragment.condition.MsgFragment",
+            "app",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_start_activity
+        ),
     )
 
     private var TASK_ACTION_FRAGMENT_LIST = listOf(
@@ -438,13 +459,20 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
     private fun checkForm(): Task {
         val taskName = binding!!.etName.text.toString().trim()
         if (taskName.isEmpty()) {
-            throw Exception("请输入任务名称")
+            throw Exception(getString(R.string.invalid_task_name))
         }
         if (conditionsList.size <= 0) {
-            throw Exception("请添加触发条件")
+            throw Exception(getString(R.string.invalid_conditions))
         }
         if (actionsList.size <= 0) {
-            throw Exception("请添加执行动作")
+            throw Exception(getString(R.string.invalid_actions))
+        }
+
+        //短信广播/通话广播/APP通知 类型条件只能放在第一个
+        for (i in 1 until conditionsList.size) {
+            if (conditionsList[i].type == TASK_CONDITION_SMS || conditionsList[i].type == TASK_CONDITION_CALL || conditionsList[i].type == TASK_CONDITION_APP) {
+                throw Exception(getString(R.string.msg_condition_must_be_trigger))
+            }
         }
 
         val lastExecTime = Date()
@@ -459,7 +487,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                 //检查定时任务的时间设置
                 val cronSetting = Gson().fromJson(firstCondition.setting, CronSetting::class.java)
                 if (cronSetting.expression.isEmpty()) {
-                    throw Exception("请设置定时任务的时间")
+                    throw Exception(getString(R.string.invalid_cron))
                 }
                 val cronExpression = CronExpression(cronSetting.expression)
                 nextExecTime = cronExpression.getNextValidTimeAfter(lastExecTime)
@@ -504,6 +532,11 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
             //判断点击的是条件还是动作
             if (widgetInfo.classPath.contains(".condition.")) {
                 val typeCondition = pos + KEY_BACK_CODE_CONDITION
+                //短信广播、通话广播、APP通知 类型条件必须作为触发提交
+                if ((typeCondition == TASK_CONDITION_SMS || typeCondition == TASK_CONDITION_CALL || typeCondition == TASK_CONDITION_APP) && actionsList.isNotEmpty()) {
+                    XToastUtils.error(getString(R.string.msg_condition_must_be_trigger))
+                    return
+                }
                 //判断是否已经添加过该类型条件
                 for (item in conditionsList) {
                     //注意：TASK_CONDITION_XXX 枚举值 等于 TASK_CONDITION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_CONDITION，不可改变
@@ -534,6 +567,12 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                         XToastUtils.error(getString(R.string.only_one_location_condition))
                         return
                     }
+
+                    //短信广播、通话广播、APP通知 类型条件互斥
+                    if ((typeCondition == TASK_CONDITION_SMS || typeCondition == TASK_CONDITION_CALL || typeCondition == TASK_CONDITION_APP) && (item.type == TASK_CONDITION_SMS || item.type == TASK_CONDITION_CALL || item.type == TASK_CONDITION_APP)) {
+                        XToastUtils.error(getString(R.string.only_one_msg_condition))
+                        return
+                    }
                 }
             } else {
                 val typeAction = pos + KEY_BACK_CODE_ACTION
@@ -546,8 +585,10 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                     }
                 }
             }
+
             @Suppress("UNCHECKED_CAST") PageOption.to(Class.forName(widgetInfo.classPath) as Class<XPageFragment>) //跳转的fragment
                 .setRequestCode(0) //requestCode: 0 新增 、>0 编辑（itemListXxx 的索引加1）
+                .putString(KEY_EVENT_PARAMS_CONDITION, widgetInfo.params)
                 .open(this)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -638,6 +679,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
         PageOption.to(Class.forName(widgetInfo.classPath) as Class<XPageFragment>) //跳转的fragment
             .setRequestCode(position + 1) //requestCode: 0 新增 、>0 编辑（conditionsList 的索引加1）
             .putString(KEY_EVENT_DATA_CONDITION, condition.setting)
+            .putString(KEY_EVENT_PARAMS_CONDITION, widgetInfo.params)
             .open(this)
     }
 

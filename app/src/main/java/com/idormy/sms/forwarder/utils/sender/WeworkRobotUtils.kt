@@ -35,7 +35,7 @@ class WeworkRobotUtils private constructor() {
             Log.i(TAG, "requestUrl:$requestUrl")
 
             val msgMap: MutableMap<String, Any> = mutableMapOf()
-            msgMap["msgtype"] = setting.msgType
+            msgMap["msgtype"] = if (setting.msgType == "markdown") "markdown" else "text"
 
             val contextMap = mutableMapOf<String, Any>()
             contextMap["content"] = content

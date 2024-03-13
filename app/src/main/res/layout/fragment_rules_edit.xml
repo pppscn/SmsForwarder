@@ -131,17 +131,17 @@
                         android:id="@+id/rb_sim_slot_all"
                         style="@style/rg_rb_style"
                         android:checked="true"
-                        android:text="@string/all" />
+                        android:text="@string/sim_any" />
 
                     <RadioButton
                         android:id="@+id/rb_sim_slot_1"
                         style="@style/rg_rb_style"
-                        android:text="@string/sim1" />
+                        android:text="@string/sim_1" />
 
                     <RadioButton
                         android:id="@+id/rb_sim_slot_2"
                         style="@style/rg_rb_style"
-                        android:text="@string/sim2" />
+                        android:text="@string/sim_2" />
 
                 </RadioGroup>
 

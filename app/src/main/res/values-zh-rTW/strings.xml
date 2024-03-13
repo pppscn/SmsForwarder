@@ -170,6 +170,7 @@
     <string name="test">測試</string>
     <string name="confirm">確認</string>
     <string name="all">全部</string>
+    <string name="any">任意</string>
     <string name="select">選擇</string>
     <string name="clone">一鍵克隆</string>
     <string name="setting">通用設置</string>
@@ -235,7 +236,7 @@
     <string name="add_frpc_first">請先去設置FRPC頁面添加</string>
     <string name="add_task_first">請先去設置自動任務頁面添加</string>
     <string name="select_sender">發送通道</string>
-    <string name="rule_tester">轉發規則測試</string>
+    <string name="rule_tester">規則匹配測試</string>
     <string name="test_sim_slot">測試模擬的接收卡槽</string>
     <string name="test_phone_number">測試模擬的來源號碼</string>
     <string name="test_msg_content">測試模擬的簡訊內容</string>
@@ -641,6 +642,7 @@
     <string name="rule_call">來電</string>
     <string name="rule_app">應用</string>
     <string name="rule_all">全部</string>
+    <string name="rule_any">任意</string>
     <string name="rule_transpond_all">全部轉發</string>
     <string name="rule_phone_num">手機號</string>
     <string name="rule_msg_content">內容</string>
@@ -998,6 +1000,7 @@
     <string name="contact_info" formatted="false">姓名：%s\n號碼：%s</string>
     <string name="card_slot_does_not_match">卡槽未匹配中規則</string>
     <string name="unmatched_rule">未匹配中規則</string>
+    <string name="matched_rule">匹配中規則</string>
     <string name="copied_to_clipboard">已複製到剪貼板:\n%s</string>
     <string name="search_keyword">搜索關鍵字: %s</string>
     <string name="export_succeeded">導出配置成功！</string>
@@ -1045,7 +1048,7 @@
     <string name="enable_cactus">啟用 Cactus 增強保活措施（會增加耗電）</string>
     <string name="enabe_cactus_tips">雙進程前台服務/JobScheduler/WorkManager/1像素/無聲音樂</string>
     <string name="load_app_list">啟動時異步獲取已安裝App列表</string>
-    <string name="load_app_list_tips">用於加速進入應用列表/編輯轉發規則下拉選擇/替換{{APP名稱}}</string>
+    <string name="load_app_list_tips">用於加速進入應用列表/編輯轉發規則下拉選擇/替換{{APP_NAME}}</string>
     <string name="load_app_list_toast">開啟異步獲取已安裝App列表時必選一個類型</string>
     <string name="no_server_history">暫無歷史記錄，接口測試通過後自動加入</string>
     <string name="select_time_period">時間段選擇</string>
@@ -1195,6 +1198,15 @@
     <string name="task_charge_tips">當充電狀態滿足條件時觸發</string>
     <string name="task_lock_screen">鎖屏解鎖</string>
     <string name="task_lock_screen_tips">在屏幕鎖定或解鎖後立即或指定時間觸發</string>
+    <string name="task_sms">簡訊廣播</string>
+    <string name="task_sms_tips">在接收到簡訊廣播時觸發</string>
+    <string name="task_sms_when">接收到%s簡訊廣播</string>
+    <string name="task_call">通話廣播</string>
+    <string name="task_call_tips">在接收到通話廣播時觸發</string>
+    <string name="task_call_when">接收到%s通話廣播</string>
+    <string name="task_app">APP通知</string>
+    <string name="task_app_tips">在接收到APP通知時觸發</string>
+    <string name="task_app_when">接收到APP通知</string>
     <string name="task_sendsms">發送簡訊</string>
     <string name="task_notification">推送通知</string>
     <string name="task_frpc">啟停Frpc</string>
@@ -1322,7 +1334,9 @@
     <string name="leave_address_keyword_description">離開GPS地址包含[%s]關鍵字區域</string>
     <string name="condition_already_exists">已添加過該類型條件</string>
     <string name="action_already_exists">已添加過該類型動作</string>
-    <string name="only_one_location_condition">進入地點與離開地點類型條件互斥</string>
+    <string name="only_one_location_condition">進入地點 與 離開地點 類型條件互斥</string>
+    <string name="only_one_msg_condition">簡訊廣播/通話廣播/APP通知 類型條件互斥</string>
+    <string name="msg_condition_must_be_trigger">簡訊廣播/通話廣播/APP通知 類型條件只能作為觸發條件</string>
     <string name="current_address">當前地址：%s</string>
     <string name="location_failed">定位失敗，請稍後重試</string>
     <string name="current_distance_from_center">, 當前距離中心%s米</string>
@@ -1386,4 +1400,9 @@
     <string name="alarm_play_times">播放次數(0=無限)</string>
 
     <string name="invalid_tag">%s 標籤無效：%s</string>
+    <string name="invalid_task_name">請輸入任務名稱</string>
+    <string name="invalid_conditions">請添加觸發條件</string>
+    <string name="invalid_actions">請添加執行動作</string>
+    <string name="invalid_cron">請設置定時任務的時間</string>
+    <string name="invalid_proxy_host">代理伺服器主機名解析失敗：proxyHost=%s</string>
 </resources>

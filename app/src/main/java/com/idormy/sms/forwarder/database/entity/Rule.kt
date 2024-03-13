@@ -89,7 +89,7 @@ data class Rule(
         }
         val SIM_SLOT_MAP = object : HashMap<String, String>() {
             init {
-                put("ALL", getString(R.string.rule_all))
+                put("ALL", getString(R.string.rule_any))
                 put("SIM1", "SIM1")
                 put("SIM2", "SIM2")
             }
@@ -126,6 +126,23 @@ data class Rule(
                 else -> sb.append(getString(R.string.rule_when) + FILED_MAP[filed] + CHECK_MAP[check] + value + getString(R.string.rule_fw_to))
             }
             sb.append(senderList.joinToString(",") { it.name })
+            return sb.toString()
+        }
+
+    val description: String
+        get() {
+            val card = SIM_SLOT_MAP[simSlot].toString() + getString(R.string.rule_card)
+            val sb = StringBuilder()
+            when (type) {
+                "app" -> sb.append(getString(R.string.task_app_when))
+                "call" -> sb.append(String.format(getString(R.string.task_call_when), card))
+                "sms" -> sb.append(String.format(getString(R.string.task_sms_when), card))
+            }
+            when (filed) {
+                FILED_TRANSPOND_ALL -> sb.append("")
+                FILED_CALL_TYPE -> sb.append(getString(R.string.rule_when) + FILED_MAP[filed] + CHECK_MAP[check] + CALL_TYPE_MAP[value])
+                else -> sb.append(getString(R.string.rule_when) + FILED_MAP[filed] + CHECK_MAP[check] + value)
+            }
             return sb.toString()
         }
 

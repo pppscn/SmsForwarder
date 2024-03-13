@@ -58,7 +58,7 @@ class WeworkAgentUtils private constructor() {
                 Log.d(TAG, "proxyHost = ${setting.proxyHost}, proxyPort = ${setting.proxyPort}")
                 val proxyHost = if (NetworkUtils.isIP(setting.proxyHost)) setting.proxyHost else NetworkUtils.getDomainAddress(setting.proxyHost)
                 if (!NetworkUtils.isIP(proxyHost)) {
-                    throw Exception("代理服务器主机名解析失败：proxyHost=$proxyHost")
+                    throw Exception(String.format(getString(R.string.invalid_proxy_host), proxyHost))
                 }
                 val proxyPort: Int = setting.proxyPort?.toInt() ?: 7890
 
@@ -158,7 +158,7 @@ class WeworkAgentUtils private constructor() {
                 Log.d(TAG, "proxyHost = ${setting.proxyHost}, proxyPort = ${setting.proxyPort}")
                 val proxyHost = if (NetworkUtils.isIP(setting.proxyHost)) setting.proxyHost else NetworkUtils.getDomainAddress(setting.proxyHost)
                 if (!NetworkUtils.isIP(proxyHost)) {
-                    throw Exception("代理服务器主机名解析失败：proxyHost=$proxyHost")
+                    throw Exception(String.format(getString(R.string.invalid_proxy_host), proxyHost))
                 }
                 val proxyPort: Int = setting.proxyPort?.toInt() ?: 7890
 

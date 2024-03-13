@@ -139,6 +139,9 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
 
                     TASK_ACTION_NOTIFICATION -> {
                         val ruleSetting = Gson().fromJson(action.setting, Rule::class.java)
+                        //重新查询发送通道最新设置
+                        val ids = ruleSetting.senderList.joinToString(",") { it.id.toString() }
+                        ruleSetting.senderList = Core.sender.getByIds(ids.split(",").map { it.trim().toLong() }, ids)
                         //自动任务的不需要吐司或者更新日志，特殊处理 logId = -1，msgId = -1
                         SendUtils.sendMsgSender(msgInfo, ruleSetting, 0, -1L, -1L)
 

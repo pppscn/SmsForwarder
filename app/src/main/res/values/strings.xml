@@ -170,6 +170,7 @@
     <string name="test">测试</string>
     <string name="confirm">确认</string>
     <string name="all">全部</string>
+    <string name="any">任意</string>
     <string name="select">选择</string>
     <string name="clone">一键克隆</string>
     <string name="setting">通用设置</string>
@@ -235,7 +236,7 @@
     <string name="add_frpc_first">请先去设置Frpc页面添加</string>
     <string name="add_task_first">请先去设置自动任务页面添加</string>
     <string name="select_sender">发送通道</string>
-    <string name="rule_tester">转发规则测试</string>
+    <string name="rule_tester">规则匹配测试</string>
     <string name="test_sim_slot">测试模拟的接收卡槽</string>
     <string name="test_phone_number">测试模拟的来源号码</string>
     <string name="test_msg_content">测试模拟的短信内容</string>
@@ -641,6 +642,7 @@
     <string name="rule_call">来电</string>
     <string name="rule_app">应用</string>
     <string name="rule_all">全部</string>
+    <string name="rule_any">任意</string>
     <string name="rule_transpond_all">全部转发</string>
     <string name="rule_phone_num">手机号</string>
     <string name="rule_msg_content">内容</string>
@@ -998,6 +1000,7 @@
     <string name="contact_info" formatted="false">姓名：%s\n号码：%s</string>
     <string name="card_slot_does_not_match">卡槽未匹配中规则</string>
     <string name="unmatched_rule">未匹配中规则</string>
+    <string name="matched_rule">匹配中规则</string>
     <string name="copied_to_clipboard">已复制到剪贴板:\n%s</string>
     <string name="search_keyword">搜索关键字: %s</string>
     <string name="export_succeeded">导出配置成功！</string>
@@ -1045,7 +1048,7 @@
     <string name="enable_cactus">启用 Cactus 增强保活措施（会增加耗电）</string>
     <string name="enabe_cactus_tips">双进程前台服务/JobScheduler/WorkManager/1像素/无声音乐</string>
     <string name="load_app_list">启动时异步获取已安装App列表</string>
-    <string name="load_app_list_tips">用于加速进入应用列表/编辑转发规则下拉选择/替换{{APP名称}}</string>
+    <string name="load_app_list_tips">用于加速进入应用列表/编辑转发规则下拉选择/替换{{APP_NAME}}</string>
     <string name="load_app_list_toast">开启异步获取已安装App列表时必选一个类型</string>
     <string name="no_server_history">暂无历史记录，接口测试通过后自动加入</string>
     <string name="select_time_period">时间段选择</string>
@@ -1195,6 +1198,15 @@
     <string name="task_charge_tips">当充电状态满足条件时触发</string>
     <string name="task_lock_screen">锁屏解锁</string>
     <string name="task_lock_screen_tips">在屏幕锁定或解锁后立即或指定时间触发</string>
+    <string name="task_sms">短信广播</string>
+    <string name="task_sms_tips">在接收到短信广播时触发</string>
+    <string name="task_sms_when">接收到%s短信广播</string>
+    <string name="task_call">通话广播</string>
+    <string name="task_call_tips">在接收到通话广播时触发</string>
+    <string name="task_call_when">接收到%s通话广播</string>
+    <string name="task_app">APP通知</string>
+    <string name="task_app_tips">在接收到APP通知时触发</string>
+    <string name="task_app_when">接收到APP通知</string>
     <string name="task_sendsms">发送短信</string>
     <string name="task_notification">推送通知</string>
     <string name="task_frpc">启停Frpc</string>
@@ -1323,6 +1335,8 @@
     <string name="condition_already_exists">已添加过该类型条件</string>
     <string name="action_already_exists">已添加过该类型动作</string>
     <string name="only_one_location_condition">进入地点 与 离开地点 类型条件互斥</string>
+    <string name="only_one_msg_condition">短信广播/通话广播/APP通知 类型条件互斥</string>
+    <string name="msg_condition_must_be_trigger">短信广播/通话广播/APP通知 类型条件只能作为触发条件</string>
     <string name="current_address">当前地址：%s</string>
     <string name="location_failed">定位失败，请稍后重试</string>
     <string name="current_distance_from_center">, 当前距离中心%s米</string>
@@ -1386,4 +1400,9 @@
     <string name="alarm_play_times">播放次数(0=无限)</string>
 
     <string name="invalid_tag">%s 标签无效：%s</string>
+    <string name="invalid_task_name">请输入任务名称</string>
+    <string name="invalid_conditions">请添加触发条件</string>
+    <string name="invalid_actions">请添加执行动作</string>
+    <string name="invalid_cron">请设置定时任务的时间</string>
+    <string name="invalid_proxy_host">代理服务器主机名解析失败：proxyHost=%s</string>
 </resources>
