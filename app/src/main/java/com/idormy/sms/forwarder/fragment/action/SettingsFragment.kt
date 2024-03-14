@@ -430,7 +430,7 @@ class SettingsFragment : BaseFragment<FragmentTasksActionSettingsBinding?>(), Vi
         if (enableSms) enableList.add(getString(R.string.forward_sms)) else disableList.add(getString(R.string.forward_sms))
 
         val enablePhone = binding!!.sbEnablePhone.isChecked
-        if (enablePhone) enableList.add(getString(R.string.forward_missed_calls)) else disableList.add(getString(R.string.forward_missed_calls))
+        if (enablePhone) enableList.add(getString(R.string.forward_calls)) else disableList.add(getString(R.string.forward_calls))
         val enableCallType1 = binding!!.scbCallType1.isChecked
         val enableCallType2 = binding!!.scbCallType2.isChecked
         val enableCallType3 = binding!!.scbCallType3.isChecked

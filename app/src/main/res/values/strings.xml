@@ -387,8 +387,8 @@
     <string name="sms_command_tips">根据短信指令开关对应功能，指令格式：smsf#功能名#动作名</string>
     <string name="safe_phone">安全手机</string>
     <string name="safe_phone_tips">仅处理指定手机请求，多个手机以逗号分隔</string>
-    <string name="forward_missed_calls">转发通话记录</string>
-    <string name="forward_missed_calls_tips">请授予读取通话记录、联系人等权限，并选择转发类型，再开启</string>
+    <string name="forward_calls">转发通话记录</string>
+    <string name="forward_calls_tips">请授予读取通话记录、联系人等权限，并选择转发类型，再开启</string>
     <string name="forward_app_notify">转发应用通知</string>
     <string name="forward_app_notify_tips">请授予通知使用权再开启；开启“自动消除”可避免多条通知堆叠</string>
     <string name="cancel_app_notify">自动消除通知</string>
@@ -1207,6 +1207,8 @@
     <string name="task_app">APP通知</string>
     <string name="task_app_tips">在接收到APP通知时触发</string>
     <string name="task_app_when">接收到APP通知</string>
+    <string name="task_bluetooth">蓝牙设备</string>
+    <string name="task_bluetooth_tips">在蓝牙状态发生改变时触发</string>
     <string name="task_sendsms">发送短信</string>
     <string name="task_notification">推送通知</string>
     <string name="task_frpc">启停Frpc</string>

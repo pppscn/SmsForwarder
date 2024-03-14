@@ -386,8 +386,8 @@
     <string name="sms_command_tips">Open the HttpServer or FRPC by the SMS command</string>
     <string name="safe_phone">Safe Phone</string>
     <string name="safe_phone_tips">Only handle requests from specified phones</string>
-    <string name="forward_missed_calls">Forward Calls Log</string>
-    <string name="forward_missed_calls_tips">Main switch, requires permissions to read call log and contacts.</string>
+    <string name="forward_calls">Forward Calls Log</string>
+    <string name="forward_calls_tips">Main switch, requires permissions to read call log and contacts.</string>
     <string name="forward_app_notify">Forward App Notify</string>
     <string name="forward_app_notify_tips">Main switch, requires permission to read notification.</string>
     <string name="cancel_app_notify">Auto close Ntf.</string>
@@ -1206,6 +1206,8 @@
     <string name="task_app">Notification</string>
     <string name="task_app_tips">Triggered upon receiving app notification</string>
     <string name="task_app_when">received app notification</string>
+    <string name="task_bluetooth">Bluetooth Device</string>
+    <string name="task_bluetooth_tips">Triggered upon changes in Bluetooth status</string>
     <string name="task_sendsms">Send Sms</string>
     <string name="task_notification">Notify</string>
     <string name="task_frpc">Frpc On/Off</string>
