@@ -29,7 +29,7 @@ class RulePagingAdapter(private val itemClickListener: OnItemClickListener) : Pa
         if (item != null) {
             holder.binding.ivRuleImage.setImageResource(item.imageId)
             holder.binding.ivRuleStatus.setImageResource(item.statusImageId)
-            holder.binding.tvRuleMatch.text = item.ruleMatch
+            holder.binding.tvRuleMatch.text = item.getName(false)
 
             holder.binding.layoutSenders.removeAllViews()
             for (sender in item.senderList) {

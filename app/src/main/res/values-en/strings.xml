@@ -640,8 +640,8 @@
     <string name="rule_sms">SMS</string>
     <string name="rule_call">CALL</string>
     <string name="rule_app">APP</string>
-    <string name="rule_all">ALL</string>
-    <string name="rule_any">ANY</string>
+    <string name="rule_all">All</string>
+    <string name="rule_any">Any</string>
     <string name="rule_transpond_all">Transpond All</string>
     <string name="rule_phone_num">Phone Num</string>
     <string name="rule_msg_content">Msg Content</string>
@@ -1201,11 +1201,11 @@
     <string name="task_sms_tips">Triggered upon receiving SMS broadcast</string>
     <string name="task_sms_when">received SMS broadcast from %s</string>
     <string name="task_call">Call</string>
-    <string name="task_call_tips">Triggered upon receiving call broadcast</string>
-    <string name="task_call_when">received call broadcast from %s</string>
+    <string name="task_call_tips">Triggered upon receiving CALL broadcast</string>
+    <string name="task_call_when">received CALL broadcast from %s</string>
     <string name="task_app">Notification</string>
-    <string name="task_app_tips">Triggered upon receiving app notification</string>
-    <string name="task_app_when">received app notification</string>
+    <string name="task_app_tips">Triggered upon receiving APP notification</string>
+    <string name="task_app_when">received APP notification</string>
     <string name="task_bluetooth">Bluetooth Device</string>
     <string name="task_bluetooth_tips">Triggered upon changes in Bluetooth status</string>
     <string name="task_sendsms">Send Sms</string>

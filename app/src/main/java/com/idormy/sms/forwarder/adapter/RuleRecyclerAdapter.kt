@@ -78,7 +78,7 @@ class RuleRecyclerAdapter(
             }
             image.setImageResource(icon)
             status.setImageResource(rule.statusImageId)
-            title.text = rule.name
+            title.text = rule.getName()
         }
 
         override fun onClick(v: View?) {

@@ -18,10 +18,16 @@ import com.gyf.cactus.Cactus
 import com.gyf.cactus.callback.CactusCallback
 import com.gyf.cactus.ext.cactus
 import com.hjq.language.MultiLanguages
+import com.hjq.language.OnLanguageListener
 import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.AppDatabase
-import com.idormy.sms.forwarder.database.repository.*
+import com.idormy.sms.forwarder.database.repository.FrpcRepository
+import com.idormy.sms.forwarder.database.repository.LogsRepository
+import com.idormy.sms.forwarder.database.repository.MsgRepository
+import com.idormy.sms.forwarder.database.repository.RuleRepository
+import com.idormy.sms.forwarder.database.repository.SenderRepository
+import com.idormy.sms.forwarder.database.repository.TaskRepository
 import com.idormy.sms.forwarder.entity.SimInfo
 import com.idormy.sms.forwarder.receiver.BatteryReceiver
 import com.idormy.sms.forwarder.receiver.CactusReceiver
@@ -30,7 +36,17 @@ import com.idormy.sms.forwarder.receiver.NetworkChangeReceiver
 import com.idormy.sms.forwarder.service.ForegroundService
 import com.idormy.sms.forwarder.service.HttpServerService
 import com.idormy.sms.forwarder.service.LocationService
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.AppInfo
+import com.idormy.sms.forwarder.utils.CactusSave
+import com.idormy.sms.forwarder.utils.FRONT_CHANNEL_ID
+import com.idormy.sms.forwarder.utils.FRONT_CHANNEL_NAME
+import com.idormy.sms.forwarder.utils.FRONT_NOTIFY_ID
+import com.idormy.sms.forwarder.utils.FRPC_LIB_VERSION
+import com.idormy.sms.forwarder.utils.HistoryUtils
+import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.SharedPreference
 import com.idormy.sms.forwarder.utils.sdkinit.UMengInit
 import com.idormy.sms.forwarder.utils.sdkinit.XBasicLibInit
 import com.idormy.sms.forwarder.utils.sdkinit.XUpdateInit
@@ -42,13 +58,16 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 import java.util.concurrent.TimeUnit
 
 @Suppress("DEPRECATION")
@@ -68,6 +87,15 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
 
         @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
+
+        //通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
+        var CALL_TYPE_MAP: MutableMap<String, String> = mutableMapOf()
+        var FILED_MAP: MutableMap<String, String> = mutableMapOf()
+        var CHECK_MAP: MutableMap<String, String> = mutableMapOf()
+        var SIM_SLOT_MAP: MutableMap<String, String> = mutableMapOf()
+        var FORWARD_STATUS_MAP: MutableMap<Int, String> = mutableMapOf()
+        var BARK_LEVEL_MAP: MutableMap<String, String> = mutableMapOf()
+        var BARK_ENCRYPTION_ALGORITHM_MAP: MutableMap<String, String> = mutableMapOf()
 
         //已插入SIM卡信息
         var SimInfoList: MutableMap<Int, SimInfo> = mutableMapOf()
@@ -96,6 +124,9 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
 
         //Frpclib是否已经初始化
         var FrpclibInited = false
+
+        //是否需要在拼接字符串时添加空格
+        var isNeedSpaceBetweenWords = false
     }
 
     override fun attachBaseContext(base: Context) {
@@ -275,21 +306,24 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         // 初始化语种切换框架
         MultiLanguages.init(this)
         // 设置语种变化监听器
-        /*MultiLanguages.setOnLanguageListener(object : OnLanguageListener {
+        MultiLanguages.setOnLanguageListener(object : OnLanguageListener {
             override fun onAppLocaleChange(oldLocale: Locale, newLocale: Locale) {
                 // 注意：只有setAppLanguage时触发，clearAppLanguage时不触发
                 Log.i(TAG, "监听到应用切换了语种，旧语种：$oldLocale，新语种：$newLocale")
+                switchLanguage(newLocale)
             }
 
             override fun onSystemLocaleChange(oldLocale: Locale, newLocale: Locale) {
-                //val isFlowSystem = MultiLanguages.isSystemLanguage(context) //取值不对，一直是false
-                val isFlowSystem = SettingUtils.isFlowSystemLanguage
+                Log.i(TAG, "监听到系统切换了语种，旧语种：$oldLocale，新语种：$newLocale")
+                switchLanguage(newLocale)
+                /*val isFlowSystem = SettingUtils.isFlowSystemLanguage //MultiLanguages.isSystemLanguage(context)取值不对，一直是false
                 Log.i(TAG, "监听到系统切换了语种，旧语种：$oldLocale，新语种：$newLocale，是否跟随系统：$isFlowSystem")
                 if (isFlowSystem) {
                     CommonUtils.switchLanguage(oldLocale, newLocale)
-                }
+                }*/
             }
-        })*/
+        })
+        switchLanguage(MultiLanguages.getAppLanguage(this))
     }
 
     @SuppressLint("CheckResult")
@@ -325,6 +359,91 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
                 dispose()
             }
         }
+    }
+
+    //多语言切换时枚举常量自动切换语言
+    private fun switchLanguage(newLocale: Locale) {
+        isNeedSpaceBetweenWords = !newLocale.language.contains("zh")
+
+        CALL_TYPE_MAP.clear()
+        CALL_TYPE_MAP.putAll(
+            mapOf(
+                //"0" to getString(R.string.unknown_call),
+                "1" to getString(R.string.incoming_call_ended),
+                "2" to getString(R.string.outgoing_call_ended),
+                "3" to getString(R.string.missed_call),
+                "4" to getString(R.string.incoming_call_received),
+                "5" to getString(R.string.incoming_call_answered),
+                "6" to getString(R.string.outgoing_call_started),
+            )
+        )
+
+        FILED_MAP.clear()
+        FILED_MAP.putAll(
+            mapOf(
+                "transpond_all" to getString(R.string.rule_transpond_all),
+                "phone_num" to getString(R.string.rule_phone_num),
+                "msg_content" to getString(R.string.rule_msg_content),
+                "multi_match" to getString(R.string.rule_multi_match),
+                "package_name" to getString(R.string.rule_package_name),
+                "inform_content" to getString(R.string.rule_inform_content),
+                "call_type" to getString(R.string.rule_call_type),
+                "uid" to getString(R.string.rule_uid),
+            )
+        )
+
+        CHECK_MAP.clear()
+        CHECK_MAP.putAll(
+            mapOf(
+                "is" to getString(R.string.rule_is),
+                "notis" to getString(R.string.rule_notis),
+                "contain" to getString(R.string.rule_contain),
+                "startwith" to getString(R.string.rule_startwith),
+                "endwith" to getString(R.string.rule_endwith),
+                "notcontain" to getString(R.string.rule_notcontain),
+                "regex" to getString(R.string.rule_regex),
+            )
+        )
+
+        SIM_SLOT_MAP.clear()
+        SIM_SLOT_MAP.putAll(
+            mapOf(
+                "ALL" to getString(R.string.rule_any),
+                "SIM1" to "SIM1",
+                "SIM2" to "SIM2",
+            )
+        )
+
+        FORWARD_STATUS_MAP.clear()
+        FORWARD_STATUS_MAP.putAll(
+            mapOf(
+                0 to getString(R.string.failed),
+                1 to getString(R.string.processing),
+                2 to getString(R.string.success),
+            )
+        )
+
+        BARK_LEVEL_MAP.clear()
+        BARK_LEVEL_MAP.putAll(
+            mapOf(
+                "active" to getString(R.string.bark_level_active),
+                "timeSensitive" to getString(R.string.bark_level_timeSensitive),
+                "passive" to getString(R.string.bark_level_passive)
+            )
+        )
+
+        BARK_ENCRYPTION_ALGORITHM_MAP.clear()
+        BARK_ENCRYPTION_ALGORITHM_MAP.putAll(
+            mapOf(
+                "none" to getString(R.string.bark_encryption_algorithm_none),
+                "AES128/CBC/PKCS7Padding" to "AES128/CBC/PKCS7Padding",
+                "AES128/ECB/PKCS7Padding" to "AES128/ECB/PKCS7Padding",
+                "AES192/CBC/PKCS7Padding" to "AES192/CBC/PKCS7Padding",
+                "AES192/ECB/PKCS7Padding" to "AES192/ECB/PKCS7Padding",
+                "AES256/CBC/PKCS7Padding" to "AES256/CBC/PKCS7Padding",
+                "AES256/ECB/PKCS7Padding" to "AES256/ECB/PKCS7Padding",
+            )
+        )
     }
 
 }

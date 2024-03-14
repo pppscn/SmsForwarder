@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.idormy.sms.forwarder.App
+import com.idormy.sms.forwarder.App.Companion.CALL_TYPE_MAP
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.SenderRecyclerAdapter
 import com.idormy.sms.forwarder.adapter.base.ItemMoveCallback
@@ -95,17 +96,6 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
     private val TAG: String = RulesEditFragment::class.java.simpleName
     private var titleBar: TitleBar? = null
     private val viewModel by viewModels<RuleViewModel> { BaseViewModelFactory(context) }
-
-    //通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
-    private val CALL_TYPE_MAP = mapOf(
-        //"0" to getString(R.string.unknown_call),
-        "1" to getString(R.string.incoming_call_ended),
-        "2" to getString(R.string.outgoing_call_ended),
-        "3" to getString(R.string.missed_call),
-        "4" to getString(R.string.incoming_call_received),
-        "5" to getString(R.string.incoming_call_answered),
-        "6" to getString(R.string.outgoing_call_started),
-    )
 
     private var callType = 1
     private var callTypeIndex = 0

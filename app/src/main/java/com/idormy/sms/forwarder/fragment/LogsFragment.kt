@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 import com.alibaba.android.vlayout.VirtualLayoutManager
+import com.idormy.sms.forwarder.App.Companion.FORWARD_STATUS_MAP
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.adapter.MsgPagingAdapter
@@ -39,7 +40,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 
 @Suppress("PrivatePropertyName")
 @Page(name = "转发日志")
@@ -50,13 +51,6 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
     private var adapter = MsgPagingAdapter(this)
     private val viewModel by viewModels<MsgViewModel> { BaseViewModelFactory(context) }
     private var currentType: String = "sms"
-    private val FORWARD_STATUS_MAP = object : HashMap<Int, String>() {
-        init {
-            put(0, getString(R.string.failed))
-            put(1, getString(R.string.processing))
-            put(2, getString(R.string.success))
-        }
-    }
 
     override fun viewBindingInflate(
         inflater: LayoutInflater,

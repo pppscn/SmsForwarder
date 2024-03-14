@@ -256,7 +256,8 @@ class RuleFragment : BaseFragment<FragmentTasksActionRuleBinding?>(), View.OnCli
                 ruleSpinnerList.clear()
                 ruleListAll = ruleList as MutableList<Rule>
                 for (rule in ruleList) {
-                    val name = if (rule.name.length > 20) rule.name.substring(0, 19) else rule.name
+                    var name = rule.getName()
+                    if (name.length > 20) name = name.substring(0, 19)
                     val icon = when (rule.type) {
                         "sms" -> R.drawable.auto_task_icon_sms
                         "call" -> R.drawable.auto_task_icon_incall

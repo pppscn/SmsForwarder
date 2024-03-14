@@ -146,7 +146,7 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                         SendUtils.sendMsgSender(msgInfo, ruleSetting, 0, -1L, -1L)
 
                         successNum++
-                        writeLog(String.format(getString(R.string.successful_execution), ruleSetting.name), "SUCCESS")
+                        writeLog(String.format(getString(R.string.successful_execution), ruleSetting.getName()), "SUCCESS")
                     }
 
                     TASK_ACTION_CLEANER -> {

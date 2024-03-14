@@ -2,6 +2,11 @@ package com.idormy.sms.forwarder.database.entity
 
 import android.os.Parcelable
 import androidx.room.*
+import com.idormy.sms.forwarder.App
+import com.idormy.sms.forwarder.App.Companion.CALL_TYPE_MAP
+import com.idormy.sms.forwarder.App.Companion.CHECK_MAP
+import com.idormy.sms.forwarder.App.Companion.FILED_MAP
+import com.idormy.sms.forwarder.App.Companion.SIM_SLOT_MAP
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.ext.ConvertersSenderList
 import com.idormy.sms.forwarder.entity.MsgInfo
@@ -54,115 +59,79 @@ data class Rule(
     companion object {
         val TAG: String = Rule::class.java.simpleName
 
-        //通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
-        val CALL_TYPE_MAP = mapOf(
-            //"0" to getString(R.string.unknown_call),
-            "1" to getString(R.string.incoming_call_ended),
-            "2" to getString(R.string.outgoing_call_ended),
-            "3" to getString(R.string.missed_call),
-            "4" to getString(R.string.incoming_call_received),
-            "5" to getString(R.string.incoming_call_answered),
-            "6" to getString(R.string.outgoing_call_started),
-        )
-        val FILED_MAP = object : HashMap<String, String>() {
-            init {
-                put("transpond_all", getString(R.string.rule_transpond_all))
-                put("phone_num", getString(R.string.rule_phone_num))
-                put("msg_content", getString(R.string.rule_msg_content))
-                put("multi_match", getString(R.string.rule_multi_match))
-                put("package_name", getString(R.string.rule_package_name))
-                put("inform_content", getString(R.string.rule_inform_content))
-                put("call_type", getString(R.string.rule_call_type))
-                put("uid", getString(R.string.rule_uid))
-            }
-        }
-        val CHECK_MAP = object : HashMap<String, String>() {
-            init {
-                put("is", getString(R.string.rule_is))
-                put("notis", getString(R.string.rule_notis))
-                put("contain", getString(R.string.rule_contain))
-                put("startwith", getString(R.string.rule_startwith))
-                put("endwith", getString(R.string.rule_endwith))
-                put("notcontain", getString(R.string.rule_notcontain))
-                put("regex", getString(R.string.rule_regex))
-            }
-        }
-        val SIM_SLOT_MAP = object : HashMap<String, String>() {
-            init {
-                put("ALL", getString(R.string.rule_any))
-                put("SIM1", "SIM1")
-                put("SIM2", "SIM2")
-            }
-        }
-
-        fun getRuleMatch(filed: String?, check: String?, value: String?, simSlot: String?): Any {
+        fun getRuleMatch(filed: String?, check: String?, value: String?, simSlot: String?, senderList: List<Sender>? = null): String {
+            val blank = if (App.isNeedSpaceBetweenWords) " " else ""
             val sb = StringBuilder()
-            sb.append(SIM_SLOT_MAP[simSlot]).append(getString(R.string.rule_card))
+            sb.append(SIM_SLOT_MAP[simSlot]).append(blank).append(getString(R.string.rule_card)).append(blank)
             when (filed) {
-                null, FILED_TRANSPOND_ALL -> {
-                    sb.append(getString(R.string.rule_all_fw_to))
-                }
+                null, FILED_TRANSPOND_ALL -> sb.append(getString(R.string.rule_all_fw_to))
+                FILED_CALL_TYPE -> sb.append(getString(R.string.rule_when))
+                    .append(blank)
+                    .append(FILED_MAP[filed])
+                    .append(blank)
+                    .append(CHECK_MAP[check])
+                    .append(blank)
+                    .append(CALL_TYPE_MAP[value])
+                    .append(blank)
+                    .append(getString(R.string.rule_fw_to))
 
-                FILED_CALL_TYPE -> {
-                    sb.append(getString(R.string.rule_when)).append(FILED_MAP[filed]).append(CHECK_MAP[check]).append(CALL_TYPE_MAP[value]).append(getString(R.string.rule_fw_to))
-                }
-
-                else -> {
-                    sb.append(getString(R.string.rule_when)).append(FILED_MAP[filed]).append(CHECK_MAP[check]).append(value).append(getString(R.string.rule_fw_to))
-                }
+                else -> sb.append(getString(R.string.rule_when))
+                    .append(blank)
+                    .append(FILED_MAP[filed])
+                    .append(blank)
+                    .append(CHECK_MAP[check])
+                    .append(blank)
+                    .append(value)
+                    .append(blank)
+                    .append(getString(R.string.rule_fw_to))
+            }
+            if (!senderList.isNullOrEmpty()) {
+                sb.append(blank).append(senderList.joinToString(",") { it.name })
             }
             return sb.toString()
         }
 
     }
 
-    val name: String
-        get() {
-            val sb = StringBuilder()
-            if (type == "call" || type == "sms") sb.append(SIM_SLOT_MAP[simSlot].toString()).append(getString(R.string.rule_card))
-            when (filed) {
-                FILED_TRANSPOND_ALL -> sb.append(getString(R.string.rule_all_fw_to))
-                FILED_CALL_TYPE -> sb.append(getString(R.string.rule_when) + FILED_MAP[filed] + CHECK_MAP[check] + CALL_TYPE_MAP[value] + getString(R.string.rule_fw_to))
-                else -> sb.append(getString(R.string.rule_when) + FILED_MAP[filed] + CHECK_MAP[check] + value + getString(R.string.rule_fw_to))
-            }
-            sb.append(senderList.joinToString(",") { it.name })
-            return sb.toString()
-        }
-
     val description: String
         get() {
-            val card = SIM_SLOT_MAP[simSlot].toString() + getString(R.string.rule_card)
+            val blank = if (App.isNeedSpaceBetweenWords) " " else ""
+            val card = SIM_SLOT_MAP[simSlot].toString() + blank + getString(R.string.rule_card) + blank
             val sb = StringBuilder()
             when (type) {
                 "app" -> sb.append(getString(R.string.task_app_when))
                 "call" -> sb.append(String.format(getString(R.string.task_call_when), card))
                 "sms" -> sb.append(String.format(getString(R.string.task_sms_when), card))
             }
+            sb.append(blank)
             when (filed) {
                 FILED_TRANSPOND_ALL -> sb.append("")
-                FILED_CALL_TYPE -> sb.append(getString(R.string.rule_when) + FILED_MAP[filed] + CHECK_MAP[check] + CALL_TYPE_MAP[value])
-                else -> sb.append(getString(R.string.rule_when) + FILED_MAP[filed] + CHECK_MAP[check] + value)
+                FILED_CALL_TYPE -> sb.append(getString(R.string.rule_when))
+                    .append(blank)
+                    .append(FILED_MAP[filed])
+                    .append(blank)
+                    .append(CHECK_MAP[check])
+                    .append(blank)
+                    .append(CALL_TYPE_MAP[value])
+
+                else -> sb.append(getString(R.string.rule_when))
+                    .append(blank)
+                    .append(FILED_MAP[filed])
+                    .append(blank)
+                    .append(CHECK_MAP[check])
+                    .append(blank)
+                    .append(value)
             }
             return sb.toString()
         }
 
-    val ruleMatch: String
-        get() {
-            val simStr = if ("app" == type) "" else SIM_SLOT_MAP[simSlot].toString() + getString(R.string.rule_card)
-            return when (filed) {
-                FILED_TRANSPOND_ALL -> {
-                    simStr + getString(R.string.rule_all_fw_to)
-                }
-
-                FILED_CALL_TYPE -> {
-                    simStr + getString(R.string.rule_when) + FILED_MAP[filed] + CHECK_MAP[check] + CALL_TYPE_MAP[value] + getString(R.string.rule_fw_to)
-                }
-
-                else -> {
-                    simStr + getString(R.string.rule_when) + FILED_MAP[filed] + CHECK_MAP[check] + value + getString(R.string.rule_fw_to)
-                }
-            }
+    fun getName(appendSenderList: Boolean = true): String {
+        return if (appendSenderList) {
+            getRuleMatch(filed, check, value, simSlot, senderList)
+        } else {
+            getRuleMatch(filed, check, value, simSlot, null)
         }
+    }
 
     val statusChecked: Boolean
         get() = status != STATUS_OFF

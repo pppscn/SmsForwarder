@@ -1065,7 +1065,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             when (checkedId) {
                 R.id.rb_main_language_auto -> {
                     // 只为了触发onAppLocaleChange
-                    // MultiLanguages.setAppLanguage(context, newLang)
+                    MultiLanguages.setAppLanguage(context, newLang)
                     // SettingUtils.isFlowSystemLanguage = true
                     // 跟随系统
                     MultiLanguages.clearAppLanguage(context)

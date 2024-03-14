@@ -5,6 +5,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.google.gson.Gson
+import com.idormy.sms.forwarder.App.Companion.CALL_TYPE_MAP
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.CallInfo
 import com.idormy.sms.forwarder.entity.MsgInfo
@@ -21,17 +22,6 @@ open class CallReceiver : PhoneStateReceiver() {
 
     companion object {
         private val TAG = CallReceiver::class.java.simpleName
-
-        //通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
-        private val CALL_TYPE_MAP = mapOf(
-            //"0" to getString(R.string.unknown_call),
-            "1" to getString(R.string.incoming_call_ended),
-            "2" to getString(R.string.outgoing_call_ended),
-            "3" to getString(R.string.missed_call),
-            "4" to getString(R.string.incoming_call_received),
-            "5" to getString(R.string.incoming_call_answered),
-            "6" to getString(R.string.outgoing_call_started),
-        )
 
         //const val ACTION_IN = "android.intent.action.PHONE_STATE"
         const val ACTION_OUT = "android.intent.action.NEW_OUTGOING_CALL"

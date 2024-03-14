@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.text.TextUtils
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
+import com.idormy.sms.forwarder.App.Companion.CALL_TYPE_MAP
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.utils.AppUtils
 import com.idormy.sms.forwarder.utils.BatteryUtils
@@ -31,17 +32,6 @@ data class MsgInfo(
     var callType: Int = 0, //通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
     var uid: Int = 0, //APP通知的UID
 ) : Serializable {
-
-    //通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
-    private val callTypeMap = mapOf(
-        //"0" to getString(R.string.unknown_call),
-        "1" to getString(R.string.incoming_call_ended),
-        "2" to getString(R.string.outgoing_call_ended),
-        "3" to getString(R.string.missed_call),
-        "4" to getString(R.string.incoming_call_received),
-        "5" to getString(R.string.incoming_call_answered),
-        "6" to getString(R.string.outgoing_call_started),
-    )
 
     val titleForSend = getTitleForSend()
 
@@ -105,7 +95,7 @@ data class MsgInfo(
             .replaceTag(getString(R.string.tag_current_time), SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()), needJson)
             .replaceTag(getString(R.string.tag_device_name), extraDeviceMark.trim(), needJson)
             .replaceTag(getString(R.string.tag_app_version), AppUtils.getAppVersionName(), needJson)
-            .replaceTag(getString(R.string.tag_call_type), callTypeMap[callType.toString()] ?: getString(R.string.unknown_call), needJson)
+            .replaceTag(getString(R.string.tag_call_type), CALL_TYPE_MAP[callType.toString()] ?: getString(R.string.unknown_call), needJson)
             .replaceTag(getString(R.string.tag_ipv4), TaskUtils.ipv4, needJson)
             .replaceTag(getString(R.string.tag_ipv6), TaskUtils.ipv6, needJson)
             .replaceTag(getString(R.string.tag_battery_pct), "%.2f".format(TaskUtils.batteryPct), needJson)
