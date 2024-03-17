@@ -11,6 +11,7 @@ import com.idormy.sms.forwarder.utils.ACTION_RESTART
 import com.idormy.sms.forwarder.utils.ACTION_START
 import com.idormy.sms.forwarder.utils.ACTION_STOP
 import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.task.TaskUtils
 
 @Suppress("PrivatePropertyName", "DEPRECATION")
 class BluetoothScanService : Service() {
@@ -47,6 +48,8 @@ class BluetoothScanService : Service() {
             return
         }
         if (isRunning) return
+        // 清空已发现设备
+        TaskUtils.discoveredDevices = mutableMapOf()
         bluetoothAdapter?.startDiscovery()
         isRunning = true
     }
