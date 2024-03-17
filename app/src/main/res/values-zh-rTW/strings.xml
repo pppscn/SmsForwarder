@@ -625,7 +625,6 @@
     <string name="tag_device_name">{{DEVICE_NAME}}</string>
     <string name="tag_app_version">{{APP_VERSION}}</string>
     <string name="tag_title">{{TITLE}}</string>
-    <string name="tag_scheme">{{SCHEME}}</string>
     <string name="tag_call_type">{{CALL_TYPE}}</string>
     <string name="tag_location">{{LOCATION}}</string>
     <string name="tag_location_longitude">{{LOCATION_LONGITUDE}}</string>

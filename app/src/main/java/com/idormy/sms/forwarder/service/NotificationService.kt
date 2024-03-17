@@ -2,7 +2,6 @@ package com.idormy.sms.forwarder.service
 
 import android.annotation.SuppressLint
 import android.content.ComponentName
-import android.net.Uri
 import android.os.Build
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
@@ -82,42 +81,11 @@ class NotificationService : NotificationListenerService() {
             //自身通知跳过
             if (PACKAGE_NAME == sbn.packageName) return
             // 标题
-            var title = extras["android.title"]?.toString() ?: ""
+            val title = extras["android.title"]?.toString() ?: ""
             // 通知内容
             var text = extras["android.text"]?.toString() ?: ""
             if (text.isEmpty() && notification.tickerText != null) {
                 text = notification.tickerText.toString()
-            }
-            // TODO: 获取Scheme信息
-            val pendingIntent = notification.contentIntent
-            /*try {
-                val method = pendingIntent.javaClass.getDeclaredMethod("getIntent")
-                val intent = method.invoke(pendingIntent) as Intent
-                // 获取scheme
-                val scheme = intent.scheme
-                if (scheme != null) {
-                    // 处理scheme信息
-                    Log.d(TAG, "Scheme: $scheme")
-                }
-            } catch (e: Exception) {
-                // 处理异常
-                Log.e(TAG, "Failed to get scheme from PendingIntent", e)
-            }*/
-            try {
-                val creatorPackage = pendingIntent.creatorPackage
-                val appIntent = creatorPackage?.let { packageManager.getLaunchIntentForPackage(it) }
-                var scheme: String? = appIntent?.scheme
-                if (scheme == null) {
-                    val uri: Uri? = appIntent?.data
-                    scheme = uri?.scheme
-                }
-                Log.d(TAG, "from=$from, scheme=$scheme")
-                if (!TextUtils.isEmpty(scheme)) {
-                    title += "#####$scheme"
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.e(TAG, "Failed to get scheme from PendingIntent", e)
             }
 
             //不处理空消息（标题跟内容都为空）

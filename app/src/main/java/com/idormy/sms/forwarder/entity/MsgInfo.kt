@@ -78,18 +78,13 @@ data class MsgInfo(
 
     @SuppressLint("SimpleDateFormat")
     fun replaceTemplate(template: String, regexReplace: String, needJson: Boolean = false): String {
-        val splitSimInfo = simInfo.split("#####")
-        val title = splitSimInfo.getOrElse(0) { simInfo }
-        val scheme = splitSimInfo.getOrElse(1) { "" }
-
         return template.replaceTag(getString(R.string.tag_from), from, needJson)
             .replaceTag(getString(R.string.tag_package_name), from, needJson)
             .replaceTag(getString(R.string.tag_sms), content, needJson)
             .replaceTag(getString(R.string.tag_msg), content, needJson)
-            .replaceTag(getString(R.string.tag_card_slot), title, needJson)
+            .replaceTag(getString(R.string.tag_card_slot), simInfo, needJson)
             .replaceTag(getString(R.string.tag_card_subid), subId.toString(), needJson)
-            .replaceTag(getString(R.string.tag_title), title, needJson)
-            .replaceTag(getString(R.string.tag_scheme), scheme, needJson)
+            .replaceTag(getString(R.string.tag_title), simInfo, needJson)
             .replaceTag(getString(R.string.tag_uid), uid.toString(), needJson)
             .replaceTag(getString(R.string.tag_receive_time), SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date), needJson)
             .replaceTag(getString(R.string.tag_current_time), SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()), needJson)
