@@ -148,6 +148,15 @@ class SettingUtils private constructor() {
 
         //是否跟随系统语言
         //var isFlowSystemLanguage: Boolean by SharedPreference(SP_IS_FLOW_SYSTEM_LANGUAGE, false)
+
+        //是否启用发现蓝牙设备服务
+        var enableBluetooth: Boolean by SharedPreference(SP_BLUETOOTH, false)
+
+        //扫描蓝牙设备间隔
+        var bluetoothScanInterval: Long by SharedPreference(SP_BLUETOOTH_SCAN_INTERVAL, 10000L)
+
+        //是否忽略匿名设备
+        var bluetoothIgnoreAnonymous: Boolean by SharedPreference(SP_BLUETOOTH_IGNORE_ANONYMOUS, true)
     }
 
     init {

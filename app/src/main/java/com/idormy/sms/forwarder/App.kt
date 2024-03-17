@@ -3,6 +3,8 @@ package com.idormy.sms.forwarder
 import android.annotation.SuppressLint
 import android.app.Application
 import android.app.PendingIntent
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -30,12 +32,15 @@ import com.idormy.sms.forwarder.database.repository.SenderRepository
 import com.idormy.sms.forwarder.database.repository.TaskRepository
 import com.idormy.sms.forwarder.entity.SimInfo
 import com.idormy.sms.forwarder.receiver.BatteryReceiver
+import com.idormy.sms.forwarder.receiver.BluetoothReceiver
 import com.idormy.sms.forwarder.receiver.CactusReceiver
 import com.idormy.sms.forwarder.receiver.LockScreenReceiver
 import com.idormy.sms.forwarder.receiver.NetworkChangeReceiver
+import com.idormy.sms.forwarder.service.BluetoothScanService
 import com.idormy.sms.forwarder.service.ForegroundService
 import com.idormy.sms.forwarder.service.HttpServerService
 import com.idormy.sms.forwarder.service.LocationService
+import com.idormy.sms.forwarder.utils.ACTION_START
 import com.idormy.sms.forwarder.utils.AppInfo
 import com.idormy.sms.forwarder.utils.CactusSave
 import com.idormy.sms.forwarder.utils.FRONT_CHANNEL_ID
@@ -185,7 +190,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
 
             //启动前台服务
             val foregroundServiceIntent = Intent(this, ForegroundService::class.java)
-            foregroundServiceIntent.action = "START"
+            foregroundServiceIntent.action = ACTION_START
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 startForegroundService(foregroundServiceIntent)
             } else {
@@ -202,7 +207,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
             //启动LocationService
             if (SettingUtils.enableLocation) {
                 val locationServiceIntent = Intent(this, LocationService::class.java)
-                locationServiceIntent.action = "START"
+                locationServiceIntent.action = ACTION_START
                 startService(locationServiceIntent)
             }
 
@@ -210,6 +215,26 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
             val batteryReceiver = BatteryReceiver()
             val batteryFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
             registerReceiver(batteryReceiver, batteryFilter)
+
+            //监听蓝牙状态变化
+            val bluetoothReceiver = BluetoothReceiver()
+            val filter = IntentFilter().apply {
+                addAction(BluetoothDevice.ACTION_FOUND)
+                addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)
+                addAction(BluetoothAdapter.ACTION_STATE_CHANGED)
+                addAction(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED)
+                addAction(BluetoothAdapter.ACTION_LOCAL_NAME_CHANGED)
+                addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED)
+                addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED)
+                addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
+                addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
+            }
+            registerReceiver(bluetoothReceiver, filter)
+            if (SettingUtils.enableBluetooth) {
+                val bluetoothScanServiceIntent = Intent(this, BluetoothScanService::class.java)
+                bluetoothScanServiceIntent.action = ACTION_START
+                startService(bluetoothScanServiceIntent)
+            }
 
             //监听网络变化
             val networkReceiver = NetworkChangeReceiver()

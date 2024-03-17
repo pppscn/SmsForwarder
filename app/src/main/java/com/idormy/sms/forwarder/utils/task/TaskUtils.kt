@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.utils.task
 
+import android.bluetooth.BluetoothAdapter
 import android.os.BatteryManager
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.LocationInfo
@@ -8,7 +9,10 @@ import com.idormy.sms.forwarder.utils.SP_BATTERY_LEVEL
 import com.idormy.sms.forwarder.utils.SP_BATTERY_PCT
 import com.idormy.sms.forwarder.utils.SP_BATTERY_PLUGGED
 import com.idormy.sms.forwarder.utils.SP_BATTERY_STATUS
+import com.idormy.sms.forwarder.utils.SP_BLUETOOTH_STATE
+import com.idormy.sms.forwarder.utils.SP_CONNECTED_DEVICE
 import com.idormy.sms.forwarder.utils.SP_DATA_SIM_SLOT
+import com.idormy.sms.forwarder.utils.SP_DISCOVERED_DEVICES
 import com.idormy.sms.forwarder.utils.SP_IPV4
 import com.idormy.sms.forwarder.utils.SP_IPV6
 import com.idormy.sms.forwarder.utils.SP_LOCATION_INFO_NEW
@@ -30,6 +34,7 @@ import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDSMS
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SETTINGS
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_APP
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_BATTERY
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_BLUETOOTH
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CALL
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CHARGE
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CRON
@@ -61,6 +66,7 @@ class TaskUtils private constructor() {
                 TASK_CONDITION_SMS -> R.drawable.auto_task_icon_sms
                 TASK_CONDITION_CALL -> R.drawable.auto_task_icon_incall
                 TASK_CONDITION_APP -> R.drawable.auto_task_icon_start_activity
+                TASK_CONDITION_BLUETOOTH -> R.drawable.auto_task_icon_bluetooth
                 TASK_ACTION_SENDSMS -> R.drawable.auto_task_icon_sms
                 TASK_ACTION_NOTIFICATION -> R.drawable.auto_task_icon_notification
                 TASK_ACTION_CLEANER -> R.drawable.auto_task_icon_cleaner
@@ -89,6 +95,7 @@ class TaskUtils private constructor() {
                 TASK_CONDITION_SMS -> R.drawable.auto_task_icon_sms_grey
                 TASK_CONDITION_CALL -> R.drawable.auto_task_icon_incall_grey
                 TASK_CONDITION_APP -> R.drawable.auto_task_icon_start_activity_grey
+                TASK_CONDITION_BLUETOOTH -> R.drawable.auto_task_icon_bluetooth_grey
                 TASK_ACTION_SENDSMS -> R.drawable.auto_task_icon_sms_grey
                 TASK_ACTION_NOTIFICATION -> R.drawable.auto_task_icon_notification_grey
                 TASK_ACTION_CLEANER -> R.drawable.auto_task_icon_cleaner_grey
@@ -144,6 +151,15 @@ class TaskUtils private constructor() {
 
         //上次锁屏广播
         var lockScreenAction: String by SharedPreference(SP_LOCK_SCREEN_ACTION, "")
+
+        //已发现的蓝牙设备
+        var discoveredDevices: MutableMap<String, String> by SharedPreference(SP_DISCOVERED_DEVICES, mutableMapOf())
+
+        //已连接的蓝牙设备
+        var connectedDevices: MutableMap<String, String> by SharedPreference(SP_CONNECTED_DEVICE, mutableMapOf())
+
+        //蓝牙状态
+        var bluetoothState: Int by SharedPreference(SP_BLUETOOTH_STATE, BluetoothAdapter.STATE_ON)
 
     }
 }

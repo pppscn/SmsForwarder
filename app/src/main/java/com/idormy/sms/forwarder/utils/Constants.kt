@@ -19,6 +19,14 @@ object TaskWorker {
     const val ACTION = "action"
 }
 
+//服务相关
+const val ACTION_START = "START"
+const val ACTION_STOP = "STOP"
+const val ACTION_RESTART = "RESTART"
+const val ACTION_STOP_ALARM = "STOP_ALARM"
+const val ACTION_UPDATE_NOTIFICATION = "UPDATE_NOTIFICATION"
+const val EXTRA_UPDATE_NOTIFICATION = "EXTRA_UPDATE_NOTIFICATION"
+
 //初始化相关
 const val AUTO_CHECK_UPDATE = "auto_check_update"
 const val JOIN_PREVIEW_PROGRAM = "join_preview_program"
@@ -83,6 +91,10 @@ const val SP_LOCATION_ACCURACY = "location_accuracy"
 const val SP_LOCATION_POWER_REQUIREMENT = "location_power_requirement"
 const val SP_LOCATION_MIN_INTERVAL = "location_min_interval_time"
 const val SP_LOCATION_MIN_DISTANCE = "location_min_distance"
+
+const val SP_BLUETOOTH = "enable_bluetooth"
+const val SP_BLUETOOTH_SCAN_INTERVAL = "bluetooth_scan_interval"
+const val SP_BLUETOOTH_IGNORE_ANONYMOUS = "bluetooth_ignore_anonymous"
 
 const val SP_ENABLE_CACTUS = "enable_cactus"
 const val CACTUS_TIMER = "cactus_timer"
@@ -239,6 +251,7 @@ const val TASK_CONDITION_LOCK_SCREEN = 1007
 const val TASK_CONDITION_SMS = 1008
 const val TASK_CONDITION_CALL = 1009
 const val TASK_CONDITION_APP = 1010
+const val TASK_CONDITION_BLUETOOTH = 1011
 
 //注意：TASK_ACTION_XXX 枚举值 等于 TASK_ACTION_FRAGMENT_LIST 索引加上 KEY_BACK_CODE_ACTION，不可改变
 const val TASK_ACTION_SENDSMS = 2000
@@ -268,6 +281,9 @@ const val SP_SIM_STATE = "sim_state"
 const val SP_LOCATION_INFO_OLD = "location_info_old"
 const val SP_LOCATION_INFO_NEW = "location_info_new"
 const val SP_LOCK_SCREEN_ACTION = "lock_screen_action"
+const val SP_CONNECTED_DEVICE = "connected_device"
+const val SP_DISCOVERED_DEVICES = "discovered_devices"
+const val SP_BLUETOOTH_STATE = "bluetooth_state"
 
 //SIM卡已准备就绪时，延迟5秒（给够搜索信号时间）才执行任务
 const val DELAY_TIME_AFTER_SIM_READY = 5000L

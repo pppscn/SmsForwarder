@@ -67,6 +67,11 @@
     <uses-permission
         android:name="android.permission.REBOOT"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
 
     <application
         android:name=".App"
@@ -101,7 +106,7 @@
             android:taskAffinity=":splash"
             android:theme="@style/AppTheme.Launch.App"
             android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="TranslucentOrientation">
+            tools:ignore="DiscouragedApi,TranslucentOrientation">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -113,21 +118,24 @@
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            tools:ignore="DiscouragedApi" />
         <activity
             android:name=".activity.ClientActivity"
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
             android:exported="true"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            tools:ignore="DiscouragedApi" />
         <activity
             android:name=".activity.TaskActivity"
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
             android:exported="true"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            tools:ignore="DiscouragedApi" />
         <!--通用浏览器-->
         <activity
             android:name=".core.webview.AgentWebActivity"
@@ -185,26 +193,30 @@
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            tools:ignore="DiscouragedApi" />
         <!-- 版本更新提示-->
         <activity
             android:name=".utils.update.UpdateTipDialog"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/DialogTheme" />
+            android:theme="@style/DialogTheme"
+            tools:ignore="DiscouragedApi" />
         <!-- Webview拦截提示弹窗-->
         <activity
             android:name=".core.webview.WebViewInterceptDialog"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/DialogTheme" />
+            android:theme="@style/DialogTheme"
+            tools:ignore="DiscouragedApi" />
         <!-- applink的中转页面 -->
         <activity
             android:name=".core.XPageTransferActivity"
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            tools:ignore="DiscouragedApi" />
 
         <!--屏幕自适应设计图-->
         <meta-data
@@ -216,6 +228,10 @@
             android:exported="true"
             android:value="640" />
 
+        <service
+            android:name=".service.BluetoothScanService"
+            android:enabled="true"
+            android:exported="false" />
         <service
             android:name=".service.ForegroundService"
             android:enabled="true" />
@@ -242,6 +258,30 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BATTERY_CHANGED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".receiver.BluetoothReceiver"
+            android:exported="true">
+            <intent-filter>
+                <!-- 蓝牙设备发现 -->
+                <action android:name="android.bluetooth.device.action.FOUND" />
+                <!-- 蓝牙扫描完成 -->
+                <action android:name="android.bluetooth.adapter.action.DISCOVERY_FINISHED" />
+                <!-- 蓝牙状态改变 -->
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
+                <!-- 蓝牙扫描模式改变 -->
+                <action android:name="android.bluetooth.adapter.action.SCAN_MODE_CHANGED" />
+                <!-- 本地蓝牙名称改变 -->
+                <action android:name="android.bluetooth.adapter.action.LOCAL_NAME_CHANGED" />
+                <!-- 蓝牙连接状态改变 -->
+                <action android:name="android.bluetooth.adapter.action.CONNECTION_STATE_CHANGED" />
+                <!-- 蓝牙设备配对状态改变 -->
+                <action android:name="android.bluetooth.device.action.BOND_STATE_CHANGED" />
+                <!-- 蓝牙设备连接 -->
+                <action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
+                <!-- 蓝牙设备断开连接 -->
+                <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED" />
             </intent-filter>
         </receiver>
         <receiver

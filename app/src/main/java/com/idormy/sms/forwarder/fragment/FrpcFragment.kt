@@ -18,6 +18,7 @@ import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
 import com.idormy.sms.forwarder.database.viewmodel.FrpcViewModel
 import com.idormy.sms.forwarder.databinding.FragmentFrpcsBinding
 import com.idormy.sms.forwarder.service.ForegroundService
+import com.idormy.sms.forwarder.utils.ACTION_START
 import com.idormy.sms.forwarder.utils.EVENT_FRPC_DELETE_CONFIG
 import com.idormy.sms.forwarder.utils.EVENT_FRPC_RUNNING_ERROR
 import com.idormy.sms.forwarder.utils.EVENT_FRPC_RUNNING_SUCCESS
@@ -153,7 +154,7 @@ class FrpcFragment : BaseFragment<FragmentFrpcsBinding?>(), FrpcPagingAdapter.On
 
                 if (!ForegroundService.isRunning) {
                     val serviceIntent = Intent(requireContext(), ForegroundService::class.java)
-                    serviceIntent.action = "START"
+                    serviceIntent.action = ACTION_START
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         requireContext().startForegroundService(serviceIntent)
                     } else {

@@ -1,10 +1,13 @@
 package com.idormy.sms.forwarder.utils.task
 
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.os.BatteryManager
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.TaskSetting
 import com.idormy.sms.forwarder.entity.condition.BatterySetting
+import com.idormy.sms.forwarder.entity.condition.BluetoothSetting
 import com.idormy.sms.forwarder.entity.condition.ChargeSetting
 import com.idormy.sms.forwarder.entity.condition.CronSetting
 import com.idormy.sms.forwarder.entity.condition.LocationSetting
@@ -15,6 +18,7 @@ import com.idormy.sms.forwarder.utils.DELAY_TIME_AFTER_SIM_READY
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_APP
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_BATTERY
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_BLUETOOTH
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CALL
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CHARGE
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CRON
@@ -226,6 +230,49 @@ class ConditionUtils private constructor() {
                             continue
                         }
                         //TODO: 判断消息是否满足条件
+                    }
+
+                    TASK_CONDITION_BLUETOOTH -> {
+                        val bluetoothSetting = Gson().fromJson(condition.setting, BluetoothSetting::class.java)
+                        if (bluetoothSetting == null) {
+                            Log.d(TAG, "TASK-$taskId：bluetoothSetting is null")
+                            continue
+                        }
+
+                        when (bluetoothSetting.action) {
+                            BluetoothAdapter.ACTION_STATE_CHANGED -> {
+                                if (TaskUtils.bluetoothState != bluetoothSetting.state) {
+                                    Log.d(TAG, "TASK-$taskId：bluetoothState is not match, bluetoothSetting = $bluetoothSetting")
+                                    return false
+                                }
+                            }
+
+                            BluetoothDevice.ACTION_ACL_CONNECTED -> {
+                                if (!TaskUtils.connectedDevices.containsKey(bluetoothSetting.device)) {
+                                    Log.d(TAG, "TASK-$taskId：device is not connected, bluetoothSetting = $bluetoothSetting")
+                                    return false
+                                }
+                            }
+
+                            BluetoothDevice.ACTION_ACL_DISCONNECTED -> {
+                                if (TaskUtils.connectedDevices.containsKey(bluetoothSetting.device)) {
+                                    Log.d(TAG, "TASK-$taskId：device is connected, bluetoothSetting = $bluetoothSetting")
+                                    return false
+                                }
+                            }
+
+                            BluetoothAdapter.ACTION_DISCOVERY_FINISHED -> {
+                                if (bluetoothSetting.result == 1 && !TaskUtils.discoveredDevices.containsKey(bluetoothSetting.device)) {
+                                    Log.d(TAG, "TASK-$taskId：device is not discovered, bluetoothSetting = $bluetoothSetting")
+                                    return false
+                                } else if (bluetoothSetting.result == 0 && TaskUtils.discoveredDevices.containsKey(bluetoothSetting.device)) {
+                                    Log.d(TAG, "TASK-$taskId：device is discovered, bluetoothSetting = $bluetoothSetting")
+                                    return false
+                                }
+                            }
+                        }
+
+                        Log.d(TAG, "TASK-$taskId：bluetoothAction is match, bluetoothSetting = $bluetoothSetting")
                     }
 
                 }

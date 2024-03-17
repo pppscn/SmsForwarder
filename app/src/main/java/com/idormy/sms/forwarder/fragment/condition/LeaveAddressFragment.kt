@@ -14,6 +14,7 @@ import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentTasksConditionLeaveAddressBinding
 import com.idormy.sms.forwarder.entity.condition.LocationSetting
 import com.idormy.sms.forwarder.service.LocationService
+import com.idormy.sms.forwarder.utils.ACTION_START
 import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_CONDITION
 import com.idormy.sms.forwarder.utils.KEY_BACK_DESCRIPTION_CONDITION
@@ -172,12 +173,19 @@ class LeaveAddressFragment : BaseFragment<FragmentTasksConditionLeaveAddressBind
             when (v.id) {
                 R.id.btn_current_coordinates -> {
                     if (!App.LocationClient.isStarted()) {
-                        MaterialDialog.Builder(requireContext()).iconRes(R.drawable.auto_task_icon_location).title(R.string.enable_location).content(R.string.enable_location_dialog).cancelable(false).positiveText(R.string.lab_yes).negativeText(R.string.lab_no).onPositive { _: MaterialDialog?, _: DialogAction? ->
-                            SettingUtils.enableLocation = true
-                            val serviceIntent = Intent(requireContext(), LocationService::class.java)
-                            serviceIntent.action = "START"
-                            requireContext().startService(serviceIntent)
-                        }.show()
+                        MaterialDialog.Builder(requireContext())
+                            .iconRes(R.drawable.auto_task_icon_location)
+                            .title(R.string.enable_location)
+                            .content(R.string.enable_location_dialog)
+                            .cancelable(false)
+                            .positiveText(R.string.lab_yes)
+                            .negativeText(R.string.lab_no)
+                            .onPositive { _: MaterialDialog?, _: DialogAction? ->
+                                SettingUtils.enableLocation = true
+                                val serviceIntent = Intent(requireContext(), LocationService::class.java)
+                                serviceIntent.action = ACTION_START
+                                requireContext().startService(serviceIntent)
+                            }.show()
                         return
                     }
 

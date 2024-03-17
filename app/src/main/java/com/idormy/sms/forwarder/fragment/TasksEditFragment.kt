@@ -82,56 +82,56 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
         PageInfo(
             getString(R.string.task_cron),
             "com.idormy.sms.forwarder.fragment.condition.CronFragment",
-            "{\"\":\"\"}",
+            "",
             CoreAnim.slide,
             R.drawable.auto_task_icon_custom_time,
         ),
         PageInfo(
             getString(R.string.task_to_address),
             "com.idormy.sms.forwarder.fragment.condition.ToAddressFragment",
-            "{\"\":\"\"}",
+            "",
             CoreAnim.slide,
             R.drawable.auto_task_icon_to_address,
         ),
         PageInfo(
             getString(R.string.task_leave_address),
             "com.idormy.sms.forwarder.fragment.condition.LeaveAddressFragment",
-            "{\"\":\"\"}",
+            "",
             CoreAnim.slide,
             R.drawable.auto_task_icon_leave_address,
         ),
         PageInfo(
             getString(R.string.task_network),
             "com.idormy.sms.forwarder.fragment.condition.NetworkFragment",
-            "{\"\":\"\"}",
+            "",
             CoreAnim.slide,
             R.drawable.auto_task_icon_network
         ),
         PageInfo(
             getString(R.string.task_sim),
             "com.idormy.sms.forwarder.fragment.condition.SimFragment",
-            "{\"\":\"\"}",
+            "",
             CoreAnim.slide,
             R.drawable.auto_task_icon_sim
         ),
         PageInfo(
             getString(R.string.task_battery),
             "com.idormy.sms.forwarder.fragment.condition.BatteryFragment",
-            "{\"\":\"\"}",
+            "",
             CoreAnim.slide,
             R.drawable.auto_task_icon_battery
         ),
         PageInfo(
             getString(R.string.task_charge),
             "com.idormy.sms.forwarder.fragment.condition.ChargeFragment",
-            "{\"\":\"\"}",
+            "",
             CoreAnim.slide,
             R.drawable.auto_task_icon_charge
         ),
         PageInfo(
             getString(R.string.task_lock_screen),
             "com.idormy.sms.forwarder.fragment.condition.LockScreenFragment",
-            "{\"\":\"\"}",
+            "",
             CoreAnim.slide,
             R.drawable.auto_task_icon_lock_screen
         ),
@@ -156,83 +156,90 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
             CoreAnim.slide,
             R.drawable.auto_task_icon_start_activity
         ),
+        PageInfo(
+            getString(R.string.task_bluetooth),
+            "com.idormy.sms.forwarder.fragment.condition.BluetoothFragment",
+            "",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_bluetooth
+        ),
     )
 
     private var TASK_ACTION_FRAGMENT_LIST = listOf(
         PageInfo(
             getString(R.string.task_sendsms),
             "com.idormy.sms.forwarder.fragment.action.SendSmsFragment",
-            "{\"\":\"\"}",
+            "",
             CoreAnim.slide,
             R.drawable.auto_task_icon_sms
         ),
         PageInfo(
             getString(R.string.task_notification),
             "com.idormy.sms.forwarder.fragment.action.NotificationFragment",
-            "{\"\":\"\"}",
+            "",
             CoreAnim.slide,
             R.drawable.auto_task_icon_notification,
         ),
         PageInfo(
             getString(R.string.task_cleaner),
             "com.idormy.sms.forwarder.fragment.action.CleanerFragment",
-            "{\"\":\"\"}",
+            "",
             CoreAnim.slide,
             R.drawable.auto_task_icon_cleaner
         ),
         PageInfo(
             getString(R.string.task_settings),
             "com.idormy.sms.forwarder.fragment.action.SettingsFragment",
-            "{\"\":\"\"}",
+            "",
             CoreAnim.slide,
             R.drawable.auto_task_icon_settings
         ),
         PageInfo(
             getString(R.string.task_frpc),
             "com.idormy.sms.forwarder.fragment.action.FrpcFragment",
-            "{\"\":\"\"}",
+            "",
             CoreAnim.slide,
             R.drawable.auto_task_icon_frpc
         ),
         PageInfo(
             getString(R.string.task_http_server),
             "com.idormy.sms.forwarder.fragment.action.HttpServerFragment",
-            "{\"\":\"\"}",
+            "",
             CoreAnim.slide,
             R.drawable.auto_task_icon_http_server
         ),
         PageInfo(
             getString(R.string.task_rule),
             "com.idormy.sms.forwarder.fragment.action.RuleFragment",
-            "{\"\":\"\"}",
+            "",
             CoreAnim.slide,
             R.drawable.auto_task_icon_rule
         ),
         PageInfo(
             getString(R.string.task_sender),
             "com.idormy.sms.forwarder.fragment.action.SenderFragment",
-            "{\"\":\"\"}",
+            "",
             CoreAnim.slide,
             R.drawable.auto_task_icon_sender
         ),
         PageInfo(
             getString(R.string.task_alarm),
             "com.idormy.sms.forwarder.fragment.action.AlarmFragment",
-            "{\"\":\"\"}",
+            "",
             CoreAnim.slide,
             R.drawable.auto_task_icon_alarm
         ),
         PageInfo(
             getString(R.string.task_resend),
             "com.idormy.sms.forwarder.fragment.action.ResendFragment",
-            "{\"\":\"\"}",
+            "",
             CoreAnim.slide,
             R.drawable.auto_task_icon_resend
         ),
         PageInfo(
             getString(R.string.task_task),
             "com.idormy.sms.forwarder.fragment.action.TaskActionFragment",
-            "{\"\":\"\"}",
+            "",
             CoreAnim.slide,
             R.drawable.auto_task_icon_task
         ),
@@ -556,7 +563,7 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
                             .negativeText(R.string.lab_no).onPositive { _: MaterialDialog?, _: DialogAction? ->
                                 SettingUtils.enableLocation = true
                                 val serviceIntent = Intent(requireContext(), LocationService::class.java)
-                                serviceIntent.action = "START"
+                                serviceIntent.action = ACTION_START
                                 requireContext().startService(serviceIntent)
                             }.show()
                         return

@@ -36,6 +36,7 @@ import com.idormy.sms.forwarder.fragment.ServerFragment
 import com.idormy.sms.forwarder.fragment.SettingsFragment
 import com.idormy.sms.forwarder.fragment.TasksFragment
 import com.idormy.sms.forwarder.service.ForegroundService
+import com.idormy.sms.forwarder.utils.ACTION_START
 import com.idormy.sms.forwarder.utils.CommonUtils.Companion.restartApplication
 import com.idormy.sms.forwarder.utils.EVENT_LOAD_APP_LIST
 import com.idormy.sms.forwarder.utils.FRPC_LIB_DOWNLOAD_URL
@@ -121,7 +122,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(), DrawerAdapter.OnItemS
             //启动前台服务
             if (!ForegroundService.isRunning) {
                 val serviceIntent = Intent(this, ForegroundService::class.java)
-                serviceIntent.action = "START"
+                serviceIntent.action = ACTION_START
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     startForegroundService(serviceIntent)
                 } else {

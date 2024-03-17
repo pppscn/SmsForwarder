@@ -164,7 +164,6 @@ class SettingsFragment : BaseFragment<FragmentTasksActionSettingsBinding?>(), Vi
 
         binding!!.sbEnableSms.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
-                //检查权限是否获取
                 XXPermissions.with(this)
                     // 接收 WAP 推送消息
                     .permission(Permission.RECEIVE_WAP_PUSH)
@@ -175,7 +174,8 @@ class SettingsFragment : BaseFragment<FragmentTasksActionSettingsBinding?>(), Vi
                     // 发送短信
                     //.permission(Permission.SEND_SMS)
                     // 读取短信
-                    .permission(Permission.READ_SMS).request(object : OnPermissionCallback {
+                    .permission(Permission.READ_SMS)
+                    .request(object : OnPermissionCallback {
                         override fun onGranted(permissions: List<String>, all: Boolean) {
                             if (all) {
                                 XToastUtils.info(R.string.toast_granted_all)
@@ -200,7 +200,6 @@ class SettingsFragment : BaseFragment<FragmentTasksActionSettingsBinding?>(), Vi
 
         binding!!.sbEnablePhone.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
-                //检查权限是否获取
                 XXPermissions.with(this)
                     // 读取电话状态
                     .permission(Permission.READ_PHONE_STATE)
@@ -209,7 +208,8 @@ class SettingsFragment : BaseFragment<FragmentTasksActionSettingsBinding?>(), Vi
                     // 读取通话记录
                     .permission(Permission.READ_CALL_LOG)
                     // 读取联系人
-                    .permission(Permission.READ_CONTACTS).request(object : OnPermissionCallback {
+                    .permission(Permission.READ_CONTACTS)
+                    .request(object : OnPermissionCallback {
                         override fun onGranted(permissions: List<String>, all: Boolean) {
                             if (all) {
                                 XToastUtils.info(R.string.toast_granted_all)
@@ -234,37 +234,42 @@ class SettingsFragment : BaseFragment<FragmentTasksActionSettingsBinding?>(), Vi
 
         binding!!.sbEnableAppNotify.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
-                //检查权限是否获取
-                XXPermissions.with(this).permission(Permission.BIND_NOTIFICATION_LISTENER_SERVICE).request(OnPermissionCallback { _, allGranted ->
-                    if (!allGranted) {
-                        binding!!.sbEnableAppNotify.isChecked = false
-                        XToastUtils.error(R.string.tips_notification_listener)
-                        return@OnPermissionCallback
-                    }
+                XXPermissions.with(this)
+                    .permission(Permission.BIND_NOTIFICATION_LISTENER_SERVICE)
+                    .request(OnPermissionCallback { _, allGranted ->
+                        if (!allGranted) {
+                            binding!!.sbEnableAppNotify.isChecked = false
+                            XToastUtils.error(R.string.tips_notification_listener)
+                            return@OnPermissionCallback
+                        }
 
-                    binding!!.sbEnableAppNotify.isChecked = true
-                    CommonUtils.toggleNotificationListenerService(requireContext())
-                })
+                        binding!!.sbEnableAppNotify.isChecked = true
+                        CommonUtils.toggleNotificationListenerService(requireContext())
+                    })
             }
         }
 
         binding!!.sbEnableLocation.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
-                XXPermissions.with(this).permission(Permission.ACCESS_COARSE_LOCATION).permission(Permission.ACCESS_FINE_LOCATION).permission(Permission.ACCESS_BACKGROUND_LOCATION).request(object : OnPermissionCallback {
-                    override fun onGranted(permissions: List<String>, all: Boolean) {
-                    }
-
-                    override fun onDenied(permissions: List<String>, never: Boolean) {
-                        if (never) {
-                            XToastUtils.error(R.string.toast_denied_never)
-                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                            XXPermissions.startPermissionActivity(requireContext(), permissions)
-                        } else {
-                            XToastUtils.error(R.string.toast_denied)
+                XXPermissions.with(this)
+                    .permission(Permission.ACCESS_COARSE_LOCATION)
+                    .permission(Permission.ACCESS_FINE_LOCATION)
+                    .permission(Permission.ACCESS_BACKGROUND_LOCATION)
+                    .request(object : OnPermissionCallback {
+                        override fun onGranted(permissions: List<String>, all: Boolean) {
                         }
-                        binding!!.sbEnableLocation.isChecked = false
-                    }
-                })
+
+                        override fun onDenied(permissions: List<String>, never: Boolean) {
+                            if (never) {
+                                XToastUtils.error(R.string.toast_denied_never)
+                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                XXPermissions.startPermissionActivity(requireContext(), permissions)
+                            } else {
+                                XToastUtils.error(R.string.toast_denied)
+                            }
+                            binding!!.sbEnableLocation.isChecked = false
+                        }
+                    })
             }
         }
         //设置位置更新最小时间间隔（单位：毫秒）； 默认间隔：10000毫秒，最小间隔：1000毫秒
@@ -296,7 +301,6 @@ class SettingsFragment : BaseFragment<FragmentTasksActionSettingsBinding?>(), Vi
 
         binding!!.sbEnableSmsCommand.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
-                //检查权限是否获取
                 XXPermissions.with(this)
                     // 系统设置
                     .permission(Permission.WRITE_SETTINGS)
@@ -305,7 +309,8 @@ class SettingsFragment : BaseFragment<FragmentTasksActionSettingsBinding?>(), Vi
                     // 发送短信
                     .permission(Permission.SEND_SMS)
                     // 读取短信
-                    .permission(Permission.READ_SMS).request(object : OnPermissionCallback {
+                    .permission(Permission.READ_SMS)
+                    .request(object : OnPermissionCallback {
                         override fun onGranted(permissions: List<String>, all: Boolean) {
                             if (all) {
                                 XToastUtils.info(R.string.toast_granted_all)

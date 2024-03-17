@@ -1064,8 +1064,8 @@
     <string name="ip_hint">可选，内网广播地址，例如：192.168.1.255</string>
     <string name="ip_error">IP地址格式错误，例如：192.168.168.168</string>
     <string name="ip_regex" tools:ignore="TypographyDashes">^((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])$</string>
-    <string name="mac_hint">必填，网卡mac，例如：AA:BB:CC:DD:EE:FF</string>
-    <string name="mac_error">网卡mac格式错误，例如：AA:BB:CC:DD:EE:FF</string>
+    <string name="mac_hint">必填，例如：AA:BB:CC:DD:EE:FF</string>
+    <string name="mac_error">格式错误，例如：AA:BB:CC:DD:EE:FF</string>
     <string name="mac_regex" tools:ignore="TypographyDashes">^((([a-fA-F0-9]{2}:){5})|(([a-fA-F0-9]{2}-){5}))[a-fA-F0-9]{2}$</string>
     <string name="broadcast_address">内网广播地址</string>
     <string name="ip">IP</string>
@@ -1155,6 +1155,12 @@
     <string name="min_distance">最小距离间隔</string>
     <string name="meter">米</string>
     <string name="uid">UID</string>
+
+    <string name="enable_bluetooth">发现蓝牙设备服务</string>
+    <string name="enable_bluetooth_dialog">必须开启发现蓝牙设备服务，才能使用获取！\n是否立即启用？</string>
+    <string name="enable_bluetooth_tips">以便支持 自动任务 等需要发现蓝牙的功能</string>
+    <string name="scan_interval">扫描间隔</string>
+    <string name="ignore_anonymous">忽略匿名设备</string>
 
     <string name="task_name_status">任务名称/状态</string>
     <string name="task_name">任务名称</string>
@@ -1401,10 +1407,26 @@
     <string name="alarm_volume">播放音量</string>
     <string name="alarm_play_times">播放次数(0=无限)</string>
 
-    <string name="invalid_tag">%s 标签无效：%s</string>
+    <string name="invalid_tag" formatted="false">%s 标签无效：%s</string>
     <string name="invalid_task_name">请输入任务名称</string>
     <string name="invalid_conditions">请添加触发条件</string>
     <string name="invalid_actions">请添加执行动作</string>
     <string name="invalid_cron">请设置定时任务的时间</string>
     <string name="invalid_proxy_host">代理服务器主机名解析失败：proxyHost=%s</string>
+
+    <string name="bluetooth_state_changed">蓝牙状态变化</string>
+    <string name="specified_state">指定状态</string>
+    <string name="state_on">已打开</string>
+    <string name="state_off">已关闭</string>
+    <string name="bluetooth_discovery_finished">蓝牙设备搜索完成</string>
+    <string name="specified_result">指定结果</string>
+    <string name="discovered">已发现</string>
+    <string name="undiscovered">未发现</string>
+    <string name="bluetooth_acl_connected">蓝牙设备已连接</string>
+    <string name="bluetooth_acl_disconnected">蓝牙设备已断开</string>
+    <string name="specified_device">指定设备</string>
+    <string name="device_address_hint">蓝牙设备MAC地址</string>
+    <string name="bluetooth_not_supported">不支持蓝牙设备</string>
+    <string name="start_discovery">搜索设备</string>
+    <string name="invalid_bluetooth_mac_address">蓝牙设备MAC地址无效，例如：AA:BB:CC:DD:EE:FF</string>
 </resources>

@@ -21,7 +21,15 @@ import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentServerBinding
 import com.idormy.sms.forwarder.service.HttpServerService
 import com.idormy.sms.forwarder.service.LocationService
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.ACTION_RESTART
+import com.idormy.sms.forwarder.utils.Base64
+import com.idormy.sms.forwarder.utils.HTTP_SERVER_PORT
+import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.RandomUtils
+import com.idormy.sms.forwarder.utils.SM4Crypt
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.XToastUtils
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xui.widget.actionbar.TitleBar
@@ -256,7 +264,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
             }
             //重启前台服务，启动/停止定位服务
             val serviceIntent = Intent(requireContext(), LocationService::class.java)
-            serviceIntent.action = "RESTART"
+            serviceIntent.action = ACTION_RESTART
             requireContext().startService(serviceIntent)
         }
 

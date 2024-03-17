@@ -15,6 +15,9 @@ import androidx.work.workDataOf
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.entity.LocationInfo
+import com.idormy.sms.forwarder.utils.ACTION_RESTART
+import com.idormy.sms.forwarder.utils.ACTION_START
+import com.idormy.sms.forwarder.utils.ACTION_STOP
 import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.LocationUtils
 import com.idormy.sms.forwarder.utils.Log
@@ -64,19 +67,14 @@ class LocationService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-
         if (intent == null) return START_NOT_STICKY
-
         Log.i(TAG, "onStartCommand: ${intent.action}")
 
-        if (intent.action == "START" && !isRunning) {
-            startService()
-        } else if (intent.action == "STOP" && isRunning) {
-            stopService()
-        } else if (intent.action == "RESTART") {
-            restartLocation()
+        when {
+            intent.action == ACTION_START && !isRunning -> startService()
+            intent.action == ACTION_STOP && isRunning -> stopService()
+            intent.action == ACTION_RESTART -> restartLocation()
         }
-
         return START_STICKY
     }
 

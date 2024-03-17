@@ -1,7 +1,11 @@
 package com.idormy.sms.forwarder.service
 
 import android.annotation.SuppressLint
-import android.app.*
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.Service
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -20,7 +24,22 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.entity.action.AlarmSetting
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.ACTION_START
+import com.idormy.sms.forwarder.utils.ACTION_STOP
+import com.idormy.sms.forwarder.utils.ACTION_STOP_ALARM
+import com.idormy.sms.forwarder.utils.ACTION_UPDATE_NOTIFICATION
+import com.idormy.sms.forwarder.utils.CommonUtils
+import com.idormy.sms.forwarder.utils.EVENT_ALARM_ACTION
+import com.idormy.sms.forwarder.utils.EVENT_FRPC_RUNNING_ERROR
+import com.idormy.sms.forwarder.utils.EVENT_FRPC_RUNNING_SUCCESS
+import com.idormy.sms.forwarder.utils.EXTRA_UPDATE_NOTIFICATION
+import com.idormy.sms.forwarder.utils.FRONT_CHANNEL_ID
+import com.idormy.sms.forwarder.utils.FRONT_CHANNEL_NAME
+import com.idormy.sms.forwarder.utils.FRONT_NOTIFY_ID
+import com.idormy.sms.forwarder.utils.INTENT_FRPC_APPLY_FILE
+import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.TASK_CONDITION_CRON
 import com.idormy.sms.forwarder.utils.task.CronJobScheduler
 import com.idormy.sms.forwarder.workers.LoadAppListWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
@@ -167,20 +186,20 @@ class ForegroundService : Service() {
 
         if (intent != null) {
             when (intent.action) {
-                "START" -> {
+                ACTION_START -> {
                     startForegroundService()
                 }
 
-                "STOP" -> {
+                ACTION_STOP -> {
                     stopForegroundService()
                 }
 
-                "UPDATE_NOTIFICATION" -> {
-                    val updatedContent = intent.getStringExtra("UPDATED_CONTENT")
+                ACTION_UPDATE_NOTIFICATION -> {
+                    val updatedContent = intent.getStringExtra(EXTRA_UPDATE_NOTIFICATION)
                     updateNotification(updatedContent ?: "")
                 }
 
-                "STOP_ALARM" -> {
+                ACTION_STOP_ALARM -> {
                     alarmPlayer?.release()
                     alarmPlayer = null
                     updateNotification(SettingUtils.notifyContent)
@@ -307,7 +326,7 @@ class ForegroundService : Service() {
         // 添加停止按钮（可选）
         if (showStopButton) {
             val stopIntent = Intent(this, ForegroundService::class.java).apply {
-                action = "STOP_ALARM"
+                action = ACTION_STOP_ALARM
             }
             val stopPendingIntent = PendingIntent.getService(this, 0, stopIntent, flags)
             builder.addAction(R.drawable.ic_stop, getString(R.string.stop), stopPendingIntent)
