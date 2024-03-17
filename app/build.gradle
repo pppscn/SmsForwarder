@@ -256,8 +256,8 @@ dependencies {
     implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-header:1.1.5'
     implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-layout:1.1.5'
     //WebView
-    implementation 'com.github.xuexiangjys.AgentWeb:agentweb-core:1.0.0'
-    implementation 'com.github.xuexiangjys.AgentWeb:agentweb-download:1.0.0'//选填
+    implementation 'com.github.xuexiangjys.AgentWeb:agentweb-core:1.0.1'
+    implementation 'com.github.xuexiangjys.AgentWeb:agentweb-download:1.0.1'//选填
     //屏幕适配AutoSize：https://github.com/JessYanCoding/AndroidAutoSize
     implementation 'me.jessyan:autosize:1.2.1'
     //友盟统计
