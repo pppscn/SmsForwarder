@@ -1,6 +1,7 @@
 package com.idormy.sms.forwarder.workers
 
 import android.content.Context
+import android.net.wifi.WifiManager
 import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
@@ -100,6 +101,11 @@ class NetworkWorker(context: Context, params: WorkerParameters) : CoroutineWorke
 
                     //WiFi
                     2 -> {
+                        //获取WiFi名称
+                        val wifiManager = App.context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+                        val wifiInfo = wifiManager.connectionInfo
+                        TaskUtils.wifiSsid = wifiInfo.ssid.replace("\"", "")
+
                         if (networkSetting.wifiSsid.isNotEmpty() && TaskUtils.wifiSsid != networkSetting.wifiSsid) {
                             Log.d(TAG, "TASK-${task.id}：wifiSsid is not match, networkSetting = $networkSetting")
                             continue
