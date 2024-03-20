@@ -2,6 +2,7 @@ package com.idormy.sms.forwarder.fragment.condition
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -58,7 +59,7 @@ class NetworkFragment : BaseFragment<FragmentTasksConditionNetworkBinding?>(), V
 
         binding!!.rgNetworkState.setOnCheckedChangeListener { _, checkedId ->
             Log.d(TAG, "rgNetworkState checkedId:$checkedId")
-            binding!!.layoutDataSimSlot.visibility = if (checkedId == R.id.rb_net_mobile) View.VISIBLE else View.GONE
+            binding!!.layoutDataSimSlot.visibility = if (checkedId == R.id.rb_net_mobile && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) View.VISIBLE else View.GONE
             binding!!.layoutWifiSsid.visibility = if (checkedId == R.id.rb_net_wifi) View.VISIBLE else View.GONE
             checkSetting(true)
         }
