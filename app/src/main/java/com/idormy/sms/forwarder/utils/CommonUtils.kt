@@ -226,31 +226,19 @@ class CommonUtils private constructor() {
         }
 
         //是否合法的url
-        fun checkUrl(urls: String?): Boolean {
-            return checkUrl(urls, false)
-        }
+        fun checkUrl(url: String?, emptyResult: Boolean = false): Boolean {
+            if (url.isNullOrEmpty()) return emptyResult
 
-        //是否合法的url
-        fun checkUrl(urls: String?, emptyResult: Boolean): Boolean {
-            if (TextUtils.isEmpty(urls)) return emptyResult
-            val regex = """^(https?://)?(?:www\.)?(?:\[[a-fA-F0-9:]+\]|[a-zA-Z0-9-]+\.?)(?::\d{1,5})?(?:[-a-zA-Z0-9()@:%_\+.~#?&/=\[\]]*)?${'$'}"""
-            val pat = Pattern.compile(regex)
-            val mat = pat.matcher(urls?.trim() ?: "")
-            return mat.matches()
+            val regex = Regex("^https?://\\S+\$")
+            return regex.matches(url)
         }
 
         //是否合法的URL Scheme
-        fun checkUrlScheme(urls: String?): Boolean {
-            return checkUrlScheme(urls, false)
-        }
+        fun checkUrlScheme(url: String?, emptyResult: Boolean = false): Boolean {
+            if (url.isNullOrEmpty()) return emptyResult
 
-        //是否合法的URL Scheme
-        fun checkUrlScheme(urls: String?, emptyResult: Boolean): Boolean {
-            if (TextUtils.isEmpty(urls)) return emptyResult
-            val regex = "^[a-zA-Z\\d]+://[-a-zA-Z\\d+&@#/%?=~_|!:,.;\\[\\]]*[-a-zA-Z\\d+&@#/%=~_|\\[\\]]"
-            val pat = Pattern.compile(regex)
-            val mat = pat.matcher(urls?.trim() ?: "")
-            return mat.matches()
+            val regex = Regex("^[a-zA-Z\\d]+://\\S+\$")
+            return regex.matches(url)
         }
 
         //是否合法的IP地址
@@ -280,6 +268,11 @@ class CommonUtils private constructor() {
             if (TextUtils.isEmpty(port)) return false
             val pattenPort = Pattern.compile("^((6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])|[0-5]?\\d{0,4})$")
             return pattenPort.matcher(port).matches()
+        }
+
+        fun checkEmail(email: String): Boolean {
+            val emailRegex = Regex("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\$")
+            return emailRegex.matches(email)
         }
 
         //是否启用通知监听服务
