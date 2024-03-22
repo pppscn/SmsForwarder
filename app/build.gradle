@@ -9,6 +9,8 @@ plugins {
     id 'kotlin-parcelize'
     id 'img-optimizer'
     id 'com.yanzhenjie.andserver'
+    //AspectJX: https://github.com/wurensen/gradle_plugin_android_aspectjx
+    //id "io.github.wurensen.android-aspectjx" version "3.3.2"
 }
 
 def keyProps = new Properties()
