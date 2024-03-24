@@ -634,6 +634,7 @@
     <string name="tag_battery_status">{{BATTERY_STATUS}}</string>
     <string name="tag_battery_plugged">{{BATTERY_PLUGGED}}</string>
     <string name="tag_battery_info">{{BATTERY_INFO}}</string>
+    <string name="tag_battery_info_simple" translatable="false">{{BATTERY_INFO_SIMPLE}}</string>
     <string name="tag_uid">{{UID}}</string>
     <string name="tag_ipv4">{{IPV4}}</string>
     <string name="tag_ipv6">{{IPV6}}</string>
