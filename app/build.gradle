@@ -39,6 +39,10 @@ android {
     buildToolsVersion build_versions.build_tools
     compileSdkVersion build_versions.target_sdk
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
