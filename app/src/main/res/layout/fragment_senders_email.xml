@@ -138,7 +138,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:text="@string/custom_template_tips"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_mini" />
 
                 </LinearLayout>
 
@@ -302,29 +302,183 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/email_to"
+                        android:text="@string/encryption_protocol"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:text="@string/email_to_tips"
-                        android:textSize="@dimen/text_size_small" />
+                        android:text="@string/encryption_protocol_tips"
+                        android:textSize="@dimen/text_size_mini" />
 
                 </LinearLayout>
 
-                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                    android:id="@+id/et_to_email"
+                <RadioGroup
+                    android:id="@+id/rg_encryption_protocol"
+                    style="@style/rg_style"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_encryption_protocol_plain"
+                        style="@style/rg_rb_style"
+                        android:checked="true"
+                        android:text="@string/plain" />
+
+                    <RadioButton
+                        android:id="@+id/rb_encryption_protocol_smime"
+                        style="@style/rg_rb_style"
+                        android:text="@string/smime" />
+
+                    <RadioButton
+                        android:id="@+id/rb_encryption_protocol_openpgp"
+                        style="@style/rg_rb_style"
+                        android:text="@string/openpgp" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_sender_keystore"
+                style="@style/BarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_sender_keystore"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    app:met_clearButton="true" />
+                    android:text="@string/sender_smime_keystore"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/keystore_path"
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold" />
+
+                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                        android:id="@+id/et_sender_keystore"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        android:hint="@string/keystore_path_tips"
+                        android:importantForAutofill="no"
+                        android:singleLine="true"
+                        android:textSize="@dimen/text_size_small"
+                        app:met_clearButton="true" />
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/btn_sender_keystore_picker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/select_file"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_mini"
+                        app:sb_color_unpressed="@color/colorBlueGrey"
+                        app:sb_ripple_color="@color/white"
+                        app:sb_ripple_duration="500"
+                        app:sb_shape_type="rectangle"
+                        tools:ignore="SmallSp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/keystore_password"
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold" />
+
+                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                        android:id="@+id/et_sender_password"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        android:hint="@string/keystore_password_tips"
+                        android:importantForAutofill="no"
+                        android:singleLine="true"
+                        android:textSize="@dimen/text_size_small"
+                        app:met_passWordButton="true" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_recipients"
+                style="@style/BarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <TextView
+                            android:id="@+id/tv_email_to"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/email_to"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_email_to_tips"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/email_to_tips"
+                            android:textSize="@dimen/text_size_mini" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/btn_add_recipient"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="@dimen/config_margin_5dp"
+                        android:background="@color/colorBlueGrey"
+                        android:src="@drawable/icon_api_contact_add"
+                        app:tint="#FFFFFF"
+                        tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -352,7 +506,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:text="@string/custom_template_tips"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_mini" />
 
                 </LinearLayout>
 
