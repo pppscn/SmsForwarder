@@ -192,21 +192,22 @@ class SmimeUtils(
         generator.addCertificates(certStore)
 
         // 将邮件内容转换为 CMSSignedData
-        //val originalContent = originalMessage.content as MimeMultipart //TODO: Outlook 不显示正文
         val outputStream = ByteArrayOutputStream()
-        //originalContent.writeTo(outputStream)
-        originalMessage.writeTo(outputStream) //TODO: Thunderbird 会重复现实发件人
+        originalMessage.writeTo(outputStream)
         val contentData = CMSProcessableByteArray(outputStream.toByteArray())
         val signedData = generator.generate(contentData, true)
 
         // 创建 MimeMessage 并设置签名后的内容
         val signedMessage = MimeMessage(originalMessage.session, ByteArrayInputStream(signedData.encoded))
+        /*
+        //TODO: 为什么不需要再设置这些？
         signedMessage.setRecipients(Message.RecipientType.TO, originalMessage.getRecipients(Message.RecipientType.TO))
         signedMessage.setRecipients(Message.RecipientType.CC, originalMessage.getRecipients(Message.RecipientType.CC))
         signedMessage.setRecipients(Message.RecipientType.BCC, originalMessage.getRecipients(Message.RecipientType.BCC))
         signedMessage.addFrom(originalMessage.from)
         signedMessage.subject = originalMessage.subject
         signedMessage.sentDate = originalMessage.sentDate
+        */
         signedMessage.setContent(signedData.encoded, "application/pkcs7-mime; name=smime.p7m; smime-type=signed-data")
         signedMessage.saveChanges()
 
