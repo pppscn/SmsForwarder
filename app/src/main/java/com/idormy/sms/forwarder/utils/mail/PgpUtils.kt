@@ -80,7 +80,13 @@ class PgpUtils(
         Log.d(TAG, "sendSignedEmail")
         try {
             val originalMessage = getOriginalMessage()
-            val signedMessage = getSignedMessage(originalMessage)
+            val secretKeyDecryptor = SecretKeyRingProtector.unlockAnyKeyWith(Passphrase.fromPassword(senderPGPSecretKeyPassword))
+            val producerOptions = ProducerOptions.sign(
+                SigningOptions()
+                    .addInlineSignature(secretKeyDecryptor, senderPGPSecretKeyRing!!, DocumentSignatureType.CANONICAL_TEXT_DOCUMENT)
+                    .overrideHashAlgorithm(HashAlgorithm.SHA256)
+            ).setAsciiArmor(true)
+            val signedMessage = getEncryptedAndOrSignedMessage(originalMessage, producerOptions)
             Transport.send(signedMessage)
             Pair(true, "Email signed and sent successfully")
         } catch (e: Exception) {
@@ -97,7 +103,7 @@ class PgpUtils(
             val producerOptions = ProducerOptions.encrypt(
                 EncryptionOptions.encryptCommunications().addRecipient(recipientPGPPublicKeyRing!!)
             ).setAsciiArmor(true)
-            val encryptedMessage = getEncryptedMessage(originalMessage, producerOptions)
+            val encryptedMessage = getEncryptedAndOrSignedMessage(originalMessage, producerOptions)
             Transport.send(encryptedMessage)
             Pair(true, "Encrypted email sent successfully")
         } catch (e: Exception) {
@@ -111,7 +117,6 @@ class PgpUtils(
         Log.d(TAG, "sendSignedAndEncryptedEmail")
         try {
             val originalMessage = getOriginalMessage()
-
             val secretKeyDecryptor = SecretKeyRingProtector.unlockAnyKeyWith(Passphrase.fromPassword(senderPGPSecretKeyPassword))
             val producerOptions = ProducerOptions.signAndEncrypt(
                 EncryptionOptions.encryptCommunications().addRecipient(recipientPGPPublicKeyRing!!),
@@ -119,7 +124,7 @@ class PgpUtils(
                     .addInlineSignature(secretKeyDecryptor, senderPGPSecretKeyRing!!, DocumentSignatureType.CANONICAL_TEXT_DOCUMENT)
                     .overrideHashAlgorithm(HashAlgorithm.SHA256)
             ).setAsciiArmor(true)
-            val encryptedMessage = getEncryptedMessage(originalMessage, producerOptions)
+            val encryptedMessage = getEncryptedAndOrSignedMessage(originalMessage, producerOptions)
             Transport.send(encryptedMessage)
             Pair(true, "Signed and encrypted email sent successfully")
         } catch (e: Exception) {
@@ -186,61 +191,8 @@ class PgpUtils(
         return message
     }
 
-    // 获取签名邮件: https://datatracker.ietf.org/doc/html/rfc3156#autoid-5
-    private fun getSignedMessage(originalMessage: MimeMessage): MimeMessage {
-        // 将原始邮件作为第一个部分添加到 multipart 中
-        val originalBodyPart = MimeBodyPart()
-        originalBodyPart.setContent(originalMessage.content, originalMessage.contentType)
-
-        // 将原始消息写入InputStream
-        val baos = ByteArrayOutputStream()
-        originalBodyPart.writeTo(baos)
-        val inputStream: InputStream = ByteArrayInputStream(baos.toByteArray())
-
-        // 签名数据
-        val secretKeyDecryptor = SecretKeyRingProtector.unlockAnyKeyWith(Passphrase.fromPassword(senderPGPSecretKeyPassword))
-        val outputStream = ByteArrayOutputStream()
-        val encryptionStream = PGPainless.encryptAndOrSign()
-            .onOutputStream(outputStream)
-            .withOptions(
-                ProducerOptions.sign(
-                    SigningOptions()
-                        .addDetachedSignature(secretKeyDecryptor, senderPGPSecretKeyRing!!, DocumentSignatureType.BINARY_DOCUMENT)
-                        .overrideHashAlgorithm(HashAlgorithm.SHA256)
-                ).setAsciiArmor(true)
-            )
-        Streams.pipeAll(inputStream, encryptionStream)
-        encryptionStream.close()
-
-        // 签名部分
-        val signaturePart = MimeBodyPart().apply {
-            //dataHandler = DataHandler(ByteArrayDataSource(outputStream.toString(), "application/pgp-signature"))
-            //fileName = "signature.asc"
-            setContent(outputStream.toString(), "application/pgp-signature")
-            //setHeader("Content-Type", "application/pgp-signature; name=\"signature.asc\"")
-            addHeader("Content-Description", "OpenPGP digital signature")
-            addHeader("Content-Disposition", "attachment; filename=\"signature.asc\"")
-        }
-
-        val signedMultiPart = MimeMultipart("signed; micalg=pgp-sha256; protocol=\"application/pgp-signature\"")
-        signedMultiPart.addBodyPart(originalBodyPart, 0)
-        signedMultiPart.addBodyPart(signaturePart, 1)
-
-        val signedMessage = MimeMessage(originalMessage.session)
-        signedMessage.setRecipients(Message.RecipientType.TO, originalMessage.getRecipients(Message.RecipientType.TO))
-        signedMessage.setRecipients(Message.RecipientType.CC, originalMessage.getRecipients(Message.RecipientType.CC))
-        signedMessage.setRecipients(Message.RecipientType.BCC, originalMessage.getRecipients(Message.RecipientType.BCC))
-        signedMessage.addFrom(originalMessage.from)
-        signedMessage.subject = originalMessage.subject
-        signedMessage.sentDate = originalMessage.sentDate
-        signedMessage.setContent(signedMultiPart)
-        signedMessage.saveChanges()
-
-        return signedMessage
-    }
-
-    // 获取加密邮件: https://datatracker.ietf.org/doc/html/rfc3156#section-4
-    private fun getEncryptedMessage(originalMessage: MimeMessage, producerOptions: ProducerOptions): MimeMessage {
+    // 获取加密或且签名邮件: https://datatracker.ietf.org/doc/html/rfc3156#section-4
+    private fun getEncryptedAndOrSignedMessage(originalMessage: MimeMessage, producerOptions: ProducerOptions): MimeMessage {
         // 将原始消息写入InputStream
         val baos = ByteArrayOutputStream()
         originalMessage.writeTo(baos)
