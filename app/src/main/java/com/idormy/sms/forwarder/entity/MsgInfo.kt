@@ -15,6 +15,7 @@ import com.idormy.sms.forwarder.utils.SettingUtils.Companion.enableSmsTemplate
 import com.idormy.sms.forwarder.utils.SettingUtils.Companion.extraDeviceMark
 import com.idormy.sms.forwarder.utils.SettingUtils.Companion.smsTemplate
 import com.idormy.sms.forwarder.utils.task.TaskUtils
+import com.xuexiang.xutil.net.NetworkUtils
 import com.xuexiang.xutil.resource.ResUtils.getString
 import java.io.Serializable
 import java.text.SimpleDateFormat
@@ -86,22 +87,48 @@ data class MsgInfo(
             .replaceTag(getString(R.string.tag_card_subid), subId.toString(), needJson)
             .replaceTag(getString(R.string.tag_title), simInfo, needJson)
             .replaceTag(getString(R.string.tag_uid), uid.toString(), needJson)
-            .replaceTag(getString(R.string.tag_receive_time), SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date), needJson)
-            .replaceTag(getString(R.string.tag_current_time), SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()), needJson)
+            .replaceTag(
+                getString(R.string.tag_receive_time),
+                SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date),
+                needJson
+            )
+            .replaceTag(
+                getString(R.string.tag_current_time),
+                SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()),
+                needJson
+            )
             .replaceTag(getString(R.string.tag_device_name), extraDeviceMark.trim(), needJson)
             .replaceTag(getString(R.string.tag_app_version), AppUtils.getAppVersionName(), needJson)
-            .replaceTag(getString(R.string.tag_call_type), CALL_TYPE_MAP[callType.toString()] ?: getString(R.string.unknown_call), needJson)
+            .replaceTag(
+                getString(R.string.tag_call_type),
+                CALL_TYPE_MAP[callType.toString()] ?: getString(R.string.unknown_call),
+                needJson
+            )
             .replaceTag(getString(R.string.tag_ipv4), TaskUtils.ipv4, needJson)
             .replaceTag(getString(R.string.tag_ipv6), TaskUtils.ipv6, needJson)
             .replaceTag(getString(R.string.tag_battery_pct), "%.0f%%".format(TaskUtils.batteryPct), needJson)
-            .replaceTag(getString(R.string.tag_battery_status), BatteryUtils.getStatus(TaskUtils.batteryStatus), needJson)
-            .replaceTag(getString(R.string.tag_battery_plugged), BatteryUtils.getPlugged(TaskUtils.batteryPlugged), needJson)
-            .replaceTag(getString(R.string.tag_battery_info), TaskUtils.batteryInfo, needJson)
-            .replaceTag(getString(R.string.tag_battery_info_simple), "%.0f%%".format(TaskUtils.batteryPct)
-                    + with(BatteryUtils.getPlugged(TaskUtils.batteryPlugged)) {
-                if (this == getString(R.string.unknown)) "" else " - $this"
-                    }
+            .replaceTag(
+                getString(R.string.tag_battery_status),
+                BatteryUtils.getStatus(TaskUtils.batteryStatus),
+                needJson
             )
+            .replaceTag(
+                getString(R.string.tag_battery_plugged),
+                BatteryUtils.getPlugged(TaskUtils.batteryPlugged),
+                needJson
+            )
+            .replaceTag(getString(R.string.tag_battery_info), TaskUtils.batteryInfo, needJson)
+            .replaceTag(getString(R.string.tag_battery_info_simple),
+                "%.0f%%".format(TaskUtils.batteryPct)
+                        + with(BatteryUtils.getPlugged(TaskUtils.batteryPlugged)) {
+                    if (this == getString(R.string.unknown)) "" else " - $this"
+                }
+            )
+            .replaceTag(getString(R.string.tag_net_type), with(NetworkUtils.getNetStateType()) {
+                if (this == NetworkUtils.NetState.NET_NO || this == NetworkUtils.NetState.NET_UNKNOWN)
+                    this.name
+                this.name.removePrefix("NET_")
+            })
             .replaceAppNameTag(from, needJson)
             .replaceLocationTag(needJson)
             .regexReplace(regexReplace)
@@ -117,7 +144,10 @@ data class MsgInfo(
                 val lineSplit = line.split("===".toRegex()).toTypedArray()
                 if (lineSplit.isNotEmpty()) {
                     val regex = lineSplit[0]
-                    val replacement = if (lineSplit.size >= 2) lineSplit[1].replace("\\\\n".toRegex(), "\n") else ""
+                    val replacement = if (lineSplit.size >= 2) lineSplit[1].replace(
+                        "\\\\n".toRegex(),
+                        "\n"
+                    ) else ""
                     newContent = newContent.replace(regex.toRegex(), replacement)
                 }
             }
@@ -129,7 +159,12 @@ data class MsgInfo(
     }
 
     //替换标签（支持正则替换）
-    private fun String.replaceTag(tag: String, info: String, needJson: Boolean = false, ignoreCase: Boolean = true): String {
+    private fun String.replaceTag(
+        tag: String,
+        info: String,
+        needJson: Boolean = false,
+        ignoreCase: Boolean = true
+    ): String {
         var result = if (needJson) {
             this.replace(tag, toJsonStr(info), ignoreCase)
         } else {

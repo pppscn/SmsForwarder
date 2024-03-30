@@ -1429,4 +1429,5 @@
     <string name="bluetooth_not_supported">不支持蓝牙设备</string>
     <string name="start_discovery">搜索设备</string>
     <string name="invalid_bluetooth_mac_address">蓝牙设备MAC地址无效，例如：AA:BB:CC:DD:EE:FF</string>
+    <string name="tag_net_type" translatable="false">{{NET_TYPE}}</string>
 </resources>
