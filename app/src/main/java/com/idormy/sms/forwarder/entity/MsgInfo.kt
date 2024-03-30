@@ -99,7 +99,7 @@ data class MsgInfo(
             .replaceTag(getString(R.string.tag_battery_info), TaskUtils.batteryInfo, needJson)
             .replaceTag(getString(R.string.tag_battery_info_simple), "%.0f%%".format(TaskUtils.batteryPct)
                     + with(BatteryUtils.getPlugged(TaskUtils.batteryPlugged)) {
-                        if (this == "未知") "" else " - $this"
+                if (this == getString(R.string.unknown)) "" else " - $this"
                     }
             )
             .replaceAppNameTag(from, needJson)
