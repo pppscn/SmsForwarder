@@ -7,14 +7,25 @@ import com.idormy.sms.forwarder.entity.setting.EmailSetting
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
-import com.idormy.sms.forwarder.utils.mail.Mail
-import com.idormy.sms.forwarder.utils.mail.MailSender
+import com.idormy.sms.forwarder.utils.mail.EmailSender
 import com.xuexiang.xutil.resource.ResUtils.getString
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import org.bouncycastle.openpgp.PGPPublicKeyRing
+import org.bouncycastle.openpgp.PGPSecretKeyRing
+import org.pgpainless.PGPainless
+import org.pgpainless.key.info.KeyRingInfo
+import java.io.FileInputStream
+import java.security.KeyStore
+import java.security.PrivateKey
+import java.security.cert.CertificateFactory
+import java.security.cert.X509Certificate
 
 class EmailUtils {
     companion object {
 
-        //private val TAG: String = EmailUtils::class.java.simpleName
+        private val TAG: String = EmailUtils::class.java.simpleName
 
         fun sendMsg(
             setting: EmailSetting,
@@ -127,36 +138,191 @@ class EmailUtils {
                 else -> {}
             }
 
-            //收件地址
-            val toAddressList = setting.toEmail.toString().replace("[,，;；]".toRegex(), ",").trim(',').split(',')
+            runBlocking {
+                val job = launch(Dispatchers.IO) {
+                    try {
+                        // 设置邮件参数
+                        val host = setting.host.toString()
+                        val port = setting.port.toString()
+                        val from = setting.fromEmail.toString()
+                        val password = setting.pwd.toString()
+                        val nickname = msgInfo.getTitleForSend(setting.nickname.toString())
+                        setting.recipients.ifEmpty {
+                            //兼容旧的设置
+                            val emails = setting.toEmail.toString().replace("[,，;；]".toRegex(), ",").trim(',').split(',')
+                            emails.forEach {
+                                setting.recipients[it] = Pair("", "")
+                            }
+                        }
+                        val content = message.replace("\n", "<br>")
+                        val openSSL = setting.ssl == true
+                        val startTls = setting.startTls == true
 
-            //创建邮箱
-            val mail = Mail().apply {
-                mailServerHost = setting.host.toString()
-                mailServerPort = setting.port.toString()
-                fromAddress = setting.fromEmail.toString()
-                fromNickname = msgInfo.getTitleForSend(setting.nickname.toString())
-                password = setting.pwd.toString()
-                toAddress = toAddressList
-                subject = title
-                content = message.replace("\n", "<br>")
-                openSSL = setting.ssl == true
-                startTls = setting.startTls == true
+                        //发件人S/MIME私钥（用于签名）
+                        var signingPrivateKey: PrivateKey? = null
+                        var signingCertificate: X509Certificate? = null
+                        //发件人OpenPGP私钥（用于签名）
+                        var senderPGPSecretKeyRing: PGPSecretKeyRing? = null
+                        var senderPGPSecretKeyPassword = ""
+
+                        if (!setting.keystore.isNullOrEmpty() && !setting.password.isNullOrEmpty()) {
+                            val keystoreStream = FileInputStream(setting.keystore)
+                            try {
+                                when (setting.encryptionProtocol) {
+                                    "S/MIME" -> {
+                                        val keystorePassword = setting.password.toString()
+                                        val keyStore = KeyStore.getInstance("PKCS12")
+                                        keyStore.load(keystoreStream, keystorePassword.toCharArray())
+                                        val privateKeyAlias = keyStore.aliases().toList().first { keyStore.isKeyEntry(it) }
+                                        signingPrivateKey = keyStore.getKey(privateKeyAlias, keystorePassword.toCharArray()) as PrivateKey
+                                        signingCertificate = keyStore.getCertificate(privateKeyAlias) as X509Certificate
+                                    }
+
+                                    "OpenPGP" -> {
+                                        senderPGPSecretKeyRing = PGPainless.readKeyRing().secretKeyRing(keystoreStream)
+                                        senderPGPSecretKeyPassword = setting.password.toString()
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                Log.w(TAG, "Failed to load keystore: ${e.message}")
+                            }
+                        }
+
+                        // 发送结果监听器
+                        val listener = object : EmailSender.EmailTaskListener {
+                            override fun onEmailSent(success: Boolean, message: String) {
+                                if (success) {
+                                    SendUtils.updateLogs(logId, 2, getString(R.string.request_succeeded) + ": " + message)
+                                    SendUtils.senderLogic(2, msgInfo, rule, senderIndex, msgId)
+                                } else {
+                                    val status = 0
+                                    SendUtils.updateLogs(logId, status, message)
+                                    SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
+                                }
+                            }
+                        }
+
+                        //逐一发送加密邮件
+                        val recipientsWithoutCert = mutableListOf<String>()
+                        setting.recipients.forEach { (email, cert) ->
+                            val keystorePath = cert.first
+                            val keystorePassword = cert.second
+                            var recipientX509Cert: X509Certificate? = null
+                            var recipientPGPPublicKeyRing: PGPPublicKeyRing? = null
+                            try {
+                                when {
+                                    //从私钥证书文件提取公钥
+                                    keystorePath.isNotEmpty() && keystorePassword.isNotEmpty() -> {
+                                        val keystoreStream = FileInputStream(keystorePath)
+                                        when (setting.encryptionProtocol) {
+                                            "S/MIME" -> {
+                                                val keyStore = KeyStore.getInstance("PKCS12")
+                                                keyStore.load(keystoreStream, keystorePassword.toCharArray())
+                                                val alias = keyStore.aliases().nextElement()
+                                                recipientX509Cert = keyStore.getCertificate(alias) as X509Certificate
+                                            }
+
+                                            "OpenPGP" -> {
+                                                val recipientPGPSecretKeyRing = PGPainless.readKeyRing().secretKeyRing(keystoreStream)
+                                                recipientPGPPublicKeyRing = recipientPGPSecretKeyRing?.let { PGPainless.extractCertificate(it) }
+                                                if (recipientPGPPublicKeyRing != null) {
+                                                    val keyInfo = KeyRingInfo(recipientPGPPublicKeyRing)
+                                                    Log.d(TAG, "Recipient key info: $keyInfo")
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    //从证书文件提取公钥
+                                    keystorePath.isNotEmpty() && keystorePassword.isEmpty() -> {
+                                        val keystoreStream = FileInputStream(keystorePath)
+                                        when (setting.encryptionProtocol) {
+                                            "S/MIME" -> {
+                                                val certFactory = CertificateFactory.getInstance("X.509")
+                                                recipientX509Cert = certFactory.generateCertificate(FileInputStream(keystorePath)) as X509Certificate
+                                            }
+
+                                            "OpenPGP" -> {
+                                                recipientPGPPublicKeyRing = PGPainless.readKeyRing().publicKeyRing(keystoreStream)
+                                                if (recipientPGPPublicKeyRing != null) {
+                                                    val keyInfo = KeyRingInfo(recipientPGPPublicKeyRing)
+                                                    Log.d(TAG, "Recipient key info: $keyInfo")
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    else -> {
+                                        recipientsWithoutCert.add(email)
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                Log.w(TAG, "Failed to load recipient($email) keystore($cert): ${e.message}")
+                                //无法加载证书时，发送明文邮件
+                                recipientsWithoutCert.add(email)
+                            }
+
+                            if (recipientX509Cert != null || recipientPGPPublicKeyRing != null) {
+                                val senderWithRecipientCert = EmailSender(
+                                    host,
+                                    port,
+                                    from,
+                                    password,
+                                    nickname,
+                                    title,
+                                    content,
+                                    toAddress = mutableListOf(email),
+                                    listener = listener,
+                                    openSSL = openSSL,
+                                    startTls = startTls,
+                                    encryptionProtocol = setting.encryptionProtocol,
+                                    recipientX509Cert = recipientX509Cert,
+                                    senderPrivateKey = signingPrivateKey,
+                                    senderX509Cert = signingCertificate,
+                                    recipientPGPPublicKeyRing = recipientPGPPublicKeyRing,
+                                    senderPGPSecretKeyRing = senderPGPSecretKeyRing,
+                                    senderPGPSecretKeyPassword = senderPGPSecretKeyPassword,
+                                )
+                                senderWithRecipientCert.sendEmail()
+                            }
+                        }
+
+                        //批量发送明文邮件
+                        if (recipientsWithoutCert.isNotEmpty()) {
+                            val senderWithoutRecipientCert = EmailSender(
+                                host,
+                                port,
+                                from,
+                                password,
+                                nickname,
+                                title,
+                                content,
+                                toAddress = recipientsWithoutCert,
+                                listener = listener,
+                                openSSL = openSSL,
+                                startTls = startTls,
+                                encryptionProtocol = setting.encryptionProtocol,
+                                senderPrivateKey = signingPrivateKey,
+                                senderX509Cert = signingCertificate,
+                                //TODO: OpenPGP 只签名不加密时，提示无效的数字签名，暂未解决
+                                senderPGPSecretKeyRing = senderPGPSecretKeyRing,
+                                senderPGPSecretKeyPassword = senderPGPSecretKeyPassword,
+                            )
+                            senderWithoutRecipientCert.sendEmail()
+                        }
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        Log.e(TAG, e.message.toString())
+                        val status = 0
+                        SendUtils.updateLogs(logId, status, e.message.toString())
+                        SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
+                    }
+                }
+                job.join() // 等待协程完成
             }
-
-            MailSender.getInstance().sendMail(mail, object : MailSender.OnMailSendListener {
-                override fun onError(e: Throwable) {
-                    Log.e("MailSender", e.message.toString())
-                    val status = 0
-                    SendUtils.updateLogs(logId, status, e.message.toString())
-                    SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
-                }
-
-                override fun onSuccess() {
-                    SendUtils.updateLogs(logId, 2, getString(R.string.request_succeeded))
-                    SendUtils.senderLogic(2, msgInfo, rule, senderIndex, msgId)
-                }
-            })
 
         }
 

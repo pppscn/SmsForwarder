@@ -9,6 +9,8 @@ plugins {
     id 'kotlin-parcelize'
     id 'img-optimizer'
     id 'com.yanzhenjie.andserver'
+    //AspectJX: https://github.com/wurensen/gradle_plugin_android_aspectjx
+    //id "io.github.wurensen.android-aspectjx" version "3.3.2"
 }
 
 def keyProps = new Properties()
@@ -23,8 +25,23 @@ if (isNeedPackage.toBoolean() && isUseBooster.toBoolean()) {
 }
 
 android {
+    // 禁用过时 API 警告
+    configure(allprojects) {
+        gradle.projectsEvaluated {
+            tasks.withType(JavaCompile).tap {
+                configureEach {
+                    options.compilerArgs << "-Xlint:-removal"
+                }
+            }
+        }
+    }
+
     buildToolsVersion build_versions.build_tools
     compileSdkVersion build_versions.target_sdk
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -160,10 +177,15 @@ android {
             exclude 'lib/x86/libgojni.so'
             exclude 'lib/x86_64/libgojni.so'
         }
+        jniLibs {
+            excludes += ["kotlin/**"]
+        }
         resources {
+            merge 'META-INF/mailcap'
             pickFirst 'META-INF/LICENSE.md'
             pickFirst 'META-INF/NOTICE.md'
             excludes += ['META-INF/DEPENDENCIES.txt', 'META-INF/LICENSE.txt', 'META-INF/NOTICE.txt', 'META-INF/NOTICE', 'META-INF/LICENSE', 'META-INF/DEPENDENCIES', 'META-INF/notice.txt', 'META-INF/license.txt', 'META-INF/dependencies.txt', 'META-INF/LGPL2.1']
+            excludes += ["META-INF/*.kotlin_module", "META-INF/*.version", "kotlin/**", "DebugProbesKt.bin"]
         }
     }
 
@@ -206,21 +228,23 @@ android {
     }
     namespace 'com.idormy.sms.forwarder'
 
-    //编译前清理项目缓存
-    preBuild.dependsOn clean
-    //编译后清理垃圾文件
-    gradle.buildFinished { buildResult ->
-        if (buildResult.failure == null) {
-            println "Build succeeded, cleaning text files..."
-            //delete rootProject.buildDir
-            FileTree rootTree = fileTree(dir: rootDir)
-            rootTree.each { File file ->
-                if ((file.toString().contains("ajcore") || file.toString().contains("mapping") || file.toString().contains("seeds") || file.toString().contains("unused")) && file.toString().endsWith(".txt")) {
-                    delete file
+    if (isNeedClean.toBoolean()) {
+        //编译前清理项目缓存
+        preBuild.dependsOn clean
+        //编译后清理垃圾文件
+        gradle.buildFinished { buildResult ->
+            if (buildResult.failure == null) {
+                println "Build succeeded, cleaning text files..."
+                //delete rootProject.buildDir
+                FileTree rootTree = fileTree(dir: rootDir)
+                rootTree.each { File file ->
+                    if ((file.toString().contains("ajcore") || file.toString().contains("mapping") || file.toString().contains("seeds") || file.toString().contains("unused")) && file.toString().endsWith(".txt")) {
+                        delete file
+                    }
                 }
+            } else {
+                println "Build failed, cleanTxt not executed."
             }
-        } else {
-            println "Build failed, cleanTxt not executed."
         }
     }
 }
@@ -303,8 +327,11 @@ dependencies {
     //implementation 'com.github.tiagohm.MarkdownView:emoji:0.19.0'
 
     def retrofit2_version = '2.9.0'
+    //noinspection GradleDependency
     implementation "com.squareup.retrofit2:retrofit:$retrofit2_version"
+    //noinspection GradleDependency
     implementation "com.squareup.retrofit2:converter-gson:$retrofit2_version"
+    //noinspection GradleDependency
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit2_version"
 
     def paging_version = "3.1.1"
@@ -323,6 +350,18 @@ dependencies {
     implementation "com.sun.mail:android-mail:$mail_version"
     implementation "com.sun.mail:android-activation:$mail_version"
 
+    //国密算法SM4 的JAVA实现(基于BC实现)
+    def bouncycastle_version = '1.77'
+    api "org.bouncycastle:bcprov-jdk18on:$bouncycastle_version"
+    //邮件 S/MIME 加密和签名
+    //implementation "org.spongycastle:bcmail-jdk18on:$bouncycastle_version" //Android下报错
+    implementation "org.bouncycastle:bcpkix-jdk18on:$bouncycastle_version"
+    //implementation "org.bouncycastle:bctls-jdk18on:$bouncycastle_version"
+    //邮件 PGP 加密和签名
+    //implementation "org.bouncycastle:bcpg-jdk18on:$bouncycastle_version" //Thunderbird无法解密
+    //PGPainless: https://github.com/pgpainless/pgpainless
+    implementation 'org.pgpainless:pgpainless-core:1.6.7'
+
     //Android Keep Alive(安卓保活)，Cactus 集成双进程前台服务，JobScheduler，onePix(一像素)，WorkManager，无声音乐
     //https://github.com/gyf-dev/Cactus
     implementation 'com.gyf.cactus:cactus:1.1.3-beta13'
@@ -330,9 +369,6 @@ dependencies {
     //HTTP服务器：https://github.com/yanzhenjie/AndServer
     implementation 'cn.ppps.andserver:api:2.1.12'
     kapt 'cn.ppps.andserver:processor:2.1.12'
-
-    //国密算法SM4 的JAVA实现(基于BC实现)
-    api 'org.bouncycastle:bcprov-jdk15on:1.70'
 
     //Location 是一个通过 Android 自带的 LocationManager 来实现的定位功能：https://github.com/jenly1314/Location
     implementation 'com.github.pppscn:location:1.0.0'

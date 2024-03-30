@@ -20,14 +20,24 @@ import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentClientCloneBinding
 import com.idormy.sms.forwarder.entity.CloneInfo
 import com.idormy.sms.forwarder.server.model.BaseResponse
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.AppUtils
 import com.idormy.sms.forwarder.utils.Base64
+import com.idormy.sms.forwarder.utils.CommonUtils
+import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.KEY_DEFAULT_SELECTION
+import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.RSACrypt
+import com.idormy.sms.forwarder.utils.SM4Crypt
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.XToastUtils
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
 import com.xuexiang.xpage.annotation.Page
+import com.xuexiang.xrouter.annotation.AutoWired
+import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xui.utils.CountDownButtonHelper
 import com.xuexiang.xui.widget.actionbar.TitleBar
@@ -38,7 +48,7 @@ import com.xuexiang.xutil.file.FileIOUtils
 import com.xuexiang.xutil.file.FileUtils
 import com.xuexiang.xutil.resource.ResUtils.getStringArray
 import java.io.File
-import java.util.*
+import java.util.Date
 
 @Suppress("PrivatePropertyName")
 @Page(name = "一键换新机")
@@ -51,6 +61,14 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
     private var pullCountDownHelper: CountDownButtonHelper? = null
     private var exportCountDownHelper: CountDownButtonHelper? = null
     private var importCountDownHelper: CountDownButtonHelper? = null
+
+    @JvmField
+    @AutoWired(name = KEY_DEFAULT_SELECTION)
+    var defaultSelection: Int = 0
+
+    override fun initArgs() {
+        XRouter.getInstance().inject(this)
+    }
 
     override fun viewBindingInflate(
         inflater: LayoutInflater,
@@ -101,6 +119,12 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                 binding!!.layoutNetwork.visibility = View.VISIBLE
                 binding!!.layoutOffline.visibility = View.GONE
             }
+        }
+        //通用设置界面跳转时只使用离线模式
+        if (defaultSelection == 1) {
+            binding!!.tabBar.visibility = View.GONE
+            binding!!.layoutNetwork.visibility = View.GONE
+            binding!!.layoutOffline.visibility = View.VISIBLE
         }
 
         //按钮增加倒计时，避免重复点击

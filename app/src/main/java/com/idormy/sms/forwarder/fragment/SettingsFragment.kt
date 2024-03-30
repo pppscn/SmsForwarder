@@ -41,6 +41,7 @@ import com.idormy.sms.forwarder.adapter.spinner.AppListSpinnerAdapter
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentSettingsBinding
 import com.idormy.sms.forwarder.entity.SimInfo
+import com.idormy.sms.forwarder.fragment.client.CloneFragment
 import com.idormy.sms.forwarder.receiver.BootCompletedReceiver
 import com.idormy.sms.forwarder.service.BluetoothScanService
 import com.idormy.sms.forwarder.service.ForegroundService
@@ -55,6 +56,7 @@ import com.idormy.sms.forwarder.utils.CommonUtils
 import com.idormy.sms.forwarder.utils.DataProvider
 import com.idormy.sms.forwarder.utils.EVENT_LOAD_APP_LIST
 import com.idormy.sms.forwarder.utils.EXTRA_UPDATE_NOTIFICATION
+import com.idormy.sms.forwarder.utils.KEY_DEFAULT_SELECTION
 import com.idormy.sms.forwarder.utils.KeepAliveUtils
 import com.idormy.sms.forwarder.utils.LocationUtils
 import com.idormy.sms.forwarder.utils.Log
@@ -66,6 +68,7 @@ import com.idormy.sms.forwarder.workers.LoadAppListWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
+import com.xuexiang.xpage.core.PageOption
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.button.SmoothCheckBox
 import com.xuexiang.xui.widget.button.switchbutton.SwitchButton
@@ -112,6 +115,15 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             @SingleClick
             override fun performAction(view: View) {
                 GuideTipsDialog.showTipsForce(requireContext())
+            }
+        })
+        titleBar!!.addAction(object : TitleBar.ImageAction(R.drawable.ic_restore) {
+            @SingleClick
+            override fun performAction(view: View) {
+                PageOption.to(CloneFragment::class.java)
+                    .putInt(KEY_DEFAULT_SELECTION, 1) //默认离线模式
+                    .setNewActivity(true)
+                    .open(this@SettingsFragment)
             }
         })
         return titleBar

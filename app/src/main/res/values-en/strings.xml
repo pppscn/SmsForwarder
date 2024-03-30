@@ -293,6 +293,9 @@
     <string name="invalid_name">Channel name cannot be empty</string>
     <string name="invalid_token">invalid token</string>
     <string name="invalid_email">Email parameter is incomplete</string>
+    <string name="invalid_recipient_email">Invalid recipient email address: %s</string>
+    <string name="invalid_x509_certificate">The X.509 public key certificate for the recipient (%s) is invalid.</string>
+    <string name="invalid_pkcs12_certificate">The PKCS12 private key certificate for the recipient (%s) is invalid.</string>
     <string name="invalid_email_server">Email Server parameter is incomplete</string>
     <string name="invalid_bark_icon">The bark-icon is not a valid URL</string>
     <string name="invalid_bark_url">The bark-url is not a valid URL</string>
@@ -323,11 +326,24 @@
     <string name="email_account">Account</string>
     <string name="email_password">Password/Auth Code</string>
     <string name="email_nickname">Nickname</string>
-    <string name="email_to">Send To</string>
-    <string name="email_to_tips">Tip: Separate multiple recipients with a ","</string>
+    <string name="email_to">Recipients</string>
+    <string name="email_to_tips">Tip: Click to add recipients.</string>
+    <string name="email_to_smime">Recipients &amp; S/MIME Encryption Cert.</string>
+    <string name="email_to_smime_tips">Tip: Click to add recipients and S/MIME encryption public keys (opt.).</string>
+    <string name="email_to_openpgp">Recipients &amp; OpenPGP Public Cert.</string>
+    <string name="email_to_openpgp_tips">Tip: Click to add recipients and OpenPGP public keys (opt.).</string>
+    <string name="sender_smime_keystore">Sender S/MIME Cert. (Opt.)</string>
+    <string name="sender_openpgp_keystore">Sender OpenPGP Cert. (Opt.)</string>
+    <string name="invalid_sender_keystore">Invalid Sender Signing Private Key</string>
+    <string name="smime_public_keys_tips">Add public keys for S/MIME encryption, leave blank otherwise.</string>
+    <string name="recipient_email">Recipient</string>
+    <string name="keystore_path">Cert. Path</string>
+    <string name="keystore_path_tips">Opt., Copy keystore to the Download dir</string>
+    <string name="keystore_password">Cert. Pwd.</string>
+    <string name="keystore_password_tips">Import password for `Private key`</string>
     <string name="email_title">Email Title</string>
     <string name="feishu_webhook">Webhook</string>
-    <string name="feishu_secret">Secret (optional)</string>
+    <string name="feishu_secret">Secret (opt.)</string>
     <string name="feishu_receive_id_type">Receive Id Type"</string>
     <string name="feishu_msg_type">Msg Type</string>
     <string name="feishu_msg_type_text">Text</string>
@@ -353,10 +369,10 @@
     <string name="server_chan_send_key">SendKey</string>
     <string name="server_chan_channel">Message Channel</string>
     <string name="server_chan_channel_tips">Tip: Dynamically specified, supports up to two channels, separated by a vertical bar |</string>
-    <string name="server_chan_channel_hint">Optional, e.g. to send service number and enterprise WeChat application, then fill in 9|66</string>
+    <string name="server_chan_channel_hint">Opt., e.g. to send service number and enterprise WeChat application, then fill in 9|66</string>
     <string name="server_chan_openid">CC OpenID</string>
     <string name="server_chan_openid_tips">Tip: Only test accounts and Wework application message channels are supported</string>
-    <string name="server_chan_openid_hint">Optional, multiple openids are separated by commas</string>
+    <string name="server_chan_openid_hint">Opt., multiple openids are separated by commas</string>
     <string name="TelegramApiToken">ApiToken or Custom Proxy Address (startwith http)</string>
     <string name="TelegramChatId">ChatId</string>
     <string name="Method" formatted="false">Method</string>
@@ -493,6 +509,11 @@
     <string name="account">✱Account</string>
     <string name="servers">✱Servers</string>
     <string name="email_settings">✱Email</string>
+    <string name="encryption_protocol">E2EE</string>
+    <string name="encryption_protocol_tips">Tip: To encrypt or sign emails, specify OpenPGP or S/MIME cert.</string>
+    <string name="plain">Plain</string>
+    <string name="smime">S/MIME</string>
+    <string name="openpgp">OpenPGP</string>
     <string name="below"><![CDATA[≤]]></string>
     <string name="percent">%</string>
     <string name="above"><![CDATA[≥]]></string>
@@ -515,7 +536,7 @@
     <string name="out_message_topic">Out Message Topic</string>
     <string name="out_message_topic_hint">Send a message on the corresponding topic</string>
     <string name="uri_type">Uri Type</string>
-    <string name="uri_type_hint">Optional, default is tcp</string>
+    <string name="uri_type_hint">Opt., default is tcp</string>
     <string name="path">Path</string>
     <string name="path_hint">Used to set the uri when communicating using ws</string>
     <string name="client_id">Client Id</string>
@@ -571,8 +592,8 @@
     <string name="outgoing_call_ended">Out Ended</string>
     <string name="missed_call">Missed</string>
     <string name="unknown_call">Unknown</string>
-    <string name="optional_action">Optional: </string>
-    <string name="optional_type">Optional: </string>
+    <string name="optional_action">Opt.: </string>
+    <string name="optional_type">Opt.: </string>
     <string name="active_request">Active request</string>
     <string name="active_request_tips">Obtain instructions through passive reception or active polling to operate the machine</string>
     <string name="httpserver">Local HttpServer</string>
@@ -708,7 +729,7 @@
     <string name="one_pixel">One Pixel</string>
     <string name="one_pixel_activity">One Pixel Activity</string>
     <string name="one_pixel_activity_tips">This can change the process priority from 4 to 1</string>
-    <string name="optional">Optional</string>
+    <string name="optional">Opt.</string>
     <string name="TelegramChatIdTips">Follow the steps in the wiki to obtain it</string>
     <string name="network_model">Network model</string>
     <string name="offline_mode">Offline mode</string>
@@ -762,15 +783,15 @@
     <string name="bark_server_regex">^https?://[^/]+/[^/]+/$</string>
     <string name="bark_server_error">The Url format is wrong, e.g. https://api.day.app/XXXXXXXX/</string>
     <string name="bark_group">Group Name</string>
-    <string name="bark_group_tips">Optional, e.g. SmsForwarder</string>
+    <string name="bark_group_tips">Opt., e.g. SmsForwarder</string>
     <string name="bark_icon">Message Icon</string>
-    <string name="bark_icon_tips">Optional, fill in Url, the picture should not be too big</string>
+    <string name="bark_icon_tips">Opt., fill in Url, the picture should not be too big</string>
     <string name="bark_sound">Message Sound</string>
-    <string name="bark_sound_tips">Optional, e.g. minuet.caf</string>
+    <string name="bark_sound_tips">Opt., e.g. minuet.caf</string>
     <string name="bark_badge">Message Badge</string>
-    <string name="bark_badge_tips">Optional, e.g. 888</string>
+    <string name="bark_badge_tips">Opt., e.g. 888</string>
     <string name="bark_url">Message Link</string>
-    <string name="bark_url_tips">Optional, e.g. https://github.com/pppscn/SmsForwarder</string>
+    <string name="bark_url_tips">Opt., e.g. https://github.com/pppscn/SmsForwarder</string>
     <string name="bark_level">Notification Level</string>
     <string name="bark_level_active">Immediately display notifications</string>
     <string name="bark_level_timeSensitive">Time-sensitive notifications that can be displayed in a focused state</string>
@@ -941,7 +962,7 @@
 
     <string name="sim_slot">Sim Slot</string>
     <string name="display_name">Display Name</string>
-    <string name="display_name_hint">Optional, address book display name</string>
+    <string name="display_name_hint">Opt., address book display name</string>
     <string name="phone_numbers">Phone Numbers</string>
     <string name="phone_numbers_hint">Required, separate multiple phone numbers with semicolons</string>
     <string name="phone_numbers_error">Invalid Phone Numbers, eg. 15888888888;19999999999</string>
@@ -1042,7 +1063,7 @@
     <string name="enabling_pure_task_mode">Do you want to quit the app immediately and start it manually to take effect in pure task mode?</string>
     <string name="debug_mode">Enable debug mode</string>
     <string name="debug_mode_tips">Save Log.* to file for troubleshooting; export to download directory.</string>
-    <string name="optional_components">Optional:</string>
+    <string name="optional_components">Opt.:</string>
     <string name="enable_cactus">Enable Cactus Keep Alive</string>
     <string name="enabe_cactus_tips">Dual foreground service/JobScheduler/WorkManager/1px/silent music</string>
     <string name="load_app_list">Get installed app info async at startup</string>
@@ -1078,6 +1099,7 @@
     <string name="restarting_httpserver">Restarting HttpServer</string>
     <string name="download_first">Download and unzip to:\n%s</string>
     <string name="download_music_first">Download music file to:\n%s</string>
+    <string name="download_certificate_first">Download certificate file to:\n%s</string>
     <string name="root_directory">Root Directory:\n%s</string>
     <string name="select_web_client_directory">Select WebClient Directory</string>
     <string name="invalid_feishu_app_parameter">AppId/AppSecret/UserId cannot be empty</string>
@@ -1401,7 +1423,7 @@
     <string name="stop_alarm">Stop Alarm</string>
     <string name="alarm_play_settings">Playback Settings</string>
     <string name="alarm_music">Specify Music</string>
-    <string name="alarm_music_tips">Optional, download mp3/ogg/wav to the Download directory.</string>
+    <string name="alarm_music_tips">Opt., download mp3/ogg/wav to the Download directory.</string>
     <string name="alarm_volume">Alarm Volume</string>
     <string name="alarm_play_times">Play Times(0=Infinite)</string>
 

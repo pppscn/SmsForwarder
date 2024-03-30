@@ -40,7 +40,7 @@ versions.kotlin = '1.7.21'
 
 versions.xui = "1.2.3"
 versions.xupdate = "2.1.4"
-versions.xaop = "1.1.0"
+versions.xaop = "dab6b77b2f" //1.1.0
 versions.xutil = "2.0.0"
 versions.xhttp2 = "9115cfcd5a" //2.0.9
 versions.xpage = "3.3.0"
@@ -134,8 +134,8 @@ def xlibrary = [:]
 
 xlibrary.xui = "com.github.pppscn:XUI:$versions.xui" //com.github.xuexiangjys:XUI
 xlibrary.xupdate = "com.github.xuexiangjys:XUpdate:$versions.xupdate"
-xlibrary.xaop_runtime = "com.github.xuexiangjys.XAOP:xaop-runtime:$versions.xaop"
-xlibrary.xaop_plugin = "com.github.xuexiangjys.XAOP:xaop-plugin:$versions.xaop"
+xlibrary.xaop_runtime = "com.github.pppscn.XAOP:xaop-runtime:$versions.xaop" //com.github.xuexiangjys.XAOP
+xlibrary.xaop_plugin = "com.github.pppscn.XAOP:xaop-plugin:$versions.xaop" //com.github.xuexiangjys.XAOP
 xlibrary.xutil_core = "com.github.xuexiangjys.XUtil:xutil-core:$versions.xutil"
 xlibrary.xutil_sub = "com.github.xuexiangjys.XUtil:xutil-sub:$versions.xutil"
 xlibrary.xhttp2 = "com.github.pppscn:XHttp2:$versions.xhttp2" //com.github.xuexiangjys:XHttp2

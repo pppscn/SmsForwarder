@@ -180,6 +180,7 @@ const val KEY_SENDER_TEST = "key_sender_test"
 const val KEY_RULE_ID = "key_rule_id"
 const val KEY_RULE_TYPE = "key_rule_type"
 const val KEY_RULE_CLONE = "key_rule_clone"
+const val KEY_DEFAULT_SELECTION = "key_default_selection"
 
 const val KEY_TASK_ID = "key_task_id"
 const val KEY_TASK_TYPE = "key_task_type"

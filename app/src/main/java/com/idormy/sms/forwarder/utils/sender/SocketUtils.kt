@@ -27,7 +27,8 @@ import java.net.URLEncoder
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.UUID
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
@@ -103,9 +104,9 @@ class SocketUtils {
             } else if (setting.method == "MQTT") {
                 // MQTT 连接参数
                 val uriType = if (TextUtils.isEmpty(setting.uriType)) "tcp" else setting.uriType
-                val brokerUrl = "${uriType}://${setting.address}:${setting.port}"
+                var brokerUrl = "${uriType}://${setting.address}:${setting.port}"
                 if (!TextUtils.isEmpty(setting.path)) {
-                    brokerUrl.plus(setting.path)
+                    brokerUrl += setting.path
                 }
                 Log.d(TAG, "MQTT brokerUrl: $brokerUrl")
                 val clientId = if (TextUtils.isEmpty(setting.clientId)) UUID.randomUUID().toString() else setting.clientId
