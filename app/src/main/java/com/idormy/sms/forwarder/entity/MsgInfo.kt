@@ -99,24 +99,13 @@ data class MsgInfo(
             )
             .replaceTag(getString(R.string.tag_device_name), extraDeviceMark.trim(), needJson)
             .replaceTag(getString(R.string.tag_app_version), AppUtils.getAppVersionName(), needJson)
-            .replaceTag(
-                getString(R.string.tag_call_type),
-                CALL_TYPE_MAP[callType.toString()] ?: getString(R.string.unknown_call),
-                needJson
-            )
+            .replaceTag(getString(R.string.tag_call_type),
+                CALL_TYPE_MAP[callType.toString()] ?: getString(R.string.unknown_call), needJson)
             .replaceTag(getString(R.string.tag_ipv4), TaskUtils.ipv4, needJson)
             .replaceTag(getString(R.string.tag_ipv6), TaskUtils.ipv6, needJson)
             .replaceTag(getString(R.string.tag_battery_pct), "%.0f%%".format(TaskUtils.batteryPct), needJson)
-            .replaceTag(
-                getString(R.string.tag_battery_status),
-                BatteryUtils.getStatus(TaskUtils.batteryStatus),
-                needJson
-            )
-            .replaceTag(
-                getString(R.string.tag_battery_plugged),
-                BatteryUtils.getPlugged(TaskUtils.batteryPlugged),
-                needJson
-            )
+            .replaceTag(getString(R.string.tag_battery_status), BatteryUtils.getStatus(TaskUtils.batteryStatus), needJson)
+            .replaceTag(getString(R.string.tag_battery_plugged), BatteryUtils.getPlugged(TaskUtils.batteryPlugged), needJson)
             .replaceTag(getString(R.string.tag_battery_info), TaskUtils.batteryInfo, needJson)
             .replaceTag(getString(R.string.tag_battery_info_simple),
                 "%.0f%%".format(TaskUtils.batteryPct)
@@ -144,10 +133,9 @@ data class MsgInfo(
                 val lineSplit = line.split("===".toRegex()).toTypedArray()
                 if (lineSplit.isNotEmpty()) {
                     val regex = lineSplit[0]
-                    val replacement = if (lineSplit.size >= 2) lineSplit[1].replace(
-                        "\\\\n".toRegex(),
-                        "\n"
-                    ) else ""
+                    val replacement =
+                        if (lineSplit.size >= 2)
+                            lineSplit[1].replace("\\\\n".toRegex(), "\n") else ""
                     newContent = newContent.replace(regex.toRegex(), replacement)
                 }
             }
@@ -159,12 +147,7 @@ data class MsgInfo(
     }
 
     //替换标签（支持正则替换）
-    private fun String.replaceTag(
-        tag: String,
-        info: String,
-        needJson: Boolean = false,
-        ignoreCase: Boolean = true
-    ): String {
+    private fun String.replaceTag(tag: String, info: String, needJson: Boolean = false, ignoreCase: Boolean = true): String {
         var result = if (needJson) {
             this.replace(tag, toJsonStr(info), ignoreCase)
         } else {
