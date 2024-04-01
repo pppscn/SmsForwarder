@@ -655,6 +655,7 @@
     <string name="tag_battery_status">{{BATTERY_STATUS}}</string>
     <string name="tag_battery_plugged">{{BATTERY_PLUGGED}}</string>
     <string name="tag_battery_info">{{BATTERY_INFO}}</string>
+    <string name="tag_battery_info_simple" translatable="false">{{BATTERY_INFO_SIMPLE}}</string>
     <string name="tag_uid">{{UID}}</string>
     <string name="tag_ipv4">{{IPV4}}</string>
     <string name="tag_ipv6">{{IPV6}}</string>
@@ -1450,4 +1451,5 @@
     <string name="bluetooth_not_supported">不支持蓝牙设备</string>
     <string name="start_discovery">搜索设备</string>
     <string name="invalid_bluetooth_mac_address">蓝牙设备MAC地址无效，例如：AA:BB:CC:DD:EE:FF</string>
+    <string name="tag_net_type" translatable="false">{{NET_TYPE}}</string>
 </resources>
