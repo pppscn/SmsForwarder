@@ -110,7 +110,7 @@ data class MsgInfo(
             .replaceTag(getString(R.string.tag_battery_info_simple),
                 "%.0f%%".format(TaskUtils.batteryPct)
                         + with(BatteryUtils.getPlugged(TaskUtils.batteryPlugged)) {
-                    if (this == getString(R.string.unknown)) "" else " - $this"
+                    if (this == getString(R.string.battery_unknown)) "" else " - $this"
                 }
             )
             .replaceTag(getString(R.string.tag_net_type), with(NetworkUtils.getNetStateType()) {
