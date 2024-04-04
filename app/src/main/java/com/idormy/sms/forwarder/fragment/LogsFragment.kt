@@ -1,10 +1,14 @@
 package com.idormy.sms.forwarder.fragment
 
 import android.annotation.SuppressLint
+import android.text.InputType
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.RadioGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
@@ -14,7 +18,6 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.activity.MainActivity
 import com.idormy.sms.forwarder.adapter.MsgPagingAdapter
 import com.idormy.sms.forwarder.core.BaseFragment
-import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.LogsDetail
 import com.idormy.sms.forwarder.database.entity.MsgAndLogs
 import com.idormy.sms.forwarder.database.entity.Rule
@@ -28,19 +31,23 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xui.widget.actionbar.TitleBar
+import com.xuexiang.xui.widget.button.SmoothCheckBox
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
+import com.xuexiang.xui.widget.picker.widget.TimePickerView
+import com.xuexiang.xui.widget.picker.widget.builder.TimePickerBuilder
+import com.xuexiang.xui.widget.picker.widget.configure.TimePickerType
 import com.xuexiang.xutil.data.DateUtils
 import com.xuexiang.xutil.resource.ResUtils.getColors
 import com.xuexiang.xutil.resource.ResUtils.getStringArray
-import io.reactivex.CompletableObserver
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import com.xuexiang.xutil.tip.ToastUtils
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
 import java.util.Locale
+
 
 @Suppress("PrivatePropertyName")
 @Page(name = "转发日志")
@@ -51,6 +58,11 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
     private var adapter = MsgPagingAdapter(this)
     private val viewModel by viewModels<MsgViewModel> { BaseViewModelFactory(context) }
     private var currentType: String = "sms"
+
+    //日志筛选
+    private var currentFilter: MutableMap<String, Any> = mutableMapOf()
+    private var logsFilterPopup: MaterialDialog? = null
+    private var timePicker: TimePickerView? = null
 
     override fun viewBindingInflate(
         inflater: LayoutInflater,
@@ -68,25 +80,26 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
             @SingleClick
             override fun performAction(view: View) {
                 MaterialDialog.Builder(requireContext())
-                    .content(R.string.delete_type_log_tips)
+                    .content(if (currentFilter.isEmpty()) R.string.delete_type_log_tips else R.string.delete_filter_log_tips)
                     .positiveText(R.string.lab_yes)
                     .negativeText(R.string.lab_no)
                     .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                        Core.msg.deleteAll(currentType)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(object : CompletableObserver {
-                                override fun onSubscribe(d: Disposable) {}
-                                override fun onComplete() {
-                                    XToastUtils.success(R.string.delete_type_log_toast)
-                                }
-
-                                override fun onError(e: Throwable) {
-                                    e.message?.let { XToastUtils.error(it) }
-                                }
-                            })
+                        try {
+                            viewModel.setType(currentType).setFilter(currentFilter).deleteAll()
+                            reloadData()
+                            XToastUtils.success(if (currentFilter.isEmpty()) R.string.delete_type_log_toast else R.string.delete_filter_log_toast)
+                        } catch (e: Exception) {
+                            e.message?.let { XToastUtils.error(it) }
+                        }
                     }
                     .show()
+            }
+        })
+        titleBar!!.addAction(object : TitleBar.ImageAction(R.drawable.ic_filter) {
+            @SingleClick
+            override fun performAction(view: View) {
+                initLogsFilterDialog()
+                logsFilterPopup?.show()
             }
         })
         return titleBar
@@ -115,9 +128,8 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
                 2 -> "app"
                 else -> "sms"
             }
-            viewModel.setType(currentType)
-            adapter.refresh()
-            binding!!.recyclerView.scrollToPosition(0)
+            initLogsFilterDialog(true)
+            reloadData()
         }
     }
 
@@ -128,7 +140,7 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
         binding!!.refreshLayout.setOnRefreshListener { refreshLayout: RefreshLayout ->
             //adapter.refresh()
             lifecycleScope.launch {
-                viewModel.setType(currentType).allMsg.collectLatest { adapter.submitData(it) }
+                viewModel.setType(currentType).setFilter(currentFilter).allMsg.collectLatest { adapter.submitData(it) }
             }
             refreshLayout.finishRefresh()
         }
@@ -186,11 +198,6 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
             .title(R.string.details)
             .content(detailStr.toString())
             .cancelable(true)
-            /*.positiveText(R.string.del)
-            .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                viewModel.delete(item.id)
-                XToastUtils.success(R.string.delete_log_toast)
-            }*/
             .negativeText(R.string.resend)
             .onNegative { _: MaterialDialog?, _: DialogAction? ->
                 XToastUtils.toast(R.string.resend_toast)
@@ -201,4 +208,138 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
 
     override fun onItemRemove(view: View?, id: Int) {}
 
+    private fun reloadData() {
+        viewModel.setType(currentType).setFilter(currentFilter)
+        adapter.refresh()
+        binding!!.recyclerView.scrollToPosition(0)
+    }
+
+    private fun initLogsFilterDialog(needInit: Boolean = false) {
+        if (logsFilterPopup == null || needInit) {
+            currentFilter = mutableMapOf()
+
+            val logsFilterDialog = View.inflate(requireContext(), R.layout.dialog_logs_filter, null)
+            val layoutTitle = logsFilterDialog.findViewById<LinearLayout>(R.id.layout_title)
+            val layoutSimSlot = logsFilterDialog.findViewById<LinearLayout>(R.id.layout_sim_slot)
+            val layoutCallType = logsFilterDialog.findViewById<LinearLayout>(R.id.layout_call_type)
+            when (currentType) {
+                "app" -> {
+                    layoutTitle.visibility = View.VISIBLE
+                    layoutSimSlot.visibility = View.GONE
+                    layoutCallType.visibility = View.GONE
+                }
+
+                "call" -> {
+                    layoutTitle.visibility = View.GONE
+                    layoutSimSlot.visibility = View.VISIBLE
+                    layoutCallType.visibility = View.VISIBLE
+                }
+
+                else -> {
+                    layoutTitle.visibility = View.GONE
+                    layoutSimSlot.visibility = View.VISIBLE
+                    layoutCallType.visibility = View.GONE
+                }
+            }
+
+            val scbCallType1 = logsFilterDialog.findViewById<SmoothCheckBox>(R.id.scb_call_type1)
+            val scbCallType2 = logsFilterDialog.findViewById<SmoothCheckBox>(R.id.scb_call_type2)
+            val scbCallType3 = logsFilterDialog.findViewById<SmoothCheckBox>(R.id.scb_call_type3)
+            val scbCallType4 = logsFilterDialog.findViewById<SmoothCheckBox>(R.id.scb_call_type4)
+            val scbCallType5 = logsFilterDialog.findViewById<SmoothCheckBox>(R.id.scb_call_type5)
+            val scbCallType6 = logsFilterDialog.findViewById<SmoothCheckBox>(R.id.scb_call_type6)
+            val etFrom = logsFilterDialog.findViewById<EditText>(R.id.et_from)
+            val etContent = logsFilterDialog.findViewById<EditText>(R.id.et_content)
+            val etTitle = logsFilterDialog.findViewById<EditText>(R.id.et_title)
+            val rgSimSlot = logsFilterDialog.findViewById<RadioGroup>(R.id.rg_sim_slot)
+            val etStartTime = logsFilterDialog.findViewById<EditText>(R.id.et_start_time)
+            val scbForwardStatus0 = logsFilterDialog.findViewById<SmoothCheckBox>(R.id.scb_forward_status_0)
+            val scbForwardStatus1 = logsFilterDialog.findViewById<SmoothCheckBox>(R.id.scb_forward_status_1)
+            val scbForwardStatus2 = logsFilterDialog.findViewById<SmoothCheckBox>(R.id.scb_forward_status_2)
+            etStartTime.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    showTimePicker(etStartTime.text.toString().trim(), getString(R.string.start_time), etStartTime)
+                } else {
+                    timePicker?.dismiss()
+                }
+            }
+            val etEndTime = logsFilterDialog.findViewById<EditText>(R.id.et_end_time)
+            etEndTime.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    showTimePicker(etEndTime.text.toString().trim(), getString(R.string.end_time), etEndTime)
+                } else {
+                    timePicker?.dismiss()
+                }
+            }
+
+            logsFilterPopup = MaterialDialog.Builder(requireContext())
+                .iconRes(android.R.drawable.ic_menu_search)
+                .title(R.string.menu_logs)
+                .customView(logsFilterDialog, true)
+                .cancelable(false)
+                .autoDismiss(false)
+                .neutralText(R.string.reset)
+                .neutralColor(getColors(R.color.darkGrey))
+                .onNeutral { dialog: MaterialDialog?, _: DialogAction? ->
+                    dialog?.dismiss()
+                    currentFilter = mutableMapOf()
+                    logsFilterPopup = null
+                    reloadData()
+                }.positiveText(R.string.search).onPositive { dialog: MaterialDialog?, _: DialogAction? ->
+                    currentFilter = mutableMapOf()
+                    currentFilter["from"] = etFrom.text.toString().trim()
+                    currentFilter["content"] = etContent.text.toString().trim()
+                    currentFilter["title"] = etTitle.text.toString().trim()
+                    currentFilter["start_time"] = etStartTime.text.toString().trim()
+                    currentFilter["end_time"] = etEndTime.text.toString().trim()
+                    currentFilter["sim_slot"] = if (currentType == "app") -1 else when (rgSimSlot.checkedRadioButtonId) {
+                        R.id.rb_sim_slot_1 -> 0
+                        R.id.rb_sim_slot_2 -> 1
+                        else -> -1
+                    }
+                    if (currentType == "call") {
+                        currentFilter["call_type"] = mutableListOf<Int>().apply {
+                            if (scbCallType1.isChecked) add(1)
+                            if (scbCallType2.isChecked) add(2)
+                            if (scbCallType3.isChecked) add(3)
+                            if (scbCallType4.isChecked) add(4)
+                            if (scbCallType5.isChecked) add(5)
+                            if (scbCallType6.isChecked) add(6)
+                        }
+                    }
+                    currentFilter["forward_status"] = mutableListOf<Int>().apply {
+                        if (scbForwardStatus0.isChecked) add(0)
+                        if (scbForwardStatus1.isChecked) add(1)
+                        if (scbForwardStatus2.isChecked) add(2)
+                    }
+                    reloadData()
+                    dialog?.dismiss()
+                }.build()
+        }
+    }
+
+    private fun showTimePicker(time: String, title: String, et: EditText) {
+        et.inputType = InputType.TYPE_NULL
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.time = try {
+            if (time.isEmpty()) Date() else DateUtils.string2Date(time, DateUtils.yyyyMMddHHmmss.get())
+        } catch (e: Exception) {
+            Date()
+        }
+        timePicker = TimePickerBuilder(context) { date, _ ->
+            ToastUtils.toast(DateUtils.date2String(date, DateUtils.yyyyMMddHHmmss.get()))
+            et.setText(DateUtils.date2String(date, DateUtils.yyyyMMddHHmmss.get()))
+        }
+            .setTimeSelectChangeListener { date ->
+                Log.i("pvTime", "onTimeSelectChanged")
+                et.setText(DateUtils.date2String(date, DateUtils.yyyyMMddHHmmss.get()))
+            }
+            .setType(TimePickerType.ALL)
+            .setTitleText(title)
+            .isDialog(true)
+            .setOutSideCancelable(false)
+            .setDate(calendar)
+            .build()
+        timePicker?.show(false)
+    }
 }
