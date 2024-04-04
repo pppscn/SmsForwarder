@@ -36,7 +36,7 @@ import javax.mail.internet.MimeUtility
 import javax.mail.util.ByteArrayDataSource
 
 
-@Suppress("PrivatePropertyName", "unused")
+@Suppress("PrivatePropertyName")
 class PgpUtils(
     private val properties: Properties,
     private val authenticator: Authenticator,

@@ -52,8 +52,8 @@
 
     <com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner
         android:id="@+id/sp_call_type"
-        android:layout_marginTop="@dimen/config_margin_4dp"
         style="@style/Material.SpinnerStyle"
+        android:layout_marginTop="@dimen/config_margin_5dp"
         android:visibility="gone" />
 
     <TextView

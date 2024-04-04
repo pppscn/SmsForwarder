@@ -32,6 +32,7 @@ import com.idormy.sms.forwarder.utils.TASK_ACTION_RULE
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDER
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SENDSMS
 import com.idormy.sms.forwarder.utils.TASK_ACTION_SETTINGS
+import com.idormy.sms.forwarder.utils.TASK_ACTION_TASK
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_APP
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_BATTERY
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_BLUETOOTH
@@ -77,6 +78,7 @@ class TaskUtils private constructor() {
                 TASK_ACTION_SENDER -> R.drawable.auto_task_icon_sender
                 TASK_ACTION_ALARM -> R.drawable.auto_task_icon_alarm
                 TASK_ACTION_RESEND -> R.drawable.auto_task_icon_resend
+                TASK_ACTION_TASK -> R.drawable.auto_task_icon_task
                 else -> R.drawable.auto_task_icon_custom_time
             }
         }
@@ -106,6 +108,7 @@ class TaskUtils private constructor() {
                 TASK_ACTION_SENDER -> R.drawable.auto_task_icon_sender_grey
                 TASK_ACTION_ALARM -> R.drawable.auto_task_icon_alarm_grey
                 TASK_ACTION_RESEND -> R.drawable.auto_task_icon_resend_grey
+                TASK_ACTION_TASK -> R.drawable.auto_task_icon_task_grey
                 else -> R.drawable.auto_task_icon_custom_time_grey
             }
         }

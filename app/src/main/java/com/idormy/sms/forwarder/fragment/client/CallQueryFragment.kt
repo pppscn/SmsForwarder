@@ -149,9 +149,9 @@ class CallQueryFragment : BaseFragment<FragmentClientCallQueryBinding?>() {
 
         //搜索框
         binding!!.searchView.findViewById<View>(com.xuexiang.xui.R.id.search_layout).visibility = View.GONE
-        binding!!.searchView.setVoiceSearch(true)
+        //binding!!.searchView.setVoiceSearch(true)
         binding!!.searchView.setEllipsize(true)
-        binding!!.searchView.setSuggestions(resources.getStringArray(R.array.query_suggestions))
+        //binding!!.searchView.setSuggestions(resources.getStringArray(R.array.query_suggestions))
         binding!!.searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 SnackbarUtils.Indefinite(view, String.format(getString(R.string.search_keyword), query)).info()
