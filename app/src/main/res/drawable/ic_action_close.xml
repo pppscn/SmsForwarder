@@ -8,7 +8,7 @@
         android:fillType="evenOdd"
         android:pathData="M17.1622,17.6622L5.4896,5.9896"
         android:strokeWidth="3"
-        android:strokeColor="#FFFFFF"
+        android:strokeColor="#ffffffff"
         android:strokeLineCap="round"
         android:strokeLineJoin="round" />
     <path
@@ -16,7 +16,7 @@
         android:fillType="evenOdd"
         android:pathData="M5.8378,17.6622L17.5104,5.9896"
         android:strokeWidth="3"
-        android:strokeColor="#FFFFFF"
+        android:strokeColor="#ffffffff"
         android:strokeLineCap="round"
         android:strokeLineJoin="round" />
 </vector>
