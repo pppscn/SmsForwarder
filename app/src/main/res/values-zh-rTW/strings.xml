@@ -76,42 +76,13 @@
     <string name="lab_privacy_name">《%s隱私權政策》</string>
 
     <!-- 登錄   -->
-    <string name="title_login_register">登錄/註冊</string>
-    <string name="action_get_verify_code">獲取驗證碼</string>
-    <string name="title_login">登錄</string>
-    <string name="title_login_by_verify_code">驗證碼登錄</string>
-    <string name="title_register">註冊</string>
-    <string name="lab_forget_password">忘記密碼?</string>
-    <string name="lab_login_by_verify_code">驗證碼登錄</string>
-    <string name="lab_login_by_password">密碼登錄</string>
-    <string name="tip_please_input_phone_number">請輸入手機號碼</string>
-    <string name="title_phone_number">手機號碼</string>
-    <string name="title_password">密碼</string>
-    <string name="title_old_password">舊密碼</string>
-    <string name="hint_please_input_verify_code">請輸入驗證碼</string>
-    <string name="lab_verify_code">驗證碼</string>
-    <string name="tip_password_error">密碼必須是8~18位字母和數字的組合！</string>
-    <string name="tip_new_password_error">新密碼必須是8~18位字母和數字的組合！</string>
-    <string name="tip_phone_number_error">無效的手機號！</string>
-    <string name="regex_phone_number" tools:ignore="TypographyDashes">^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(16[6])|(17[0,1,3,5-8])|(18[0-9])|(19[8,9]))\\d{8}$</string>
-    <string name="tip_verify_code_error">請輸入4位數驗證碼</string>
-    <string name="regex_verify_code">^\\d{4}$</string>
-    <string name="regex_password" tools:ignore="TypographyDashes">^(?:(?=.*[a-zA-Z])(?=.*[0-9])).{8,18}$</string>
-    <string name="title_forget_password">重置密碼</string>
-    <string name="lab_register_account">點擊註冊即表示同意</string>
-    <string name="lab_service_protocol"><![CDATA[<用戶協議>]]></string>
-    <string name="lab_logout_confirm">是否確認退出賬號？</string>
     <string name="title_user_protocol">用戶協議</string>
     <string name="title_privacy_protocol">隱私政策</string>
-    <string name="agree_protocol">我已閱讀並同意</string>
-    <string name="lab_and">和</string>
 
-    <string name="title_jump_login">跳過</string>
     <string name="label_previous">上一條</string>
     <string name="label_next">下一條</string>
     <string name="tip_ignore_message">以後不再提示此類信息</string>
     <string name="tip_title">你知道嗎？</string>
-    <string name="privacy">隱私政策</string>
     <string name="refresh_web">刷新網頁</string>
     <string name="copy_link">複製鏈接</string>
     <string name="share_web">網頁分享</string>
@@ -120,49 +91,26 @@
     <string name="logo">標誌</string>
 
     <!--Frpc-->
-    <string name="action_add">添加</string>
-    <string name="action_add_text">新建配置文字</string>
-    <string name="action_add_url">從網址導入</string>
-    <string name="action_add_file">從文件導入</string>
-    <string name="action_add_scan">掃描二維碼</string>
 
     <string name="action_save">保存配置</string>
     <string name="action_back">返回編輯</string>
     <string name="action_quit">放棄修改</string>
     <string name="action_test">測試規則</string>
-    <string name="action_template">模板</string>
     <string name="title_save_config">保存Frpc配置</string>
     <string name="tips_input_config_content">請輸入配置內容</string>
     <string name="tips_input_config_name">請輸入配置名稱</string>
-    <string name="done">確定</string>
     <string name="tipSaveSuccess">保存成功</string>
     <string name="tipRestoreSuccess">還原成功</string>
-    <string name="actionDeleteSuccess">已刪除</string>
-    <string name="actionDeleteFailed"> 刪除失敗</string>
-    <string name="titleModifyFileName">修改文件名稱</string>
-    <string name="notOpened">未開啟</string>
-    <string name="hasOpened">已開啟</string>
-    <string name="notSelectIni">未選擇配置文件</string>
-    <string name="needStopService">請先關閉服務</string>
-    <string name="title_about">關於</string>
-    <string name="title_logcat">Logcat</string>
     <string name="noName">未命名</string>
-    <string name="logcat_copy">複製</string>
-    <string name="logcat_delete">刪除</string>
     <string name="copySuccess">複製成功</string>
-    <string name="titleTemplate">模板文件</string>
-    <string name="dialogConfirmTitle">提示</string>
-    <string name="configDeleteConfirm">確定刪除該條配置？</string>
     <string name="tipServiceRunning">Frpc內網穿透服務運行中</string>
     <string name="tipWaitService">正在啟動服務</string>
 
     <string name="app_name">簡訊轉發器</string>
     <string name="notification_content">不僅只轉發簡訊，備用機必備神器！\n免費開源，禁止販賣！</string>
     <!--Common-->
-    <string name="ok">確定</string>
     <string name="cancel">取消</string>
     <string name="discard">丟棄</string>
-    <string name="quit">退出</string>
     <string name="del">刪除</string>
     <string name="save">儲存</string>
     <string name="reset">重置</string>
@@ -172,13 +120,8 @@
     <string name="test">測試</string>
     <string name="confirm">確認</string>
     <string name="all">全部</string>
-    <string name="any">任意</string>
     <string name="select">選擇</string>
     <string name="clone">一鍵克隆</string>
-    <string name="setting">通用設置</string>
-    <string name="about">關於軟體</string>
-    <string name="help">使用幫助</string>
-    <string name="clear_logs">清空日誌</string>
     <string name="clear_history">清空記錄</string>
     <string name="app_rule">通知轉發規則</string>
     <string name="call_rule">通話轉發規則</string>
@@ -189,29 +132,9 @@
     <string name="add_sender">添加發送通道</string>
     <string name="edit_sender">編輯發送通道</string>
     <string name="clone_sender">克隆發送通道</string>
-    <string name="restore_settings">還原配置</string>
     <!--AboutActivity-->
-    <string name="version">當前版本</string>
-    <string name="check_for_updates">檢查新版本</string>
     <string name="auto_startup">開機啟動</string>
-    <string name="show_tips">幫助提示</string>
-    <string name="show_tips2">建議老鳥關閉提示，頁面更清爽，減少彈窗提示</string>
-    <string name="open_source">開源倉庫</string>
-    <string name="synchronize_mirror">同步鏡像</string>
-    <string name="qq_group">互幫互助QQ群</string>
-    <string name="qq_group1">①群：562854376</string>
-    <string name="qq_group2">②群：31330492</string>
-    <string name="join_qq_group1">加入①群</string>
-    <string name="join_qq_group2">加入②群</string>
-    <string name="cache">快取大小</string>
-    <string name="purge">清除快取</string>
-    <string name="checking">檢查中…</string>
-    <string name="up_to_date">已是最新版本！</string>
-    <string name="cache_purged">快取清理完成</string>
-    <string name="unknown_qq_version">未安裝手Q或安裝的版本不支持！</string>
     <!--MainActivity-->
-    <string name="delete_log_title">日誌刪除確認</string>
-    <string name="delete_log_tips">確定刪除該條日誌記錄?</string>
     <string name="delete_log_toast">該條日誌記錄已刪除！</string>
     <string name="delete_type_log_tips">確定刪除該分類的所有日誌記錄?</string>
     <string name="delete_type_log_toast">該分類日誌記錄已清空！</string>
@@ -220,20 +143,12 @@
     <string name="resend_toast">正在嘗試通過原發送通道重發</string>
     <string name="rematch_toast">正在重新匹配規則發送</string>
     <string name="details">詳情</string>
-    <string name="clear_logs_tips">確定要清空所有轉發記錄嗎？</string>
-    <string name="pull_tips">下拉可以刷新！</string>
-    <string name="release_tips">鬆開可以刷新！</string>
-    <string name="reflashing_tips">正在刷新…</string>
     <!--RuleActivity-->
-    <string name="setrule">設置簡訊轉發規則</string>
-    <string name="setrule_call">設置來電轉發規則</string>
-    <string name="setrule_app">設置APP通知轉發規則</string>
     <string name="delete_rule_title">轉發規則操作確認</string>
     <string name="delete_rule_tips">刪除轉發規則後會級聯刪除其相關的轉發日誌的所有記錄！\n\n確定刪除該條規則?</string>
     <string name="delete_rule_toast">該條規則已刪除！</string>
     <string name="new_sender_first">請選擇發送通道（若無，請先添加）</string>
     <string name="new_rule_first">請選擇轉發規則（若無，請先添加）</string>
-    <string name="new_frpc_first">請選擇FRPC（若無，請先添加）</string>
     <string name="new_task_first">請選擇自動任務（若無，請先添加）</string>
     <string name="add_sender_first">請先去設置發送通道頁面添加</string>
     <string name="add_rule_first">請先去設置轉發規則頁面添加</string>
@@ -270,31 +185,13 @@
     <string name="match_value">匹配的值</string>
     <string name="match_value_tips">如需匹配多個關鍵詞，請用 正則匹配 或 多重匹配</string>
     <string name="switch_rule_status">啟用該條轉發規則</string>
-    <string name="invalid_rule_status">該條轉發規則已禁用</string>
     <string name="invalid_match_value">匹配的值不可為空</string>
     <string name="invalid_call_type">通話類型不正確，只能填寫1到6的任意一個數字</string>
     <!--SenderActivity-->
-    <string name="invalid_sender">異常的發送通道類型，自動刪除！</string>
     <string name="delete_sender_title">發送通道操作確認</string>
     <string name="delete_sender_tips">刪除發送通道後會級聯刪除其相關的轉發規則、轉發日誌的所有記錄！\n\n確定刪除該條發送通道？</string>
     <string name="delete_sender_toast">該條發送通道已經刪除！</string>
-    <string name="add_sender_title">選擇發送通道類型</string>
-    <string name="not_supported">暫不支持這種轉發</string>
-    <string name="setdingdingtitle">設置釘釘群機器人</string>
-    <string name="setemailtitle">設置郵箱</string>
-    <string name="setwebnotifytitle">設置Webhook</string>
-    <string name="setqywxgrouprobottitle">設置企業微信群機器人</string>
-    <string name="setqywxapptitle">設置企業微信應用</string>
-    <string name="setbarktitle">設置Bark</string>
-    <string name="setserverchantitle">設置Server醬·Turbo版</string>
-    <string name="settelegramtitle">設置Telegram機器人</string>
-    <string name="setsmstitle">設置SMS</string>
-    <string name="setfeishutitle">設置飛書群機器人</string>
-    <string name="setpushplustitle">設置PushPlus</string>
-    <string name="setgotifytitle">設置Gotify</string>
     <string name="test_phone_num">19999999999</string>
-    <string name="test_group_name">測試分組</string>
-    <string name="failed_to_fwd">發送失敗：</string>
     <string name="invalid_name">通道名稱不能為空</string>
     <string name="invalid_token">token不合法</string>
     <string name="invalid_email">發件郵箱/登錄密碼/收件地址不可為空</string>
@@ -322,8 +219,6 @@
     <string name="invalid_multi_match">多重匹配規則的第 %s 行格式有誤</string>
     <string name="invalid_regex_replace">正則替換內容的第 %s 行格式有誤</string>
     <string name="invalid_message_card">自定義消息卡片Json不合法</string>
-    <string name="set_bark_name">分組名稱/狀態</string>
-    <string name="set_name">名稱/狀態</string>
     <string name="email_host">主機</string>
     <string name="smtp_port">端口</string>
     <string name="enable_ssl">開啟SSL</string>
@@ -340,7 +235,6 @@
     <string name="sender_smime_keystore">發件人S/MIME簽名私鑰（可選）</string>
     <string name="sender_openpgp_keystore">發件人OpenPGP簽名私鑰（可選）</string>
     <string name="invalid_sender_keystore">發件人簽名私鑰無效</string>
-    <string name="smime_public_keys_tips">對郵件進行 S/MIME 簽名加密，則添加公鑰，否則留空</string>
     <string name="recipient_email">收件人郵箱</string>
     <string name="keystore_path">證書路徑</string>
     <string name="keystore_path_tips">可選，下載證書文件到 Download 目錄</string>
@@ -353,7 +247,6 @@
     <string name="feishu_msg_type">消息類型</string>
     <string name="feishu_msg_type_text">純文本</string>
     <string name="feishu_msg_type_interactive">消息卡片</string>
-    <string name="feishu_msg_type_interactive_title">標題模板</string>
     <string name="feishu_msg_type_interactive_message_card">自定義消息卡片Json</string>
     <string name="Customize_API">自定義API</string>
     <string name="Corp_ID">企業ID</string>
@@ -361,8 +254,6 @@
     <string name="App_Secret">Secret</string>
     <string name="is_at_all">是否@所有人</string>
     <string name="specified_member">指定成員</string>
-    <string name="at_all">\@all</string>
-    <string name="specified_member_tips">Tip：接收消息的成員ID列表（多個接收者用‘|’分隔，最多支持1000個）</string>
     <string name="touser">指定成員</string>
     <string name="toparty">指定部門</string>
     <string name="totag">指定標籤</string>
@@ -388,7 +279,6 @@
     <string name="SmsMobilesTips">提示：\n1.多個號碼以半角分號分隔，例如：15888888888;19999999999\n2.允許插入`{{來源號碼}}`標籤來實現簡訊自動回復（簡訊/來電場景）</string>
     <string name="OnlyNoNetwork">僅當無網路時啟用</string>
     <!--SettingActivity-->
-    <string name="notify_content">通知文案</string>
     <string name="notify_content_label">通知欄文案</string>
     <string name="device_name">裝置名稱</string>
     <string name="sim_sub_id">卡槽主鍵</string>
@@ -405,7 +295,6 @@
     <string name="forward_sms_tips">請授予讀取簡訊、通知類簡訊、發送簡訊等權限，關閉驗證碼保護</string>
     <string name="sms_command">簡訊指令</string>
     <string name="sms_command_tips">根據簡訊指令開關對應功能，指令格式：smsf#功能名#動作名</string>
-    <string name="safe_phone">安全手機</string>
     <string name="safe_phone_tips">僅處理指定手機請求，多個手機以逗號分隔</string>
     <string name="forward_calls">轉發通話記錄</string>
     <string name="forward_calls_tips">請授予讀取通話記錄、聯繫人等權限，並選擇轉發類型，再開啟</string>
@@ -430,26 +319,17 @@
     <string name="insert_extra">卡槽信息</string>
     <string name="insert_time">接收時間</string>
     <string name="insert_device_name">裝置名稱</string>
-    <string name="init_setting">恢復初始配置</string>
-    <string name="init_setting_tips">確定需要恢復初始配置嗎？\n\n【警告】此操作將重置設置、刪除發送通道、規則、日誌！</string>
     <string name="battery_setting">忽略電池優化設置</string>
     <string name="battery_setting_tips">請設置為手動管理：允許自啟動、允許關聯啟動、允許後台運行</string>
     <string name="unknown_number">未知號碼</string>
     <string name="unsupport">您的手機不支持此設置</string>
     <string name="isIgnored">已將省電優化設置為無限制(不優化)！</string>
     <string name="isIgnored2">本界面無法直接操作系統的省電優化設置</string>
-    <string name="invalid_delay_time">間隔時間最短為1秒</string>
-    <string name="invalid_timeout">超時時間最短為1秒</string>
     <!--Other-->
-    <string name="version_now">v1.0</string>
-    <string name="linkweb">https://github.com/pppscn/SmsForwarder</string>
-    <string name="linkweb2">https://gitee.com/pp/SmsForwarder</string>
-    <string name="cache_size">0KB</string>
     <string name="sim1" tools:ignore="Typos">SIM1</string>
     <string name="sim2" tools:ignore="Typos">SIM2</string>
     <string name="mu_rule_sms_tips">多重匹配規則示例：（語法參見wiki）\n\n並且 是 手機號 相等 10086\n[空格]或者 是 手機號 相等 10011\n並且 是 簡訊內容 包含 欠費\n\n以上規則表示：收到簡訊，並且（手機號是10086 或者 手機號是10010），並且 簡訊內容 包含 欠費 時轉發簡訊\n\n注意：每行開始的空格代表層級，太過複雜的多重規則可能導致內存占用很大！</string>
     <string name="mu_rule_call_tips">多重匹配規則示例：（語法參見wiki）\n\n並且 是 手機號 相等 10086\n[空格]或者 是 手機號 相等 10011\n並且 是 通話類型 相等 3\n\n以上規則表示：收到來電，並且（手機號是10086 或者 手機號是10010），並且 通話類型 是 未接來電 時轉發提醒\n\n注意：每行開始的空格代表層級，太過複雜的多重規則可能導致內存占用很大！\n\n通話類型：1.來電掛機 2.去電掛機 3.未接來電 4.來電提醒 5.來電接通 6.去電撥出</string>
-    <string name="call_type_tips">填寫數字：1到6的任意一個\n\n通話類型：1.來電掛機 2.去電掛機 3.未接來電 4.來電提醒 5.來電接通 6.去電撥出</string>
     <string name="mu_rule_app_tips">多重匹配規則示例：（語法參見wiki）\n\n並且 是 APP包名 相等 com.tencent.mm\n[空格]或者 是 APP包名 相等 com.tencent.mobileqq\n並且 是 通知內容 包含 欠費\n\n以上規則表示：收到APP通知，並且（APP包名是com.tencent.mm 或者 APP包名是com.tencent.mobileqq），並且 通知內容 包含 欠費 時轉發通知\n\n注意：每行開始的空格代表層級，太過複雜的多重規則可能導致內存占用很大！</string>
     <string name="post">POST</string>
     <string name="get">GET</string>
@@ -460,7 +340,6 @@
     <string name="mqtt">MQTT</string>
     <string name="ssl">SSL</string>
     <!--CloneActivity-->
-    <string name="local_ip">本機IP：</string>
     <string name="operating_instruction">嚴正聲明：\n該功能僅限個人新舊手機切換使用，用於非法用途後果自負！\n\n操作說明：\n1.新舊手機連接同一個WiFi網絡(禁用AP隔離)，如需穿透內網請先配置Frpc\n2.【二選一】舊手機點【推送】按鈕，將本機的配置推送到服務端\n3.【二選一】新手機點【拉取】按鈕，將拉取服務端的配置到本機\n\n注意事項：\n1.客戶端與服務端的APP版本必須一致，才能克隆!\n2.導入成功後，發送通道、轉發規則將完全被覆蓋，清空歷史記錄！\n3.主動請求、保活措施、個性設置不在克隆範圍\n4.導入成功後，務必再次進入【通用設置】開關一次你需要的功能！(或去系統設置手動授權權限)</string>
     <string name="operating_instruction_offline">嚴正聲明：\n該功能僅限個人新舊手機切換使用，用於非法用途後果自負！\n\n注意事項：\n1.導出方與導入方的APP版本必須一致，才能一鍵克隆!\n2.新手機導入成功後，發送通道、轉發規則將完全被覆蓋，清空歷史記錄！\n3.主動請求、保活措施、個性設置不在克隆範圍\n4.導入成功後，務必再次進入【通用設置】開關一次你需要的功能！(或去系統設置手動授權權限)</string>
     <string name="push">推送</string>
@@ -471,33 +350,16 @@
     <string name="old_mobile_phone">我是舊手機</string>
     <string name="new_mobile_phone">我是新手機</string>
     <string name="server_ip">服務端IP：</string>
-    <string name="server_address">主機：</string>
     <string name="server_port">端口：</string>
-    <string name="point">.</string>
     <string name="invalid_ip">請輸入合法的IP或域名</string>
     <string name="invalid_mqtt_message_topic">請輸入合法的輸入/輸出信息主題</string>
     <string name="invalid_port">請輸入合法的端口號</string>
-    <string name="server_has_started">服務端已啟動</string>
-    <string name="server_has_stopped">服務端已停止</string>
-    <string name="sender_cannot_receive">本手機是發送端，不可接收文件，請先停止服務端！</string>
-    <string name="no_wifi_network">未接入Wifi網絡，不可使用HttpServer功能！</string>
-    <string name="invalid_server_ip">請輸入服務端IP</string>
-    <string name="on_wireless_network">當前處於無線網絡</string>
-    <string name="on_mobile_network">當前處於移動網絡</string>
     <string name="no_network">沒有網絡</string>
-    <string name="not_connected_wifi">未連接Wifi</string>
-    <string name="failed_to_get_ip">獲取IP失敗</string>
-    <string name="sms">簡 訊</string>
-    <string name="call">來 電</string>
-    <string name="app">應 用</string>
     <string name="appicon">應用圖標</string>
     <string name="user_app">用戶應用</string>
     <string name="system_app">系統應用</string>
-    <string name="tips_battery_optimization">請將省電優化設置為無限制(不優化)，有利於《簡訊轉發器》保活！</string>
     <string name="tips_notification">請先授予發送通知權限，有利於《簡訊轉發器》保活！</string>
     <string name="tips_notification_listener">請先授予《簡訊轉發器》通知使用權，否則無法轉發應用程式通知，已經自動關閉轉發！</string>
-    <string name="notification_listener_service_enabled">通知服務已開啟</string>
-    <string name="notification_listener_service_disabled">通知服務未開啟</string>
     <string name="pushplus_website">官網地址</string>
     <string name="pushplus_plus">www.pushplus.plus</string>
     <string name="pushplus_hxtrip">pushplus.hxtrip.com</string>
@@ -519,12 +381,6 @@
     <string name="plain">明文</string>
     <string name="smime">S/MIME</string>
     <string name="openpgp">OpenPGP</string>
-    <string name="below">低於</string>
-    <string name="percent">%</string>
-    <string name="above">高於</string>
-    <string name="zero">0</string>
-    <string name="first_send_time">首次發送時間：</string>
-    <string name="interval_minutes">間隔(分鐘)：</string>
     <string name="proxy_settings">代理設置</string>
     <string name="proxy_none">無代理</string>
     <string name="proxy_http">HTTP</string>
@@ -541,21 +397,14 @@
     <string name="out_message_topic">輸出消息主題</string>
     <string name="out_message_topic_hint">發送對應主題的消息</string>
     <string name="uri_type">通信方式</string>
-    <string name="uri_type_hint">可選，默認為tcp</string>
     <string name="path">通信路徑</string>
     <string name="path_hint">用於在使用ws進行通信時設置uri</string>
     <string name="client_id">客戶端ID</string>
     <string name="client_id_hint">如果為空則為隨機值</string>
-    <string name="privacy_policy">隱私政策</string>
-    <string name="agree">同意</string>
-    <string name="refuse">拒絕</string>
-    <string name="privacy_policy_text">&#160;&#160;&#160;&#160;SmsForwarder-簡訊轉發器(下稱本軟體) 100% 免費開源，Github 在線編譯發佈，絕不會收集您的任何隱私數據！ \n\n以下情形會上報本軟體的版本信息： \n&#160;&#160;&#160;&#160;1、啟動本軟體時，發送版本信息發送到《友盟+·U-App移動統計》，用於分析本軟體的用戶版本留存與軟體奔潰統計； \n&#160;&#160;&#160;&#160;2、手動檢查更新時，發送版本號用於檢查新版本； \n&#160;&#160;&#160;&#160;除此之外，沒有任何數據！！！ \n\n&#160;&#160;&#160;&#160;本軟體會遵循《隱私政策》收集、使用版本信息，但不會因為您同意了《隱私政策》而進行強制捆綁式的信息收集。</string>
     <string name="GotifyWebServer">WebServer</string>
     <string name="GotifyWebServerTips"><![CDATA[例：https://push.ppps.cn/message?token=<apptoken>]]></string>
     <string name="title_template">標題模板</string>
     <string name="priority">優先級（1 – 9）</string>
-    <string name="_5">5</string>
-    <string name="sb_rule_status">啟用該條轉發規則</string>
     <string name="dingtalk_robot">釘釘群機器人</string>
     <string name="dingtalk_inner_robot">釘釘企業機器人</string>
     <string name="email">電子郵箱</string>
@@ -570,17 +419,7 @@
     <string name="feishu_app">飛書企業應用</string>
     <string name="pushplus">PushPlus</string>
     <string name="gotify">Gotify</string>
-    <string name="_0">0</string>
     <string name="_1">1</string>
-    <string name="_2">2</string>
-    <string name="_3">3</string>
-    <string name="_4">4</string>
-    <string name="_10">10</string>
-    <string name="step_1">通用設置</string>
-    <string name="step_2">發送通道</string>
-    <string name="step_3">轉發規則</string>
-    <string name="step_4">轉發日誌</string>
-    <string name="todo">TODO</string>
     <string name="forwarding_function">轉發功能</string>
     <string name="forwarding_function_tips">總開關，請根據實際需要，啟用對應的轉發功能</string>
     <string name="extra_function">增強功能</string>
@@ -599,13 +438,6 @@
     <string name="unknown_call">未知通話</string>
     <string name="optional_action">可選操作：</string>
     <string name="optional_type">可選類型：</string>
-    <string name="active_request">主動請求</string>
-    <string name="active_request_tips">通過 被動接收 或者 主動輪詢 獲取指令，從而操作本機</string>
-    <string name="httpserver">被動接收本地 HttpServer</string>
-    <string name="httpserver_tips">WiFi網絡下可用，啟動後局域網內其他機器可直接調用本機接口</string>
-    <string name="sim_state_monitor">SIM卡槽狀態監控</string>
-    <string name="network_state_monitor">網絡狀態監控</string>
-    <string name="network_state_change_remind">網絡狀態改變提醒</string>
     <string name="keep_alive">保活措施</string>
     <string name="keep_alive_tips">開啟前三項授權或設置，不禁用通知欄，避免應用被殺</string>
     <string name="custom_settings">個性設置</string>
@@ -613,11 +445,9 @@
     <string name="times">次</string>
     <string name="interval">間隔</string>
     <string name="interval_label">遞增間隔</string>
-    <string name="timeout">超時</string>
     <string name="timeout_label">單次超時</string>
     <string name="seconds">秒</string>
     <string name="seconds_n">%s秒</string>
-    <string name="retry">重試</string>
     <string name="retry_label">最多重試</string>
     <string name="test_sender_sms">【%s】恭喜您，該發送通道測試成功，請繼續添加轉發規則！</string>
     <string name="test_sender_name">測試通道</string>
@@ -628,7 +458,6 @@
     <string name="rematch">重新匹配規則</string>
     <string name="from">來源：</string>
     <string name="title">標題：</string>
-    <string name="scheme">Scheme：</string>
     <string name="msg">消息：</string>
     <string name="slot">卡槽：</string>
     <string name="rule">規則：</string>
@@ -639,10 +468,6 @@
     <string name="success">成功</string>
     <string name="failed">失敗</string>
     <string name="processing">處理中</string>
-    <string name="rule_sms">簡訊</string>
-    <string name="rule_call">來電</string>
-    <string name="rule_app">應用</string>
-    <string name="rule_all">全部</string>
     <string name="rule_any">任意</string>
     <string name="rule_transpond_all">全部轉發</string>
     <string name="rule_phone_num">手機號</string>
@@ -664,82 +489,31 @@
     <string name="rule_notcontain">不包含</string>
     <string name="rule_regex">正則匹配</string>
     <string name="package_name_copied">已復制包名：</string>
-    <string name="loading_user_app">正在加載用戶應用，請稍候…</string>
-    <string name="loading_system_app">正在加載系統應用，請稍候…</string>
-    <string name="crash_tip">很抱歉！程式出現異常，即將退出…</string>
     <string name="enable_phone_fw_tips">必須選擇一個通話類型，才能開啟通話記錄轉發！</string>
-    <string name="notification_service_is_on">通知服務已開啟</string>
-    <string name="tips_battery_level_alarm_once">【注意】電量預警閾值上下限都是0，持續提醒不起作用</string>
     <string name="tips_compatible_solution">兼容方案</string>
-    <string name="tips_wait_3_seconds">點擊啟動後請等待3秒</string>
-    <string name="tips_clone_done">一鍵克隆操作完成！\n請檢查·通用設置·各項開關是否已開啟！</string>
-    <string name="tips_clone_failed">一鍵克隆失敗：</string>
-    <string name="tips_versions_inconsistent">APP版本不一致，無法一鍵克隆！</string>
-    <string name="tips_get_info_failed">獲取一鍵克隆信息失敗</string>
     <string name="contact">通訊錄名：</string>
     <string name="via_number">被呼號碼：</string>
-    <string name="common_permission_alert">授權提醒</string>
-    <string name="common_permission_fail_1">授權失敗，請正確授予權限</string>
-    <string name="common_permission_fail_2">獲取權限失敗，請手動授予權限</string>
-    <string name="common_permission_fail_3">獲取權限失敗，請手動授予%s</string>
-    <string name="common_permission_fail_4">沒有授予後台定位權限，請您選擇"始終允許"</string>
-    <string name="common_permission_goto">前往授權</string>
-    <string name="common_permission_calendar">日曆權限</string>
-    <string name="common_permission_camera">相機權限</string>
-    <string name="common_permission_contacts">通訊錄權限</string>
-    <string name="common_permission_location">定位權限</string>
-    <string name="common_permission_location_background">後臺定位權限</string>
-    <string name="common_permission_bluetooth">附近的設備權限</string>
-    <string name="common_permission_microphone">麥克風權限</string>
-    <string name="common_permission_phone">電話權限</string>
-    <string name="common_permission_call_log">通話記錄權限</string>
-    <string name="common_permission_sensors">身體傳感器權限</string>
-    <string name="common_permission_activity_recognition">健身運動權限</string>
-    <string name="common_permission_sms">簡訊權限</string>
-    <string name="common_permission_storage">儲存權限</string>
-    <string name="common_permission_install">安裝應用程式權限</string>
-    <string name="common_permission_window">懸浮視窗權限</string>
-    <string name="common_permission_setting">系統設定權限</string>
-    <string name="common_permission_notification">通知欄權限</string>
-    <string name="common_permission_task">檢視使用情況權限</string>
     <string name="toast_granted_all">獲取所有必需的權限成功！</string>
     <string name="toast_granted_part">獲取部分權限成功，但部分權限未正常授予，應用部分功能可能受限！</string>
     <string name="toast_denied_never">被永久拒絕授權，前往系統設定手動授權權限？</string>
     <string name="toast_denied">獲取必需的權限失敗，應用功能可能受限！</string>
     <string name="play_silence_music">後台播放無聲音樂</string>
-    <string name="play_silence_music_tips">【按需啟用】播放無聲音樂讓後台一直運行，可能比較耗電</string>
-    <string name="one_pixel">1像素</string>
     <string name="one_pixel_activity">1像素透明Activity</string>
-    <string name="one_pixel_activity_tips">【按需啟用】使進程的優先級在屏幕鎖屏時間由4提升為最高優先級1</string>
     <string name="optional">可選</string>
     <string name="TelegramChatIdTips">請按照wiki中的步驟獲取</string>
-    <string name="network_model">網路模式</string>
-    <string name="offline_mode">離線模式</string>
     <string name="tips_backup_path">備份文件存放路徑：</string>
     <string name="frpc_name">配置名稱</string>
     <string name="frpc_autorun">開機自啟</string>
 
-    <string name="nav_item_home">Home</string>
-    <string name="nav_item_settings">Settings</string>
-    <string name="nav_item_logging">Logging</string>
-    <string name="nav_item_about">About</string>
-
     <string name="http_server">HttpServer</string>
     <string name="start_server">啟動服務</string>
     <string name="stop_server">停止服務</string>
-    <string name="server_is_stopping">Server is shutting down. Please wait.</string>
-    <string name="server_failed_to_start">Server failed to start!</string>
-    <string name="server_failed_bindex">Server can not run on this port! (Bind-Exception)</string>
-    <string name="invalid_sim">Sim-Card is missing or not ready to send sms!</string>
-    <string name="no_sms_permission">SMS-Permission is required to run the server!</string>
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="unknown">---</string>
     <string name="refresh">刷新</string>
     <string name="tip_can_not_get_sim_infos">無法獲取卡槽信息，請確認應用權限【獲取手機信息】為【始終允許】</string>
     <string name="tip_can_not_get_sim_info">未獲取到卡槽%s中的SIM卡信息</string>
-    <string name="add">添加</string>
     <string name="auto_check">啟動時檢查</string>
     <string name="check_update">檢查更新</string>
     <string name="join_preview_program">加入SmsF預覽體驗計劃</string>
@@ -748,7 +522,6 @@
     <string name="delete_frpc">刪除動態庫</string>
 
     <string name="sender_name_status">通道名稱/狀態</string>
-    <string name="choose_sender_status">發送通道/狀態</string>
 
     <string name="dingtalk_token">Webhook</string>
     <string name="dingtalk_token_tips">例：https://oapi.dingtalk.com/robot/send?access_token=XXX</string>
@@ -787,16 +560,13 @@
     <string name="bark_encryption_key_tips">對應bark上的key</string>
     <string name="bark_encryption_iv">偏移向量</string>
     <string name="bark_encryption_iv_tips">對應bark上的iv</string>
-    <string name="bark_encryption_key_regex" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^([a-zA-Z0-9]{16})? $]]></string>
     <string name="bark_encryption_key_error1">加密密鑰必須是16位</string>
     <string name="bark_encryption_key_error2">加密密鑰必須是24位</string>
     <string name="bark_encryption_key_error3">加密密鑰必須是32位</string>
     <string name="bark_encryption_key_error4">偏移向量必須是16位</string>
 
     <string name="from_email_hint">填寫 @ 前面的用戶名</string>
-    <string name="from_email_full_hint">填寫格式: AAA@BBB.CCC</string>
     <string name="other_mail_type">其他郵箱</string>
-    <string name="tips_other_mail_type">其他郵箱，請填寫完整的郵箱地址並手動填寫SMTP服務器信息</string>
     <string name="mail_pwd_hint">填寫登錄密碼 或 授權碼</string>
 
     <string name="wework_webHook">WebHook地址</string>
@@ -813,16 +583,10 @@
     <string name="url_scheme_tips">示例：myapp://api/add?&amp;type=0&amp;msg=[msg]</string>
 
     <string name="socket">Socket</string>
-    <string name="socket_tips">示例：myapp://api/add?&amp;type=0&amp;msg=[msg]</string>
-    <string name="socket_address">服務地址</string>
-    <string name="socket_address_tips">IP 或 域名</string>
-    <string name="socket_port">端口</string>
-    <string name="socket_port_tips" tools:ignore="TypographyDashes">取值範圍：1-65535</string>
 
     <string name="webhook_server">Webhook Server</string>
     <string name="webhook_server_tips">例如：https://a.b.com/msg?token=xyz</string>
     <string name="webhook_params">消息模板</string>
-    <string name="msg_template">Params</string>
     <string name="webhook_params_tips" formatted="false">例如：payload=%7B%22text%22%3A%22[msg]%22%7D [msg]將被替換成簡訊內容。\n支持Json格式，例如：{\"text\":\"[msg]\"}。\n注意：除JSON格式外，msg會自動進行URLEncoder</string>
     <string name="webhook_secret">Secret：置空則不計算sign</string>
     <string name="webhook_response">成功應答關鍵字：置空則http狀態200即為成功</string>
@@ -830,7 +594,6 @@
     <string name="headers">Headers</string>
     <string name="header_key">Key</string>
     <string name="header_value">Value</string>
-    <string name="header_add">添加Header</string>
     <string name="header_del">刪除Header</string>
     <string name="select_sender_type">請選擇發送通道類型</string>
     <string name="feishu_webhook_hint">群機器人→Webhook 地址</string>
@@ -852,7 +615,6 @@
     <string name="privacy_content_5">更多詳情，敬請查閱 </string>
     <string name="privacy_content_6">全文。\n\n</string>
     <string name="privacy_content_7">請先授予發送通知權限，有利於《簡訊轉發器》保活！</string>
-    <string name="other_login_methods">其他登錄方式</string>
     <string name="request_succeeded">請求成功</string>
     <string name="request_failed">請求失敗：</string>
     <string name="request_failed_tips">請求失敗：%s</string>
@@ -866,9 +628,6 @@
     <string name="share_to">分享到</string>
     <string name="third_party_app_not_installed">您所打開的第三方App未安裝！</string>
     <string name="description">描述信息</string>
-    <string name="login_succeeded">登錄成功！</string>
-    <string name="login_failed">登錄失敗！</string>
-    <string name="logout_succeeded">登出成功！</string>
     <string name="no_new_version">您已經安裝的是最新版本！</string>
     <string name="download_failed_switch_download_url">應用下載失敗，是否考慮切換到 %s 下載？</string>
     <string name="download_slow_switch_download_url">應用下載失敗，是否考慮切換到 %s 下載？</string>
@@ -902,7 +661,6 @@
     <string name="auto_start_letv"><![CDATA[樂視手機：自啟動管理 -> 允許應用自啟動]]></string>
     <string name="auto_start_smartisan"><![CDATA[鎚子手機：權限管理 -> 自啟動權限管理 -> 點擊應用 -> 允許被系統啟動]]></string>
     <string name="need_to_restart">需要手動重新啟動APP，才能生效該配置項</string>
-    <string name="time_picker">時間選擇</string>
 
     <string name="http_server_running">HttpServer運行中，監聽：%1$s：%2$d</string>
     <string name="http_server_stopped">HttpServer已停止</string>
@@ -970,7 +728,6 @@
     <string name="battery_unspecified_failure">未知錯誤</string>
     <string name="battery_cold">溫度過低</string>
     <string name="battery_level">剩餘電量：%s</string>
-    <string name="battery_level_title">剩餘電量</string>
     <string name="battery_scale">充滿電量：%s</string>
     <string name="battery_voltage">當前電壓：%s</string>
     <string name="battery_temperature">當前溫度：%s</string>
@@ -988,7 +745,6 @@
     <string name="frpc_failed_to_run">Frpc運行失敗</string>
     <string name="successfully_deleted">刪除成功</string>
     <string name="sender_disabled_tips">【注意】該發送通道已經禁用，其關聯的規則即便匹配上也不會發送！</string>
-    <string name="rule_disabled_tips">【注意】該轉發規則已經禁用，即便匹配上也不會發送！</string>
     <string name="sender_contains_tips">【注意】該發送通道已經在列表中，無需重複添加！</string>
     <string name="rule_contains_tips">【注意】該轉發規則已經在列表中，無需重複添加！</string>
     <string name="frpc_contains_tips">【注意】該Frpc已經在列表中，無需重複添加！</string>
@@ -1004,7 +760,6 @@
     <string name="matched_rule">匹配中規則</string>
     <string name="copied_to_clipboard">已複製到剪貼板:\n%s</string>
     <string name="search_keyword">搜索關鍵字: %s</string>
-    <string name="search_condition">搜索條件：%s</string>
     <string name="export_succeeded">導出配置成功！</string>
     <string name="export_failed">導出失敗，請檢查寫入權限！</string>
     <string name="export_failed_tips">導出失敗: %s</string>
@@ -1013,7 +768,6 @@
     <string name="import_succeeded">導入配置成功！\n需要重啟APP以便生效！\n重啟後請再次核對所有配置項！</string>
     <string name="import_failed_tips">導入失敗: %s</string>
     <string name="restore_failed">還原失敗</string>
-    <string name="battery_status_monitor">電池狀態監聽</string>
     <string name="below_level_min">【電量預警】已低於電量預警下限，請及時充電！%s</string>
     <string name="over_level_max">【電量預警】已高於電量預警上限，請拔掉充電器！%s</string>
     <string name="reach_level_min">【電量預警】已達到電量預警下限，請及時充電！%s</string>
@@ -1043,8 +797,6 @@
     <string name="enabling_pure_client_mode">是否立即退出App，並手動啟動以生效純客戶端模式？</string>
     <string name="pure_task_mode">純自動任務模式</string>
     <string name="pure_task_mode_tips">啟動APP時直接進入自動任務</string>
-    <string name="exit_pure_task_mode">退出純自動任務模式</string>
-    <string name="enabling_pure_task_mode">是否立即退出App，並手動啟動以生效純自動任務模式？</string>
     <string name="debug_mode">开啟調試模式</string>
     <string name="debug_mode_tips">將 Log.* 寫入檔案，以便排查問題；可匯出至下載目錄</string>
     <string name="optional_components">可選組件：</string>
@@ -1071,9 +823,7 @@
     <string name="mac_error">格式錯誤，例如：AA:BB:CC:DD:EE:FF</string>
     <string name="mac_regex" tools:ignore="TypographyDashes">^((([a-fA-F0-9]{2}:){5})|(([a-fA-F0-9]{2}-){5}))[a-fA-F0-9]{2}$</string>
     <string name="broadcast_address">內網廣播地址</string>
-    <string name="ip">IP</string>
     <string name="mac">網卡MAC</string>
-    <string name="no_wol_history">暫無歷史記錄，WOL發送成功後自動加入</string>
     <string name="wol_port_hint">可選，WOL一般透過端口7或端口9進行發送</string>
     <string name="wol_port_error">端口號取值範圍：1~65535</string>
     <string name="wol_port_regex" tools:ignore="TypographyDashes">^([0-9]|[1-9]\\d|[1-9]\\d{2}|[1-9]\\d{3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])$</string>
@@ -1090,8 +840,6 @@
     <string name="app_id">App ID</string>
     <string name="app_secret">App Secret</string>
     <string name="user_id">User ID</string>
-    <string name="auto_clean_logs">自動刪除N天前的轉發記錄</string>
-    <string name="auto_clean_logs_tips">0=禁用，觸發機制：每次電量變化時掃描</string>
     <string name="safety_measures">安全措施</string>
     <string name="safety_measures_tips">客戶端與服務端必須一致，強烈建議公網訪問時啟用加密</string>
     <string name="safety_measures_none">不需要</string>
@@ -1110,29 +858,18 @@
     <string name="sm4_key">SM4密鑰</string>
     <string name="sm4_key_tips">客戶端/服務端交互採用SM4加解密</string>
 
-    <string name="rule_del">刪除轉發規則</string>
-    <string name="sender_del">刪除發送通道</string>
-    <string name="frpc_del">刪除Frpc</string>
     <string name="sender_disabled">發送通道已停用</string>
     <string name="unknown_sender">未知的發送通道</string>
     <string name="network_type">網絡類型</string>
-    <string name="operator_name">運營商名稱</string>
-    <string name="host_address">本地IP</string>
     <string name="loading_app_list">正在加載應用程式清單，請稍候…</string>
 
     <string name="carrier_name">運營商名</string>
-    <string name="icc_id">ICC ID</string>
     <string name="sim_slot_index">卡槽索引</string>
     <string name="data_sim_index">數據卡槽</string>
     <string name="number">手機號碼</string>
     <string name="country_iso">國家代碼</string>
     <string name="subscription_id">訂閱標識</string>
 
-    <string name="net_no">沒有網絡</string>
-    <string name="net_2g">2G網絡</string>
-    <string name="net_3g">3G網絡</string>
-    <string name="net_4g">4G網絡</string>
-    <string name="net_5g">5G網絡</string>
     <string name="net_mobile">移動網絡</string>
     <string name="net_wifi">WiFi</string>
     <string name="net_ethernet">有線網絡</string>
@@ -1167,14 +904,10 @@
     <string name="ignore_anonymous">忽略匿名裝置</string>
 
     <string name="task_name_status">任務名稱/狀態</string>
-    <string name="task_name">任務名稱</string>
-    <string name="task_description">任務描述</string>
     <string name="task_conditions">如果</string>
     <string name="task_conditions_tips">由第一個條件觸發，其他條件作為判斷</string>
     <string name="task_actions">就執行</string>
     <string name="task_actions_tips">允許添加多個執行動作，執行結果互不干擾</string>
-    <string name="task_last_exec_time">上次執行時間</string>
-    <string name="task_next_exec_time">下次執行時間</string>
     <string name="add_task">新建任務</string>
     <string name="edit_task">編輯任務</string>
     <string name="clone_task">克隆任務</string>
@@ -1183,10 +916,8 @@
     <string name="delete_task_toast">刪除任務操作確認</string>
     <string name="add_condition">添加條件</string>
     <string name="add_condition_tips">例如：如果電量低於20%時</string>
-    <string name="add_condition_continue">繼續添加條件</string>
     <string name="add_action">添加動作</string>
     <string name="add_action_tips">例如：禁用所有轉發通道</string>
-    <string name="add_action_continue">繼續添加動作</string>
 
     <string name="select_task_trigger">請選擇觸發條件</string>
     <string name="select_task_condition">請選擇附加條件</string>
@@ -1205,17 +936,13 @@
     <string name="task_battery">電量使用</string>
     <string name="task_battery_tips">當剩餘電量滿足條件時觸發</string>
     <string name="task_charge">充電狀態</string>
-    <string name="task_charge_tips">當充電狀態滿足條件時觸發</string>
     <string name="task_lock_screen">鎖屏解鎖</string>
     <string name="task_lock_screen_tips">在屏幕鎖定或解鎖後立即或指定時間觸發</string>
     <string name="task_sms">簡訊廣播</string>
-    <string name="task_sms_tips">在接收到簡訊廣播時觸發</string>
     <string name="task_sms_when">接收到%s簡訊廣播</string>
     <string name="task_call">通話廣播</string>
-    <string name="task_call_tips">在接收到通話廣播時觸發</string>
     <string name="task_call_when">接收到%s通話廣播</string>
     <string name="task_app">APP通知</string>
-    <string name="task_app_tips">在接收到APP通知時觸發</string>
     <string name="task_app_when">接收到APP通知</string>
     <string name="task_bluetooth">蓝牙设备</string>
     <string name="task_bluetooth_tips">在蓝牙状态发生改变时触发</string>
@@ -1250,7 +977,6 @@
     <string name="month">月</string>
     <string name="week">週</string>
     <string name="year">年</string>
-    <string name="cron_expression">Cron表達式</string>
     <string name="every_second">每秒鐘</string>
     <string name="every_minute">每分鐘</string>
     <string name="every_hour">每小時</string>
@@ -1331,7 +1057,6 @@
     <string name="calc_type_address">根據地址關鍵字判斷</string>
     <string name="longitude">經度</string>
     <string name="latitude">緯度</string>
-    <string name="distance">距離</string>
     <string name="distance1">以經緯度為中心，</string>
     <string name="distance2">米半徑建立電子圍欄</string>
     <string name="current_coordinates">當前坐標</string>
@@ -1356,18 +1081,10 @@
     <string name="current_distance_from_center">, 當前距離中心%s米</string>
 
     <string name="specified_uid">指定配置</string>
-    <string name="specified_uid_hint">填寫frpc的uid，多個以半角逗號分隔</string>
     <string name="specified_rule">指定規則</string>
-    <string name="specified_rule_hint">填寫轉發規則的ID，多個以半角逗號分隔</string>
     <string name="specified_sender">指定通道</string>
-    <string name="specified_sender_hint">填寫發送通道的ID，多個以半角逗號分隔</string>
     <string name="specified_task">指定任務</string>
-    <string name="specified_task_hint">填寫自動任務的ID，多個以半角逗號分隔</string>
 
-    <string name="current_language">繁體中文</string>
-    <string name="current_activity_language">當前 Activity 語種：</string>
-    <string name="current_application_language">當前 Application 語種：</string>
-    <string name="current_system_language">當前 System 語種：</string>
     <string name="multi_languages">多語言設置</string>
     <string name="multi_languages_tips">SmsForwarder啟動時界面預設顯示的語言</string>
     <string name="multi_languages_toast">需要重新啟動應用程式以切換至您選擇的語言</string>
@@ -1383,20 +1100,7 @@
 
     <string name="enable_accessibility_service">啟用無障礙服務</string>
     <string name="assists_description">實現自動確認發送簡訊與應用程式後台保持活躍</string>
-    <string name="accessibility_service_title">SmsForwarder 無障礙輔助</string>
-    <string name="close">關閉</string>
     <string name="display_floating_controls">顯示操作浮窗</string>
-    <string name="back">返回</string>
-    <string name="start_execution">開始執行</string>
-    <string name="turn_off_auto_scroll">關閉自動滾動</string>
-    <string name="execution_log">【執行日誌】</string>
-    <string name="do_not_touch_screen_during_execution">執行中請勿操作螢幕！</string>
-    <string name="view_logs">查看日誌</string>
-    <string name="stop_scrolling">停止滾動</string>
-    <string name="continue_scrolling">繼續滾動</string>
-    <string name="logs">【日誌】</string>
-    <string name="close_logs">關閉日誌</string>
-    <string name="stopped">已停止</string>
     <string name="open_id">Open ID</string>
     <string name="union_id">Union ID</string>
     <string name="chat_id">Chat ID</string>
@@ -1431,7 +1135,6 @@
     <string name="bluetooth_acl_connected">藍牙裝置已連接</string>
     <string name="bluetooth_acl_disconnected">藍牙裝置已斷開</string>
     <string name="specified_device">指定裝置</string>
-    <string name="device_address_hint">藍牙裝置MAC地址</string>
     <string name="bluetooth_not_supported">不支援藍牙裝置</string>
     <string name="start_discovery">搜索裝置</string>
     <string name="invalid_bluetooth_mac_address">藍牙裝置MAC地址無效，例如：AA:BB:CC:DD:EE:FF</string>

@@ -150,10 +150,6 @@
         <item name="android:button">@drawable/custom_radio_button</item>
     </style>
 
-    <style name="rg_rb_style.mini">
-        <item name="android:textSize">@dimen/text_size_mini</item>
-    </style>
-
     <style name="rg_rb_style_wrap">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

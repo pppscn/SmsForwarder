@@ -22,7 +22,7 @@
         <item>@drawable/ic_menu_rule</item>
         <item>@drawable/ic_menu_send</item>
         <item>@drawable/ic_menu_settings</item>
-        <item>0</item>
+        <item />
         <item>@drawable/ic_menu_task</item>
         <item>@drawable/ic_menu_server</item>
         <item>@drawable/ic_menu_client</item>

@@ -76,42 +76,13 @@
     <string name="lab_privacy_name">\"%s Privacy Policy\"</string>
 
     <!-- 登录   -->
-    <string name="title_login_register">Login/Register</string>
-    <string name="action_get_verify_code">Get verify code</string>
-    <string name="title_login">Login</string>
-    <string name="title_login_by_verify_code">Login by verify code</string>
-    <string name="title_register">Register</string>
-    <string name="lab_forget_password">Forget password</string>
-    <string name="lab_login_by_verify_code">Login by verify code</string>
-    <string name="lab_login_by_password">Login by password</string>
-    <string name="tip_please_input_phone_number">Please input phone number</string>
-    <string name="title_phone_number">Phone number</string>
-    <string name="title_password">Password</string>
-    <string name="title_old_password">Old password</string>
-    <string name="hint_please_input_verify_code">Please input verify code</string>
-    <string name="lab_verify_code">Verify code</string>
-    <string name="tip_password_error">The password must be a combination of 8~18 letters and numbers!</string>
-    <string name="tip_new_password_error">The new password must be a combination of 8~18 letters and numbers!</string>
-    <string name="tip_phone_number_error">Invalid phone number!</string>
-    <string name="regex_phone_number" tools:ignore="TypographyDashes">^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(16[6])|(17[0,1,3,5-8])|(18[0-9])|(19[8,9]))\\d{8}$</string>
-    <string name="tip_verify_code_error">Please enter a 4-digit verify code</string>
-    <string name="regex_verify_code">^\\d{4}$</string>
-    <string name="regex_password" tools:ignore="TypographyDashes">^(?:(?=.*[a-zA-Z])(?=.*[0-9])).{8,18}$</string>
-    <string name="title_forget_password">Reset Password</string>
-    <string name="lab_register_account">Click to register to agree</string>
-    <string name="lab_service_protocol"><![CDATA[<User Agreement>]]></string>
-    <string name="lab_logout_confirm">Are you sure you want to log out of your account?</string>
     <string name="title_user_protocol">User Agreement</string>
     <string name="title_privacy_protocol">Privacy Policy</string>
-    <string name="agree_protocol">I have read and agree</string>
-    <string name="lab_and">and</string>
 
-    <string name="title_jump_login">jump over</string>
     <string name="label_previous">Previous</string>
     <string name="label_next">Next</string>
     <string name="tip_ignore_message">Don\'t prompt for this kind of information in the future</string>
     <string name="tip_title">Do you know?</string>
-    <string name="privacy">Privacy Policy</string>
     <string name="refresh_web">Refresh Web</string>
     <string name="copy_link">Copy Link</string>
     <string name="share_web">Web Sharing</string>
@@ -120,48 +91,25 @@
     <string name="logo">Logo</string>
 
     <!--Frpc-->
-    <string name="action_add">Add</string>
-    <string name="action_add_text">New config</string>
-    <string name="action_add_url">Import from url</string>
-    <string name="action_add_file">Import from file</string>
-    <string name="action_add_scan">Scan QR code</string>
     <string name="action_save">Save config</string>
     <string name="action_back">Back to edit</string>
     <string name="action_quit">Give up</string>
     <string name="action_test">Test rules</string>
-    <string name="action_template">Template</string>
     <string name="title_save_config">Save frpc config</string>
     <string name="tips_input_config_content">Please enter config content</string>
     <string name="tips_input_config_name">Please enter config name</string>
-    <string name="done">Done</string>
     <string name="tipSaveSuccess">Successfully saved</string>
     <string name="tipRestoreSuccess">Successfully restored</string>
-    <string name="actionDeleteSuccess">Deleted</string>
-    <string name="actionDeleteFailed">Failed to delete</string>
-    <string name="titleModifyFileName">Modify filename</string>
-    <string name="notOpened">Not Opened</string>
-    <string name="hasOpened">Has Opened</string>
-    <string name="notSelectIni">No profile selected</string>
-    <string name="needStopService">Please close the service first</string>
-    <string name="title_about">About</string>
-    <string name="title_logcat">Logcat</string>
     <string name="noName">unnamed</string>
-    <string name="logcat_copy">copy</string>
-    <string name="logcat_delete">delete</string>
     <string name="copySuccess">Successfully copied</string>
-    <string name="titleTemplate">template file</string>
-    <string name="dialogConfirmTitle">Confirm</string>
-    <string name="configDeleteConfirm">Are you sure you want to delete this config?</string>
     <string name="tipServiceRunning">Frpc service is running</string>
     <string name="tipWaitService">Starting service</string>
 
     <string name="app_name">SmsForwarder</string>
     <string name="notification_content">Not only forwarding messages, \nbut also a must-have for backup devices!\nFree and open source, no selling!</string>
     <!--Common-->
-    <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="discard">Discard</string>
-    <string name="quit">Quit</string>
     <string name="del">Delete</string>
     <string name="save">Save</string>
     <string name="reset">Reset</string>
@@ -171,13 +119,8 @@
     <string name="test">Test</string>
     <string name="confirm">Confirm</string>
     <string name="all">All</string>
-    <string name="any">Any</string>
     <string name="select">Select</string>
     <string name="clone">Clone</string>
-    <string name="setting">Setting</string>
-    <string name="about">About</string>
-    <string name="help">Help</string>
-    <string name="clear_logs">Clear logs</string>
     <string name="clear_history">Clear History</string>
     <string name="app_rule">App rule</string>
     <string name="call_rule">Call rule</string>
@@ -188,29 +131,9 @@
     <string name="add_sender">Add sender</string>
     <string name="edit_sender">Edit sender</string>
     <string name="clone_sender">Clone sender</string>
-    <string name="restore_settings">Restore settings</string>
     <!--AboutActivity-->
-    <string name="version">Version</string>
-    <string name="check_for_updates">Check for updates</string>
     <string name="auto_startup">Auto Startup</string>
-    <string name="show_tips">Show Tips</string>
-    <string name="show_tips2">Suggest old bird close prompt, the page is more refreshing, reduce pop-up prompt</string>
-    <string name="open_source">Repo URL</string>
-    <string name="synchronize_mirror">Repo Mirror</string>
-    <string name="qq_group">QQ Group</string>
-    <string name="qq_group1">Group 1: 562854376</string>
-    <string name="qq_group2">Group 2: 31330492</string>
-    <string name="join_qq_group1">Join Group 1</string>
-    <string name="join_qq_group2">Join Group 2</string>
-    <string name="cache">Cache size</string>
-    <string name="purge">Purge</string>
-    <string name="checking">Checking…</string>
-    <string name="up_to_date">Yo, you are up to date!</string>
-    <string name="cache_purged">Cache purged</string>
-    <string name="unknown_qq_version">No mobile QQ is installed or not supported by recent version!</string>
     <!--MainActivity-->
-    <string name="delete_log_title">Delete confirmation</string>
-    <string name="delete_log_tips">Are you sure to delete this log entry?</string>
     <string name="delete_log_toast">The log entry is deleted.</string>
     <string name="delete_type_log_tips">Are you sure you want to delete all log records for this category?</string>
     <string name="delete_type_log_toast">The category log record has been cleared!</string>
@@ -219,20 +142,12 @@
     <string name="resend_toast">Attempting to resend over the original sender</string>
     <string name="rematch_toast">Rematching rule sending</string>
     <string name="details">Details</string>
-    <string name="clear_logs_tips">Are you sure to clear all forwarding logs?</string>
-    <string name="pull_tips">Pull to refresh.</string>
-    <string name="release_tips">Release to refresh.</string>
-    <string name="reflashing_tips">Refreshing…</string>
     <!--RuleActivity-->
-    <string name="setrule">SMS Fw. Rule Settings</string>
-    <string name="setrule_call">Call Fw. Rule Settings</string>
-    <string name="setrule_app">App Notify Fw. Rule Settings</string>
     <string name="delete_rule_title">Delete confirmation</string>
     <string name="delete_rule_tips">Are you sure to delete this rule?</string>
     <string name="delete_rule_toast">The rule has deleted.</string>
     <string name="new_sender_first">Please add a new sender and then choose it.</string>
     <string name="new_rule_first">Please add a new rule and then choose it.</string>
-    <string name="new_frpc_first">Please add a new frpc and then choose it.</string>
     <string name="new_task_first">Please add a new task and then choose it.</string>
     <string name="add_sender_first">Please add a sender first.</string>
     <string name="add_rule_first">Please add a rule first.</string>
@@ -269,31 +184,13 @@
     <string name="match_value">Value</string>
     <string name="match_value_tips">If you need to match multiple keywords, please use regular or multiple match</string>
     <string name="switch_rule_status">Enable This Forwarding Rule</string>
-    <string name="invalid_rule_status">The forwarding rule is disabled</string>
     <string name="invalid_match_value">The matched value cannot be null</string>
     <string name="invalid_call_type">The call type is incorrect, you can only enter any number from 1 to 6.</string>
     <!--SenderActivity-->
-    <string name="invalid_sender">Invalid sender, abort!</string>
     <string name="delete_sender_title">Delete confirmation</string>
     <string name="delete_sender_tips">Are you sure to delete this sender?</string>
     <string name="delete_sender_toast">The sender is deleted.</string>
-    <string name="add_sender_title">Select sender type</string>
-    <string name="not_supported">Not supported</string>
-    <string name="setdingdingtitle">DingTalk Bot Settings</string>
-    <string name="setemailtitle">Email Settings</string>
-    <string name="setwebnotifytitle">Webhook Settings</string>
-    <string name="setqywxgrouprobottitle">WeCom Group Bot Settings</string>
-    <string name="setqywxapptitle">WeCom App Settings</string>
-    <string name="setbarktitle">Bark Settings</string>
-    <string name="setserverchantitle">ServerChan·Turbo Settings</string>
-    <string name="settelegramtitle">Telegram Bot Settings</string>
-    <string name="setsmstitle">SMS Settings</string>
-    <string name="setfeishutitle">FeiShu Bot Settings</string>
-    <string name="setpushplustitle">PushPlus Settings</string>
-    <string name="setgotifytitle">Gotify Settings</string>
     <string name="test_phone_num">19999999999</string>
-    <string name="test_group_name">Test Group Name</string>
-    <string name="failed_to_fwd">Failed to fwd: </string>
     <string name="invalid_name">Channel name cannot be empty</string>
     <string name="invalid_token">invalid token</string>
     <string name="invalid_email">Email parameter is incomplete</string>
@@ -321,8 +218,6 @@
     <string name="invalid_multi_match">Malformed multiple match rule line %s</string>
     <string name="invalid_regex_replace">Incorrect format on line %s of regex replacement</string>
     <string name="invalid_message_card">The Message Card Json is invalid.</string>
-    <string name="set_bark_name">Group Name/Status</string>
-    <string name="set_name">Name/Status</string>
     <string name="email_host">Host</string>
     <string name="smtp_port">Port</string>
     <string name="enable_ssl">Enable SSL</string>
@@ -339,7 +234,6 @@
     <string name="sender_smime_keystore">Sender S/MIME Cert. (Opt.)</string>
     <string name="sender_openpgp_keystore">Sender OpenPGP Cert. (Opt.)</string>
     <string name="invalid_sender_keystore">Invalid Sender Signing Private Key</string>
-    <string name="smime_public_keys_tips">Add public keys for S/MIME encryption, leave blank otherwise.</string>
     <string name="recipient_email">Recipient</string>
     <string name="keystore_path">Cert. Path</string>
     <string name="keystore_path_tips">Opt., Copy keystore to the Download dir</string>
@@ -352,7 +246,6 @@
     <string name="feishu_msg_type">Msg Type</string>
     <string name="feishu_msg_type_text">Text</string>
     <string name="feishu_msg_type_interactive">Interactive</string>
-    <string name="feishu_msg_type_interactive_title">Interactive Title</string>
     <string name="feishu_msg_type_interactive_message_card">Message Card Json</string>
     <string name="Customize_API">Customize API</string>
     <string name="Corp_ID">Corp ID</string>
@@ -360,8 +253,6 @@
     <string name="App_Secret">Secret</string>
     <string name="is_at_all">Is At All</string>
     <string name="specified_member">Specified Member</string>
-    <string name="at_all">\@all</string>
-    <string name="specified_member_tips">Tip: List of member IDs that receive messages (multiple recipients are separated by \'|\', up to 1000)</string>
     <string name="touser">To User</string>
     <string name="toparty">To Party</string>
     <string name="totag">To Tag</string>
@@ -387,7 +278,6 @@
     <string name="SmsMobilesTips">Tips:\n1.Separated by ; , e.g. 15888888888;19999999999\n2.Allow to insert `{{FROM}}` tag to realize SMS auto-reply (SMS/Call scenario)</string>
     <string name="OnlyNoNetwork">Enable only when no network</string>
     <!--SettingActivity-->
-    <string name="notify_content">Notify Content</string>
     <string name="notify_content_label">Notification</string>
     <string name="device_name">Device Name</string>
     <string name="sim_sub_id">SIM SubId</string>
@@ -404,7 +294,6 @@
     <string name="forward_sms_tips">Main switch, requires permissions to read and sned SMS messages, especially verification SMS texts.</string>
     <string name="sms_command">Sms Command</string>
     <string name="sms_command_tips">Open the HttpServer or FRPC by the SMS command</string>
-    <string name="safe_phone">Safe Phone</string>
     <string name="safe_phone_tips">Only handle requests from specified phones</string>
     <string name="forward_calls">Forward Calls Log</string>
     <string name="forward_calls_tips">Main switch, requires permissions to read call log and contacts.</string>
@@ -429,26 +318,17 @@
     <string name="insert_extra">SIM</string>
     <string name="insert_time">Time</string>
     <string name="insert_device_name">Device</string>
-    <string name="init_setting">Restore initial Setting</string>
-    <string name="init_setting_tips">Are you sure you want to restore the initial configuration? \n\n[Warning] This operation will reset settings, and delete senders, rules, and logs!</string>
     <string name="battery_setting">Battery Optimization</string>
     <string name="battery_setting_tips">Set it to manual management, including automatic startup, associated startup, and background running</string>
     <string name="unknown_number">Unknown Number</string>
     <string name="unsupport">Your phone does not support this setting</string>
     <string name="isIgnored">Set successfully!</string>
     <string name="isIgnored2">Can not directly operate the system power saving optimization Settings</string>
-    <string name="invalid_delay_time">The min interval is 1 second</string>
-    <string name="invalid_timeout">The min timeout is 1 second</string>
     <!--Other-->
-    <string name="version_now">v1.0</string>
-    <string name="linkweb">https://github.com/pppscn/SmsForwarder</string>
-    <string name="linkweb2">https://gitee.com/pp/SmsForwarder</string>
-    <string name="cache_size">0KB</string>
     <string name="sim1" tools:ignore="Typos">SIM1</string>
     <string name="sim2" tools:ignore="Typos">SIM2</string>
     <string name="mu_rule_sms_tips">Example of multiple matching rules: (see wiki for syntax)\n\nAND IS PHONE_NUM EQUALS 10086\n[space]OR IS PHONE_NUM EQUALS 10011\nAND IS MSG_CONTENT CONTAIN arrears\n\nThe above rule means: receive a text message, and (the mobile phone number is 10086 or the mobile phone number is 10010), and the content of the text message includes arrears When forwarding the text message\n\nNote: The space at the beginning of each line represents the level, too complex multiple rules may lead to a large memory usage!</string>
     <string name="mu_rule_call_tips">Example of multiple matching rules: (see wiki for syntax)\n\nAND IS PHONE_NUM EQUALS 10086\n[space]OR IS PHONE_NUM EQUALS 10011\nAND IS CALL_TYPE IS 3\n\nThe above rule means: receive a call, and (the mobile phone number is 10086 or 10010), and the call type is Missed When forwarding the call\n\nNote: The space at the beginning of each line represents the level, too complex multiple rules may lead to a large memory usage!\n\nCall types: 1.Incoming Ended 2.Outgoing Ended 3.Missed 4.Incoming Received 5.Incoming Answered 6.Outgoing Started</string>
-    <string name="call_type_tips">Enter any number from 1 to 6.\n\nCall types: 1.Incoming Ended 2.Outgoing Ended 3.Missed 4.Incoming Received 5.Incoming Answered 6.Outgoing Started</string>
     <string name="mu_rule_app_tips">Example of multiple matching rules: (see wiki for syntax)\n\nAND IS PACKAGE_NAME EQUALS com.tencent.mm\n[space]OR IS PACKAGE_NAME EQUALS com.tencent.mobileqq\nAND IS INFORM_CONTENT CONTAIN arrears\n\nThe above rules mean: Receive an APP notification, and (the APP package name is com.tencent.mm or the APP package name is com.tencent.mobileqq), and the content of the notification includes forwarding the notification when the payment is in arrears\n\nNote: The space at the beginning of each line represents the level, too complex multiple rules may lead to a large memory usage!</string>
     <string name="post">POST</string>
     <string name="get">GET</string>
@@ -459,7 +339,6 @@
     <string name="mqtt">MQTT</string>
     <string name="ssl">SSL</string>
     <!--CloneActivity-->
-    <string name="local_ip">Local IP: </string>
     <string name="operating_instruction">Important Note:\nThis feature is intended solely for personal use in switching between old and new phones. Any consequences arising from illegal use are the user\'s responsibility!\n\nInstructions:\n1. Connect both old and new phones to the same WiFi network (disable AP isolation). If internal network penetration is needed, configure Frpc first.\n2. [Choose One] On the old phone, tap the "Push" button to send this device\'s configuration to the server.\n3. [Choose One] On the new phone, tap the "Pull" button to fetch the server\'s configuration to this device.\n\nNotes:\n1. The client and server app versions must match for successful cloning.\n2. Upon successful import, the senders and forwarding rules will be entirely replaced, clearing the historical records.\n3. Active requests, keep-alive measures, and personal settings are not included in the cloning scope.\n4. After successful import, it\'s crucial to re-enter the [General Settings] and toggle on the functions you need! (Or manually grant permissions in system settings).</string>
     <string name="operating_instruction_offline">Important Note:\nThis feature is strictly intended for personal use in switching between old and new phones. Any consequences arising from illegal use are the user\'s responsibility!\n\nNotes:\n1. The exporting and importing apps must have identical versions for one-click cloning to work!\n2. Upon successful import on the new phone, the senders and forwarding rules will be entirely replaced, clearing the history records!\n3. Active requests, keep-alive measures, and personal settings are not included in the cloning process.\n4. After a successful import, it\'s crucial to re-enter the [General Settings] and toggle on the functions you need! (Or manually grant permissions in system settings).</string>
     <string name="push">Push</string>
@@ -470,33 +349,16 @@
     <string name="old_mobile_phone">Old Phone</string>
     <string name="new_mobile_phone">New Phone</string>
     <string name="server_ip">Server IP: </string>
-    <string name="server_address">Host：</string>
     <string name="server_port">Port: </string>
-    <string name="point">.</string>
     <string name="invalid_ip">Please enter a valid IP or domain</string>
     <string name="invalid_mqtt_message_topic">Please enter a valid message topic</string>
     <string name="invalid_port">Please enter a valid port</string>
-    <string name="server_has_started">The server is started successfully</string>
-    <string name="server_has_stopped">The server has been stopped</string>
-    <string name="sender_cannot_receive">This mobile phone is the SOURCE and cannot receive files.</string>
-    <string name="no_wifi_network">Http Server does NOT work without Wi-Fi connection.</string>
-    <string name="invalid_server_ip">Please enter a valid server IP address</string>
-    <string name="on_wireless_network">A Wireless network connected.</string>
-    <string name="on_mobile_network">A Mobile network connected.</string>
     <string name="no_network">Not connected to a network.</string>
-    <string name="not_connected_wifi">No Wi-Fi network connected.</string>
-    <string name="failed_to_get_ip">Failed to get an IP address</string>
-    <string name="sms">SMS</string>
-    <string name="call">Call</string>
-    <string name="app">App</string>
     <string name="appicon">App Icon</string>
     <string name="user_app">User App</string>
     <string name="system_app">System App</string>
-    <string name="tips_battery_optimization">Please deactivate power optimization for SmsForwarder, in order to keep the App alive!</string>
     <string name="tips_notification">Please grant Notification permission, in order to keep the App alive!</string>
     <string name="tips_notification_listener">Please grant Notification reading permission to SmsForwarder, before other Apps\'s notification could be forwarded. Forwarding automatically canceled!</string>
-    <string name="notification_listener_service_enabled">The notification service is enabled</string>
-    <string name="notification_listener_service_disabled">The notification service is disabled</string>
     <string name="pushplus_website">Official website</string>
     <string name="pushplus_plus">www.pushplus.plus</string>
     <string name="pushplus_hxtrip">pushplus.hxtrip.com</string>
@@ -518,12 +380,6 @@
     <string name="plain">Plain</string>
     <string name="smime">S/MIME</string>
     <string name="openpgp">OpenPGP</string>
-    <string name="below"><![CDATA[≤]]></string>
-    <string name="percent">%</string>
-    <string name="above"><![CDATA[≥]]></string>
-    <string name="zero">0</string>
-    <string name="first_send_time">First time: </string>
-    <string name="interval_minutes">Interval(minutes): </string>
     <string name="proxy_settings">Proxy Settings</string>
     <string name="proxy_none">None</string>
     <string name="proxy_http">HTTP</string>
@@ -540,21 +396,14 @@
     <string name="out_message_topic">Out Message Topic</string>
     <string name="out_message_topic_hint">Send a message on the corresponding topic</string>
     <string name="uri_type">Uri Type</string>
-    <string name="uri_type_hint">Opt., default is tcp</string>
     <string name="path">Path</string>
     <string name="path_hint">Used to set the uri when communicating using ws</string>
     <string name="client_id">Client Id</string>
     <string name="client_id_hint">Random value if empty</string>
-    <string name="privacy_policy">Privacy Policy</string>
-    <string name="agree">Agree</string>
-    <string name="refuse">Refuse</string>
-    <string name="privacy_policy_text">&#160;&#160;SmsForwarder (the "Application/App"), is 100\% free and open source, and is compliled and released basing on repository hosted on GitHub. The App will not collect any of your privacy data!\n\n Version information of the App will be sent in the following situations: \n&#160;&#160;1. As startup, version information will be sent to "Umeng +· U-APP Mobile Statistics" for user retention analyze and crash stats;\n&#160;&#160;2. Manual update check triggered by user;\n&#160;&#160;The App collects no any other data!!\n\n&#160;&#160;The App collects and uses version information only in accordance with the Privacy Policy, and will not collect any other information as an abuse of users\' consent to the Privacy Policy;</string>
     <string name="GotifyWebServer">WebServer</string>
     <string name="GotifyWebServerTips"><![CDATA[eg.: https://push.ppps.cn/message?token=<apptoken>]]></string>
     <string name="title_template">Title Template</string>
     <string name="priority">Priority（1 – 9）</string>
-    <string name="_5">5</string>
-    <string name="sb_rule_status">Enable this rule</string>
     <string name="dingtalk_robot">Dingtalk Group Bot</string>
     <string name="dingtalk_inner_robot">Dingtalk Inner Bot</string>
     <string name="email">Email</string>
@@ -569,17 +418,7 @@
     <string name="feishu_app">FeiShu App</string>
     <string name="pushplus">PushPlus</string>
     <string name="gotify">Gotify</string>
-    <string name="_0">0</string>
     <string name="_1">1</string>
-    <string name="_2">2</string>
-    <string name="_3">3</string>
-    <string name="_4">4</string>
-    <string name="_10">10</string>
-    <string name="step_1">Settings</string>
-    <string name="step_2">Senders</string>
-    <string name="step_3">Rules</string>
-    <string name="step_4">Logs</string>
-    <string name="todo">TODO</string>
     <string name="forwarding_function">Forwarding Function</string>
     <string name="forwarding_function_tips">Main switch: Enable the function as required</string>
     <string name="extra_function">Extra Function</string>
@@ -598,13 +437,6 @@
     <string name="unknown_call">Unknown</string>
     <string name="optional_action">Opt.: </string>
     <string name="optional_type">Opt.: </string>
-    <string name="active_request">Active request</string>
-    <string name="active_request_tips">Obtain instructions through passive reception or active polling to operate the machine</string>
-    <string name="httpserver">Local HttpServer</string>
-    <string name="httpserver_tips">Available under WiFi network, after startup, other machines in the LAN can directly call the local interface</string>
-    <string name="sim_state_monitor">SIM State Monitor</string>
-    <string name="network_state_monitor">Network State Monitor</string>
-    <string name="network_state_change_remind">Network State Change Remind</string>
     <string name="keep_alive">Keep Alive</string>
     <string name="keep_alive_tips">It is recommended to open the first three switch, do not disable the notification bar, to avoid APP being killed</string>
     <string name="custom_settings">Custom Settings</string>
@@ -612,11 +444,9 @@
     <string name="times">times</string>
     <string name="interval">Interval</string>
     <string name="interval_label">Increasing Interval</string>
-    <string name="timeout">Timeout</string>
     <string name="timeout_label">Single Timeout</string>
     <string name="seconds">secs</string>
     <string name="seconds_n">%s sec</string>
-    <string name="retry">Retry</string>
     <string name="retry_label">Max Retries</string>
     <string name="test_sender_sms">[%s] Congratulations, the sender test is successful, please continue to add forwarding rules!</string>
     <string name="test_sender_name">Test Channel</string>
@@ -627,7 +457,6 @@
     <string name="rematch">Rematch</string>
     <string name="from">From: </string>
     <string name="title">Title: </string>
-    <string name="scheme">Scheme: </string>
     <string name="msg">Msg: </string>
     <string name="slot">Slot: </string>
     <string name="rule">Rule: </string>
@@ -638,10 +467,6 @@
     <string name="success">Success</string>
     <string name="failed">Failed</string>
     <string name="processing">Processing</string>
-    <string name="rule_sms">SMS</string>
-    <string name="rule_call">CALL</string>
-    <string name="rule_app">APP</string>
-    <string name="rule_all">All</string>
     <string name="rule_any">Any</string>
     <string name="rule_transpond_all">Transpond All</string>
     <string name="rule_phone_num">Phone Num</string>
@@ -663,82 +488,31 @@
     <string name="rule_notcontain">NOTCONTAIN</string>
     <string name="rule_regex">REGEX</string>
     <string name="package_name_copied">Package name copied:</string>
-    <string name="loading_user_app">Loading user app, please wait…</string>
-    <string name="loading_system_app">Loading system app, please wait…</string>
-    <string name="crash_tip">Very sorry! The program has an exception and is about to exit…</string>
     <string name="enable_phone_fw_tips">A call type must be selected to enable call log forwarding!</string>
-    <string name="notification_service_is_on">Notification service is on</string>
-    <string name="tips_battery_level_alarm_once">[Note] The upper and lower limits of the battery warning threshold are 0, and the continuous warning does not work.</string>
     <string name="tips_compatible_solution">Compatible solution</string>
-    <string name="tips_wait_3_seconds">Please wait 3 seconds after clicking start</string>
-    <string name="tips_clone_done">One-click clone operation is complete! \nPlease check whether the general settings and switches are turned on!</string>
-    <string name="tips_clone_failed">One-click clone failed:</string>
-    <string name="tips_versions_inconsistent">The APP versions of the sender and the receiver are inconsistent, and cannot be cloned with one click!</string>
-    <string name="tips_get_info_failed">Failed to get one-click clone information from sender</string>
     <string name="contact">Contact:</string>
     <string name="via_number">Via Number:</string>
-    <string name="common_permission_alert">Permission Alert</string>
-    <string name="common_permission_fail_1">Authorization failed, please grant permission correctly</string>
-    <string name="common_permission_fail_2">Failed to obtain permission, please grant permission manually</string>
-    <string name="common_permission_fail_3">Failed to obtain permission, please grant %s manually</string>
-    <string name="common_permission_fail_4">Background location permission is not granted, please choose to always allow</string>
-    <string name="common_permission_goto">go to authorization</string>
-    <string name="common_permission_calendar">Calendar permission</string>
-    <string name="common_permission_camera">Camera permission</string>
-    <string name="common_permission_contacts">Contacts permission</string>
-    <string name="common_permission_location">Location permission</string>
-    <string name="common_permission_location_background">Background location permission</string>
-    <string name="common_permission_bluetooth">Nearby device permission</string>
-    <string name="common_permission_microphone">Microphone permission</string>
-    <string name="common_permission_phone">Phone permission</string>
-    <string name="common_permission_call_log">Call log permission</string>
-    <string name="common_permission_sensors">Body sensor permission</string>
-    <string name="common_permission_activity_recognition">Fitness exercise permission</string>
-    <string name="common_permission_sms">SMS permission</string>
-    <string name="common_permission_storage">Storage permission</string>
-    <string name="common_permission_install">Install app permission</string>
-    <string name="common_permission_window">Floating window permission</string>
-    <string name="common_permission_setting">System setting permission</string>
-    <string name="common_permission_notification">Notification bar permission</string>
-    <string name="common_permission_task">View usage permission</string>
     <string name="toast_granted_all">Getting all required permissions succeeded!</string>
     <string name="toast_granted_part">Some permissions are successfully obtained, but some permissions are not granted normally, and some functions of the APP may be limited!</string>
     <string name="toast_denied_never">Permanently denied authorization, go to system settings to manually grant permissions?</string>
     <string name="toast_denied">Failed to obtain necessary permissions, APP function may be limited!</string>
     <string name="play_silence_music">Play Silent Music</string>
-    <string name="play_silence_music_tips">Play silent music to keep running in the background, which may consume more power, enable it on demand</string>
-    <string name="one_pixel">One Pixel</string>
     <string name="one_pixel_activity">One Pixel Activity</string>
-    <string name="one_pixel_activity_tips">This can change the process priority from 4 to 1</string>
     <string name="optional">Opt.</string>
     <string name="TelegramChatIdTips">Follow the steps in the wiki to obtain it</string>
-    <string name="network_model">Network model</string>
-    <string name="offline_mode">Offline mode</string>
     <string name="tips_backup_path">Backup path:: </string>
     <string name="frpc_name">Config name</string>
     <string name="frpc_autorun">Auto-start</string>
 
-    <string name="nav_item_home">Home</string>
-    <string name="nav_item_settings">Settings</string>
-    <string name="nav_item_logging">Logging</string>
-    <string name="nav_item_about">About</string>
-
     <string name="http_server">HttpServer</string>
     <string name="start_server">Start Server</string>
     <string name="stop_server">Stop Server</string>
-    <string name="server_is_stopping">Server is shutting down. Please wait.</string>
-    <string name="server_failed_to_start">Server failed to start!</string>
-    <string name="server_failed_bindex">Server can not run on this port! (Bind-Exception)</string>
-    <string name="invalid_sim">Sim-Card is missing or not ready to send sms!</string>
-    <string name="no_sms_permission">SMS-Permission is required to run the server!</string>
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="unknown">---</string>
     <string name="refresh">Refresh</string>
     <string name="tip_can_not_get_sim_infos">Please confirm that the app permission [Get mobile phone information] is [Always allow]</string>
     <string name="tip_can_not_get_sim_info">The SIM card information in the card slot %s has not been obtained</string>
-    <string name="add">Add</string>
     <string name="auto_check">Auto check</string>
     <string name="check_update">Check</string>
     <string name="join_preview_program">Join Preview Program</string>
@@ -747,7 +521,6 @@
     <string name="delete_frpc">Delete</string>
 
     <string name="sender_name_status">Channel Name/Status</string>
-    <string name="choose_sender_status">Send Channel/Status</string>
 
     <string name="dingtalk_token">Webhook</string>
     <string name="dingtalk_token_tips">e.g. https://oapi.dingtalk.com/robot/send?access_token=XXX</string>
@@ -786,16 +559,13 @@
     <string name="bark_encryption_key_tips">corresponding key on bark</string>
     <string name="bark_encryption_iv">AES iv</string>
     <string name="bark_encryption_iv_tips">corresponding iv on bark</string>
-    <string name="bark_encryption_key_regex" formatted="false" tools:ignore="TypographyDashes"><![CDATA[^[a-zA-Z0-9]{16}]]></string>
     <string name="bark_encryption_key_error1">AES Key must be 16 characters</string>
     <string name="bark_encryption_key_error2">AES Key must be 24 characters</string>
     <string name="bark_encryption_key_error3">AES Key must be 32 characters</string>
     <string name="bark_encryption_key_error4">AES iv must be 16 characters</string>
 
     <string name="from_email_hint">Fill in the username before @</string>
-    <string name="from_email_full_hint">Fill in the format: AAA@BBB.CCC</string>
     <string name="other_mail_type">other</string>
-    <string name="tips_other_mail_type">For other email addresses, please fill in the complete email address and manually fill in the SMTP server information</string>
     <string name="mail_pwd_hint">Fill in the login password or authorization code</string>
 
     <string name="wework_webHook">WebHook</string>
@@ -812,16 +582,10 @@
     <string name="url_scheme_tips">Example：myapp://api/add?&amp;type=0&amp;msg=[msg]</string>
 
     <string name="socket">Socket</string>
-    <string name="socket_tips">Example：myapp://api/add?&amp;type=0&amp;msg=[msg]</string>
-    <string name="socket_address">Service Address</string>
-    <string name="socket_address_tips">"IP or Domain"</string>
-    <string name="socket_port">Port</string>
-    <string name="socket_port_tips" tools:ignore="TypographyDashes">Value Range：1-65535</string>
 
     <string name="webhook_server">Webhook Server</string>
     <string name="webhook_server_tips">For example: https://a.b.com/msg?token=xyz</string>
     <string name="webhook_params">Params</string>
-    <string name="msg_template">Msg Template</string>
     <string name="webhook_params_tips" formatted="false">For example: payload=%7B%22text%22%3A%22[msg]%22%7D [msg] will be replaced with SMS content.\nJson format is supported, e.g. {\"text\":\"[msg]\"}.\nNote: msg is automatically URLEncoder except in JSON format</string>
     <string name="webhook_secret">Secret: If left empty, the sign will not be calculated</string>
     <string name="webhook_response">Successful Response Keyword：If left empty, HTTP status 200 represents success</string>
@@ -829,7 +593,6 @@
     <string name="headers">Headers</string>
     <string name="header_key">Key</string>
     <string name="header_value">Value</string>
-    <string name="header_add">Add header</string>
     <string name="header_del">Del header</string>
     <string name="select_sender_type">Please select sender type</string>
     <string name="feishu_webhook_hint">Group Robot → Webhook Address</string>
@@ -851,7 +614,6 @@
     <string name="privacy_content_5">For more details, please check "</string>
     <string name="privacy_content_6">"full text.\n\n</string>
     <string name="privacy_content_7">"Please grant Notification permission, in order to keep the App alive!</string>
-    <string name="other_login_methods">Other login methods</string>
     <string name="request_succeeded">Request succeeded</string>
     <string name="request_failed">Request failed: </string>
     <string name="request_failed_tips">Request failed: %s</string>
@@ -865,9 +627,6 @@
     <string name="share_to">Share to</string>
     <string name="third_party_app_not_installed">The third-party app you opened is not installed!</string>
     <string name="description">Description</string>
-    <string name="login_succeeded">Logout succeeded!</string>
-    <string name="login_failed">Logout failed!</string>
-    <string name="logout_succeeded">Logout succeeded!</string>
     <string name="no_new_version">You have the latest version installed!</string>
     <string name="download_failed_switch_download_url">The app download failed, do you consider switching to %s download?</string>
     <string name="download_slow_switch_download_url">The app download failed, do you consider switching to %s download?</string>
@@ -901,7 +660,6 @@
     <string name="auto_start_letv"><![CDATA[LeTv: Self-starting management -> Allow applications to self-start]]></string>
     <string name="auto_start_smartisan"><![CDATA[Smartisan: Permission management -> Self-starting permission management -> Click Apply -> Allow to be activated by the system]]></string>
     <string name="need_to_restart">The APP needs to be restarted for this configuration item to take effect</string>
-    <string name="time_picker">Time Picker</string>
 
     <string name="http_server_running">HttpServer is running! On %1$s:%2$d</string>
     <string name="http_server_stopped">HttpServer is stopped!</string>
@@ -969,7 +727,6 @@
     <string name="battery_unspecified_failure">Unspecified Failure</string>
     <string name="battery_cold">Cold</string>
     <string name="battery_level">Level: %s</string>
-    <string name="battery_level_title">Level</string>
     <string name="battery_scale">Scale: %s</string>
     <string name="battery_voltage">Voltage: %s</string>
     <string name="battery_temperature">Temperature: %s</string>
@@ -987,7 +744,6 @@
     <string name="frpc_failed_to_run">Frpc failed to run</string>
     <string name="successfully_deleted">Successfully deleted</string>
     <string name="sender_disabled_tips">[Note] The sender has been disabled, and its associated rules will not be sent even if they match!</string>
-    <string name="rule_disabled_tips">[Note] The rule has been disabled, will not be sent even if they match!</string>
     <string name="sender_contains_tips">[Note] The sender is already in the list, no need to add it again!</string>
     <string name="rule_contains_tips">[Note] The rule is already in the list, no need to add it again!</string>
     <string name="frpc_contains_tips">[Note] The frpc is already in the list, no need to add it again!</string>
@@ -1003,7 +759,6 @@
     <string name="matched_rule">Matched rule</string>
     <string name="copied_to_clipboard">Copied to clipboard:\n%s</string>
     <string name="search_keyword">Search Keyword: %s</string>
-    <string name="search_condition">Search Condition: %s</string>
     <string name="export_succeeded">Export configuration succeeded!</string>
     <string name="export_failed">Export failed, please check write permission!</string>
     <string name="export_failed_tips">Export failed: %s</string>
@@ -1012,7 +767,6 @@
     <string name="import_succeeded">Import configuration successful!</string>
     <string name="import_failed_tips">Import failed: %s</string>
     <string name="restore_failed">Restore failed</string>
-    <string name="battery_status_monitor">Battery Status Monitor</string>
     <string name="below_level_min">[Battery Warning] The battery has been lower than the lower limit of the battery warning, please charge it in time!%s</string>
     <string name="over_level_max">[Battery Warning] The battery warning limit has been exceeded, please unplug the charger!%s</string>
     <string name="reach_level_min">[Battery Warning] The lower limit of the battery warning has been reached, please charge it in time!%s</string>
@@ -1042,8 +796,6 @@
     <string name="enabling_pure_client_mode">Do you want to quit the app immediately and start it manually to take effect in pure client mode?</string>
     <string name="pure_task_mode">Directly To Task</string>
     <string name="pure_task_mode_tips">When starting, it will directly enter the task center</string>
-    <string name="exit_pure_task_mode">Exit pure task mode</string>
-    <string name="enabling_pure_task_mode">Do you want to quit the app immediately and start it manually to take effect in pure task mode?</string>
     <string name="debug_mode">Enable debug mode</string>
     <string name="debug_mode_tips">Save Log.* to file for troubleshooting; export to download directory.</string>
     <string name="optional_components">Opt.:</string>
@@ -1070,9 +822,7 @@
     <string name="mac_error">Mac format is incorrect, eg. AA:BB:CC:DD:EE:FF</string>
     <string name="mac_regex" tools:ignore="TypographyDashes">^((([a-fA-F0-9]{2}:){5})|(([a-fA-F0-9]{2}-){5}))[a-fA-F0-9]{2}$</string>
     <string name="broadcast_address">Broadcast Address</string>
-    <string name="ip">IP</string>
     <string name="mac">MAC</string>
-    <string name="no_wol_history">There is no history record, WOL will be added automatically after successful sending</string>
     <string name="wol_port_hint">WOL is generally sent over port 7 or port 9</string>
     <string name="wol_port_error">Port number value range: 1~65535</string>
     <string name="wol_port_regex" tools:ignore="TypographyDashes">^([0-9]|[1-9]\\d|[1-9]\\d{2}|[1-9]\\d{3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])$</string>
@@ -1089,8 +839,6 @@
     <string name="app_id">App ID</string>
     <string name="app_secret">App Secret</string>
     <string name="user_id">User ID</string>
-    <string name="auto_clean_logs">Auto delete logs N days ago</string>
-    <string name="auto_clean_logs_tips">0=disabled, scan when battery change</string>
     <string name="safety_measures">Safety Measures</string>
     <string name="safety_measures_tips">The client and server must be the same. It is strongly recommended to enable encryption when accessing the public network.</string>
     <string name="safety_measures_none">None</string>
@@ -1109,29 +857,18 @@
     <string name="sm4_key">SM4 Key</string>
     <string name="sm4_key_tips">Client or server interaction messages are all encrypted and decrypted using SM4</string>
 
-    <string name="rule_del">Del Rule</string>
-    <string name="sender_del">Del Sender</string>
-    <string name="frpc_del">Del Frpc</string>
     <string name="sender_disabled">Sender is disabled</string>
     <string name="unknown_sender">Unknown sender</string>
     <string name="network_type">Network Type</string>
-    <string name="operator_name">Operator Name</string>
-    <string name="host_address">Host Address</string>
     <string name="loading_app_list">Loading the list of apps, please wait…</string>
 
     <string name="carrier_name">Carrier Name</string>
-    <string name="icc_id">ICC ID</string>
     <string name="sim_slot_index">Sim Slot Index</string>
     <string name="data_sim_index">Data Sim Slot</string>
     <string name="number">Number</string>
     <string name="country_iso">Country</string>
     <string name="subscription_id">Subscription ID</string>
 
-    <string name="net_no">No Net</string>
-    <string name="net_2g">2G Net</string>
-    <string name="net_3g">3G Net</string>
-    <string name="net_4g">4G Net</string>
-    <string name="net_5g">5G Net</string>
     <string name="net_mobile">Mobile</string>
     <string name="net_wifi">WiFi</string>
     <string name="net_ethernet">Ethernet</string>
@@ -1166,14 +903,10 @@
     <string name="ignore_anonymous">Ignore Anonymous</string>
 
     <string name="task_name_status">Name/Status</string>
-    <string name="task_name">Task Name</string>
-    <string name="task_description">Description</string>
     <string name="task_conditions">IF</string>
     <string name="task_conditions_tips">Influenced by the first condition, the other condition as determinants.</string>
     <string name="task_actions">THEN</string>
     <string name="task_actions_tips">Allow multiple execution actions, with each execution result being independent of the others.</string>
-    <string name="task_last_exec_time">Last Exec Time</string>
-    <string name="task_next_exec_time">Next Exec Time</string>
     <string name="add_task">Add Task</string>
     <string name="edit_task">Edit Task</string>
     <string name="clone_task">Clone Task</string>
@@ -1182,10 +915,8 @@
     <string name="delete_task_toast">The task has deleted.</string>
     <string name="add_condition">Add Condition</string>
     <string name="add_condition_tips" tools:ignore="StringFormatCount">Example: battery level below 20%</string>
-    <string name="add_condition_continue">Continue to add condition</string>
     <string name="add_action">Add Action</string>
     <string name="add_action_tips">Example: Disable all forwarding</string>
-    <string name="add_action_continue">Continue to add Action</string>
 
     <string name="select_task_trigger">Please select trigger condition</string>
     <string name="select_task_condition">Please select additional condition</string>
@@ -1204,17 +935,13 @@
     <string name="task_battery">Battery</string>
     <string name="task_battery_tips">Trigger when battery level meets condition.</string>
     <string name="task_charge">Charge</string>
-    <string name="task_charge_tips">Trigger when charge status meets condition.</string>
     <string name="task_lock_screen">Screen Off/On</string>
     <string name="task_lock_screen_tips">Trigger upon screen lock/unlock instantly or after a set time.</string>
     <string name="task_sms">SMS</string>
-    <string name="task_sms_tips">Triggered upon receiving SMS broadcast</string>
     <string name="task_sms_when">received SMS broadcast from %s</string>
     <string name="task_call">Call</string>
-    <string name="task_call_tips">Triggered upon receiving CALL broadcast</string>
     <string name="task_call_when">received CALL broadcast from %s</string>
     <string name="task_app">Notification</string>
-    <string name="task_app_tips">Triggered upon receiving APP notification</string>
     <string name="task_app_when">received APP notification</string>
     <string name="task_bluetooth">Bluetooth Device</string>
     <string name="task_bluetooth_tips">Triggered upon changes in Bluetooth status</string>
@@ -1249,7 +976,6 @@
     <string name="month">Month</string>
     <string name="week">Week</string>
     <string name="year">Year</string>
-    <string name="cron_expression">Cron Expression</string>
     <string name="every_second">Every Second</string>
     <string name="every_minute">Every Minute</string>
     <string name="every_hour">Every Hour</string>
@@ -1330,7 +1056,6 @@
     <string name="calc_type_address">Determine based on address keywords.</string>
     <string name="longitude">Longitude</string>
     <string name="latitude">Latitude</string>
-    <string name="distance">Distance</string>
     <string name="distance1">Create an e-fence:</string>
     <string name="distance2">m radius</string>
     <string name="current_coordinates">Current</string>
@@ -1355,18 +1080,10 @@
     <string name="current_distance_from_center">, %s meters from the center.</string>
 
     <string name="specified_uid">Specified Uid</string>
-    <string name="specified_uid_hint">Enter FRPC UIDs (comma-separated)</string>
     <string name="specified_rule">Specified Rule</string>
-    <string name="specified_rule_hint">Enter Rule IDs (comma-separated)</string>
     <string name="specified_sender">Specified Sender</string>
-    <string name="specified_sender_hint">Enter Sender IDs (comma-separated)</string>
     <string name="specified_task">Specified Task</string>
-    <string name="specified_task_hint">Enter Task IDs (comma-separated)</string>
 
-    <string name="current_language">English</string>
-    <string name="current_activity_language">Current Activity language: </string>
-    <string name="current_application_language">Current Application language: </string>
-    <string name="current_system_language">Current System language: </string>
     <string name="multi_languages">Multilingual</string>
     <string name="multi_languages_tips">Default language shown on SmsF\'s interface at startup.</string>
     <string name="multi_languages_toast">Need to restart the app to switch to your selected language.</string>
@@ -1382,20 +1099,7 @@
 
     <string name="enable_accessibility_service">Enable Accessibility Service</string>
     <string name="assists_description">Automate SMS confirmation and maintain app activity in the background.</string>
-    <string name="accessibility_service_title">SmsForwarder Accessibility Service</string>
-    <string name="close">Close</string>
     <string name="display_floating_controls">Floating Controls</string>
-    <string name="back">Back</string>
-    <string name="start_execution">Start Execution</string>
-    <string name="turn_off_auto_scroll">Turn Off Auto Scroll</string>
-    <string name="execution_log">【Execution Log】</string>
-    <string name="do_not_touch_screen_during_execution">Do not touch screen during execution!</string>
-    <string name="view_logs">View Logs</string>
-    <string name="stop_scrolling">Stop Scrolling</string>
-    <string name="continue_scrolling">Continue Scrolling</string>
-    <string name="logs">【Logs】</string>
-    <string name="close_logs">Close Logs</string>
-    <string name="stopped">Stopped</string>
     <string name="open_id">Open ID</string>
     <string name="union_id">Union ID</string>
     <string name="chat_id">Chat ID</string>
@@ -1430,7 +1134,6 @@
     <string name="bluetooth_acl_connected">Bluetooth Device Connected</string>
     <string name="bluetooth_acl_disconnected">Bluetooth Device Disconnected</string>
     <string name="specified_device">Spec. Dev.</string>
-    <string name="device_address_hint">Bluetooth Device MAC Address</string>
     <string name="bluetooth_not_supported">Bluetooth not supported.</string>
     <string name="start_discovery">Discovery</string>
     <string name="invalid_bluetooth_mac_address">Bluetooth Mac Address is invalid, eg. AA:BB:CC:DD:EE:FF</string>
