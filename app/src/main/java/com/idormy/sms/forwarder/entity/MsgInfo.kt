@@ -78,7 +78,7 @@ data class MsgInfo(
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun replaceTemplate(template: String, regexReplace: String, needJson: Boolean = false): String {
+    fun replaceTemplate(template: String, regexReplace: String = "", needJson: Boolean = false): String {
         return template.replaceTag(getString(R.string.tag_from), from, needJson)
             .replaceTag(getString(R.string.tag_package_name), from, needJson)
             .replaceTag(getString(R.string.tag_sms), content, needJson)
