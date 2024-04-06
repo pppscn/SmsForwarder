@@ -30,7 +30,7 @@ class NetworkWorker(context: Context, params: WorkerParameters) : CoroutineWorke
 
     private val TAG: String = NetworkWorker::class.java.simpleName
     private val ipv4Pattern = Regex("^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
-    private val ipv6Pattern = Regex("^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$")
+    private val ipv6Pattern = Regex("^((?:[\\da-fA-F]{0,4}:[\\da-fA-F]{0,4}){2,7})(?:[/\\\\%](\\d{1,3}))?$")
 
     override suspend fun doWork(): Result {
         try {
