@@ -93,11 +93,11 @@
                     android:id="@+id/et_phone_numbers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/phone_numbers_hint"
+                    android:hint="@string/phone_numbers_with_tag_hint"
                     android:singleLine="true"
                     app:met_clearButton="true"
-                    app:met_errorMessage="@string/phone_numbers_error"
-                    app:met_regexp="@string/phone_numbers_regex"
+                    app:met_errorMessage="@string/phone_numbers_with_tag_error"
+                    app:met_regexp="@string/phone_numbers_with_tag_regex"
                     app:met_validateOnFocusLost="true"
                     tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 

@@ -706,7 +706,10 @@
     <string name="phone_numbers">手機號碼</string>
     <string name="phone_numbers_hint">必填，多個手機號用半角分號分隔</string>
     <string name="phone_numbers_error">手機號碼格式錯誤，例：15888888888;19999999999</string>
-    <string name="phone_numbers_regex">^([+]?\\d+)(;[+]?\\d+)*$</string>
+    <string name="phone_numbers_regex">^(\\+?\\d{3,20})(;\\+?\\d{3,20})*$</string>
+    <string name="phone_numbers_with_tag_hint">必填，多個手機號或標籤用半角分號分隔</string>
+    <string name="phone_numbers_with_tag_error">手機號碼格式錯誤，例：15888888888;{{FROM}};{{SMS###\s*SMS,{([^}]+)},{([^}]+)}\s*===$1}}</string>
+    <string name="phone_numbers_with_tag_regex">^((\\+?\\d{3,20})|\\{\\{([^#]+)(?:###([^=]+)===(.*?))?\\}\\})(;((\\+?\\d{3,20})|\\{\\{([^#]+)(?:###([^=]+)===(.*?))?\\}\\}))*$</string>
     <string name="msg_content">簡訊內容</string>
     <string name="msg_content_hint">必填，70個字符內算一條，超過70個字符，每增加64字符累加1條</string>
     <string name="msg_content_error">簡訊內容不能為空，最多390字符（6條簡訊）</string>
