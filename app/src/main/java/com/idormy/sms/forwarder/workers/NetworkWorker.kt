@@ -14,6 +14,7 @@ import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.TaskSetting
 import com.idormy.sms.forwarder.entity.condition.NetworkSetting
+import com.idormy.sms.forwarder.utils.CommonUtils
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.TaskWorker
@@ -40,6 +41,9 @@ class NetworkWorker(context: Context, params: WorkerParameters) : CoroutineWorke
             val ipv6 = getPublicIP(true)
             TaskUtils.ipv6 = if (ipv6Pattern.matches(ipv6)) ipv6 else ""
             Log.d(TAG, "ipv4 = $ipv4, ipv6 = $ipv6")
+            //获取所有IP地址
+            val ipList = CommonUtils.getIPAddresses().filter { !isLocalAddress(it) }
+            TaskUtils.ipList = if (ipList.isNotEmpty()) ipList.joinToString("\n") else ""
 
             val conditionType = inputData.getInt(TaskWorker.CONDITION_TYPE, -1)
             val taskList = Core.task.getByType(conditionType)
@@ -163,6 +167,11 @@ class NetworkWorker(context: Context, params: WorkerParameters) : CoroutineWorke
             Log.e(TAG, "Error running worker: ${e.message}", e)
             ""
         }
+    }
+
+    //检查IP地址是否为本地地址
+    private fun isLocalAddress(ip: String): Boolean {
+        return ip == "127.0.0.1" || ip == "::1" || ip.startsWith("fe80:") || ip.startsWith("fec0:")
     }
 
 }

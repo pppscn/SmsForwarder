@@ -15,6 +15,7 @@ import com.idormy.sms.forwarder.utils.SP_DATA_SIM_SLOT
 import com.idormy.sms.forwarder.utils.SP_DISCOVERED_DEVICES
 import com.idormy.sms.forwarder.utils.SP_IPV4
 import com.idormy.sms.forwarder.utils.SP_IPV6
+import com.idormy.sms.forwarder.utils.SP_IP_LIST
 import com.idormy.sms.forwarder.utils.SP_LOCATION_INFO_NEW
 import com.idormy.sms.forwarder.utils.SP_LOCATION_INFO_OLD
 import com.idormy.sms.forwarder.utils.SP_LOCK_SCREEN_ACTION
@@ -142,6 +143,9 @@ class TaskUtils private constructor() {
 
         //IPv6地址
         var ipv6: String by SharedPreference(SP_IPV6, "")
+
+        //IP地址列表
+        var ipList: String by SharedPreference(SP_IP_LIST, "")
 
         //SIM卡状态：0-未知状态，1-卡被移除，5-卡已准备就绪
         var simState: Int by SharedPreference(SP_SIM_STATE, 0)

@@ -24,6 +24,7 @@
     <string name="tag_uid" translatable="false">{{UID}}</string>
     <string name="tag_ipv4" translatable="false">{{IPV4}}</string>
     <string name="tag_ipv6" translatable="false">{{IPV6}}</string>
+    <string name="tag_ip_list" translatable="false">{{IP_LIST}}</string>
     <string name="tag_net_type" translatable="false">{{NET_TYPE}}</string>
 
     <string name="type_param_sms">短信</string>

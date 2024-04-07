@@ -105,6 +105,7 @@ data class MsgInfo(
             )
             .replaceTag(getString(R.string.tag_ipv4), TaskUtils.ipv4, needJson)
             .replaceTag(getString(R.string.tag_ipv6), TaskUtils.ipv6, needJson)
+            .replaceTag(getString(R.string.tag_ip_list), TaskUtils.ipList, needJson)
             .replaceTag(getString(R.string.tag_battery_pct), "%.0f%%".format(TaskUtils.batteryPct), needJson)
             .replaceTag(getString(R.string.tag_battery_status), BatteryUtils.getStatus(TaskUtils.batteryStatus), needJson)
             .replaceTag(getString(R.string.tag_battery_plugged), BatteryUtils.getPlugged(TaskUtils.batteryPlugged), needJson)
