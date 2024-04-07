@@ -236,8 +236,8 @@
     <string name="sender_openpgp_keystore">发件人OpenPGP签名私钥（可选）</string>
     <string name="invalid_sender_keystore">发件人签名私钥无效</string>
     <string name="recipient_email">收件人邮箱</string>
-    <string name="keystore_path">证书路径</string>
-    <string name="keystore_path_tips">可选，下载证书文件到 Download 目录</string>
+    <string name="keystore_base64">指定证书</string>
+    <string name="keystore_base64_tips">可选，下载证书文件到 Download 目录</string>
     <string name="keystore_password">证书密码</string>
     <string name="keystore_password_tips">`私钥证书`对应的导入密钥</string>
     <string name="email_title">邮件主题</string>

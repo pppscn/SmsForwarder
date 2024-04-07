@@ -236,8 +236,8 @@
     <string name="sender_openpgp_keystore">發件人OpenPGP簽名私鑰（可選）</string>
     <string name="invalid_sender_keystore">發件人簽名私鑰無效</string>
     <string name="recipient_email">收件人郵箱</string>
-    <string name="keystore_path">證書路徑</string>
-    <string name="keystore_path_tips">可選，下載證書文件到 Download 目錄</string>
+    <string name="keystore_base64">指定證書</string>
+    <string name="keystore_base64_tips">可選，下載證書文件到 Download 目錄</string>
     <string name="keystore_password">證書密碼</string>
     <string name="keystore_password_tips">「私鑰證書」相對應的導入密碼</string>
     <string name="email_title">郵件主題</string>

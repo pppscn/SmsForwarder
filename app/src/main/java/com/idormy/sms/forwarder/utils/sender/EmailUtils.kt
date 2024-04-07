@@ -4,6 +4,7 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.EmailSetting
+import com.idormy.sms.forwarder.utils.Base64
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
@@ -16,6 +17,7 @@ import org.bouncycastle.openpgp.PGPPublicKeyRing
 import org.bouncycastle.openpgp.PGPSecretKeyRing
 import org.pgpainless.PGPainless
 import org.pgpainless.key.info.KeyRingInfo
+import java.io.ByteArrayInputStream
 import java.io.FileInputStream
 import java.security.KeyStore
 import java.security.PrivateKey
@@ -166,8 +168,13 @@ class EmailUtils {
                         var senderPGPSecretKeyPassword = ""
 
                         if (!setting.keystore.isNullOrEmpty() && !setting.password.isNullOrEmpty()) {
-                            val keystoreStream = FileInputStream(setting.keystore)
                             try {
+                                val keystoreStream = if (setting.keystore!!.startsWith("/")) {
+                                    FileInputStream(setting.keystore)
+                                } else {
+                                    val decodedBytes = Base64.decode(setting.keystore!!)
+                                    ByteArrayInputStream(decodedBytes)
+                                }
                                 when (setting.encryptionProtocol) {
                                     "S/MIME" -> {
                                         val keystorePassword = setting.password.toString()
@@ -206,15 +213,21 @@ class EmailUtils {
                         //逐一发送加密邮件
                         val recipientsWithoutCert = mutableListOf<String>()
                         setting.recipients.forEach { (email, cert) ->
-                            val keystorePath = cert.first
+                            val keystoreBase64 = cert.first
                             val keystorePassword = cert.second
                             var recipientX509Cert: X509Certificate? = null
                             var recipientPGPPublicKeyRing: PGPPublicKeyRing? = null
                             try {
                                 when {
                                     //从私钥证书文件提取公钥
-                                    keystorePath.isNotEmpty() && keystorePassword.isNotEmpty() -> {
-                                        val keystoreStream = FileInputStream(keystorePath)
+                                    keystoreBase64.isNotEmpty() && keystorePassword.isNotEmpty() -> {
+                                        val keystoreStream = if (keystoreBase64.startsWith("/")) {
+                                            FileInputStream(keystoreBase64)
+                                        } else {
+                                            val decodedBytes = Base64.decode(keystoreBase64)
+                                            ByteArrayInputStream(decodedBytes)
+                                        }
+
                                         when (setting.encryptionProtocol) {
                                             "S/MIME" -> {
                                                 val keyStore = KeyStore.getInstance("PKCS12")
@@ -235,12 +248,18 @@ class EmailUtils {
                                     }
 
                                     //从证书文件提取公钥
-                                    keystorePath.isNotEmpty() && keystorePassword.isEmpty() -> {
-                                        val keystoreStream = FileInputStream(keystorePath)
+                                    keystoreBase64.isNotEmpty() && keystorePassword.isEmpty() -> {
+                                        val keystoreStream = if (keystoreBase64.startsWith("/")) {
+                                            FileInputStream(keystoreBase64)
+                                        } else {
+                                            val decodedBytes = Base64.decode(keystoreBase64)
+                                            ByteArrayInputStream(decodedBytes)
+                                        }
+
                                         when (setting.encryptionProtocol) {
                                             "S/MIME" -> {
                                                 val certFactory = CertificateFactory.getInstance("X.509")
-                                                recipientX509Cert = certFactory.generateCertificate(FileInputStream(keystorePath)) as X509Certificate
+                                                recipientX509Cert = certFactory.generateCertificate(FileInputStream(keystoreBase64)) as X509Certificate
                                             }
 
                                             "OpenPGP" -> {

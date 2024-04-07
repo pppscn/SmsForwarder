@@ -24,6 +24,7 @@ import com.idormy.sms.forwarder.database.viewmodel.SenderViewModel
 import com.idormy.sms.forwarder.databinding.FragmentSendersEmailBinding
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.EmailSetting
+import com.idormy.sms.forwarder.utils.Base64
 import com.idormy.sms.forwarder.utils.CommonUtils
 import com.idormy.sms.forwarder.utils.EVENT_TOAST_ERROR
 import com.idormy.sms.forwarder.utils.KEY_SENDER_CLONE
@@ -51,6 +52,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.pgpainless.PGPainless
 import org.pgpainless.key.info.KeyRingInfo
+import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileInputStream
 import java.security.KeyStore
@@ -377,8 +379,14 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
                         cert.first.isNotEmpty() && cert.second.isNotEmpty() -> {
                             try {
                                 // 判断是否有效的PKCS12私钥证书
+                                val fileInputStream = if (cert.first.startsWith("/")) {
+                                    FileInputStream(cert.first)
+                                } else {
+                                    val decodedBytes = Base64.decode(cert.first)
+                                    ByteArrayInputStream(decodedBytes)
+                                }
                                 val keyStore = KeyStore.getInstance("PKCS12")
-                                keyStore.load(FileInputStream(cert.first), cert.second.toCharArray())
+                                keyStore.load(fileInputStream, cert.second.toCharArray())
                                 val alias = keyStore.aliases().nextElement()
                                 val recipientPublicKey = keyStore.getCertificate(alias) as X509Certificate
                                 Log.d(TAG, "PKCS12 Certificate: $recipientPublicKey")
@@ -391,8 +399,13 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
                         cert.first.isNotEmpty() && cert.second.isEmpty() -> {
                             try {
                                 // 判断是否有效的X.509公钥证书
+                                val fileInputStream = if (cert.first.startsWith("/")) {
+                                    FileInputStream(cert.first)
+                                } else {
+                                    val decodedBytes = Base64.decode(cert.first)
+                                    ByteArrayInputStream(decodedBytes)
+                                }
                                 val certFactory = CertificateFactory.getInstance("X.509")
-                                val fileInputStream = FileInputStream(cert.first)
                                 val recipientPublicKey = certFactory.generateCertificate(fileInputStream) as X509Certificate
                                 Log.d(TAG, "X.509 Certificate: $recipientPublicKey")
                             } catch (e: Exception) {
@@ -408,7 +421,12 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
                         cert.first.isNotEmpty() && cert.second.isNotEmpty() -> {
                             try {
                                 //从私钥证书文件提取公钥
-                                val recipientPrivateKeyStream = FileInputStream(cert.first)
+                                val recipientPrivateKeyStream = if (cert.first.startsWith("/")) {
+                                    FileInputStream(cert.first)
+                                } else {
+                                    val decodedBytes = Base64.decode(cert.first)
+                                    ByteArrayInputStream(decodedBytes)
+                                }
                                 val recipientPGPSecretKeyRing = PGPainless.readKeyRing().secretKeyRing(recipientPrivateKeyStream)
                                 val recipientPGPPublicKeyRing = PGPainless.extractCertificate(recipientPGPSecretKeyRing!!)
                                 val keyInfo = KeyRingInfo(recipientPGPPublicKeyRing)
@@ -422,7 +440,12 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
                         cert.first.isNotEmpty() && cert.second.isEmpty() -> {
                             try {
                                 //从证书文件提取公钥
-                                val recipientPublicKeyStream = FileInputStream(cert.first)
+                                val recipientPublicKeyStream = if (cert.first.startsWith("/")) {
+                                    FileInputStream(cert.first)
+                                } else {
+                                    val decodedBytes = Base64.decode(cert.first)
+                                    ByteArrayInputStream(decodedBytes)
+                                }
                                 val recipientPGPPublicKeyRing = PGPainless.readKeyRing().publicKeyRing(recipientPublicKeyStream)
                                 val keyInfo = KeyRingInfo(recipientPGPPublicKeyRing!!)
                                 Log.d(TAG, "recipientPGPPublicKeyRing: $keyInfo")
@@ -448,7 +471,12 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
         val keystore = binding!!.etSenderKeystore.text.toString().trim()
         val password = binding!!.etSenderPassword.text.toString().trim()
         if (keystore.isNotEmpty()) {
-            val senderPrivateKeyStream = FileInputStream(keystore)
+            val senderPrivateKeyStream = if (keystore.startsWith("/")) {
+                FileInputStream(keystore)
+            } else {
+                val decodedBytes = Base64.decode(keystore)
+                ByteArrayInputStream(decodedBytes)
+            }
             if (senderPrivateKeyStream.available() <= 0) {
                 throw Exception(getString(R.string.invalid_sender_keystore))
             }
@@ -567,12 +595,12 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
                         return
                     }
                     MaterialDialog.Builder(requireContext())
-                        .title(getString(R.string.keystore_path))
+                        .title(getString(R.string.keystore_base64))
                         .content(String.format(getString(R.string.root_directory), downloadPath))
                         .items(fileList)
                         .itemsCallbackSingleChoice(0) { _: MaterialDialog?, _: View?, _: Int, text: CharSequence ->
                             val webPath = "$downloadPath/$text"
-                            etKeyStore.setText(webPath)
+                            etKeyStore.setText(convertCertToBase64String(webPath))
                             true // allow selection
                         }
                         .positiveText(R.string.select)
@@ -612,6 +640,12 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
             listOf("pfx", "p12", "pem", "cer", "crt", "der")
         }
         return supportedExtensions.any { it.equals(file.extension, ignoreCase = true) }
+    }
+
+    private fun convertCertToBase64String(pfxFilePath: String): String {
+        val pfxInputStream = FileInputStream(pfxFilePath)
+        val pfxBytes = pfxInputStream.readBytes()
+        return Base64.encode(pfxBytes)
     }
 
     override fun onDestroyView() {
