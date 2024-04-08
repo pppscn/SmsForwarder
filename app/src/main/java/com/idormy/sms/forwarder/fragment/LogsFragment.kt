@@ -214,6 +214,7 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
         binding!!.recyclerView.scrollToPosition(0)
     }
 
+    @Suppress("SameParameterValue")
     private fun initLogsFilterDialog(needInit: Boolean = false) {
         if (logsFilterPopup == null || needInit) {
             currentFilter = mutableMapOf()

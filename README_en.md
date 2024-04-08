@@ -67,11 +67,10 @@ See more screenshots：https://github.com/pppscn/SmsForwarder/wiki
 + Submit an issue or Pull Request.
 + Join group chat (only Chinese groups/channels available currently)
 
-| Telegram Group |
-| :--:  |
-| ![Telegram Group](pic/tg.png "Telegram Group") |
+|                   Telegram Group                    |
+|:---------------------------------------------------:|
+|   ![Telegram Group](pic/tg.png "Telegram Group")    |
 | [+QBZgnL_fxYM0NjE9](https://t.me/+QBZgnL_fxYM0NjE9) |
-
 
 ## Acknowledgements
 

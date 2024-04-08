@@ -241,6 +241,7 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
     }
 
     //检查设置
+    @Suppress("SameParameterValue")
     @SuppressLint("SetTextI18n")
     private fun checkSetting(updateView: Boolean = false): AlarmSetting {
         val volume = binding!!.xsbVolume.selectedNumber
