@@ -9,6 +9,7 @@ import com.idormy.sms.forwarder.entity.setting.ServerchanSetting
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.interceptor.LoggingInterceptor
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
@@ -27,9 +28,9 @@ class ServerchanUtils {
             msgId: Long = 0L
         ) {
             val title: String = if (rule != null) {
-                msgInfo.getTitleForSend(setting.titleTemplate.toString(), rule.regexReplace)
+                msgInfo.getTitleForSend(setting.titleTemplate, rule.regexReplace)
             } else {
-                msgInfo.getTitleForSend(setting.titleTemplate.toString())
+                msgInfo.getTitleForSend(setting.titleTemplate)
             }
             val content: String = if (rule != null) {
                 msgInfo.getContentForSend(rule.smsTemplate, rule.regexReplace)

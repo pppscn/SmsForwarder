@@ -5,14 +5,14 @@ import java.io.Serializable
 
 data class FeishuSetting(
     var webhook: String = "",
-    val secret: String? = "",
-    val msgType: String? = "interactive",
-    val titleTemplate: String? = "",
+    val secret: String = "",
+    val msgType: String = "interactive",
+    val titleTemplate: String = "",
     val messageCard: String = "", //自定义消息卡片
 ) : Serializable {
 
     fun getMsgTypeCheckId(): Int {
-        return if (msgType == null || msgType == "interactive") {
+        return if (msgType == "interactive") {
             R.id.rb_msg_type_interactive
         } else {
             R.id.rb_msg_type_text

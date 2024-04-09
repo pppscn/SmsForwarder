@@ -10,13 +10,13 @@ data class DingtalkInnerRobotSetting(
     val appSecret: String = "",
     val userIds: String = "",
     val msgKey: String = "sampleText",
-    val titleTemplate: String? = "",
+    val titleTemplate: String = "",
     val proxyType: Proxy.Type = Proxy.Type.DIRECT,
-    val proxyHost: String? = "",
-    val proxyPort: String? = "",
-    val proxyAuthenticator: Boolean? = false,
-    val proxyUsername: String? = "",
-    val proxyPassword: String? = "",
+    val proxyHost: String = "",
+    val proxyPort: String = "",
+    val proxyAuthenticator: Boolean = false,
+    val proxyUsername: String = "",
+    val proxyPassword: String = "",
 ) : Serializable {
 
     fun getProxyTypeCheckId(): Int {

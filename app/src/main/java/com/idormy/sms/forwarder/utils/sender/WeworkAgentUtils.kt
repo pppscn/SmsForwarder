@@ -11,6 +11,7 @@ import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.SharedPreference
+import com.idormy.sms.forwarder.utils.interceptor.LoggingInterceptor
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
@@ -60,25 +61,25 @@ class WeworkAgentUtils private constructor() {
                 if (!NetworkUtils.isIP(proxyHost)) {
                     throw Exception(String.format(getString(R.string.invalid_proxy_host), proxyHost))
                 }
-                val proxyPort: Int = setting.proxyPort?.toInt() ?: 7890
+                val proxyPort: Int = setting.proxyPort.toInt()
 
                 Log.d(TAG, "proxyHost = $proxyHost, proxyPort = $proxyPort")
                 request.okproxy(Proxy(setting.proxyType, InetSocketAddress(proxyHost, proxyPort)))
 
                 //代理的鉴权账号密码
-                if (setting.proxyAuthenticator == true && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))) {
+                if (setting.proxyAuthenticator && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))) {
                     Log.i(TAG, "proxyUsername = ${setting.proxyUsername}, proxyPassword = ${setting.proxyPassword}")
 
                     if (setting.proxyType == Proxy.Type.HTTP) {
                         request.okproxyAuthenticator { _: Route?, response: Response ->
                             //设置代理服务器账号密码
-                            val credential = Credentials.basic(setting.proxyUsername.toString(), setting.proxyPassword.toString())
+                            val credential = Credentials.basic(setting.proxyUsername, setting.proxyPassword)
                             response.request().newBuilder().header("Proxy-Authorization", credential).build()
                         }
                     } else {
                         Authenticator.setDefault(object : Authenticator() {
                             override fun getPasswordAuthentication(): PasswordAuthentication {
-                                return PasswordAuthentication(setting.proxyUsername.toString(), setting.proxyPassword?.toCharArray())
+                                return PasswordAuthentication(setting.proxyUsername, setting.proxyPassword.toCharArray())
                             }
                         })
                     }
@@ -135,9 +136,9 @@ class WeworkAgentUtils private constructor() {
             }
 
             val textMsgMap: MutableMap<String, Any> = mutableMapOf()
-            textMsgMap["touser"] = setting.toUser.toString()
-            textMsgMap["toparty"] = setting.toParty.toString()
-            textMsgMap["totag"] = setting.toTag.toString()
+            textMsgMap["touser"] = setting.toUser
+            textMsgMap["toparty"] = setting.toParty
+            textMsgMap["totag"] = setting.toTag
             textMsgMap["msgtype"] = "text"
             textMsgMap["agentid"] = setting.agentID
             val textText: MutableMap<String, Any> = mutableMapOf()
@@ -160,25 +161,25 @@ class WeworkAgentUtils private constructor() {
                 if (!NetworkUtils.isIP(proxyHost)) {
                     throw Exception(String.format(getString(R.string.invalid_proxy_host), proxyHost))
                 }
-                val proxyPort: Int = setting.proxyPort?.toInt() ?: 7890
+                val proxyPort: Int = setting.proxyPort.toInt()
 
                 Log.d(TAG, "proxyHost = $proxyHost, proxyPort = $proxyPort")
                 request.okproxy(Proxy(setting.proxyType, InetSocketAddress(proxyHost, proxyPort)))
 
                 //代理的鉴权账号密码
-                if (setting.proxyAuthenticator == true && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))) {
+                if (setting.proxyAuthenticator && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))) {
                     Log.i(TAG, "proxyUsername = ${setting.proxyUsername}, proxyPassword = ${setting.proxyPassword}")
 
                     if (setting.proxyType == Proxy.Type.HTTP) {
                         request.okproxyAuthenticator { _: Route?, response: Response ->
                             //设置代理服务器账号密码
-                            val credential = Credentials.basic(setting.proxyUsername.toString(), setting.proxyPassword.toString())
+                            val credential = Credentials.basic(setting.proxyUsername, setting.proxyPassword)
                             response.request().newBuilder().header("Proxy-Authorization", credential).build()
                         }
                     } else {
                         Authenticator.setDefault(object : Authenticator() {
                             override fun getPasswordAuthentication(): PasswordAuthentication {
-                                return PasswordAuthentication(setting.proxyUsername.toString(), setting.proxyPassword?.toCharArray())
+                                return PasswordAuthentication(setting.proxyUsername, setting.proxyPassword.toCharArray())
                             }
                         })
                     }

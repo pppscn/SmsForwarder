@@ -8,6 +8,8 @@ import com.idormy.sms.forwarder.entity.setting.GotifySetting
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.interceptor.BasicAuthInterceptor
+import com.idormy.sms.forwarder.utils.interceptor.LoggingInterceptor
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
@@ -26,9 +28,9 @@ class GotifyUtils {
             msgId: Long = 0L
         ) {
             val title: String = if (rule != null) {
-                msgInfo.getTitleForSend(setting.title.toString(), rule.regexReplace)
+                msgInfo.getTitleForSend(setting.title, rule.regexReplace)
             } else {
-                msgInfo.getTitleForSend(setting.title.toString())
+                msgInfo.getTitleForSend(setting.title)
             }
             val content: String = if (rule != null) {
                 msgInfo.getContentForSend(rule.smsTemplate, rule.regexReplace)

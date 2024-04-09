@@ -10,6 +10,7 @@ import com.idormy.sms.forwarder.entity.setting.TelegramSetting
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.interceptor.LoggingInterceptor
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
@@ -37,7 +38,7 @@ class TelegramUtils private constructor() {
             logId: Long = 0L,
             msgId: Long = 0L
         ) {
-            if (setting.method == null || setting.method == "POST") {
+            if (setting.method == "POST") {
                 msgInfo.content = htmlEncode(msgInfo.content)
                 msgInfo.simInfo = htmlEncode(msgInfo.simInfo)
             }
@@ -55,7 +56,7 @@ class TelegramUtils private constructor() {
             }
             Log.i(TAG, "requestUrl:$requestUrl")
 
-            val request = if (setting.method != null && setting.method == "GET") {
+            val request = if (setting.method == "GET") {
                 requestUrl += "?chat_id=" + setting.chatId + "&text=" + URLEncoder.encode(content, "UTF-8")
                 Log.i(TAG, "requestUrl:$requestUrl")
                 XHttp.get(requestUrl)
@@ -80,21 +81,20 @@ class TelegramUtils private constructor() {
                 if (!NetworkUtils.isIP(proxyHost)) {
                     throw Exception(String.format(getString(R.string.invalid_proxy_host), proxyHost))
                 }
-                val proxyPort: Int = setting.proxyPort?.toInt() ?: 7890
+                val proxyPort: Int = setting.proxyPort.toInt()
 
                 Log.d(TAG, "proxyHost = $proxyHost, proxyPort = $proxyPort")
                 request.okproxy(Proxy(setting.proxyType, InetSocketAddress(proxyHost, proxyPort)))
 
                 //代理的鉴权账号密码
-                if (setting.proxyAuthenticator == true
-                    && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))
+                if (setting.proxyAuthenticator && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))
                 ) {
                     Log.i(TAG, "proxyUsername = ${setting.proxyUsername}, proxyPassword = ${setting.proxyPassword}")
 
                     if (setting.proxyType == Proxy.Type.HTTP) {
                         request.okproxyAuthenticator { _: Route?, response: Response ->
                             //设置代理服务器账号密码
-                            val credential = Credentials.basic(setting.proxyUsername.toString(), setting.proxyPassword.toString())
+                            val credential = Credentials.basic(setting.proxyUsername, setting.proxyPassword)
                             response.request().newBuilder()
                                 .header("Proxy-Authorization", credential)
                                 .build()
@@ -102,7 +102,7 @@ class TelegramUtils private constructor() {
                     } else {
                         Authenticator.setDefault(object : Authenticator() {
                             override fun getPasswordAuthentication(): PasswordAuthentication {
-                                return PasswordAuthentication(setting.proxyUsername.toString(), setting.proxyPassword?.toCharArray())
+                                return PasswordAuthentication(setting.proxyUsername, setting.proxyPassword.toCharArray())
                             }
                         })
                     }

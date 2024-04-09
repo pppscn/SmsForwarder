@@ -196,7 +196,7 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
                 Log.d(TAG, settingVo.toString())
                 if (settingVo != null) {
                     if (!TextUtils.isEmpty(settingVo.mailType)) {
-                        mailType = settingVo.mailType.toString()
+                        mailType = settingVo.mailType
                         //TODO: 替换mailType为当前语言，避免切换语言后失效，历史包袱怎么替换比较优雅？
                         if (mailType == "other" || mailType == "其他邮箱" || mailType == "其他郵箱") {
                             mailType = getString(R.string.other_mail_type)
@@ -222,8 +222,8 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
                         }
                     } else {
                         //兼容旧版本
-                        val emails = settingVo.toEmail?.split(",")
-                        if (!emails.isNullOrEmpty()) {
+                        val emails = settingVo.toEmail.split(",")
+                        if (emails.isNotEmpty()) {
                             for (email in emails.toTypedArray()) {
                                 addRecipientItem(email)
                             }

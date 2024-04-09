@@ -38,9 +38,9 @@ class EmailUtils {
             msgId: Long = 0L
         ) {
             val title: String = if (rule != null) {
-                msgInfo.getTitleForSend(setting.title.toString(), rule.regexReplace)
+                msgInfo.getTitleForSend(setting.title, rule.regexReplace)
             } else {
-                msgInfo.getTitleForSend(setting.title.toString())
+                msgInfo.getTitleForSend(setting.title)
             }
             val message: String = if (rule != null) {
                 msgInfo.getContentForSend(rule.smsTemplate, rule.regexReplace)
@@ -144,21 +144,21 @@ class EmailUtils {
                 val job = launch(Dispatchers.IO) {
                     try {
                         // 设置邮件参数
-                        val host = setting.host.toString()
-                        val port = setting.port.toString()
-                        val from = setting.fromEmail.toString()
-                        val password = setting.pwd.toString()
-                        val nickname = msgInfo.getTitleForSend(setting.nickname.toString())
+                        val host = setting.host
+                        val port = setting.port
+                        val from = setting.fromEmail
+                        val password = setting.pwd
+                        val nickname = msgInfo.getTitleForSend(setting.nickname)
                         setting.recipients.ifEmpty {
                             //兼容旧的设置
-                            val emails = setting.toEmail.toString().replace("[,，;；]".toRegex(), ",").trim(',').split(',')
+                            val emails = setting.toEmail.replace("[,，;；]".toRegex(), ",").trim(',').split(',')
                             emails.forEach {
                                 setting.recipients[it] = Pair("", "")
                             }
                         }
                         val content = message.replace("\n", "<br>")
-                        val openSSL = setting.ssl == true
-                        val startTls = setting.startTls == true
+                        val openSSL = setting.ssl
+                        val startTls = setting.startTls
 
                         //发件人S/MIME私钥（用于签名）
                         var signingPrivateKey: PrivateKey? = null
@@ -167,17 +167,17 @@ class EmailUtils {
                         var senderPGPSecretKeyRing: PGPSecretKeyRing? = null
                         var senderPGPSecretKeyPassword = ""
 
-                        if (!setting.keystore.isNullOrEmpty() && !setting.password.isNullOrEmpty()) {
+                        if (setting.keystore.isNotEmpty() && setting.password.isNotEmpty()) {
                             try {
-                                val keystoreStream = if (setting.keystore!!.startsWith("/")) {
+                                val keystoreStream = if (setting.keystore.startsWith("/")) {
                                     FileInputStream(setting.keystore)
                                 } else {
-                                    val decodedBytes = Base64.decode(setting.keystore!!)
+                                    val decodedBytes = Base64.decode(setting.keystore)
                                     ByteArrayInputStream(decodedBytes)
                                 }
                                 when (setting.encryptionProtocol) {
                                     "S/MIME" -> {
-                                        val keystorePassword = setting.password.toString()
+                                        val keystorePassword = setting.password
                                         val keyStore = KeyStore.getInstance("PKCS12")
                                         keyStore.load(keystoreStream, keystorePassword.toCharArray())
                                         val privateKeyAlias = keyStore.aliases().toList().first { keyStore.isKeyEntry(it) }
@@ -187,7 +187,7 @@ class EmailUtils {
 
                                     "OpenPGP" -> {
                                         senderPGPSecretKeyRing = PGPainless.readKeyRing().secretKeyRing(keystoreStream)
-                                        senderPGPSecretKeyPassword = setting.password.toString()
+                                        senderPGPSecretKeyPassword = setting.password
                                     }
                                 }
                             } catch (e: Exception) {

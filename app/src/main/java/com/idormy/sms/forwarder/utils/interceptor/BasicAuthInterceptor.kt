@@ -1,4 +1,4 @@
-package com.idormy.sms.forwarder.utils.sender
+package com.idormy.sms.forwarder.utils.interceptor
 
 import okhttp3.Credentials
 import okhttp3.Interceptor

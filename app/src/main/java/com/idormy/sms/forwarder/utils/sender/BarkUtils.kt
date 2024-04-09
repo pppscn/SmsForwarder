@@ -10,6 +10,8 @@ import com.idormy.sms.forwarder.entity.setting.BarkSetting
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.interceptor.BasicAuthInterceptor
+import com.idormy.sms.forwarder.utils.interceptor.LoggingInterceptor
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
@@ -33,9 +35,9 @@ class BarkUtils {
         ) {
             //Log.i(TAG, "sendMsg setting:$setting msgInfo:$msgInfo rule:$rule senderIndex:$senderIndex logId:$logId msgId:$msgId")
             val title: String = if (rule != null) {
-                msgInfo.getTitleForSend(setting.title.toString(), rule.regexReplace)
+                msgInfo.getTitleForSend(setting.title, rule.regexReplace)
             } else {
-                msgInfo.getTitleForSend(setting.title.toString())
+                msgInfo.getTitleForSend(setting.title)
             }
             val content: String = if (rule != null) {
                 msgInfo.getContentForSend(rule.smsTemplate, rule.regexReplace)
@@ -60,12 +62,12 @@ class BarkUtils {
             msgMap["title"] = title
             msgMap["body"] = content
             msgMap["isArchive"] = 1
-            if (!TextUtils.isEmpty(setting.group)) msgMap["group"] = setting.group.toString()
-            if (!TextUtils.isEmpty(setting.icon)) msgMap["icon"] = setting.icon.toString()
-            if (!TextUtils.isEmpty(setting.level)) msgMap["level"] = setting.level.toString()
-            if (!TextUtils.isEmpty(setting.sound)) msgMap["sound"] = setting.sound.toString()
-            if (!TextUtils.isEmpty(setting.badge)) msgMap["badge"] = setting.badge.toString()
-            if (!TextUtils.isEmpty(setting.url)) msgMap["url"] = setting.url.toString()
+            if (!TextUtils.isEmpty(setting.group)) msgMap["group"] = setting.group
+            if (!TextUtils.isEmpty(setting.icon)) msgMap["icon"] = setting.icon
+            if (!TextUtils.isEmpty(setting.level)) msgMap["level"] = setting.level
+            if (!TextUtils.isEmpty(setting.sound)) msgMap["sound"] = setting.sound
+            if (!TextUtils.isEmpty(setting.badge)) msgMap["badge"] = setting.badge
+            if (!TextUtils.isEmpty(setting.url)) msgMap["url"] = setting.url
 
             //自动复制验证码
             val pattern = Regex("(?<!回复)(验证码|授权码|校验码|检验码|确认码|激活码|动态码|安全码|(验证)?代码|校验代码|检验代码|激活代码|确认代码|动态代码|安全代码|登入码|认证码|识别码|短信口令|动态密码|交易码|上网密码|动态口令|随机码|驗證碼|授權碼|校驗碼|檢驗碼|確認碼|激活碼|動態碼|(驗證)?代碼|校驗代碼|檢驗代碼|確認代碼|激活代碼|動態代碼|登入碼|認證碼|識別碼|一次性密码|[Cc][Oo][Dd][Ee]|[Vv]erification)")

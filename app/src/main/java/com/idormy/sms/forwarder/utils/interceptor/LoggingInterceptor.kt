@@ -1,4 +1,4 @@
-package com.idormy.sms.forwarder.utils.sender
+package com.idormy.sms.forwarder.utils.interceptor
 
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.utils.Log
