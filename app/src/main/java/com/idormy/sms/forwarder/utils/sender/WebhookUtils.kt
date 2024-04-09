@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.text.TextUtils
 import android.util.Base64
 import com.google.gson.Gson
+import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.WebhookSetting
@@ -11,15 +12,28 @@ import com.idormy.sms.forwarder.utils.AppUtils
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.interceptor.BasicAuthInterceptor
+import com.idormy.sms.forwarder.utils.interceptor.LoggingInterceptor
+import com.idormy.sms.forwarder.utils.interceptor.NoContentInterceptor
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
+import com.xuexiang.xutil.net.NetworkUtils
+import com.xuexiang.xutil.resource.ResUtils
+import okhttp3.Credentials
+import okhttp3.Response
+import okhttp3.Route
+import java.net.Authenticator
+import java.net.InetSocketAddress
+import java.net.PasswordAuthentication
+import java.net.Proxy
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
+
 
 class WebhookUtils {
     companion object {
@@ -57,7 +71,7 @@ class WebhookUtils {
                 val mac = Mac.getInstance("HmacSHA256")
                 mac.init(
                     SecretKeySpec(
-                        setting.secret?.toByteArray(StandardCharsets.UTF_8),
+                        setting.secret.toByteArray(StandardCharsets.UTF_8),
                         "HmacSHA256"
                     )
                 )
@@ -65,7 +79,7 @@ class WebhookUtils {
                 sign = URLEncoder.encode(String(Base64.encode(signData, Base64.NO_WRAP)), "UTF-8")
             }
 
-            var webParams = setting.webParams?.trim()
+            var webParams = setting.webParams.trim()
 
             //支持HTTP基本认证(Basic Authentication)
             val regex = "^(https?://)([^:]+):([^@]+)@(.+)"
@@ -90,7 +104,7 @@ class WebhookUtils {
                 Log.d(TAG, "method = GET, Url = $requestUrl")
                 XHttp.get(requestUrl).keepJson(true)
             } else if (setting.method == "GET" && !TextUtils.isEmpty(webParams)) {
-                webParams = webParams.toString().replace("[from]", URLEncoder.encode(from, "UTF-8"))
+                webParams = webParams.replace("[from]", URLEncoder.encode(from, "UTF-8"))
                     .replace("[content]", URLEncoder.encode(content, "UTF-8"))
                     .replace("[msg]", URLEncoder.encode(content, "UTF-8"))
                     .replace("[org_content]", URLEncoder.encode(orgContent, "UTF-8"))
@@ -114,7 +128,7 @@ class WebhookUtils {
                 }
                 Log.d(TAG, "method = GET, Url = $requestUrl")
                 XHttp.get(requestUrl).keepJson(true)
-            } else if (!webParams.isNullOrEmpty() && webParams.startsWith("{")) {
+            } else if (webParams.isNotEmpty() && webParams.startsWith("{")) {
                 val bodyMsg = webParams.replace("[from]", from)
                     .replace("[content]", escapeJson(content))
                     .replace("[msg]", escapeJson(content))
@@ -136,7 +150,7 @@ class WebhookUtils {
                     else -> XHttp.post(requestUrl).keepJson(true).upJson(bodyMsg)
                 }
             } else {
-                if (webParams.isNullOrEmpty()) {
+                if (webParams.isEmpty()) {
                     webParams = "from=[from]&content=[content]&timestamp=[timestamp]"
                     if (!TextUtils.isEmpty(sign)) webParams += "&sign=[sign]"
                 }
@@ -171,7 +185,7 @@ class WebhookUtils {
             }
 
             //添加headers
-            for ((key, value) in setting.headers?.entries!!) {
+            for ((key, value) in setting.headers.entries) {
                 request.headers(key, value)
             }
 
@@ -180,24 +194,65 @@ class WebhookUtils {
                 request.addInterceptor(BasicAuthInterceptor(matches[2], matches[3]))
             }
 
+            //设置代理
+            if ((setting.proxyType == Proxy.Type.HTTP || setting.proxyType == Proxy.Type.SOCKS)
+                && !TextUtils.isEmpty(setting.proxyHost) && !TextUtils.isEmpty(setting.proxyPort)
+            ) {
+                //代理服务器的IP和端口号
+                Log.d(TAG, "proxyHost = ${setting.proxyHost}, proxyPort = ${setting.proxyPort}")
+                val proxyHost = if (NetworkUtils.isIP(setting.proxyHost)) setting.proxyHost else NetworkUtils.getDomainAddress(setting.proxyHost)
+                if (!NetworkUtils.isIP(proxyHost)) {
+                    throw Exception(String.format(ResUtils.getString(R.string.invalid_proxy_host), proxyHost))
+                }
+                val proxyPort: Int = setting.proxyPort.toInt()
+
+                Log.d(TAG, "proxyHost = $proxyHost, proxyPort = $proxyPort")
+                request.okproxy(Proxy(setting.proxyType, InetSocketAddress(proxyHost, proxyPort)))
+
+                //代理的鉴权账号密码
+                if (setting.proxyAuthenticator && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))
+                ) {
+                    Log.i(TAG, "proxyUsername = ${setting.proxyUsername}, proxyPassword = ${setting.proxyPassword}")
+
+                    if (setting.proxyType == Proxy.Type.HTTP) {
+                        request.okproxyAuthenticator { _: Route?, response: Response ->
+                            //设置代理服务器账号密码
+                            val credential = Credentials.basic(setting.proxyUsername, setting.proxyPassword)
+                            response.request().newBuilder()
+                                .header("Proxy-Authorization", credential)
+                                .build()
+                        }
+                    } else {
+                        Authenticator.setDefault(object : Authenticator() {
+                            override fun getPasswordAuthentication(): PasswordAuthentication {
+                                return PasswordAuthentication(setting.proxyUsername, setting.proxyPassword.toCharArray())
+                            }
+                        })
+                    }
+                }
+            }
+
             request.ignoreHttpsCert() //忽略https证书
                 .retryCount(SettingUtils.requestRetryTimes) //超时重试的次数
                 .retryDelay(SettingUtils.requestDelayTime * 1000) //超时重试的延迟时间
                 .retryIncreaseDelay(SettingUtils.requestDelayTime * 1000) //超时重试叠加延时
                 .timeStamp(true) //url自动追加时间戳，避免缓存
                 .addInterceptor(LoggingInterceptor(logId)) //增加一个log拦截器, 记录请求日志
-                .execute(object : SimpleCallBack<String>() {
+                .addInterceptor(NoContentInterceptor(logId)) //拦截 HTTP 204 响应
+                .execute(object : SimpleCallBack<Any>() {
 
                     override fun onError(e: ApiException) {
+                        e.printStackTrace()
                         Log.e(TAG, e.detailMessage)
                         val status = 0
                         SendUtils.updateLogs(logId, status, e.displayMessage)
                         SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
                     }
 
-                    override fun onSuccess(response: String) {
+                    override fun onSuccess(resp: Any) {
+                        val response = resp.toString()
                         Log.i(TAG, response)
-                        val status = if (!setting.response.isNullOrEmpty() && !response.contains(setting.response)) 0 else 2
+                        val status = if (setting.response.isNotEmpty() && !response.contains(setting.response)) 0 else 2
                         SendUtils.updateLogs(logId, status, response)
                         SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
                     }
