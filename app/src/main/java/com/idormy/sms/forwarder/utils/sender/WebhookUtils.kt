@@ -239,18 +239,17 @@ class WebhookUtils {
                 .timeStamp(true) //url自动追加时间戳，避免缓存
                 .addInterceptor(LoggingInterceptor(logId)) //增加一个log拦截器, 记录请求日志
                 .addInterceptor(NoContentInterceptor(logId)) //拦截 HTTP 204 响应
-                .execute(object : SimpleCallBack<Any>() {
+                .execute(object : SimpleCallBack<String>() {
 
                     override fun onError(e: ApiException) {
-                        e.printStackTrace()
+                        //e.printStackTrace()
                         Log.e(TAG, e.detailMessage)
-                        val status = 0
+                        val status = if (setting.response.isNotEmpty() && e.detailMessage.contains(setting.response)) 2 else 0
                         SendUtils.updateLogs(logId, status, e.displayMessage)
                         SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
                     }
 
-                    override fun onSuccess(resp: Any) {
-                        val response = resp.toString()
+                    override fun onSuccess(response: String) {
                         Log.i(TAG, response)
                         val status = if (setting.response.isNotEmpty() && !response.contains(setting.response)) 0 else 2
                         SendUtils.updateLogs(logId, status, response)
