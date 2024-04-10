@@ -263,9 +263,13 @@ class ForegroundService : Service() {
                     }
 
                     for (frpc in frpcList) {
-                        val error = Frpclib.runContent(frpc.uid, frpc.config)
-                        if (!TextUtils.isEmpty(error)) {
-                            Log.e(TAG, error)
+                        Log.d(TAG, "自启动的Frpc: $frpc")
+                        GlobalScope.async(Dispatchers.IO) {
+                            val error = Frpclib.runContent(frpc.uid, frpc.config)
+                            Log.d(TAG, "自启动的Frpc: uid=${frpc.uid}, error=$error")
+                            if (!TextUtils.isEmpty(error)) {
+                                Log.e(TAG, error)
+                            }
                         }
                     }
                 }
