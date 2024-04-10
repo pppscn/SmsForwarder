@@ -13,6 +13,7 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import java.util.concurrent.TimeUnit
 
+@Suppress("PrivatePropertyName")
 class NoContentInterceptor(private val logId: Long) : Interceptor {
 
     private val TAG: String = NoContentInterceptor::class.java.simpleName
@@ -20,8 +21,9 @@ class NoContentInterceptor(private val logId: Long) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalResponse = chain.proceed(chain.request())
 
-        if (originalResponse.code() == 204) {
-            val response = "HTTP 204 No Content"
+        //HTTP Status 201-299 都算成功
+        if (originalResponse.code() in 201..299) {
+            val response = "HTTP Status " + originalResponse.code() + " " + originalResponse.message()
             Log.d(TAG, response)
             /*
             // 创建一个空的响应体
