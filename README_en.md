@@ -16,6 +16,16 @@ Including active control of the server and client, allowing you to easily and re
 
 Automated Tasks & Quick Commands, effortlessly automate your life, doubling your efficiency, leaving more time to cherish family bonds! (New in v3.3+)
 
+> Notice: Starting from `2022-06-06`, the original `Java edition` code has been archived to the `v2.x` branch and will no longer be updated!
+
+> `v3.x` is compatible with Android 4.4 ~ 13.0.
+
+>  `Join the SmsF Preview Program` (online weekly build updates, be the first to experience new versions & bug fixes).
+
+**Upgrade Instructions:**
+- After joining the SmsF Preview Experience Program, update online (available from `About Software` page, applicable for `v3.3.0_240305+`).
+- Manual download: [https://github.com/pppscn/SmsForwarder/actions/workflows/Weekly_Build.yml](https://github.com/pppscn/SmsForwarder/actions/workflows/Weekly_Build.yml)
+
 --------
 
 ## NOTE

@@ -20,6 +20,12 @@
 
 > `v3.x` 适配 Android 4.4 ~ 13.0
 
+> `加入SmsF预览体验计划`（在线更新每周构建版，率先体验新版&修复BUG）
+
+**升级操作提示：** 
+- `加入SmsF预览体验计划`后在线更新（`关于软件`页面开启，`v3.3.0_240305+`适用）
+-  手动下载：https://github.com/pppscn/SmsForwarder/actions/workflows/Weekly_Build.yml
+
 --------
 
 ## 特别声明:
