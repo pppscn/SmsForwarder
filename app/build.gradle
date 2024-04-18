@@ -285,7 +285,7 @@ dependencies {
     //屏幕适配AutoSize：https://github.com/JessYanCoding/AndroidAutoSize
     implementation 'me.jessyan:autosize:1.2.1'
     //友盟统计
-    implementation 'com.umeng.umsdk:common:9.6.7'
+    implementation 'com.umeng.umsdk:common:9.6.8'
     implementation 'com.umeng.umsdk:asms:1.8.2'
 
     //预加载占位控件
@@ -352,9 +352,11 @@ dependencies {
 
     //国密算法SM4 的JAVA实现(基于BC实现)
     def bouncycastle_version = '1.77'
+    //noinspection GradleDependency
     api "org.bouncycastle:bcprov-jdk18on:$bouncycastle_version"
     //邮件 S/MIME 加密和签名
     //implementation "org.spongycastle:bcmail-jdk18on:$bouncycastle_version" //Android下报错
+    //noinspection GradleDependency
     implementation "org.bouncycastle:bcpkix-jdk18on:$bouncycastle_version"
     //implementation "org.bouncycastle:bctls-jdk18on:$bouncycastle_version"
     //邮件 PGP 加密和签名
