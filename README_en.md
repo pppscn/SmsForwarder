@@ -68,7 +68,7 @@ See more screenshots：https://github.com/pppscn/SmsForwarder/wiki
 
 > ⚠ Gitee: https://gitee.com/pp/SmsForwarder/wikis/pages
 
-![Troubleshooting_Process](pic/Troubleshooting_Process.png "Troubleshooting_Process.png")
+![Troubleshooting_Process](pic/Troubleshooting_Process_en.png "Troubleshooting_Process_en.png")
 
 --------
 
