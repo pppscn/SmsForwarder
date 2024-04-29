@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/xui_config_color_background"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/task_network"
+                app:srcCompat="@drawable/auto_task_icon_network"
+                tools:ignore="ImageContrastCheck" />
+
+            <LinearLayout
+                style="@style/BarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/task_network"
+                    android:textSize="@dimen/text_size_big"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/task_network_tips"
+                    android:textSize="@dimen/text_size_mini"
+                    tools:ignore="SmallSp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="?attr/xui_config_color_separator_light" />
+
+                <RadioGroup
+                    android:id="@+id/rg_network_state"
+                    style="@style/rg_style"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/config_padding_5dp">
+
+                    <RadioButton
+                        android:id="@+id/rb_no_network"
+                        style="@style/rg_rb_style_match"
+                        android:checked="true"
+                        android:text="@string/no_network"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <RadioButton
+                        android:id="@+id/rb_net_mobile"
+                        style="@style/rg_rb_style_match"
+                        android:text="@string/net_mobile"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_data_sim_slot"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/config_margin_10dp"
+                        android:layout_marginEnd="@dimen/config_margin_10dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/data_sim_index"
+                            android:textStyle="bold" />
+
+                        <RadioGroup
+                            android:id="@+id/rg_data_sim_slot"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/rb_data_sim_slot_0"
+                                style="@style/rg_rb_style_wrap"
+                                android:checked="true"
+                                android:text="@string/sim_any"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                            <RadioButton
+                                android:id="@+id/rb_data_sim_slot_1"
+                                style="@style/rg_rb_style_wrap"
+                                android:text="@string/sim_1"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                            <RadioButton
+                                android:id="@+id/rb_data_sim_slot_2"
+                                style="@style/rg_rb_style_wrap"
+                                android:text="@string/sim_2"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                    <RadioButton
+                        android:id="@+id/rb_net_wifi"
+                        style="@style/rg_rb_style_match"
+                        android:text="@string/net_wifi"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_wifi_ssid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/config_margin_10dp"
+                        android:layout_marginEnd="@dimen/config_margin_10dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/wifi_ssid"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/et_wifi_ssid"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1"
+                            android:hint="@string/wifi_ssid_hint"
+                            android:importantForAutofill="no"
+                            tools:ignore="TextContrastCheck,TextFields,TouchTargetSizeCheck" />
+
+                    </LinearLayout>
+
+                    <RadioButton
+                        android:id="@+id/rb_net_ethernet"
+                        style="@style/rg_rb_style_match"
+                        android:text="@string/net_ethernet"
+                        android:visibility="gone"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <RadioButton
+                        android:id="@+id/rb_net_unknown"
+                        style="@style/rg_rb_style_match"
+                        android:text="@string/net_unknown"
+                        android:visibility="gone"
+                        tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_del"
+            style="@style/SuperButton.Gray.Icon.Spacing"
+            android:drawableStart="@drawable/ic_delete"
+            android:text="@string/discard"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_save"
+            style="@style/SuperButton.Blue.Icon.Spacing"
+            android:drawableStart="@drawable/ic_save"
+            android:text="@string/submit"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -2,7 +2,7 @@ package com.idormy.sms.forwarder.server.controller
 
 import android.content.Intent
 import android.content.IntentFilter
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.entity.BatteryInfo
 import com.idormy.sms.forwarder.server.model.BaseRequest

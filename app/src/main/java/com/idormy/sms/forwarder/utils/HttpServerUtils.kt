@@ -3,14 +3,13 @@ package com.idormy.sms.forwarder.utils
 
 import android.text.TextUtils
 import android.util.Base64
-import android.util.Log
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.entity.CloneInfo
+import com.idormy.sms.forwarder.entity.LocationInfo
 import com.idormy.sms.forwarder.server.model.BaseRequest
-import com.xuexiang.xui.utils.ResUtils.getString
-import com.xuexiang.xutil.app.AppUtils
+import com.xuexiang.xutil.resource.ResUtils.getString
 import com.yanzhenjie.andserver.error.HttpException
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -25,172 +24,76 @@ class HttpServerUtils private constructor() {
     companion object {
 
         //是否启用HttpServer开机自启
-        @JvmStatic
-        var enableServerAutorun: Boolean
-            get() = MMKVUtils.getBoolean(SP_ENABLE_SERVER_AUTORUN, false)
-            set(enableServerAutorun) {
-                MMKVUtils.put(SP_ENABLE_SERVER_AUTORUN, enableServerAutorun)
-            }
-
-        //服务端安全设置
-        @JvmStatic
-        var safetyMeasures: Int
-            get() = MMKVUtils.getInt(SP_SERVER_SAFETY_MEASURES, if (TextUtils.isEmpty(serverSignKey)) 0 else 1)
-            set(safetyMeasures) {
-                MMKVUtils.put(SP_SERVER_SAFETY_MEASURES, safetyMeasures)
-            }
-
-        //服务端SM4密钥
-        @JvmStatic
-        var serverSm4Key: String?
-            get() = MMKVUtils.getString(SP_SERVER_SM4_KEY, "")
-            set(serverSm4Key) {
-                MMKVUtils.put(SP_SERVER_SM4_KEY, serverSm4Key)
-            }
-
-        //服务端RSA公钥
-        @JvmStatic
-        var serverPublicKey: String?
-            get() = MMKVUtils.getString(SP_SERVER_PUBLIC_KEY, "")
-            set(serverPublicKey) {
-                MMKVUtils.put(SP_SERVER_PUBLIC_KEY, serverPublicKey)
-            }
-
-        //服务端RSA私钥
-        @JvmStatic
-        var serverPrivateKey: String?
-            get() = MMKVUtils.getString(SP_SERVER_PRIVATE_KEY, "")
-            set(serverPrivateKey) {
-                MMKVUtils.put(SP_SERVER_PRIVATE_KEY, serverPrivateKey)
-            }
+        var enableServerAutorun: Boolean by SharedPreference(SP_ENABLE_SERVER_AUTORUN, false)
 
         //服务端签名密钥
-        @JvmStatic
-        var serverSignKey: String?
-            get() = MMKVUtils.getString(SP_SERVER_SIGN_KEY, "")
-            set(serverSignKey) {
-                MMKVUtils.put(SP_SERVER_SIGN_KEY, serverSignKey)
-            }
-
-        //时间容差
-        @JvmStatic
-        var timeTolerance: Int
-            get() = MMKVUtils.getInt(SP_SERVER_TIME_TOLERANCE, 600)
-            set(timeTolerance) {
-                MMKVUtils.put(SP_SERVER_TIME_TOLERANCE, timeTolerance)
-            }
-
-        //自定义web客户端目录
-        @JvmStatic
-        var serverWebPath: String?
-            get() = MMKVUtils.getString(SP_SERVER_WEB_PATH, "")
-            set(serverWebPath) {
-                MMKVUtils.put(SP_SERVER_WEB_PATH, serverWebPath)
-            }
-
-        //服务地址
-        @JvmStatic
-        var serverAddress: String?
-            get() = MMKVUtils.getString(SP_SERVER_ADDRESS, "")
-            set(clientSignKey) {
-                MMKVUtils.put(SP_SERVER_ADDRESS, clientSignKey)
-            }
-
-        //服务地址历史记录
-        @JvmStatic
-        var serverHistory: String?
-            get() = MMKVUtils.getString(SP_SERVER_HISTORY, "")
-            set(serverHistory) {
-                MMKVUtils.put(SP_SERVER_HISTORY, serverHistory)
-            }
-
-        //服务端配置
-        @JvmStatic
-        var serverConfig: String?
-            get() = MMKVUtils.getString(SP_SERVER_CONFIG, "")
-            set(serverConfig) {
-                MMKVUtils.put(SP_SERVER_CONFIG, serverConfig)
-            }
+        var serverSignKey: String by SharedPreference(SP_SERVER_SIGN_KEY, "")
 
         //服务端安全设置
-        @JvmStatic
-        var clientSafetyMeasures: Int
-            get() = MMKVUtils.getInt(SP_CLIENT_SAFETY_MEASURES, if (TextUtils.isEmpty(clientSignKey)) 0 else 1)
-            set(clientSafetyMeasures) {
-                MMKVUtils.put(SP_CLIENT_SAFETY_MEASURES, clientSafetyMeasures)
-            }
+        var safetyMeasures: Int by SharedPreference(SP_SERVER_SAFETY_MEASURES, if (TextUtils.isEmpty(serverSignKey)) 0 else 1)
+
+        //服务端SM4密钥
+        var serverSm4Key: String by SharedPreference(SP_SERVER_SM4_KEY, "")
+
+        //服务端RSA公钥
+        var serverPublicKey: String by SharedPreference(SP_SERVER_PUBLIC_KEY, "")
+
+        //服务端RSA私钥
+        var serverPrivateKey: String by SharedPreference(SP_SERVER_PRIVATE_KEY, "")
+
+        //时间容差
+        var timeTolerance: Int by SharedPreference(SP_SERVER_TIME_TOLERANCE, 600)
+
+        //自定义web客户端目录
+        var serverWebPath: String by SharedPreference(SP_SERVER_WEB_PATH, "")
+
+        //服务地址
+        var serverAddress: String by SharedPreference(SP_SERVER_ADDRESS, "http://127.0.0.1:5000")
+
+        //服务地址历史记录
+        var serverHistory: String by SharedPreference(SP_SERVER_HISTORY, "")
+
+        //服务端配置
+        var serverConfig: String by SharedPreference(SP_SERVER_CONFIG, "")
 
         //客户端签名密钥/RSA公钥
-        @JvmStatic
-        var clientSignKey: String?
-            get() = MMKVUtils.getString(SP_CLIENT_SIGN_KEY, "")
-            set(clientSignKey) {
-                MMKVUtils.put(SP_CLIENT_SIGN_KEY, clientSignKey)
-            }
+        var clientSignKey: String by SharedPreference(SP_CLIENT_SIGN_KEY, "")
+
+        //服务端安全设置
+        var clientSafetyMeasures: Int by SharedPreference(SP_CLIENT_SAFETY_MEASURES, if (TextUtils.isEmpty(clientSignKey)) 0 else 1)
 
         //是否启用一键克隆
-        @JvmStatic
-        var enableApiClone: Boolean
-            get() = MMKVUtils.getBoolean(SP_ENABLE_API_CLONE, false)
-            set(enableApiClone) {
-                MMKVUtils.put(SP_ENABLE_API_CLONE, enableApiClone)
-            }
+        var enableApiClone: Boolean by SharedPreference(SP_ENABLE_API_CLONE, true)
 
         //是否启用远程发短信
-        @JvmStatic
-        var enableApiSmsSend: Boolean
-            get() = MMKVUtils.getBoolean(SP_ENABLE_API_SMS_SEND, false)
-            set(enableApiSendSms) {
-                MMKVUtils.put(SP_ENABLE_API_SMS_SEND, enableApiSendSms)
-            }
+        var enableApiSmsSend: Boolean by SharedPreference(SP_ENABLE_API_SMS_SEND, true)
 
         //是否启用远程查短信
-        @JvmStatic
-        var enableApiSmsQuery: Boolean
-            get() = MMKVUtils.getBoolean(SP_ENABLE_API_SMS_QUERY, false)
-            set(enableApiQuerySms) {
-                MMKVUtils.put(SP_ENABLE_API_SMS_QUERY, enableApiQuerySms)
-            }
+        var enableApiSmsQuery: Boolean by SharedPreference(SP_ENABLE_API_SMS_QUERY, true)
 
         //是否启用远程查通话
-        @JvmStatic
-        var enableApiCallQuery: Boolean
-            get() = MMKVUtils.getBoolean(SP_ENABLE_API_CALL_QUERY, false)
-            set(enableApiQueryCall) {
-                MMKVUtils.put(SP_ENABLE_API_CALL_QUERY, enableApiQueryCall)
-            }
+        var enableApiCallQuery: Boolean by SharedPreference(SP_ENABLE_API_CALL_QUERY, true)
 
         //是否启用远程查话簿
-        @JvmStatic
-        var enableApiContactQuery: Boolean
-            get() = MMKVUtils.getBoolean(SP_ENABLE_API_CONTACT_QUERY, false)
-            set(enableApiQueryLinkman) {
-                MMKVUtils.put(SP_ENABLE_API_CONTACT_QUERY, enableApiQueryLinkman)
-            }
+        var enableApiContactQuery: Boolean by SharedPreference(SP_ENABLE_API_CONTACT_QUERY, true)
+
+        //是否启用远程加话簿
+        var enableApiContactAdd: Boolean by SharedPreference(SP_ENABLE_API_CONTACT_ADD, true)
 
         //是否启用远程查电量
-        @JvmStatic
-        var enableApiBatteryQuery: Boolean
-            get() = MMKVUtils.getBoolean(SP_ENABLE_API_BATTERY_QUERY, false)
-            set(enableApiQueryBattery) {
-                MMKVUtils.put(SP_ENABLE_API_BATTERY_QUERY, enableApiQueryBattery)
-            }
+        var enableApiBatteryQuery: Boolean by SharedPreference(SP_ENABLE_API_BATTERY_QUERY, true)
 
         //是否启用远程WOL
-        @JvmStatic
-        var enableApiWol: Boolean
-            get() = MMKVUtils.getBoolean(SP_ENABLE_API_WOL, false)
-            set(enableApiWol) {
-                MMKVUtils.put(SP_ENABLE_API_WOL, enableApiWol)
-            }
+        var enableApiWol: Boolean by SharedPreference(SP_ENABLE_API_WOL, true)
+
+        //是否启用远程找手机
+        var enableApiLocation: Boolean by SharedPreference(SP_ENABLE_API_LOCATION, false)
+
+        //远程找手机定位缓存
+        var apiLocationCache: LocationInfo by SharedPreference(SP_API_LOCATION_CACHE, LocationInfo())
 
         //WOL历史记录
-        @JvmStatic
-        var wolHistory: String?
-            get() = MMKVUtils.getString(SP_WOL_HISTORY, "")
-            set(wolHistory) {
-                MMKVUtils.put(SP_WOL_HISTORY, wolHistory)
-            }
+        var wolHistory: String by SharedPreference(SP_WOL_HISTORY, "")
 
         //计算签名
         fun calcSign(timestamp: String, signSecret: String): String {
@@ -217,7 +120,7 @@ class HttpServerUtils private constructor() {
                 throw HttpException(500, String.format(getString(R.string.timestamp_verify_failed), timestamp, timeTolerance, diffTime))
             }
 
-            val sign = calcSign(req.timestamp.toString(), signSecret.toString())
+            val sign = calcSign(req.timestamp.toString(), signSecret)
             if (sign != req.sign) {
                 Log.e("calcSign", sign)
                 Log.e("reqSign", req.sign.toString())
@@ -239,88 +142,44 @@ class HttpServerUtils private constructor() {
             val cloneInfo = CloneInfo()
             cloneInfo.versionCode = AppUtils.getAppVersionCode()
             cloneInfo.versionName = AppUtils.getAppVersionName()
-            cloneInfo.enableSms = SettingUtils.enableSms
-            cloneInfo.enablePhone = SettingUtils.enablePhone
-            cloneInfo.callType1 = SettingUtils.enableCallType1
-            cloneInfo.callType2 = SettingUtils.enableCallType2
-            cloneInfo.callType3 = SettingUtils.enableCallType3
-            cloneInfo.enableAppNotify = SettingUtils.enableAppNotify
-            cloneInfo.cancelAppNotify = SettingUtils.enableCancelAppNotify
-            cloneInfo.enableNotUserPresent = SettingUtils.enableNotUserPresent
-            cloneInfo.enableLoadAppList = SettingUtils.enableLoadAppList
-            cloneInfo.enableLoadUserAppList = SettingUtils.enableLoadUserAppList
-            cloneInfo.enableLoadSystemAppList = SettingUtils.enableLoadSystemAppList
-            cloneInfo.duplicateMessagesLimits = SettingUtils.duplicateMessagesLimits
-            cloneInfo.enableBatteryReceiver = SettingUtils.enableBatteryReceiver
-            cloneInfo.batteryLevelMin = SettingUtils.batteryLevelMin
-            cloneInfo.batteryLevelMax = SettingUtils.batteryLevelMax
-            cloneInfo.batteryLevelOnce = SettingUtils.batteryLevelOnce
-            cloneInfo.enableBatteryCron = SettingUtils.enableBatteryCron
-            cloneInfo.batteryCronStartTime = SettingUtils.batteryCronStartTime
-            cloneInfo.batteryCronInterval = SettingUtils.batteryCronInterval
-            cloneInfo.enableExcludeFromRecents = SettingUtils.enableExcludeFromRecents
-            cloneInfo.enableCactus = SettingUtils.enableCactus
-            cloneInfo.enablePlaySilenceMusic = SettingUtils.enablePlaySilenceMusic
-            cloneInfo.enableOnePixelActivity = SettingUtils.enableOnePixelActivity
-            cloneInfo.requestRetryTimes = SettingUtils.requestRetryTimes
-            cloneInfo.requestDelayTime = SettingUtils.requestDelayTime
-            cloneInfo.requestTimeout = SettingUtils.requestTimeout
-            cloneInfo.notifyContent = SettingUtils.notifyContent
-            cloneInfo.enableSmsTemplate = SettingUtils.enableSmsTemplate
-            cloneInfo.smsTemplate = SettingUtils.smsTemplate
-            cloneInfo.enableHelpTip = SettingUtils.enableHelpTip
-            cloneInfo.enablePureClientMode = SettingUtils.enablePureClientMode
-            cloneInfo.senderList = Core.sender.all
-            cloneInfo.ruleList = Core.rule.all
-            cloneInfo.frpcList = Core.frpc.all
-
+            cloneInfo.settings = SharedPreference.exportPreference()
+            cloneInfo.senderList = Core.sender.getAllNonCache()
+            cloneInfo.ruleList = Core.rule.getAllNonCache()
+            cloneInfo.frpcList = Core.frpc.getAllNonCache()
+            cloneInfo.taskList = Core.task.getAllNonCache()
             return cloneInfo
         }
 
         //还原设置
         fun restoreSettings(cloneInfo: CloneInfo): Boolean {
             return try {
+                //保留设备名称、SIM卡主键/备注
+                val extraDeviceMark = SettingUtils.extraDeviceMark
+                val subidSim1 = SettingUtils.subidSim1
+                val extraSim1 = SettingUtils.extraSim1
+                val subidSim2 = SettingUtils.subidSim2
+                val extraSim2 = SettingUtils.extraSim2
                 //应用配置
-                SettingUtils.enableSms = cloneInfo.enableSms
-                SettingUtils.enablePhone = cloneInfo.enablePhone
-                SettingUtils.enableCallType1 = cloneInfo.callType1
-                SettingUtils.enableCallType2 = cloneInfo.callType2
-                SettingUtils.enableCallType3 = cloneInfo.callType3
-                SettingUtils.enableAppNotify = cloneInfo.enableAppNotify
-                SettingUtils.enableCancelAppNotify = cloneInfo.cancelAppNotify
-                SettingUtils.enableNotUserPresent = cloneInfo.enableNotUserPresent
-                SettingUtils.enableLoadAppList = cloneInfo.enableLoadAppList
-                SettingUtils.enableLoadUserAppList = cloneInfo.enableLoadUserAppList
-                SettingUtils.enableLoadSystemAppList = cloneInfo.enableLoadSystemAppList
-                SettingUtils.duplicateMessagesLimits = cloneInfo.duplicateMessagesLimits
-                SettingUtils.enableBatteryReceiver = cloneInfo.enableBatteryReceiver
-                SettingUtils.batteryLevelMin = cloneInfo.batteryLevelMin
-                SettingUtils.batteryLevelMax = cloneInfo.batteryLevelMax
-                SettingUtils.batteryLevelOnce = cloneInfo.batteryLevelOnce
-                SettingUtils.enableBatteryCron = cloneInfo.enableBatteryCron
-                SettingUtils.batteryCronStartTime = cloneInfo.batteryCronStartTime
-                SettingUtils.batteryCronInterval = cloneInfo.batteryCronInterval
-                SettingUtils.enableExcludeFromRecents = cloneInfo.enableExcludeFromRecents
-                SettingUtils.enableCactus = cloneInfo.enableCactus
-                SettingUtils.enablePlaySilenceMusic = cloneInfo.enablePlaySilenceMusic
-                SettingUtils.enableOnePixelActivity = cloneInfo.enableOnePixelActivity
-                SettingUtils.requestRetryTimes = cloneInfo.requestRetryTimes
-                SettingUtils.requestDelayTime = cloneInfo.requestDelayTime
-                SettingUtils.requestTimeout = cloneInfo.requestTimeout
-                SettingUtils.notifyContent = cloneInfo.notifyContent
-                SettingUtils.enableSmsTemplate = cloneInfo.enableSmsTemplate
-                SettingUtils.smsTemplate = cloneInfo.smsTemplate
-                SettingUtils.enableHelpTip = cloneInfo.enableHelpTip
-                SettingUtils.enablePureClientMode = cloneInfo.enablePureClientMode
-                //删除发送通道、转发规则、转发日志
-                Core.sender.deleteAll()
+                SharedPreference.clearPreference()
+                SharedPreference.importPreference(cloneInfo.settings)
+                //需要排除的配置
+                SettingUtils.extraDeviceMark = extraDeviceMark
+                SettingUtils.subidSim1 = subidSim1
+                SettingUtils.extraSim1 = extraSim1
+                SettingUtils.subidSim2 = subidSim2
+                SettingUtils.extraSim2 = extraSim2
+                //删除消息与转发日志
+                Core.logs.deleteAll()
+                Core.msg.deleteAll()
                 //发送通道
+                Core.sender.deleteAll()
                 if (!cloneInfo.senderList.isNullOrEmpty()) {
                     for (sender in cloneInfo.senderList!!) {
                         Core.sender.insert(sender)
                     }
                 }
                 //转发规则
+                Core.rule.deleteAll()
                 if (!cloneInfo.ruleList.isNullOrEmpty()) {
                     for (rule in cloneInfo.ruleList!!) {
                         Core.rule.insert(rule)
@@ -333,9 +192,17 @@ class HttpServerUtils private constructor() {
                         Core.frpc.insert(frpc)
                     }
                 }
+                //Task配置
+                Core.task.deleteAll()
+                if (!cloneInfo.taskList.isNullOrEmpty()) {
+                    for (task in cloneInfo.taskList!!) {
+                        Core.task.insert(task)
+                    }
+                }
                 true
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.e("restoreSettings", e.message.toString())
                 throw HttpException(500, e.message)
                 //false
             }
@@ -356,7 +223,7 @@ class HttpServerUtils private constructor() {
                     resp["data"] = output
                 }
                 if (safetyMeasures == 1) {
-                    resp["sign"] = calcSign(timestamp.toString(), serverSignKey.toString())
+                    resp["sign"] = calcSign(timestamp.toString(), serverSignKey)
                 }
             }
 

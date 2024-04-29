@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/xui_config_color_background"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/BarStyle.Switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/task_name_status"
+                    android:textStyle="bold" />
+
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    app:met_clearButton="true"
+                    tools:ignore="VisualLintTextFieldSize,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                    android:id="@+id/sb_status"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/BarTitleStyle.Task">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/task_conditions"
+                    android:textSize="@dimen/text_size_large" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/task_conditions_tips"
+                    android:textSize="@dimen/text_size_mini"
+                    tools:ignore="SmallSp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/BarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/layout_conditions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_conditions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:id="@+id/layout_add_condition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/config_padding_5dp"
+                    android:paddingBottom="@dimen/config_padding_5dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/card_view_icon_size"
+                        android:layout_height="@dimen/card_view_icon_size"
+                        android:src="@drawable/ic_add"
+                        app:tint="#BEC2C7"
+                        tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_add_condition"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/add_condition"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_add_condition_tips"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/add_condition_tips"
+                            android:textSize="@dimen/text_size_mini" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/BarTitleStyle.Task">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/task_actions"
+                    android:textSize="@dimen/text_size_large" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/task_actions_tips"
+                    android:textSize="@dimen/text_size_mini"
+                    tools:ignore="SmallSp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/BarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/layout_actions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_actions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:id="@+id/layout_add_action"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/config_padding_5dp"
+                    android:paddingBottom="@dimen/config_padding_5dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/card_view_icon_size"
+                        android:layout_height="@dimen/card_view_icon_size"
+                        android:src="@drawable/ic_add"
+                        app:tint="#BEC2C7"
+                        tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_add_action"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/add_action"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_add_action_tips"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/add_action_tips"
+                            android:textSize="@dimen/text_size_mini" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_del"
+            style="@style/SuperButton.Gray.Icon.Spacing"
+            android:drawableStart="@drawable/ic_delete"
+            android:text="@string/del"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_save"
+            style="@style/SuperButton.Blue.Icon.Spacing"
+            android:drawableStart="@drawable/ic_save"
+            android:text="@string/save"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_test"
+            style="@style/SuperButton.Green.Icon.Spacing"
+            android:drawableStart="@drawable/ic_test"
+            android:text="@string/test"
+            android:visibility="gone"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,6 +1,5 @@
 package com.idormy.sms.forwarder.fragment.client
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.google.gson.Gson
@@ -10,23 +9,26 @@ import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentClientBatteryQueryBinding
 import com.idormy.sms.forwarder.entity.BatteryInfo
 import com.idormy.sms.forwarder.server.model.BaseResponse
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.Base64
+import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.RSACrypt
+import com.idormy.sms.forwarder.utils.SM4Crypt
+import com.idormy.sms.forwarder.utils.XToastUtils
 import com.xuexiang.xhttp2.XHttp
-import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.utils.TextUtils
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.grouplist.XUIGroupListView
 import com.xuexiang.xutil.data.ConvertTools
 
-@Suppress("PropertyName")
+@Suppress("PrivatePropertyName")
 @Page(name = "远程查电量")
 class BatteryQueryFragment : BaseFragment<FragmentClientBatteryQueryBinding?>() {
 
-    val TAG: String = BatteryQueryFragment::class.java.simpleName
+    private val TAG: String = BatteryQueryFragment::class.java.simpleName
 
     override fun viewBindingInflate(
         inflater: LayoutInflater,
@@ -54,7 +56,7 @@ class BatteryQueryFragment : BaseFragment<FragmentClientBatteryQueryBinding?>() 
         msgMap["timestamp"] = timestamp
         val clientSignKey = HttpServerUtils.clientSignKey
         if (!TextUtils.isEmpty(clientSignKey)) {
-            msgMap["sign"] = HttpServerUtils.calcSign(timestamp.toString(), clientSignKey.toString())
+            msgMap["sign"] = HttpServerUtils.calcSign(timestamp.toString(), clientSignKey)
         }
         val dataMap: MutableMap<String, Any> = mutableMapOf()
         msgMap["data"] = dataMap
@@ -62,40 +64,40 @@ class BatteryQueryFragment : BaseFragment<FragmentClientBatteryQueryBinding?>() 
         var requestMsg: String = Gson().toJson(msgMap)
         Log.i(TAG, "requestMsg:$requestMsg")
 
-        val postRequest = XHttp.post(requestUrl)
-            .keepJson(true)
-            .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
-            .cacheMode(CacheMode.NO_CACHE)
-            .timeStamp(true)
+        val postRequest = XHttp.post(requestUrl).keepJson(true).timeStamp(true)
 
         when (HttpServerUtils.clientSafetyMeasures) {
             2 -> {
                 try {
-                    val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
+                    val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey)
                     requestMsg = Base64.encode(requestMsg.toByteArray())
                     requestMsg = RSACrypt.encryptByPublicKey(requestMsg, publicKey)
                     Log.i(TAG, "requestMsg: $requestMsg")
                 } catch (e: Exception) {
-                    XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
+                    XToastUtils.error(getString(R.string.request_failed) + e.message)
                     e.printStackTrace()
+                    Log.e(TAG, e.toString())
                     return
                 }
                 postRequest.upString(requestMsg)
             }
+
             3 -> {
                 try {
-                    val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey.toString())
+                    val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
                     //requestMsg = Base64.encode(requestMsg.toByteArray())
                     val encryptCBC = SM4Crypt.encrypt(requestMsg.toByteArray(), sm4Key)
                     requestMsg = ConvertTools.bytes2HexString(encryptCBC)
                     Log.i(TAG, "requestMsg: $requestMsg")
                 } catch (e: Exception) {
-                    XToastUtils.error(ResUtils.getString(R.string.request_failed) + e.message)
+                    XToastUtils.error(getString(R.string.request_failed) + e.message)
                     e.printStackTrace()
+                    Log.e(TAG, e.toString())
                     return
                 }
                 postRequest.upString(requestMsg)
             }
+
             else -> {
                 postRequest.upJson(requestMsg)
             }
@@ -111,37 +113,38 @@ class BatteryQueryFragment : BaseFragment<FragmentClientBatteryQueryBinding?>() 
                 try {
                     var json = response
                     if (HttpServerUtils.clientSafetyMeasures == 2) {
-                        val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey.toString())
+                        val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey)
                         json = RSACrypt.decryptByPublicKey(json, publicKey)
                         json = String(Base64.decode(json))
                     } else if (HttpServerUtils.clientSafetyMeasures == 3) {
-                        val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey.toString())
+                        val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
                         val encryptCBC = ConvertTools.hexStringToByteArray(json)
                         val decryptCBC = SM4Crypt.decrypt(encryptCBC, sm4Key)
                         json = String(decryptCBC)
                     }
                     val resp: BaseResponse<BatteryInfo> = Gson().fromJson(json, object : TypeToken<BaseResponse<BatteryInfo>>() {}.type)
                     if (resp.code == 200) {
-                        XToastUtils.success(ResUtils.getString(R.string.request_succeeded))
+                        XToastUtils.success(getString(R.string.request_succeeded))
                         val batteryInfo = resp.data ?: return
 
                         val groupListView = binding!!.infoList
                         val section = XUIGroupListView.newSection(context)
-                        section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_level), batteryInfo.level))) {}
-                        if (batteryInfo.scale != "") section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_scale), batteryInfo.scale))) {}
-                        if (batteryInfo.voltage != "") section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_voltage), batteryInfo.voltage))) {}
-                        if (batteryInfo.temperature != "") section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_temperature), batteryInfo.temperature))) {}
-                        section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_status), batteryInfo.status))) {}
-                        section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_health), batteryInfo.health))) {}
-                        section.addItemView(groupListView.createItemView(String.format(ResUtils.getString(R.string.battery_plugged), batteryInfo.plugged))) {}
+                        section.addItemView(groupListView.createItemView(String.format(getString(R.string.battery_level), batteryInfo.level))) {}
+                        if (batteryInfo.scale != "") section.addItemView(groupListView.createItemView(String.format(getString(R.string.battery_scale), batteryInfo.scale))) {}
+                        if (batteryInfo.voltage != "") section.addItemView(groupListView.createItemView(String.format(getString(R.string.battery_voltage), batteryInfo.voltage))) {}
+                        if (batteryInfo.temperature != "") section.addItemView(groupListView.createItemView(String.format(getString(R.string.battery_temperature), batteryInfo.temperature))) {}
+                        section.addItemView(groupListView.createItemView(String.format(getString(R.string.battery_status), batteryInfo.status))) {}
+                        section.addItemView(groupListView.createItemView(String.format(getString(R.string.battery_health), batteryInfo.health))) {}
+                        section.addItemView(groupListView.createItemView(String.format(getString(R.string.battery_plugged), batteryInfo.plugged))) {}
                         section.addTo(groupListView)
 
                     } else {
-                        XToastUtils.error(ResUtils.getString(R.string.request_failed) + resp.msg)
+                        XToastUtils.error(getString(R.string.request_failed) + resp.msg)
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    XToastUtils.error(ResUtils.getString(R.string.request_failed) + response)
+                    Log.e(TAG, e.toString())
+                    XToastUtils.error(getString(R.string.request_failed) + response)
                 }
             }
         })

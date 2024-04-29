@@ -1,26 +1,30 @@
 package com.idormy.sms.forwarder.utils.sender
 
 import android.text.TextUtils
-import android.util.Log
 import com.google.gson.Gson
+import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.result.TelegramResult
 import com.idormy.sms.forwarder.entity.setting.TelegramSetting
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.interceptor.LoggingInterceptor
 import com.xuexiang.xhttp2.XHttp
-import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
 import com.xuexiang.xutil.net.NetworkUtils
+import com.xuexiang.xutil.resource.ResUtils.getString
 import okhttp3.Credentials
 import okhttp3.Response
 import okhttp3.Route
-import java.net.*
+import java.net.Authenticator
+import java.net.InetSocketAddress
+import java.net.PasswordAuthentication
+import java.net.Proxy
+import java.net.URLEncoder
 
-
-@Suppress("PrivatePropertyName", "UNUSED_PARAMETER", "unused")
 class TelegramUtils private constructor() {
     companion object {
 
@@ -29,10 +33,12 @@ class TelegramUtils private constructor() {
         fun sendMsg(
             setting: TelegramSetting,
             msgInfo: MsgInfo,
-            rule: Rule?,
-            logId: Long?,
+            rule: Rule? = null,
+            senderIndex: Int = 0,
+            logId: Long = 0L,
+            msgId: Long = 0L
         ) {
-            if (setting.method == null || setting.method == "POST") {
+            if (setting.method == "POST") {
                 msgInfo.content = htmlEncode(msgInfo.content)
                 msgInfo.simInfo = htmlEncode(msgInfo.simInfo)
             }
@@ -40,7 +46,7 @@ class TelegramUtils private constructor() {
             val content: String = if (rule != null) {
                 msgInfo.getContentForSend(rule.smsTemplate, rule.regexReplace)
             } else {
-                msgInfo.getContentForSend(SettingUtils.smsTemplate.toString())
+                msgInfo.getContentForSend(SettingUtils.smsTemplate)
             }
 
             var requestUrl = if (setting.apiToken.startsWith("http")) {
@@ -50,7 +56,7 @@ class TelegramUtils private constructor() {
             }
             Log.i(TAG, "requestUrl:$requestUrl")
 
-            val request = if (setting.method != null && setting.method == "GET") {
+            val request = if (setting.method == "GET") {
                 requestUrl += "?chat_id=" + setting.chatId + "&text=" + URLEncoder.encode(content, "UTF-8")
                 Log.i(TAG, "requestUrl:$requestUrl")
                 XHttp.get(requestUrl)
@@ -73,23 +79,22 @@ class TelegramUtils private constructor() {
                 Log.d(TAG, "proxyHost = ${setting.proxyHost}, proxyPort = ${setting.proxyPort}")
                 val proxyHost = if (NetworkUtils.isIP(setting.proxyHost)) setting.proxyHost else NetworkUtils.getDomainAddress(setting.proxyHost)
                 if (!NetworkUtils.isIP(proxyHost)) {
-                    throw Exception("代理服务器主机名解析失败：proxyHost=$proxyHost")
+                    throw Exception(String.format(getString(R.string.invalid_proxy_host), proxyHost))
                 }
-                val proxyPort: Int = setting.proxyPort?.toInt() ?: 7890
+                val proxyPort: Int = setting.proxyPort.toInt()
 
                 Log.d(TAG, "proxyHost = $proxyHost, proxyPort = $proxyPort")
                 request.okproxy(Proxy(setting.proxyType, InetSocketAddress(proxyHost, proxyPort)))
 
                 //代理的鉴权账号密码
-                if (setting.proxyAuthenticator == true
-                    && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))
+                if (setting.proxyAuthenticator && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))
                 ) {
                     Log.i(TAG, "proxyUsername = ${setting.proxyUsername}, proxyPassword = ${setting.proxyPassword}")
 
                     if (setting.proxyType == Proxy.Type.HTTP) {
                         request.okproxyAuthenticator { _: Route?, response: Response ->
                             //设置代理服务器账号密码
-                            val credential = Credentials.basic(setting.proxyUsername.toString(), setting.proxyPassword.toString())
+                            val credential = Credentials.basic(setting.proxyUsername, setting.proxyPassword)
                             response.request().newBuilder()
                                 .header("Proxy-Authorization", credential)
                                 .build()
@@ -97,7 +102,7 @@ class TelegramUtils private constructor() {
                     } else {
                         Authenticator.setDefault(object : Authenticator() {
                             override fun getPasswordAuthentication(): PasswordAuthentication {
-                                return PasswordAuthentication(setting.proxyUsername.toString(), setting.proxyPassword?.toCharArray())
+                                return PasswordAuthentication(setting.proxyUsername, setting.proxyPassword.toCharArray())
                             }
                         })
                     }
@@ -106,36 +111,31 @@ class TelegramUtils private constructor() {
 
             request.keepJson(true)
                 //.ignoreHttpsCert()
-                .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
-                .cacheMode(CacheMode.NO_CACHE)
                 .retryCount(SettingUtils.requestRetryTimes) //超时重试的次数
-                .retryDelay(SettingUtils.requestDelayTime) //超时重试的延迟时间
-                .retryIncreaseDelay(SettingUtils.requestDelayTime) //超时重试叠加延时
-                .timeStamp(true)
+                .retryDelay(SettingUtils.requestDelayTime * 1000) //超时重试的延迟时间
+                .retryIncreaseDelay(SettingUtils.requestDelayTime * 1000) //超时重试叠加延时
+                .timeStamp(true) //url自动追加时间戳，避免缓存
+                .addInterceptor(LoggingInterceptor(logId)) //增加一个log拦截器, 记录请求日志
                 .execute(object : SimpleCallBack<String>() {
 
                     override fun onError(e: ApiException) {
                         Log.e(TAG, e.detailMessage)
-                        SendUtils.updateLogs(logId, 0, e.displayMessage)
+                        val status = 0
+                        SendUtils.updateLogs(logId, status, e.displayMessage)
+                        SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
                     }
 
                     override fun onSuccess(response: String) {
                         Log.i(TAG, response)
 
                         val resp = Gson().fromJson(response, TelegramResult::class.java)
-                        if (resp?.ok == true) {
-                            SendUtils.updateLogs(logId, 2, response)
-                        } else {
-                            SendUtils.updateLogs(logId, 0, response)
-                        }
+                        val status = if (resp?.ok == true) 2 else 0
+                        SendUtils.updateLogs(logId, status, response)
+                        SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
                     }
 
                 })
 
-        }
-
-        fun sendMsg(setting: TelegramSetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo, null, null)
         }
 
         private fun htmlEncode(source: String?): String {

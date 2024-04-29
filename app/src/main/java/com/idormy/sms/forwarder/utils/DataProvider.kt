@@ -5,6 +5,7 @@ import com.idormy.sms.forwarder.entity.ContactInfo
 import com.idormy.sms.forwarder.entity.SmsInfo
 import com.xuexiang.xaop.annotation.MemoryCache
 
+@Suppress("SameParameterValue")
 object DataProvider {
 
     //用于占位的空信息
@@ -57,8 +58,7 @@ object DataProvider {
      * @param interval 时间间隔（分钟）
      * @return
      */
-    @Suppress("UNCHECKED_CAST")
-    fun getTimePeriod(totalHour: Int, interval: Int): List<String> {
+    private fun getTimePeriod(totalHour: Int, interval: Int): List<String> {
         val list: MutableList<String> = ArrayList()
         var point: Int
         var hour: Int

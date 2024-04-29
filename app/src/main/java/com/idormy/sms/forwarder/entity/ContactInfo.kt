@@ -3,7 +3,7 @@ package com.idormy.sms.forwarder.entity
 import android.util.Patterns
 import com.google.gson.annotations.SerializedName
 import com.idormy.sms.forwarder.R
-import com.xuexiang.xui.utils.ResUtils.getString
+import com.xuexiang.xutil.resource.ResUtils.getString
 import java.io.Serializable
 import java.util.*
 

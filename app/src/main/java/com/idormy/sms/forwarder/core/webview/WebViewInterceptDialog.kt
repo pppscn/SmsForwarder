@@ -7,8 +7,8 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.XToastUtils
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.dialog.DialogLoader
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.app.ActivityUtils
@@ -27,7 +27,7 @@ class WebViewInterceptDialog : AppCompatActivity(), DialogInterface.OnDismissLis
         DialogLoader.getInstance().showConfirmDialog(
             this,
             getOpenTitle(url),
-            ResUtils.getString(R.string.lab_yes),
+            getString(R.string.lab_yes),
             { dialog: DialogInterface, _: Int ->
                 dialog.dismiss()
                 if (isAppLink(url)) {
@@ -36,16 +36,16 @@ class WebViewInterceptDialog : AppCompatActivity(), DialogInterface.OnDismissLis
                     openApp(url)
                 }
             },
-            ResUtils.getString(R.string.lab_no)
+            getString(R.string.lab_no)
         ) { dialog: DialogInterface, _: Int -> dialog.dismiss() }.setOnDismissListener(this)
     }
 
     private fun getOpenTitle(url: String): String {
         val scheme = getScheme(url)
         return if ("mqqopensdkapi" == scheme) {
-            ResUtils.getString(R.string.lab_open_qq_app)
+            getString(R.string.lab_open_qq_app)
         } else {
-            ResUtils.getString(R.string.lab_open_third_app)
+            getString(R.string.lab_open_third_app)
         }
     }
 
@@ -55,6 +55,7 @@ class WebViewInterceptDialog : AppCompatActivity(), DialogInterface.OnDismissLis
             return intent.scheme
         } catch (e: URISyntaxException) {
             e.printStackTrace()
+            Log.e("WebViewInterceptDialog", e.toString())
         }
         return ""
     }

@@ -7,10 +7,7 @@
     android:layout_marginStart="@dimen/config_margin_5dp"
     android:layout_marginTop="@dimen/config_margin_5dp"
     android:layout_marginEnd="@dimen/config_margin_5dp"
-    android:paddingStart="@dimen/config_padding_10dp"
-    android:paddingTop="@dimen/config_padding_5dp"
-    android:paddingEnd="@dimen/config_padding_5dp"
-    android:paddingBottom="@dimen/config_padding_5dp">
+    android:padding="@dimen/config_padding_5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +26,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dip"
             android:layout_weight="1"
-
             android:orientation="vertical">
 
             <TextView
@@ -44,16 +40,32 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp" />
 
-            <TextView
-                android:id="@+id/tv_ver_name"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp" />
+                android:layout_marginTop="3dp"
+                android:orientation="horizontal">
 
-            <!--<TextView
-                android:id="@+id/tv_ver_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />-->
+                <TextView
+                    android:id="@+id/tv_ver_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <!--<TextView
+                    android:id="@+id/tv_ver_code"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />-->
+
+                <TextView
+                    android:id="@+id/tv_uid"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="end|bottom" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

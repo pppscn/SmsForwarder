@@ -35,7 +35,7 @@ import java.lang.reflect.Type
  * @author xuexiang
  * @since 2018/5/25 下午3:44
  */
-@Suppress("MemberVisibilityCanBePrivate")
+@Suppress("MemberVisibilityCanBePrivate", "EmptyMethod")
 abstract class BaseFragment<Binding : ViewBinding?> : XPageFragment() {
     private var mIProgressLoader: IProgressLoader? = null
 
@@ -204,27 +204,35 @@ abstract class BaseFragment<Binding : ViewBinding?> : XPageFragment() {
             is Int -> {
                 option.putInt(key, value)
             }
+
             is Float -> {
                 option.putFloat(key, value)
             }
+
             is String -> {
                 option.putString(key, value)
             }
+
             is Boolean -> {
                 option.putBoolean(key, value)
             }
+
             is Long -> {
                 option.putLong(key, value)
             }
+
             is Double -> {
                 option.putDouble(key, value)
             }
+
             is Parcelable -> {
                 option.putParcelable(key, value)
             }
+
             is Serializable -> {
                 option.putSerializable(key, value)
             }
+
             else -> {
                 option.putString(key, serializeObject(value))
             }

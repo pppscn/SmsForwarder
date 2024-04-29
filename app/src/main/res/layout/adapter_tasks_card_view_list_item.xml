@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xuexiang.xui.widget.layout.XUIFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    style="@style/XUILayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/config_margin_5dp"
+    android:layout_marginTop="@dimen/config_margin_5dp"
+    android:layout_marginEnd="@dimen/config_margin_5dp"
+    android:padding="@dimen/config_padding_10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layout_icons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/layout_conditions_icons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+
+            <ImageView
+                android:id="@+id/iv_arrow"
+                android:layout_width="@dimen/card_view_image_size"
+                android:layout_height="@dimen/card_view_image_size"
+                android:padding="4dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/auto_task_icon_left_arrow"
+                tools:ignore="ContentDescription,ImageContrastCheck" />
+
+            <LinearLayout
+                android:id="@+id/layout_actions_icons"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal" />
+
+            <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                android:id="@+id/sb_enable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                tools:ignore="TouchTargetSizeCheck" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            tools:ignore="DisableBaselineAlignment">
+
+            <LinearLayout
+                android:id="@+id/layout_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/iv_image"
+                    android:layout_width="@dimen/card_view_image_size"
+                    android:layout_height="@dimen/card_view_image_size"
+                    android:scaleType="fitCenter"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/iv_status"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="-16dp"
+                    android:scaleType="fitCenter"
+                    tools:ignore="ContentDescription" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="start"
+                        android:maxEms="10"
+                        android:maxLines="1"
+                        android:text="@string/task_cron"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_small" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_description"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="start"
+                        android:maxLines="2"
+                        android:text="@string/task_cron_tips"
+                        android:textSize="@dimen/text_size_mini" />
+
+                    <ImageView
+                        android:id="@+id/iv_copy"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="10dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_copy"
+                        app:tint="@color/colorStart"
+                        tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                    <ImageView
+                        android:id="@+id/iv_edit"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_edit"
+                        app:tint="@color/toast_info_color"
+                        tools:ignore="ContentDescription,PrivateResource,ImageContrastCheck" />
+
+                    <ImageView
+                        android:id="@+id/iv_delete"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_delete"
+                        app:tint="@color/toast_error_color"
+                        tools:ignore="ContentDescription,PrivateResource" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.xuexiang.xui.widget.layout.XUIFrameLayout>

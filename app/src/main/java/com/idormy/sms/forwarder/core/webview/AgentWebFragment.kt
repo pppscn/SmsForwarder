@@ -10,9 +10,18 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
-import android.view.*
-import android.webkit.*
+import android.view.Gravity
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.webkit.DownloadListener
+import android.webkit.WebChromeClient
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -20,7 +29,9 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.just.agentweb.action.PermissionInterceptor
 import com.just.agentweb.core.AgentWeb
@@ -46,7 +57,6 @@ import com.xuexiang.xutil.net.JsonUtil
  */
 @Suppress(
     "unused",
-    "MemberVisibilityCanBePrivate",
     "ProtectedInFinal",
     "NAME_SHADOWING",
     "UNUSED_PARAMETER",
@@ -96,7 +106,7 @@ class AgentWebFragment : Fragment(), FragmentKeyDown {
             .ready() //设置 WebSettings。
             //WebView载入该url地址的页面并显示。
             .go(url)
-        if (com.idormy.sms.forwarder.App.isDebug) {
+        if (App.isDebug) {
             AgentWebConfig.debug()
         }
 
@@ -147,6 +157,7 @@ class AgentWebFragment : Fragment(), FragmentKeyDown {
                 if (!mAgentWeb!!.back()) {
                     this.requireActivity().finish()
                 }
+
             R.id.iv_finish -> this.requireActivity().finish()
             R.id.iv_more -> showPoPup(v)
             else -> {}
@@ -459,24 +470,28 @@ class AgentWebFragment : Fragment(), FragmentKeyDown {
                 }
                 true
             }
+
             R.id.copy -> {
                 if (mAgentWeb != null) {
                     mAgentWeb!!.webCreator.webView.url?.let { toCopy(context, it) }
                 }
                 true
             }
+
             R.id.default_browser -> {
                 if (mAgentWeb != null) {
                     mAgentWeb!!.webCreator.webView.url?.let { openBrowser(it) }
                 }
                 true
             }
+
             R.id.share -> {
                 if (mAgentWeb != null) {
                     mAgentWeb!!.webCreator.webView.url?.let { shareWebUrl(it) }
                 }
                 true
             }
+
             else -> false
         }
     }

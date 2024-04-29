@@ -2,6 +2,7 @@ package com.idormy.sms.forwarder.utils.sdkinit
 
 import android.app.Application
 import android.content.Context
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.BuildConfig
 import com.idormy.sms.forwarder.utils.SettingUtils.Companion.isAgreePrivacy
 //import com.meituan.android.walle.WalleChannelReader
@@ -37,11 +38,11 @@ class UMengInit private constructor() {
          */
         private fun initApplication(application: Application?) {
             // 运营统计数据调试运行时不初始化
-            if (com.idormy.sms.forwarder.App.isDebug) {
+            if (App.isDebug) {
                 return
             }
             UMConfigure.setLogEnabled(false)
-            UMConfigure.preInit(application, BuildConfig.APP_ID_UMENG, getChannel(application))
+            UMConfigure.preInit(application, BuildConfig.APP_ID_UMENG, DEFAULT_CHANNEL_ID) //getChannel(application)
             // 用户同意了隐私协议
             if (isAgreePrivacy) {
                 realInit(application)
@@ -53,7 +54,7 @@ class UMengInit private constructor() {
          */
         private fun realInit(application: Application?) {
             // 运营统计数据调试运行时不初始化
-            if (com.idormy.sms.forwarder.App.isDebug) {
+            if (App.isDebug) {
                 return
             }
             //初始化组件化基础库, 注意: 即使您已经在AndroidManifest.xml中配置过appkey和channel值，也需要在App代码中调用初始化接口（如需要使用AndroidManifest.xml中配置好的appkey和channel值，UMConfigure.init调用中appkey和channel参数请置为null）。
@@ -62,7 +63,7 @@ class UMengInit private constructor() {
             UMConfigure.init(
                 application,
                 BuildConfig.APP_ID_UMENG,
-                getChannel(application),
+                DEFAULT_CHANNEL_ID, //getChannel(application)
                 UMConfigure.DEVICE_TYPE_PHONE,
                 ""
             )
@@ -74,14 +75,10 @@ class UMengInit private constructor() {
 
         /**
          * 获取渠道信息
-         *
-         * @param context
-         * @return
          */
-        private fun getChannel(context: Context?): String {
-            //return WalleChannelReader.getChannel(context!!, DEFAULT_CHANNEL_ID)
-            return DEFAULT_CHANNEL_ID
-        }
+        //private fun getChannel(context: Context?): String {
+        //    return WalleChannelReader.getChannel(context!!, DEFAULT_CHANNEL_ID)
+        //}
     }
 
     init {

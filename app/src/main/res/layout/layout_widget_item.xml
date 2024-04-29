@@ -11,13 +11,14 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/item_icon"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="60dp"
         android:padding="10dp" />
 
     <TextView
         android:id="@+id/item_name"
         style="@style/TextStyle.Explain"
-        android:lines="2" />
+        android:lines="2"
+        android:textSize="@dimen/text_size_small" />
 
 </LinearLayout>

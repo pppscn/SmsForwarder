@@ -1,31 +1,37 @@
 package com.idormy.sms.forwarder.fragment
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.idormy.sms.forwarder.App
+import com.idormy.sms.forwarder.BuildConfig
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.core.webview.AgentWebActivity
 import com.idormy.sms.forwarder.databinding.FragmentAboutBinding
+import com.idormy.sms.forwarder.utils.AppUtils
 import com.idormy.sms.forwarder.utils.CacheUtils
 import com.idormy.sms.forwarder.utils.CommonUtils.Companion.gotoProtocol
 import com.idormy.sms.forwarder.utils.CommonUtils.Companion.previewMarkdown
 import com.idormy.sms.forwarder.utils.CommonUtils.Companion.previewPicture
+import com.idormy.sms.forwarder.utils.CommonUtils.Companion.restartApplication
 import com.idormy.sms.forwarder.utils.HistoryUtils
 import com.idormy.sms.forwarder.utils.HttpServerUtils
+import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.idormy.sms.forwarder.utils.sdkinit.XUpdateInit
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xui.widget.actionbar.TitleBar
+import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-import com.xuexiang.xutil.app.AppUtils
-import com.xuexiang.xutil.file.FileUtils
 import frpclib.Frpclib
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 @Page(name = "关于软件")
 class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSuperTextViewClickListener {
@@ -50,7 +56,7 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
         binding!!.menuVersion.setLeftString(String.format(resources.getString(R.string.about_app_version), AppUtils.getAppVersionName()))
         binding!!.menuCache.setLeftString(String.format(resources.getString(R.string.about_cache_size), CacheUtils.getTotalCacheSize(requireContext())))
 
-        if (FileUtils.isFileExists(context?.filesDir?.absolutePath + "/libs/libgojni.so")) {
+        if (App.FrpclibInited) {
             binding!!.menuFrpc.setLeftString(String.format(resources.getString(R.string.about_frpc_version), Frpclib.getVersion()))
             binding!!.menuFrpc.visibility = View.VISIBLE
         }
@@ -58,14 +64,27 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
         val dateFormat = SimpleDateFormat("yyyy", Locale.CHINA)
         val currentYear = dateFormat.format(Date())
         binding!!.copyright.text = java.lang.String.format(resources.getString(R.string.about_copyright), currentYear)
+
+        binding!!.scbAutoCheckUpdate.isChecked = SettingUtils.autoCheckUpdate
+        binding!!.scbAutoCheckUpdate.setOnCheckedChangeListener { _, isChecked ->
+            SettingUtils.autoCheckUpdate = isChecked
+        }
+
+        binding!!.sbJoinPreviewProgram.isChecked = SettingUtils.joinPreviewProgram
+        binding!!.sbJoinPreviewProgram.setOnCheckedChangeListener { _, isChecked ->
+            SettingUtils.joinPreviewProgram = isChecked
+            if (isChecked) {
+                XToastUtils.success(getString(R.string.join_preview_program_tips))
+            }
+        }
     }
 
     override fun initListeners() {
         binding!!.btnUpdate.setOnClickListener {
-            XUpdateInit.checkUpdate(requireContext(), true)
+            XUpdateInit.checkUpdate(requireContext(), true, SettingUtils.joinPreviewProgram)
         }
         binding!!.btnCache.setOnClickListener {
-            HistoryUtils.clear()
+            HistoryUtils.clearPreference()
             CacheUtils.clearAllCache(requireContext())
             XToastUtils.success(R.string.about_cache_purged)
             binding!!.menuCache.setLeftString(String.format(resources.getString(R.string.about_cache_size), CacheUtils.getTotalCacheSize(requireContext())))
@@ -74,14 +93,19 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
             try {
                 val soFile = File(context?.filesDir?.absolutePath + "/libs/libgojni.so")
                 if (soFile.exists()) soFile.delete()
-                XToastUtils.success(R.string.about_frpc_deleted)
-
-                val intent: Intent? = context?.packageManager?.getLaunchIntentForPackage(context?.packageName.toString())
-                intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(intent)
-                android.os.Process.killProcess(android.os.Process.myPid()) //杀掉以前进程
+                MaterialDialog.Builder(requireContext())
+                    .iconRes(R.drawable.ic_menu_frpc)
+                    .title(R.string.menu_frpc)
+                    .content(R.string.about_frpc_deleted)
+                    .cancelable(false)
+                    .positiveText(R.string.confirm)
+                    .onPositive { _: MaterialDialog?, _: DialogAction? ->
+                        restartApplication()
+                    }
+                    .show()
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.e("AboutFragment", "btnFrpc.setOnClickListener error: ${e.message}")
                 XToastUtils.error(e.message.toString())
             }
         }
@@ -91,27 +115,11 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
         binding!!.btnGitee.setOnClickListener {
             AgentWebActivity.goWeb(context, getString(R.string.url_project_gitee))
         }
-        binding!!.btnAddQqGroup1.setOnClickListener {
-            AgentWebActivity.goWeb(context, getString(R.string.url_add_qq_group_1))
-        }
-        binding!!.btnAddQqGroup2.setOnClickListener {
-            AgentWebActivity.goWeb(context, getString(R.string.url_add_qq_group_2))
-        }
-        binding!!.btnAddQqGroup3.setOnClickListener {
-            AgentWebActivity.goWeb(context, getString(R.string.url_add_qq_group_3))
-        }
-        binding!!.btnAddQqGroup4.setOnClickListener {
-            AgentWebActivity.goWeb(context, getString(R.string.url_add_qq_group_4))
-        }
-        binding!!.btnAddQqGroup5.setOnClickListener {
-            AgentWebActivity.goWeb(context, getString(R.string.url_add_qq_group_5))
-        }
 
+        binding!!.menuJoinPreviewProgram.setOnSuperTextViewClickListener(this)
+        binding!!.menuVersion.setOnSuperTextViewClickListener(this)
         binding!!.menuWechatMiniprogram.setOnSuperTextViewClickListener(this)
         binding!!.menuDonation.setOnSuperTextViewClickListener(this)
-        binding!!.menuWecomGroup.setOnSuperTextViewClickListener(this)
-        binding!!.menuDingtalkGroup.setOnSuperTextViewClickListener(this)
-        binding!!.menuQqChannel.setOnSuperTextViewClickListener(this)
         binding!!.menuUserProtocol.setOnSuperTextViewClickListener(this)
         binding!!.menuPrivacyProtocol.setOnSuperTextViewClickListener(this)
     }
@@ -119,9 +127,26 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
     @SingleClick
     override fun onClick(v: SuperTextView) {
         when (v.id) {
+            R.id.menu_join_preview_program -> {
+                XToastUtils.info(getString(R.string.join_preview_program_tips))
+            }
+
+            R.id.menu_version -> {
+                XToastUtils.info(
+                    String.format(
+                        getString(R.string.about_app_version_tips),
+                        AppUtils.getAppVersionName(),
+                        AppUtils.getAppVersionCode(),
+                        BuildConfig.BUILD_TIME,
+                        BuildConfig.GIT_COMMIT_ID
+                    )
+                )
+            }
+
             R.id.menu_donation -> {
                 previewMarkdown(this, getString(R.string.about_item_donation_link), getString(R.string.url_donation_link), false)
             }
+
             R.id.menu_wechat_miniprogram -> {
                 if (HttpServerUtils.safetyMeasures != 3) {
                     XToastUtils.error("微信小程序只支持SM4加密传输！请前往主动控制·服务端修改安全措施！")
@@ -129,18 +154,11 @@ class AboutFragment : BaseFragment<FragmentAboutBinding?>(), SuperTextView.OnSup
                 }
                 previewPicture(this, getString(R.string.url_wechat_miniprogram), null)
             }
-            R.id.menu_wecom_group -> {
-                previewPicture(this, getString(R.string.url_wework_group), null)
-            }
-            R.id.menu_dingtalk_group -> {
-                previewPicture(this, getString(R.string.url_dingtalk_group), null)
-            }
-            R.id.menu_qq_channel -> {
-                AgentWebActivity.goWeb(context, getString(R.string.url_qq_channel))
-            }
+
             R.id.menu_user_protocol -> {
                 gotoProtocol(this, isPrivacy = false, isImmersive = false)
             }
+
             R.id.menu_privacy_protocol -> {
                 gotoProtocol(this, isPrivacy = true, isImmersive = false)
             }

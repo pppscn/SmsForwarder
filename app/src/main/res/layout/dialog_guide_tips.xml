@@ -14,14 +14,6 @@
         android:orientation="vertical"
         tools:ignore="UselessParent">
 
-        <com.xuexiang.xui.widget.alpha.XUIAlphaImageView
-            android:id="@+id/iv_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:padding="@dimen/config_margin_10dp"
-            app:srcCompat="@drawable/ic_action_close_white" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,13 +38,32 @@
                     android:layout_marginEnd="@dimen/config_margin_8dp"
                     app:srcCompat="@drawable/img_guide_tip_top" />
 
-                <TextView
-                    android:id="@+id/tv_title"
-                    style="@style/TextStyle.Content"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/config_margin_16dp"
-                    android:text="@string/tip_title"
-                    android:textColor="?attr/colorAccent" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_title"
+                        style="@style/TextStyle.Content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/tip_title"
+                        android:textColor="#299EE3"
+                        tools:ignore="TextContrastCheck" />
+
+                    <com.xuexiang.xui.widget.alpha.XUIAlphaImageView
+                        android:id="@+id/iv_close"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        app:srcCompat="@drawable/ic_action_close"
+                        app:tint="@color/gray_text_light"
+                        tools:ignore="ImageContrastCheck" />
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_content"
@@ -84,12 +95,14 @@
                         android:layout_height="wrap_content"
                         android:button="@drawable/xui_icon_checkbox"
                         android:scaleX="0.8"
-                        android:scaleY="0.8" />
+                        android:scaleY="0.8"
+                        tools:ignore="PrivateResource,TouchTargetSizeCheck" />
 
                     <TextView
                         style="@style/TextStyle.Explain"
                         android:layout_marginStart="@dimen/config_margin_4dp"
-                        android:text="@string/tip_ignore_message" />
+                        android:text="@string/tip_ignore_message"
+                        tools:ignore="TextContrastCheck" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -133,6 +146,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
 </LinearLayout>

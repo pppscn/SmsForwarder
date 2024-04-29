@@ -1,9 +1,8 @@
 package com.idormy.sms.forwarder.utils
 
-import android.util.Log
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.MsgInfo
-import com.xuexiang.xui.utils.ResUtils.getString
+import com.xuexiang.xutil.resource.ResUtils.getString
 import java.util.regex.Pattern
 import java.util.regex.PatternSyntaxException
 
@@ -15,9 +14,11 @@ class RuleLine(line: String, lineNum: Int, beforeRuleLine: RuleLine?) {
         val FILED_PHONE_NUM: String = getString(R.string.FILED_PHONE_NUM)
         val FILED_MSG_CONTENT: String = getString(R.string.FILED_MSG_CONTENT)
         val FILED_PACKAGE_NAME: String = getString(R.string.FILED_PACKAGE_NAME)
+        val FILED_UID: String = getString(R.string.FILED_UID)
         val FILED_INFORM_TITLE: String = getString(R.string.FILED_INFORM_TITLE)
         val FILED_INFORM_CONTENT: String = getString(R.string.FILED_INFORM_CONTENT)
         val FILED_SIM_SLOT_INFO: String = getString(R.string.FILED_SIM_SLOT_INFO)
+        val FILED_CALL_TYPE: String = getString(R.string.FILED_CALL_TYPE)
         val SURE_YES: String = getString(R.string.SURE_YES)
         val SURE_NOT: String = getString(R.string.SURE_NOT)
         val CHECK_EQUALS: String = getString(R.string.CHECK_EQUALS)
@@ -57,6 +58,8 @@ class RuleLine(line: String, lineNum: Int, beforeRuleLine: RuleLine?) {
             FILED_LIST.add(FILED_INFORM_CONTENT)
             FILED_LIST.add(FILED_INFORM_TITLE)
             FILED_LIST.add(FILED_SIM_SLOT_INFO)
+            FILED_LIST.add(FILED_CALL_TYPE)
+            FILED_LIST.add(FILED_UID)
         }
 
         init {
@@ -99,6 +102,8 @@ class RuleLine(line: String, lineNum: Int, beforeRuleLine: RuleLine?) {
         var mixChecked = false
         when (field) {
             FILED_PHONE_NUM, FILED_PACKAGE_NAME -> mixChecked = checkValue(msg.from)
+            FILED_UID -> mixChecked = checkValue(msg.uid.toString())
+            FILED_CALL_TYPE -> mixChecked = checkValue(msg.callType.toString())
             FILED_MSG_CONTENT, FILED_INFORM_CONTENT -> mixChecked = checkValue(msg.content)
             FILED_INFORM_TITLE, FILED_SIM_SLOT_INFO -> mixChecked = checkValue(msg.simInfo)
             else -> {}
@@ -120,15 +125,19 @@ class RuleLine(line: String, lineNum: Int, beforeRuleLine: RuleLine?) {
             CHECK_CONTAIN -> if (msgValue != null) {
                 checked = msgValue.contains(value)
             }
+
             CHECK_NOT_CONTAIN -> if (msgValue != null) {
                 checked = !msgValue.contains(value)
             }
+
             CHECK_START_WITH -> if (msgValue != null) {
                 checked = msgValue.startsWith(value)
             }
+
             CHECK_END_WITH -> if (msgValue != null) {
                 checked = msgValue.endsWith(value)
             }
+
             CHECK_REGEX -> if (msgValue != null) {
                 try {
                     //checked = Pattern.matches(this.value, msgValue);
@@ -146,6 +155,7 @@ class RuleLine(line: String, lineNum: Int, beforeRuleLine: RuleLine?) {
                     logg("Pattern: " + e.pattern)
                 }
             }
+
             else -> {}
         }
         logg("checkValue $msgValue $check $value checked:$checked")

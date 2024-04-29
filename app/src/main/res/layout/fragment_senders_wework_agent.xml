@@ -20,7 +20,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                style="@style/senderBarStyleWithSwitch"
+                style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -50,7 +50,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/senderBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -74,7 +74,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/senderBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -86,7 +86,8 @@
                     android:gravity="end"
                     android:maxLines="1"
                     android:text="@string/Agent_ID"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:ignore="TextSizeCheck" />
 
                 <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                     android:id="@+id/et_agentID"
@@ -100,7 +101,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/senderBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -124,15 +125,15 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/senderBarStyleWithSwitch"
+                style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="70dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="end"
+                    android:layout_weight="1"
                     android:text="@string/is_at_all"
                     android:textStyle="bold" />
 
@@ -146,127 +147,126 @@
 
             <LinearLayout
                 android:id="@+id/layout_toUser"
-                style="@style/senderBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="70dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="end"
                         android:text="@string/touser"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="TextSizeCheck" />
 
-                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                        android:id="@+id/et_toUser"
+                    <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_weight="1"
-                        android:singleLine="true"
-                        app:met_clearButton="true" />
+                        android:text="@string/touser_tips"
+                        android:textSize="@dimen/text_size_mini"
+                        tools:ignore="SmallSp" />
 
                 </LinearLayout>
 
-                <TextView
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_toUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/touser_tips"
-                    android:textSize="10sp"
-                    tools:ignore="SmallSp" />
+                    android:singleLine="true"
+                    app:met_clearButton="true" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_toParty"
-                style="@style/senderBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="70dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="end"
                         android:text="@string/toparty"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="TextSizeCheck" />
 
-                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                        android:id="@+id/et_toParty"
+                    <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_weight="1"
-                        android:singleLine="true"
-                        app:met_clearButton="true" />
+                        android:text="@string/toparty_tips"
+                        android:textSize="@dimen/text_size_mini"
+                        tools:ignore="SmallSp" />
 
                 </LinearLayout>
 
-                <TextView
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_toParty"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/toparty_tips"
-                    android:textSize="10sp"
-                    tools:ignore="SmallSp" />
+                    android:singleLine="true"
+                    app:met_clearButton="true" />
 
             </LinearLayout>
-
 
             <LinearLayout
                 android:id="@+id/layout_toTag"
-                style="@style/senderBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="70dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="end"
                         android:text="@string/totag"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="TextSizeCheck" />
 
-                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                        android:id="@+id/et_toTag"
+                    <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_weight="1"
-                        android:singleLine="true"
-                        app:met_clearButton="true" />
+                        android:text="@string/totag_tips"
+                        android:textSize="@dimen/text_size_mini"
+                        tools:ignore="SmallSp" />
 
                 </LinearLayout>
 
-                <TextView
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_toTag"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/totag_tips"
-                    android:textSize="10sp"
-                    tools:ignore="SmallSp" />
+                    android:singleLine="true"
+                    app:met_clearButton="true" />
 
             </LinearLayout>
 
             <LinearLayout
-                style="@style/senderBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -305,7 +305,7 @@
 
             <LinearLayout
                 android:id="@+id/layoutProxyHost"
-                style="@style/senderBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -329,7 +329,7 @@
 
             <LinearLayout
                 android:id="@+id/layoutProxyPort"
-                style="@style/senderBarStyleWithSwitch"
+                style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -368,7 +368,7 @@
 
             <LinearLayout
                 android:id="@+id/layoutProxyAuthenticator"
-                style="@style/senderBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -412,6 +412,46 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                style="@style/BarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:text="@string/Customize_API"
+                        android:textStyle="bold"
+                        tools:ignore="TextSizeCheck" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        android:text="@string/customize_api_tips"
+                        android:textSize="@dimen/text_size_mini"
+                        tools:ignore="SmallSp" />
+
+                </LinearLayout>
+
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_customizeAPI"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    app:met_clearButton="true" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
@@ -425,32 +465,24 @@
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_del"
-            style="@style/SuperButton.Gray.Icon"
-            android:drawableStart="@drawable/icon_delete"
-            android:paddingStart="15dp"
+            style="@style/SuperButton.Gray.Icon.Spacing"
+            android:drawableStart="@drawable/ic_delete"
             android:text="@string/del"
-            android:textSize="11sp"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_save"
-            style="@style/SuperButton.Blue.Icon"
-            android:layout_marginStart="10dp"
-            android:drawableStart="@drawable/icon_save"
-            android:paddingStart="15dp"
+            style="@style/SuperButton.Blue.Icon.Spacing"
+            android:drawableStart="@drawable/ic_save"
             android:text="@string/save"
-            android:textSize="11sp"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_test"
-            style="@style/SuperButton.Green.Icon"
-            android:layout_marginStart="10dp"
-            android:drawableStart="@drawable/icon_test"
-            android:paddingStart="15dp"
+            style="@style/SuperButton.Green.Icon.Spacing"
+            android:drawableStart="@drawable/ic_test"
             android:text="@string/test"
-            android:textSize="11sp"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
     </LinearLayout>
 

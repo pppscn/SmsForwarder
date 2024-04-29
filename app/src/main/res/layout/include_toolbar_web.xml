@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="?attr/xui_actionbar_height"
-    android:background="?attr/colorAccent"
+    android:background="#299EE3"
     app:contentInsetLeft="0dp"
     app:contentInsetStart="0dp"
     app:titleTextColor="@android:color/white">
@@ -12,7 +12,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorAccent">
+        android:background="#299EE3">
 
         <com.xuexiang.xui.widget.alpha.XUIAlphaImageView
             android:id="@+id/iv_back"
@@ -20,14 +20,15 @@
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:scaleType="center"
-            android:src="@drawable/ic_web_back" />
+            android:src="@drawable/ic_action_back"
+            tools:ignore="ImageContrastCheck" />
 
         <View
             android:id="@+id/view_line"
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:layout_toEndOf="@id/iv_back"
             android:background="@color/xui_config_color_white" />
 
@@ -37,7 +38,8 @@
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/view_line"
             android:scaleType="center"
-            android:src="@drawable/ic_web_close" />
+            android:src="@drawable/ic_action_close"
+            tools:ignore="ImageContrastCheck" />
 
         <TextView
             android:id="@+id/toolbar_title"
@@ -46,7 +48,7 @@
             android:layout_centerInParent="true"
             android:singleLine="true"
             android:textColor="@android:color/white"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_medium"
             tools:ignore="RelativeOverlap" />
 
         <com.xuexiang.xui.widget.alpha.XUIAlphaImageView
@@ -55,7 +57,9 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:scaleType="center"
-            android:src="@drawable/ic_web_more" />
+            android:src="@drawable/ic_action_menu"
+            tools:ignore="ImageContrastCheck" />
+
     </RelativeLayout>
 
 

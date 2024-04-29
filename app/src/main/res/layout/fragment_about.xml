@@ -19,32 +19,92 @@
             android:paddingBottom="5dp">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
+                android:layout_width="240dp"
+                android:layout_height="120dp"
                 android:contentDescription="@string/logo"
-                app:srcCompat="@drawable/ic_splash_app_logo" />
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_splash_app_logo"
+                tools:ignore="ImageContrastCheck" />
+
+            <TextView
+                android:id="@+id/tv_slogan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/notification_content"
+                android:textAlignment="center"
+                android:textColor="@color/xui_config_color_gray_6"
+                android:textStyle="bold" />
 
             <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-                android:id="@+id/menu_version"
+                android:id="@+id/menu_join_preview_program"
                 style="@style/InfoItem.AboutWithBtn"
-                android:layout_marginTop="15dp"
-                app:sLeftTextString="@string/about_app_version">
+                android:layout_marginTop="10dp"
+                app:sLeftTextString="@string/join_preview_program">
 
-                <com.xuexiang.xui.widget.button.CountDownButton
-                    android:id="@+id/btn_update"
-                    style="@style/Button.Blue"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="10dp"
                     android:layout_toStartOf="@id/sRightImgId"
-                    android:minWidth="30dp"
-                    android:minHeight="0dp"
-                    android:padding="5dp"
-                    android:text="@string/check_update"
-                    android:textSize="11sp"
-                    app:cdbt_countDown="3000"
-                    app:cdbt_enableCountDown="true" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                        android:id="@+id/sb_join_preview_program"
+                        style="@style/SwitchButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:ignore="DuplicateSpeakableTextCheck,TouchTargetSizeCheck" />
+
+                </LinearLayout>
+
+            </com.xuexiang.xui.widget.textview.supertextview.SuperTextView>
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/menu_version"
+                style="@style/InfoItem.AboutWithBtn"
+                app:sLeftTextString="@string/about_app_version">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/sRightImgId"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.xuexiang.xui.widget.button.SmoothCheckBox
+                        android:id="@+id/scb_auto_check_update"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginStart="5dp"
+                        app:scb_color_checked="@color/colorPrimary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/auto_check"
+                        android:textSize="@dimen/text_size_mini"
+                        tools:ignore="SmallSp" />
+
+                    <com.xuexiang.xui.widget.button.CountDownButton
+                        android:id="@+id/btn_update"
+                        style="@style/Button.Blue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:minWidth="30dp"
+                        android:minHeight="0dp"
+                        android:padding="5dp"
+                        android:text="@string/check_update"
+                        android:textSize="@dimen/text_size_small"
+                        app:cdbt_countDown="3000"
+                        app:cdbt_enableCountDown="true" />
+
+                </LinearLayout>
 
             </com.xuexiang.xui.widget.textview.supertextview.SuperTextView>
 
@@ -65,7 +125,7 @@
                     android:minHeight="0dp"
                     android:padding="5dp"
                     android:text="@string/clear_cache"
-                    android:textSize="11sp"
+                    android:textSize="@dimen/text_size_small"
                     app:cdbt_countDown="1000"
                     app:cdbt_enableCountDown="true" />
 
@@ -89,7 +149,7 @@
                     android:minHeight="0dp"
                     android:padding="5dp"
                     android:text="@string/delete_frpc"
-                    android:textSize="11sp"
+                    android:textSize="@dimen/text_size_small"
                     app:cdbt_countDown="1000"
                     app:cdbt_enableCountDown="true" />
 
@@ -99,110 +159,6 @@
                 android:id="@+id/menu_wechat_miniprogram"
                 style="@style/InfoItem.About"
                 app:sLeftTextString="@string/about_item_wechat_miniprogram" />
-
-
-            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-                android:id="@+id/menu_wecom_group"
-                style="@style/InfoItem.About"
-                android:layout_marginTop="10dp"
-                app:sLeftTextString="@string/about_item_add_wework_group" />
-
-            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-                android:id="@+id/menu_dingtalk_group"
-                style="@style/InfoItem.About"
-                app:sLeftTextString="@string/about_item_add_dingtalk_group" />
-
-            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-                android:id="@+id/menu_qq_channel"
-                style="@style/InfoItem.About"
-                app:sLeftTextString="@string/about_item_add_qq_channel" />
-
-            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-                style="@style/InfoItem.AboutWithBtn"
-                app:sLeftTextString="@string/about_item_add_qq_group">
-
-                <com.xuexiang.xui.widget.button.CountDownButton
-                    android:id="@+id/btn_add_qq_group_1"
-                    style="@style/Button.Blue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/btn_add_qq_group_2"
-                    android:minWidth="30dp"
-                    android:minHeight="0dp"
-                    android:padding="5dp"
-                    android:text="@string/about_item_add_qq_group_1"
-                    android:textSize="11sp"
-                    app:cdbt_countDown="500"
-                    app:cdbt_enableCountDown="true" />
-
-                <com.xuexiang.xui.widget.button.CountDownButton
-                    android:id="@+id/btn_add_qq_group_2"
-                    style="@style/Button.Blue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/btn_add_qq_group_3"
-                    android:minWidth="30dp"
-                    android:minHeight="0dp"
-                    android:padding="5dp"
-                    android:text="@string/about_item_add_qq_group_2"
-                    android:textSize="11sp"
-                    app:cdbt_countDown="500"
-                    app:cdbt_enableCountDown="true" />
-
-                <com.xuexiang.xui.widget.button.CountDownButton
-                    android:id="@+id/btn_add_qq_group_3"
-                    style="@style/Button.Blue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/btn_add_qq_group_4"
-                    android:minWidth="30dp"
-                    android:minHeight="0dp"
-                    android:padding="5dp"
-                    android:text="@string/about_item_add_qq_group_3"
-                    android:textSize="11sp"
-                    app:cdbt_countDown="500"
-                    app:cdbt_enableCountDown="true" />
-
-                <com.xuexiang.xui.widget.button.CountDownButton
-                    android:id="@+id/btn_add_qq_group_4"
-                    style="@style/Button.Blue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/btn_add_qq_group_5"
-                    android:minWidth="30dp"
-                    android:minHeight="0dp"
-                    android:padding="5dp"
-                    android:text="@string/about_item_add_qq_group_4"
-                    android:textSize="11sp"
-                    app:cdbt_countDown="500"
-                    app:cdbt_enableCountDown="true" />
-
-                <com.xuexiang.xui.widget.button.CountDownButton
-                    android:id="@+id/btn_add_qq_group_5"
-                    style="@style/Button.Blue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/sRightImgId"
-                    android:minWidth="30dp"
-                    android:minHeight="0dp"
-                    android:padding="5dp"
-                    android:text="@string/about_item_add_qq_group_5"
-                    android:textSize="11sp"
-                    app:cdbt_countDown="500"
-                    app:cdbt_enableCountDown="true" />
-
-            </com.xuexiang.xui.widget.textview.supertextview.SuperTextView>
-
 
             <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                 style="@style/InfoItem.AboutWithBtn"
@@ -221,7 +177,7 @@
                     android:minHeight="0dp"
                     android:padding="5dp"
                     android:text="@string/about_item_github"
-                    android:textSize="11sp"
+                    android:textSize="@dimen/text_size_small"
                     app:cdbt_countDown="500"
                     app:cdbt_enableCountDown="true" />
 
@@ -237,7 +193,7 @@
                     android:minHeight="0dp"
                     android:padding="5dp"
                     android:text="@string/about_item_gitee"
-                    android:textSize="11sp"
+                    android:textSize="@dimen/text_size_small"
                     app:cdbt_countDown="500"
                     app:cdbt_enableCountDown="true" />
 
@@ -267,7 +223,8 @@
                 android:id="@+id/copyright"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
                 android:gravity="center_horizontal"
                 android:textColor="@color/xui_config_color_gray_7" />
 

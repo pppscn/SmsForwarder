@@ -5,14 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.viewbinding.ViewBinding
+import com.hjq.language.MultiLanguages
+import com.idormy.sms.forwarder.utils.EVENT_TOAST_ERROR
+import com.idormy.sms.forwarder.utils.EVENT_TOAST_INFO
+import com.idormy.sms.forwarder.utils.EVENT_TOAST_SUCCESS
+import com.idormy.sms.forwarder.utils.EVENT_TOAST_WARNING
+import com.idormy.sms.forwarder.utils.XToastUtils
+import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xpage.base.XPageActivity
 import com.xuexiang.xpage.base.XPageFragment
 import com.xuexiang.xpage.core.CoreSwitchBean
 import com.xuexiang.xrouter.facade.service.SerializationService
 import com.xuexiang.xrouter.launcher.XRouter
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.slideback.SlideBack
-import io.github.inflationx.viewpump.ViewPumpContextWrapper
+import com.xuexiang.xutil.resource.ResUtils.isRtl
 
 /**
  * 基础容器Activity
@@ -20,7 +26,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper
  * @author XUE
  * @since 2019/3/22 11:21
  */
-@Suppress("MemberVisibilityCanBePrivate", "UNCHECKED_CAST")
+@Suppress("MemberVisibilityCanBePrivate", "UNCHECKED_CAST", "DEPRECATION", "EmptyMethod")
 open class BaseActivity<Binding : ViewBinding?> : XPageActivity() {
     /**
      * 获取Binding
@@ -35,7 +41,10 @@ open class BaseActivity<Binding : ViewBinding?> : XPageActivity() {
 
     override fun attachBaseContext(newBase: Context) {
         //注入字体
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
+        //super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
+        // 绑定语种
+        //super.attachBaseContext(ViewPumpContextWrapper.wrap(MultiLanguages.attach(newBase)))
+        super.attachBaseContext(MultiLanguages.attach(newBase))
     }
 
     override fun getCustomRootView(): View? {
@@ -47,6 +56,20 @@ open class BaseActivity<Binding : ViewBinding?> : XPageActivity() {
         initStatusBarStyle()
         super.onCreate(savedInstanceState)
         registerSlideBack()
+
+        //用于接收各种事件的吐司
+        LiveEventBus.get(EVENT_TOAST_ERROR, String::class.java).observe(this) { msg: String ->
+            XToastUtils.error(msg, 15000)
+        }
+        LiveEventBus.get(EVENT_TOAST_SUCCESS, String::class.java).observe(this) { msg: String ->
+            XToastUtils.success(msg)
+        }
+        LiveEventBus.get(EVENT_TOAST_INFO, String::class.java).observe(this) { msg: String ->
+            XToastUtils.info(msg)
+        }
+        LiveEventBus.get(EVENT_TOAST_WARNING, String::class.java).observe(this) { msg: String ->
+            XToastUtils.warning(msg, 10000)
+        }
     }
 
     /**
@@ -121,7 +144,7 @@ open class BaseActivity<Binding : ViewBinding?> : XPageActivity() {
         if (isSupportSlideBack) {
             SlideBack.with(this)
                 .haveScroll(true)
-                .edgeMode(if (ResUtils.isRtl()) SlideBack.EDGE_RIGHT else SlideBack.EDGE_LEFT)
+                .edgeMode(if (isRtl()) SlideBack.EDGE_RIGHT else SlideBack.EDGE_LEFT)
                 .callBack { popPage() }
                 .register()
         }

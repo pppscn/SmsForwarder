@@ -5,19 +5,19 @@ import java.io.Serializable
 import java.net.Proxy
 
 data class TelegramSetting(
-    val method: String? = "POST",
+    val method: String = "POST",
     var apiToken: String = "",
     val chatId: String = "",
     val proxyType: Proxy.Type = Proxy.Type.DIRECT,
-    val proxyHost: String? = "",
-    val proxyPort: String? = "",
-    val proxyAuthenticator: Boolean? = false,
-    val proxyUsername: String? = "",
-    val proxyPassword: String? = "",
+    val proxyHost: String = "",
+    val proxyPort: String = "",
+    val proxyAuthenticator: Boolean = false,
+    val proxyUsername: String = "",
+    val proxyPassword: String = "",
 ) : Serializable {
 
     fun getMethodCheckId(): Int {
-        return if (method == null || method == "POST") R.id.rb_method_post else R.id.rb_method_get
+        return if (method == "GET") R.id.rb_method_get else R.id.rb_method_post
     }
 
     fun getProxyTypeCheckId(): Int {

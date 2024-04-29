@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.text.Html
 import android.text.TextUtils
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -14,13 +13,14 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.STATUS_OFF
 import com.xuexiang.xui.utils.CollectionUtils
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.spinner.editspinner.BaseEditSpinnerAdapter
 import com.xuexiang.xui.widget.spinner.editspinner.EditSpinnerFilter
+import com.xuexiang.xutil.resource.ResUtils.getDrawable
 
-@Suppress("unused", "NAME_SHADOWING", "SENSELESS_COMPARISON", "DEPRECATION")
+@Suppress("unused", "NAME_SHADOWING", "DEPRECATION")
 class SenderSpinnerAdapter<T> : BaseEditSpinnerAdapter<T>, EditSpinnerFilter {
     /**
      * 选项的文字颜色
@@ -71,13 +71,13 @@ class SenderSpinnerAdapter<T> : BaseEditSpinnerAdapter<T>, EditSpinnerFilter {
         } else {
             holder = convertView.tag as ViewHolder
         }
-        val item = CollectionUtils.getListItem(mDataSource, mIndexs[position]) as SenderAdapterItem
+        val item = CollectionUtils.getListItem(mDataSource, mIndexs[position]) as SenderSpinnerItem
         holder.iconView.setImageDrawable(item.icon)
         holder.statusView.setImageDrawable(
-            ResUtils.getDrawable(
+            getDrawable(
                 when (item.status) {
-                    STATUS_OFF -> R.drawable.icon_off
-                    else -> R.drawable.icon_on
+                    STATUS_OFF -> R.drawable.ic_stop
+                    else -> R.drawable.ic_start
                 }
             )
         )
@@ -109,6 +109,7 @@ class SenderSpinnerAdapter<T> : BaseEditSpinnerAdapter<T>, EditSpinnerFilter {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.e("SenderSpinnerAdapter", "onFilter error: ${e.message}")
             }
         }
         Log.d("SenderSpinnerAdapter", "mDisplayData = $mDisplayData")
@@ -141,7 +142,6 @@ class SenderSpinnerAdapter<T> : BaseEditSpinnerAdapter<T>, EditSpinnerFilter {
         return this
     }
 
-    @Suppress("DEPRECATION")
     @SuppressLint("ObsoleteSdkInt")
     private class ViewHolder(convertView: View, @ColorInt textColor: Int, textSize: Float, @DrawableRes backgroundSelector: Int) {
         val iconView: ImageView = convertView.findViewById(R.id.iv_icon)

@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/xui_config_color_background"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_task_sms"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/task_sms"
+                android:visibility="gone"
+                app:srcCompat="@drawable/auto_task_icon_sms"
+                tools:ignore="ImageContrastCheck" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_task_call"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/task_call"
+                android:visibility="gone"
+                app:srcCompat="@drawable/auto_task_icon_incall"
+                tools:ignore="ImageContrastCheck" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_task_app"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/task_app"
+                android:visibility="gone"
+                app:srcCompat="@drawable/auto_task_icon_start_activity"
+                tools:ignore="ImageContrastCheck" />
+
+            <LinearLayout
+                android:id="@+id/layout_sim_slot"
+                style="@style/BarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/match_sim_slot"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/rg_sim_slot"
+                    style="@style/rg_style"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_sim_slot_all"
+                        style="@style/rg_rb_style"
+                        android:checked="true"
+                        android:text="@string/sim_any" />
+
+                    <RadioButton
+                        android:id="@+id/rb_sim_slot_1"
+                        style="@style/rg_rb_style"
+                        android:text="@string/sim_1" />
+
+                    <RadioButton
+                        android:id="@+id/rb_sim_slot_2"
+                        style="@style/rg_rb_style"
+                        android:text="@string/sim_2" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/BarStyle.Switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/match_field"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/rg_filed"
+                    style="@style/rg_style"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_transpond_all"
+                        style="@style/rg_rb_style_wrap"
+                        android:checked="true"
+                        android:text="@string/all" />
+
+                    <RadioButton
+                        android:id="@+id/rb_phone"
+                        style="@style/rg_rb_style_wrap"
+                        android:text="@string/phone_number" />
+
+                    <RadioButton
+                        android:id="@+id/rb_call_type"
+                        style="@style/rg_rb_style_wrap"
+                        android:text="@string/call_type" />
+
+                    <RadioButton
+                        android:id="@+id/rb_content"
+                        style="@style/rg_rb_style_wrap"
+                        android:text="@string/sms_content" />
+
+                    <RadioButton
+                        android:id="@+id/rb_package_name"
+                        style="@style/rg_rb_style_wrap"
+                        android:text="@string/package_name" />
+
+                    <RadioButton
+                        android:id="@+id/rb_uid"
+                        style="@style/rg_rb_style_wrap"
+                        android:text="@string/uid" />
+
+                    <RadioButton
+                        android:id="@+id/rb_inform_content"
+                        style="@style/rg_rb_style_wrap"
+                        android:text="@string/inform_content" />
+
+                    <RadioButton
+                        android:id="@+id/rb_multi_match"
+                        style="@style/rg_rb_style_wrap"
+                        android:text="@string/multiple_matches" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_match_type"
+                style="@style/BarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/match_type"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/rg_check"
+                    style="@style/rg_style"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_is"
+                        style="@style/rg_rb_style"
+                        android:checked="true"
+                        android:text="@string/btn_is" />
+
+                    <RadioButton
+                        android:id="@+id/rb_contain"
+                        style="@style/rg_rb_style"
+                        android:text="@string/btn_contain" />
+
+                    <RadioButton
+                        android:id="@+id/rb_not_contain"
+                        style="@style/rg_rb_style"
+                        android:text="@string/btn_not_contain" />
+                </RadioGroup>
+
+                <RadioGroup
+                    android:id="@+id/rg_check2"
+                    style="@style/rg_style"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_start_with"
+                        style="@style/rg_rb_style"
+                        android:text="@string/btn_start_with" />
+
+                    <RadioButton
+                        android:id="@+id/rb_end_with"
+                        style="@style/rg_rb_style"
+                        android:text="@string/btn_end_with" />
+
+                    <RadioButton
+                        android:id="@+id/rb_regex"
+                        style="@style/rg_rb_style"
+                        android:text="@string/btn_regex" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_match_value"
+                style="@style/BarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/match_value"
+                    android:textStyle="bold" />
+
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/match_value_tips"
+                    android:inputType="textMultiLine"
+                    app:met_clearButton="true" />
+
+                <com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner
+                    android:id="@+id/sp_call_type"
+                    style="@style/Material.SpinnerStyle"
+                    android:layout_marginTop="@dimen/config_margin_4dp"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/layout_app_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/choose_app"
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold" />
+
+                    <com.xuexiang.xui.widget.spinner.editspinner.EditSpinner
+                        android:id="@+id/sp_app"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        app:es_hint="@string/choose_app_hint"
+                        app:es_maxLength="20"
+                        app:es_maxLine="1" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_mu_rule_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mu_rule_sms_tips"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_del"
+            style="@style/SuperButton.Gray.Icon.Spacing"
+            android:drawableStart="@drawable/ic_delete"
+            android:text="@string/discard"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_save"
+            style="@style/SuperButton.Blue.Icon.Spacing"
+            android:drawableStart="@drawable/ic_save"
+            android:text="@string/submit"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_test"
+            style="@style/SuperButton.Green.Icon.Spacing"
+            android:drawableStart="@drawable/ic_test"
+            android:text="@string/test"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+    </LinearLayout>
+
+</LinearLayout>

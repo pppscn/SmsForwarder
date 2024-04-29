@@ -26,9 +26,10 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:text=""
-            android:textSize="16sp"
+            android:textSize="@dimen/text_size_big"
             app:sShapeType="oval"
-            app:sSolidColor="?attr/colorControlNormal" />
+            app:sSolidColor="#BEC2C7"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -41,7 +42,7 @@
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
             <TextView
@@ -57,24 +58,30 @@
             android:layout_height="@dimen/card_view_image_size"
             android:layout_marginStart="10dp"
             android:padding="@dimen/card_view_image_padding"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_copy"
             app:tint="@color/colorStart"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription,ImageContrastCheck" />
 
         <ImageView
             android:id="@+id/iv_call"
             android:layout_width="@dimen/card_view_image_size"
             android:layout_height="@dimen/card_view_image_size"
             android:padding="@dimen/card_view_image_padding"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_phone_out"
             app:tint="@color/toast_info_color"
-            tools:ignore="ContentDescription,PrivateResource" />
+            tools:ignore="ContentDescription,PrivateResource,ImageContrastCheck" />
 
         <ImageView
             android:id="@+id/iv_reply"
             android:layout_width="@dimen/card_view_image_size"
             android:layout_height="@dimen/card_view_image_size"
             android:padding="@dimen/card_view_image_padding"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_reply"
             app:tint="@color/toast_warning_color"
-            tools:ignore="ContentDescription,PrivateResource" />
+            tools:ignore="ContentDescription,PrivateResource,ImageContrastCheck" />
 
     </LinearLayout>
 

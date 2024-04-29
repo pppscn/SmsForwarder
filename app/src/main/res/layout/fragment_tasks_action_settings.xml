@@ -1,0 +1,854 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/xui_config_color_background"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/task_settings"
+                app:srcCompat="@drawable/auto_task_icon_settings"
+                tools:ignore="ImageContrastCheck" />
+
+            <LinearLayout style="@style/BarTitleStyle">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/forwarding_function"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/forwarding_function_tips"
+                    android:textSize="@dimen/text_size_mini"
+                    tools:ignore="SmallSp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/BarStyle.Switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/forward_sms"
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/forward_sms_tips"
+                        android:textSize="@dimen/text_size_mini"
+                        tools:ignore="SmallSp" />
+
+                </LinearLayout>
+
+                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                    android:id="@+id/sb_enable_sms"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="DuplicateSpeakableTextCheck,TouchTargetSizeCheck" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/BarStyle.Switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/forward_calls"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/forward_calls_tips"
+                        android:textSize="@dimen/text_size_mini"
+                        tools:ignore="SmallSp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/mandatory_type"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            tools:ignore="SmallSp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <com.xuexiang.xui.widget.button.SmoothCheckBox
+                                    android:id="@+id/scb_call_type3"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    app:scb_color_checked="@color/colorPrimary"
+                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/missed_call"
+                                    android:textSize="@dimen/text_size_small"
+                                    tools:ignore="SmallSp" />
+
+                                <com.xuexiang.xui.widget.button.SmoothCheckBox
+                                    android:id="@+id/scb_call_type1"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_marginStart="5dp"
+                                    app:scb_color_checked="@color/colorPrimary"
+                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/incoming_call_ended"
+                                    android:textSize="@dimen/text_size_small"
+                                    tools:ignore="SmallSp" />
+
+                                <com.xuexiang.xui.widget.button.SmoothCheckBox
+                                    android:id="@+id/scb_call_type2"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_marginStart="5dp"
+                                    app:scb_color_checked="@color/colorPrimary"
+                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/outgoing_call_ended"
+                                    android:textSize="@dimen/text_size_small"
+                                    tools:ignore="SmallSp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <com.xuexiang.xui.widget.button.SmoothCheckBox
+                                    android:id="@+id/scb_call_type4"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    app:scb_color_checked="@color/colorPrimary"
+                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/incoming_call_received"
+                                    android:textSize="@dimen/text_size_small"
+                                    tools:ignore="SmallSp" />
+
+                                <com.xuexiang.xui.widget.button.SmoothCheckBox
+                                    android:id="@+id/scb_call_type5"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_marginStart="5dp"
+                                    app:scb_color_checked="@color/colorPrimary"
+                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/incoming_call_answered"
+                                    android:textSize="@dimen/text_size_small"
+                                    tools:ignore="SmallSp" />
+
+                                <com.xuexiang.xui.widget.button.SmoothCheckBox
+                                    android:id="@+id/scb_call_type6"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_marginStart="5dp"
+                                    app:scb_color_checked="@color/colorPrimary"
+                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/outgoing_call_started"
+                                    android:textSize="@dimen/text_size_small"
+                                    tools:ignore="SmallSp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                    android:id="@+id/sb_enable_phone"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/BarStyle.Switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/forward_app_notify"
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/forward_app_notify_tips"
+                        android:textSize="@dimen/text_size_mini"
+                        tools:ignore="SmallSp" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_optional_action"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        tools:ignore="TextSizeCheck">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/optional_action"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            tools:ignore="SmallSp" />
+
+                        <com.xuexiang.xui.widget.button.SmoothCheckBox
+                            android:id="@+id/scb_cancel_app_notify"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            app:scb_color_checked="@color/colorPrimary"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/cancel_app_notify"
+                            android:textSize="@dimen/text_size_small"
+                            tools:ignore="SmallSp" />
+
+                        <com.xuexiang.xui.widget.button.SmoothCheckBox
+                            android:id="@+id/scb_not_user_present"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginStart="5dp"
+                            app:scb_color_checked="@color/colorPrimary"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/not_user_present"
+                            android:textSize="@dimen/text_size_small"
+                            tools:ignore="SmallSp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                    android:id="@+id/sb_enable_app_notify"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/BarTitleStyle">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/extra_function"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/extra_function_tips"
+                    android:textSize="@dimen/text_size_mini"
+                    tools:ignore="SmallSp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/BarStyle.Switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/enable_location"
+                            android:textStyle="bold"
+                            tools:ignore="RelativeOverlap" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/enable_location_tips"
+                            android:textSize="@dimen/text_size_mini"
+                            tools:ignore="SmallSp" />
+
+                    </LinearLayout>
+
+                    <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                        android:id="@+id/sb_enable_location"
+                        style="@style/SwitchButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_location_setting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/xui_config_color_separator_light" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/accuracy"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            tools:ignore="SmallSp" />
+
+                        <RadioGroup
+                            android:id="@+id/rg_accuracy"
+                            style="@style/rg_style"
+                            android:layout_marginStart="5dp"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/rb_accuracy_fine"
+                                style="@style/rg_rb_style_wrap"
+                                android:checked="true"
+                                android:text="@string/accuracy_fine"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                            <RadioButton
+                                android:id="@+id/rb_accuracy_coarse"
+                                style="@style/rg_rb_style_wrap"
+                                android:text="@string/accuracy_coarse"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                            <RadioButton
+                                android:id="@+id/rb_accuracy_no_requirement"
+                                style="@style/rg_rb_style_wrap"
+                                android:text="@string/no_requirement"
+                                tools:ignore="DuplicateSpeakableTextCheck,TouchTargetSizeCheck" />
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/power_requirement"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            tools:ignore="SmallSp" />
+
+                        <RadioGroup
+                            android:id="@+id/rg_power_requirement"
+                            style="@style/rg_style"
+                            android:layout_marginStart="5dp"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/rb_power_requirement_low"
+                                style="@style/rg_rb_style_wrap"
+                                android:checked="true"
+                                android:text="@string/power_requirement_low"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                            <RadioButton
+                                android:id="@+id/rb_power_requirement_medium"
+                                style="@style/rg_rb_style_wrap"
+                                android:text="@string/power_requirement_medium"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                            <RadioButton
+                                android:id="@+id/rb_power_requirement_high"
+                                style="@style/rg_rb_style_wrap"
+                                android:text="@string/power_requirement_high"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                            <RadioButton
+                                android:id="@+id/rb_power_requirement_no_requirement"
+                                style="@style/rg_rb_style_wrap"
+                                android:text="@string/no_requirement"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/min_interval"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            tools:ignore="SmallSp" />
+
+                        <EditText
+                            android:id="@+id/et_min_interval"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1"
+                            android:digits="0123456789"
+                            android:importantForAutofill="no"
+                            android:inputType="number"
+                            android:paddingTop="0dp"
+                            android:paddingBottom="3dp"
+                            android:singleLine="true"
+                            android:textAlignment="center"
+                            tools:ignore="LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/seconds"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/config_margin_10dp"
+                            android:text="@string/min_distance"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            tools:ignore="SmallSp" />
+
+                        <EditText
+                            android:id="@+id/et_min_distance"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1"
+                            android:digits="0123456789"
+                            android:importantForAutofill="no"
+                            android:inputType="number"
+                            android:paddingTop="0dp"
+                            android:paddingBottom="3dp"
+                            android:singleLine="true"
+                            android:textAlignment="center"
+                            tools:ignore="LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/meter"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/BarStyle.Switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sms_command"
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sms_command_tips"
+                        android:textSize="@dimen/text_size_mini"
+                        tools:ignore="SmallSp,TooManyViews" />
+
+                    <com.xuexiang.xui.widget.edittext.ClearEditText
+                        android:id="@+id/et_safe_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/safe_phone_tips"
+                        tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
+
+                </LinearLayout>
+
+                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                    android:id="@+id/sb_enable_sms_command"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/BarStyle.Switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/load_app_list"
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/load_app_list_tips"
+                        android:textSize="@dimen/text_size_mini"
+                        tools:ignore="SmallSp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        tools:ignore="TextSizeCheck">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/optional_type"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            tools:ignore="SmallSp" />
+
+                        <com.xuexiang.xui.widget.button.SmoothCheckBox
+                            android:id="@+id/scb_load_user_app"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            app:scb_color_checked="@color/colorPrimary"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="@string/user_app"
+                            android:textSize="@dimen/text_size_small"
+                            tools:ignore="SmallSp" />
+
+                        <com.xuexiang.xui.widget.button.SmoothCheckBox
+                            android:id="@+id/scb_load_system_app"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginStart="5dp"
+                            app:scb_color_checked="@color/colorPrimary"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/system_app"
+                            android:textSize="@dimen/text_size_small"
+                            tools:ignore="SmallSp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                    android:id="@+id/sb_enable_load_app_list"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_app_list"
+                style="@style/BarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/extra_app"
+                    android:textStyle="bold"
+                    tools:ignore="RelativeOverlap" />
+
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_app_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/extra_app_hint"
+                    android:inputType="textMultiLine"
+                    app:met_clearButton="true"
+                    tools:ignore="TextContrastCheck" />
+
+                <LinearLayout
+                    android:id="@+id/layout_sp_app"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/choose_app"
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold" />
+
+                    <com.xuexiang.xui.widget.spinner.editspinner.EditSpinner
+                        android:id="@+id/sp_app"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        app:es_hint="@string/choose_app_hint"
+                        app:es_maxLength="20"
+                        app:es_maxLine="1" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/BarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                tools:ignore="RtlSymmetry">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/filtering_duplicate_messages"
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/filtering_duplicate_messages_tips"
+                        android:textSize="@dimen/text_size_mini"
+                        tools:ignore="SmallSp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.xuexiang.xui.widget.picker.XSeekBar
+                        android:id="@+id/xsb_duplicate_messages_limits"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="0dp"
+                        app:xsb_max="120"
+                        app:xsb_min="0"
+                        tools:ignore="NestedWeights" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/seconds"
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_del"
+            style="@style/SuperButton.Gray.Icon.Spacing"
+            android:drawableStart="@drawable/ic_delete"
+            android:text="@string/discard"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_save"
+            style="@style/SuperButton.Blue.Icon.Spacing"
+            android:drawableStart="@drawable/ic_save"
+            android:text="@string/submit"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_test"
+            style="@style/SuperButton.Green.Icon.Spacing"
+            android:drawableStart="@drawable/ic_test"
+            android:text="@string/test"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+    </LinearLayout>
+
+</LinearLayout>

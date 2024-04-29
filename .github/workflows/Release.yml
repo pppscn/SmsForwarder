@@ -20,15 +20,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # 检出代码
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       # 设置jdk环境为11
       - name: set up JDK 11
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v4
         with:
-          java-version: 11
+          distribution: 'zulu'
+          java-version: '11'
+          java-package: jdk
       # 获取打包秘钥
       - name: Checkout Android Keystore
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: pppscn/keystore
           token: ${{ secrets.TOKEN }} # 连接仓库的token,需要单独配置
@@ -47,16 +49,10 @@ jobs:
           release_name: SmsForwarder ${{ github.ref }}
           draft: false
           prerelease: false
-      # 存档打包的文件
-      # - name: Archive production artifacts
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: build
-      #     path: app/build/outputs #将打包之后的文件全部上传（里面会有混淆的map文件）
       # 上传至release的资源
       - name: Upload release binaries
         uses: alexellis/upload-assets@0.2.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          asset_paths: '["./app/build/outputs/apk/release/SmsForwarder_release_*"]'
+          asset_paths: '["./build/app/outputs/apk/release/SmsF_*"]'

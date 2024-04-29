@@ -6,7 +6,6 @@
 
     <color name="config_color_select_bg">#FFF1F1F1</color>
 
-    <!--Toast，可自定义喜欢的颜色-->
     <color name="toast_default_text_color" tools:ignore="PrivateResource">@color/xui_config_color_white</color>
     <color name="toast_error_color" tools:ignore="PrivateResource">@color/xui_config_color_red</color>
     <color name="toast_info_color" tools:ignore="PrivateResource">@color/colorAccent</color>
@@ -14,37 +13,136 @@
     <color name="toast_warning_color" tools:ignore="PrivateResource">@color/xui_config_color_waring</color>
     <color name="toast_normal_tint_color" tools:ignore="PrivateResource">#353A3E</color>
 
-    <color name="app_color_theme_1">#EF5362</color> <!-- Grapefruit -->
-    <color name="app_color_theme_2">#FE6D4B</color> <!-- Bittersweet -->
-    <color name="app_color_theme_3">#FFCF47</color> <!-- Sunflower -->
-    <color name="app_color_theme_4">#9FD661</color> <!-- Grass -->
-    <color name="app_color_theme_5">#3FD0AD</color> <!-- Mint -->
-    <color name="app_color_theme_6">#2BBDF3</color> <!-- Aqua -->
-    <color name="app_color_theme_7">#5A9AEF</color> <!-- Blue Jeans -->
-    <color name="app_color_theme_8">#AC8FEF</color> <!-- Lavender -->
-    <color name="app_color_theme_9">#EE85C1</color> <!-- Pink Rose -->
-
     <color name="colorBlueGrey">#78909C</color>
     <color name="colorBlueGreyDark">#546E7A</color>
     <color name="gray_text_light">#979797</color>
     <color name="darkGreen">#388E3C</color>
     <color name="darkGrey">#353A3E</color>
 
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="green">#00FF00</color>
-    <color name="red">#FF0000</color>
-
-    <color name="line_color">#aadcdcdc</color>
-    <color name="setting_bg_color">#10000000</color>
     <color name="setting_bar_color">#ffffff</color>
-    <color name="tip_bar_color">#10000000</color>
 
     <color name="colorStart">#03DAC5</color>
     <color name="colorStop">#E91E63</color>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+
+
+    <color name="abc_decor_view_status_guard">#ff000000</color>
+    <color name="abc_decor_view_status_guard_light">#ffffffff</color>
+    <color name="abc_search_url_text_normal">#ff7fa87f</color>
+    <color name="abc_search_url_text_pressed">@android:color/black</color>
+    <color name="abc_search_url_text_selected">@android:color/black</color>
+    <color name="accent_material_dark">@color/material_deep_teal_200</color>
+    <color name="accent_material_light">@color/material_deep_teal_500</color>
+    <color name="androidx_core_ripple_material_light">#1f000000</color>
+    <color name="androidx_core_secondary_text_default_material_light">#8a000000</color>
+    <color name="background_floating_material_dark">@color/material_grey_800</color>
+    <color name="background_floating_material_light">@android:color/white</color>
+    <color name="background_material_dark">@color/material_grey_850</color>
+    <color name="background_material_light">@color/material_grey_50</color>
+    <color name="black">#ff000000</color>
+    <color name="bright_foreground_disabled_material_dark">#80ffffff</color>
+    <color name="bright_foreground_disabled_material_light">#80000000</color>
+    <color name="bright_foreground_inverse_material_dark">@color/bright_foreground_material_light</color>
+    <color name="bright_foreground_inverse_material_light">@color/bright_foreground_material_dark</color>
+    <color name="bright_foreground_material_dark">@android:color/white</color>
+    <color name="bright_foreground_material_light">@android:color/black</color>
+    <color name="button_material_dark">#ff5a595b</color>
+    <color name="button_material_light">#ffd6d7d7</color>
+    <color name="cardview_dark_background">#ff424242</color>
+    <color name="cardview_light_background">#ffffffff</color>
+    <color name="cardview_shadow_end_color">#03000000</color>
+    <color name="cardview_shadow_start_color">#37000000</color>
+
+    <color name="design_bottom_navigation_shadow_color">#14000000</color>
+    <color name="design_dark_default_color_background">#ff121212</color>
+    <color name="design_dark_default_color_error">#ffcf6679</color>
+    <color name="design_dark_default_color_on_background">#ffffffff</color>
+    <color name="design_dark_default_color_on_error">#ff000000</color>
+    <color name="design_dark_default_color_on_primary">#ff000000</color>
+    <color name="design_dark_default_color_on_secondary">#ff000000</color>
+    <color name="design_dark_default_color_on_surface">#ffffffff</color>
+    <color name="design_dark_default_color_primary">#ffba86fc</color>
+    <color name="design_dark_default_color_primary_dark">#ff000000</color>
+    <color name="design_dark_default_color_primary_variant">#ff3700b3</color>
+    <color name="design_dark_default_color_secondary">#ff03dac6</color>
+    <color name="design_dark_default_color_secondary_variant">#ff03dac6</color>
+    <color name="design_dark_default_color_surface">#ff121212</color>
+    <color name="design_default_color_background">#ffffffff</color>
+    <color name="design_default_color_error">#ffb00020</color>
+    <color name="design_default_color_on_background">#ff000000</color>
+    <color name="design_default_color_on_error">#ffffffff</color>
+    <color name="design_default_color_on_primary">#ffffffff</color>
+    <color name="design_default_color_on_secondary">#ff000000</color>
+    <color name="design_default_color_on_surface">#ff000000</color>
+    <color name="design_default_color_primary">#ff6200ee</color>
+    <color name="design_default_color_primary_dark">#ff3700b3</color>
+    <color name="design_default_color_primary_variant">#ff3700b3</color>
+    <color name="design_default_color_secondary">#ff03dac6</color>
+    <color name="design_default_color_secondary_variant">#ff018786</color>
+    <color name="design_default_color_surface">#ffffffff</color>
+    <color name="design_fab_shadow_end_color">@android:color/transparent</color>
+    <color name="design_fab_shadow_mid_color">#14000000</color>
+    <color name="design_fab_shadow_start_color">#44000000</color>
+    <color name="design_fab_stroke_end_inner_color">#0a000000</color>
+    <color name="design_fab_stroke_end_outer_color">#0f000000</color>
+    <color name="design_fab_stroke_top_inner_color">#1affffff</color>
+    <color name="design_fab_stroke_top_outer_color">#2effffff</color>
+    <color name="design_snackbar_background_color">#ff323232</color>
+    <color name="dim_foreground_disabled_material_dark">#80bebebe</color>
+    <color name="dim_foreground_disabled_material_light">#80323232</color>
+    <color name="dim_foreground_material_dark">#ffbebebe</color>
+    <color name="dim_foreground_material_light">#ff323232</color>
+    <color name="error_color_material_dark">#ffff7043</color>
+    <color name="error_color_material_light">#ffff5722</color>
+    <color name="foreground_material_dark">@android:color/white</color>
+    <color name="foreground_material_light">@android:color/black</color>
+    <color name="highlighted_text_material_dark">#6680cbc4</color>
+    <color name="highlighted_text_material_light">#66009688</color>
+
+    <color name="material_blue_grey_800">#ff37474f</color>
+    <color name="material_blue_grey_900">#ff263238</color>
+    <color name="material_blue_grey_950">#ff21272b</color>
+    <color name="material_deep_teal_200">#ff80cbc4</color>
+    <color name="material_deep_teal_500">#ff008577</color>
+    <color name="material_grey_100">#fff5f5f5</color>
+    <color name="material_grey_300">#ffe0e0e0</color>
+    <color name="material_grey_50">#fffafafa</color>
+    <color name="material_grey_600">#ff757575</color>
+    <color name="material_grey_800">#ff424242</color>
+    <color name="material_grey_850">#ff303030</color>
+    <color name="material_grey_900">#ff212121</color>
+
+    <color name="mtrl_btn_text_color_disabled">#61000000</color>
+    <color name="mtrl_btn_transparent_bg_color">#00ffffff</color>
+    <color name="mtrl_scrim_color">#52000000</color>
+    <color name="mtrl_textinput_default_box_stroke_color">#6b000000</color>
+    <color name="mtrl_textinput_disabled_color">#1f000000</color>
+    <color name="mtrl_textinput_filled_box_default_background_color">#0a000000</color>
+    <color name="mtrl_textinput_focused_box_stroke_color">#00000000</color>
+    <color name="mtrl_textinput_hovered_box_stroke_color">#de000000</color>
+    <color name="notification_action_color_filter">@color/androidx_core_secondary_text_default_material_light</color>
+    <color name="notification_icon_bg_color">#ff9e9e9e</color>
+
+    <color name="primary_dark_material_dark">@android:color/black</color>
+    <color name="primary_dark_material_light">@color/material_grey_600</color>
+    <color name="primary_material_dark">@color/material_grey_900</color>
+    <color name="primary_material_light">@color/material_grey_100</color>
+    <color name="primary_text_default_material_dark">#ffffffff</color>
+    <color name="primary_text_default_material_light">#de000000</color>
+    <color name="primary_text_disabled_material_dark">#4dffffff</color>
+    <color name="primary_text_disabled_material_light">#39000000</color>
+    <color name="red">#ffff0000</color>
+    <color name="ripple_material_dark">#33ffffff</color>
+    <color name="ripple_material_light">#1f000000</color>
+    <color name="secondary_text_default_material_dark">#b3ffffff</color>
+    <color name="secondary_text_default_material_light">#8a000000</color>
+    <color name="secondary_text_disabled_material_dark">#36ffffff</color>
+    <color name="secondary_text_disabled_material_light">#24000000</color>
+    <color name="switch_thumb_disabled_material_dark">#ff616161</color>
+    <color name="switch_thumb_disabled_material_light">#ffbdbdbd</color>
+    <color name="switch_thumb_normal_material_dark">#ffbdbdbd</color>
+    <color name="switch_thumb_normal_material_light">#fff1f1f1</color>
+
+    <color name="tooltip_background_dark">#e6616161</color>
+    <color name="tooltip_background_light">#e6ffffff</color>
+    <color name="white">#ffffffff</color>
 </resources>

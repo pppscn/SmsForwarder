@@ -21,14 +21,16 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_margin="10dp"
                 android:contentDescription="@string/api_wol"
-                app:srcCompat="@drawable/icon_api_wol" />
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/icon_api_wol"
+                tools:ignore="ImageContrastCheck" />
 
             <LinearLayout
-                style="@style/senderBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -47,12 +49,13 @@
                     app:met_clearButton="true"
                     app:met_errorMessage="@string/mac_error"
                     app:met_regexp="@string/mac_regex"
-                    app:met_validateOnFocusLost="true" />
+                    app:met_validateOnFocusLost="true"
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
             <LinearLayout
-                style="@style/senderBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -60,7 +63,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/ip" />
+                    android:text="@string/broadcast_address" />
 
                 <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                     android:id="@+id/et_ip"
@@ -71,12 +74,13 @@
                     app:met_clearButton="true"
                     app:met_errorMessage="@string/ip_error"
                     app:met_regexp="@string/ip_regex"
-                    app:met_validateOnFocusLost="true" />
+                    app:met_validateOnFocusLost="true"
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
             <LinearLayout
-                style="@style/senderBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -96,7 +100,8 @@
                     app:met_clearButton="true"
                     app:met_errorMessage="@string/wol_port_error"
                     app:met_regexp="@string/wol_port_regex"
-                    app:met_validateOnFocusLost="true" />
+                    app:met_validateOnFocusLost="true"
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -117,7 +122,7 @@
             android:drawableStart="@drawable/ic_restore"
             android:paddingStart="7dp"
             android:text="@string/server_history"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_submit"
@@ -126,7 +131,7 @@
             android:drawableStart="@drawable/ic_send_white"
             android:paddingStart="20dp"
             android:text="@string/send"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
     </LinearLayout>
 

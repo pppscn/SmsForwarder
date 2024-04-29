@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/xui_config_color_background"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/task_resend"
+                app:srcCompat="@drawable/auto_task_icon_resend"
+                tools:ignore="ImageContrastCheck" />
+
+            <LinearLayout
+                style="@style/BarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/task_resend"
+                    android:textSize="@dimen/text_size_big"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/task_resend_tips"
+                    android:textSize="@dimen/text_size_mini"
+                    tools:ignore="SmallSp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="?attr/xui_config_color_separator_light" />
+
+                <com.xuexiang.xui.widget.picker.XSeekBar
+                    android:id="@+id/xsb_hours"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:xsb_insideRangeLineColor="#0bd97f"
+                    app:xsb_insideRangeLineStrokeWidth="10dp"
+                    app:xsb_isShowBubble="true"
+                    app:xsb_isShowRuler="true"
+                    app:xsb_max="50"
+                    app:xsb_min="0"
+                    app:xsb_numberTextColor="#ffffff"
+                    app:xsb_numberTextSize="@dimen/text_size_small"
+                    app:xsb_outsideRangeLineColor="#f0f0f0"
+                    app:xsb_outsideRangeLineStrokeWidth="10dp"
+                    app:xsb_rulerColor="@color/xui_config_color_gray_4"
+                    app:xsb_rulerInterval="ten" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    tools:ignore="TextSizeCheck">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/original_result"
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold"
+                        tools:ignore="SmallSp" />
+
+                    <com.xuexiang.xui.widget.button.SmoothCheckBox
+                        android:id="@+id/scb_failed"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginStart="10dp"
+                        app:scb_color_checked="@color/colorPrimary"
+                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:text="@string/failed"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="SmallSp" />
+
+                    <com.xuexiang.xui.widget.button.SmoothCheckBox
+                        android:id="@+id/scb_processing"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginStart="10dp"
+                        app:scb_color_checked="@color/colorPrimary"
+                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:text="@string/processing"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="SmallSp" />
+
+                    <com.xuexiang.xui.widget.button.SmoothCheckBox
+                        android:id="@+id/scb_success"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginStart="10dp"
+                        app:scb_color_checked="@color/colorPrimary"
+                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:text="@string/success"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="SmallSp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_del"
+            style="@style/SuperButton.Gray.Icon.Spacing"
+            android:drawableStart="@drawable/ic_delete"
+            android:text="@string/discard"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_save"
+            style="@style/SuperButton.Blue.Icon.Spacing"
+            android:drawableStart="@drawable/ic_save"
+            android:text="@string/submit"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_test"
+            style="@style/SuperButton.Green.Icon.Spacing"
+            android:drawableStart="@drawable/ic_test"
+            android:text="@string/test"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+    </LinearLayout>
+
+</LinearLayout>

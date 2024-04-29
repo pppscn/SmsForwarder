@@ -1,19 +1,19 @@
 package com.idormy.sms.forwarder.utils.sender
 
-import android.util.Log
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.result.GotifyResult
 import com.idormy.sms.forwarder.entity.setting.GotifySetting
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.interceptor.BasicAuthInterceptor
+import com.idormy.sms.forwarder.utils.interceptor.LoggingInterceptor
 import com.xuexiang.xhttp2.XHttp
-import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
 
-@Suppress("PrivatePropertyName", "UNUSED_PARAMETER", "unused")
 class GotifyUtils {
     companion object {
 
@@ -22,18 +22,20 @@ class GotifyUtils {
         fun sendMsg(
             setting: GotifySetting,
             msgInfo: MsgInfo,
-            rule: Rule?,
-            logId: Long?,
+            rule: Rule? = null,
+            senderIndex: Int = 0,
+            logId: Long = 0L,
+            msgId: Long = 0L
         ) {
             val title: String = if (rule != null) {
-                msgInfo.getTitleForSend(setting.title.toString(), rule.regexReplace)
+                msgInfo.getTitleForSend(setting.title, rule.regexReplace)
             } else {
-                msgInfo.getTitleForSend(setting.title.toString())
+                msgInfo.getTitleForSend(setting.title)
             }
             val content: String = if (rule != null) {
                 msgInfo.getContentForSend(rule.smsTemplate, rule.regexReplace)
             } else {
-                msgInfo.getContentForSend(SettingUtils.smsTemplate.toString())
+                msgInfo.getContentForSend(SettingUtils.smsTemplate)
             }
 
             val requestUrl: String = setting.webServer //推送地址
@@ -54,36 +56,32 @@ class GotifyUtils {
                 .params("priority", setting.priority)
                 .ignoreHttpsCert() //忽略https证书
                 .keepJson(true)
-                .timeOut((SettingUtils.requestTimeout * 1000).toLong()) //超时时间10s
-                .cacheMode(CacheMode.NO_CACHE)
                 .retryCount(SettingUtils.requestRetryTimes) //超时重试的次数
-                .retryDelay(SettingUtils.requestDelayTime) //超时重试的延迟时间
-                .retryIncreaseDelay(SettingUtils.requestDelayTime) //超时重试叠加延时
-                .timeStamp(true)
+                .retryDelay(SettingUtils.requestDelayTime * 1000) //超时重试的延迟时间
+                .retryIncreaseDelay(SettingUtils.requestDelayTime * 1000) //超时重试叠加延时
+                .timeStamp(true) //url自动追加时间戳，避免缓存
+                .addInterceptor(LoggingInterceptor(logId)) //增加一个log拦截器, 记录请求日志
                 .execute(object : SimpleCallBack<String>() {
 
                     override fun onError(e: ApiException) {
                         Log.e(TAG, e.detailMessage)
-                        SendUtils.updateLogs(logId, 0, e.displayMessage)
+                        val status = 0
+                        SendUtils.updateLogs(logId, status, e.displayMessage)
+                        SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
                     }
 
                     override fun onSuccess(response: String) {
                         Log.i(TAG, response)
 
                         val resp = Gson().fromJson(response, GotifyResult::class.java)
-                        if (resp?.id != null) {
-                            SendUtils.updateLogs(logId, 2, response)
-                        } else {
-                            SendUtils.updateLogs(logId, 0, response)
-                        }
+                        val status = if (resp?.id != null) 2 else 0
+                        SendUtils.updateLogs(logId, status, response)
+                        SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
                     }
 
                 })
 
         }
 
-        fun sendMsg(setting: GotifySetting, msgInfo: MsgInfo) {
-            sendMsg(setting, msgInfo, null, null)
-        }
     }
 }

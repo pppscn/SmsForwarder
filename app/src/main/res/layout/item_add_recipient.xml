@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/config_margin_5dp"
+        android:background="?attr/xui_config_color_separator_light" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recipient_email"
+            android:textSize="@dimen/text_size_small"
+            android:textStyle="bold" />
+
+        <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+            android:id="@+id/et_recipient_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:textSize="@dimen/text_size_small"
+            app:met_clearButton="true" />
+
+        <ImageView
+            android:id="@+id/iv_del"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="5dp"
+            android:contentDescription="@string/del"
+            android:src="@drawable/ic_delete"
+            app:tint="#F15C58" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_recipient_keystore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/keystore_base64"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold" />
+
+            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                android:id="@+id/et_recipient_keystore"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                android:hint="@string/keystore_base64_tips"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:maxLines="5"
+                android:minLines="2"
+                android:scrollbars="vertical"
+                android:textSize="@dimen/text_size_mini"
+                app:met_clearButton="true" />
+
+            <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                android:id="@+id/btn_file_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/select_file"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_mini"
+                app:sb_color_unpressed="@color/colorBlueGrey"
+                app:sb_ripple_color="@color/white"
+                app:sb_ripple_duration="500"
+                app:sb_shape_type="rectangle"
+                tools:ignore="SmallSp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/keystore_password"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold" />
+
+            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                android:id="@+id/et_recipient_password"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                android:hint="@string/keystore_password_tips"
+                android:importantForAutofill="no"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_small"
+                app:met_passWordButton="true" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

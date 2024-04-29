@@ -10,17 +10,21 @@
 
 短信转发器——不仅只转发短信，备用机必备神器！
 
-监控Android手机短信、来电、APP通知，并根据指定规则转发到其他手机：钉钉群自定义机器人、钉钉企业内机器人、企业微信群机器人、企业微信应用消息、飞书群机器人、飞书企业应用、邮箱、bark、webhook、Telegram机器人、Server酱、PushPlus、手机短信等。
+监控Android手机短信、来电、APP通知，并根据指定规则转发到其他手机：钉钉群自定义机器人、钉钉企业内机器人、企业微信群机器人、企业微信应用消息、飞书群机器人、飞书企业应用、邮箱、bark、webhook、Tele****机器人、Server酱、PushPlus、手机短信等。
 
 包括主动控制服务端与客户端，让你轻松远程发短信、查短信、查通话、查话簿、查电量等。（V3.0 新增）
 
+自动任务・快捷指令，轻松自动化，助您事半功倍，更多时间享受亲情陪伴！（v3.3 新增）
+
 > 注意：从`2022-06-06`开始，原`Java版`的代码归档到`v2.x`分支，不再更新！
 
-> 1、从`v2.x`到`v3.x`不是简单的功能迭代，采用`kotlin`全新重构了（不是单纯的迁移代码，起初我也是这么认为的），由于我是第一次使用`kotlin`开发（Java版也是第一次），到处踩坑，每一行代码都是度娘手把手教会我的，所以`v3.x`版本可能一开始并不稳定。另外，眼睛葡萄膜炎还没好，晚上不敢肝，中间停摆了个把月，进度缓慢，历时2个月终于让`V3.x`顺产了！
+> `v3.x` 适配 Android 4.4 ~ 13.0
 
-> 2、如果目前`v2.x`用的好好的没必要升级（之前也是这么建议大家的，没必要每版必跟，除非你急需新功能）
+> `加入SmsF预览体验计划`（在线更新每周构建版，率先体验新版&修复BUG）
 
-> 3、`v3.x` 适配 Android 4.4 ~ 12.0
+**升级操作提示：** 
+- `加入SmsF预览体验计划`后在线更新（`关于软件`页面开启，`v3.3.0_240305+`适用）
+-  手动下载：https://github.com/pppscn/SmsForwarder/actions/workflows/Weekly_Build.yml
 
 --------
 
@@ -32,19 +36,21 @@
 
 * 如果任何单位或个人认为该项目的代码/APK可能涉嫌侵犯其权利，则应及时通知并提供身份证明，所有权证明，我们将在收到认证文件后删除相关代码/APK。
 
-* 隐私声明：SmsForwarder 不会收集任何您的隐私数据！！！APP启动时发送版本信息发送到友盟统计；手动检查新版本时发送版本号用于检查新版本；除此之外，没有任何数据！！！
+* 隐私声明： **SmsForwarder 不会收集任何您的隐私数据！！！** APP启动时发送版本信息发送到友盟统计；手动检查新版本时发送版本号用于检查新版本；除此之外，没有任何数据！！！
+
+* 防诈提醒： `SmsForwarder`完全免费开源，请您在 [打赏](https://gitee.com/pp/SmsForwarder/wikis/pages?sort_id=4912193&doc_id=1821427) 前务必确认是否出于自愿？本项目不参与任何刷单返利担保！**请您远离刷单返利陷阱，谨防网络诈骗！**
 
 --------
 
 ## 工作流程：
 
-![工作流程](https://images.gitee.com/uploads/images/2022/0126/133916_ca965452_16273.png "working_principle.png")
+![工作流程](pic/working_principle.png "working_principle.png")
 
 --------
 
 ## 界面预览：
 
-![界面预览](https://images.gitee.com/uploads/images/2022/0606/133422_808b4589_16273.png "界面预览.png")
+![界面预览](pic/screenshots.jpg "screenshots.jpg")
 
 更多截图参见 https://github.com/pppscn/SmsForwarder/wiki
 
@@ -58,8 +64,6 @@
 
 > ⚠ 网盘下载：https://wws.lanzoui.com/b025yl86h 访问密码：`pppscn`
 
-> ⚠ 酷安应用市场：https://www.coolapk.com/apk/com.idormy.sms.forwarder
-
 --------
 
 ## 使用文档【新用户必看！】
@@ -68,7 +72,7 @@
 
 > ⚠ Gitee Wiki：https://gitee.com/pp/SmsForwarder/wikis/pages
 
-![使用流程与问题排查流程](https://images.gitee.com/uploads/images/2022/0730/214314_b2389eae_16273.png "SmsForwarder 使用流程与问题排查流程.png")
+![使用流程与问题排查流程](pic/Troubleshooting_Process.png "Troubleshooting_Process.png")
 
 --------
 
@@ -77,11 +81,14 @@
 + 提交issues 或 pr
 + 加入交流群（群内都是机油互帮互助，禁止发任何与SmsForwarder使用无关的内容）
 
-| QQ频道号: q7oofwp13s | 钉钉客户群 | 企业微信群 |
-|  ----  |  ----  | ----  |
-| ![QQ频道号: q7oofwp13s](pic/qq_channel.png "QQ频道号: q7oofwp13s") | ![钉钉客户群](pic/dingtalk.png "钉钉客户群") | ![企业微信群](pic/qywechat.png "企业微信群") |
+|                      TG Group                       |
+|:---------------------------------------------------:|
+|         ![TG Group](pic/tg.png "TG Group")          |
+| [+QBZgnL_fxYM0NjE9](https://t.me/+QBZgnL_fxYM0NjE9) |
 
 ## 感谢
+
+> [感谢所有赞助本项目的热心网友 --> 打赏名单](https://gitee.com/pp/SmsForwarder/wikis/pages?sort_id=4912193&doc_id=1821427)
 
 > 本项目得到以下项目的支持与帮助，在此表示衷心的感谢！
 
@@ -92,13 +99,21 @@
 + https://github.com/mainfunx/frpc_android (内网穿透)
 + https://github.com/gyf-dev/Cactus (保活措施)
 + https://github.com/yanzhenjie/AndServer (HttpServer)
-+ [<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg?_ga=2.126618957.1361252949.1638261367-1417196221.1635638144&_gl=1*1pfl3dq*_ga*MTQxNzE5NjIyMS4xNjM1NjM4MTQ0*_ga_V0XZL7QHEB*MTYzODMzMjA4OC43LjAuMTYzODMzMjA5Ny4w" alt="GitHub license" style="zoom:50%;" />](https://jb.gg/OpenSourceSupport)  (License Certificate for JetBrains All Products Pack)
++ https://github.com/jenly1314/Location (Location)
++ https://gitee.com/xuankaicat/kmnkt (socket通信)
++ [<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg?_ga=2.126618957.1361252949.1638261367-1417196221.1635638144&_gl=1*1pfl3dq*_ga*MTQxNzE5NjIyMS4xNjM1NjM4MTQ0*_ga_V0XZL7QHEB*MTYzODMzMjA4OC43LjAuMTYzODMzMjA5Ny4w" alt="GitHub license" style="width：96px" width="96" />](https://jb.gg/OpenSourceSupport)  (License Certificate for JetBrains All Products Pack)
 
 --------
 
-## 如果觉得本工具对您有所帮助，右上角给个小星星鼓励一下！
+## 如果您觉得本工具对您有帮助，不妨在右上角点亮一颗小星星，以示鼓励！
 
-[![starcharts stargazers over time](https://starchart.cc/pppscn/SmsForwarder.svg)](https://github.com/pppscn/SmsForwarder)
+<a href="https://star-history.com/#pppscn/SmsForwarder&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=pppscn/SmsForwarder&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=pppscn/SmsForwarder&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=pppscn/SmsForwarder&type=Date" />
+  </picture>
+</a>
 
 --------
 

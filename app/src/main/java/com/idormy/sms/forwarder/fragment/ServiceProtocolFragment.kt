@@ -10,7 +10,6 @@ import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
 import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xui.widget.actionbar.TitleBar
-import com.xuexiang.xutil.resource.ResUtils
 import com.xuexiang.xutil.resource.ResourceUtils
 
 /**
@@ -29,6 +28,7 @@ class ServiceProtocolFragment : BaseFragment<FragmentServiceProtocolBinding?>() 
     @JvmField
     @AutoWired(name = KEY_IS_IMMERSIVE)
     var isImmersive = false
+
     override fun initArgs() {
         XRouter.getInstance().inject(this)
     }
@@ -48,7 +48,7 @@ class ServiceProtocolFragment : BaseFragment<FragmentServiceProtocolBinding?>() 
      * 初始化控件
      */
     override fun initViews() {
-        if (title == ResUtils.getString(R.string.title_user_protocol)) {
+        if (title == getString(R.string.title_user_protocol)) {
             binding!!.tvProtocolText.text = accountProtocol
         } else {
             binding!!.tvProtocolText.text = privacyProtocol

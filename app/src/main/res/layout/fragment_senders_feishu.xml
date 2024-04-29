@@ -20,7 +20,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                style="@style/senderBarStyleWithSwitch"
+                style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -50,7 +50,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/senderBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -70,7 +70,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/senderBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -90,7 +90,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/senderBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -103,21 +103,18 @@
 
                 <RadioGroup
                     android:id="@+id/rg_msg_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
+                    style="@style/rg_style"
+                    android:layout_marginStart="5dp"
                     android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/rb_msg_type_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/rg_rb_style"
                         android:text="@string/feishu_msg_type_text" />
 
                     <RadioButton
                         android:id="@+id/rb_msg_type_interactive"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/rg_rb_style"
                         android:checked="true"
                         android:text="@string/feishu_msg_type_interactive" />
 
@@ -126,8 +123,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layout_custom_template"
-                style="@style/senderBarStyle"
+                android:id="@+id/layout_title_template"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -149,7 +146,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:text="@string/custom_template_tips"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
 
                 </LinearLayout>
@@ -167,26 +164,104 @@
                     android:orientation="horizontal">
 
                     <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                        android:id="@+id/bt_insert_sender"
+                        android:id="@+id/bt_insert_sender_to_title"
                         style="@style/insertButtonStyle"
                         android:text="@string/insert_sender" />
 
                     <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                        android:id="@+id/bt_insert_extra"
+                        android:id="@+id/bt_insert_extra_to_title"
                         style="@style/insertButtonStyle"
                         android:layout_marginStart="5dp"
                         android:text="@string/insert_extra" />
 
                     <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                        android:id="@+id/bt_insert_time"
+                        android:id="@+id/bt_insert_time_to_title"
                         style="@style/insertButtonStyle"
                         android:layout_marginStart="5dp"
                         android:text="@string/insert_time" />
 
                     <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                        android:id="@+id/bt_insert_device_name"
+                        android:id="@+id/bt_insert_device_name_to_title"
                         style="@style/insertButtonStyle"
                         android:layout_marginStart="5dp"
+                        android:text="@string/insert_device_name" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_message_card"
+                style="@style/BarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                tools:ignore="RtlSymmetry">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/feishu_msg_type_interactive_message_card"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/custom_template_tips"
+                        android:textSize="@dimen/text_size_mini"
+                        tools:ignore="SmallSp" />
+
+                </LinearLayout>
+
+                <com.xuexiang.xui.widget.edittext.ClearEditText
+                    android:id="@+id/et_message_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=""
+                    android:gravity="left|top"
+                    android:inputType="textMultiLine"
+                    android:minLines="5"
+                    android:text=""
+                    tools:ignore="RtlHardcoded,SpeakableTextPresentCheck" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/bt_insert_sender"
+                        style="@style/insertButtonStyle"
+                        android:text="@string/insert_sender" />
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/bt_insert_content"
+                        style="@style/insertButtonStyle"
+                        android:layout_marginStart="3dp"
+                        android:text="@string/insert_content" />
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/bt_insert_extra"
+                        style="@style/insertButtonStyle"
+                        android:layout_marginStart="3dp"
+                        android:text="@string/insert_extra" />
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/bt_insert_time"
+                        style="@style/insertButtonStyle"
+                        android:layout_marginStart="3dp"
+                        android:text="@string/insert_time" />
+
+                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                        android:id="@+id/bt_insert_device_name"
+                        style="@style/insertButtonStyle"
+                        android:layout_marginStart="3dp"
                         android:text="@string/insert_device_name" />
 
                 </LinearLayout>
@@ -206,32 +281,24 @@
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_del"
-            style="@style/SuperButton.Gray.Icon"
-            android:drawableStart="@drawable/icon_delete"
-            android:paddingStart="15dp"
+            style="@style/SuperButton.Gray.Icon.Spacing"
+            android:drawableStart="@drawable/ic_delete"
             android:text="@string/del"
-            android:textSize="11sp"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_save"
-            style="@style/SuperButton.Blue.Icon"
-            android:layout_marginStart="10dp"
-            android:drawableStart="@drawable/icon_save"
-            android:paddingStart="15dp"
+            style="@style/SuperButton.Blue.Icon.Spacing"
+            android:drawableStart="@drawable/ic_save"
             android:text="@string/save"
-            android:textSize="11sp"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_test"
-            style="@style/SuperButton.Green.Icon"
-            android:layout_marginStart="10dp"
-            android:drawableStart="@drawable/icon_test"
-            android:paddingStart="15dp"
+            style="@style/SuperButton.Green.Icon.Spacing"
+            android:drawableStart="@drawable/ic_test"
             android:text="@string/test"
-            android:textSize="11sp"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
     </LinearLayout>
 

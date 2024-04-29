@@ -1,9 +1,8 @@
 package com.idormy.sms.forwarder.utils
 
-import android.util.Log
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.entity.MsgInfo
-import com.xuexiang.xui.utils.ResUtils.getString
+import com.xuexiang.xutil.resource.ResUtils.getString
 import java.util.*
 
 @Suppress("unused")
@@ -35,8 +34,8 @@ object RuleLineUtils {
     }
 
     @Throws(Exception::class)
-    fun checkRuleLines(msg: MsgInfo, RuleLines: String?): Boolean {
-        val scanner = Scanner(RuleLines)
+    fun checkRuleLines(msg: MsgInfo, ruleLines: String?): Boolean {
+        val scanner = Scanner(ruleLines)
         var lineNum = 0
         var headRuleLine: RuleLine? = null
         var beforeRuleLine: RuleLine? = null

@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="10dp"
-        android:text="@string/select_sender_type" />
+        android:text="@string/select_sender_type"
+        android:textStyle="bold" />
 
     <View
         android:layout_width="match_parent"
@@ -24,5 +25,19 @@
         android:layout_height="match_parent"
         android:overScrollMode="never"
         tools:listitem="@android:layout/simple_list_item_2" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/xui_config_color_separator_light" />
+
+    <com.xuexiang.xui.widget.alpha.XUIAlphaTextView
+        android:id="@+id/bottom_sheet_close_button"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:text="@string/bottom_sheet_close"
+        android:textColor="#49505A"
+        android:textSize="@dimen/text_size_medium" />
 
 </LinearLayout>

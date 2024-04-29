@@ -7,7 +7,6 @@ import android.text.TextUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.utils.CommonUtils.Companion.goWeb
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.widget.dialog.DialogLoader
 import com.xuexiang.xupdate.XUpdate
 
@@ -22,13 +21,13 @@ class UpdateTipDialog : AppCompatActivity(), DialogInterface.OnDismissListener {
         super.onCreate(savedInstanceState)
         var content = intent.getStringExtra(KEY_CONTENT)
         if (TextUtils.isEmpty(content)) {
-            content = String.format(ResUtils.getString(R.string.download_slow_switch_download_url), DOWNLOAD_TYPE_NAME)
+            content = String.format(getString(R.string.download_slow_switch_download_url), DOWNLOAD_TYPE_NAME)
         }
         DialogLoader.getInstance()
-            .showConfirmDialog(this, content, ResUtils.getString(R.string.yes), { dialog: DialogInterface, _: Int ->
+            .showConfirmDialog(this, content, getString(R.string.yes), { dialog: DialogInterface, _: Int ->
                 dialog.dismiss()
                 goWeb(this@UpdateTipDialog, DOWNLOAD_URL)
-            }, ResUtils.getString(R.string.no))
+            }, getString(R.string.no))
             .setOnDismissListener(this)
     }
 
@@ -40,10 +39,10 @@ class UpdateTipDialog : AppCompatActivity(), DialogInterface.OnDismissListener {
         const val KEY_CONTENT = "com.idormy.sms.forwarder.utils.update.KEY_CONTENT"
 
         // 填写你应用下载类型名
-        const val DOWNLOAD_TYPE_NAME = "酷安"
+        const val DOWNLOAD_TYPE_NAME = "GitHub"
 
         // 填写你应用下载页面的链接
-        private const val DOWNLOAD_URL = "https://www.coolapk.com/apk/com.idormy.sms.forwarder"
+        private const val DOWNLOAD_URL = "https://github.com/pppscn/SmsForwarder/releases"
 
         /**
          * 显示版本更新重试提示弹窗

@@ -1,6 +1,6 @@
 package com.idormy.sms.forwarder.server.component
 
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import com.google.gson.GsonBuilder
 import com.idormy.sms.forwarder.server.model.BaseRequest
 import com.idormy.sms.forwarder.utils.Base64
@@ -22,7 +22,6 @@ import java.io.InputStream
 import java.lang.reflect.Type
 import java.nio.charset.Charset
 
-
 @Suppress("PrivatePropertyName")
 @Converter
 class AppMessageConverter : MessageConverter {
@@ -36,13 +35,13 @@ class AppMessageConverter : MessageConverter {
 
         return when (HttpServerUtils.safetyMeasures) {
             2 -> {
-                val privateKey = RSACrypt.getPrivateKey(HttpServerUtils.serverPrivateKey.toString())
+                val privateKey = RSACrypt.getPrivateKey(HttpServerUtils.serverPrivateKey)
                 response = Base64.encode(response.toByteArray())
                 response = RSACrypt.encryptByPrivateKey(response, privateKey)
                 StringBody(response)
             }
             3 -> {
-                val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.serverSm4Key.toString())
+                val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.serverSm4Key)
                 //response = Base64.encode(response.toByteArray())
                 val encryptCBC = SM4Crypt.encrypt(response.toByteArray(), sm4Key)
                 StringBody(ConvertTools.bytes2HexString(encryptCBC))
@@ -65,7 +64,7 @@ class AppMessageConverter : MessageConverter {
                 throw HttpException(500, "服务端未配置私钥")
             }
 
-            val privateKey = RSACrypt.getPrivateKey(HttpServerUtils.serverPrivateKey.toString())
+            val privateKey = RSACrypt.getPrivateKey(HttpServerUtils.serverPrivateKey)
             json = RSACrypt.decryptByPrivateKey(json, privateKey)
             json = String(Base64.decode(json))
             Log.d(TAG, "Json: $json")
@@ -75,7 +74,7 @@ class AppMessageConverter : MessageConverter {
                 throw HttpException(500, "服务端未配置SM4密钥")
             }
 
-            val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.serverSm4Key.toString())
+            val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.serverSm4Key)
             val encryptCBC = ConvertTools.hexStringToByteArray(json)
             val decryptCBC = SM4Crypt.decrypt(encryptCBC, sm4Key)
             //json = String(Base64.decode(decryptCBC.toString()))

@@ -1,8 +1,8 @@
 package com.idormy.sms.forwarder.core.webview
 
-import android.util.Log
 import android.webkit.JsResult
 import android.webkit.WebView
+import com.idormy.sms.forwarder.utils.Log
 import com.just.agentweb.core.client.MiddlewareWebChromeBase
 
 /**

@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:openDrawer="start">
+    android:background="@color/xui_config_color_white"
+    android:orientation="vertical"
+    tools:ignore="Overdraw">
 
-    <!--  主内容填充  -->
-    <include
-        android:id="@+id/include_main"
-        layout="@layout/layout_main_content"
+    <FrameLayout
+        android:id="@id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    <!-- 侧边栏   -->
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/include_navigation_header"
-        app:menu="@menu/menu_drawer" />
+    </FrameLayout>
 
-</androidx.drawerlayout.widget.DrawerLayout>
+    <View style="@style/SeparatorStyle.Vertical" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
+        style="@style/TabLayoutStyle"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/xui_actionbar_height"
+        android:contentDescription="@string/description_navigation_main"
+        app:tabBackground="@null"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/xui_config_color_transparent"
+        app:tabMinWidth="300dp"
+        app:tabMode="fixed"
+        app:tabPaddingTop="2dp"
+        app:tabTextAppearance="@style/TabText.Explain" />
+
+</LinearLayout>

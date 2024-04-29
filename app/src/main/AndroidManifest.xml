@@ -3,14 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:installLocation="internalOnly">
 
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 授予应用程序访问系统开机事件的权限 -->
     <uses-permission
@@ -18,12 +24,14 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
-
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_MMS" />
+    <uses-permission android:name="android.permission.RECEIVE_WAP_PUSH" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -39,6 +47,8 @@
     <uses-permission
         android:name="android.permission.BATTERY_STATS"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.CANCEL_NOTIFICATIONS " />
     <uses-permission
         android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
         tools:ignore="ProtectedPermissions" />
@@ -54,10 +64,21 @@
     <uses-permission
         android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.REBOOT"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
 
     <application
         android:name=".App"
         android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
+        android:defaultToDeviceProtectedStorage="true"
+        android:directBootAware="true"
+        android:enableOnBackInvokedCallback="false"
         android:fullBackupContent="@xml/backup_descriptor"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -85,7 +106,7 @@
             android:taskAffinity=":splash"
             android:theme="@style/AppTheme.Launch.App"
             android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="TranslucentOrientation">
+            tools:ignore="DiscouragedApi,TranslucentOrientation">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -97,14 +118,24 @@
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            tools:ignore="DiscouragedApi" />
         <activity
             android:name=".activity.ClientActivity"
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
             android:exported="true"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            tools:ignore="DiscouragedApi" />
+        <activity
+            android:name=".activity.TaskActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            tools:ignore="DiscouragedApi" />
         <!--通用浏览器-->
         <activity
             android:name=".core.webview.AgentWebActivity"
@@ -162,26 +193,30 @@
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            tools:ignore="DiscouragedApi" />
         <!-- 版本更新提示-->
         <activity
             android:name=".utils.update.UpdateTipDialog"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/DialogTheme" />
+            android:theme="@style/DialogTheme"
+            tools:ignore="DiscouragedApi" />
         <!-- Webview拦截提示弹窗-->
         <activity
             android:name=".core.webview.WebViewInterceptDialog"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/DialogTheme" />
+            android:theme="@style/DialogTheme"
+            tools:ignore="DiscouragedApi" />
         <!-- applink的中转页面 -->
         <activity
             android:name=".core.XPageTransferActivity"
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            tools:ignore="DiscouragedApi" />
 
         <!--屏幕自适应设计图-->
         <meta-data
@@ -194,16 +229,21 @@
             android:value="640" />
 
         <service
-            android:name=".service.HttpService"
-            android:enabled="true" />
-        <service
-            android:name=".service.BatteryService"
-            android:enabled="true" />
+            android:name=".service.BluetoothScanService"
+            android:enabled="true"
+            android:exported="false" />
         <service
             android:name=".service.ForegroundService"
             android:enabled="true" />
         <service
-            android:name=".service.NotifyService"
+            android:name=".service.HttpServerService"
+            android:enabled="true" />
+        <service
+            android:name=".service.LocationService"
+            android:enabled="true"
+            android:foregroundServiceType="location" />
+        <service
+            android:name=".service.NotificationService"
             android:enabled="true"
             android:exported="false"
             android:label="@string/app_name"
@@ -214,7 +254,39 @@
         </service>
 
         <receiver
-            android:name=".receiver.BootReceiver"
+            android:name=".receiver.BatteryReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BATTERY_CHANGED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".receiver.BluetoothReceiver"
+            android:exported="true">
+            <intent-filter>
+                <!-- 蓝牙设备发现 -->
+                <action android:name="android.bluetooth.device.action.FOUND" />
+                <!-- 蓝牙扫描完成 -->
+                <action android:name="android.bluetooth.adapter.action.DISCOVERY_FINISHED" />
+                <!-- 蓝牙状态改变 -->
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
+                <!-- 蓝牙扫描模式改变 -->
+                <action android:name="android.bluetooth.adapter.action.SCAN_MODE_CHANGED" />
+                <!-- 本地蓝牙名称改变 -->
+                <action android:name="android.bluetooth.adapter.action.LOCAL_NAME_CHANGED" />
+                <!-- 蓝牙连接状态改变 -->
+                <action android:name="android.bluetooth.adapter.action.CONNECTION_STATE_CHANGED" />
+                <!-- 蓝牙设备配对状态改变 -->
+                <action android:name="android.bluetooth.device.action.BOND_STATE_CHANGED" />
+                <!-- 蓝牙设备连接 -->
+                <action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
+                <!-- 蓝牙设备断开连接 -->
+                <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".receiver.BootCompletedReceiver"
+            android:defaultToDeviceProtectedStorage="true"
             android:directBootAware="true"
             android:exported="true"
             tools:ignore="IntentFilterExportedReceiver">
@@ -223,6 +295,52 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
                 <action android:name="android.intent.action.PACKAGE_RESTARTED" />
                 <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".receiver.CallReceiver"
+            android:exported="true"
+            tools:ignore="IntentFilterExportedReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".receiver.LockScreenReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.SCREEN_OFF" />
+                <action android:name="android.intent.action.SCREEN_ON" />
+                <action android:name="android.intent.action.ACTION_USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".receiver.NetworkChangeReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.READ_PHONE_STATE">
+            <intent-filter>
+                <action
+                    android:name="android.net.conn.CONNECTIVITY_CHANGE"
+                    tools:ignore="BatteryLife" />
+                <action
+                    android:name="android.net.wifi.WIFI_STATE_CHANGED"
+                    tools:ignore="BatteryLife" />
+                <action
+                    android:name="android.net.wifi.STATE_CHANGE"
+                    tools:ignore="BatteryLife" />
+                <!--<action
+                    android:name="android.intent.action.DATA_CONNECTION_STATE_CHANGED"
+                    tools:ignore="BatteryLife" />-->
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".receiver.SimStateReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.SIM_STATE_CHANGED" />
             </intent-filter>
         </receiver>
         <receiver
@@ -237,15 +355,26 @@
                 <!--短信广播-->
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".receiver.PhoneStateReceiver"
-            android:exported="true"
-            tools:ignore="IntentFilterExportedReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE" />
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.provider.Telephony.WAP_PUSH_RECEIVED" />
+                <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER" />
+
+                <data android:mimeType="application/vnd.wap.mms-message" />
             </intent-filter>
         </receiver>
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <!-- If you are using androidx.startup to initialize other components -->
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
+
     </application>
 
 </manifest>

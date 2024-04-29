@@ -282,6 +282,8 @@
 -keep class javax.activation.** { *;}
 -keep class com.smailnet.emailkit.** { *;}
 -keep class com.idormy.sms.forwarder.utils.mail.** {*;}
+-keep class com.gitee.xuankaicat.kmnkt.** {*;}
+-keep class org.eclipse.paho.client.** {*;}
 
 -keep public class com.xuexiang.xrouter.routes.**{*;}
 -keep class * implements com.xuexiang.xrouter.facade.template.ISyringe{*;}
@@ -289,3 +291,21 @@
 -keep interface * implements com.xuexiang.xrouter.facade.template.IProvider
 # 如果使用了 单类注入，即不定义接口实现 IProvider，需添加下面规则，保护实现
 -keep class * implements com.xuexiang.xrouter.facade.template.IProvider
+
+-dontwarn com.alipay.sdk.**
+-dontwarn com.android.org.conscrypt.**
+-dontwarn java.awt.image.**
+-dontwarn javax.lang.model.**
+-dontwarn javax.naming.**
+-dontwarn javax.naming.directory.**
+
+# This is generated automatically by the Android Gradle plugin.
+-dontwarn org.joda.convert.**
+-dontwarn org.slf4j.impl.**
+
+# MultiLanguages
+-keep class com.hjq.language.** {*;}
+
+# crontab解析
+-keep class gatewayapps.crondroid.** { *; }
+-keep class net.redhogs.cronparser.** { *; }

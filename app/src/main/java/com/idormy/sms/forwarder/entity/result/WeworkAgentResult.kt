@@ -1,5 +1,6 @@
 package com.idormy.sms.forwarder.entity.result
 
+@Suppress("PropertyName")
 data class WeworkAgentResult(
     var errcode: Long,
     var errmsg: String,

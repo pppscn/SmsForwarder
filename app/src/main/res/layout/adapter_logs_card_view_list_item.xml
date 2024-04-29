@@ -8,84 +8,69 @@
     android:layout_marginStart="@dimen/config_margin_5dp"
     android:layout_marginTop="@dimen/config_margin_5dp"
     android:layout_marginEnd="@dimen/config_margin_5dp"
-    android:paddingStart="@dimen/config_padding_5dp"
+    android:paddingStart="@dimen/config_padding_10dp"
     android:paddingTop="@dimen/config_padding_5dp"
-    android:paddingEnd="@dimen/config_padding_5dp"
+    android:paddingEnd="@dimen/config_padding_10dp"
     android:paddingBottom="@dimen/config_padding_5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/iv_sender_image"
-                android:layout_width="@dimen/card_view_image_size"
-                android:layout_height="@dimen/card_view_image_size"
-                tools:ignore="ContentDescription" />
-
-            <ImageView
-                android:id="@+id/iv_status_image"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="-16dp"
-                tools:ignore="ContentDescription" />
-
-        </LinearLayout>
+        android:orientation="vertical"
+        tools:ignore="DisableBaselineAlignment">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_from"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/tv_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp" />
-
-                <ImageView
-                    android:id="@+id/iv_sim_image"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginStart="5dp"
-                    tools:ignore="ContentDescription" />
-
-            </LinearLayout>
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_content"
-                android:layout_width="match_parent"
+                android:id="@+id/tv_from"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginTop="3dp"
-                android:ellipsize="end"
-                android:gravity="start"
-                android:maxEms="8"
-                android:maxLines="3"
-                android:textSize="11sp" />
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp" />
+
+            <ImageView
+                android:id="@+id/iv_sim_image"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="5dp"
+                tools:ignore="ContentDescription" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="3dp"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxEms="8"
+            android:maxLines="3"
+            android:textSize="@dimen/text_size_small" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="?attr/xui_config_color_separator_light" />
+
+        <LinearLayout
+            android:id="@+id/layout_Logs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" />
 
     </LinearLayout>
 

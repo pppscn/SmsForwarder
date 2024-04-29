@@ -14,7 +14,7 @@
         app:indicator_height="42dp"
         app:indicator_line_height="2dp"
         app:indicator_line_show="true"
-        app:indicator_textSize="14sp"
+        app:indicator_textSize="@dimen/text_size_medium"
         app:indicator_width="0dp" />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -34,7 +34,7 @@
             app:srlEnableLastTime="true"
             app:srlFinishDuration="500"
             app:srlTextSizeTime="10dp"
-            app:srlTextSizeTitle="16sp"
+            app:srlTextSizeTitle="@dimen/text_size_big"
             app:srlTextTimeMarginTop="2dp" />
 
         <androidx.recyclerview.widget.RecyclerView

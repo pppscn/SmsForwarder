@@ -1,9 +1,9 @@
 package com.idormy.sms.forwarder.server.component
 
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.utils.HttpServerUtils
-import com.xuexiang.xui.utils.ResUtils.getString
+import com.xuexiang.xutil.resource.ResUtils.getString
 import com.yanzhenjie.andserver.annotation.Interceptor
 import com.yanzhenjie.andserver.error.HttpException
 import com.yanzhenjie.andserver.framework.HandlerInterceptor
@@ -35,10 +35,13 @@ class LoggerInterceptor : HandlerInterceptor {
             //判断是否开启该功能
             if (
                 (httpPath.startsWith("/clone") && !HttpServerUtils.enableApiClone)
-                || (httpPath.startsWith("/sms/send") && !HttpServerUtils.enableApiSmsSend)
                 || (httpPath.startsWith("/sms/query") && !HttpServerUtils.enableApiSmsQuery)
+                || (httpPath.startsWith("/sms/send") && !HttpServerUtils.enableApiSmsSend)
                 || (httpPath.startsWith("/call/query") && !HttpServerUtils.enableApiCallQuery)
                 || (httpPath.startsWith("/contact/query") && !HttpServerUtils.enableApiContactQuery)
+                || (httpPath.startsWith("/contact/add") && !HttpServerUtils.enableApiContactAdd)
+                || (httpPath.startsWith("/wol/send") && !HttpServerUtils.enableApiWol)
+                || (httpPath.startsWith("/location/query") && !HttpServerUtils.enableApiLocation)
                 || (httpPath.startsWith("/battery/query") && !HttpServerUtils.enableApiBatteryQuery)
             ) {
                 throw HttpException(500, getString(R.string.disabled_on_the_server))

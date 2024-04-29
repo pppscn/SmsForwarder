@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -35,16 +36,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="@string/server_settings_tips2"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/text_size_mini"
                     tools:ignore="SmallSp" />
 
             </LinearLayout>
 
             <LinearLayout
-                style="@style/settingBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingEnd="15dp"
                 tools:ignore="RtlSymmetry">
 
                 <TextView
@@ -64,7 +64,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/settingBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -88,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:text="@string/safety_measures_tips"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
 
                 </LinearLayout>
@@ -125,10 +125,9 @@
 
             <LinearLayout
                 android:id="@+id/layout_sign_key"
-                style="@style/settingBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingEnd="15dp"
                 tools:ignore="RtlSymmetry">
 
                 <TextView
@@ -138,20 +137,14 @@
                     android:text="@string/sign_key"
                     android:textStyle="bold" />
 
-                <EditText
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                     android:id="@+id/et_sign_key"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_weight="1"
-                    android:gravity="top"
-                    android:importantForAutofill="no"
-                    android:inputType="textMultiLine"
-                    android:maxLines="5"
-                    android:minLines="1"
-                    android:scrollbars="vertical"
-                    android:textSize="10sp"
-                    tools:ignore="LabelFor,SmallSp" />
+                    android:singleLine="true"
+                    app:met_passWordButton="true" />
 
             </LinearLayout>
 
@@ -217,7 +210,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="@string/click_test_button_first"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/text_size_mini"
                     tools:ignore="SmallSp" />
 
             </LinearLayout>

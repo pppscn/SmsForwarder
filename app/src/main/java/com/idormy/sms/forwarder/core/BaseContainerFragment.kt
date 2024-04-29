@@ -16,7 +16,7 @@ import com.xuexiang.xui.widget.actionbar.TitleUtils
  * @author xuexiang
  * @since 2018/11/22 上午11:26
  */
-@Suppress("unused")
+@Suppress("UNUSED_PARAMETER")
 abstract class BaseContainerFragment : XPageContainerListFragment() {
     override fun initPage() {
         initTitle()

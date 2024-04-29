@@ -99,7 +99,7 @@ body:
   - type: textarea
     id: stack
     attributes:
-      label: 提供报错堆栈
+      label: 提供报错堆栈【请提供logcat抓取的日志，参考： https://blog.csdn.net/m0_64776928/article/details/126005119 】
       description: Provide a stack trace
       placeholder: 根据需要提供，此项不强制 (as needed, this is not mandatory)
   - type: textarea

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/xui_config_color_white"
+    android:orientation="vertical"
+    tools:ignore="UseCompoundDrawables">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/config_padding_5dp"
+        android:paddingBottom="@dimen/config_padding_5dp">
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="@dimen/card_view_icon_size"
+            android:layout_height="@dimen/card_view_icon_size"
+            android:src="@drawable/ic_add"
+            tools:ignore="ContentDescription,ImageContrastCheck" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_action"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:maxLines="2"
+                android:text="@string/add_action_tips"
+                android:textSize="@dimen/text_size_mini" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_edit"
+            android:layout_width="@dimen/card_view_image_size"
+            android:layout_height="@dimen/card_view_image_size"
+            android:padding="@dimen/card_view_image_padding"
+            android:src="@drawable/ic_edit"
+            app:tint="@color/toast_info_color"
+            tools:ignore="ContentDescription,PrivateResource,ImageContrastCheck" />
+
+        <ImageView
+            android:id="@+id/iv_remove"
+            android:layout_width="@dimen/card_view_image_size"
+            android:layout_height="@dimen/card_view_image_size"
+            android:padding="@dimen/card_view_image_padding"
+            android:src="@drawable/ic_delete"
+            app:tint="@color/toast_error_color"
+            tools:ignore="ContentDescription,PrivateResource" />
+
+        <ImageView
+            android:id="@+id/iv_drag"
+            android:layout_width="@dimen/card_view_image_size"
+            android:layout_height="@dimen/card_view_image_size"
+            android:padding="@dimen/card_view_image_padding"
+            android:src="@drawable/ic_drag"
+            app:tint="@color/colorStart"
+            tools:ignore="ContentDescription,ImageContrastCheck" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="?attr/xui_config_color_separator_light" />
+
+</LinearLayout>

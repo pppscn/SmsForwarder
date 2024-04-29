@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.text.Html
 import android.text.TextUtils
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +13,12 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import com.idormy.sms.forwarder.R
+import com.idormy.sms.forwarder.utils.Log
 import com.xuexiang.xui.utils.CollectionUtils
 import com.xuexiang.xui.widget.spinner.editspinner.BaseEditSpinnerAdapter
 import com.xuexiang.xui.widget.spinner.editspinner.EditSpinnerFilter
 
-@Suppress("unused", "NAME_SHADOWING", "SENSELESS_COMPARISON", "DEPRECATION")
+@Suppress("unused", "NAME_SHADOWING", "DEPRECATION")
 class AppListSpinnerAdapter<T> : BaseEditSpinnerAdapter<T>, EditSpinnerFilter {
     /**
      * 选项的文字颜色
@@ -99,6 +99,7 @@ class AppListSpinnerAdapter<T> : BaseEditSpinnerAdapter<T>, EditSpinnerFilter {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.e("AppListSpinnerAdapter", "onFilter: ${e.message}")
             }
         }
         Log.d("AppListSpinnerAdapter", "mDisplayData = $mDisplayData")
@@ -131,7 +132,6 @@ class AppListSpinnerAdapter<T> : BaseEditSpinnerAdapter<T>, EditSpinnerFilter {
         return this
     }
 
-    @Suppress("DEPRECATION")
     @SuppressLint("ObsoleteSdkInt")
     private class ViewHolder(convertView: View, @ColorInt textColor: Int, textSize: Float, @DrawableRes backgroundSelector: Int) {
         val iconView: ImageView = convertView.findViewById(R.id.iv_icon)

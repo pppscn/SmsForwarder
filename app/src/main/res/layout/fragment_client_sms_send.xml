@@ -21,14 +21,16 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_margin="10dp"
                 android:contentDescription="@string/api_sms_send"
-                app:srcCompat="@drawable/icon_api_sms_send" />
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/icon_api_sms_send"
+                tools:ignore="ImageContrastCheck" />
 
             <LinearLayout
-                style="@style/senderBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -41,25 +43,28 @@
                 <RadioGroup
                     android:id="@+id/rg_sim_slot"
                     style="@style/rg_style"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/config_padding_5dp">
 
                     <RadioButton
                         android:id="@+id/rb_sim_slot_1"
                         style="@style/rg_rb_style_match"
                         android:checked="true"
-                        android:text="@string/sim1" />
+                        android:text="@string/sim1"
+                        tools:ignore="TouchTargetSizeCheck" />
 
                     <RadioButton
                         android:id="@+id/rb_sim_slot_2"
                         style="@style/rg_rb_style_match"
-                        android:text="@string/sim2" />
+                        android:text="@string/sim2"
+                        tools:ignore="TouchTargetSizeCheck" />
 
                 </RadioGroup>
 
             </LinearLayout>
 
             <LinearLayout
-                style="@style/senderBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -78,12 +83,13 @@
                     app:met_clearButton="true"
                     app:met_errorMessage="@string/phone_numbers_error"
                     app:met_regexp="@string/phone_numbers_regex"
-                    app:met_validateOnFocusLost="true" />
+                    app:met_validateOnFocusLost="true"
+                    tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
             </LinearLayout>
 
             <LinearLayout
-                style="@style/senderBarStyle"
+                style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -105,7 +111,8 @@
                     app:met_maxCharacters="390"
                     app:met_regexp="@string/msg_content_regex"
                     app:met_validateOnFocusLost="true"
-                    app:mlet_hintText="@string/msg_content_hint" />
+                    app:mlet_hintText="@string/msg_content_hint"
+                    tools:ignore="TextContrastCheck" />
 
             </LinearLayout>
 
@@ -126,7 +133,7 @@
             android:drawableStart="@drawable/ic_send_white"
             android:paddingStart="20dp"
             android:text="@string/send"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry,TouchTargetSizeCheck,TextContrastCheck" />
 
     </LinearLayout>
 

@@ -1,14 +1,11 @@
 package com.idormy.sms.forwarder.activity
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.KeyEvent
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.utils.CommonUtils.Companion.showPrivacyDialog
-import com.idormy.sms.forwarder.utils.MMKVUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.SettingUtils.Companion.isAgreePrivacy
-import com.idormy.sms.forwarder.utils.SettingUtils.Companion.isFirstOpen
 import com.xuexiang.xui.utils.KeyboardUtils
 import com.xuexiang.xui.widget.activity.BaseSplashActivity
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
@@ -38,12 +35,6 @@ class SplashActivity : BaseSplashActivity(), CancelAdapt {
      * 启动页结束后的动作
      */
     override fun onSplashFinished() {
-        if (isFirstOpen) {
-            isFirstOpen = false
-            Log.d(TAG, "从SP迁移数据")
-            MMKVUtils.importSharedPreferences(this)
-        }
-
         if (isAgreePrivacy) {
             whereToJump()
         } else {
@@ -56,7 +47,9 @@ class SplashActivity : BaseSplashActivity(), CancelAdapt {
     }
 
     private fun whereToJump() {
-        if (SettingUtils.enablePureClientMode) {
+        if (SettingUtils.enablePureTaskMode) {
+            ActivityUtils.startActivity(TaskActivity::class.java)
+        } else if (SettingUtils.enablePureClientMode) {
             ActivityUtils.startActivity(ClientActivity::class.java)
         } else {
             ActivityUtils.startActivity(MainActivity::class.java)

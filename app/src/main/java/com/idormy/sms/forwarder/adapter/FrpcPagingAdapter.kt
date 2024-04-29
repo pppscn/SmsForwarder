@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.FrpcPagingAdapter.MyViewHolder
 import com.idormy.sms.forwarder.database.entity.Frpc
@@ -15,6 +16,7 @@ import com.idormy.sms.forwarder.databinding.AdapterFrpcsCardViewListItemBinding
 import com.xuexiang.xutil.resource.ResUtils.getColors
 import frpclib.Frpclib
 
+@Suppress("EmptyMethod")
 class FrpcPagingAdapter(private val itemClickListener: OnItemClickListener) : PagingDataAdapter<Frpc, MyViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -22,14 +24,15 @@ class FrpcPagingAdapter(private val itemClickListener: OnItemClickListener) : Pa
         return MyViewHolder(binding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = getItem(position)
         if (item != null) {
-            holder.binding.ivImage.setImageResource(R.drawable.ic_menu_frpc)
             holder.binding.ivAutorun.setImageResource(item.autorunImageId)
+            holder.binding.tvUid.text = "UID:${item.uid}"
             holder.binding.tvName.text = item.name
 
-            if (item.connecting || Frpclib.isRunning(item.uid)) {
+            if (item.connecting || (App.FrpclibInited && Frpclib.isRunning(item.uid))) {
                 holder.binding.ivPlay.setImageResource(R.drawable.ic_stop)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     holder.binding.ivPlay.imageTintList = getColors(R.color.colorStop)
@@ -41,9 +44,9 @@ class FrpcPagingAdapter(private val itemClickListener: OnItemClickListener) : Pa
                 }
             }
 
-            holder.binding.ivEdit.setImageResource(R.drawable.ic_edit)
-            holder.binding.ivDelete.setImageResource(R.drawable.ic_delete)
-
+            holder.binding.ivCopy.setOnClickListener { view: View? ->
+                itemClickListener.onItemClicked(view, item)
+            }
             holder.binding.ivPlay.setOnClickListener { view: View? ->
                 itemClickListener.onItemClicked(view, item)
             }

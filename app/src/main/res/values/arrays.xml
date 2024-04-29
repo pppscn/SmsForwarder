@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-<resources>
-
-    <string-array name="home_titles">
-        <item>@string/menu_logs</item>
-        <item>@string/menu_rules</item>
-        <item>@string/menu_senders</item>
-        <item>@string/menu_settings</item>
+    <string-array name="menu_titles">
+        <item>@string/menu_logs_step</item>
+        <item>@string/menu_rules_step</item>
+        <item>@string/menu_senders_step</item>
+        <item>@string/menu_settings_step</item>
+        <item />
+        <item>@string/menu_tasks</item>
+        <item>@string/menu_server</item>
+        <item>@string/menu_client</item>
+        <item>@string/menu_frpc</item>
+        <item>@string/menu_apps</item>
+        <item />
+        <item>@string/menu_help</item>
+        <item>@string/menu_about</item>
     </string-array>
+
+    <array name="menu_icons">
+        <item>@drawable/ic_menu_logs</item>
+        <item>@drawable/ic_menu_rule</item>
+        <item>@drawable/ic_menu_send</item>
+        <item>@drawable/ic_menu_settings</item>
+        <item />
+        <item>@drawable/ic_menu_task</item>
+        <item>@drawable/ic_menu_server</item>
+        <item>@drawable/ic_menu_client</item>
+        <item>@drawable/ic_menu_frpc</item>
+        <item>@drawable/ic_menu_app</item>
+        <item />
+        <item>@drawable/ic_menu_help</item>
+        <item>@drawable/ic_menu_about</item>
+    </array>
 
     <string-array name="adBlockUrl">
         <item>ubmcmm.baidustatic.com</item>
@@ -44,40 +68,46 @@
 
     <!--转发分类-->
     <string-array name="type_param_option">
-        <item>短信</item>
-        <item>通话</item>
-        <item>应用</item>
+        <item>@string/type_param_sms</item>
+        <item>@string/type_param_call</item>
+        <item>@string/type_param_app</item>
     </string-array>
 
     <!--启用状态-->
     <string-array name="status_param_option">
-        <item>已启用</item>
-        <item>已禁用</item>
+        <item>@string/status_param_option_enabled</item>
+        <item>@string/status_param_option_disabled</item>
     </string-array>
 
     <!--短信类型-->
     <string-array name="sms_type_option">
-        <item>接收</item>
-        <item>发送</item>
+        <item>@string/sms_type_option_receive</item>
+        <item>@string/sms_type_option_send</item>
     </string-array>
 
     <!--电话类型-->
     <string-array name="call_type_option">
-        <item>未接来电</item>
-        <item>本机去电</item>
-        <item>已接来电</item>
+        <item>@string/call_type_option_missed</item>
+        <item>@string/call_type_option_call_out</item>
+        <item>@string/call_type_option_received</item>
     </string-array>
 
     <!--克隆类型-->
     <string-array name="clone_type_option">
-        <item>网络模式</item>
-        <item>离线模式</item>
+        <item>@string/clone_type_option_network</item>
+        <item>@string/clone_type_option_offline</item>
     </string-array>
 
     <!--APP类型-->
     <string-array name="app_type_option">
-        <item>用户应用</item>
-        <item>系统应用</item>
+        <item>@string/app_type_option_user</item>
+        <item>@string/app_type_option_system</item>
+    </string-array>
+
+    <!--任务类型-->
+    <string-array name="task_type_option">
+        <item>@string/task_type_option_mine</item>
+        <item>@string/task_type_option_fixed</item>
     </string-array>
 
     <string-array name="MailType">
@@ -97,50 +127,19 @@
         <item>\@sina.cn</item>
         <item>\@139.com</item>
         <item>\@189.cn</item>
-        <item>其他邮箱</item><!--注意：最后一项必须是其他，不能修改-->
+        <item>@string/other_mail_type</item><!--注意这里不能修改-->
     </string-array>
 
-    <string-array name="query_suggestions">
-        <item>A very long suggestion that would span multiple lines.</item>
-        <item>Android</item>
-        <item>iOS</item>
-        <item>SCALA</item>
-        <item>Ruby</item>
-        <item>JavaScript</item>
-        <item>C#</item>
-        <item>Python</item>
-        <item>C</item>
-        <item>C++</item>
-        <item>PHP</item>
-        <item>Go</item>
-        <item>Perl</item>
-        <item>Bash</item>
-        <item>Lua</item>
-        <item>R</item>
-        <item>TCL</item>
-        <item>Haskell</item>
-        <item>Objective C</item>
-        <item>Swift</item>
-        <item>Kotlin</item>
-        <item>jQuery</item>
-        <item>Development</item>
-        <item>Web</item>
-        <item>Ajax</item>
-        <item>Test</item>
-        <item>Testing</item>
-        <item>CookBook</item>
-        <item>Beagle</item>
-        <item>VMware</item>
-        <item>Less.js</item>
-        <item>IDE</item>
-        <item>Arduino</item>
-        <item>Xamarin</item>
-        <item>UI</item>
-        <item>Microsoft</item>
-        <item>Application</item>
-        <item>JUnit</item>
-        <item>SQL</item>
-        <item>Beagle</item>
+    <string-array name="charsets">
+        <item>UTF-8</item>
+        <item>US-ASCII</item>
+        <item tools:ignore="TypographyDashes">ISO-8859-1</item>
+        <item>UTF-16</item>
+        <item>UTF-16BE</item>
+        <item>UTF-16LE</item>
+        <item>UTF-32</item>
+        <item>UTF-32LE</item>
+        <item>UTF-32BE</item>
     </string-array>
 
 </resources>

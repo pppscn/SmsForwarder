@@ -22,9 +22,11 @@
 
         <ImageView
             android:id="@+id/iv_image"
-            android:layout_width="@dimen/card_view_image_size"
-            android:layout_height="@dimen/card_view_image_size"
-            tools:ignore="ContentDescription" />
+            android:layout_width="@dimen/card_view_icon_size"
+            android:layout_height="@dimen/card_view_icon_size"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_sms"
+            tools:ignore="ContentDescription,ImageContrastCheck" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,7 +45,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold" />
 
                 <TextView
@@ -57,7 +59,9 @@
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:layout_marginStart="5dp"
-                    tools:ignore="ContentDescription" />
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_sim"
+                    tools:ignore="ContentDescription,ImageContrastCheck" />
 
             </LinearLayout>
 
@@ -76,15 +80,17 @@
                     android:layout_marginTop="3dp"
                     android:layout_weight="1"
                     android:gravity="start"
-                    android:textSize="11sp" />
+                    android:textSize="@dimen/text_size_small" />
 
                 <ImageView
                     android:id="@+id/iv_reply"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginBottom="3dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_reply"
                     app:tint="@color/toast_warning_color"
-                    tools:ignore="ContentDescription,PrivateResource" />
+                    tools:ignore="ContentDescription,PrivateResource,ImageContrastCheck" />
 
             </LinearLayout>
 

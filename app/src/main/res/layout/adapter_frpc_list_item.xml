@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/xui_config_color_white"
+    android:orientation="vertical"
+    tools:ignore="UseCompoundDrawables">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/xui_config_color_separator_light" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/config_padding_5dp"
+        android:paddingBottom="@dimen/config_padding_5dp">
+
+        <LinearLayout
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_image"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_dingtalk"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/iv_status"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="-10dp"
+                android:src="@drawable/ic_stop"
+                tools:ignore="ContentDescription,VisualLintBounds" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:text="@string/dingtalk_robot"
+            android:textSize="@dimen/text_size_small"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/iv_edit"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="5dp"
+            android:src="@drawable/ic_edit"
+            app:tint="@color/toast_info_color"
+            tools:ignore="ContentDescription,PrivateResource,ImageContrastCheck" />
+
+        <ImageView
+            android:id="@+id/iv_remove"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_delete"
+            app:tint="@color/toast_error_color"
+            tools:ignore="ContentDescription,PrivateResource" />
+
+        <ImageView
+            android:id="@+id/iv_drag"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="5dp"
+            android:src="@drawable/ic_drag"
+            app:tint="@color/colorStart"
+            tools:ignore="ContentDescription,ImageContrastCheck" />
+
+    </LinearLayout>
+
+</LinearLayout>

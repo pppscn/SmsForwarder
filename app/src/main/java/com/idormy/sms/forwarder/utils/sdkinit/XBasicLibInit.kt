@@ -1,10 +1,14 @@
 package com.idormy.sms.forwarder.utils.sdkinit
 
 import android.app.Application
+import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.core.BaseActivity
+import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.xuexiang.xaop.XAOP
+import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.XHttpSDK
+import com.xuexiang.xhttp2.cache.model.CacheMode
 import com.xuexiang.xpage.PageConfig
 import com.xuexiang.xrouter.launcher.XRouter
 import com.xuexiang.xui.XUI
@@ -47,7 +51,7 @@ class XBasicLibInit private constructor() {
          */
         private fun initXUtil(application: Application) {
             XUtil.init(application)
-            XUtil.debug(com.idormy.sms.forwarder.App.isDebug)
+            XUtil.debug(App.isDebug)
         }
 
         /**
@@ -57,16 +61,25 @@ class XBasicLibInit private constructor() {
             //初始化网络请求框架，必须首先执行
             XHttpSDK.init(application)
             //需要调试的时候执行
-            if (com.idormy.sms.forwarder.App.isDebug) {
+            if (App.isDebug) {
                 XHttpSDK.debug()
             }
-            //        XHttpSDK.debug(new CustomLoggingInterceptor()); //设置自定义的日志打印拦截器
             //设置网络请求的全局基础地址
             XHttpSDK.setBaseUrl("https://gitee.com/")
-            //        //设置动态参数添加拦截器
-//        XHttpSDK.addInterceptor(new CustomDynamicInterceptor());
-//        //请求失效校验拦截器
-//        XHttpSDK.addInterceptor(new CustomExpiredInterceptor());
+            //设置自定义的日志打印拦截器
+            //XHttpSDK.debug(LoggingInterceptor())
+            //设置动态参数添加拦截器
+            //XHttpSDK.addInterceptor(CustomDynamicInterceptor())
+            //请求失效校验拦截器
+            //XHttpSDK.addInterceptor(CustomExpiredInterceptor())
+            //设置全局超时时间
+            XHttp.getInstance()
+                .debug(App.isDebug)
+                .setCacheMode(CacheMode.NO_CACHE)
+                .setTimeout(SettingUtils.requestTimeout * 1000L) //单次超时时间
+            //.setRetryCount(SettingUtils.requestRetryTimes) //超时重试的次数
+            //.setRetryDelay(SettingUtils.requestDelayTime * 1000) //超时重试的延迟时间
+            //.setRetryIncreaseDelay(SettingUtils.requestDelayTime * 1000) //超时重试叠加延时
         }
 
         /**
@@ -74,7 +87,7 @@ class XBasicLibInit private constructor() {
          */
         private fun initXPage(application: Application) {
             PageConfig.getInstance()
-                .debug(com.idormy.sms.forwarder.App.isDebug)
+                .debug(App.isDebug)
                 .setContainActivityClazz(BaseActivity::class.java)
                 .init(application)
         }
@@ -84,7 +97,7 @@ class XBasicLibInit private constructor() {
          */
         private fun initXAOP(application: Application) {
             XAOP.init(application)
-            XAOP.debug(com.idormy.sms.forwarder.App.isDebug)
+            XAOP.debug(App.isDebug)
             //设置动态申请权限切片 申请权限被拒绝的事件响应监听
             XAOP.setOnPermissionDeniedListener { permissionsDenied: List<String?>? ->
                 XToastUtils.error(
@@ -98,7 +111,7 @@ class XBasicLibInit private constructor() {
          */
         private fun initXUI(application: Application) {
             XUI.init(application)
-            XUI.debug(com.idormy.sms.forwarder.App.isDebug)
+            XUI.debug(App.isDebug)
         }
 
         /**
@@ -106,7 +119,7 @@ class XBasicLibInit private constructor() {
          */
         private fun initRouter(application: Application) {
             // 这两行必须写在init之前，否则这些配置在init过程中将无效
-            if (com.idormy.sms.forwarder.App.isDebug) {
+            if (App.isDebug) {
                 XRouter.openLog() // 打印日志
                 XRouter.openDebug() // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
             }

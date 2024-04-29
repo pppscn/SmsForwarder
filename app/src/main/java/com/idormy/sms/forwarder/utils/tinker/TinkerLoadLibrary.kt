@@ -17,7 +17,7 @@ package com.idormy.sms.forwarder.utils.tinker
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import java.io.File
 import java.io.IOException
 

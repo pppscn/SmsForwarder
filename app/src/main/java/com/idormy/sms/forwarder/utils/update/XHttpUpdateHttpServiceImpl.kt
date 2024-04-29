@@ -7,11 +7,11 @@ import com.xuexiang.xhttp2.XHttpSDK
 import com.xuexiang.xhttp2.callback.DownloadProgressCallBack
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xupdate.proxy.IUpdateHttpService
 import com.xuexiang.xupdate.proxy.IUpdateHttpService.DownloadCallback
 import com.xuexiang.xutil.file.FileUtils
 import com.xuexiang.xutil.net.JsonUtil
+import com.xuexiang.xutil.resource.ResUtils.getString
 
 /**
  * XHttp2实现的请求更新
@@ -26,6 +26,7 @@ class XHttpUpdateHttpServiceImpl : IUpdateHttpService {
         callBack: IUpdateHttpService.Callback,
     ) {
         XHttp.get(url)
+            .ignoreHttpsCert()
             .params(params)
             .keepJson(true)
             .execute(object : SimpleCallBack<String>() {
@@ -46,6 +47,7 @@ class XHttpUpdateHttpServiceImpl : IUpdateHttpService {
         callBack: IUpdateHttpService.Callback,
     ) {
         XHttp.post(url)
+            .ignoreHttpsCert()
             .upJson(JsonUtil.toJson(params))
             .keepJson(true)
             .execute(object : SimpleCallBack<String>() {
@@ -63,6 +65,7 @@ class XHttpUpdateHttpServiceImpl : IUpdateHttpService {
     override fun download(url: String, path: String, fileName: String, callback: DownloadCallback) {
         XHttpSDK.addRequest(
             url, XHttp.downLoad(url)
+                .ignoreHttpsCert()
                 .savePath(path)
                 .saveName(fileName)
                 .isUseBaseUrl(false)
@@ -87,7 +90,7 @@ class XHttpUpdateHttpServiceImpl : IUpdateHttpService {
     }
 
     override fun cancelDownload(url: String) {
-        XToastUtils.info(ResUtils.getString(R.string.update_cancelled))
+        XToastUtils.info(getString(R.string.update_cancelled))
         XHttpSDK.cancelRequest(url)
     }
 }

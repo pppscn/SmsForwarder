@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--放一些组件的样式-->
+    <style name="WindowAnimStyle" parent="@android:style/Animation">
+        <item name="android:activityOpenEnterAnimation">@anim/xpage_slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/xpage_slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/xpage_slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/xpage_slide_out_right</item>
+    </style>
+
+    <style name="Container">
+        <item name="android:paddingStart">?attr/xui_config_content_spacing_horizontal</item>
+        <item name="android:paddingEnd">?attr/xui_config_content_spacing_horizontal</item>
+    </style>
+
+    <style name="InfoItem" parent="Container">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="sLeftViewMarginLeft">5dp</item>
+        <item name="sRightViewMarginRight">0dp</item>
+        <item name="sRightIconMarginRight">0dp</item>
+        <item name="sLeftIconMarginLeft">0dp</item>
+        <item name="sLeftTextColor">@color/xui_config_color_title_text</item>
+        <item name="sCenterTextColor">@color/xui_config_color_black</item>
+        <item name="sRightTextColor">@color/xui_config_color_explain_text</item>
+        <item name="sLeftTextSize">13sp</item>
+        <item name="sRightTextSize">13sp</item>
+    </style>
+
+    <style name="InfoItem.About">
+        <item name="sLeftViewGravity">left_center</item>
+        <item name="sCenterViewGravity">left_center</item>
+        <item name="sCenterViewMarginLeft">10dp</item>
+        <item name="sRightViewMarginRight">10dp</item>
+        <item name="sRightIconRes">@drawable/icon_arrow_right_grey</item>
+    </style>
+
+    <style name="InfoItem.AboutWithBtn">
+        <item name="sLeftViewGravity">left_center</item>
+        <item name="sCenterViewGravity">left_center</item>
+        <item name="sCenterViewMarginLeft">10dp</item>
+        <item name="sRightViewMarginRight">10dp</item>
+    </style>
+
+    <style name="PullDownStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="srlEnableOverScrollDrag">true</item>
+        <item name="srlEnablePureScrollMode">true</item>
+    </style>
+
+    <style name="ScrollViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:overScrollMode">never</item>
+    </style>
+
+    <style name="XUILayout">
+        <item name="xui_borderWidth">0dp</item>
+        <item name="xui_radius">8dp</item>
+        <item name="xui_shadowElevation">6dp</item>
+        <item name="android:background">@color/xui_config_color_white</item>
+    </style>
+
+    <!-- SwitchButton -->
+    <style name="SwitchButtonStyle">
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:paddingEnd">5dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
+
+    <style name="BarStyle">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@drawable/rounded_background</item>
+        <item name="android:gravity">center_vertical</item>
+        <!--<item name="android:orientation">horizontal</item>-->
+    </style>
+
+    <style name="BarStyle.Switch">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">5dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:background">@drawable/rounded_background</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="BarStyle.NoMT">
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@drawable/rounded_background</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="BarTitleStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="BarTitleStyle.Task">
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+
+    <style name="insertButtonStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/colorBlueGrey</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
+
+    <style name="rg_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="rg_rb_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:minHeight">30dp</item>
+        <item name="android:minWidth">30dp</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:button">@drawable/custom_radio_button</item>
+    </style>
+
+    <style name="rg_rb_style_wrap">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:minHeight">30dp</item>
+        <item name="android:minWidth">30dp</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:button">@drawable/custom_radio_button</item>
+    </style>
+
+    <style name="rg_rb_style_match">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">30dp</item>
+        <item name="android:singleLine">true</item>
+        <!--<item name="android:textSize">@dimen/text_size_small</item>-->
+        <item name="android:button">@drawable/custom_radio_button</item>
+    </style>
+
+    <style name="TabLayoutStyle" parent="Base.Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">#299EE3</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabPaddingStart">12dp</item>
+        <item name="tabPaddingEnd">12dp</item>
+        <item name="tabTextAppearance">@style/TabText</item>
+        <item name="tabSelectedTextColor">#299EE3</item>
+        <item name="tabTextColor">@color/xui_config_color_gray_6</item>
+    </style>
+
+    <style name="TabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">@color/selector_tab_text_color</item>
+        <item name="android:textSize">?attr/xui_config_size_content_text</item>
+    </style>
+
+    <style name="TabText.Explain">
+        <item name="android:textColor">@color/selector_tab_text_color</item>
+        <item name="android:textSize">?attr/xui_config_size_explain_text</item>
+    </style>
+
+</resources>

@@ -40,7 +40,7 @@
         android:layout_width="18dp"
         android:layout_height="18dp"
         android:contentDescription="@string/header_del"
-        android:src="@drawable/icon_delete"
-        app:tint="@color/design_default_color_error" />
+        android:src="@drawable/ic_delete"
+        app:tint="#F15C58" />
 
 </LinearLayout>

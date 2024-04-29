@@ -1,30 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/colorAccent"
     android:orientation="vertical"
-    android:paddingTop="10dp"
+    android:paddingTop="15dp"
     android:paddingBottom="10dp">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="240dp"
+        android:layout_height="180dp"
         android:contentDescription="@string/logo"
-        android:paddingStart="50dp"
-        android:paddingEnd="50dp"
-        app:srcCompat="@drawable/ic_splash_app_logo" />
-
-    <TextView
-        android:id="@+id/tv_slogan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="@string/notification_content"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textStyle="bold" />
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_splash_app_logo"
+        tools:ignore="ImageContrastCheck" />
 
 </LinearLayout>

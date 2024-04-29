@@ -2,7 +2,7 @@ package com.idormy.sms.forwarder.server.controller
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.util.Log
+import com.idormy.sms.forwarder.utils.Log
 import androidx.core.app.ActivityCompat
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
@@ -11,8 +11,8 @@ import com.idormy.sms.forwarder.server.model.BaseRequest
 import com.idormy.sms.forwarder.server.model.SmsQueryData
 import com.idormy.sms.forwarder.server.model.SmsSendData
 import com.idormy.sms.forwarder.utils.PhoneUtils
-import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xutil.XUtil
+import com.xuexiang.xutil.resource.ResUtils.getString
 import com.yanzhenjie.andserver.annotation.*
 
 @Suppress("PrivatePropertyName")
@@ -41,7 +41,7 @@ class SmsController {
         val mSubscriptionId: Int = App.SimInfoList[simSlotIndex]?.mSubscriptionId ?: -1
 
         if (ActivityCompat.checkSelfPermission(XUtil.getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-            return ResUtils.getString(R.string.no_sms_sending_permission)
+            return getString(R.string.no_sms_sending_permission)
         }
 
         return PhoneUtils.sendSms(mSubscriptionId, smsSendData.phoneNumbers, smsSendData.msgContent) ?: "success"

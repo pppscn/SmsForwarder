@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/xui_config_color_background"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/task_bluetooth"
+                app:srcCompat="@drawable/auto_task_icon_bluetooth"
+                tools:ignore="ImageContrastCheck" />
+
+            <LinearLayout
+                style="@style/BarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/task_bluetooth"
+                    android:textSize="@dimen/text_size_big"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/task_bluetooth_tips"
+                    android:textSize="@dimen/text_size_mini"
+                    tools:ignore="SmallSp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="?attr/xui_config_color_separator_light" />
+
+                <RadioGroup
+                    android:id="@+id/rg_bluetooth_action"
+                    style="@style/rg_style"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/config_padding_5dp">
+
+                    <RadioButton
+                        android:id="@+id/rb_action_state_changed"
+                        style="@style/rg_rb_style_match"
+                        android:checked="true"
+                        android:text="@string/bluetooth_state_changed"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_bluetooth_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="@dimen/config_margin_10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/specified_state"
+                            android:textStyle="bold" />
+
+                        <RadioGroup
+                            android:id="@+id/rg_bluetooth_state"
+                            style="@style/rg_style"
+                            android:layout_marginStart="15dp"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/rb_state_on"
+                                style="@style/rg_rb_style"
+                                android:checked="true"
+                                android:text="@string/state_on"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                            <RadioButton
+                                android:id="@+id/rb_state_off"
+                                style="@style/rg_rb_style"
+                                android:text="@string/state_off"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                    <RadioButton
+                        android:id="@+id/rb_action_discovery_finished"
+                        style="@style/rg_rb_style_match"
+                        android:text="@string/bluetooth_discovery_finished"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_discovery_finished"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="@dimen/config_margin_10dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/specified_result"
+                            android:textStyle="bold" />
+
+                        <RadioGroup
+                            android:id="@+id/rg_discovery_result"
+                            style="@style/rg_style"
+                            android:layout_marginStart="15dp"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/rb_discovered"
+                                style="@style/rg_rb_style"
+                                android:checked="true"
+                                android:text="@string/discovered"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                            <RadioButton
+                                android:id="@+id/rb_undiscovered"
+                                style="@style/rg_rb_style"
+                                android:text="@string/undiscovered"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                    <RadioButton
+                        android:id="@+id/rb_action_acl_connected"
+                        style="@style/rg_rb_style_match"
+                        android:text="@string/bluetooth_acl_connected"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <RadioButton
+                        android:id="@+id/rb_action_acl_disconnected"
+                        style="@style/rg_rb_style_match"
+                        android:text="@string/bluetooth_acl_disconnected"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                </RadioGroup>
+
+                <LinearLayout
+                    android:id="@+id/layout_device_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="@dimen/config_margin_10dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:orientation="horizontal"
+                        tools:ignore="UselessParent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/specified_device"
+                            android:textStyle="bold" />
+
+                        <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                            android:id="@+id/et_device_address"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1"
+                            android:hint="@string/mac_hint"
+                            android:singleLine="true"
+                            app:met_clearButton="true"
+                            app:met_errorMessage="@string/mac_error"
+                            app:met_regexp="@string/mac_regex"
+                            app:met_validateOnFocusLost="true" />
+
+                        <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
+                            android:id="@+id/btn_start_discovery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="@string/start_discovery"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_mini"
+                            app:sb_color_unpressed="@color/colorPrimary"
+                            app:sb_ripple_color="@color/white"
+                            app:sb_ripple_duration="500"
+                            app:sb_shape_type="rectangle"
+                            tools:ignore="SmallSp" />
+
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_devices"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/config_margin_5dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_del"
+            style="@style/SuperButton.Gray.Icon.Spacing"
+            android:drawableStart="@drawable/ic_delete"
+            android:text="@string/discard"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_save"
+            style="@style/SuperButton.Blue.Icon.Spacing"
+            android:drawableStart="@drawable/ic_save"
+            android:text="@string/submit"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+    </LinearLayout>
+
+</LinearLayout>
