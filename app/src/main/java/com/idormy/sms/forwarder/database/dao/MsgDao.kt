@@ -27,9 +27,6 @@ interface MsgDao {
     @Query("DELETE FROM Msg where id=:id")
     fun delete(id: Long)
 
-    @Query("DELETE FROM Msg where type=:type")
-    fun deleteAll(type: String): Completable
-
     @RawQuery
     fun deleteAll(sql: SupportSQLiteQuery): Int
 

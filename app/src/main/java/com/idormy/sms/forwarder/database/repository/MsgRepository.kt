@@ -14,8 +14,6 @@ class MsgRepository(private val msgDao: MsgDao) {
 
     fun deleteAll() = msgDao.deleteAll()
 
-    fun deleteAll(type: String) = msgDao.deleteAll(type)
-
     @WorkerThread
     fun deleteTimeAgo(time: Long) = msgDao.deleteTimeAgo(time)
 
