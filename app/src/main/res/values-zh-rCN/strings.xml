@@ -535,7 +535,7 @@
 
     <string name="bark_server">Bark-Server</string>
     <string name="bark_server_tips">例：https://api.day.app/XXXXXXXX/</string>
-    <string name="bark_server_regex">^https?://[^/]+/[^/]+/$</string>
+    <string name="bark_server_regex">^https?://[^/]+/[^/]+/.*</string>
     <string name="bark_server_error">Url格式错误，例：https://api.day.app/XXXXXXXX/</string>
     <string name="bark_group">分组名称</string>
     <string name="bark_group_tips">可选，例：短信转发器</string>

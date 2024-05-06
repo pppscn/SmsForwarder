@@ -534,7 +534,7 @@
 
     <string name="bark_server">Bark-Server</string>
     <string name="bark_server_tips">e.g. https://api.day.app/XXXXXXXX/</string>
-    <string name="bark_server_regex">^https?://[^/]+/[^/]+/$</string>
+    <string name="bark_server_regex">^https?://[^/]+/[^/]+/.*</string>
     <string name="bark_server_error">The Url format is wrong, e.g. https://api.day.app/XXXXXXXX/</string>
     <string name="bark_group">Group Name</string>
     <string name="bark_group_tips">Opt., e.g. SmsForwarder</string>
