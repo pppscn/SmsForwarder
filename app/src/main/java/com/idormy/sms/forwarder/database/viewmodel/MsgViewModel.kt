@@ -10,6 +10,7 @@ import androidx.sqlite.db.SimpleSQLiteQuery
 import com.idormy.sms.forwarder.database.dao.MsgDao
 import com.idormy.sms.forwarder.database.entity.MsgAndLogs
 import com.idormy.sms.forwarder.database.ext.ioThread
+import com.idormy.sms.forwarder.utils.Log
 import com.xuexiang.xutil.data.DateUtils
 import kotlinx.coroutines.flow.Flow
 
@@ -55,18 +56,16 @@ class MsgViewModel(private val dao: MsgDao) : ViewModel() {
     }
 
     fun deleteAll() = ioThread {
-        if (filter.isEmpty()) {
-            dao.deleteAll(type)
-        } else {
-            val sb = StringBuilder().apply {
-                append("DELETE FROM Msg WHERE type = '$type'")
+        val sb = StringBuilder().apply {
+            append("DELETE FROM Msg WHERE type = '$type'")
+            if (filter.isNotEmpty()) {
                 append(getOtherCondition())
             }
-
-            //Log.d("MsgViewModel", "sql: $sb")
-            val query = SimpleSQLiteQuery(sb.toString())
-            dao.deleteAll(query)
         }
+
+        Log.d("MsgViewModel", "sql: $sb")
+        val query = SimpleSQLiteQuery(sb.toString())
+        dao.deleteAll(query)
     }
 
     private fun getOtherCondition(): String {

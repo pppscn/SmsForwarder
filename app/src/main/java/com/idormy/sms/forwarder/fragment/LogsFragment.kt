@@ -85,6 +85,7 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
                     .negativeText(R.string.lab_no)
                     .onPositive { _: MaterialDialog?, _: DialogAction? ->
                         try {
+                            Log.d(TAG, "deleteAll, currentType:$currentType, currentFilter:$currentFilter")
                             viewModel.setType(currentType).setFilter(currentFilter).deleteAll()
                             reloadData()
                             XToastUtils.success(if (currentFilter.isEmpty()) R.string.delete_type_log_toast else R.string.delete_filter_log_toast)
