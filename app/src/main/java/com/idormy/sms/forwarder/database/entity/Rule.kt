@@ -11,6 +11,7 @@ import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.ext.ConvertersSenderList
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.RuleLine.Companion.CHECK_EQUALS
 import com.xuexiang.xutil.resource.ResUtils.getString
 import kotlinx.parcelize.Parcelize
 import java.util.*
@@ -214,47 +215,48 @@ data class Rule(
 
     //内容分支
     private fun checkValue(msgValue: String?): Boolean {
-        var checked = false
-        when (this.check) {
-            CHECK_IS -> checked = this.value == msgValue
-            CHECK_NOT_IS -> checked = this.value != msgValue
-            CHECK_CONTAIN -> if (msgValue != null) {
-                checked = msgValue.contains(this.value)
-            }
+        if (msgValue == null) return false
 
-            CHECK_NOT_CONTAIN -> if (msgValue != null) {
-                checked = !msgValue.contains(this.value)
-            }
-
-            CHECK_START_WITH -> if (msgValue != null) {
-                checked = msgValue.startsWith(this.value)
-            }
-
-            CHECK_END_WITH -> if (msgValue != null) {
-                checked = msgValue.endsWith(this.value)
-            }
-
-            CHECK_REGEX -> if (msgValue != null) {
-                try {
-                    //checked = Pattern.matches(this.value, msgValue);
-                    val pattern = Pattern.compile(this.value, Pattern.CASE_INSENSITIVE)
+        fun evaluateCondition(condition: String): Boolean {
+            return when (check) {
+                CHECK_EQUALS -> value == condition
+                CHECK_CONTAIN -> msgValue.contains(condition)
+                CHECK_NOT_CONTAIN -> !msgValue.contains(condition)
+                CHECK_START_WITH -> msgValue.startsWith(condition)
+                CHECK_END_WITH -> msgValue.endsWith(condition)
+                CHECK_REGEX -> try {
+                    val pattern = Pattern.compile(condition, Pattern.CASE_INSENSITIVE)
                     val matcher = pattern.matcher(msgValue)
-                    while (matcher.find()) {
-                        checked = true
-                        break
-                    }
+                    matcher.find()
                 } catch (e: PatternSyntaxException) {
-                    Log.d(TAG, "PatternSyntaxException: ")
-                    Log.d(TAG, "Description: " + e.description)
-                    Log.d(TAG, "Index: " + e.index)
-                    Log.d(TAG, "Message: " + e.message)
-                    Log.d(TAG, "Pattern: " + e.pattern)
+                    Log.i(TAG, "PatternSyntaxException: ${e.description}, Index: ${e.index}, Message: ${e.message}, Pattern: ${e.pattern}")
+                    false
+                }
+
+                else -> false
+            }
+        }
+
+        fun parseAndEvaluate(expression: String): Boolean {
+            // Split by "||" and evaluate each segment joined by "&&"
+            val orGroups = expression.split("||")
+            return orGroups.any { orGroup ->
+                val andGroups = orGroup.split("&&")
+                andGroups.all { andGroup ->
+                    val trimmedCondition = andGroup.trim()
+                    evaluateCondition(trimmedCondition)
                 }
             }
-
-            else -> {}
         }
-        Log.i(TAG, "checkValue " + msgValue + " " + this.check + " " + this.value + " checked:" + checked)
+
+        val checked = if (value.contains("&&") || value.contains("||")) {
+            parseAndEvaluate(value)
+        } else {
+            evaluateCondition(value)
+        }
+
+        Log.i(TAG, "checkValue $msgValue $check $value checked:$checked")
         return checked
     }
+
 }
