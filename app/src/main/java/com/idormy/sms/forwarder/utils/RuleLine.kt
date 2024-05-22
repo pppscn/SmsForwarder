@@ -119,45 +119,46 @@ class RuleLine(line: String, lineNum: Int, beforeRuleLine: RuleLine?) {
 
     //内容分支
     private fun checkValue(msgValue: String?): Boolean {
-        var checked = false
-        when (check) {
-            CHECK_EQUALS -> checked = value == msgValue
-            CHECK_CONTAIN -> if (msgValue != null) {
-                checked = msgValue.contains(value)
-            }
+        if (msgValue == null) return false
 
-            CHECK_NOT_CONTAIN -> if (msgValue != null) {
-                checked = !msgValue.contains(value)
-            }
-
-            CHECK_START_WITH -> if (msgValue != null) {
-                checked = msgValue.startsWith(value)
-            }
-
-            CHECK_END_WITH -> if (msgValue != null) {
-                checked = msgValue.endsWith(value)
-            }
-
-            CHECK_REGEX -> if (msgValue != null) {
-                try {
-                    //checked = Pattern.matches(this.value, msgValue);
-                    val pattern = Pattern.compile(value, Pattern.CASE_INSENSITIVE)
+        fun evaluateCondition(condition: String): Boolean {
+            return when (check) {
+                CHECK_EQUALS -> msgValue == condition
+                CHECK_CONTAIN -> msgValue.contains(condition)
+                CHECK_NOT_CONTAIN -> !msgValue.contains(condition)
+                CHECK_START_WITH -> msgValue.startsWith(condition)
+                CHECK_END_WITH -> msgValue.endsWith(condition)
+                CHECK_REGEX -> try {
+                    val pattern = Pattern.compile(condition, Pattern.CASE_INSENSITIVE)
                     val matcher = pattern.matcher(msgValue)
-                    while (matcher.find()) {
-                        checked = true
-                        break
-                    }
+                    matcher.find()
                 } catch (e: PatternSyntaxException) {
-                    logg("PatternSyntaxException: ")
-                    logg("Description: " + e.description)
-                    logg("Index: " + e.index)
-                    logg("Message: " + e.message)
-                    logg("Pattern: " + e.pattern)
+                    logg("PatternSyntaxException: ${e.description}, Index: ${e.index}, Message: ${e.message}, Pattern: ${e.pattern}")
+                    false
+                }
+
+                else -> false
+            }
+        }
+
+        fun parseAndEvaluate(expression: String): Boolean {
+            // Split by "||" and evaluate each segment joined by "&&"
+            val orGroups = expression.split("||")
+            return orGroups.any { orGroup ->
+                val andGroups = orGroup.split("&&")
+                andGroups.all { andGroup ->
+                    val trimmedCondition = andGroup.trim()
+                    evaluateCondition(trimmedCondition)
                 }
             }
-
-            else -> {}
         }
+
+        val checked = if (value.contains("&&") || value.contains("||")) {
+            parseAndEvaluate(value)
+        } else {
+            evaluateCondition(value)
+        }
+
         logg("checkValue $msgValue $check $value checked:$checked")
         return checked
     }
