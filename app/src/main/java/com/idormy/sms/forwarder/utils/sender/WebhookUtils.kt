@@ -161,23 +161,24 @@ class WebhookUtils {
                     else -> XHttp.post(requestUrl).keepJson(true)
                 }
                 webParams.trim('&').split("&").forEach {
-                    val param = it.split("=")
-                    if (param.size == 2) {
-                        postRequest.params(
-                            param[0], param[1].replace("[from]", from)
-                                .replace("[content]", content)
-                                .replace("[msg]", content)
-                                .replace("[org_content]", orgContent)
-                                .replace("[device_mark]", deviceMark)
-                                .replace("[app_version]", appVersion)
-                                .replace("[title]", simInfo)
-                                .replace("[card_slot]", simInfo)
-                                .replace(receiveTimeTag) { t ->
-                                    val format = t.groups[2]?.value
-                                    formatDateTime(msgInfo.date, format)
-                                }
-                                .replace("[timestamp]", timestamp.toString())
-                                .replace("[sign]", sign)
+                    val sepIndex = it.indexOf("=")
+                    if (sepIndex != -1) {
+                        val key = it.substring(0, sepIndex).trim()
+                        val value = it.substring(sepIndex + 1).trim()
+                        postRequest.params(key, value.replace("[from]", from)
+                            .replace("[content]", content)
+                            .replace("[msg]", content)
+                            .replace("[org_content]", orgContent)
+                            .replace("[device_mark]", deviceMark)
+                            .replace("[app_version]", appVersion)
+                            .replace("[title]", simInfo)
+                            .replace("[card_slot]", simInfo)
+                            .replace(receiveTimeTag) { t ->
+                                val format = t.groups[2]?.value
+                                formatDateTime(msgInfo.date, format)
+                            }
+                            .replace("[timestamp]", timestamp.toString())
+                            .replace("[sign]", sign)
                         )
                     }
                 }
