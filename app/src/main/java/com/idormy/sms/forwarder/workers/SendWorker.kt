@@ -86,7 +86,7 @@ class SendWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
                         if (SettingUtils.enableSilentPeriodLogs) {
                             isSilentPeriod = true
                         } else {
-                            Log.e("SendWorker", "免打扰(禁用转发)时间段")
+                            Log.e(TAG, "免打扰(禁用转发)时间段")
                             return@withContext Result.failure(workDataOf("send" to "failed"))
                         }
                     }
@@ -98,9 +98,9 @@ class SendWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
                     val key = CipherUtils.md5(msgInfo.type + msgInfo.from + msgInfo.content)
                     val timestamp: Long = System.currentTimeMillis()
                     var timestampPrev: Long by HistoryUtils(key, timestamp)
-                    Log.d("SendWorker", "duplicateMessagesLimits=$duplicateMessagesLimits, timestamp=$timestamp, timestampPrev=$timestampPrev, msgInfo=$msgInfo")
+                    Log.d(TAG, "duplicateMessagesLimits=$duplicateMessagesLimits, timestamp=$timestamp, timestampPrev=$timestampPrev, msgInfo=$msgInfo")
                     if (timestampPrev != timestamp && timestamp - timestampPrev <= duplicateMessagesLimits) {
-                        Log.e("SendWorker", "过滤重复消息机制")
+                        Log.e(TAG, "过滤重复消息机制")
                         timestampPrev = timestamp
                         return@withContext Result.failure(workDataOf("send" to "failed"))
                     }
@@ -114,7 +114,7 @@ class SendWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
 
                 val ruleListMatched: MutableList<Rule> = mutableListOf()
                 for (rule in ruleList) {
-                    Log.d("SendWorker", rule.toString())
+                    Log.d(TAG, rule.toString())
                     if (rule.checkMsg(msgInfo)) ruleListMatched.add(rule)
                 }
                 if (ruleListMatched.isEmpty()) {
@@ -137,7 +137,7 @@ class SendWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e("SendWorker", "SendWorker error: ${e.message}")
+                Log.e(TAG, "SendWorker error: ${e.message}")
                 return@withContext Result.failure(workDataOf("send" to e.message.toString()))
             }
 

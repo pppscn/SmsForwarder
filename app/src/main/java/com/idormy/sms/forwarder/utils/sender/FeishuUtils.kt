@@ -10,6 +10,7 @@ import com.idormy.sms.forwarder.entity.setting.FeishuSetting
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.interceptor.LoggingInterceptor
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
@@ -89,9 +90,9 @@ class FeishuUtils private constructor() {
         ) {
             val from: String = msgInfo.from
             val title: String = if (rule != null) {
-                msgInfo.getTitleForSend(setting.titleTemplate.toString(), rule.regexReplace)
+                msgInfo.getTitleForSend(setting.titleTemplate, rule.regexReplace)
             } else {
-                msgInfo.getTitleForSend(setting.titleTemplate.toString())
+                msgInfo.getTitleForSend(setting.titleTemplate)
             }
             val content: String = if (rule != null) {
                 msgInfo.getContentForSend(rule.smsTemplate, rule.regexReplace)
@@ -103,24 +104,22 @@ class FeishuUtils private constructor() {
             Log.i(TAG, "requestUrl:$requestUrl")
 
             val msgMap: MutableMap<String, Any> = mutableMapOf()
-            if (setting.secret != null) {
-                val timestamp = System.currentTimeMillis() / 1000
-                val stringToSign = "$timestamp\n" + setting.secret
-                Log.i(TAG, "stringToSign = $stringToSign")
+            val timestamp = System.currentTimeMillis() / 1000
+            val stringToSign = "$timestamp\n" + setting.secret
+            Log.i(TAG, "stringToSign = $stringToSign")
 
-                //使用HmacSHA256算法计算签名
-                val mac = Mac.getInstance("HmacSHA256")
-                mac.init(SecretKeySpec(stringToSign.toByteArray(StandardCharsets.UTF_8), "HmacSHA256"))
-                val signData = mac.doFinal(byteArrayOf())
-                val sign = String(Base64.encode(signData, Base64.NO_WRAP))
+            //使用HmacSHA256算法计算签名
+            val mac = Mac.getInstance("HmacSHA256")
+            mac.init(SecretKeySpec(stringToSign.toByteArray(StandardCharsets.UTF_8), "HmacSHA256"))
+            val signData = mac.doFinal(byteArrayOf())
+            val sign = String(Base64.encode(signData, Base64.NO_WRAP))
 
-                msgMap["timestamp"] = timestamp
-                msgMap["sign"] = sign
-            }
+            msgMap["timestamp"] = timestamp
+            msgMap["sign"] = sign
 
             //组装报文
             val requestMsg: String
-            if (setting.msgType == null || setting.msgType == "interactive") {
+            if (setting.msgType == "interactive") {
                 msgMap["msg_type"] = "interactive"
                 if (TextUtils.isEmpty(setting.messageCard.trim())) {
                     msgMap["card"] = "{{CARD_BODY}}"

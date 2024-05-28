@@ -128,7 +128,9 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                         val msg = if (ActivityCompat.checkSelfPermission(App.context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
                             getString(R.string.no_sms_sending_permission)
                         } else {
-                            PhoneUtils.sendSms(mSubscriptionId, smsSetting.phoneNumbers, smsSetting.msgContent)
+                            val mobileList = msgInfo.replaceTemplate(smsSetting.phoneNumbers)
+                            val message = msgInfo.replaceTemplate(smsSetting.msgContent)
+                            PhoneUtils.sendSms(mSubscriptionId, mobileList, message)
                         }
                         if (msg == null || msg == "") {
                             successNum++

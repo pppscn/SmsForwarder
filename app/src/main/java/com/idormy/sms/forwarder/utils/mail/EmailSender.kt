@@ -12,7 +12,7 @@ import java.util.Properties
 import javax.mail.Authenticator
 import javax.mail.PasswordAuthentication
 
-@Suppress("PrivatePropertyName", "unused", "DEPRECATION")
+@Suppress("PrivatePropertyName", "DEPRECATION")
 class EmailSender(
     // SMTP参数
     private val host: String, // SMTP服务器地址

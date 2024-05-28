@@ -63,7 +63,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/keystore_path"
+                android:text="@string/keystore_base64"
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
 
@@ -73,10 +73,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:hint="@string/keystore_path_tips"
+                android:hint="@string/keystore_base64_tips"
                 android:importantForAutofill="no"
-                android:singleLine="true"
-                android:textSize="@dimen/text_size_small"
+                android:inputType="textMultiLine"
+                android:maxLines="5"
+                android:minLines="2"
+                android:scrollbars="vertical"
+                android:textSize="@dimen/text_size_mini"
                 app:met_clearButton="true" />
 
             <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton

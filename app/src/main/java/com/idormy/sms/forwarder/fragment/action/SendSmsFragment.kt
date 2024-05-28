@@ -196,8 +196,8 @@ class SendSmsFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
     @SuppressLint("SetTextI18n")
     private fun checkSetting(): SmsSetting {
         phoneNumbers = binding!!.etPhoneNumbers.text.toString().trim()
-        if (!getString(R.string.phone_numbers_regex).toRegex().matches(phoneNumbers)) {
-            throw Exception(getString(R.string.phone_numbers_error))
+        if (!getString(R.string.phone_numbers_with_tag_regex).toRegex().matches(phoneNumbers)) {
+            throw Exception(getString(R.string.phone_numbers_with_tag_error))
         }
 
         msgContent = binding!!.etMsgContent.text.toString().trim()

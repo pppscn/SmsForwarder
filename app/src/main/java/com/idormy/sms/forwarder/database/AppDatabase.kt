@@ -197,33 +197,38 @@ CREATE TABLE "Frpc" (
                 )
                 database.execSQL(
                     """
-INSERT INTO "Frpc" VALUES ('830b0a0e-c2b3-4f95-b3c9-55db12923d2e', '远程控制SmsForwarder', '[common]
+INSERT INTO "Frpc" VALUES ('830b0a0e-c2b3-4f95-b3c9-55db12923d2e', '远程控制SmsForwarder', '
 #frps服务端公网IP
-server_addr = 88.88.88.88
+serverAddr = "88.88.88.88"
 #frps服务端公网端口
-server_port = 8888
-#可选，建议启用
-token = 88888888
+serverPort = 8888
 #连接服务端的超时时间（增大时间避免frpc在网络未就绪的情况下启动失败）
-dial_server_timeout = 60
+transport.dialServerTimeout = 60
 #第一次登陆失败后是否退出
-login_fail_exit = false
+loginFailExit = false
+#可选，建议启用
+auth.method = "token"
+auth.token = "88888888"
 
-#[二选一即可]每台机器不可重复，通过 http://88.88.88.88:5000 访问
-[SmsForwarder-TCP]
-type = tcp
-local_ip = 127.0.0.1
-local_port = 5000
-#只要修改下面这一行（frps所在服务器必须暴露的公网端口）
-remote_port = 5000
+#[二选一即可]每台机器的 name 和 remotePort 不可重复，通过 http://88.88.88.88:5000 访问
+[[proxies]]
+#同一个frps下，多台设备的 name 不可重复
+name = "SmsForwarder-TCP-001"
+type = "tcp"
+localIP = "127.0.0.1"
+localPort = 5000
+#只要修改下面这一行（frps所在服务器必须暴露且防火墙放行的公网端口，同一个frps下不可重复）
+remotePort = 5000
 
-#[二选一即可]每台机器不可重复，通过 http://smsf.demo.com 访问
-[SmsForwarder-HTTP]
-type = http
-local_ip = 127.0.0.1
-local_port = 5000
+#[二选一即可]每台机器的 name 和 customDomains 不可重复，通过 http://smsf.demo.com 访问
+[[proxies]]
+#同一个frps下，多台设备的 name 不可重复
+name = "SmsForwarder-HTTP-001"
+type = "http"
+localPort = 5000
 #只要修改下面这一行（在frps端将域名反代到vhost_http_port）
-custom_domains = smsf.demo.com
+customDomains = ["smsf.demo.com"]
+
 ', 0, '1651334400000')
 """.trimIndent()
                 )

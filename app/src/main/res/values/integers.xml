@@ -2,71 +2,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <integer name="abc_config_activityDefaultDur">220</integer>
     <integer name="abc_config_activityShortDur">150</integer>
-    <integer name="abc_max_action_buttons">5</integer>
-    <integer name="action_bar_appear_duration">350</integer>
-    <integer name="action_bar_disappear_duration">250</integer>
-    <integer name="action_bar_end_menu_max_item_count">6</integer>
-    <integer name="action_bar_tab_layout_weight">0</integer>
-    <integer name="action_button_exit_fade_duration">200</integer>
-    <integer name="anim_duration">300</integer>
     <integer name="app_bar_elevation_anim_duration">150</integer>
-    <integer name="applock_patterview_dot_width_J18">32</integer>
-    <integer name="applock_patterview_dot_width_pad">28</integer>
-    <integer name="applock_patterview_dot_width_phone">20</integer>
-    <integer name="applock_split_screen_height_full_screen">620</integer>
-    <integer name="applock_split_screen_height_half">305</integer>
-    <integer name="applock_split_screen_height_less_than_half">150</integer>
-    <integer name="applock_split_screen_height_more_than_half">407</integer>
-    <integer name="bh_cards_view_column_autofix_num">3</integer>
     <integer name="bottom_sheet_slide_duration">150</integer>
-    <integer name="button_exit_fade_duration">200</integer>
     <integer name="cancel_button_image_alpha">127</integer>
-    <integer name="checkwidget_background_disable_alpha_dark">51</integer>
-    <integer name="checkwidget_background_disable_alpha_light">15</integer>
-    <integer name="checkwidget_background_normal_alpha_dark">51</integer>
-    <integer name="checkwidget_background_normal_alpha_light">15</integer>
-    <integer name="checkwidget_stroke_disable_alpha_dark">0</integer>
-    <integer name="checkwidget_stroke_disable_alpha_light">255</integer>
-    <integer name="checkwidget_stroke_normal_alpha_dark">0</integer>
-    <integer name="checkwidget_stroke_normal_alpha_light">255</integer>
     <integer name="config_tooltipAnimTime">150</integer>
-    <integer name="count_all_apps">5</integer>
     <integer name="design_snackbar_text_max_lines">2</integer>
     <integer name="design_tab_indicator_anim_duration_ms">300</integer>
-    <integer name="dialog_enter_duration">300</integer>
-    <integer name="dialog_exit_duration">150</integer>
-    <integer name="drop_down_menu_enter_duration">150</integer>
-    <integer name="drop_down_menu_exit_duration">150</integer>
-    <integer name="exo_media_button_opacity_percentage_disabled">33</integer>
-    <integer name="exo_media_button_opacity_percentage_enabled">100</integer>
-    <integer name="gb_button_exit_fade_duration">200</integer>
-    <integer name="gd_app_edit_quick_default_count">6</integer>
-    <integer name="gd_app_edit_rv_column_count">3</integer>
     <integer name="hide_password_duration">320</integer>
-    <integer name="immersion_menu_enter_duration">150</integer>
-    <integer name="immersion_menu_exit_duration">150</integer>
-    <integer name="layoutDirection">1</integer>
     <integer name="m3_btn_anim_delay_ms" tools:ignore="PrivateResource">100</integer>
     <integer name="m3_btn_anim_duration_ms" tools:ignore="PrivateResource">100</integer>
     <integer name="m3_card_anim_delay_ms" tools:ignore="PrivateResource">75</integer>
     <integer name="m3_card_anim_duration_ms" tools:ignore="PrivateResource">120</integer>
     <integer name="m3_chip_anim_duration" tools:ignore="PrivateResource">100</integer>
-    <integer name="m3_sys_motion_duration_100">100</integer>
-    <integer name="m3_sys_motion_duration_1000">1000</integer>
-    <integer name="m3_sys_motion_duration_150">150</integer>
-    <integer name="m3_sys_motion_duration_200">200</integer>
-    <integer name="m3_sys_motion_duration_250">250</integer>
-    <integer name="m3_sys_motion_duration_300">300</integer>
-    <integer name="m3_sys_motion_duration_350">350</integer>
-    <integer name="m3_sys_motion_duration_400">400</integer>
-    <integer name="m3_sys_motion_duration_450">450</integer>
-    <integer name="m3_sys_motion_duration_50">50</integer>
-    <integer name="m3_sys_motion_duration_500">500</integer>
-    <integer name="m3_sys_motion_duration_550">550</integer>
-    <integer name="m3_sys_motion_duration_600">600</integer>
-    <integer name="m3_sys_motion_duration_700">700</integer>
-    <integer name="m3_sys_motion_duration_800">800</integer>
-    <integer name="m3_sys_motion_duration_900">900</integer>
     <integer name="m3_sys_motion_path" tools:ignore="PrivateResource">0</integer>
     <integer name="material_motion_duration_long_1">300</integer>
     <integer name="material_motion_duration_long_2">350</integer>
@@ -88,19 +35,8 @@
     <integer name="mtrl_view_gone" tools:ignore="PrivateResource">2</integer>
     <integer name="mtrl_view_invisible" tools:ignore="PrivateResource">1</integer>
     <integer name="mtrl_view_visible" tools:ignore="PrivateResource">0</integer>
-    <integer name="perm_risk_app_emptyview_transY">0</integer>
     <integer name="preferences_detail_pane_weight" tools:ignore="PrivateResource">1</integer>
     <integer name="preferences_header_pane_weight" tools:ignore="PrivateResource">0</integer>
     <integer name="show_password_duration">200</integer>
     <integer name="status_bar_notification_info_maxnum">999</integer>
-    <item name="svg_fill_alpha_w006_d01" type="integer">0.06</item>
-    <item name="svg_fill_alpha_w006_d02" type="integer">0.06</item>
-    <item name="svg_fill_alpha_w01_d02" type="integer">0.1</item>
-    <item name="svg_fill_alpha_w03_d04" type="integer">0.3</item>
-    <item name="svg_fill_alpha_w03_d05" type="integer">0.3</item>
-    <item name="svg_fill_alpha_w06_d02" type="integer">0.6</item>
-    <item name="svg_fill_alpha_w06_d07" type="integer">0.6</item>
-    <item name="svg_fill_alpha_w1_d04" type="integer">1.0</item>
-    <integer name="textDirection">3</integer>
-    <integer name="window_translucent_status">100</integer>
 </resources>

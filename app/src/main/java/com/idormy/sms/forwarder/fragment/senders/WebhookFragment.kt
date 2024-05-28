@@ -4,9 +4,11 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RadioGroup
 import androidx.fragment.app.viewModels
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.R
@@ -41,11 +43,12 @@ import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.net.Proxy
 import java.util.Date
 
 @Page(name = "Webhook")
 @Suppress("PrivatePropertyName")
-class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnClickListener {
+class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private val TAG: String = WebhookFragment::class.java.simpleName
     private var titleBar: TitleBar? = null
@@ -132,13 +135,17 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
                     binding!!.etResponse.setText(settingVo.response)
                     binding!!.etWebParams.setText(settingVo.webParams)
                     //set header
-                    if (settingVo.headers != null) {
-                        for ((key, value) in settingVo.headers) {
-                            addHeaderItemLinearLayout(
-                                headerItemMap, binding!!.layoutHeaders, key, value
-                            )
-                        }
+                    for ((key, value) in settingVo.headers) {
+                        addHeaderItemLinearLayout(
+                            headerItemMap, binding!!.layoutHeaders, key, value
+                        )
                     }
+                    binding!!.rgProxyType.check(settingVo.getProxyTypeCheckId())
+                    binding!!.etProxyHost.setText(settingVo.proxyHost)
+                    binding!!.etProxyPort.setText(settingVo.proxyPort)
+                    binding!!.sbProxyAuthenticator.isChecked = settingVo.proxyAuthenticator == true
+                    binding!!.etProxyUsername.setText(settingVo.proxyUsername)
+                    binding!!.etProxyPassword.setText(settingVo.proxyPassword)
                 }
             }
         })
@@ -151,7 +158,24 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
         binding!!.btnAddHeader.setOnClickListener {
             addHeaderItemLinearLayout(headerItemMap, binding!!.layoutHeaders, null, null)
         }
+        binding!!.sbProxyAuthenticator.setOnCheckedChangeListener(this)
+        binding!!.rgProxyType.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
+            if (checkedId == R.id.rb_proxyHttp || checkedId == R.id.rb_proxySocks) {
+                binding!!.layoutProxyHost.visibility = View.VISIBLE
+                binding!!.layoutProxyPort.visibility = View.VISIBLE
+                binding!!.layoutProxyAuthenticator.visibility = if (binding!!.sbProxyAuthenticator.isChecked) View.VISIBLE else View.GONE
+            } else {
+                binding!!.layoutProxyHost.visibility = View.GONE
+                binding!!.layoutProxyPort.visibility = View.GONE
+                binding!!.layoutProxyAuthenticator.visibility = View.GONE
+            }
+        }
         LiveEventBus.get(KEY_SENDER_TEST, String::class.java).observe(this) { mCountDownHelper?.finish() }
+    }
+
+    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+        //注意：因为只有一个监听，暂不需要判断id
+        binding!!.layoutProxyAuthenticator.visibility = if (isChecked) View.VISIBLE else View.GONE
     }
 
     @SingleClick
@@ -233,7 +257,26 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
         val webParams = binding!!.etWebParams.text.toString().trim()
         val headers = getHeadersFromHeaderItemMap(headerItemMap)
 
-        return WebhookSetting(method, webServer, secret, response, webParams, headers)
+        val proxyType: Proxy.Type = when (binding!!.rgProxyType.checkedRadioButtonId) {
+            R.id.rb_proxyHttp -> Proxy.Type.HTTP
+            R.id.rb_proxySocks -> Proxy.Type.SOCKS
+            else -> Proxy.Type.DIRECT
+        }
+        val proxyHost = binding!!.etProxyHost.text.toString().trim()
+        val proxyPort = binding!!.etProxyPort.text.toString().trim()
+
+        if (proxyType != Proxy.Type.DIRECT && (TextUtils.isEmpty(proxyHost) || TextUtils.isEmpty(proxyPort))) {
+            throw Exception(getString(R.string.invalid_host_or_port))
+        }
+
+        val proxyAuthenticator = binding!!.sbProxyAuthenticator.isChecked
+        val proxyUsername = binding!!.etProxyUsername.text.toString().trim()
+        val proxyPassword = binding!!.etProxyPassword.text.toString().trim()
+        if (proxyAuthenticator && TextUtils.isEmpty(proxyUsername) && TextUtils.isEmpty(proxyPassword)) {
+            throw Exception(getString(R.string.invalid_username_or_password))
+        }
+
+        return WebhookSetting(method, webServer, secret, response, webParams, headers, proxyType, proxyHost, proxyPort, proxyAuthenticator, proxyUsername, proxyPassword)
     }
 
 

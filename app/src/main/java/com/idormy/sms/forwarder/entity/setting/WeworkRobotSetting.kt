@@ -4,11 +4,11 @@ import com.idormy.sms.forwarder.R
 import java.io.Serializable
 
 data class WeworkRobotSetting(
-    var webHook: String,
+    var webHook: String = "",
     val msgType: String = "text",
-    var atAll: Boolean? = false,
-    var atUserIds: String? = "",
-    var atMobiles: String? = "",
+    var atAll: Boolean = false,
+    var atUserIds: String = "",
+    var atMobiles: String = "",
 ) : Serializable {
 
     fun getMsgTypeCheckId(): Int {

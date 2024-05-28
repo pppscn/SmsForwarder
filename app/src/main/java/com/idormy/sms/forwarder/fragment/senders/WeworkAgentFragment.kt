@@ -18,7 +18,15 @@ import com.idormy.sms.forwarder.database.viewmodel.SenderViewModel
 import com.idormy.sms.forwarder.databinding.FragmentSendersWeworkAgentBinding
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.WeworkAgentSetting
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.CommonUtils
+import com.idormy.sms.forwarder.utils.EVENT_TOAST_ERROR
+import com.idormy.sms.forwarder.utils.KEY_SENDER_CLONE
+import com.idormy.sms.forwarder.utils.KEY_SENDER_ID
+import com.idormy.sms.forwarder.utils.KEY_SENDER_TEST
+import com.idormy.sms.forwarder.utils.KEY_SENDER_TYPE
+import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.XToastUtils
 import com.idormy.sms.forwarder.utils.sender.WeworkAgentUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
@@ -34,7 +42,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.net.Proxy
-import java.util.*
+import java.util.Date
 
 @Page(name = "企业微信应用")
 @Suppress("PrivatePropertyName")
@@ -125,9 +133,9 @@ class WeworkAgentFragment : BaseFragment<FragmentSendersWeworkAgentBinding?>(), 
                     binding!!.etToUser.setText(settingVo.toUser)
                     binding!!.etToParty.setText(settingVo.toParty)
                     binding!!.etToTag.setText(settingVo.toTag)
-                    binding!!.layoutToUser.visibility = if (settingVo.atAll == true) View.GONE else View.VISIBLE
-                    binding!!.layoutToParty.visibility = if (settingVo.atAll == true) View.GONE else View.VISIBLE
-                    binding!!.layoutToTag.visibility = if (settingVo.atAll == true) View.GONE else View.VISIBLE
+                    binding!!.layoutToUser.visibility = if (settingVo.atAll) View.GONE else View.VISIBLE
+                    binding!!.layoutToParty.visibility = if (settingVo.atAll) View.GONE else View.VISIBLE
+                    binding!!.layoutToTag.visibility = if (settingVo.atAll) View.GONE else View.VISIBLE
                     binding!!.rgProxyType.check(settingVo.getProxyTypeCheckId())
                     binding!!.etProxyHost.setText(settingVo.proxyHost)
                     binding!!.etProxyPort.setText(settingVo.proxyPort)

@@ -2,13 +2,13 @@ package com.idormy.sms.forwarder.utils.sender
 
 import android.Manifest
 import android.content.pm.PackageManager
-import com.idormy.sms.forwarder.utils.Log
 import androidx.core.app.ActivityCompat
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.SmsSetting
+import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
@@ -30,7 +30,7 @@ class SmsUtils {
             msgId: Long = 0L
         ) {
             //仅当无网络时启用 && 判断是否真实有网络
-            if (setting.onlyNoNetwork == true && NetworkUtils.isHaveInternet() && NetworkUtils.isAvailableByPing()) {
+            if (setting.onlyNoNetwork && NetworkUtils.isHaveInternet() && NetworkUtils.isAvailableByPing()) {
                 SendUtils.updateLogs(logId, 0, getString(R.string.OnlyNoNetwork))
                 SendUtils.senderLogic(0, msgInfo, rule, senderIndex, msgId)
                 return

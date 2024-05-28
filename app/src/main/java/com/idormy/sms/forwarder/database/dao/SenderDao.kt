@@ -63,7 +63,4 @@ interface SenderDao {
     @Query("SELECT COUNT(id) FROM Sender WHERE status = 1")
     fun getOnCount(): Flow<Long>
 
-    @RawQuery
-    fun replaceTags(query: SupportSQLiteQuery): Int
-
 }

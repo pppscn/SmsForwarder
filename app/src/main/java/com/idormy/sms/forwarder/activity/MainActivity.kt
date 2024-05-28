@@ -348,6 +348,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(), DrawerAdapter.OnItemS
             .build()
 
         XHttp.downLoad(downloadUrl)
+            .ignoreHttpsCert()
             .savePath(cacheDir.absolutePath)
             .execute(object : DownloadProgressCallBack<String?>() {
                 override fun onStart() {

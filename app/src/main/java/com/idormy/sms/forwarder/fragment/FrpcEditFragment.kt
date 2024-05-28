@@ -26,6 +26,7 @@ import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
 import com.xuexiang.xutil.resource.ResUtils.getColors
+import java.util.regex.Pattern
 
 @Suppress("DEPRECATION")
 @Page(name = "Frp内网穿透·编辑配置")
@@ -34,6 +35,7 @@ class FrpcEditFragment : BaseFragment<FragmentFrpcEditBinding?>() {
     private var titleBar: TitleBar? = null
     private var frpc: Frpc? = null
     private val viewModel by viewModels<FrpcViewModel> { BaseViewModelFactory(context) }
+    private val codeview by lazy { binding!!.codeview }
 
     override fun initViews() {
         val pairCompleteMap: MutableMap<Char, Char> = HashMap()
@@ -43,14 +45,25 @@ class FrpcEditFragment : BaseFragment<FragmentFrpcEditBinding?>() {
         pairCompleteMap['<'] = '>'
         pairCompleteMap['"'] = '"'
 
-        binding!!.editText.enablePairComplete(true)
-        binding!!.editText.enablePairCompleteCenterCursor(true)
-        binding!!.editText.setPairCompleteMap(pairCompleteMap)
+        codeview.enablePairComplete(true)
+        codeview.enablePairCompleteCenterCursor(true)
+        codeview.setPairCompleteMap(pairCompleteMap)
 
-        binding!!.editText.setEnableLineNumber(true)
-        binding!!.editText.setLineNumberTextColor(Color.LTGRAY)
-        binding!!.editText.setLineNumberTextSize(24f)
-        binding!!.editText.textSize = 14f
+        codeview.setEnableLineNumber(true)
+        codeview.setLineNumberTextColor(Color.LTGRAY)
+        codeview.setLineNumberTextSize(24f)
+        codeview.textSize = 14f
+
+        //语法高亮
+        val syntaxPatterns: MutableMap<Pattern, Int> = HashMap()
+        syntaxPatterns[Pattern.compile("\\s*#.*")] = Color.GRAY
+        syntaxPatterns[Pattern.compile("\\[\\[?([^]]*?)]]?", Pattern.DOTALL)] = Color.MAGENTA
+        syntaxPatterns[Pattern.compile("\\[\\[?")] = Color.WHITE
+        syntaxPatterns[Pattern.compile("]]?")] = Color.WHITE
+        syntaxPatterns[Pattern.compile(".*(?=\\s=)")] = Color.YELLOW
+        syntaxPatterns[Pattern.compile("(?<=\\s=)\\s*\"[^\"]*\"\\s*\n", Pattern.DOTALL)] = Color.GREEN
+        syntaxPatterns[Pattern.compile("(?<=\\s=).*\n")] = Color.CYAN
+        codeview.setSyntaxPatternsMap(syntaxPatterns)
     }
 
     override fun viewBindingInflate(inflater: LayoutInflater, container: ViewGroup): FragmentFrpcEditBinding {
@@ -74,7 +87,7 @@ class FrpcEditFragment : BaseFragment<FragmentFrpcEditBinding?>() {
                 tvName.setText(frpc!!.name)
                 sbAutorun.setCheckedImmediately(frpc!!.autorun == 1)
 
-                frpc!!.config = binding!!.editText.text.toString()
+                frpc!!.config = codeview.text.toString()
 
                 if (TextUtils.isEmpty(frpc!!.config)) {
                     XToastUtils.error(R.string.tips_input_config_content)
@@ -128,7 +141,7 @@ class FrpcEditFragment : BaseFragment<FragmentFrpcEditBinding?>() {
         titleBar!!.addAction(object : TitleBar.ImageAction(R.drawable.ic_restore) {
             @SingleClick
             override fun performAction(view: View) {
-                binding!!.editText.setText(frpc?.config!!)
+                codeview.setText(frpc?.config!!)
                 XToastUtils.success(R.string.tipRestoreSuccess)
             }
         })
@@ -138,7 +151,7 @@ class FrpcEditFragment : BaseFragment<FragmentFrpcEditBinding?>() {
     override fun initListeners() {
         LiveEventBus.get(INTENT_FRPC_EDIT_FILE, Frpc::class.java).observeSticky(this) { value: Frpc ->
             frpc = value
-            binding!!.editText.setText(value.config)
+            codeview.setText(value.config)
             titleBar!!.setTitle(if (TextUtils.isEmpty(value.name)) getString(R.string.noName) else value.name)
         }
     }

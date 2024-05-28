@@ -11,6 +11,7 @@ import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.SharedPreference
+import com.idormy.sms.forwarder.utils.interceptor.LoggingInterceptor
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException

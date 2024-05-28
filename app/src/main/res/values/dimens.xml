@@ -1,76 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="activity_horizontal_margin">10dp</dimen>
-    <dimen name="activity_vertical_margin">10dp</dimen>
 
-    <dimen name="block_low_width">40dp</dimen>
-    <dimen name="block_low_height">8dp</dimen>
-    <dimen name="block_high_width">20dp</dimen>
     <dimen name="block_high_height">196dp</dimen>
-
-    <dimen name="radius_16">16dp</dimen>
-    <dimen name="spacing_16">16dp</dimen>
-
-    <dimen name="list_divider_height_negative">-1px</dimen>
-
-    <dimen name="dp_70">70dp</dimen>
-
-    <!-- Utils 系列界面 -->
-
-    <!-- ColorUtils 颜色工具 -->
-    <dimen name="color_utils_square_length">46dp</dimen>
-    <dimen name="color_utils_square_margin">23dp</dimen>
-    <dimen name="color_utils_square_desc_marginTop">10dp</dimen>
-
-    <!-- DrawableUtils Drawable 工具 -->
-    <dimen name="drawable_utils_column_marginBottom">35dp</dimen>
-    <dimen name="drawable_utils_item_marginHorizontal">20dp</dimen>
-    <dimen name="drawable_utils_common_shape_size">50dp</dimen>
-
-    <!-- Expands 系列界面 -->
-    <dimen name="custom_section_height">36dp</dimen>
-    <dimen name="spacing_24dp">24dp</dimen>
-    <dimen name="common_icon_size">24dp</dimen>
-    <dimen name="selection_item_height">60dp</dimen>
 
     <dimen name="config_margin_4dp">4dp</dimen>
     <dimen name="config_margin_5dp">5dp</dimen>
-    <dimen name="config_margin_6dp">6dp</dimen>
     <dimen name="config_margin_8dp">8dp</dimen>
     <dimen name="config_margin_10dp">10dp</dimen>
-    <dimen name="config_margin_12dp">12dp</dimen>
-    <dimen name="config_margin_14dp">14dp</dimen>
     <dimen name="config_margin_16dp">16dp</dimen>
-    <dimen name="config_margin_18dp">18dp</dimen>
     <dimen name="config_margin_20dp">20dp</dimen>
-    <dimen name="config_margin_24dp">24dp</dimen>
-    <dimen name="config_margin_30dp">30dp</dimen>
 
-    <dimen name="config_padding_4dp">4dp</dimen>
     <dimen name="config_padding_5dp">5dp</dimen>
-    <dimen name="config_padding_6dp">6dp</dimen>
     <dimen name="config_padding_8dp">8dp</dimen>
     <dimen name="config_padding_10dp">10dp</dimen>
-    <dimen name="config_padding_12dp">12dp</dimen>
-    <dimen name="config_padding_14dp">14dp</dimen>
-    <dimen name="config_padding_16dp">16dp</dimen>
     <dimen name="config_padding_18dp">18dp</dimen>
-    <dimen name="config_padding_20dp">20dp</dimen>
-    <dimen name="config_padding_24dp">24dp</dimen>
-    <dimen name="config_padding_30dp">30dp</dimen>
     <dimen name="card_view_icon_size">36dp</dimen>
     <dimen name="card_view_image_size">26dp</dimen>
     <dimen name="card_view_image_padding">2dp</dimen>
-
-    <dimen name="view_dimen_3">1.0899963dip</dimen>
-    <dimen name="view_dimen_10">3.6399841dip</dimen>
-    <dimen name="view_dimen_26">9.449982dip</dimen>
-    <dimen name="view_dimen_42">15.269989dip</dimen>
-    <dimen name="view_dimen_48">17.449982dip</dimen>
-    <dimen name="view_dimen_56">20.359985dip</dimen>
-    <dimen name="view_dimen_64">23.269989dip</dimen>
-    <dimen name="view_dimen_68">24.72998dip</dimen>
-    <dimen name="view_dimen_100">36.359985dip</dimen>
 
     <dimen name="text_size_large">21sp</dimen>
     <dimen name="text_size_big">18sp</dimen>

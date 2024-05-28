@@ -36,7 +36,7 @@ import javax.mail.internet.MimeMessage
 import javax.mail.internet.MimeMultipart
 import javax.mail.internet.MimeUtility
 
-@Suppress("PrivatePropertyName", "unused")
+@Suppress("PrivatePropertyName")
 class SmimeUtils(
     private val properties: Properties,
     private val authenticator: Authenticator,
