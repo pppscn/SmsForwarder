@@ -34,7 +34,7 @@ class BatteryReceiver : BroadcastReceiver() {
         TaskUtils.batteryLevel = levelNew
 
         val scale: Int = intent.getIntExtra(BatteryManager.EXTRA_SCALE, 100)
-        TaskUtils.batteryPct = levelNew.toFloat() / scale.toFloat() * 100
+        TaskUtils.batteryPct = 100 * levelNew / scale
 
         val pluggedNew: Int = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
         val pluggedOld = TaskUtils.batteryPlugged

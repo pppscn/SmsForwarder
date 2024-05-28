@@ -552,6 +552,10 @@ class PhoneUtils private constructor() {
             if (SettingUtils.subidSim1 > 0 || SettingUtils.subidSim2 > 0) {
                 return if (mId == SettingUtils.subidSim1) 0 else 1
             } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    return SubscriptionManager.getSlotIndex(mId)
+                }
+
                 //获取卡槽信息
                 if (App.SimInfoList.isEmpty()) {
                     App.SimInfoList = getSimMultiInfo()

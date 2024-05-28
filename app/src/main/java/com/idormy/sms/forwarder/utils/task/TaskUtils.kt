@@ -121,7 +121,7 @@ class TaskUtils private constructor() {
         var batteryLevel: Int by SharedPreference(SP_BATTERY_LEVEL, 0)
 
         //当前电量百分比（level/scale）
-        var batteryPct: Float by SharedPreference(SP_BATTERY_PCT, 0.00F)
+        var batteryPct: Int by SharedPreference(SP_BATTERY_PCT, 0)
 
         //电池状态
         var batteryStatus: Int by SharedPreference(SP_BATTERY_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN)
