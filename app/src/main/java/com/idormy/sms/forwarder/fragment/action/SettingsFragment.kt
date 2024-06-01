@@ -3,9 +3,7 @@ package com.idormy.sms.forwarder.fragment.action
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.location.Criteria
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -273,31 +271,25 @@ class SettingsFragment : BaseFragment<FragmentTasksActionSettingsBinding?>(), Vi
             }
         }
         //设置位置更新最小时间间隔（单位：毫秒）； 默认间隔：10000毫秒，最小间隔：1000毫秒
-        binding!!.etMinInterval.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                val changedText = s.toString()
-                if (changedText.isEmpty() || changedText == "0") {
+        binding!!.etMinInterval.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                val inputText = binding!!.etMinInterval.text.toString()
+                if (inputText.isEmpty() || inputText == "0") {
                     binding!!.etMinInterval.setText("1")
                     binding!!.etMinInterval.setSelection(binding!!.etMinInterval.text.length) // 将光标移至文本末尾
-                    return
                 }
             }
-        })
+        }
         //设置位置更新最小距离（单位：米）；默认距离：0米
-        binding!!.etMinDistance.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                val changedText = s.toString()
-                if (changedText.isEmpty()) {
+        binding!!.etMinDistance.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                val inputText = binding!!.etMinDistance.text.toString()
+                if (inputText.isEmpty()) {
                     binding!!.etMinDistance.setText("0")
-                    binding!!.etMinDistance.setSelection(binding!!.etMinInterval.text.length) // 将光标移至文本末尾
-                    return
+                    binding!!.etMinDistance.setSelection(binding!!.etMinDistance.text.length) // 将光标移至文本末尾
                 }
             }
-        })
+        }
 
         binding!!.sbEnableSmsCommand.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {

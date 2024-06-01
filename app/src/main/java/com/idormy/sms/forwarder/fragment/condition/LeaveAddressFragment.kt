@@ -2,8 +2,6 @@ package com.idormy.sms.forwarder.fragment.condition
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -99,13 +97,11 @@ class LeaveAddressFragment : BaseFragment<FragmentTasksConditionLeaveAddressBind
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
         binding!!.btnCurrentCoordinates.setOnClickListener(this)
-        binding!!.etLongitude.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
+        binding!!.etLongitude.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
                 try {
-                    val changedText = s.toString()
-                    if (changedText.isEmpty()) {
+                    val inputText = binding!!.etLongitude.text.toString()
+                    if (inputText.isEmpty()) {
                         binding!!.etLongitude.setText("0")
                         binding!!.etLongitude.setSelection(binding!!.etLongitude.text.length) // 将光标移至文本末尾
                     } else {
@@ -113,17 +109,15 @@ class LeaveAddressFragment : BaseFragment<FragmentTasksConditionLeaveAddressBind
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    Log.e(TAG, "afterTextChanged error:$e")
+                    Log.e(TAG, "etLongitude error:$e")
                 }
             }
-        })
-        binding!!.etLatitude.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
+        }
+        binding!!.etLatitude.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
                 try {
-                    val changedText = s.toString()
-                    if (changedText.isEmpty()) {
+                    val inputText = binding!!.etLatitude.text.toString()
+                    if (inputText.isEmpty()) {
                         binding!!.etLatitude.setText("0")
                         binding!!.etLatitude.setSelection(binding!!.etLatitude.text.length) // 将光标移至文本末尾
                     } else {
@@ -131,17 +125,15 @@ class LeaveAddressFragment : BaseFragment<FragmentTasksConditionLeaveAddressBind
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    Log.e(TAG, "afterTextChanged error:$e")
+                    Log.e(TAG, "etLatitude error:$e")
                 }
             }
-        })
-        binding!!.etDistance.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
+        }
+        binding!!.etDistance.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
                 try {
-                    val changedText = s.toString()
-                    if (changedText.isEmpty()) {
+                    val inputText = binding!!.etDistance.text.toString()
+                    if (inputText.isEmpty()) {
                         binding!!.etDistance.setText("1")
                         binding!!.etDistance.setSelection(binding!!.etDistance.text.length) // 将光标移至文本末尾
                     } else {
@@ -149,22 +141,20 @@ class LeaveAddressFragment : BaseFragment<FragmentTasksConditionLeaveAddressBind
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    Log.e(TAG, "afterTextChanged error:$e")
+                    Log.e(TAG, "etDistance error:$e")
                 }
             }
-        })
-        binding!!.etAddress.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
+        }
+        binding!!.etAddress.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
                 try {
                     checkSetting(true)
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    Log.e(TAG, "afterTextChanged error:$e")
+                    Log.e(TAG, "etAddress error:$e")
                 }
             }
-        })
+        }
     }
 
     @SingleClick
