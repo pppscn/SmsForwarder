@@ -940,6 +940,7 @@
     <string name="task_charge">Charge</string>
     <string name="task_lock_screen">Screen Off/On</string>
     <string name="task_lock_screen_tips">Trigger upon screen lock/unlock instantly or after a set time.</string>
+    <string name="task_charge_tips">Triggered when the charging state meets the conditions.</string>
     <string name="task_sms">SMS</string>
     <string name="task_sms_when">received SMS broadcast from %s</string>
     <string name="task_call">Call</string>
