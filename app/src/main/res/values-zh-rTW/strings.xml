@@ -939,6 +939,7 @@
     <string name="task_battery">電量使用</string>
     <string name="task_battery_tips">當剩餘電量滿足條件時觸發</string>
     <string name="task_charge">充電狀態</string>
+    <string name="task_charge_tips">當充電狀態滿足條件時觸發</string>
     <string name="task_lock_screen">鎖屏解鎖</string>
     <string name="task_lock_screen_tips">在屏幕鎖定或解鎖後立即或指定時間觸發</string>
     <string name="task_sms">簡訊廣播</string>
