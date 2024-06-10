@@ -614,9 +614,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         if (!initViewsFinished) return
         Log.d(TAG, "restartBluetoothService, action: $action")
         val serviceIntent = Intent(requireContext(), BluetoothScanService::class.java)
-        //如果定位功能已启用，但是系统定位功能不可用，则关闭定位功能
+        //如果蓝牙功能已启用，但是系统蓝牙功能不可用，则关闭蓝牙功能
         if (SettingUtils.enableBluetooth && (!BluetoothUtils.isBluetoothEnabled() || !BluetoothUtils.hasBluetoothCapability(App.context))) {
-            XToastUtils.error(getString(R.string.toast_location_not_enabled))
+            XToastUtils.error(getString(R.string.toast_bluetooth_not_enabled))
             SettingUtils.enableBluetooth = false
             binding!!.sbEnableBluetooth.isChecked = false
             binding!!.layoutBluetoothSetting.visibility = View.GONE
