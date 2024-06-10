@@ -1110,6 +1110,7 @@
     <string name="chat_id">Chat ID</string>
     <string name="receive_id">訊息接收者ID</string>
     <string name="toast_location_not_enabled">定位服務未開啟，請先前往系統設置中開啟！</string>
+    <string name="toast_bluetooth_not_enabled">藍牙服務未開啟，請先前往系統設置中開啟！</string>
     <string name="task_condition_check_again">延遲執行時再次校驗</string>
     <string name="task_condition_check_again_tips">作為觸發條件時，在延遲執行動作時再次校驗是否滿足</string>
 
