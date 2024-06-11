@@ -1109,6 +1109,7 @@
     <string name="chat_id">Chat ID</string>
     <string name="receive_id">Receive ID</string>
     <string name="toast_location_not_enabled">Location is not enabled, Please go to system settings and activate it.</string>
+    <string name="toast_bluetooth_not_enabled">Bluetooth is not enabled, Please go to system settings and activate it.</string>
     <string name="task_condition_check_again">Recheck when delaying execution.</string>
     <string name="task_condition_check_again_tips">When used as a triggering condition, recheck during delayed action execution.</string>
 
