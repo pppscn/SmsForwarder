@@ -91,6 +91,15 @@ class WebhookUtils {
                 Log.i(TAG, "requestUrl:$requestUrl")
             }
 
+            //通过`Content-Type=applicaton/json`指定请求体为`json`格式
+            var isJson = false
+            for ((key, value) in setting.headers.entries) {
+                if (key.equals("Content-Type", ignoreCase = true) && value.contains("application/json")) {
+                    isJson = true
+                    break
+                }
+            }
+
             val request = if (setting.method == "GET" && TextUtils.isEmpty(webParams)) {
                 setting.webServer += (if (setting.webServer.contains("?")) "&" else "?") + "from=" + URLEncoder.encode(
                     from,
@@ -128,7 +137,7 @@ class WebhookUtils {
                 }
                 Log.d(TAG, "method = GET, Url = $requestUrl")
                 XHttp.get(requestUrl).keepJson(true)
-            } else if (webParams.isNotEmpty() && webParams.startsWith("{")) {
+            } else if (webParams.isNotEmpty() && (isJson || webParams.startsWith("{"))) {
                 val bodyMsg = webParams.replace("[from]", from)
                     .replace("[content]", escapeJson(content))
                     .replace("[msg]", escapeJson(content))
