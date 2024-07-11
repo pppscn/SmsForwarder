@@ -49,10 +49,6 @@ import com.idormy.sms.forwarder.workers.UpdateLogsWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.resource.ResUtils.getString
-import java.text.ParsePosition
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
 
 object SendUtils {
     private const val TAG = "SendUtils"
@@ -102,28 +98,10 @@ object SendUtils {
                 return
             }
             //免打扰(禁用转发)时间段
+            Log.d(TAG, "silentPeriodStart = ${rule.silentPeriodStart}, silentPeriodEnd = ${rule.silentPeriodEnd}")
             if (rule.silentPeriodStart != rule.silentPeriodEnd) {
-                val periodStartDay = Date()
-                var periodStartEnd = Date()
-                //跨天了
-                if (rule.silentPeriodStart > rule.silentPeriodEnd) {
-                    val c: Calendar = Calendar.getInstance()
-                    c.time = periodStartEnd
-                    c.add(Calendar.DAY_OF_MONTH, 1)
-                    periodStartEnd = c.time
-                }
-
-                val dateFmt = SimpleDateFormat("yyyy-MM-dd")
-                val mTimeOption = DataProvider.timePeriodOption
-                val periodStartStr = dateFmt.format(periodStartDay) + " " + mTimeOption[rule.silentPeriodStart] + ":00"
-                val periodEndStr = dateFmt.format(periodStartEnd) + " " + mTimeOption[rule.silentPeriodEnd] + ":00"
-
-                val timeFmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-                val periodStart = timeFmt.parse(periodStartStr, ParsePosition(0))?.time
-                val periodEnd = timeFmt.parse(periodEndStr, ParsePosition(0))?.time
-
-                val now = System.currentTimeMillis()
-                if (periodStart != null && periodEnd != null && now in periodStart..periodEnd) {
+                val isSilentPeriod = DataProvider.isCurrentTimeInPeriod(rule.silentPeriodStart, rule.silentPeriodEnd)
+                if (isSilentPeriod) {
                     Log.d(TAG, "免打扰(禁用转发)时间段")
                     updateLogs(logId, 0, getString(R.string.silent_time_period))
                     senderLogic(0, msgInfo, rule, senderIndex, msgId)

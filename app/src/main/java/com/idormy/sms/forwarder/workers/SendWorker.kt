@@ -32,10 +32,6 @@ import com.xuexiang.xutil.resource.ResUtils
 import com.xuexiang.xutil.security.CipherUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.text.ParsePosition
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
 
 @Suppress("PrivatePropertyName", "DEPRECATION")
 class SendWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
@@ -61,34 +57,13 @@ class SendWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
 
                 // 免打扰(禁用转发)时间段
                 var isSilentPeriod = false
+                Log.d(TAG, "silentPeriodStart = ${SettingUtils.silentPeriodStart}, silentPeriodEnd = ${SettingUtils.silentPeriodEnd}")
                 if (SettingUtils.silentPeriodStart != SettingUtils.silentPeriodEnd) {
-                    val periodStartDay = Date()
-                    var periodStartEnd = Date()
-                    //跨天了
-                    if (SettingUtils.silentPeriodStart > SettingUtils.silentPeriodEnd) {
-                        val c: Calendar = Calendar.getInstance()
-                        c.time = periodStartEnd
-                        c.add(Calendar.DAY_OF_MONTH, 1)
-                        periodStartEnd = c.time
-                    }
-
-                    val dateFmt = SimpleDateFormat("yyyy-MM-dd")
-                    val mTimeOption = DataProvider.timePeriodOption
-                    val periodStartStr = dateFmt.format(periodStartDay) + " " + mTimeOption[SettingUtils.silentPeriodStart] + ":00"
-                    val periodEndStr = dateFmt.format(periodStartEnd) + " " + mTimeOption[SettingUtils.silentPeriodEnd] + ":00"
-
-                    val timeFmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-                    val periodStart = timeFmt.parse(periodStartStr, ParsePosition(0))?.time
-                    val periodEnd = timeFmt.parse(periodEndStr, ParsePosition(0))?.time
-
-                    val now = System.currentTimeMillis()
-                    if (periodStart != null && periodEnd != null && now in periodStart..periodEnd) {
-                        if (SettingUtils.enableSilentPeriodLogs) {
-                            isSilentPeriod = true
-                        } else {
-                            Log.e(TAG, "免打扰(禁用转发)时间段")
-                            return@withContext Result.failure(workDataOf("send" to "failed"))
-                        }
+                    isSilentPeriod = DataProvider.isCurrentTimeInPeriod(SettingUtils.silentPeriodStart, SettingUtils.silentPeriodEnd)
+                    Log.d(TAG, "isSilentPeriod = $isSilentPeriod, enableSilentPeriodLogs = ${SettingUtils.enableSilentPeriodLogs}")
+                    if (isSilentPeriod && !SettingUtils.enableSilentPeriodLogs) {
+                        Log.e(TAG, "免打扰(禁用转发)时间段")
+                        return@withContext Result.failure(workDataOf("send" to "failed"))
                     }
                 }
 

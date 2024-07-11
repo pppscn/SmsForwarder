@@ -1,9 +1,13 @@
 package com.idormy.sms.forwarder.utils
 
+import android.annotation.SuppressLint
 import com.idormy.sms.forwarder.entity.CallInfo
 import com.idormy.sms.forwarder.entity.ContactInfo
 import com.idormy.sms.forwarder.entity.SmsInfo
 import com.xuexiang.xaop.annotation.MemoryCache
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
 
 @Suppress("SameParameterValue")
 object DataProvider {
@@ -71,4 +75,45 @@ object DataProvider {
         }
         return list
     }
+
+    /**
+     * 判断当前时间是否在时间段内
+     */
+    @SuppressLint("SimpleDateFormat")
+    fun isCurrentTimeInPeriod(periodStartIndex: Int, periodEndIndex: Int): Boolean {
+        val periodStartStr = timePeriodOption[periodStartIndex]
+        val periodEndStr = timePeriodOption[periodEndIndex]
+
+        // 定义时间格式
+        val formatter = SimpleDateFormat("HH:mm")
+
+        // 解析时间字符串
+        val periodStart = Calendar.getInstance().apply {
+            time = formatter.parse(periodStartStr) as Date
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val periodEnd = Calendar.getInstance().apply {
+            time = formatter.parse(periodEndStr) as Date
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+
+        // 获取当前时间
+        val currentTime = Calendar.getInstance()
+        val currentHour = currentTime.get(Calendar.HOUR_OF_DAY)
+        val currentMinute = currentTime.get(Calendar.MINUTE)
+
+        // 判断是否跨天
+        return if (periodEnd.before(periodStart)) {
+            // 跨天的情况
+            (currentHour > periodStart.get(Calendar.HOUR_OF_DAY) || (currentHour == periodStart.get(Calendar.HOUR_OF_DAY) && currentMinute >= periodStart.get(Calendar.MINUTE))) ||
+                    (currentHour < periodEnd.get(Calendar.HOUR_OF_DAY) || (currentHour == periodEnd.get(Calendar.HOUR_OF_DAY) && currentMinute < periodEnd.get(Calendar.MINUTE)))
+        } else {
+            // 不跨天的情况
+            (currentHour > periodStart.get(Calendar.HOUR_OF_DAY) || (currentHour == periodStart.get(Calendar.HOUR_OF_DAY) && currentMinute >= periodStart.get(Calendar.MINUTE))) &&
+                    (currentHour < periodEnd.get(Calendar.HOUR_OF_DAY) || (currentHour == periodEnd.get(Calendar.HOUR_OF_DAY) && currentMinute < periodEnd.get(Calendar.MINUTE)))
+        }
+    }
+
 }
