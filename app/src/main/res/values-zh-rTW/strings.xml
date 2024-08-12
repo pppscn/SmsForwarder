@@ -607,7 +607,7 @@
     <string name="extra_app">額外消除應用通知</string>
     <string name="extra_app_hint">一行一個包名\n開啟異步加載App列表以便選擇</string>
     <string name="choose_app_hint">下拉選擇獲取包名，關鍵字模糊匹配APP名稱</string>
-    <string name="regex_multi_match" tools:ignore="TypographyDashes">^\\s*(並且|或者)\\s(是|不是)\\s(手機號|APP包名|簡訊內容|通知內容|通知標題|卡槽信息|通話類型)\\s(相等|包含|不包含|開頭|結尾|正則匹配)\\s(.*)$</string>
+    <string name="regex_multi_match" tools:ignore="TypographyDashes">^\\s*(並且|或者)\\s(是|不是)\\s(手機號|APP包名|簡訊內容|通知內容|通知標題|卡槽信息|通話類型|UID)\\s(相等|包含|不包含|開頭|結尾|正則匹配)\\s(.*)$</string>
     <string name="privacy_content_1">歡迎使用</string>
     <string name="privacy_content_2">我們深知個人信息對你的重要性，也感謝你對我們的信任。\n</string>
     <string name="privacy_content_3">為了更好地保護你的權益，同時遵守相關監管的要求，我們將通過 </string>
