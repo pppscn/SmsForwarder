@@ -113,6 +113,7 @@ class WebhookUtils {
                 Log.d(TAG, "method = GET, Url = $requestUrl")
                 XHttp.get(requestUrl).keepJson(true)
             } else if (setting.method == "GET" && !TextUtils.isEmpty(webParams)) {
+                webParams = msgInfo.replaceTemplate(webParams, "", "URLEncoder")
                 webParams = webParams.replace("[from]", URLEncoder.encode(from, "UTF-8"))
                     .replace("[content]", URLEncoder.encode(content, "UTF-8"))
                     .replace("[msg]", URLEncoder.encode(content, "UTF-8"))
@@ -138,6 +139,7 @@ class WebhookUtils {
                 Log.d(TAG, "method = GET, Url = $requestUrl")
                 XHttp.get(requestUrl).keepJson(true)
             } else if (webParams.isNotEmpty() && (isJson || webParams.startsWith("{"))) {
+                webParams = msgInfo.replaceTemplate(webParams, "", "Gson")
                 val bodyMsg = webParams.replace("[from]", from)
                     .replace("[content]", escapeJson(content))
                     .replace("[msg]", escapeJson(content))
@@ -169,6 +171,7 @@ class WebhookUtils {
                     "PATCH" -> XHttp.patch(requestUrl).keepJson(true)
                     else -> XHttp.post(requestUrl).keepJson(true)
                 }
+                webParams = msgInfo.replaceTemplate(webParams)
                 webParams.trim('&').split("&").forEach {
                     val sepIndex = it.indexOf("=")
                     if (sepIndex != -1) {

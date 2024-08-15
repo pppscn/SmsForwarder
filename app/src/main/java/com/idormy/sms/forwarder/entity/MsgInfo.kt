@@ -18,6 +18,7 @@ import com.idormy.sms.forwarder.utils.task.TaskUtils
 import com.xuexiang.xutil.net.NetworkUtils
 import com.xuexiang.xutil.resource.ResUtils.getString
 import java.io.Serializable
+import java.net.URLEncoder
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -74,49 +75,49 @@ data class MsgInfo(
     fun getContentFromJson(jsonTemplate: String): String {
         var template = jsonTemplate.replace("null", "")
         if (TextUtils.isEmpty(template)) template = getString(R.string.tag_from)
-        return replaceTemplate(template, "", true)
+        return replaceTemplate(template, "", "Gson")
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun replaceTemplate(template: String, regexReplace: String = "", needJson: Boolean = false): String {
-        return template.replaceTag(getString(R.string.tag_from), from, needJson)
-            .replaceTag(getString(R.string.tag_package_name), from, needJson)
-            .replaceTag(getString(R.string.tag_sms), content, needJson)
-            .replaceTag(getString(R.string.tag_msg), content, needJson)
-            .replaceTag(getString(R.string.tag_card_slot), simInfo, needJson)
-            .replaceTag(getString(R.string.tag_card_subid), subId.toString(), needJson)
-            .replaceTag(getString(R.string.tag_title), simInfo, needJson)
-            .replaceTag(getString(R.string.tag_uid), uid.toString(), needJson)
+    fun replaceTemplate(template: String, regexReplace: String = "", encoderName: String = ""): String {
+        return template.replaceTag(getString(R.string.tag_from), from, encoderName)
+            .replaceTag(getString(R.string.tag_package_name), from, encoderName)
+            .replaceTag(getString(R.string.tag_sms), content, encoderName)
+            .replaceTag(getString(R.string.tag_msg), content, encoderName)
+            .replaceTag(getString(R.string.tag_card_slot), simInfo, encoderName)
+            .replaceTag(getString(R.string.tag_card_subid), subId.toString(), encoderName)
+            .replaceTag(getString(R.string.tag_title), simInfo, encoderName)
+            .replaceTag(getString(R.string.tag_uid), uid.toString(), encoderName)
             .replaceTag(
                 getString(R.string.tag_receive_time),
                 SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date),
-                needJson
+                encoderName
             )
             .replaceTag(
                 getString(R.string.tag_current_time),
                 SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()),
-                needJson
+                encoderName
             )
-            .replaceTag(getString(R.string.tag_device_name), extraDeviceMark.trim(), needJson)
-            .replaceTag(getString(R.string.tag_app_version), AppUtils.getAppVersionName(), needJson)
+            .replaceTag(getString(R.string.tag_device_name), extraDeviceMark.trim(), encoderName)
+            .replaceTag(getString(R.string.tag_app_version), AppUtils.getAppVersionName(), encoderName)
             .replaceTag(
                 getString(R.string.tag_call_type),
-                CALL_TYPE_MAP[callType.toString()] ?: getString(R.string.unknown_call), needJson
+                CALL_TYPE_MAP[callType.toString()] ?: getString(R.string.unknown_call), encoderName
             )
-            .replaceTag(getString(R.string.tag_ipv4), TaskUtils.ipv4, needJson)
-            .replaceTag(getString(R.string.tag_ipv6), TaskUtils.ipv6, needJson)
-            .replaceTag(getString(R.string.tag_ip_list), TaskUtils.ipList, needJson)
-            .replaceTag(getString(R.string.tag_battery_pct), "%.0f%%".format(TaskUtils.batteryPct), needJson)
-            .replaceTag(getString(R.string.tag_battery_status), BatteryUtils.getStatus(TaskUtils.batteryStatus), needJson)
-            .replaceTag(getString(R.string.tag_battery_plugged), BatteryUtils.getPlugged(TaskUtils.batteryPlugged), needJson)
-            .replaceTag(getString(R.string.tag_battery_info), TaskUtils.batteryInfo, needJson)
+            .replaceTag(getString(R.string.tag_ipv4), TaskUtils.ipv4, encoderName)
+            .replaceTag(getString(R.string.tag_ipv6), TaskUtils.ipv6, encoderName)
+            .replaceTag(getString(R.string.tag_ip_list), TaskUtils.ipList, encoderName)
+            .replaceTag(getString(R.string.tag_battery_pct), "%.0f%%".format(TaskUtils.batteryPct), encoderName)
+            .replaceTag(getString(R.string.tag_battery_status), BatteryUtils.getStatus(TaskUtils.batteryStatus), encoderName)
+            .replaceTag(getString(R.string.tag_battery_plugged), BatteryUtils.getPlugged(TaskUtils.batteryPlugged), encoderName)
+            .replaceTag(getString(R.string.tag_battery_info), TaskUtils.batteryInfo, encoderName)
             .replaceTag(
                 getString(R.string.tag_battery_info_simple),
                 "%.0f%%".format(TaskUtils.batteryPct)
                         + with(BatteryUtils.getPlugged(TaskUtils.batteryPlugged)) {
                     if (this == getString(R.string.battery_unknown)) "" else " - $this"
                 },
-                needJson
+                encoderName
             )
             .replaceTag(
                 getString(R.string.tag_net_type), with(NetworkUtils.getNetStateType()) {
@@ -124,10 +125,10 @@ data class MsgInfo(
                         this.name
                     this.name.removePrefix("NET_")
                 },
-                needJson
+                encoderName
             )
-            .replaceAppNameTag(from, needJson)
-            .replaceLocationTag(needJson)
+            .replaceAppNameTag(from, encoderName)
+            .replaceLocationTag(encoderName)
             .regexReplace(regexReplace)
             .trim()
     }
@@ -155,11 +156,11 @@ data class MsgInfo(
     }
 
     //替换标签（支持正则替换）
-    private fun String.replaceTag(tag: String, info: String, needJson: Boolean = false, ignoreCase: Boolean = true): String {
-        var result = if (needJson) {
-            this.replace(tag, toJsonStr(info), ignoreCase)
-        } else {
-            this.replace(tag, info, ignoreCase)
+    private fun String.replaceTag(tag: String, info: String, encoderName: String = "", ignoreCase: Boolean = true): String {
+        var result = when (encoderName) {
+            "Gson" -> this.replace(tag, toJsonStr(info), ignoreCase)
+            "URLEncoder" -> this.replace(tag, URLEncoder.encode(info, "UTF-8"), ignoreCase)
+            else -> this.replace(tag, info, ignoreCase)
         }
 
         val tagName = tag.removePrefix("{{").removeSuffix("}}")
@@ -171,10 +172,10 @@ data class MsgInfo(
                 val replacement = it.groupValues[2]
                 val temp = info.replace(regex.toRegex(), replacement)
                 Log.d("MsgInfo", "tagRegex: regex=$regex, replacement=$replacement, temp=$temp")
-                result = if (needJson) {
-                    result.replace(it.value, toJsonStr(temp))
-                } else {
-                    result.replace(it.value, temp)
+                result = when (encoderName) {
+                    "Gson" -> this.replace(it.value, toJsonStr(temp), ignoreCase)
+                    "URLEncoder" -> this.replace(it.value, URLEncoder.encode(temp, "UTF-8"), ignoreCase)
+                    else -> this.replace(it.value, temp, ignoreCase)
                 }
             } catch (e: Exception) {
                 Log.e("MsgInfo", "Failed to replace tagRegex: ${e.message}")
@@ -185,7 +186,7 @@ data class MsgInfo(
     }
 
     //替换{{APP名称}}标签
-    private fun String.replaceAppNameTag(packageName: String, needJson: Boolean = false): String {
+    private fun String.replaceAppNameTag(packageName: String, encoderName: String = ""): String {
         if (TextUtils.isEmpty(this)) return this
         if (this.indexOf(getString(R.string.tag_app_name)) == -1) return this
 
@@ -206,22 +207,32 @@ data class MsgInfo(
                 }
             }
         }
-        if (needJson) {
-            appName = toJsonStr(appName)
+
+        when (encoderName) {
+            "Gson" -> appName = toJsonStr(appName)
+            "URLEncoder" -> appName = URLEncoder.encode(appName, "UTF-8")
         }
+
         return this.replaceTag(getString(R.string.tag_app_name), appName)
     }
 
     //替换 {{定位信息}} 标签
-    private fun String.replaceLocationTag(needJson: Boolean = false): String {
+    private fun String.replaceLocationTag(encoderName: String = ""): String {
         if (TextUtils.isEmpty(this)) return this
 
         val location = HttpServerUtils.apiLocationCache
         var locationStr = location.toString()
         var address = location.address
-        if (needJson) {
-            locationStr = toJsonStr(locationStr)
-            address = toJsonStr(address)
+        when (encoderName) {
+            "Gson" -> {
+                locationStr = toJsonStr(locationStr)
+                address = toJsonStr(address)
+            }
+
+            "URLEncoder" -> {
+                locationStr = URLEncoder.encode(locationStr, "UTF-8")
+                address = URLEncoder.encode(address, "UTF-8")
+            }
         }
         return this.replaceTag(getString(R.string.tag_location), locationStr)
             .replaceTag(getString(R.string.tag_location_longitude), location.longitude.toString())
