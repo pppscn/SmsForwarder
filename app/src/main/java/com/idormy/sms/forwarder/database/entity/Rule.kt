@@ -59,10 +59,10 @@ data class Rule(
     companion object {
         val TAG: String = Rule::class.java.simpleName
 
-        fun getRuleMatch(filed: String?, check: String?, value: String?, simSlot: String?, senderList: List<Sender>? = null): String {
+        fun getRuleMatch(type: String?, filed: String?, check: String?, value: String?, simSlot: String?, senderList: List<Sender>? = null): String {
             val blank = if (App.isNeedSpaceBetweenWords) " " else ""
             val sb = StringBuilder()
-            sb.append(SIM_SLOT_MAP[simSlot]).append(blank).append(getString(R.string.rule_card)).append(blank)
+            if (type != "app") sb.append(SIM_SLOT_MAP[simSlot]).append(blank).append(getString(R.string.rule_card)).append(blank)
             when (filed) {
                 null, FILED_TRANSPOND_ALL -> sb.append(getString(R.string.rule_all_fw_to))
                 FILED_CALL_TYPE -> sb.append(getString(R.string.rule_when))
@@ -127,9 +127,9 @@ data class Rule(
 
     fun getName(appendSenderList: Boolean = true): String {
         return if (appendSenderList) {
-            getRuleMatch(filed, check, value, simSlot, senderList)
+            getRuleMatch(type, filed, check, value, simSlot, senderList)
         } else {
-            getRuleMatch(filed, check, value, simSlot, null)
+            getRuleMatch(type, filed, check, value, simSlot, null)
         }
     }
 

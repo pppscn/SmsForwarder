@@ -188,7 +188,7 @@ class LogsFragment : BaseFragment<FragmentLogsBinding?>(), MsgPagingAdapter.OnIt
     override fun onLogsClicked(view: View?, item: LogsDetail) {
         Log.d(TAG, "item: $item")
         val ruleStr = StringBuilder()
-        ruleStr.append(Rule.getRuleMatch(item.ruleFiled, item.ruleCheck, item.ruleValue, item.ruleSimSlot)).append(item.senderName)
+        ruleStr.append(Rule.getRuleMatch(item.type, item.ruleFiled, item.ruleCheck, item.ruleValue, item.ruleSimSlot)).append(item.senderName)
         val detailStr = StringBuilder()
         detailStr.append(getString(R.string.rule)).append(ruleStr.toString()).append("\n\n")
         @SuppressLint("SimpleDateFormat") val utcFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
