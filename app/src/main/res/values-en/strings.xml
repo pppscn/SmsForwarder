@@ -540,6 +540,7 @@
     <string name="bark_group_tips">Opt., e.g. SmsForwarder</string>
     <string name="bark_icon">Message Icon</string>
     <string name="bark_icon_tips">Opt., fill in Url, the picture should not be too big</string>
+    <string name="bark_call">Keep Reminding</string>
     <string name="bark_sound">Message Sound</string>
     <string name="bark_sound_tips">Opt., e.g. minuet.caf</string>
     <string name="bark_badge">Message Badge</string>

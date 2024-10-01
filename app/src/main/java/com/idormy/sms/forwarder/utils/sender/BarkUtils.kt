@@ -68,6 +68,7 @@ class BarkUtils {
             if (!TextUtils.isEmpty(setting.sound)) msgMap["sound"] = setting.sound
             if (!TextUtils.isEmpty(setting.badge)) msgMap["badge"] = setting.badge
             if (!TextUtils.isEmpty(setting.url)) msgMap["url"] = setting.url
+            if (!TextUtils.isEmpty(setting.call)) msgMap["call"] = setting.call
 
             //自动复制验证码
             val pattern = Regex("(?<!回复)(验证码|授权码|校验码|检验码|确认码|激活码|动态码|安全码|(验证)?代码|校验代码|检验代码|激活代码|确认代码|动态代码|安全代码|登入码|认证码|识别码|短信口令|动态密码|交易码|上网密码|动态口令|随机码|驗證碼|授權碼|校驗碼|檢驗碼|確認碼|激活碼|動態碼|(驗證)?代碼|校驗代碼|檢驗代碼|確認代碼|激活代碼|動態代碼|登入碼|認證碼|識別碼|一次性密码|[Cc][Oo][Dd][Ee]|[Vv]erification)")
@@ -76,7 +77,7 @@ class BarkUtils {
                 code = code.replace("\\D*[\\(（\\[【{「]?([0-9]{3}\\s?[0-9]{1,3})[」}】\\]）\\)]?(?=.*((代|授权|验证|动态|校验)码|[【\\[].*[】\\]]|[Cc][Oo][Dd][Ee]|[Vv]erification\\s?([Cc]ode)?))(.*)".toRegex(), "$1").trim()
                 if (code.isNotEmpty()) {
                     msgMap["copy"] = code
-                    msgMap["automaticallyCopy"] = 1
+                    msgMap["autoCopy"] = 1
                 }
             }
 

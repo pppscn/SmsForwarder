@@ -25,4 +25,6 @@ data class BarkSetting(
     val key: String = "",
     //初始偏移向量
     val iv: String = "",
+    //持续提醒
+    val call: String = "",
 ) : Serializable

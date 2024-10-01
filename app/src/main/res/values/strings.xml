@@ -568,6 +568,7 @@
     <string name="bark_group_tips">可选，例：短信转发器</string>
     <string name="bark_icon">消息图标</string>
     <string name="bark_icon_tips">可选，填写Url，图片不要太大</string>
+    <string name="bark_call">持续提醒</string>
     <string name="bark_sound">消息声音</string>
     <string name="bark_sound_tips">可选，例：minuet.caf</string>
     <string name="bark_badge">消息角标</string>

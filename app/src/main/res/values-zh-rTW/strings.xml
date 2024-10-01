@@ -541,6 +541,7 @@
     <string name="bark_group_tips">可選，例：簡訊轉發器</string>
     <string name="bark_icon">消息圖標</string>
     <string name="bark_icon_tips">可選，填寫Url，圖片不要太大</string>
+    <string name="bark_call">持續提醒</string>
     <string name="bark_sound">消息聲音</string>
     <string name="bark_sound_tips">可選，例：minuet.caf</string>
     <string name="bark_badge">消息角標</string>

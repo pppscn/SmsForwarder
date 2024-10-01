@@ -156,6 +156,7 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
                     binding!!.etServer.setText(settingVo.server)
                     binding!!.etGroup.setText(settingVo.group)
                     binding!!.etIcon.setText(settingVo.icon)
+                    binding!!.sbCall.isChecked = settingVo.call == "1"
                     binding!!.etSound.setText(settingVo.sound)
                     binding!!.etBadge.setText(settingVo.badge)
                     binding!!.etUrl.setText(settingVo.url)
@@ -281,6 +282,7 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
         if (!CommonUtils.checkUrl(icon, true)) {
             throw Exception(getString(R.string.invalid_bark_icon))
         }
+        val call = if (binding!!.sbCall.isChecked) "1" else "0"
         val sound = binding!!.etSound.text.toString().trim()
         val badge = binding!!.etBadge.text.toString().trim()
         val url = binding!!.etUrl.text.toString().trim()
@@ -301,7 +303,7 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
             throw Exception(getString(R.string.bark_encryption_key_error4))
         }
 
-        return BarkSetting(server, group, icon, sound, badge, url, barkLevel, title, transformation, key, iv)
+        return BarkSetting(server, group, icon, sound, badge, url, barkLevel, title, transformation, key, iv, call)
     }
 
     override fun onDestroyView() {
