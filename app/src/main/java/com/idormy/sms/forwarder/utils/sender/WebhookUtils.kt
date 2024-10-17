@@ -93,10 +93,19 @@ class WebhookUtils {
 
             //通过`Content-Type=applicaton/json`指定请求体为`json`格式
             var isJson = false
+            //通过`Content-Type=text/plain、text/html、text/css、text/javascript、text/xml`指定请求体为`文本`格式
+            var isText = false
+            var mediaType = "text/plain"
             for ((key, value) in setting.headers.entries) {
-                if (key.equals("Content-Type", ignoreCase = true) && value.contains("application/json")) {
-                    isJson = true
-                    break
+                if (key.equals("Content-Type", ignoreCase = true)) {
+                    if (value.contains("application/json")) {
+                        isJson = true
+                        break
+                    } else if (value.startsWith("text/")) {
+                        isText = true
+                        mediaType = value
+                        break
+                    }
                 }
             }
 
@@ -138,7 +147,7 @@ class WebhookUtils {
                 }
                 Log.d(TAG, "method = GET, Url = $requestUrl")
                 XHttp.get(requestUrl).keepJson(true)
-            } else if (webParams.isNotEmpty() && (isJson || webParams.startsWith("{"))) {
+            } else if (webParams.isNotEmpty() && (isJson || isText || webParams.startsWith("{"))) {
                 webParams = msgInfo.replaceTemplate(webParams, "", "Gson")
                 val bodyMsg = webParams.replace("[from]", from)
                     .replace("[content]", escapeJson(content))
@@ -155,10 +164,18 @@ class WebhookUtils {
                     .replace("[timestamp]", timestamp.toString())
                     .replace("[sign]", sign)
                 Log.d(TAG, "method = ${setting.method}, Url = $requestUrl, bodyMsg = $bodyMsg")
-                when (setting.method) {
-                    "PUT" -> XHttp.put(requestUrl).keepJson(true).upJson(bodyMsg)
-                    "PATCH" -> XHttp.patch(requestUrl).keepJson(true).upJson(bodyMsg)
-                    else -> XHttp.post(requestUrl).keepJson(true).upJson(bodyMsg)
+                if (isText) {
+                    when (setting.method) {
+                        "PUT" -> XHttp.put(requestUrl).keepJson(true).upString(bodyMsg, mediaType)
+                        "PATCH" -> XHttp.patch(requestUrl).keepJson(true).upString(bodyMsg, mediaType)
+                        else -> XHttp.post(requestUrl).keepJson(true).upString(bodyMsg, mediaType)
+                    }
+                } else {
+                    when (setting.method) {
+                        "PUT" -> XHttp.put(requestUrl).keepJson(true).upJson(bodyMsg)
+                        "PATCH" -> XHttp.patch(requestUrl).keepJson(true).upJson(bodyMsg)
+                        else -> XHttp.post(requestUrl).keepJson(true).upJson(bodyMsg)
+                    }
                 }
             } else {
                 if (webParams.isEmpty()) {
