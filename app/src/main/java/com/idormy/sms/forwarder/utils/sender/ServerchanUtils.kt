@@ -38,7 +38,14 @@ class ServerchanUtils {
                 msgInfo.getContentForSend(SettingUtils.smsTemplate)
             }
 
-            val requestUrl: String = String.format("https://sctapi.ftqq.com/%s.send", setting.sendKey) //推送地址
+            // 兼容Server酱³Sendkey，使用正则表达式提取数字部分
+            val matchResult = Regex("^sctp(\\d+)t", RegexOption.IGNORE_CASE).find(setting.sendKey)
+            val requestUrl = if (matchResult != null && matchResult.groups[1] != null) {
+                "https://${matchResult.groups[1]?.value}.push.ft07.com/send/${setting.sendKey}.send"
+            } else {
+                String.format("https://sctapi.ftqq.com/%s.send", setting.sendKey) // 默认推送地址
+            }
+            
             Log.i(TAG, "requestUrl:$requestUrl")
 
             val request = XHttp.post(requestUrl)
