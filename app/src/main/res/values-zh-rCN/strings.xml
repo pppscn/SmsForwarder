@@ -513,7 +513,7 @@
     <string name="no">No</string>
     <string name="refresh">刷新</string>
     <string name="tip_can_not_get_sim_infos">无法获取卡槽信息，请确认应用权限【获取手机信息】为【始终允许】</string>
-    <string name="tip_can_not_get_sim_info">未获取到卡槽%s中的SIM卡信息</string>
+    <string name="tip_can_not_get_sim_info">未获取到卡槽%d中的SIM卡信息</string>
     <string name="auto_check">启动时检查</string>
     <string name="check_update">检查更新</string>
     <string name="join_preview_program">加入SmsF预览体验计划</string>
@@ -805,7 +805,7 @@
     <string name="debug_mode_tips">将Log.*写入文件，以便排查问题；可导出到下载目录</string>
     <string name="optional_components">可选组件：</string>
     <string name="enable_cactus">启用 Cactus 增强保活措施（会增加耗电）</string>
-    <string name="enabe_cactus_tips">双进程前台服务/JobScheduler/WorkManager/1像素/无声音乐</string>
+    <string name="enable_cactus_tips">双进程前台服务/JobScheduler/WorkManager/1像素/无声音乐</string>
     <string name="load_app_list">启动时异步获取已安装App列表</string>
     <string name="load_app_list_tips">用于加速进入应用列表/编辑转发规则下拉选择/替换{{APP_NAME}}</string>
     <string name="load_app_list_toast">开启异步获取已安装App列表时必选一个类型</string>
