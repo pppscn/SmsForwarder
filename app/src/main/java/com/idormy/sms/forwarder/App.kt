@@ -290,7 +290,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
                     if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P && SettingUtils.enableOnePixelActivity) {
                         setOnePixEnabled(true)
                     }
-                    //奔溃是否可以重启用户界面
+                    //崩溃是否可以重启用户界面
                     setCrashRestartUIEnabled(true)
                     addCallback({
                         Log.d(TAG, "Cactus保活：onStop回调")
