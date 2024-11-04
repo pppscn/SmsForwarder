@@ -512,7 +512,7 @@
     <string name="no">No</string>
     <string name="refresh">Refresh</string>
     <string name="tip_can_not_get_sim_infos">Please confirm that the app permission [Get mobile phone information] is [Always allow]</string>
-    <string name="tip_can_not_get_sim_info">The SIM card information in the card slot %s has not been obtained</string>
+    <string name="tip_can_not_get_sim_info">The SIM card information in the card slot %d has not been obtained</string>
     <string name="auto_check">Auto check</string>
     <string name="check_update">Check</string>
     <string name="join_preview_program">Join Preview Program</string>
