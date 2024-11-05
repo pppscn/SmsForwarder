@@ -14,6 +14,7 @@ import android.provider.Settings
 import android.telephony.SmsManager
 import android.telephony.SubscriptionInfo
 import android.telephony.SubscriptionManager
+import android.telephony.TelephonyManager
 import android.text.TextUtils
 import androidx.annotation.RequiresPermission
 import androidx.core.app.ActivityCompat
@@ -36,6 +37,14 @@ class PhoneUtils private constructor() {
 
     companion object {
         const val TAG = "PhoneUtils"
+
+        /** 获取 sim 卡槽数量，注意不是 sim 卡的数量。*/
+        fun getSimSlotCount() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            (App.context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager).activeModemCount
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            (App.context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager).phoneCount
+        else
+            -1
 
         //获取多卡信息
         @SuppressLint("Range")
