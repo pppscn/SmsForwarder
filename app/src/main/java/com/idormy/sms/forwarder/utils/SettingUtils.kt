@@ -80,7 +80,7 @@ class SettingUtils private constructor() {
         //是否不在最近任务列表中显示
         var enableExcludeFromRecents: Boolean by SharedPreference(SP_ENABLE_EXCLUDE_FROM_RECENTS, false)
 
-        //是否转发应用通知
+        //是否启用Cactus增强保活措施
         var enableCactus: Boolean by SharedPreference(SP_ENABLE_CACTUS, false)
 
         //是否播放静音音乐
