@@ -180,12 +180,18 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         editAddExtraDeviceMark(binding!!.etExtraDeviceMark)
         //SIM1主键
         editAddSubidSim1(binding!!.etSubidSim1)
-        //SIM2主键
-        editAddSubidSim2(binding!!.etSubidSim2)
         //SIM1备注
         editAddExtraSim1(binding!!.etExtraSim1)
-        //SIM2备注
-        editAddExtraSim2(binding!!.etExtraSim2)
+
+        // sim 槽只有一个的时候不显示 SIM2 设置
+        if (PhoneUtils.getSimSlotCount() != 1) {
+            //SIM2主键
+            editAddSubidSim2(binding!!.etSubidSim2)
+            //SIM2备注
+            editAddExtraSim2(binding!!.etExtraSim2)
+        } else {
+            binding!!.layoutSim2.visibility = View.GONE
+        }
         //通知内容
         editNotifyContent(binding!!.etNotifyContent)
         //启用自定义模版
@@ -991,7 +997,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //设置SIM1主键
     private fun editAddSubidSim1(etSubidSim1: EditText) {
-        etSubidSim1.setText(SettingUtils.subidSim1.toString())
+        etSubidSim1.setText("${SettingUtils.subidSim1}")
         etSubidSim1.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
@@ -1008,7 +1014,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //设置SIM2主键
     private fun editAddSubidSim2(etSubidSim2: EditText) {
-        etSubidSim2.setText(SettingUtils.subidSim2.toString())
+        etSubidSim2.setText("${SettingUtils.subidSim2}")
         etSubidSim2.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
