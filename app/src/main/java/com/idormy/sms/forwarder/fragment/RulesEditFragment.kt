@@ -87,6 +87,7 @@ import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.util.Calendar
 import java.util.Date
 
 @Page(name = "转发规则·编辑器")
@@ -639,6 +640,21 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 silentPeriodEnd = rule.silentPeriodEnd
                 //初始化发送通道下拉框
                 initSenderSpinner()
+
+                //绑定免打扰日期
+                val silentPeriodDays = rule.silentDayOfWeek.split(",").filter { it.isNotEmpty() }.map { it.toInt() }
+                if (silentPeriodDays.isNotEmpty()) {
+                    val map = mapOf(
+                        Calendar.SUNDAY to binding!!.sun,
+                        Calendar.MONDAY to binding!!.mon,
+                        Calendar.TUESDAY to binding!!.tue,
+                        Calendar.WEDNESDAY to binding!!.wed,
+                        Calendar.THURSDAY to binding!!.thu,
+                        Calendar.FRIDAY to binding!!.fri,
+                        Calendar.SATURDAY to binding!!.sat,
+                    )
+                    silentPeriodDays.forEach { map[it]?.isChecked = true }
+                }
             }
         })
     }
@@ -715,6 +731,19 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
         }
         val status = if (binding!!.sbStatus.isChecked) STATUS_ON else STATUS_OFF
 
+        val map = mapOf(
+            Calendar.SUNDAY to binding!!.sun,
+            Calendar.MONDAY to binding!!.mon,
+            Calendar.TUESDAY to binding!!.tue,
+            Calendar.WEDNESDAY to binding!!.wed,
+            Calendar.THURSDAY to binding!!.thu,
+            Calendar.FRIDAY to binding!!.fri,
+            Calendar.SATURDAY to binding!!.sat,
+        )
+
+        val silentDayOfWeek = map.filter { it.value.isChecked }
+            .toList().map {it.first }.joinToString(",")
+
         return Rule(
             ruleId,
             ruleType,
@@ -730,7 +759,8 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
             senderListSelected,
             senderLogic,
             silentPeriodStart,
-            silentPeriodEnd
+            silentPeriodEnd,
+            silentDayOfWeek,
         )
     }
 
