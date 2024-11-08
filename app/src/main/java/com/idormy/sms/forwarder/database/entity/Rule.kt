@@ -54,6 +54,7 @@ data class Rule(
     //免打扰(禁用转发)时间段
     @ColumnInfo(name = "silent_period_start", defaultValue = "0") var silentPeriodStart: Int = 0,
     @ColumnInfo(name = "silent_period_end", defaultValue = "0") var silentPeriodEnd: Int = 0,
+    @ColumnInfo(name = "silent_day_of_week", defaultValue = "") var silentDayOfWeek: String = "",
 ) : Parcelable {
 
     companion object {

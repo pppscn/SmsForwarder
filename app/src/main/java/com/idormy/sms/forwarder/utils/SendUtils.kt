@@ -49,6 +49,7 @@ import com.idormy.sms.forwarder.workers.UpdateLogsWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.resource.ResUtils.getString
+import java.util.Calendar
 
 object SendUtils {
     private const val TAG = "SendUtils"
@@ -97,6 +98,19 @@ object SendUtils {
                 senderLogic(0, msgInfo, rule, senderIndex, msgId)
                 return
             }
+            //免打扰(禁用转发)日期段
+            Log.d(TAG, "silentDayOfWeek = ${rule.silentDayOfWeek}")
+            val silentDayOfWeek = rule.silentDayOfWeek.split(",").filter { it.isNotEmpty() }.map { it.toInt() }
+            if (silentDayOfWeek.isNotEmpty()) {
+                val dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+                if (silentDayOfWeek.contains(dayOfWeek)) {
+                    Log.d(TAG, "免打扰(禁用转发)日期段")
+                    updateLogs(logId, 0, getString(R.string.silent_time_period))
+                    senderLogic(0, msgInfo, rule, senderIndex, msgId)
+                    return
+                }
+            }
+
             //免打扰(禁用转发)时间段
             Log.d(TAG, "silentPeriodStart = ${rule.silentPeriodStart}, silentPeriodEnd = ${rule.silentPeriodEnd}")
             if (rule.silentPeriodStart != rule.silentPeriodEnd) {

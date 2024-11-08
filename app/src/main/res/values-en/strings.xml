@@ -186,6 +186,13 @@
     <string name="switch_rule_status">Enable This Forwarding Rule</string>
     <string name="invalid_match_value">The matched value cannot be null</string>
     <string name="invalid_call_type">The call type is incorrect, you can only enter any number from 1 to 6.</string>
+    <string name="mon">MON</string>
+    <string name="tue">TUE</string>
+    <string name="wed">WED</string>
+    <string name="thu">THU</string>
+    <string name="fri">FRI</string>
+    <string name="sat">SAT</string>
+    <string name="sun">SUN</string>
     <!--SenderActivity-->
     <string name="delete_sender_title">Delete confirmation</string>
     <string name="delete_sender_tips">Are you sure to delete this sender?</string>

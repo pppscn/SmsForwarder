@@ -187,6 +187,13 @@
     <string name="switch_rule_status">启用该条转发规则</string>
     <string name="invalid_match_value">匹配的值不可为空</string>
     <string name="invalid_call_type">通话类型不正确，只能填写1到6的任意一个数字</string>
+    <string name="mon">周一</string>
+    <string name="tue">周二</string>
+    <string name="wed">周三</string>
+    <string name="thu">周四</string>
+    <string name="fri">周五</string>
+    <string name="sat">周六</string>
+    <string name="sun">周日</string>
     <!--SenderActivity-->
     <string name="delete_sender_title">发送通道操作确认</string>
     <string name="delete_sender_tips">删除发送通道后会级联删除其相关的转发规则、转发日志的所有记录！\n\n确定删除该条发送通道?</string>
