@@ -58,6 +58,7 @@
     <string name="url_help">https://gitee.com/pp/SmsForwarder/wikis/pages</string>
     <string name="url_donation_link">https://gitee.com/pp/SmsForwarder.wiki/raw/master/%E6%89%93%E8%B5%8F%E5%90%8D%E5%8D%95.md</string>
     <string name="url_wechat_miniprogram">https://gitee.com/pp/SmsForwarder/raw/main/pic/wechat_miniprogram.jpg</string>
+    <string name="url_tips">https://gitee.com/pp/SmsForwarder.wiki/raw/master/tips.json</string>
 
     <string name="lab_yes">是</string>
     <string name="lab_no">否</string>

@@ -6,17 +6,19 @@ import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatCheckBox
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.reflect.TypeToken
 import com.idormy.sms.forwarder.R
-import com.idormy.sms.forwarder.core.http.api.ApiService.IGetService
-import com.idormy.sms.forwarder.core.http.callback.NoTipCallBack
 import com.idormy.sms.forwarder.core.http.entity.TipInfo
 import com.idormy.sms.forwarder.utils.AppUtils
 import com.idormy.sms.forwarder.utils.SharedPreference
-import com.xuexiang.constant.TimeConstants
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xhttp2.XHttp
-import com.xuexiang.xhttp2.cache.model.CacheMode
+import com.xuexiang.xhttp2.callback.SimpleCallBack
+import com.xuexiang.xhttp2.exception.ApiException
 import com.xuexiang.xui.widget.dialog.BaseDialog
+import com.xuexiang.xutil.resource.ResUtils.getString
 import com.zzhoujay.richtext.RichText
 
 /**
@@ -163,18 +165,33 @@ class GuideTipsDialog(context: Context?, tips: List<TipInfo>) :
          */
         @JvmStatic
         fun showTipsForce(context: Context?) {
-            val request = XHttp.custom().cacheMode(CacheMode.FIRST_CACHE)
-                .cacheTime(TimeConstants.DAY.toLong()).cacheKey("getTips")
-            request.apiCall(request.create(
-                IGetService::class.java
-            ).tips, object : NoTipCallBack<List<TipInfo>>() {
-                @Throws(Throwable::class)
-                override fun onSuccess(response: List<TipInfo>?) {
-                    if (!response.isNullOrEmpty()) {
-                        GuideTipsDialog(context, response).show()
+            XHttp.get(getString(R.string.url_tips))
+                .keepJson(true)
+                .ignoreHttpsCert()
+                .timeStamp(true) //url自动追加时间戳，避免缓存
+                .execute(object : SimpleCallBack<String>() {
+                    override fun onError(e: ApiException) {
+                        e.printStackTrace()
                     }
-                }
-            })
+
+                    override fun onSuccess(json: String) {
+                        try {
+                            val gson = Gson()
+                            val jsonObject = gson.fromJson(json, JsonObject::class.java)
+                            if (jsonObject.isJsonObject
+                                && jsonObject.has("Code") && jsonObject["Code"].asInt == 0
+                                && jsonObject.has("Data") && jsonObject["Data"].isJsonArray
+                            ) {
+                                val dataJsonArray = jsonObject["Data"].asJsonArray
+                                val listType = object : TypeToken<List<TipInfo>>() {}.type
+                                val tips = gson.fromJson<List<TipInfo>>(dataJsonArray, listType)
+                                GuideTipsDialog(context, tips).show()
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                })
         }
 
         fun setIsIgnoreTips(isIgnore: Boolean): Boolean {
