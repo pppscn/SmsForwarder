@@ -1212,6 +1212,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             "huawei" -> getString(R.string.auto_start_huawei)
             "honor" -> getString(R.string.auto_start_honor)
             "xiaomi" -> getString(R.string.auto_start_xiaomi)
+            "redmi" -> getString(R.string.auto_start_redmi)
             "oppo" -> getString(R.string.auto_start_oppo)
             "vivo" -> getString(R.string.auto_start_vivo)
             "meizu" -> getString(R.string.auto_start_meizu)
