@@ -40,6 +40,7 @@ import com.idormy.sms.forwarder.utils.INTENT_FRPC_APPLY_FILE
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.TASK_CONDITION_CRON
+import com.idormy.sms.forwarder.utils.VibrationUtils
 import com.idormy.sms.forwarder.utils.task.CronJobScheduler
 import com.idormy.sms.forwarder.workers.LoadAppListWorker
 import com.jeremyliao.liveeventbus.LiveEventBus
@@ -92,76 +93,95 @@ class ForegroundService : Service() {
         })
     }
 
+    // 振动控制
+    private lateinit var vibrationUtils: VibrationUtils
+    private var isVibrating = false
+
+    // 音乐播放器
     private var alarmPlayer: MediaPlayer? = null
     private var alarmPlayTimes = 0
     private val alarmObserver = Observer<AlarmSetting> { alarm ->
         Log.d(TAG, "Received alarm: $alarm")
+        //停止振动
+        if (vibrationUtils.isVibrating) {
+            vibrationUtils.stopVibration()
+        }
+        //停止播放音乐
         alarmPlayer?.release()
         alarmPlayer = null
         if (alarm.action == "start") {
-            //获取音量
-            val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
-            val maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
-            val currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
-            Log.d(TAG, "maxVolume=$maxVolume, currentVolume=$currentVolume")
-            //设置音量
-            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (maxVolume * alarm.volume / 100), 0)
             //播放音乐
-            alarmPlayer = MediaPlayer().apply {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    val audioAttributes = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()
-                    setAudioAttributes(audioAttributes)
-                } else {
-                    // 对于 Android 5.0 之前的版本，使用 setAudioStreamType
-                    val audioStreamType = AudioManager.STREAM_ALARM
-                    setAudioStreamType(audioStreamType)
-                }
-
-                try {
-                    if (alarm.music.isEmpty() || !File(alarm.music).exists()) {
-                        val fd = resources.openRawResourceFd(R.raw.alarm)
-                        setDataSource(fd.fileDescriptor, fd.startOffset, fd.length)
+            if (alarm.volume > 0) {
+                //获取音量
+                val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
+                val maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+                val currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+                Log.d(TAG, "maxVolume=$maxVolume, currentVolume=$currentVolume")
+                //设置音量
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (maxVolume * alarm.volume / 100), 0)
+                //播放音乐
+                alarmPlayer = MediaPlayer().apply {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        val audioAttributes = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()
+                        setAudioAttributes(audioAttributes)
                     } else {
-                        setDataSource(alarm.music)
+                        // 对于 Android 5.0 之前的版本，使用 setAudioStreamType
+                        val audioStreamType = AudioManager.STREAM_ALARM
+                        setAudioStreamType(audioStreamType)
                     }
 
-                    setOnPreparedListener {
-                        Log.d(TAG, "MediaPlayer prepared")
-                        start()
-                        alarmPlayTimes++
-                        //更新通知栏
-                        updateNotification(alarm.description, R.drawable.auto_task_icon_alarm, true)
-                    }
+                    try {
+                        if (alarm.music.isEmpty() || !File(alarm.music).exists()) {
+                            val fd = resources.openRawResourceFd(R.raw.alarm)
+                            setDataSource(fd.fileDescriptor, fd.startOffset, fd.length)
+                        } else {
+                            setDataSource(alarm.music)
+                        }
 
-                    setOnCompletionListener {
-                        Log.d(TAG, "MediaPlayer completed")
-                        if (alarm.playTimes == 0 || alarmPlayTimes < alarm.playTimes) {
+                        setOnPreparedListener {
+                            Log.d(TAG, "MediaPlayer prepared")
                             start()
                             alarmPlayTimes++
-                        } else {
-                            stop()
-                            reset()
-                            release()
-                            alarmPlayer = null
-                            alarmPlayTimes = 0
-                            //恢复音量
-                            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0)
-                            //恢复通知栏
-                            updateNotification(SettingUtils.notifyContent)
+                            //更新通知栏
+                            updateNotification(alarm.description, R.drawable.auto_task_icon_alarm, true)
                         }
-                    }
 
-                    setOnErrorListener { _, what, extra ->
-                        Log.e(TAG, "MediaPlayer error: what=$what, extra=$extra")
-                        release()
-                        return@setOnErrorListener true
-                    }
+                        setOnCompletionListener {
+                            Log.d(TAG, "MediaPlayer completed")
+                            if (alarm.playTimes == 0 || alarmPlayTimes < alarm.playTimes) {
+                                start()
+                                alarmPlayTimes++
+                            } else {
+                                stop()
+                                reset()
+                                release()
+                                alarmPlayer = null
+                                alarmPlayTimes = 0
+                                //恢复音量
+                                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0)
+                                //恢复通知栏
+                                updateNotification(SettingUtils.notifyContent)
+                            }
+                        }
 
-                    setVolume(alarm.volume / 100F, alarm.volume / 100F)
-                    prepareAsync()
-                } catch (e: Exception) {
-                    Log.e(TAG, "MediaPlayer Exception: ${e.message}")
+                        setOnErrorListener { _, what, extra ->
+                            Log.e(TAG, "MediaPlayer error: what=$what, extra=$extra")
+                            release()
+                            return@setOnErrorListener true
+                        }
+
+                        setVolume(alarm.volume / 100F, alarm.volume / 100F)
+                        prepareAsync()
+                    } catch (e: Exception) {
+                        Log.e(TAG, "MediaPlayer Exception: ${e.message}")
+                    }
                 }
+            }
+            //振动提醒
+            if (alarm.repeatTimes > 0) {
+                isVibrating = true
+                val patternString = alarm.vibrate.repeat(alarm.repeatTimes)
+                vibrationUtils.startVibration(patternString)
             }
         }
     }
@@ -176,7 +196,11 @@ class ForegroundService : Service() {
         //纯客户端模式
         if (SettingUtils.enablePureClientMode) return
 
+        //创建通知渠道
         createNotificationChannel()
+
+        //初始化振动
+        vibrationUtils = VibrationUtils(this)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -292,6 +316,10 @@ class ForegroundService : Service() {
             isRunning = false
             alarmPlayer?.release()
             alarmPlayer = null
+            //停止振动
+            if (vibrationUtils.isVibrating) {
+                vibrationUtils.stopVibration()
+            }
         } catch (e: Exception) {
             handleException(e, "stopForegroundService")
         }

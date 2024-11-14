@@ -973,8 +973,8 @@
     <string name="task_rule_tips">Control the enable/disable of "Rules"</string>
     <string name="task_sender">Channels On/Off</string>
     <string name="task_sender_tips">Control the enable/disable of "Senders"</string>
-    <string name="task_alarm">Alarm</string>
-    <string name="task_alarm_tips">Alarm</string>
+    <string name="task_alarm">Alarm Reminder</string>
+    <string name="task_alarm_tips">Play music/vibrate phone to remind</string>
     <string name="task_resend">Resend Message</string>
     <string name="task_resend_tips">Resend forwarded records since N hours ago, 0=ALL</string>
     <string name="task_resend_desc" formatted="false">Resend forwarding records since %s hours ago for %s</string>
@@ -1124,11 +1124,19 @@
 
     <string name="start_alarm">Start Alarm</string>
     <string name="stop_alarm">Stop Alarm</string>
-    <string name="alarm_play_settings">Playback Settings</string>
+    <string name="alarm_play_settings">Play Music</string>
     <string name="alarm_music">Specify Music</string>
     <string name="alarm_music_tips">Opt., download mp3/ogg/wav to the Download directory.</string>
     <string name="alarm_volume">Alarm Volume</string>
     <string name="alarm_play_times">Play Times(0=Infinite)</string>
+    <string name="alarm_vibrate_settings">Vibrate Phone</string>
+    <string name="alarm_repeat_times">Repeat Times</string>
+    <string name="alarm_vibration_effect">Vibration Effect</string>
+    <string name="alarm_vibration_effect_tips">Syntax: =[strong], -[weak], _[no], 100ms each</string>
+    <string name="alarm_vibration_effect_1">Strong vibration</string>
+    <string name="alarm_vibration_effect_2">Weak vibration</string>
+    <string name="alarm_vibration_effect_3">No vibration</string>
+    <string name="alarm_settings_error">At least one of Play Music/Vibrate Phone must be enabled</string>
 
     <string name="invalid_tag" formatted="false">%s tag is invalid: %s</string>
     <string name="invalid_task_name">Please input task name.</string>

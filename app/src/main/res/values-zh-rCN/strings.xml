@@ -974,8 +974,8 @@
     <string name="task_rule_tips">控制【转发规则】的启用/禁用</string>
     <string name="task_sender">启停通道</string>
     <string name="task_sender_tips">控制【发送通道】的启用/禁用</string>
-    <string name="task_alarm">声音警报</string>
-    <string name="task_alarm_tips">声音警报</string>
+    <string name="task_alarm">警报提醒</string>
+    <string name="task_alarm_tips">播放音乐/振动手机提醒</string>
     <string name="task_resend">重发消息</string>
     <string name="task_resend_tips">自动重发N小时以来的转发记录，0=全部</string>
     <string name="task_resend_desc" formatted="false">自动重发%s小时以来%s的转发记录</string>
@@ -1125,11 +1125,19 @@
 
     <string name="start_alarm">启动警报</string>
     <string name="stop_alarm">停止警报</string>
-    <string name="alarm_play_settings">播放设置</string>
+    <string name="alarm_play_settings">播放音乐</string>
     <string name="alarm_music">指定音乐</string>
     <string name="alarm_music_tips">可选，下载 mp3/ogg/wav 到 Download 目录</string>
     <string name="alarm_volume">播放音量</string>
     <string name="alarm_play_times">播放次数(0=无限)</string>
+    <string name="alarm_vibrate_settings">振动手机</string>
+    <string name="alarm_repeat_times">重复次数</string>
+    <string name="alarm_vibration_effect">振动效果</string>
+    <string name="alarm_vibration_effect_tips">语法：=[强振动], -[弱震动], _[不振动], 每次100ms</string>
+    <string name="alarm_vibration_effect_1">强振动 100ms</string>
+    <string name="alarm_vibration_effect_2">弱振动 100ms</string>
+    <string name="alarm_vibration_effect_3">不振动 100ms</string>
+    <string name="alarm_settings_error">播放音乐/振动手机必须至少开启一个</string>
 
     <string name="invalid_tag" formatted="false">%s 标签无效：%s</string>
     <string name="invalid_task_name">请输入任务名称</string>
