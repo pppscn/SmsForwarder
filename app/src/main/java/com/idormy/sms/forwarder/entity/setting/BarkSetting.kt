@@ -27,4 +27,6 @@ data class BarkSetting(
     val iv: String = "",
     //持续提醒
     val call: String = "",
+    //自动复制模板
+    val autoCopy: String = "",
 ) : Serializable

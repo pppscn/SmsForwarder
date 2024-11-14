@@ -412,6 +412,7 @@
     <string name="GotifyWebServer">WebServer</string>
     <string name="GotifyWebServerTips"><![CDATA[例：https://push.ppps.cn/message?token=<apptoken>]]></string>
     <string name="title_template">标题模板</string>
+    <string name="auto_copy">自动复制</string>
     <string name="priority">优先级（1 – 9）</string>
     <string name="dingtalk_robot">钉钉群机器人</string>
     <string name="dingtalk_inner_robot">钉钉企业机器人</string>

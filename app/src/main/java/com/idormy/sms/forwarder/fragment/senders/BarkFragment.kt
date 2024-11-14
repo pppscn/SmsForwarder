@@ -183,6 +183,10 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
         binding!!.btInsertExtra.setOnClickListener(this)
         binding!!.btInsertTime.setOnClickListener(this)
         binding!!.btInsertDeviceName.setOnClickListener(this)
+        binding!!.btInsertSenderApp.setOnClickListener(this)
+        binding!!.btInsertUid.setOnClickListener(this)
+        binding!!.btInsertTitleApp.setOnClickListener(this)
+        binding!!.btInsertContentApp.setOnClickListener(this)
         binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
@@ -193,6 +197,7 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
     override fun onClick(v: View) {
         try {
             val etTitleTemplate: EditText = binding!!.etTitleTemplate
+            val etAutoCopyTemplate: EditText = binding!!.etAutoCopyTemplate
             when (v.id) {
                 R.id.bt_insert_sender -> {
                     CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_from))
@@ -211,6 +216,26 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
 
                 R.id.bt_insert_device_name -> {
                     CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_device_name))
+                    return
+                }
+
+                R.id.bt_insert_sender_app -> {
+                    CommonUtils.insertOrReplaceText2Cursor(etAutoCopyTemplate, getString(R.string.tag_package_name))
+                    return
+                }
+
+                R.id.bt_insert_uid -> {
+                    CommonUtils.insertOrReplaceText2Cursor(etAutoCopyTemplate, getString(R.string.tag_uid))
+                    return
+                }
+
+                R.id.bt_insert_title_app -> {
+                    CommonUtils.insertOrReplaceText2Cursor(etAutoCopyTemplate, getString(R.string.tag_title))
+                    return
+                }
+
+                R.id.bt_insert_content_app -> {
+                    CommonUtils.insertOrReplaceText2Cursor(etAutoCopyTemplate, getString(R.string.tag_msg))
                     return
                 }
 
@@ -290,6 +315,7 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
             throw Exception(getString(R.string.invalid_bark_url))
         }
         val title = binding!!.etTitleTemplate.text.toString().trim()
+        val autoCopy = binding!!.etAutoCopyTemplate.text.toString().trim()
         val key = binding!!.etEncryptionKey.text.toString().trim()
         val iv = binding!!.etEncryptionIv.text.toString().trim()
         if (transformation.startsWith("AES128") && key.length != 16) {
@@ -303,7 +329,7 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
             throw Exception(getString(R.string.bark_encryption_key_error4))
         }
 
-        return BarkSetting(server, group, icon, sound, badge, url, barkLevel, title, transformation, key, iv, call)
+        return BarkSetting(server, group, icon, sound, badge, url, barkLevel, title, transformation, key, iv, call, autoCopy)
     }
 
     override fun onDestroyView() {

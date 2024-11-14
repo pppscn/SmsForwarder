@@ -411,6 +411,7 @@
     <string name="GotifyWebServer">WebServer</string>
     <string name="GotifyWebServerTips"><![CDATA[eg.: https://push.ppps.cn/message?token=<apptoken>]]></string>
     <string name="title_template">Title Template</string>
+    <string name="auto_copy">Auto Copy</string>
     <string name="priority">Priority（1 – 9）</string>
     <string name="dingtalk_robot">Dingtalk Group Bot</string>
     <string name="dingtalk_inner_robot">Dingtalk Inner Bot</string>
