@@ -155,7 +155,7 @@
                             android:textStyle="bold" />
 
                         <com.xuexiang.xui.widget.picker.XSeekBar
-                            android:id="@+id/xsb_loop_times"
+                            android:id="@+id/xsb_play_times"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"

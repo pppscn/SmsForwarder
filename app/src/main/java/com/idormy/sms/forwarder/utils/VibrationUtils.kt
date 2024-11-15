@@ -12,13 +12,15 @@ class VibrationUtils(context: Context) {
 
     private val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     private val handler = Handler(Looper.getMainLooper())
+    private var currentRepeat = 0
     var isVibrating = false
         private set
 
-    fun startVibration(patternString: String) {
+    fun startVibration(patternString: String, repeatTimes: Int) {
         isVibrating = true
+        currentRepeat = 0
         val parsedPattern = parsePattern(patternString)
-        vibratePattern(parsedPattern, 0)
+        vibratePattern(parsedPattern, 0, repeatTimes)
     }
 
     fun stopVibration() {
@@ -55,7 +57,7 @@ class VibrationUtils(context: Context) {
         return Triple(duration, intensity > 0, intensity)
     }
 
-    private fun vibratePattern(parsedPattern: List<Triple<Long, Boolean, Int>>, index: Int) {
+    private fun vibratePattern(parsedPattern: List<Triple<Long, Boolean, Int>>, index: Int, repeatTimes: Int) {
         if (isVibrating && index < parsedPattern.size) {
             val (duration, shouldVibrate, intensity) = parsedPattern[index]
             if (shouldVibrate) {
@@ -69,7 +71,16 @@ class VibrationUtils(context: Context) {
             handler.postDelayed({
                 if (isVibrating) {
                     vibrator.cancel()
-                    vibratePattern(parsedPattern, index + 1)
+                    if (index + 1 < parsedPattern.size) {
+                        vibratePattern(parsedPattern, index + 1, repeatTimes)
+                    } else {
+                        currentRepeat++
+                        if (repeatTimes == 0 || currentRepeat < repeatTimes) {
+                            vibratePattern(parsedPattern, 0, repeatTimes) // Restart pattern
+                        } else {
+                            stopVibration()
+                        }
+                    }
                 }
             }, duration)
         }

@@ -111,7 +111,7 @@ class ForegroundService : Service() {
         alarmPlayer = null
         if (alarm.action == "start") {
             //播放音乐
-            if (alarm.volume > 0) {
+            if (alarm.playTimes >= 0) {
                 //获取音量
                 val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
                 val maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
@@ -178,10 +178,9 @@ class ForegroundService : Service() {
                 }
             }
             //振动提醒
-            if (alarm.repeatTimes > 0) {
+            if (alarm.repeatTimes >= 0) {
                 isVibrating = true
-                val patternString = alarm.vibrate.repeat(alarm.repeatTimes)
-                vibrationUtils.startVibration(patternString)
+                vibrationUtils.startVibration(alarm.vibrate, alarm.repeatTimes)
             }
         }
     }

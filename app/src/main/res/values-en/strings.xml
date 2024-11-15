@@ -1131,7 +1131,7 @@
     <string name="alarm_volume">Alarm Volume</string>
     <string name="alarm_play_times">Play Times(0=Infinite)</string>
     <string name="alarm_vibrate_settings">Vibrate Phone</string>
-    <string name="alarm_repeat_times">Repeat Times</string>
+    <string name="alarm_repeat_times">Repeat Times(0=Infinite)</string>
     <string name="alarm_vibration_effect">Vibration Effect</string>
     <string name="alarm_vibration_effect_tips">Syntax: =[strong], -[weak], _[no], 100ms each</string>
     <string name="alarm_vibration_effect_1">Strong vibration</string>

@@ -86,29 +86,11 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
         })
 
         binding!!.sbEnableMusic.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                binding!!.layoutAlarmSettingsContent.visibility = View.VISIBLE
-                val volume = binding!!.xsbVolume.selectedNumber
-                if (volume == 0) {
-                    binding!!.xsbVolume.setDefaultValue(80)
-                }
-            } else {
-                binding!!.layoutAlarmSettingsContent.visibility = View.GONE
-                binding!!.xsbVolume.setDefaultValue(0)
-            }
+            binding!!.layoutAlarmSettingsContent.visibility = if (isChecked) View.VISIBLE else View.GONE
             checkSetting(true)
         }
         binding!!.sbEnableVibrate.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                binding!!.layoutVibrateSettingsContent.visibility = View.VISIBLE
-                val repeatTimes = binding!!.xsbRepeatTimes.selectedNumber
-                if (repeatTimes == 0) {
-                    binding!!.xsbRepeatTimes.setDefaultValue(5)
-                }
-            } else {
-                binding!!.layoutVibrateSettingsContent.visibility = View.GONE
-                binding!!.xsbRepeatTimes.setDefaultValue(0)
-            }
+            binding!!.layoutVibrateSettingsContent.visibility = if (isChecked) View.VISIBLE else View.GONE
             checkSetting(true)
         }
 
@@ -128,12 +110,12 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
             }
         }
         binding!!.xsbVolume.setDefaultValue(settingVo.volume)
-        binding!!.xsbLoopTimes.setDefaultValue(settingVo.playTimes)
+        binding!!.xsbPlayTimes.setDefaultValue(if (settingVo.playTimes >= 0) settingVo.playTimes else 0)
         binding!!.etMusicPath.setText(settingVo.music)
-        binding!!.xsbRepeatTimes.setDefaultValue(settingVo.repeatTimes)
+        binding!!.xsbRepeatTimes.setDefaultValue(if (settingVo.repeatTimes >= 0) settingVo.repeatTimes else 0)
         binding!!.etVibrationEffect.setText(settingVo.vibrate)
-        binding!!.sbEnableMusic.isChecked = settingVo.volume > 0
-        binding!!.sbEnableVibrate.isChecked = settingVo.repeatTimes > 0
+        binding!!.sbEnableMusic.isChecked = settingVo.playTimes >= 0
+        binding!!.sbEnableVibrate.isChecked = settingVo.repeatTimes >= 0
     }
 
     override fun onDestroyView() {
@@ -150,7 +132,7 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
         binding!!.xsbVolume.setOnSeekBarListener { _, _ ->
             checkSetting(true)
         }
-        binding!!.xsbLoopTimes.setOnSeekBarListener { _, _ ->
+        binding!!.xsbPlayTimes.setOnSeekBarListener { _, _ ->
             checkSetting(true)
         }
         binding!!.rgAlarmState.setOnCheckedChangeListener { _, checkedId ->
@@ -222,7 +204,7 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
                             try {
                                 val settingVo = checkSetting()
                                 Log.d(TAG, settingVo.toString())
-                                if (settingVo.volume == 0 && settingVo.repeatTimes == 0) {
+                                if (settingVo.playTimes < 0 && settingVo.repeatTimes < 0) {
                                     XToastUtils.error(getString(R.string.alarm_settings_error))
                                     return
                                 }
@@ -265,7 +247,7 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
                         @SuppressLint("SetTextI18n")
                         override fun onGranted(permissions: List<String>, all: Boolean) {
                             val settingVo = checkSetting()
-                            if (settingVo.volume == 0 && settingVo.repeatTimes == 0) {
+                            if (settingVo.playTimes < 0 && settingVo.repeatTimes < 0) {
                                 XToastUtils.error(getString(R.string.alarm_settings_error))
                                 return
                             }
@@ -304,24 +286,28 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
         val enableMusic = binding!!.sbEnableMusic.isChecked
         val enableVibrate = binding!!.sbEnableVibrate.isChecked
         val volume = binding!!.xsbVolume.selectedNumber
-        val loopTimes = binding!!.xsbLoopTimes.selectedNumber
+        var playTimes = binding!!.xsbPlayTimes.selectedNumber
         val music = binding!!.etMusicPath.text.toString().trim()
-        val repeatTimes = binding!!.xsbRepeatTimes.selectedNumber
+        var repeatTimes = binding!!.xsbRepeatTimes.selectedNumber
         val vibrationEffect = binding!!.etVibrationEffect.text.toString().trim()
         val description = StringBuilder()
         val action = if (binding!!.rgAlarmState.checkedRadioButtonId == R.id.rb_start_alarm) {
             description.append(getString(R.string.start_alarm))
             if (enableMusic) {
                 description.append(", ").append(getString(R.string.alarm_volume)).append(":").append(volume).append("%")
-                description.append(", ").append(getString(R.string.alarm_play_times)).append(":").append(loopTimes)
+                description.append(", ").append(getString(R.string.alarm_play_times)).append(":").append(playTimes)
                 if (music.isNotEmpty()) {
                     description.append(", ").append(getString(R.string.alarm_music)).append(":").append(music)
                 }
+            } else {
+                playTimes = -1
             }
             if (enableVibrate) {
                 vibrationEffect.ifEmpty { "---___===___".also { binding!!.etVibrationEffect.setText(it) } }
                 description.append(", ").append(getString(R.string.alarm_vibration_effect)).append(":").append(vibrationEffect)
                 description.append(", ").append(getString(R.string.alarm_repeat_times)).append(":").append(repeatTimes)
+            } else {
+                repeatTimes = -1
             }
             "start"
         } else {
@@ -333,7 +319,7 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
             binding!!.tvDescription.text = description.toString()
         }
 
-        return AlarmSetting(description.toString(), action, volume, loopTimes, music, repeatTimes, vibrationEffect)
+        return AlarmSetting(description.toString(), action, volume, playTimes, music, repeatTimes, vibrationEffect)
     }
 
     private fun findAudioFiles(directoryPath: String): List<String> {

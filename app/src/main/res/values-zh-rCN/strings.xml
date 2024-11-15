@@ -1132,7 +1132,7 @@
     <string name="alarm_volume">播放音量</string>
     <string name="alarm_play_times">播放次数(0=无限)</string>
     <string name="alarm_vibrate_settings">振动手机</string>
-    <string name="alarm_repeat_times">重复次数</string>
+    <string name="alarm_repeat_times">重复次数(0=无限)</string>
     <string name="alarm_vibration_effect">振动效果</string>
     <string name="alarm_vibration_effect_tips">语法：=[强振动], -[弱震动], _[不振动], 每次100ms</string>
     <string name="alarm_vibration_effect_1">强振动 100ms</string>
