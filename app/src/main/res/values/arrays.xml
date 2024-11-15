@@ -127,6 +127,7 @@
         <item>\@sina.cn</item>
         <item>\@139.com</item>
         <item>\@189.cn</item>
+        <item>\@icloud.com</item>
         <item>@string/other_mail_type</item><!--注意这里不能修改-->
     </string-array>
 

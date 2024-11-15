@@ -3,14 +3,16 @@ package com.idormy.sms.forwarder.utils.mail
 import android.text.Html
 import android.text.Spanned
 import com.idormy.sms.forwarder.utils.Log
+import com.sun.mail.util.MailSSLSocketFactory
+import jakarta.mail.Authenticator
+import jakarta.mail.PasswordAuthentication
 import org.bouncycastle.openpgp.PGPPublicKeyRing
 import org.bouncycastle.openpgp.PGPSecretKeyRing
 import java.io.File
 import java.security.PrivateKey
 import java.security.cert.X509Certificate
 import java.util.Properties
-import javax.mail.Authenticator
-import javax.mail.PasswordAuthentication
+
 
 @Suppress("PrivatePropertyName", "DEPRECATION")
 class EmailSender(
@@ -32,7 +34,6 @@ class EmailSender(
     private val listener: EmailTaskListener? = null,
     // 安全选项
     private val openSSL: Boolean = false, //是否开启ssl验证 默认关闭
-    private val sslFactory: String = "javax.net.ssl.SSLSocketFactory", //SSL构建类名
     private val startTls: Boolean = false, //是否开启starttls加密方式 默认关闭
     // 邮件加密方式: S/MIME、OpenPGP、Plain（不传证书）
     private val encryptionProtocol: String = "S/MIME",
@@ -58,7 +59,11 @@ class EmailSender(
         // 设置是否启用 SSL 连接
         if (openSSL) {
             put("mail.smtp.ssl.enable", "true")
-            put("mail.smtp.socketFactory.class", sslFactory)
+            // 使用 TLSv1.2 协议 & 信任所有主机
+            val sf = MailSSLSocketFactory("TLSv1.2")
+            sf.setTrustedHosts("*")
+            put("mail.smtp.ssl.socketFactory", sf)
+            put("mail.smtp.ssl.protocols", "TLSv1.2")
         }
         // 设置是否启用 TLS 连接
         if (startTls) {

@@ -137,6 +137,14 @@ class EmailUtils {
                     setting.fromEmail += setting.mailType
                 }
 
+                "@icloud.com" -> {
+                    setting.host = "smtp.mail.me.com"
+                    setting.port = "587"
+                    setting.ssl = false
+                    setting.startTls = true
+                    setting.fromEmail += setting.mailType
+                }
+
                 else -> {}
             }
 

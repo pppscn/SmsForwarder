@@ -1,6 +1,17 @@
 package com.idormy.sms.forwarder.utils.mail
 
 import com.idormy.sms.forwarder.utils.Log
+import jakarta.activation.DataHandler
+import jakarta.activation.FileDataSource
+import jakarta.mail.Authenticator
+import jakarta.mail.Message
+import jakarta.mail.Session
+import jakarta.mail.Transport
+import jakarta.mail.internet.InternetAddress
+import jakarta.mail.internet.MimeBodyPart
+import jakarta.mail.internet.MimeMessage
+import jakarta.mail.internet.MimeMultipart
+import jakarta.mail.internet.MimeUtility
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.bouncycastle.cert.jcajce.JcaCertStore
@@ -24,17 +35,7 @@ import java.security.Security
 import java.security.cert.X509Certificate
 import java.util.Date
 import java.util.Properties
-import javax.activation.DataHandler
-import javax.activation.FileDataSource
-import javax.mail.Authenticator
-import javax.mail.Message
-import javax.mail.Session
-import javax.mail.Transport
-import javax.mail.internet.InternetAddress
-import javax.mail.internet.MimeBodyPart
-import javax.mail.internet.MimeMessage
-import javax.mail.internet.MimeMultipart
-import javax.mail.internet.MimeUtility
+
 
 @Suppress("PrivatePropertyName")
 class SmimeUtils(

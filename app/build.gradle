@@ -346,9 +346,10 @@ dependencies {
     //语种切换框架：https://github.com/getActivity/MultiLanguages
     implementation 'com.github.getActivity:MultiLanguages:b47f7be' //9.3
 
-    def mail_version = '1.6.7'
-    implementation "com.sun.mail:android-mail:$mail_version"
-    implementation "com.sun.mail:android-activation:$mail_version"
+    // https://jakartaee.github.io/mail-api/Android
+    def mail_version = '2.0.1'
+    implementation "com.sun.mail:jakarta.mail:$mail_version"
+    implementation "com.sun.activation:jakarta.activation:$mail_version"
 
     //国密算法SM4 的JAVA实现(基于BC实现)
     def bouncycastle_version = '1.77'
