@@ -4,7 +4,6 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.RadioGroup
 import androidx.fragment.app.viewModels
 import com.google.gson.Gson
@@ -95,6 +94,9 @@ class PushplusFragment : BaseFragment<FragmentSendersPushplusBinding?>(), View.O
             }
         })
 
+        //创建标签按钮
+        CommonUtils.createTagButtons(requireContext(), binding!!.glTitleTemplate, binding!!.etTitleTemplate)
+
         //新增
         if (senderId <= 0) {
             titleBar?.setSubTitle(getString(R.string.add_sender))
@@ -143,10 +145,6 @@ class PushplusFragment : BaseFragment<FragmentSendersPushplusBinding?>(), View.O
     }
 
     override fun initListeners() {
-        binding!!.btInsertSender.setOnClickListener(this)
-        binding!!.btInsertExtra.setOnClickListener(this)
-        binding!!.btInsertTime.setOnClickListener(this)
-        binding!!.btInsertDeviceName.setOnClickListener(this)
         binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
@@ -165,27 +163,7 @@ class PushplusFragment : BaseFragment<FragmentSendersPushplusBinding?>(), View.O
     @SingleClick
     override fun onClick(v: View) {
         try {
-            val etTitleTemplate: EditText = binding!!.etTitleTemplate
             when (v.id) {
-                R.id.bt_insert_sender -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_from))
-                    return
-                }
-
-                R.id.bt_insert_extra -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_card_slot))
-                    return
-                }
-
-                R.id.bt_insert_time -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_receive_time))
-                    return
-                }
-
-                R.id.bt_insert_device_name -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_device_name))
-                    return
-                }
 
                 R.id.btn_test -> {
                     mCountDownHelper?.start()

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
-import android.widget.EditText
 import android.widget.RadioGroup
 import androidx.fragment.app.viewModels
 import com.google.gson.Gson
@@ -19,7 +18,15 @@ import com.idormy.sms.forwarder.database.viewmodel.SenderViewModel
 import com.idormy.sms.forwarder.databinding.FragmentSendersDingtalkInnerRobotBinding
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.DingtalkInnerRobotSetting
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.CommonUtils
+import com.idormy.sms.forwarder.utils.EVENT_TOAST_ERROR
+import com.idormy.sms.forwarder.utils.KEY_SENDER_CLONE
+import com.idormy.sms.forwarder.utils.KEY_SENDER_ID
+import com.idormy.sms.forwarder.utils.KEY_SENDER_TEST
+import com.idormy.sms.forwarder.utils.KEY_SENDER_TYPE
+import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.SettingUtils
+import com.idormy.sms.forwarder.utils.XToastUtils
 import com.idormy.sms.forwarder.utils.sender.DingtalkInnerRobotUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
@@ -35,7 +42,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.net.Proxy
-import java.util.*
+import java.util.Date
 
 @Page(name = "钉钉企业机器人")
 @Suppress("PrivatePropertyName")
@@ -90,6 +97,9 @@ class DingtalkInnerRobotFragment : BaseFragment<FragmentSendersDingtalkInnerRobo
             }
         })
 
+        //创建标签按钮
+        CommonUtils.createTagButtons(requireContext(), binding!!.glTitleTemplate, binding!!.etTitleTemplate)
+
         //新增
         if (senderId <= 0) {
             titleBar?.setSubTitle(getString(R.string.add_sender))
@@ -137,10 +147,6 @@ class DingtalkInnerRobotFragment : BaseFragment<FragmentSendersDingtalkInnerRobo
     }
 
     override fun initListeners() {
-        binding!!.btInsertSender.setOnClickListener(this)
-        binding!!.btInsertExtra.setOnClickListener(this)
-        binding!!.btInsertTime.setOnClickListener(this)
-        binding!!.btInsertDeviceName.setOnClickListener(this)
         binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
@@ -176,27 +182,7 @@ class DingtalkInnerRobotFragment : BaseFragment<FragmentSendersDingtalkInnerRobo
     @SingleClick
     override fun onClick(v: View) {
         try {
-            val etTitleTemplate: EditText = binding!!.etTitleTemplate
             when (v.id) {
-                R.id.bt_insert_sender -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_from))
-                    return
-                }
-
-                R.id.bt_insert_extra -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_card_slot))
-                    return
-                }
-
-                R.id.bt_insert_time -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_receive_time))
-                    return
-                }
-
-                R.id.bt_insert_device_name -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_device_name))
-                    return
-                }
 
                 R.id.btn_test -> {
                     mCountDownHelper?.start()

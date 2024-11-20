@@ -4,7 +4,6 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.fragment.app.viewModels
 import com.google.gson.Gson
 import com.google.gson.JsonParser
@@ -105,6 +104,10 @@ class FeishuAppFragment : BaseFragment<FragmentSendersFeishuAppBinding?>(), View
             }
         }
 
+        //创建标签按钮
+        CommonUtils.createTagButtons(requireContext(), binding!!.glTitleTemplate, binding!!.etTitleTemplate)
+        CommonUtils.createTagButtons(requireContext(), binding!!.glMessageCard, binding!!.etMessageCard)
+
         //新增
         if (senderId <= 0) {
             titleBar?.setSubTitle(getString(R.string.add_sender))
@@ -150,15 +153,6 @@ class FeishuAppFragment : BaseFragment<FragmentSendersFeishuAppBinding?>(), View
     }
 
     override fun initListeners() {
-        binding!!.btInsertSenderToTitle.setOnClickListener(this)
-        binding!!.btInsertExtraToTitle.setOnClickListener(this)
-        binding!!.btInsertTimeToTitle.setOnClickListener(this)
-        binding!!.btInsertDeviceNameToTitle.setOnClickListener(this)
-        binding!!.btInsertSender.setOnClickListener(this)
-        binding!!.btInsertContent.setOnClickListener(this)
-        binding!!.btInsertExtra.setOnClickListener(this)
-        binding!!.btInsertTime.setOnClickListener(this)
-        binding!!.btInsertDeviceName.setOnClickListener(this)
         binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
@@ -168,53 +162,7 @@ class FeishuAppFragment : BaseFragment<FragmentSendersFeishuAppBinding?>(), View
     @SingleClick
     override fun onClick(v: View) {
         try {
-            val etTitleTemplate: EditText = binding!!.etTitleTemplate
-            val etMessageCard: EditText = binding!!.etMessageCard
             when (v.id) {
-                R.id.bt_insert_sender_to_title -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_from))
-                    return
-                }
-
-                R.id.bt_insert_extra_to_title -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_card_slot))
-                    return
-                }
-
-                R.id.bt_insert_time_to_title -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_receive_time))
-                    return
-                }
-
-                R.id.bt_insert_device_name_to_title -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_device_name))
-                    return
-                }
-
-                R.id.bt_insert_sender -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etMessageCard, getString(R.string.tag_from))
-                    return
-                }
-
-                R.id.bt_insert_content -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etMessageCard, getString(R.string.tag_sms))
-                    return
-                }
-
-                R.id.bt_insert_extra -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etMessageCard, getString(R.string.tag_card_slot))
-                    return
-                }
-
-                R.id.bt_insert_time -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etMessageCard, getString(R.string.tag_receive_time))
-                    return
-                }
-
-                R.id.bt_insert_device_name -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etMessageCard, getString(R.string.tag_device_name))
-                    return
-                }
 
                 R.id.btn_test -> {
                     mCountDownHelper?.start()

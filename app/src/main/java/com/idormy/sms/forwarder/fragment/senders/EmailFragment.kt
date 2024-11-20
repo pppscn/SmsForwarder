@@ -166,6 +166,10 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
             }
         }
 
+        //创建标签按钮
+        CommonUtils.createTagButtons(requireContext(), binding!!.glTitleTemplate, binding!!.etTitleTemplate)
+        CommonUtils.createTagButtons(requireContext(), binding!!.glNickname, binding!!.etNickname)
+
         //新增
         if (senderId <= 0) {
             titleBar?.setSubTitle(getString(R.string.add_sender))
@@ -237,14 +241,6 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
     }
 
     override fun initListeners() {
-        binding!!.btInsertSenderToNickname.setOnClickListener(this)
-        binding!!.btInsertExtraToNickname.setOnClickListener(this)
-        binding!!.btInsertTimeToNickname.setOnClickListener(this)
-        binding!!.btInsertDeviceNameToNickname.setOnClickListener(this)
-        binding!!.btInsertSender.setOnClickListener(this)
-        binding!!.btInsertExtra.setOnClickListener(this)
-        binding!!.btInsertTime.setOnClickListener(this)
-        binding!!.btInsertDeviceName.setOnClickListener(this)
         binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
@@ -260,48 +256,7 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
     @SingleClick
     override fun onClick(v: View) {
         try {
-            val etNickname: EditText = binding!!.etNickname
-            val etTitleTemplate: EditText = binding!!.etTitleTemplate
             when (v.id) {
-                R.id.bt_insert_sender_to_nickname -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etNickname, getString(R.string.tag_from))
-                    return
-                }
-
-                R.id.bt_insert_extra_to_nickname -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etNickname, getString(R.string.tag_card_slot))
-                    return
-                }
-
-                R.id.bt_insert_time_to_nickname -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etNickname, getString(R.string.tag_receive_time))
-                    return
-                }
-
-                R.id.bt_insert_device_name_to_nickname -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etNickname, getString(R.string.tag_device_name))
-                    return
-                }
-
-                R.id.bt_insert_sender -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_from))
-                    return
-                }
-
-                R.id.bt_insert_extra -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_card_slot))
-                    return
-                }
-
-                R.id.bt_insert_time -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_receive_time))
-                    return
-                }
-
-                R.id.bt_insert_device_name -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_device_name))
-                    return
-                }
 
                 R.id.btn_test -> {
                     mCountDownHelper?.start()

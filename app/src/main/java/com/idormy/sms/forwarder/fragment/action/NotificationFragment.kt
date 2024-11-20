@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.CompoundButton
-import android.widget.EditText
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -156,6 +155,9 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
 
         //初始化发送通道下拉框
         initSenderSpinner()
+
+        //创建标签按钮
+        CommonUtils.createTagButtons(requireContext(), binding!!.glSmsTemplate, binding!!.etSmsTemplate, ruleType)
     }
 
     override fun onDestroyView() {
@@ -165,15 +167,6 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
 
     override fun initListeners() {
         binding!!.btnSilentPeriod.setOnClickListener(this)
-        binding!!.btInsertSender.setOnClickListener(this)
-        binding!!.btInsertContent.setOnClickListener(this)
-        binding!!.btInsertSenderApp.setOnClickListener(this)
-        binding!!.btInsertUid.setOnClickListener(this)
-        binding!!.btInsertTitleApp.setOnClickListener(this)
-        binding!!.btInsertContentApp.setOnClickListener(this)
-        binding!!.btInsertExtra.setOnClickListener(this)
-        binding!!.btInsertTime.setOnClickListener(this)
-        binding!!.btInsertDeviceName.setOnClickListener(this)
         binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
@@ -213,7 +206,6 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
     @SingleClick
     override fun onClick(v: View) {
         try {
-            val etSmsTemplate: EditText = binding!!.etSmsTemplate
             when (v.id) {
                 R.id.btn_silent_period -> {
                     OptionsPickerBuilder(context, OnOptionsSelectListener { _: View?, options1: Int, options2: Int, _: Int ->
@@ -227,51 +219,6 @@ class NotificationFragment : BaseFragment<FragmentTasksActionNotificationBinding
                         it.setNPicker(mTimeOption, mTimeOption)
                         it.show()
                     }
-                }
-
-                R.id.bt_insert_sender -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_from))
-                    return
-                }
-
-                R.id.bt_insert_content -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_sms))
-                    return
-                }
-
-                R.id.bt_insert_sender_app -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_package_name))
-                    return
-                }
-
-                R.id.bt_insert_uid -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_uid))
-                    return
-                }
-
-                R.id.bt_insert_title_app -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_title))
-                    return
-                }
-
-                R.id.bt_insert_content_app -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_msg))
-                    return
-                }
-
-                R.id.bt_insert_extra -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_card_slot))
-                    return
-                }
-
-                R.id.bt_insert_time -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_receive_time))
-                    return
-                }
-
-                R.id.bt_insert_device_name -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_device_name))
-                    return
                 }
 
                 R.id.btn_test -> {

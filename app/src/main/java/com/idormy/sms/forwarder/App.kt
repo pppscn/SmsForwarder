@@ -93,6 +93,15 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
 
+        //自定义模板可用变量标签
+        var COMMON_TAG_MAP: MutableMap<String, String> = mutableMapOf()
+        var SMS_TAG_MAP: MutableMap<String, String> = mutableMapOf()
+        var CALL_TAG_MAP: MutableMap<String, String> = mutableMapOf()
+        var APP_TAG_MAP: MutableMap<String, String> = mutableMapOf()
+        var LOCATION_TAG_MAP: MutableMap<String, String> = mutableMapOf()
+        var BATTERY_TAG_MAP: MutableMap<String, String> = mutableMapOf()
+        var NETWORK_TAG_MAP: MutableMap<String, String> = mutableMapOf()
+
         //通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
         var CALL_TYPE_MAP: MutableMap<String, String> = mutableMapOf()
         var FILED_MAP: MutableMap<String, String> = mutableMapOf()
@@ -389,6 +398,74 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
     //多语言切换时枚举常量自动切换语言
     private fun switchLanguage(newLocale: Locale) {
         isNeedSpaceBetweenWords = !newLocale.language.contains("zh")
+
+        //自定义模板可用变量标签
+        COMMON_TAG_MAP.clear()
+        COMMON_TAG_MAP.putAll(
+            mapOf(
+                getString(R.string.tag_receive_time) to getString(R.string.insert_tag_receive_time),
+                getString(R.string.tag_current_time) to getString(R.string.insert_tag_current_time),
+                getString(R.string.tag_device_name) to getString(R.string.insert_tag_device_name),
+                getString(R.string.tag_app_version) to getString(R.string.insert_tag_app_version),
+            )
+        )
+        SMS_TAG_MAP.clear()
+        SMS_TAG_MAP.putAll(
+            mapOf(
+                getString(R.string.tag_from) to getString(R.string.insert_tag_from),
+                getString(R.string.tag_sms) to getString(R.string.insert_tag_sms),
+                getString(R.string.tag_card_slot) to getString(R.string.insert_tag_card_slot),
+                getString(R.string.tag_card_subid) to getString(R.string.insert_tag_card_subid),
+            )
+        )
+        CALL_TAG_MAP.clear()
+        CALL_TAG_MAP.putAll(
+            mapOf(
+                getString(R.string.tag_from) to getString(R.string.insert_tag_from),
+                getString(R.string.tag_sms) to getString(R.string.insert_tag_msg),
+                getString(R.string.tag_card_slot) to getString(R.string.insert_tag_card_slot),
+                getString(R.string.tag_card_subid) to getString(R.string.insert_tag_card_subid),
+                getString(R.string.tag_call_type) to getString(R.string.insert_tag_call_type),
+            )
+        )
+        APP_TAG_MAP.clear()
+        APP_TAG_MAP.putAll(
+            mapOf(
+                getString(R.string.tag_uid) to getString(R.string.insert_tag_uid),
+                getString(R.string.tag_package_name) to getString(R.string.insert_tag_package_name),
+                getString(R.string.tag_app_name) to getString(R.string.insert_tag_app_name),
+                getString(R.string.tag_title) to getString(R.string.insert_tag_title),
+                getString(R.string.tag_msg) to getString(R.string.insert_tag_msg),
+            )
+        )
+        LOCATION_TAG_MAP.clear()
+        LOCATION_TAG_MAP.putAll(
+            mapOf(
+                getString(R.string.tag_location) to getString(R.string.insert_tag_location),
+                getString(R.string.tag_location_longitude) to getString(R.string.insert_tag_location_longitude),
+                getString(R.string.tag_location_latitude) to getString(R.string.insert_tag_location_latitude),
+                getString(R.string.tag_location_address) to getString(R.string.insert_tag_location_address),
+            )
+        )
+        BATTERY_TAG_MAP.clear()
+        BATTERY_TAG_MAP.putAll(
+            mapOf(
+                getString(R.string.tag_battery_pct) to getString(R.string.insert_tag_battery_pct),
+                getString(R.string.tag_battery_status) to getString(R.string.insert_tag_battery_status),
+                getString(R.string.tag_battery_plugged) to getString(R.string.insert_tag_battery_plugged),
+                getString(R.string.tag_battery_info) to getString(R.string.insert_tag_battery_info),
+                getString(R.string.tag_battery_info_simple) to getString(R.string.insert_tag_battery_info_simple),
+            )
+        )
+        NETWORK_TAG_MAP.clear()
+        NETWORK_TAG_MAP.putAll(
+            mapOf(
+                getString(R.string.tag_ipv4) to getString(R.string.insert_tag_ipv4),
+                getString(R.string.tag_ipv6) to getString(R.string.insert_tag_ipv6),
+                getString(R.string.tag_ip_list) to getString(R.string.insert_tag_ip_list),
+                getString(R.string.tag_net_type) to getString(R.string.insert_tag_net_type),
+            )
+        )
 
         CALL_TYPE_MAP.clear()
         CALL_TYPE_MAP.putAll(

@@ -230,35 +230,13 @@
                     android:singleLine="true"
                     app:met_clearButton="true" />
 
-                <LinearLayout
+                <GridLayout
+                    android:id="@+id/gl_title_template"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                        android:id="@+id/bt_insert_sender"
-                        style="@style/insertButtonStyle"
-                        android:text="@string/insert_sender" />
-
-                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                        android:id="@+id/bt_insert_extra"
-                        style="@style/insertButtonStyle"
-                        android:layout_marginStart="5dp"
-                        android:text="@string/insert_extra" />
-
-                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                        android:id="@+id/bt_insert_time"
-                        style="@style/insertButtonStyle"
-                        android:layout_marginStart="5dp"
-                        android:text="@string/insert_time" />
-
-                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                        android:id="@+id/bt_insert_device_name"
-                        style="@style/insertButtonStyle"
-                        android:layout_marginStart="5dp"
-                        android:text="@string/insert_device_name" />
-
-                </LinearLayout>
+                    android:layout_gravity="center"
+                    android:columnCount="4"
+                    android:orientation="horizontal" />
 
             </LinearLayout>
 

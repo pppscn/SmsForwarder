@@ -77,7 +77,7 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
         mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 2)
         mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
             override fun onCountDown(time: Int) {
-                binding!!.btnTest.text = String.format(getString(R.string.seconds_n), time.toString())
+                binding!!.btnTest.text = String.format(getString(R.string.seconds_n), time)
             }
 
             override fun onFinished() {

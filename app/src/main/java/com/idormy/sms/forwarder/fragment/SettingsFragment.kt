@@ -221,11 +221,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         binding!!.btnExtraDeviceMark.setOnClickListener(this)
         binding!!.btnExtraSim1.setOnClickListener(this)
         binding!!.btnExtraSim2.setOnClickListener(this)
-        binding!!.btInsertSender.setOnClickListener(this)
-        binding!!.btInsertContent.setOnClickListener(this)
-        binding!!.btInsertExtra.setOnClickListener(this)
-        binding!!.btInsertTime.setOnClickListener(this)
-        binding!!.btInsertDeviceName.setOnClickListener(this)
         binding!!.btnExportLog.setOnClickListener(this)
 
         //监听已安装App信息列表加载完成事件
@@ -235,7 +230,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     @SuppressLint("SetTextI18n")
     @SingleClick
     override fun onClick(v: View) {
-        val etSmsTemplate: EditText = binding!!.etSmsTemplate
         when (v.id) {
             R.id.btn_silent_period -> {
                 OptionsPickerBuilder(context, OnOptionsSelectListener { _: View?, options1: Int, options2: Int, _: Int ->
@@ -301,37 +295,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 val simInfo: SimInfo? = App.SimInfoList[1]
                 binding!!.etSubidSim2.setText(simInfo?.mSubscriptionId.toString())
                 binding!!.etExtraSim2.setText(simInfo?.mCarrierName.toString() + "_" + simInfo?.mNumber.toString())
-                return
-            }
-
-            R.id.bt_insert_sender -> {
-                CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_from))
-                return
-            }
-
-            R.id.bt_insert_content -> {
-                CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_sms))
-                return
-            }
-
-            R.id.bt_insert_extra -> {
-                CommonUtils.insertOrReplaceText2Cursor(
-                    etSmsTemplate, getString(R.string.tag_card_slot)
-                )
-                return
-            }
-
-            R.id.bt_insert_time -> {
-                CommonUtils.insertOrReplaceText2Cursor(
-                    etSmsTemplate, getString(R.string.tag_receive_time)
-                )
-                return
-            }
-
-            R.id.bt_insert_device_name -> {
-                CommonUtils.insertOrReplaceText2Cursor(
-                    etSmsTemplate, getString(R.string.tag_device_name)
-                )
                 return
             }
 
@@ -1098,6 +1061,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //设置转发信息模版
     private fun editSmsTemplate(textSmsTemplate: EditText) {
+        //创建标签按钮
+        CommonUtils.createTagButtons(requireContext(), binding!!.glSmsTemplate, textSmsTemplate, "all")
         textSmsTemplate.setText(SettingUtils.smsTemplate)
         textSmsTemplate.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
