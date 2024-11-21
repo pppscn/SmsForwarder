@@ -382,7 +382,7 @@ class CommonUtils private constructor() {
             // 遍历所有按钮数据，过滤掉需要排除的按钮
             allButtons.forEach { (tag, lable) ->
                 if (excludeSet.isNotEmpty() && excludeSet.contains(tag)) {
-                    allButtons.remove(tag)
+                    return@forEach
                 }
 
                 val button = TextView(context).apply {

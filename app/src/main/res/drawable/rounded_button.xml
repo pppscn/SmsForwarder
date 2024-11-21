@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 按下时的背景 -->
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="#1E88E5" /> <!-- 按下时的深蓝背景色 -->
+            <corners android:radius="3dp" /> <!-- 圆角半径 -->
+            <stroke android:width="1dp" android:color="#1565C0" /> <!-- 边框深蓝色 -->
+        </shape>
+    </item>
+
+    <!-- 默认背景 -->
+    <item>
+        <shape>
+            <solid android:color="#2196F3" /> <!-- 默认浅蓝背景色 -->
+            <corners android:radius="3dp" /> <!-- 圆角半径 -->
+            <stroke android:width="1dp" android:color="#1E88E5" /> <!-- 边框蓝色 -->
+        </shape>
+    </item>
+</selector>
