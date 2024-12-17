@@ -217,6 +217,7 @@
     <string name="invalid_match_value">匹配的值不可為空</string>
     <string name="invalid_call_type">通話類型不正確，只能填寫1到6的任意一個數字</string>
     <!--SenderActivity-->
+    <string name="sun">星期日</string>
     <string name="delete_sender_title">發送通道操作確認</string>
     <string name="delete_sender_tips">刪除發送通道後會級聯刪除其相關的轉發規則、轉發日誌的所有記錄！\n\n確定刪除該條發送通道？</string>
     <string name="delete_sender_toast">該條發送通道已經刪除！</string>
@@ -1175,4 +1176,10 @@
     <string name="start_discovery">搜索裝置</string>
     <string name="invalid_bluetooth_mac_address">藍牙裝置MAC地址無效，例如：AA:BB:CC:DD:EE:FF</string>
     <string name="auto_start_redmi"><![CDATA[紅米手機：授權管理 -> 自啟動管理 -> 允許應用自啟動]]></string>
+    <string name="mon">星期一</string>
+    <string name="tue">星期二</string>
+    <string name="wed">星期三</string>
+    <string name="thu">星期四</string>
+    <string name="fri">星期五</string>
+    <string name="sat">星期六</string>
 </resources>
