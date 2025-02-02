@@ -51,6 +51,7 @@ import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.callback.DownloadProgressCallBack
 import com.xuexiang.xhttp2.exception.ApiException
+import com.xuexiang.xui.XUI.getContext
 import com.xuexiang.xui.utils.ResUtils
 import com.xuexiang.xui.utils.ThemeUtils
 import com.xuexiang.xui.utils.ViewUtils
@@ -207,10 +208,6 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(), DrawerAdapter.OnItemS
     private fun initSlidingMenu(savedInstanceState: Bundle?) {
         mSlidingRootNav = SlidingRootNavBuilder(this).withGravity(if (ResUtils.isRtl(this)) SlideGravity.RIGHT else SlideGravity.LEFT).withMenuOpened(false).withContentClickableWhenMenuOpened(false).withSavedState(savedInstanceState).withMenuLayout(R.layout.menu_left_drawer).inject()
         mLLMenu = mSlidingRootNav.layout.findViewById(R.id.ll_menu)
-        //val ivQrcode = mSlidingRootNav.layout.findViewById<AppCompatImageView>(R.id.iv_qrcode)
-        //ivQrcode.setOnClickListener { openNewPage(SettingsFragment::class.java) }
-        //val ivSetting = mSlidingRootNav.layout.findViewById<AppCompatImageView>(R.id.iv_setting)
-        //ivSetting.setOnClickListener { openNewPage(SettingsFragment::class.java) }
         ViewUtils.setVisibility(mLLMenu, false)
         mAdapter = DrawerAdapter(
             mutableListOf(
@@ -243,25 +240,6 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(), DrawerAdapter.OnItemS
 
             override fun onDragEnd(isMenuOpened: Boolean) {
                 ViewUtils.setVisibility(mLLMenu, isMenuOpened)
-                /*if (isMenuOpened) {
-                    if (!GuideCaseView.isShowOnce(this@MainActivity, getString(R.string.guide_key_sliding_root_navigation))) {
-                        val guideStep1 = GuideCaseView.Builder(this@MainActivity)
-                            .title("点击进入，可切换主题样式哦～～")
-                            .titleSize(18, TypedValue.COMPLEX_UNIT_SP)
-                            .focusOn(ivSetting)
-                            .build()
-                        val guideStep2 = GuideCaseView.Builder(this@MainActivity)
-                            .title("点击进入，扫码关注哦～～")
-                            .titleSize(18, TypedValue.COMPLEX_UNIT_SP)
-                            .focusOn(ivQrcode)
-                            .build()
-                        GuideCaseQueue()
-                            .add(guideStep1)
-                            .add(guideStep2)
-                            .show()
-                        GuideCaseView.setShowOnce(this@MainActivity, getString(R.string.guide_key_sliding_root_navigation))
-                    }
-                }*/
             }
         })
     }
@@ -302,14 +280,26 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(), DrawerAdapter.OnItemS
             }
 
             POS_APPS -> {
-                if (App.UserAppList.isEmpty() && App.SystemAppList.isEmpty()) {
-                    XToastUtils.info(getString(R.string.loading_app_list))
-                    val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
-                    WorkManager.getInstance(this).enqueue(request)
-                    needToAppListFragment = true
-                    return
-                }
-                openNewPage(AppListFragment::class.java)
+                //检查读取应用列表权限是否获取
+                XXPermissions.with(this).permission(Permission.GET_INSTALLED_APPS).request(object : OnPermissionCallback {
+                    override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
+                        if (App.UserAppList.isEmpty() && App.SystemAppList.isEmpty()) {
+                            XToastUtils.info(getString(R.string.loading_app_list))
+                            val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
+                            WorkManager.getInstance(getContext()).enqueue(request)
+                            needToAppListFragment = true
+                            return
+                        }
+                        openNewPage(AppListFragment::class.java)
+                    }
+
+                    override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
+                        XToastUtils.error(R.string.tips_get_installed_apps)
+                        if (doNotAskAgain) {
+                            XXPermissions.startPermissionActivity(getContext(), permissions)
+                        }
+                    }
+                })
             }
 
             POS_HELP -> AgentWebActivity.goWeb(this, getString(R.string.url_help))

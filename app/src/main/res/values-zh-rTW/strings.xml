@@ -380,6 +380,7 @@
     <string name="appicon">應用圖標</string>
     <string name="user_app">用戶應用</string>
     <string name="system_app">系統應用</string>
+    <string name="tips_get_installed_apps">請先授予獲取應用列表權限</string>
     <string name="tips_notification">請先授予發送通知權限，有利於《簡訊轉發器》保活！</string>
     <string name="tips_notification_listener">請先授予《簡訊轉發器》通知使用權，否則無法轉發應用程式通知，已經自動關閉轉發！</string>
     <string name="pushplus_website">官網地址</string>
