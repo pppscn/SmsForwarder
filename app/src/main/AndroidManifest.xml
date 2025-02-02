@@ -7,6 +7,7 @@
         android:name="android.hardware.telephony"
         android:required="false" />
 
+    <uses-permission android:name="com.android.permission.GET_INSTALLED_APPS" />
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
@@ -157,10 +158,6 @@
                 <data android:scheme="https" />
                 <data android:scheme="about" />
                 <data android:scheme="javascript" />
-                <!--   设置自己的deeplink   -->
-                <!--                <data-->
-                <!--                    android:host="xxx.com"-->
-                <!--                    android:scheme="xui"/>-->
             </intent-filter>
             <!-- AppLink -->
             <intent-filter

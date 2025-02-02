@@ -413,6 +413,7 @@
     <string name="appicon">应用图标</string>
     <string name="user_app">用户应用</string>
     <string name="system_app">系统应用</string>
+    <string name="tips_get_installed_apps">请先授予获取应用列表权限</string>
     <string name="tips_notification">请先授予发送通知权限，有利于《短信转发器》保活！</string>
     <string name="tips_notification_listener">请先授予《短信转发器》通知使用权，否则无法转发APP通知，已经自动关闭转发!</string>
     <string name="pushplus_website">官网地址</string>

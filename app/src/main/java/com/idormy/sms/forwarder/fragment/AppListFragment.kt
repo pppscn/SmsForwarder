@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.hjq.permissions.OnPermissionCallback
+import com.hjq.permissions.Permission
+import com.hjq.permissions.XXPermissions
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.AppListAdapter
@@ -24,11 +27,11 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
+import com.xuexiang.xui.XUI
 import com.xuexiang.xui.utils.DensityUtils
 import com.xuexiang.xui.utils.ThemeUtils
 import com.xuexiang.xui.utils.WidgetUtils
 import com.xuexiang.xui.widget.actionbar.TitleBar
-import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.resource.ResUtils.getStringArray
 
 @Suppress("PrivatePropertyName", "DEPRECATION")
@@ -91,10 +94,10 @@ class AppListFragment : BaseFragment<FragmentAppListBinding?>() {
             }
 
             override fun onRefresh(refreshLayout: RefreshLayout) {
+                appListAdapter?.refresh(getAppsList(true))
                 refreshLayout.layout.postDelayed({
-                    appListAdapter?.refresh(getAppsList(true))
                     refreshLayout.finishRefresh()
-                }, 3000)
+                }, 1000)
             }
         })
         appListAdapter?.setOnItemClickListener { _, item, _ ->
@@ -120,9 +123,21 @@ class AppListFragment : BaseFragment<FragmentAppListBinding?>() {
 
     private fun getAppsList(refresh: Boolean): MutableList<AppInfo> {
         if (refresh || (currentType == "user" && App.UserAppList.isEmpty()) || (currentType == "system" && App.SystemAppList.isEmpty())) {
-            XToastUtils.info(getString(R.string.loading_app_list))
-            val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
-            WorkManager.getInstance(XUtil.getContext()).enqueue(request)
+            //检查读取应用列表权限是否获取
+            XXPermissions.with(this).permission(Permission.GET_INSTALLED_APPS).request(object : OnPermissionCallback {
+                override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
+                    XToastUtils.info(getString(R.string.loading_app_list))
+                    val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
+                    WorkManager.getInstance(XUI.getContext()).enqueue(request)
+                }
+
+                override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
+                    XToastUtils.error(R.string.tips_get_installed_apps)
+                    if (doNotAskAgain) {
+                        XXPermissions.startPermissionActivity(XUI.getContext(), permissions)
+                    }
+                }
+            })
         }
 
         return if (currentType == "system") App.SystemAppList else App.UserAppList
