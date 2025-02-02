@@ -38,13 +38,13 @@ versions.kotlin = '1.7.21'
 
 //========xlibrary start========//
 
-versions.xui = "dev~1.2.2-SNAPSHOT"
+versions.xui = "1.2.2_250201"
 versions.xupdate = "2.1.5"
-versions.xaop = "dab6b77b2f" //1.1.0
+versions.xaop = "1.1.0"
 versions.xutil = "2.0.0"
-versions.xhttp2 = "9115cfcd5a" //2.0.9
+versions.xhttp2 = "2.0.10"
 versions.xpage = "3.3.0"
-versions.xrouter = "1.0.1"
+versions.xrouter = "1.1.0"
 
 //========xlibrary end========//
 
@@ -132,18 +132,18 @@ deps.leakcanary = "com.squareup.leakcanary:leakcanary-android:$versions.leakcana
 
 def xlibrary = [:]
 
-xlibrary.xui = "com.github.pppscn:XUI:$versions.xui" //com.github.xuexiangjys:XUI
-xlibrary.xupdate = "com.github.xuexiangjys:XUpdate:$versions.xupdate"
-xlibrary.xaop_runtime = "com.github.pppscn.XAOP:xaop-runtime:$versions.xaop" //com.github.xuexiangjys.XAOP
-xlibrary.xaop_plugin = "com.github.pppscn.XAOP:xaop-plugin:$versions.xaop" //com.github.xuexiangjys.XAOP
-xlibrary.xutil_core = "com.github.xuexiangjys.XUtil:xutil-core:$versions.xutil"
-xlibrary.xutil_sub = "com.github.xuexiangjys.XUtil:xutil-sub:$versions.xutil"
-xlibrary.xhttp2 = "com.github.pppscn:XHttp2:$versions.xhttp2" //com.github.xuexiangjys:XHttp2
-xlibrary.xpage_lib = "com.github.xuexiangjys.XPage:xpage-lib:$versions.xpage"
-xlibrary.xpage_compiler = "com.github.xuexiangjys.XPage:xpage-compiler:$versions.xpage"
-xlibrary.xrouter_runtime = "com.github.xuexiangjys.XRouter:xrouter-runtime:$versions.xrouter"
-xlibrary.xrouter_compiler = "com.github.xuexiangjys.XRouter:xrouter-compiler:$versions.xrouter"
-xlibrary.xrouter_plugin = "com.github.xuexiangjys.XRouter:xrouter-plugin:$versions.xrouter"
+xlibrary.xui = "com.github.pppscn:XUI:$versions.xui"
+xlibrary.xupdate = "com.github.pppscn:XUpdate:$versions.xupdate"
+xlibrary.xaop_runtime = "com.github.pppscn.XAOP:xaop-runtime:$versions.xaop"
+xlibrary.xaop_plugin = "com.github.pppscn.XAOP:xaop-plugin:$versions.xaop"
+xlibrary.xutil_core = "com.github.pppscn.XUtil:xutil-core:$versions.xutil"
+xlibrary.xutil_sub = "com.github.pppscn.XUtil:xutil-sub:$versions.xutil"
+xlibrary.xhttp2 = "com.github.pppscn:XHttp2:$versions.xhttp2"
+xlibrary.xpage_lib = "com.github.pppscn.XPage:xpage-lib:$versions.xpage"
+xlibrary.xpage_compiler = "com.github.pppscn.XPage:xpage-compiler:$versions.xpage"
+xlibrary.xrouter_runtime = "com.github.pppscn.XRouter:xrouter-runtime:$versions.xrouter"
+xlibrary.xrouter_compiler = "com.github.pppscn.XRouter:xrouter-compiler:$versions.xrouter"
+xlibrary.xrouter_plugin = "com.github.pppscn.XRouter:xrouter-plugin:$versions.xrouter"
 
 deps.xlibrary = xlibrary
 

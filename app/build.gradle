@@ -277,8 +277,8 @@ dependencies {
     //vLayout：https://github.com/alibaba/vlayout
     implementation 'com.alibaba.android:vlayout:1.3.0'
     //下拉刷新
-    implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-header:1.1.5'
-    implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-layout:1.1.5'
+    implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-header:1.1.4'
+    implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-layout:1.1.4'
     //WebView
     implementation 'com.github.xuexiangjys.AgentWeb:agentweb-core:1.0.1'
     implementation 'com.github.xuexiangjys.AgentWeb:agentweb-download:1.0.1'//选填
@@ -286,7 +286,7 @@ dependencies {
     implementation 'me.jessyan:autosize:1.2.1'
     //友盟统计
     implementation 'com.umeng.umsdk:common:9.6.8'
-    implementation 'com.umeng.umsdk:asms:1.8.2'
+    implementation 'com.umeng.umsdk:asms:1.8.6'
 
     //预加载占位控件
     implementation 'me.samlss:broccoli:1.0.0'
@@ -323,8 +323,8 @@ dependencies {
     implementation 'io.github.jeremyliao:live-event-bus-x:1.8.0'
 
     //MarkdownView：https://github.com/tiagohm/MarkdownView
-    implementation 'com.github.tiagohm.MarkdownView:library:0.19.0'
-    //implementation 'com.github.tiagohm.MarkdownView:emoji:0.19.0'
+    implementation 'com.github.pppscn.MarkdownView:library:0.19.0'
+    //implementation 'com.github.pppscn.MarkdownView:emoji:0.19.0'
 
     def retrofit2_version = '2.9.0'
     //noinspection GradleDependency
