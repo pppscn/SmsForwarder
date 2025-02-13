@@ -416,6 +416,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
                 getString(R.string.tag_sms) to getString(R.string.insert_tag_sms),
                 getString(R.string.tag_card_slot) to getString(R.string.insert_tag_card_slot),
                 getString(R.string.tag_card_subid) to getString(R.string.insert_tag_card_subid),
+                getString(R.string.tag_contact_name) to getString(R.string.insert_tag_contact_name),
             )
         )
         CALL_TAG_MAP.clear()
@@ -426,6 +427,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
                 getString(R.string.tag_card_slot) to getString(R.string.insert_tag_card_slot),
                 getString(R.string.tag_card_subid) to getString(R.string.insert_tag_card_subid),
                 getString(R.string.tag_call_type) to getString(R.string.insert_tag_call_type),
+                getString(R.string.tag_contact_name) to getString(R.string.insert_tag_contact_name),
             )
         )
         APP_TAG_MAP.clear()
