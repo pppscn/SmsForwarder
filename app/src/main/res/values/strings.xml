@@ -26,6 +26,7 @@
     <string name="tag_ipv6" translatable="false">{{IPV6}}</string>
     <string name="tag_ip_list" translatable="false">{{IP_LIST}}</string>
     <string name="tag_net_type" translatable="false">{{NET_TYPE}}</string>
+    <string name="tag_contact_name" translatable="false">{{CONTACT_NAME}}</string>
 
     <string name="insert_tag_from">来源号码</string>
     <string name="insert_tag_sms">短信内容</string>
@@ -54,6 +55,7 @@
     <string name="insert_tag_ipv6">公网IPv6</string>
     <string name="insert_tag_ip_list">IP地址列表</string>
     <string name="insert_tag_net_type">网络状态</string>
+    <string name="insert_tag_contact_name">来源姓名</string>
 
     <string name="type_param_sms">短信</string>
     <string name="type_param_call">通话</string>

@@ -10,6 +10,7 @@ import com.idormy.sms.forwarder.utils.AppUtils
 import com.idormy.sms.forwarder.utils.BatteryUtils
 import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.SettingUtils.Companion.enableSmsTemplate
 import com.idormy.sms.forwarder.utils.SettingUtils.Companion.extraDeviceMark
@@ -129,6 +130,7 @@ data class MsgInfo(
             )
             .replaceAppNameTag(from, encoderName)
             .replaceLocationTag(encoderName)
+            .replaceContactNameTag(encoderName)
             .regexReplace(regexReplace)
             .trim()
     }
@@ -183,6 +185,20 @@ data class MsgInfo(
         }
 
         return result
+    }
+
+    //替换{{CONTACT_NAME}}标签
+    private fun String.replaceContactNameTag(encoderName: String = ""): String {
+        if (TextUtils.isEmpty(this)) return this
+        if (this.indexOf(getString(R.string.tag_contact_name)) == -1) return this
+
+        val contacts = PhoneUtils.getContactByNumber(from)
+        var contactName = if (contacts.isNotEmpty()) contacts[0].name else getString(R.string.unknown_number)
+        when (encoderName) {
+            "Gson" -> contactName = toJsonStr(contactName)
+            "URLEncoder" -> contactName = URLEncoder.encode(contactName, "UTF-8")
+        }
+        return this.replaceTag(getString(R.string.tag_contact_name), contactName)
     }
 
     //替换{{APP名称}}标签

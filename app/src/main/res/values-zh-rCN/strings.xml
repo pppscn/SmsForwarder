@@ -27,6 +27,7 @@
     <string name="insert_tag_ipv6">公网IPv6</string>
     <string name="insert_tag_ip_list">IP地址列表</string>
     <string name="insert_tag_net_type">网络状态</string>
+    <string name="insert_tag_contact_name">来源姓名</string>
 
     <string name="type_param_sms">短信</string>
     <string name="type_param_call">通话</string>
