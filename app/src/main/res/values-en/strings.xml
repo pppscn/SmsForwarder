@@ -28,6 +28,7 @@
     <string name="insert_tag_ip_list">IP List</string>
     <string name="insert_tag_net_type">Network Status</string>
     <string name="insert_tag_contact_name">Contact Name</string>
+    <string name="insert_tag_phone_area">Phone Area</string>
 
     <string name="type_param_sms">Sms</string>
     <string name="type_param_call">Call</string>
@@ -350,6 +351,7 @@
     <string name="battery_setting">Battery Optimization</string>
     <string name="battery_setting_tips">Set it to manual management, including automatic startup, associated startup, and background running</string>
     <string name="unknown_number">Unknown Number</string>
+    <string name="unknown_area">Unknown Area</string>
     <string name="unsupport">Your phone does not support this setting</string>
     <string name="isIgnored">Set successfully!</string>
     <string name="isIgnored2">Can not directly operate the system power saving optimization Settings</string>

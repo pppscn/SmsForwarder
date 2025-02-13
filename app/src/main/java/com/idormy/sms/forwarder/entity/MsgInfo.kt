@@ -131,6 +131,7 @@ data class MsgInfo(
             .replaceAppNameTag(from, encoderName)
             .replaceLocationTag(encoderName)
             .replaceContactNameTag(encoderName)
+            .replacePhoneAreaTag(encoderName)
             .regexReplace(regexReplace)
             .trim()
     }
@@ -199,6 +200,19 @@ data class MsgInfo(
             "URLEncoder" -> contactName = URLEncoder.encode(contactName, "UTF-8")
         }
         return this.replaceTag(getString(R.string.tag_contact_name), contactName)
+    }
+
+    //替换{{PHONE_AREA}}标签
+    private fun String.replacePhoneAreaTag(encoderName: String = ""): String {
+        if (TextUtils.isEmpty(this)) return this
+        if (this.indexOf(getString(R.string.tag_phone_area)) == -1) return this
+
+        var phoneArea = PhoneUtils.getPhoneArea(from)
+        when (encoderName) {
+            "Gson" -> phoneArea = toJsonStr(phoneArea)
+            "URLEncoder" -> phoneArea = URLEncoder.encode(phoneArea, "UTF-8")
+        }
+        return this.replaceTag(getString(R.string.tag_phone_area), phoneArea)
     }
 
     //替换{{APP名称}}标签

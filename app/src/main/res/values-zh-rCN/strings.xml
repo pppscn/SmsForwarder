@@ -28,6 +28,7 @@
     <string name="insert_tag_ip_list">IP地址列表</string>
     <string name="insert_tag_net_type">网络状态</string>
     <string name="insert_tag_contact_name">来源姓名</string>
+    <string name="insert_tag_phone_area">来源归属</string>
 
     <string name="type_param_sms">短信</string>
     <string name="type_param_call">通话</string>
@@ -351,6 +352,7 @@
     <string name="battery_setting">忽略电池优化设置</string>
     <string name="battery_setting_tips">请设置为手动管理：允许自启动、允许关联启动、允许后台运行</string>
     <string name="unknown_number">未知号码</string>
+    <string name="unknown_area">未知归属地</string>
     <string name="unsupport">您的手机不支持此设置</string>
     <string name="isIgnored">已将省电优化设置为无限制(不优化)！</string>
     <string name="isIgnored2">本界面无法直接操作系统的省电优化设置</string>

@@ -29,6 +29,13 @@ import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.app.IntentUtils
 import com.xuexiang.xutil.data.DateUtils
 import com.xuexiang.xutil.resource.ResUtils.getString
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.math.min
@@ -395,6 +402,41 @@ class PhoneUtils private constructor() {
             }
 
             return contactInfoList
+        }
+
+        // 获取号码归属地
+        fun getPhoneArea(phoneNumber: String): String {
+            val client = OkHttpClient()
+            val url = "https://cx.shouji.360.cn/phonearea.php?number=$phoneNumber"
+            val request = Request.Builder().url(url).build()
+
+            var result = getString(R.string.unknown_area) // 默认值
+
+            // 使用协程来执行网络请求
+            runBlocking {
+                val job = CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        val response = client.newCall(request).execute()
+                        if (response.isSuccessful) {
+                            val responseData = response.body()?.string()
+                            Log.i(TAG, "getPhoneArea: $responseData")
+                            if (responseData != null) {
+                                val jsonObject = JSONObject(responseData)
+                                val data = jsonObject.getJSONObject("data")
+                                val province = data.getString("province")
+                                val city = data.getString("city")
+                                val sp = data.getString("sp")
+                                result = "$province $city $sp"
+                            }
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+                job.join() // 等待协程执行完毕
+            }
+
+            return result
         }
 
         //获取联系人姓名
