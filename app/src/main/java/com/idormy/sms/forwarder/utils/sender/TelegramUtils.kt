@@ -58,13 +58,29 @@ class TelegramUtils private constructor() {
 
             val request = if (setting.method == "GET") {
                 requestUrl += "?chat_id=" + setting.chatId + "&text=" + URLEncoder.encode(content, "UTF-8")
+                if (setting.parseMode.isNotEmpty() && setting.parseMode != "TEXT") {
+                    requestUrl += "&parse_mode=" + setting.parseMode
+                }
                 Log.i(TAG, "requestUrl:$requestUrl")
                 XHttp.get(requestUrl)
             } else {
                 val bodyMap: MutableMap<String, Any> = mutableMapOf()
                 bodyMap["chat_id"] = setting.chatId
-                bodyMap["text"] = content
-                bodyMap["parse_mode"] = "HTML"
+                when (setting.parseMode) {
+                    "MarkdownV2" -> {
+                        bodyMap["parse_mode"] = "MarkdownV2"
+                        bodyMap["text"] = escapeMarkdownV2(content)
+                    }
+
+                    "HTML" -> {
+                        bodyMap["parse_mode"] = "HTML"
+                        bodyMap["text"] = content
+                    }
+
+                    else -> {
+                        bodyMap["text"] = content
+                    }
+                }
                 bodyMap["disable_web_page_preview"] = "true"
                 val requestMsg: String = Gson().toJson(bodyMap)
                 Log.i(TAG, "requestMsg:$requestMsg")
@@ -154,6 +170,19 @@ class TelegramUtils private constructor() {
                 }
             }
             return buffer.toString()
+        }
+
+        // 用于转义 MarkdownV2 特殊字符的方法
+        private fun escapeMarkdownV2(text: String): String {
+            // TODO: MarkdownV2 要求转义以下字符，实测不能全部转义（丢失格式）
+            //val specialChars = listOf('_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!')
+            val specialChars = listOf('-')
+            var escapedText = text
+            for (char in specialChars) {
+                // 将每个字符替换为带反斜杠的形式
+                escapedText = escapedText.replace(char.toString(), "\\$char")
+            }
+            return escapedText
         }
     }
 }

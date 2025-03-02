@@ -309,6 +309,10 @@
     <string name="TelegramApiToken">ApiToken or Custom Proxy Address (startwith http)</string>
     <string name="TelegramChatId">ChatId</string>
     <string name="Method" formatted="false">Method</string>
+    <string name="parse_mode">Parse Mode</string>
+    <string name="parse_mode_text">Text</string>
+    <string name="parse_mode_html">Html</string>
+    <string name="parse_mode_markdown">MarkdownV2</string>
 
     <string name="SmsSimSlot">SIM Slot</string>
     <string name="same_source">Same source</string>

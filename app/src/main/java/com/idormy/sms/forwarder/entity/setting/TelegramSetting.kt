@@ -14,6 +14,7 @@ data class TelegramSetting(
     val proxyAuthenticator: Boolean = false,
     val proxyUsername: String = "",
     val proxyPassword: String = "",
+    val parseMode: String = "HTML",
 ) : Serializable {
 
     fun getMethodCheckId(): Int {
@@ -25,6 +26,14 @@ data class TelegramSetting(
             Proxy.Type.HTTP -> R.id.rb_proxyHttp
             Proxy.Type.SOCKS -> R.id.rb_proxySocks
             else -> R.id.rb_proxyNone
+        }
+    }
+
+    fun getParseModeCheckId(): Int {
+        return when (parseMode) {
+            "TEXT" -> R.id.rb_parse_mode_text
+            "MarkdownV2" -> R.id.rb_parse_mode_markdown
+            else -> R.id.rb_parse_mode_html
         }
     }
 }
