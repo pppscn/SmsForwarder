@@ -133,6 +133,7 @@ class TelegramFragment : BaseFragment<FragmentSendersTelegramBinding?>(), View.O
                     binding!!.sbProxyAuthenticator.isChecked = settingVo.proxyAuthenticator == true
                     binding!!.etProxyUsername.setText(settingVo.proxyUsername)
                     binding!!.etProxyPassword.setText(settingVo.proxyPassword)
+                    binding!!.rgParseMode.check(settingVo.getParseModeCheckId())
                 }
             }
         })
@@ -251,8 +252,13 @@ class TelegramFragment : BaseFragment<FragmentSendersTelegramBinding?>(), View.O
         }
 
         val method = if (binding!!.rgMethod.checkedRadioButtonId == R.id.rb_method_get) "GET" else "POST"
+        val parseMode = when (binding!!.rgParseMode.checkedRadioButtonId) {
+            R.id.rb_parse_mode_text -> "TEXT"
+            R.id.rb_parse_mode_markdown -> "MarkdownV2"
+            else -> "HTML"
+        }
 
-        return TelegramSetting(method, apiToken, chatId, proxyType, proxyHost, proxyPort, proxyAuthenticator, proxyUsername, proxyPassword)
+        return TelegramSetting(method, apiToken, chatId, proxyType, proxyHost, proxyPort, proxyAuthenticator, proxyUsername, proxyPassword, parseMode)
     }
 
     override fun onDestroyView() {

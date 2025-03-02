@@ -339,6 +339,10 @@
     <string name="TelegramApiToken">ApiToken 或 自定义代理地址(http开头)</string>
     <string name="TelegramChatId">被通知人(或群组)的ChatId</string>
     <string name="Method" formatted="false">请求方式</string>
+    <string name="parse_mode">解析模式</string>
+    <string name="parse_mode_text">Text</string>
+    <string name="parse_mode_html">Html</string>
+    <string name="parse_mode_markdown">MarkdownV2</string>
 
     <string name="SmsSimSlot">发送卡槽</string>
     <string name="same_source">原进原出</string>
