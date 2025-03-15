@@ -18,6 +18,8 @@ import com.idormy.sms.forwarder.utils.TASK_CONDITION_CHARGE
 import com.idormy.sms.forwarder.utils.TaskWorker
 import com.idormy.sms.forwarder.utils.task.ConditionUtils
 import com.idormy.sms.forwarder.utils.task.TaskUtils
+import com.idormy.sms.forwarder.utils.sender.WebhookUtils
+import com.idormy.sms.forwarder.entity.setting.WebhookSetting
 import java.util.Date
 
 @Suppress("PrivatePropertyName", "DEPRECATION")
@@ -154,6 +156,30 @@ class BatteryWorker(context: Context, params: WorkerParameters) : CoroutineWorke
         } catch (e: Exception) {
             Log.e(TAG, "doWork error: ${e.message}")
             return Result.failure()
+        }
+    }
+
+    private fun scheduleNextWebhookReport(setting: WebhookSetting) {
+        val delayInMinutes = setting.interval.toLong()
+        val request = OneTimeWorkRequestBuilder<BatteryWorker>()
+            .setInitialDelay(delayInMinutes, java.util.concurrent.TimeUnit.MINUTES)
+            .setInputData(
+                Data.Builder()
+                    .putInt(TaskWorker.CONDITION_TYPE, TASK_CONDITION_BATTERY)
+                    .build()
+            )
+            .build()
+        WorkManager.getInstance(applicationContext).enqueue(request)
+    }
+
+    private fun processWebhookReporting() {
+        val webhookSettings = Core.sender.getAll().filter { it.type == TYPE_WEBHOOK }
+        for (setting in webhookSettings) {
+            val webhookSetting = Gson().fromJson(setting.jsonSetting, WebhookSetting::class.java)
+            if (webhookSetting.interval > 0) {
+                WebhookUtils.sendPhoneStatus(webhookSetting)
+                scheduleNextWebhookReport(webhookSetting)
+            }
         }
     }
 

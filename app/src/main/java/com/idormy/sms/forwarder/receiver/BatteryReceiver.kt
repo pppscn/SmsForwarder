@@ -15,6 +15,9 @@ import com.idormy.sms.forwarder.utils.TASK_CONDITION_CHARGE
 import com.idormy.sms.forwarder.utils.TaskWorker
 import com.idormy.sms.forwarder.utils.task.TaskUtils
 import com.idormy.sms.forwarder.workers.BatteryWorker
+import com.idormy.sms.forwarder.utils.sender.WebhookUtils
+import com.idormy.sms.forwarder.entity.setting.WebhookSetting
+import com.idormy.sms.forwarder.core.Core
 
 @Suppress("PrivatePropertyName")
 class BatteryReceiver : BroadcastReceiver() {
@@ -83,6 +86,15 @@ class BatteryReceiver : BroadcastReceiver() {
                 .addTag(inputDataHash)
                 .build()
             WorkManager.getInstance(context).enqueueUniqueWork(inputDataHash, existingWorkPolicy, request)
+        }
+
+        // Trigger interval-based webhook reporting
+        val webhookSettings = Core.sender.getAll().filter { it.type == TYPE_WEBHOOK }
+        for (setting in webhookSettings) {
+            val webhookSetting = Gson().fromJson(setting.jsonSetting, WebhookSetting::class.java)
+            if (webhookSetting.interval > 0) {
+                WebhookUtils.sendPhoneStatus(webhookSetting)
+            }
         }
 
     }

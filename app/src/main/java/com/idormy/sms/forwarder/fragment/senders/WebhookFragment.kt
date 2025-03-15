@@ -134,6 +134,7 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
                     binding!!.etSecret.setText(settingVo.secret)
                     binding!!.etResponse.setText(settingVo.response)
                     binding!!.etWebParams.setText(settingVo.webParams)
+                    binding!!.etInterval.setText(settingVo.interval.toString()) // Initialize the interval input field
                     //set header
                     for ((key, value) in settingVo.headers) {
                         addHeaderItemLinearLayout(
@@ -256,6 +257,7 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
         val response = binding!!.etResponse.text.toString().trim()
         val webParams = binding!!.etWebParams.text.toString().trim()
         val headers = getHeadersFromHeaderItemMap(headerItemMap)
+        val interval = binding!!.etInterval.text.toString().trim().toIntOrNull() ?: 0 // Validate and retrieve the interval value
 
         val proxyType: Proxy.Type = when (binding!!.rgProxyType.checkedRadioButtonId) {
             R.id.rb_proxyHttp -> Proxy.Type.HTTP
@@ -276,7 +278,7 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
             throw Exception(getString(R.string.invalid_username_or_password))
         }
 
-        return WebhookSetting(method, webServer, secret, response, webParams, headers, proxyType, proxyHost, proxyPort, proxyAuthenticator, proxyUsername, proxyPassword)
+        return WebhookSetting(method, webServer, secret, response, webParams, headers, proxyType, proxyHost, proxyPort, proxyAuthenticator, proxyUsername, proxyPassword, interval)
     }
 
 
