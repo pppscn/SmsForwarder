@@ -38,6 +38,7 @@ import com.xuexiang.xui.widget.actionbar.TitleBar
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import java.io.File
 import java.util.Date
+import java.util.Locale
 
 @Page(name = "Alarm")
 @Suppress("PrivatePropertyName", "DEPRECATION")
@@ -103,10 +104,12 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
                 binding!!.rgAlarmState.check(R.id.rb_start_alarm)
                 binding!!.layoutAlarmSettings.visibility = View.VISIBLE
                 binding!!.layoutVibrateSettings.visibility = View.VISIBLE
+                binding!!.layoutFlashSettings.visibility = View.VISIBLE
             } else {
                 binding!!.rgAlarmState.check(R.id.rb_stop_alarm)
                 binding!!.layoutAlarmSettings.visibility = View.GONE
                 binding!!.layoutVibrateSettings.visibility = View.GONE
+                binding!!.layoutFlashSettings.visibility = View.GONE
             }
         }
         binding!!.xsbVolume.setDefaultValue(settingVo.volume)
@@ -114,8 +117,14 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
         binding!!.etMusicPath.setText(settingVo.music)
         binding!!.xsbRepeatTimes.setDefaultValue(if (settingVo.repeatTimes >= 0) settingVo.repeatTimes else 0)
         binding!!.etVibrationEffect.setText(settingVo.vibrate)
+        binding!!.xsbFlashTimes.setDefaultValue(if (settingVo.flashTimes >= 0) settingVo.flashTimes else 0)
+        binding!!.etFlashEffect.setText(settingVo.flash)
         binding!!.sbEnableMusic.isChecked = settingVo.playTimes >= 0
         binding!!.sbEnableVibrate.isChecked = settingVo.repeatTimes >= 0
+        binding!!.sbEnableFlash.isChecked = settingVo.flashTimes >= 0
+        binding!!.layoutAlarmSettingsContent.visibility = if (settingVo.playTimes >= 0) View.VISIBLE else View.GONE
+        binding!!.layoutVibrateSettingsContent.visibility = if (settingVo.repeatTimes >= 0) View.VISIBLE else View.GONE
+        binding!!.layoutFlashSettingsContent.visibility = if (settingVo.flashTimes >= 0) View.VISIBLE else View.GONE
     }
 
     override fun onDestroyView() {
@@ -135,13 +144,20 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
         binding!!.xsbPlayTimes.setOnSeekBarListener { _, _ ->
             checkSetting(true)
         }
+        binding!!.xsbRepeatTimes.setOnSeekBarListener { _, _ ->
+            checkSetting(true)
+        }
         binding!!.rgAlarmState.setOnCheckedChangeListener { _, checkedId ->
             binding!!.layoutAlarmSettings.visibility = if (checkedId == R.id.rb_start_alarm) View.VISIBLE else View.GONE
+            binding!!.layoutVibrateSettings.visibility = if (checkedId == R.id.rb_start_alarm) View.VISIBLE else View.GONE
+            binding!!.layoutFlashSettings.visibility = if (checkedId == R.id.rb_start_alarm) View.VISIBLE else View.GONE
             checkSetting(true)
         }
         binding!!.btInsertVibrationEffect1.setOnClickListener(this)
         binding!!.btInsertVibrationEffect2.setOnClickListener(this)
         binding!!.btInsertVibrationEffect3.setOnClickListener(this)
+        binding!!.btInsertFlashEffect1.setOnClickListener(this)
+        binding!!.btInsertFlashEffect2.setOnClickListener(this)
     }
 
     @SingleClick
@@ -160,6 +176,16 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
 
                 R.id.bt_insert_vibration_effect_3 -> {
                     CommonUtils.insertOrReplaceText2Cursor(binding!!.etVibrationEffect, "_")
+                    return
+                }
+
+                R.id.bt_insert_flash_effect_1 -> {
+                    CommonUtils.insertOrReplaceText2Cursor(binding!!.etFlashEffect, "X")
+                    return
+                }
+
+                R.id.bt_insert_flash_effect_2 -> {
+                    CommonUtils.insertOrReplaceText2Cursor(binding!!.etFlashEffect, "O")
                     return
                 }
 
@@ -196,15 +222,20 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
                 }
 
                 R.id.btn_test -> {
+                    val permissions = arrayListOf<String>()
+                    permissions.add(Permission.WRITE_SETTINGS)
+                    if (binding!!.sbEnableFlash.isChecked) {
+                        permissions.add(Permission.CAMERA)
+                    }
                     // 申请修改系统设置权限
-                    XXPermissions.with(this).permission(Permission.WRITE_SETTINGS).request(object : OnPermissionCallback {
+                    XXPermissions.with(this).permission(permissions).request(object : OnPermissionCallback {
                         @SuppressLint("SetTextI18n")
                         override fun onGranted(permissions: List<String>, all: Boolean) {
                             mCountDownHelper?.start()
                             try {
                                 val settingVo = checkSetting()
                                 Log.d(TAG, settingVo.toString())
-                                if (settingVo.playTimes < 0 && settingVo.repeatTimes < 0) {
+                                if (settingVo.playTimes < 0 && settingVo.repeatTimes < 0 && settingVo.flashTimes < 0) {
                                     XToastUtils.error(getString(R.string.alarm_settings_error))
                                     return
                                 }
@@ -242,12 +273,17 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
                 }
 
                 R.id.btn_save -> {
+                    val permissions = arrayListOf<String>()
+                    permissions.add(Permission.WRITE_SETTINGS)
+                    if (binding!!.sbEnableFlash.isChecked) {
+                        permissions.add(Permission.CAMERA)
+                    }
                     // 申请修改系统设置权限
-                    XXPermissions.with(this).permission(Permission.WRITE_SETTINGS).request(object : OnPermissionCallback {
+                    XXPermissions.with(this).permission(permissions).request(object : OnPermissionCallback {
                         @SuppressLint("SetTextI18n")
                         override fun onGranted(permissions: List<String>, all: Boolean) {
                             val settingVo = checkSetting()
-                            if (settingVo.playTimes < 0 && settingVo.repeatTimes < 0) {
+                            if (settingVo.playTimes < 0 && settingVo.repeatTimes < 0 && settingVo.flashTimes < 0) {
                                 XToastUtils.error(getString(R.string.alarm_settings_error))
                                 return
                             }
@@ -285,11 +321,14 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
     private fun checkSetting(updateView: Boolean = false): AlarmSetting {
         val enableMusic = binding!!.sbEnableMusic.isChecked
         val enableVibrate = binding!!.sbEnableVibrate.isChecked
+        val enableFlash = binding!!.sbEnableFlash.isChecked
         val volume = binding!!.xsbVolume.selectedNumber
         var playTimes = binding!!.xsbPlayTimes.selectedNumber
         val music = binding!!.etMusicPath.text.toString().trim()
         var repeatTimes = binding!!.xsbRepeatTimes.selectedNumber
         val vibrationEffect = binding!!.etVibrationEffect.text.toString().trim()
+        var flashTimes = binding!!.xsbFlashTimes.selectedNumber
+        var flashEffect = binding!!.etFlashEffect.text.toString().trim()
         val description = StringBuilder()
         val action = if (binding!!.rgAlarmState.checkedRadioButtonId == R.id.rb_start_alarm) {
             description.append(getString(R.string.start_alarm))
@@ -309,6 +348,14 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
             } else {
                 repeatTimes = -1
             }
+            if (enableFlash) {
+                flashEffect.ifEmpty { "XXOOXXOO".also { binding!!.etFlashEffect.setText(it) } }
+                flashEffect = flashEffect.toUpperCase(Locale.ROOT).replace("1", "X").replace("0", "O")
+                description.append(", ").append(getString(R.string.alarm_flash_effect)).append(":").append(flashEffect)
+                description.append(", ").append(getString(R.string.alarm_repeat_times)).append(":").append(flashTimes)
+            } else {
+                flashTimes = -1
+            }
             "start"
         } else {
             description.append(getString(R.string.stop_alarm))
@@ -319,7 +366,7 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
             binding!!.tvDescription.text = description.toString()
         }
 
-        return AlarmSetting(description.toString(), action, volume, playTimes, music, repeatTimes, vibrationEffect)
+        return AlarmSetting(description.toString(), action, volume, playTimes, music, repeatTimes, vibrationEffect, flashTimes, flashEffect)
     }
 
     private fun findAudioFiles(directoryPath: String): List<String> {

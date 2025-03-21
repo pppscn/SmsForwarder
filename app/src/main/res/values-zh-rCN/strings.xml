@@ -1166,7 +1166,12 @@
     <string name="alarm_vibration_effect_1">强振动 100ms</string>
     <string name="alarm_vibration_effect_2">弱振动 100ms</string>
     <string name="alarm_vibration_effect_3">不振动 100ms</string>
-    <string name="alarm_settings_error">播放音乐/振动手机必须至少开启一个</string>
+    <string name="alarm_flash_settings">闪烁手机</string>
+    <string name="alarm_flash_effect">闪光效果</string>
+    <string name="alarm_flash_effect_tips">语法：1或X[开启闪光灯], 0或O[关闭闪光灯], 每次100ms</string>
+    <string name="alarm_flash_effect_1">开启闪光灯 100ms</string>
+    <string name="alarm_flash_effect_2">关闭闪光灯 100ms</string>
+    <string name="alarm_settings_error">播放音乐/振动手机/闪烁手机必须至少开启一个</string>
 
     <string name="invalid_tag" formatted="false">%s 标签无效：%s</string>
     <string name="invalid_task_name">请输入任务名称</string>

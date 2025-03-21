@@ -1166,7 +1166,13 @@
     <string name="alarm_vibration_effect_1">強振動 100ms</string>
     <string name="alarm_vibration_effect_2">弱振動 100ms</string>
     <string name="alarm_vibration_effect_3">不振動 100ms</string>
-    <string name="alarm_settings_error">播放音樂/振動手機必須至少開啟一個</string>
+    <string name="alarm_flash_settings">閃爍手機</string>
+    <string name="alarm_flash_effect">閃光效果</string>
+    <string name="alarm_flash_effect_tips">語法：1或X[開啟閃光燈]，0或O[關閉閃光燈]，每次300毫秒</string>
+    <string name="alarm_flash_effect_1">開啟閃光燈 300毫秒</string>
+    <string name="alarm_flash_effect_2">關閉閃光燈 300毫秒</string>
+    <string name="alarm_settings_error">播放音樂/振動手機/閃爍手機必須至少開啟一個</string>
+
 
     <string name="invalid_tag" formatted="false">%s 標籤無效：%s</string>
     <string name="invalid_task_name">請輸入任務名稱</string>

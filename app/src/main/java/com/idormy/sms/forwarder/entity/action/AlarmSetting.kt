@@ -10,4 +10,6 @@ data class AlarmSetting(
     var music: String = "", //音乐文件
     var repeatTimes: Int = 5, //振动重复次数，0=无限循环，-1=禁用
     var vibrate: String = "---___===___", //振动律动：=强振动, -弱震动, _不振动, 时长都是100ms
+    var flashTimes: Int = 5, //闪烁次数，0=无限循环，-1=禁用
+    var flash: String = "XXOOXXOO", //闪烁律动：X亮灯, O灭灯, 时长都是100ms
 ) : Serializable

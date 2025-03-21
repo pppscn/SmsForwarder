@@ -1165,7 +1165,12 @@
     <string name="alarm_vibration_effect_1">Strong vibration</string>
     <string name="alarm_vibration_effect_2">Weak vibration</string>
     <string name="alarm_vibration_effect_3">No vibration</string>
-    <string name="alarm_settings_error">At least one of Play Music/Vibrate Phone must be enabled</string>
+    <string name="alarm_flash_settings">Flash Phone</string>
+    <string name="alarm_flash_effect">Flash Effect</string>
+    <string name="alarm_flash_effect_tips">Syntax: 1 or X [turn on flash], 0 or O [turn off flash], each time 100ms</string>
+    <string name="alarm_flash_effect_1">Turn on flash 100ms</string>
+    <string name="alarm_flash_effect_2">Turn off flash 100ms</string>
+    <string name="alarm_settings_error">At least one of Play Music/Vibrate Phone/Flash Phone must be enabled</string>
 
     <string name="invalid_tag" formatted="false">%s tag is invalid: %s</string>
     <string name="invalid_task_name">Please input task name.</string>

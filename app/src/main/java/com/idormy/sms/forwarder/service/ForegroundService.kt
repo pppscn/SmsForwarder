@@ -36,6 +36,7 @@ import com.idormy.sms.forwarder.utils.EXTRA_UPDATE_NOTIFICATION
 import com.idormy.sms.forwarder.utils.FRONT_CHANNEL_ID
 import com.idormy.sms.forwarder.utils.FRONT_CHANNEL_NAME
 import com.idormy.sms.forwarder.utils.FRONT_NOTIFY_ID
+import com.idormy.sms.forwarder.utils.FlashUtils
 import com.idormy.sms.forwarder.utils.INTENT_FRPC_APPLY_FILE
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SettingUtils
@@ -97,6 +98,10 @@ class ForegroundService : Service() {
     private lateinit var vibrationUtils: VibrationUtils
     private var isVibrating = false
 
+    // 闪光灯控制
+    private lateinit var flashUtils: FlashUtils
+    private var isFlash = false
+
     // 音乐播放器
     private var alarmPlayer: MediaPlayer? = null
     private var alarmPlayTimes = 0
@@ -105,6 +110,10 @@ class ForegroundService : Service() {
         //停止振动
         if (vibrationUtils.isVibrating) {
             vibrationUtils.stopVibration()
+        }
+        //停止闪光灯
+        if (flashUtils.isFlashing) {
+            flashUtils.stopFlashing()
         }
         //停止播放音乐
         alarmPlayer?.release()
@@ -182,6 +191,11 @@ class ForegroundService : Service() {
                 isVibrating = true
                 vibrationUtils.startVibration(alarm.vibrate, alarm.repeatTimes)
             }
+            //闪光灯提醒
+            if (alarm.flashTimes >= 0) {
+                isFlash = true
+                flashUtils.startFlashing(alarm.flash, alarm.flashTimes)
+            }
         }
     }
 
@@ -200,6 +214,9 @@ class ForegroundService : Service() {
 
         //初始化振动
         vibrationUtils = VibrationUtils(this)
+
+        //初始化闪光灯
+        flashUtils = FlashUtils(this)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -235,7 +252,7 @@ class ForegroundService : Service() {
     override fun onDestroy() {
         //非纯客户端模式
         if (!SettingUtils.enablePureClientMode) stopForegroundService()
-
+        flashUtils.release()
         super.onDestroy()
     }
 
@@ -318,6 +335,10 @@ class ForegroundService : Service() {
             //停止振动
             if (vibrationUtils.isVibrating) {
                 vibrationUtils.stopVibration()
+            }
+            //停止闪光灯
+            if (flashUtils.isFlashing) {
+                flashUtils.stopFlashing()
             }
         } catch (e: Exception) {
             handleException(e, "stopForegroundService")
