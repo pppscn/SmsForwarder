@@ -304,5 +304,16 @@ class WebhookUtils {
             return dateFormat.format(currentTime)
         }
 
+        fun sendPhoneStatus(setting: WebhookSetting) {
+            val msgInfo = MsgInfo(
+                type = "status",
+                from = "phone",
+                content = "Phone status update",
+                date = Date(),
+                simInfo = "SIM info"
+            )
+            sendMsg(setting, msgInfo)
+        }
+
     }
 }
