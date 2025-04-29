@@ -44,7 +44,7 @@
     <string name="insert_tag_call_type">通话类型</string>
     <string name="insert_tag_location">定位信息</string>
     <string name="insert_tag_location_longitude">定位经度</string>
-    <string name="insert_tag_location_latitude">定位维度</string>
+    <string name="insert_tag_location_latitude">定位纬度</string>
     <string name="insert_tag_location_address">定位地址</string>
     <string name="insert_tag_battery_pct">电池电量</string>
     <string name="insert_tag_battery_status">电池状态</string>
