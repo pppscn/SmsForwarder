@@ -366,6 +366,8 @@
     <string name="forward_sms_tips">请授予读取短信、通知类短信、发送短信等权限，关闭验证码保护</string>
     <string name="sms_command">短信指令</string>
     <string name="sms_command_tips">根据短信指令开关对应功能，指令格式：smsf#功能名#动作名</string>
+    <string name="close_to_earpiece_turn_off_screen">靠近听筒关屏</string>
+    <string name="close_to_earpiece_turn_off_screen_tips">手动关闭系统超时锁屏后，盖住听筒即可关屏并保持唤醒状态</string>
     <string name="safe_phone_tips">仅处理指定手机请求，多个手机以逗号分隔</string>
     <string name="forward_calls">转发通话记录</string>
     <string name="forward_calls_tips">请授予读取通话记录、联系人等权限，并选择转发类型，再开启</string>

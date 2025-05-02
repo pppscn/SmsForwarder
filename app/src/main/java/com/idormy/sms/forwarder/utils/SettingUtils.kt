@@ -47,6 +47,9 @@ class SettingUtils private constructor() {
         var enableSmsCommand: Boolean by SharedPreference(SP_ENABLE_SMS_COMMAND, false)
         var smsCommandSafePhone: String by SharedPreference(SP_SMS_COMMAND_SAFE_PHONE, "")
 
+        //是否靠近听筒关屏
+        var enableCloseToEarpieceTurnOffScreen: Boolean by SharedPreference(SP_ENABLE_CLOSE_TO_EARPIECE_TURN_OFF_SCREEN, false)
+
         //是否转发应用通知——自动消除通知
         var enableCancelAppNotify: Boolean by SharedPreference(SP_ENABLE_CANCEL_APP_NOTIFY, false)
 
