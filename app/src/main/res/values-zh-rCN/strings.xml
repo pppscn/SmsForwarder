@@ -733,7 +733,7 @@
     <string name="api_location_tips">远程查询手机定位，方便找回手机/防止老少走丢</string>
     <string name="api_location_permission_tips">请先在【通用设置】中【启用GPS定位功能】</string>
     <string name="location_longitude">经度：%s</string>
-    <string name="location_latitude">维度：%s</string>
+    <string name="location_latitude">纬度：%s</string>
     <string name="location_address">地址：%s</string>
     <string name="location_time">时间：%s</string>
     <string name="location_provider">供应商：%s</string>
@@ -1098,7 +1098,7 @@
     <string name="calc_type_distance">根据GPS坐标计算距离</string>
     <string name="calc_type_address">根据地址关键字判断</string>
     <string name="longitude">经度</string>
-    <string name="latitude">维度</string>
+    <string name="latitude">纬度</string>
     <string name="distance1">以经纬度为中心，</string>
     <string name="distance2">米半径建立电子围栏</string>
     <string name="current_coordinates">当前坐标</string>
