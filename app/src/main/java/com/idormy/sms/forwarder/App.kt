@@ -50,6 +50,7 @@ import com.idormy.sms.forwarder.utils.FRPC_LIB_VERSION
 import com.idormy.sms.forwarder.utils.HistoryUtils
 import com.idormy.sms.forwarder.utils.HttpServerUtils
 import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.ProximitySensorScreenHelper
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.SharedPreference
 import com.idormy.sms.forwarder.utils.sdkinit.UMengInit
@@ -263,7 +264,8 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
                 addAction(Intent.ACTION_USER_PRESENT)
             }
             registerReceiver(lockScreenReceiver, lockScreenFilter)
-
+            //靠近听筒关屏
+            ProximitySensorScreenHelper.refresh(this)
             //Cactus 集成双进程前台服务，JobScheduler，onePix(一像素)，WorkManager，无声音乐
             if (SettingUtils.enableCactus) {
                 //注册广播监听器

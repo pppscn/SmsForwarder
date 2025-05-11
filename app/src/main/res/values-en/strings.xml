@@ -336,6 +336,8 @@
     <string name="forward_sms_tips">Main switch, requires permissions to read and sned SMS messages, especially verification SMS texts.</string>
     <string name="sms_command">Sms Command</string>
     <string name="sms_command_tips">Open the HttpServer or FRPC by the SMS command</string>
+    <string name="close_to_earpiece_turn_off_screen">Close to the earpiece and turn off the screen</string>
+    <string name="close_to_earpiece_turn_off_screen_tips">After manually closing the system timeout lock screen, cover the earpiece to turn off the screen and maintain the wake-up state</string>
     <string name="safe_phone_tips">Only handle requests from specified phones</string>
     <string name="forward_calls">Forward Calls Log</string>
     <string name="forward_calls_tips">Main switch, requires permissions to read call log and contacts.</string>
