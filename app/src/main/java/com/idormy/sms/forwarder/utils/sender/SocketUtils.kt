@@ -84,10 +84,16 @@ class SocketUtils {
                     output.flush()
                     Log.d(TAG, "发送到服务器的消息: $message")
 
-                    // 从服务器接收响应
-                    val response = input.readLine()
-                    Log.d(TAG, "从服务器接收的响应: $response")
-                    val status = if (setting.response.isNotEmpty() && !response.contains(setting.response)) 0 else 2
+                    var status = 0
+                    var response = ""
+                    if (setting.response.isEmpty()) {
+                        status = 2
+                    }
+                    else {
+                        response = input.readLine()
+                        Log.d(TAG, "从服务器接收的响应: $response")
+                        status = if (setting.response.isNotEmpty() && !response.contains(setting.response)) 0 else 2
+                    }
                     SendUtils.updateLogs(logId, status, response)
                     SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
                 } catch (e: Exception) {
