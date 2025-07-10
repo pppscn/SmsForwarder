@@ -11,6 +11,7 @@ import com.google.gson.Gson
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.MessageDedupUtils
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.SmsCommandUtils
@@ -33,7 +34,8 @@ class SmsReceiver : BroadcastReceiver() {
             if (SettingUtils.enablePureClientMode) return
 
             //过滤广播
-            if (intent.action != Telephony.Sms.Intents.SMS_RECEIVED_ACTION
+            if (intent.action != Telephony.Sms.Intents.SMS_RECEIVED_ACTION) return
+            /*if (intent.action != Telephony.Sms.Intents.SMS_RECEIVED_ACTION
                 && intent.action != Telephony.Sms.Intents.SMS_DELIVER_ACTION
                 && intent.action != Telephony.Sms.Intents.WAP_PUSH_RECEIVED_ACTION
                 && intent.action != Telephony.Sms.Intents.WAP_PUSH_DELIVER_ACTION
@@ -59,6 +61,12 @@ class SmsReceiver : BroadcastReceiver() {
                     from = smsMessage.displayOriginatingAddress
                     msg += smsMessage.messageBody
                 }
+            }*/
+
+            val messages = Telephony.Sms.Intents.getMessagesFromIntent(intent)
+            for (smsMessage in messages) {
+                from = smsMessage.displayOriginatingAddress
+                msg += smsMessage.messageBody
             }
             Log.d(TAG, "from = $from, msg = $msg")
 
@@ -106,6 +114,12 @@ class SmsReceiver : BroadcastReceiver() {
                 else -> ""
             }
 
+            // 使用消息去重工具检查是否已处理过相同消息
+            if (MessageDedupUtils.isDuplicate(msg, from)) {
+                Log.d(TAG, "丢弃重复短信: $msg")
+                return
+            }
+            
             val msgInfo = MsgInfo("sms", from, msg, Date(), simInfo, simSlot, subscription)
             Log.d(TAG, "msgInfo = $msgInfo")
 

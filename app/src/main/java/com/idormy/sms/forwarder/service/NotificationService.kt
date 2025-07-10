@@ -13,6 +13,7 @@ import com.idormy.sms.forwarder.core.Core
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.MessageDedupUtils
 import com.idormy.sms.forwarder.utils.PACKAGE_NAME
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.Worker
@@ -90,6 +91,13 @@ class NotificationService : NotificationListenerService() {
 
             //不处理空消息（标题跟内容都为空）
             if (TextUtils.isEmpty(title) && TextUtils.isEmpty(text)) return
+            
+            // 使用消息去重工具检查是否已处理过相同消息
+            // 对于SMS通知特别检查（可能已被SmsReceiver处理）
+            if (MessageDedupUtils.isDuplicate(text, from)) {
+                Log.d(TAG, "丢弃重复通知: $text")
+                return
+            }
 
             val msgInfo = MsgInfo("app", from, text, Date(), title, -1)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
