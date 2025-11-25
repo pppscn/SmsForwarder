@@ -61,6 +61,7 @@ import com.idormy.sms.forwarder.utils.KeepAliveUtils
 import com.idormy.sms.forwarder.utils.LocationUtils
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.PhoneUtils
+import com.idormy.sms.forwarder.utils.ProximitySensorScreenHelper
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.XToastUtils
 import com.idormy.sms.forwarder.widget.GuideTipsDialog
@@ -149,6 +150,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         switchEnableLocation(binding!!.sbEnableLocation, binding!!.layoutLocationSetting, binding!!.rgAccuracy, binding!!.rgPowerRequirement, binding!!.xsbMinInterval, binding!!.xsbMinDistance)
         //短信指令
         switchEnableSmsCommand(binding!!.sbEnableSmsCommand, binding!!.etSafePhone)
+        //靠近听筒关屏
+        switchEnableCloseToEarpieceTurnOffScreen(binding!!.layoutEnableCloseToEarpieceTurnOffScreen, binding!!.sbEnableCloseToEarpieceTurnOffScreen)
         //启动时异步获取已安装App信息
         switchEnableLoadAppList(binding!!.sbEnableLoadAppList, binding!!.scbLoadUserApp, binding!!.scbLoadSystemApp)
         //设置自动消除额外APP通知
@@ -763,6 +766,23 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 SettingUtils.smsCommandSafePhone = etSafePhone.text.toString().trim().removeSuffix("\n")
             }
         })
+    }
+
+    //靠近听筒关屏
+    private fun switchEnableCloseToEarpieceTurnOffScreen(
+        layoutEnableCloseToEarpieceTurnOffScreen: View,
+        sbEnableCloseToEarpieceTurnOffScreen: SwitchButton
+    ) {
+        if (!ProximitySensorScreenHelper.isEnable()) {
+            layoutEnableCloseToEarpieceTurnOffScreen.visibility = View.GONE
+            return
+        }
+        sbEnableCloseToEarpieceTurnOffScreen.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            SettingUtils.enableCloseToEarpieceTurnOffScreen = isChecked
+            ProximitySensorScreenHelper.refresh(requireContext().applicationContext)
+        }
+        sbEnableCloseToEarpieceTurnOffScreen.isChecked =
+            SettingUtils.enableCloseToEarpieceTurnOffScreen
     }
 
     //设置自动消除额外APP通知
