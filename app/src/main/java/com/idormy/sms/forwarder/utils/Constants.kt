@@ -53,6 +53,7 @@ const val SP_CANCEL_EXTRA_APP_NOTIFY = "cancel_extra_app_notify_list"
 const val SP_ENABLE_NOT_USER_PRESENT = "enable_not_user_present"
 
 const val SP_ENABLE_SMS_COMMAND = "enable_sms_command"
+const val SP_ENABLE_CLOSE_TO_EARPIECE_TURN_OFF_SCREEN = "enable_close_2_earpiece_turn_off_screen"
 const val SP_SMS_COMMAND_SAFE_PHONE = "sms_command_safe_phone"
 
 const val ENABLE_LOAD_APP_LIST = "enable_load_app_list"
