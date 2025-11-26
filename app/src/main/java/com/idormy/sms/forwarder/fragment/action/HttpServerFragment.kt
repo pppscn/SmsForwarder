@@ -11,8 +11,9 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.google.gson.Gson
 import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
+import com.hjq.permissions.permission.base.IPermission
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentTasksActionHttpServerBinding
@@ -239,19 +240,22 @@ class HttpServerFragment : BaseFragment<FragmentTasksActionHttpServerBinding?>()
     private fun checkSendSmsPermission() {
         XXPermissions.with(this)
             // 发送短信
-            .permission(Permission.SEND_SMS).request(object : OnPermissionCallback {
-                override fun onGranted(permissions: List<String>, all: Boolean) {
-                }
-
-                override fun onDenied(permissions: List<String>, never: Boolean) {
-                    if (never) {
-                        XToastUtils.error(R.string.toast_denied_never)
-                        // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                        XXPermissions.startPermissionActivity(requireContext(), permissions)
-                    } else {
-                        XToastUtils.error(R.string.toast_denied)
+            .permission(PermissionLists.getSendSmsPermission())
+            .request(object : OnPermissionCallback {
+                override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                    val allGranted = deniedList.isEmpty()
+                    if (!allGranted) {
+                        // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                        val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                        if (doNotAskAgain) {
+                            XToastUtils.error(R.string.toast_denied_never)
+                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                        }
+                        // 处理权限请求失败的逻辑
+                        binding!!.sbApiSendSms.isChecked = false
+                        return
                     }
-                    binding!!.sbApiSendSms.isChecked = false
                 }
             })
     }
@@ -260,23 +264,26 @@ class HttpServerFragment : BaseFragment<FragmentTasksActionHttpServerBinding?>()
     private fun checkReadSmsPermission() {
         XXPermissions.with(this)
             // 接收短信
-            .permission(Permission.RECEIVE_SMS)
+            .permission(PermissionLists.getReceiveSmsPermission())
             // 发送短信
-            .permission(Permission.SEND_SMS)
+            .permission(PermissionLists.getSendSmsPermission())
             // 读取短信
-            .permission(Permission.READ_SMS).request(object : OnPermissionCallback {
-                override fun onGranted(permissions: List<String>, all: Boolean) {
-                }
-
-                override fun onDenied(permissions: List<String>, never: Boolean) {
-                    if (never) {
-                        XToastUtils.error(R.string.toast_denied_never)
-                        // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                        XXPermissions.startPermissionActivity(requireContext(), permissions)
-                    } else {
-                        XToastUtils.error(R.string.toast_denied)
+            .permission(PermissionLists.getReadSmsPermission())
+            .request(object : OnPermissionCallback {
+                override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                    val allGranted = deniedList.isEmpty()
+                    if (!allGranted) {
+                        // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                        val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                        if (doNotAskAgain) {
+                            XToastUtils.error(R.string.toast_denied_never)
+                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                        }
+                        // 处理权限请求失败的逻辑
+                        binding!!.sbApiQuerySms.isChecked = false
+                        return
                     }
-                    binding!!.sbApiQuerySms.isChecked = false
                 }
             })
     }
@@ -285,45 +292,53 @@ class HttpServerFragment : BaseFragment<FragmentTasksActionHttpServerBinding?>()
     private fun checkCallPermission() {
         XXPermissions.with(this)
             // 读取电话状态
-            .permission(Permission.READ_PHONE_STATE)
+            .permission(PermissionLists.getReadPhoneStatePermission())
             // 读取手机号码
-            .permission(Permission.READ_PHONE_NUMBERS)
+            .permission(PermissionLists.getReadPhoneNumbersPermission())
             // 读取通话记录
-            .permission(Permission.READ_CALL_LOG).request(object : OnPermissionCallback {
-                override fun onGranted(permissions: List<String>, all: Boolean) {
-                }
-
-                override fun onDenied(permissions: List<String>, never: Boolean) {
-                    if (never) {
-                        XToastUtils.error(R.string.toast_denied_never)
-                        // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                        XXPermissions.startPermissionActivity(requireContext(), permissions)
-                    } else {
-                        XToastUtils.error(R.string.toast_denied)
+            .permission(PermissionLists.getReadCallLogPermission())
+            .request(object : OnPermissionCallback {
+                override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                    val allGranted = deniedList.isEmpty()
+                    if (!allGranted) {
+                        // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                        val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                        if (doNotAskAgain) {
+                            XToastUtils.error(R.string.toast_denied_never)
+                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                        }
+                        // 处理权限请求失败的逻辑
+                        binding!!.sbApiQueryCall.isChecked = false
+                        return
                     }
-                    binding!!.sbApiQueryCall.isChecked = false
                 }
             })
     }
 
     //联系人权限
     private fun checkContactsPermission() {
-        XXPermissions.with(this).permission(*Permission.Group.CONTACTS).request(object : OnPermissionCallback {
-            override fun onGranted(permissions: List<String>, all: Boolean) {
-            }
-
-            override fun onDenied(permissions: List<String>, never: Boolean) {
-                if (never) {
-                    XToastUtils.error(R.string.toast_denied_never)
-                    // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                    XXPermissions.startPermissionActivity(requireContext(), permissions)
-                } else {
-                    XToastUtils.error(R.string.toast_denied)
+        XXPermissions.with(this)
+            .permission(PermissionLists.getReadContactsPermission())
+            .permission(PermissionLists.getWriteContactsPermission())
+            .request(object : OnPermissionCallback {
+                override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                    val allGranted = deniedList.isEmpty()
+                    if (!allGranted) {
+                        // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                        val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                        if (doNotAskAgain) {
+                            XToastUtils.error(R.string.toast_denied_never)
+                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                        }
+                        // 处理权限请求失败的逻辑
+                        binding!!.sbApiQueryContacts.isChecked = false
+                        binding!!.sbApiAddContacts.isChecked = false
+                        return
+                    }
                 }
-                binding!!.sbApiQueryContacts.isChecked = false
-                binding!!.sbApiAddContacts.isChecked = false
-            }
-        })
+            })
     }
 
 }

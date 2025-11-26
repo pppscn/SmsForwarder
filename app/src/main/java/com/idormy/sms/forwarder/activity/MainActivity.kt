@@ -14,8 +14,9 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.google.android.material.tabs.TabLayout
 import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
+import com.hjq.permissions.permission.base.IPermission
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.menu.DrawerAdapter
@@ -114,23 +115,28 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(), DrawerAdapter.OnItemS
         }
 
         //检查通知权限是否获取
-        XXPermissions.with(this).permission(Permission.NOTIFICATION_SERVICE).permission(Permission.POST_NOTIFICATIONS).request(OnPermissionCallback { _, allGranted ->
-            if (!allGranted) {
-                XToastUtils.error(R.string.tips_notification)
-                return@OnPermissionCallback
-            }
-
-            //启动前台服务
-            if (!ForegroundService.isRunning) {
-                val serviceIntent = Intent(this, ForegroundService::class.java)
-                serviceIntent.action = ACTION_START
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    startForegroundService(serviceIntent)
-                } else {
-                    startService(serviceIntent)
+        XXPermissions.with(this)
+            .permission(PermissionLists.getNotificationServicePermission())
+            .permission(PermissionLists.getPostNotificationsPermission())
+            .request(object : OnPermissionCallback {
+                override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                    val allGranted = deniedList.isEmpty()
+                    if (!allGranted) {
+                        XToastUtils.error(R.string.tips_notification)
+                        return
+                    }
+                    //启动前台服务
+                    if (!ForegroundService.isRunning) {
+                        val serviceIntent = Intent(getTopActivity(), ForegroundService::class.java)
+                        serviceIntent.action = ACTION_START
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            startForegroundService(serviceIntent)
+                        } else {
+                            startService(serviceIntent)
+                        }
+                    }
                 }
-            }
-        })
+            })
 
         //监听已安装App信息列表加载完成事件
         LiveEventBus.get(EVENT_LOAD_APP_LIST, String::class.java).observe(this) {
@@ -281,25 +287,32 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(), DrawerAdapter.OnItemS
 
             POS_APPS -> {
                 //检查读取应用列表权限是否获取
-                XXPermissions.with(this).permission(Permission.GET_INSTALLED_APPS).request(object : OnPermissionCallback {
-                    override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
-                        if (App.UserAppList.isEmpty() && App.SystemAppList.isEmpty()) {
-                            XToastUtils.info(getString(R.string.loading_app_list))
-                            val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
-                            WorkManager.getInstance(getContext()).enqueue(request)
-                            needToAppListFragment = true
-                            return
+                XXPermissions.with(this)
+                    .permission(PermissionLists.getGetInstalledAppsPermission())
+                    .request(object : OnPermissionCallback {
+                        override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                            val allGranted = deniedList.isEmpty()
+                            if (!allGranted) {
+                                // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                                val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(getTopActivity(), deniedList)
+                                if (doNotAskAgain) {
+                                    XXPermissions.startPermissionActivity(getContext(), deniedList)
+                                }
+                                // 处理权限请求失败的逻辑
+                                XToastUtils.error(R.string.tips_get_installed_apps)
+                                return
+                            }
+                            // 处理权限请求成功的逻辑
+                            if (App.UserAppList.isEmpty() && App.SystemAppList.isEmpty()) {
+                                XToastUtils.info(getString(R.string.loading_app_list))
+                                val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
+                                WorkManager.getInstance(getContext()).enqueue(request)
+                                needToAppListFragment = true
+                                return
+                            }
+                            openNewPage(AppListFragment::class.java)
                         }
-                        openNewPage(AppListFragment::class.java)
-                    }
-
-                    override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
-                        XToastUtils.error(R.string.tips_get_installed_apps)
-                        if (doNotAskAgain) {
-                            XXPermissions.startPermissionActivity(getContext(), permissions)
-                        }
-                    }
-                })
+                    })
             }
 
             POS_HELP -> AgentWebActivity.goWeb(this, getString(R.string.url_help))

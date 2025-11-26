@@ -15,8 +15,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
+import com.hjq.permissions.permission.base.IPermission
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.BluetoothRecyclerAdapter
 import com.idormy.sms.forwarder.core.BaseFragment
@@ -214,31 +215,31 @@ class BluetoothFragment : BaseFragment<FragmentTasksConditionBluetoothBinding?>(
                             .negativeText(R.string.lab_no)
                             .onPositive { _: MaterialDialog?, _: DialogAction? ->
                                 XXPermissions.with(this)
-                                    .permission(Permission.BLUETOOTH_SCAN)
-                                    .permission(Permission.BLUETOOTH_CONNECT)
-                                    .permission(Permission.BLUETOOTH_ADVERTISE)
-                                    .permission(Permission.ACCESS_FINE_LOCATION)
+                                    .permission(PermissionLists.getBluetoothScanPermission())
+                                    .permission(PermissionLists.getBluetoothConnectPermission())
+                                    .permission(PermissionLists.getBluetoothAdvertisePermission())
+                                    .permission(PermissionLists.getAccessFineLocationPermission())
                                     .request(object : OnPermissionCallback {
-                                        override fun onGranted(permissions: List<String>, all: Boolean) {
-                                            startBluetoothDiscovery()
-                                            Log.d(TAG, "onGranted: permissions=$permissions, all=$all")
-                                            if (!all) {
-                                                XToastUtils.warning(getString(R.string.toast_granted_part))
+                                        override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                                            val allGranted = deniedList.isEmpty()
+                                            if (!allGranted) {
+                                                // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                                                val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                                                if (doNotAskAgain) {
+                                                    XToastUtils.error(getString(R.string.toast_denied_never))
+                                                    // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                                    XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                                                }
+                                                // 处理权限请求失败的逻辑
+                                                XToastUtils.error(getString(R.string.toast_denied))
+                                                return
                                             }
+                                            // 处理权限请求成功的逻辑
+                                            startBluetoothDiscovery()
                                             SettingUtils.enableBluetooth = true
                                             val serviceIntent = Intent(requireContext(), BluetoothScanService::class.java)
                                             serviceIntent.action = ACTION_START
                                             requireContext().startService(serviceIntent)
-                                        }
-
-                                        override fun onDenied(permissions: List<String>, never: Boolean) {
-                                            Log.e(TAG, "onDenied: permissions=$permissions, never=$never")
-                                            if (never) {
-                                                XToastUtils.error(getString(R.string.toast_denied_never))
-                                                XXPermissions.startPermissionActivity(requireContext(), permissions)
-                                            } else {
-                                                XToastUtils.error(getString(R.string.toast_denied))
-                                            }
                                         }
                                     })
                             }.show()

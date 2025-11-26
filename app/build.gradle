@@ -286,7 +286,7 @@ dependencies {
     implementation 'me.jessyan:autosize:1.2.1'
     //友盟统计
     implementation 'com.umeng.umsdk:common:9.6.8'
-    implementation 'com.umeng.umsdk:asms:1.8.6'
+    implementation 'com.umeng.umsdk:asms:1.8.7.2'
 
     //预加载占位控件
     implementation 'me.samlss:broccoli:1.0.0'
@@ -342,9 +342,9 @@ dependencies {
     testImplementation "androidx.paging:paging-common-ktx:$paging_version"
 
     //权限请求框架：https://github.com/getActivity/XXPermissions
-    implementation 'com.github.getActivity:XXPermissions:20.0'
+    implementation 'com.github.getActivity:XXPermissions:26.8'
     //语种切换框架：https://github.com/getActivity/MultiLanguages
-    implementation 'com.github.getActivity:MultiLanguages:b47f7be' //9.3
+    implementation 'com.github.getActivity:MultiLanguages:10.0'
 
     // https://jakartaee.github.io/mail-api/Android
     def mail_version = '2.0.1'

@@ -11,8 +11,9 @@ import androidx.work.WorkManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
+import com.hjq.permissions.permission.base.IPermission
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.databinding.FragmentTasksActionSendSmsBinding
@@ -81,7 +82,8 @@ class SendSmsFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
     override fun initViews() {
         //测试按钮增加倒计时，避免重复点击
         mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, 1)
-        mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
+        mCountDownHelper!!.setOnCountDownListener(object :
+            CountDownButtonHelper.OnCountDownListener {
             override fun onCountDown(time: Int) {
                 binding!!.btnTest.text = String.format(getString(R.string.seconds_n), time)
             }
@@ -94,7 +96,8 @@ class SendSmsFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
         //卡槽信息
         val serverConfigStr = HttpServerUtils.serverConfig
         if (!TextUtils.isEmpty(serverConfigStr)) {
-            val serverConfig: ConfigData = Gson().fromJson(serverConfigStr, object : TypeToken<ConfigData>() {}.type)
+            val serverConfig: ConfigData =
+                Gson().fromJson(serverConfigStr, object : TypeToken<ConfigData>() {}.type)
             binding!!.rbSimSlot1.text = "SIM1：" + serverConfig.extraSim1
             binding!!.rbSimSlot2.text = "SIM2：" + serverConfig.extraSim2
         }
@@ -127,9 +130,10 @@ class SendSmsFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
         LiveEventBus.get(EVENT_KEY_SIM_SLOT, Int::class.java).observeSticky(this) { value: Int ->
             binding!!.rgSimSlot.check(if (value == 1) R.id.rb_sim_slot_2 else R.id.rb_sim_slot_1)
         }
-        LiveEventBus.get(EVENT_KEY_PHONE_NUMBERS, String::class.java).observeSticky(this) { value: String ->
-            binding!!.etPhoneNumbers.setText(value)
-        }
+        LiveEventBus.get(EVENT_KEY_PHONE_NUMBERS, String::class.java)
+            .observeSticky(this) { value: String ->
+                binding!!.etPhoneNumbers.setText(value)
+            }
     }
 
     @SingleClick
@@ -141,18 +145,54 @@ class SendSmsFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
 
                     //检查发送短信权限是否获取
                     XXPermissions.with(this)
-                        .permission(Permission.SEND_SMS)
+                        .permission(PermissionLists.getSendSmsPermission())
                         .request(object : OnPermissionCallback {
-                            override fun onGranted(permissions: List<String>, all: Boolean) {
+                            override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                                val allGranted = deniedList.isEmpty()
+                                if (!allGranted) {
+                                    // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                                    val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                                    if (doNotAskAgain) {
+                                        XToastUtils.error(R.string.toast_denied_never)
+                                        // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                        XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                                    }
+                                    // 处理权限请求失败的逻辑
+                                    XToastUtils.error(
+                                        getString(R.string.no_sms_sending_permission),
+                                        30000
+                                    )
+                                    return
+                                }
+
+                                // 处理权限请求成功的逻辑
                                 mCountDownHelper?.start()
                                 try {
                                     val settingVo = checkSetting()
                                     Log.d(TAG, settingVo.toString())
-                                    val taskAction = TaskSetting(TASK_ACTION_SENDSMS, getString(R.string.task_sendsms), settingVo.description, Gson().toJson(settingVo), requestCode)
+                                    val taskAction = TaskSetting(
+                                        TASK_ACTION_SENDSMS,
+                                        getString(R.string.task_sendsms),
+                                        settingVo.description,
+                                        Gson().toJson(settingVo),
+                                        requestCode
+                                    )
                                     val taskActionsJson = Gson().toJson(arrayListOf(taskAction))
-                                    val msgInfo = MsgInfo("task", getString(R.string.task_sendsms), settingVo.description, Date(), getString(R.string.task_sendsms))
-                                    val actionData = Data.Builder().putLong(TaskWorker.TASK_ID, 0).putString(TaskWorker.TASK_ACTIONS, taskActionsJson).putString(TaskWorker.MSG_INFO, Gson().toJson(msgInfo)).build()
-                                    val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
+                                    val msgInfo = MsgInfo(
+                                        "task",
+                                        getString(R.string.task_sendsms),
+                                        settingVo.description,
+                                        Date(),
+                                        getString(R.string.task_sendsms)
+                                    )
+                                    val actionData = Data.Builder().putLong(TaskWorker.TASK_ID, 0)
+                                        .putString(TaskWorker.TASK_ACTIONS, taskActionsJson)
+                                        .putString(TaskWorker.MSG_INFO, Gson().toJson(msgInfo))
+                                        .build()
+                                    val actionRequest =
+                                        OneTimeWorkRequestBuilder<ActionWorker>().setInputData(
+                                            actionData
+                                        ).build()
                                     WorkManager.getInstance().enqueue(actionRequest)
                                 } catch (e: Exception) {
                                     mCountDownHelper?.finish()
@@ -160,11 +200,6 @@ class SendSmsFragment : BaseFragment<FragmentTasksActionSendSmsBinding?>(), View
                                     Log.e(TAG, "onClick error: ${e.message}")
                                     XToastUtils.error(e.message.toString(), 30000)
                                 }
-                                return
-                            }
-
-                            override fun onDenied(permissions: List<String>, never: Boolean) {
-                                XToastUtils.error(getString(R.string.no_sms_sending_permission), 30000)
                             }
                         })
                     return

@@ -1,6 +1,5 @@
 package com.idormy.sms.forwarder.fragment.senders
 
-import android.annotation.SuppressLint
 import android.os.Environment
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -13,8 +12,9 @@ import android.widget.LinearLayout
 import androidx.fragment.app.viewModels
 import com.google.gson.Gson
 import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
+import com.hjq.permissions.permission.base.IPermission
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
 import com.idormy.sms.forwarder.core.Core
@@ -540,10 +540,24 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
     //选择证书文件
     private fun pickCert(etKeyStore: EditText) {
         XXPermissions.with(this)
-            .permission(Permission.MANAGE_EXTERNAL_STORAGE)
+            .permission(PermissionLists.getManageExternalStoragePermission())
             .request(object : OnPermissionCallback {
-                @SuppressLint("SetTextI18n")
-                override fun onGranted(permissions: List<String>, all: Boolean) {
+                override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                    val allGranted = deniedList.isEmpty()
+                    if (!allGranted) {
+                        // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                        val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                        if (doNotAskAgain) {
+                            XToastUtils.error(R.string.toast_denied_never)
+                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                        }
+                        // 处理权限请求失败的逻辑
+                        XToastUtils.error(R.string.toast_denied)
+                        return
+                    }
+
+                    // 处理权限请求成功的逻辑
                     val fileList = findSupportedFiles(downloadPath)
                     if (fileList.isEmpty()) {
                         XToastUtils.error(String.format(getString(R.string.download_certificate_first), downloadPath))
@@ -561,16 +575,6 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
                         .positiveText(R.string.select)
                         .negativeText(R.string.cancel)
                         .show()
-                }
-
-                override fun onDenied(permissions: List<String>, never: Boolean) {
-                    if (never) {
-                        XToastUtils.error(R.string.toast_denied_never)
-                        // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                        XXPermissions.startPermissionActivity(requireContext(), permissions)
-                    } else {
-                        XToastUtils.error(R.string.toast_denied)
-                    }
                 }
             })
     }
