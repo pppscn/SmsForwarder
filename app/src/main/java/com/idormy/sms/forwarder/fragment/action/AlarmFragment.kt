@@ -11,8 +11,9 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.google.gson.Gson
 import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
+import com.hjq.permissions.permission.base.IPermission
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.core.BaseFragment
@@ -191,79 +192,89 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
 
                 R.id.btn_file_picker -> {
                     // 申请储存权限
-                    XXPermissions.with(this).permission(Permission.MANAGE_EXTERNAL_STORAGE).request(object : OnPermissionCallback {
-                        @SuppressLint("SetTextI18n")
-                        override fun onGranted(permissions: List<String>, all: Boolean) {
-                            val downloadPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
-                            val fileList = findAudioFiles(downloadPath)
-                            if (fileList.isEmpty()) {
-                                XToastUtils.error(String.format(getString(R.string.download_music_first), downloadPath))
-                                return
-                            }
-                            MaterialDialog.Builder(requireContext()).title(getString(R.string.alarm_music)).content(String.format(getString(R.string.root_directory), downloadPath)).items(fileList).itemsCallbackSingleChoice(0) { _: MaterialDialog?, _: View?, _: Int, text: CharSequence ->
-                                val webPath = "$downloadPath/$text"
-                                binding!!.etMusicPath.setText(webPath)
-                                checkSetting(true)
-                                true // allow selection
-                            }.positiveText(R.string.select).negativeText(R.string.cancel).show()
-                        }
+                    XXPermissions.with(this)
+                        .permission(PermissionLists.getManageExternalStoragePermission())
+                        .request(object : OnPermissionCallback {
+                            override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                                val allGranted = deniedList.isEmpty()
+                                if (!allGranted) {
+                                    // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                                    val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                                    if (doNotAskAgain) {
+                                        XToastUtils.error(R.string.toast_denied_never)
+                                        XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                                    }
+                                    // 处理权限请求失败的逻辑
+                                    XToastUtils.error(R.string.toast_denied)
+                                    binding!!.etMusicPath.setText(getString(R.string.storage_permission_tips))
+                                    return
+                                }
 
-                        override fun onDenied(permissions: List<String>, never: Boolean) {
-                            if (never) {
-                                XToastUtils.error(R.string.toast_denied_never)
-                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                                XXPermissions.startPermissionActivity(requireContext(), permissions)
-                            } else {
-                                XToastUtils.error(R.string.toast_denied)
+                                // 处理权限请求成功的逻辑
+                                val downloadPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
+                                val fileList = findAudioFiles(downloadPath)
+                                if (fileList.isEmpty()) {
+                                    XToastUtils.error(String.format(getString(R.string.download_music_first), downloadPath))
+                                    return
+                                }
+                                MaterialDialog.Builder(requireContext()).title(getString(R.string.alarm_music)).content(String.format(getString(R.string.root_directory), downloadPath)).items(fileList).itemsCallbackSingleChoice(0) { _: MaterialDialog?, _: View?, _: Int, text: CharSequence ->
+                                    val webPath = "$downloadPath/$text"
+                                    binding!!.etMusicPath.setText(webPath)
+                                    checkSetting(true)
+                                    true // allow selection
+                                }.positiveText(R.string.select).negativeText(R.string.cancel).show()
                             }
-                            binding!!.etMusicPath.setText(getString(R.string.storage_permission_tips))
-                        }
-                    })
+                        })
                 }
 
                 R.id.btn_test -> {
-                    val permissions = arrayListOf<String>()
-                    permissions.add(Permission.WRITE_SETTINGS)
+                    val permissions = arrayListOf<IPermission>()
+                    permissions.add(PermissionLists.getWriteSettingsPermission())
                     if (binding!!.sbEnableFlash.isChecked) {
-                        permissions.add(Permission.CAMERA)
+                        permissions.add(PermissionLists.getCameraPermission())
                     }
                     // 申请修改系统设置权限
-                    XXPermissions.with(this).permission(permissions).request(object : OnPermissionCallback {
-                        @SuppressLint("SetTextI18n")
-                        override fun onGranted(permissions: List<String>, all: Boolean) {
-                            mCountDownHelper?.start()
-                            try {
-                                val settingVo = checkSetting()
-                                Log.d(TAG, settingVo.toString())
-                                if (settingVo.playTimes < 0 && settingVo.repeatTimes < 0 && settingVo.flashTimes < 0) {
-                                    XToastUtils.error(getString(R.string.alarm_settings_error))
+                    XXPermissions.with(this)
+                        .permissions(permissions)
+                        .request(object : OnPermissionCallback {
+                            override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                                val allGranted = deniedList.isEmpty()
+                                if (!allGranted) {
+                                    // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                                    val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                                    if (doNotAskAgain) {
+                                        XToastUtils.error(R.string.toast_denied_never)
+                                        XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                                    }
+                                    // 处理权限请求失败的逻辑
+                                    XToastUtils.error(R.string.toast_denied)
+                                    binding!!.tvDescription.text = getString(R.string.write_settings_permission_tips)
                                     return
                                 }
-                                val taskAction = TaskSetting(TASK_ACTION_ALARM, getString(R.string.task_alarm), settingVo.description, Gson().toJson(settingVo), requestCode)
-                                val taskActionsJson = Gson().toJson(arrayListOf(taskAction))
-                                val msgInfo = MsgInfo("task", getString(R.string.task_alarm), settingVo.description, Date(), getString(R.string.task_alarm))
-                                val actionData = Data.Builder().putLong(TaskWorker.TASK_ID, 0).putString(TaskWorker.TASK_ACTIONS, taskActionsJson).putString(TaskWorker.MSG_INFO, Gson().toJson(msgInfo)).build()
-                                val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
-                                WorkManager.getInstance().enqueue(actionRequest)
-                            } catch (e: Exception) {
-                                mCountDownHelper?.finish()
-                                e.printStackTrace()
-                                Log.e(TAG, "onClick error: ${e.message}")
-                                XToastUtils.error(e.message.toString(), 30000)
-                            }
-                        }
 
-                        override fun onDenied(permissions: List<String>, never: Boolean) {
-                            if (never) {
-                                XToastUtils.error(R.string.toast_denied_never)
-                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                                XXPermissions.startPermissionActivity(requireContext(), permissions)
-                            } else {
-                                XToastUtils.error(R.string.toast_denied)
+                                // 处理权限请求成功的逻辑
+                                mCountDownHelper?.start()
+                                try {
+                                    val settingVo = checkSetting()
+                                    Log.d(TAG, settingVo.toString())
+                                    if (settingVo.playTimes < 0 && settingVo.repeatTimes < 0 && settingVo.flashTimes < 0) {
+                                        XToastUtils.error(getString(R.string.alarm_settings_error))
+                                        return
+                                    }
+                                    val taskAction = TaskSetting(TASK_ACTION_ALARM, getString(R.string.task_alarm), settingVo.description, Gson().toJson(settingVo), requestCode)
+                                    val taskActionsJson = Gson().toJson(arrayListOf(taskAction))
+                                    val msgInfo = MsgInfo("task", getString(R.string.task_alarm), settingVo.description, Date(), getString(R.string.task_alarm))
+                                    val actionData = Data.Builder().putLong(TaskWorker.TASK_ID, 0).putString(TaskWorker.TASK_ACTIONS, taskActionsJson).putString(TaskWorker.MSG_INFO, Gson().toJson(msgInfo)).build()
+                                    val actionRequest = OneTimeWorkRequestBuilder<ActionWorker>().setInputData(actionData).build()
+                                    WorkManager.getInstance().enqueue(actionRequest)
+                                } catch (e: Exception) {
+                                    mCountDownHelper?.finish()
+                                    e.printStackTrace()
+                                    Log.e(TAG, "onClick error: ${e.message}")
+                                    XToastUtils.error(e.message.toString(), 30000)
+                                }
                             }
-                            binding!!.tvDescription.text = getString(R.string.write_settings_permission_tips)
-                        }
-                    })
+                        })
                     return
                 }
 
@@ -273,38 +284,42 @@ class AlarmFragment : BaseFragment<FragmentTasksActionAlarmBinding?>(), View.OnC
                 }
 
                 R.id.btn_save -> {
-                    val permissions = arrayListOf<String>()
-                    permissions.add(Permission.WRITE_SETTINGS)
+                    val permissions = arrayListOf<IPermission>()
+                    permissions.add(PermissionLists.getWriteSettingsPermission())
                     if (binding!!.sbEnableFlash.isChecked) {
-                        permissions.add(Permission.CAMERA)
+                        permissions.add(PermissionLists.getCameraPermission())
                     }
                     // 申请修改系统设置权限
-                    XXPermissions.with(this).permission(permissions).request(object : OnPermissionCallback {
-                        @SuppressLint("SetTextI18n")
-                        override fun onGranted(permissions: List<String>, all: Boolean) {
-                            val settingVo = checkSetting()
-                            if (settingVo.playTimes < 0 && settingVo.repeatTimes < 0 && settingVo.flashTimes < 0) {
-                                XToastUtils.error(getString(R.string.alarm_settings_error))
-                                return
+                    XXPermissions.with(this)
+                        .permissions(permissions)
+                        .request(object : OnPermissionCallback {
+                            override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                                val allGranted = deniedList.isEmpty()
+                                if (!allGranted) {
+                                    // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                                    val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                                    if (doNotAskAgain) {
+                                        XToastUtils.error(R.string.toast_denied_never)
+                                        // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                        XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                                    }
+                                    // 处理权限请求失败的逻辑
+                                    binding!!.tvDescription.text = getString(R.string.write_settings_permission_tips)
+                                    return
+                                }
+                                // 处理权限请求成功的逻辑
+                                val settingVo = checkSetting()
+                                if (settingVo.playTimes < 0 && settingVo.repeatTimes < 0 && settingVo.flashTimes < 0) {
+                                    XToastUtils.error(getString(R.string.alarm_settings_error))
+                                    return
+                                }
+                                val intent = Intent()
+                                intent.putExtra(KEY_BACK_DESCRIPTION_ACTION, settingVo.description)
+                                intent.putExtra(KEY_BACK_DATA_ACTION, Gson().toJson(settingVo))
+                                setFragmentResult(TASK_ACTION_ALARM, intent)
+                                popToBack()
                             }
-                            val intent = Intent()
-                            intent.putExtra(KEY_BACK_DESCRIPTION_ACTION, settingVo.description)
-                            intent.putExtra(KEY_BACK_DATA_ACTION, Gson().toJson(settingVo))
-                            setFragmentResult(TASK_ACTION_ALARM, intent)
-                            popToBack()
-                        }
-
-                        override fun onDenied(permissions: List<String>, never: Boolean) {
-                            if (never) {
-                                XToastUtils.error(R.string.toast_denied_never)
-                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                                XXPermissions.startPermissionActivity(requireContext(), permissions)
-                            } else {
-                                XToastUtils.error(R.string.toast_denied)
-                            }
-                            binding!!.tvDescription.text = getString(R.string.write_settings_permission_tips)
-                        }
-                    })
+                        })
                     return
                 }
             }

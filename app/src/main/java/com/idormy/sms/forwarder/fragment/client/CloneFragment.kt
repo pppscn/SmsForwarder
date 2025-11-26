@@ -11,8 +11,9 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializer
 import com.google.gson.reflect.TypeToken
 import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
+import com.hjq.permissions.permission.base.IPermission
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.activity.MainActivity
@@ -89,23 +90,27 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
     override fun initViews() {
         // 申请储存权限
         XXPermissions.with(this)
-            //.permission(*Permission.Group.STORAGE)
-            .permission(Permission.MANAGE_EXTERNAL_STORAGE).request(object : OnPermissionCallback {
+            .permission(PermissionLists.getManageExternalStoragePermission())
+            .request(object : OnPermissionCallback {
                 @SuppressLint("SetTextI18n")
-                override fun onGranted(permissions: List<String>, all: Boolean) {
+                override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                    val allGranted = deniedList.isEmpty()
+                    if (!allGranted) {
+                        // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                        val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                        if (doNotAskAgain) {
+                            XToastUtils.error(R.string.toast_denied_never)
+                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                        }
+                        // 处理权限请求失败的逻辑
+                        binding!!.tvBackupPath.text = getString(R.string.storage_permission_tips)
+                        return
+                    }
+                    // 处理权限请求成功的逻辑
                     backupPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
                     binding!!.tvBackupPath.text = backupPath + File.separator + backupFile
-                }
 
-                override fun onDenied(permissions: List<String>, never: Boolean) {
-                    if (never) {
-                        XToastUtils.error(R.string.toast_denied_never)
-                        // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                        XXPermissions.startPermissionActivity(requireContext(), permissions)
-                    } else {
-                        XToastUtils.error(R.string.toast_denied)
-                    }
-                    binding!!.tvBackupPath.text = getString(R.string.storage_permission_tips)
                 }
             })
 

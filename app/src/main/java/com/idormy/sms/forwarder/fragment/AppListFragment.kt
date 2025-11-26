@@ -10,8 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
+import com.hjq.permissions.permission.base.IPermission
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.AppListAdapter
@@ -124,20 +125,26 @@ class AppListFragment : BaseFragment<FragmentAppListBinding?>() {
     private fun getAppsList(refresh: Boolean): MutableList<AppInfo> {
         if (refresh || (currentType == "user" && App.UserAppList.isEmpty()) || (currentType == "system" && App.SystemAppList.isEmpty())) {
             //检查读取应用列表权限是否获取
-            XXPermissions.with(this).permission(Permission.GET_INSTALLED_APPS).request(object : OnPermissionCallback {
-                override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
-                    XToastUtils.info(getString(R.string.loading_app_list))
-                    val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
-                    WorkManager.getInstance(XUI.getContext()).enqueue(request)
-                }
-
-                override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
-                    XToastUtils.error(R.string.tips_get_installed_apps)
-                    if (doNotAskAgain) {
-                        XXPermissions.startPermissionActivity(XUI.getContext(), permissions)
+            XXPermissions.with(this)
+                .permission(PermissionLists.getGetInstalledAppsPermission())
+                .request(object : OnPermissionCallback {
+                    override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                        val allGranted = deniedList.isEmpty()
+                        if (!allGranted) {
+                            // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                            val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                            if (doNotAskAgain) {
+                                XXPermissions.startPermissionActivity(XUI.getContext(), deniedList)
+                            }
+                            XToastUtils.error(R.string.tips_get_installed_apps)
+                            return
+                        }
+                        // 处理权限请求成功的逻辑
+                        XToastUtils.info(getString(R.string.loading_app_list))
+                        val request = OneTimeWorkRequestBuilder<LoadAppListWorker>().build()
+                        WorkManager.getInstance(XUI.getContext()).enqueue(request)
                     }
-                }
-            })
+                })
         }
 
         return if (currentType == "system") App.SystemAppList else App.UserAppList

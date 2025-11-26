@@ -15,8 +15,9 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.google.gson.Gson
 import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
+import com.hjq.permissions.permission.base.IPermission
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.adapter.spinner.AppListAdapterItem
@@ -26,6 +27,7 @@ import com.idormy.sms.forwarder.databinding.FragmentTasksActionSettingsBinding
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.TaskSetting
 import com.idormy.sms.forwarder.entity.action.SettingsSetting
+import com.idormy.sms.forwarder.service.NotificationService
 import com.idormy.sms.forwarder.utils.CommonUtils
 import com.idormy.sms.forwarder.utils.EVENT_LOAD_APP_LIST
 import com.idormy.sms.forwarder.utils.KEY_BACK_DATA_ACTION
@@ -164,33 +166,32 @@ class SettingsFragment : BaseFragment<FragmentTasksActionSettingsBinding?>(), Vi
             if (isChecked) {
                 XXPermissions.with(this)
                     // 接收 WAP 推送消息
-                    .permission(Permission.RECEIVE_WAP_PUSH)
+                    .permission(PermissionLists.getReceiveWapPushPermission())
                     // 接收彩信
-                    .permission(Permission.RECEIVE_MMS)
+                    .permission(PermissionLists.getReceiveMmsPermission())
                     // 接收短信
-                    .permission(Permission.RECEIVE_SMS)
+                    .permission(PermissionLists.getReceiveSmsPermission())
                     // 发送短信
-                    //.permission(Permission.SEND_SMS)
+                    //.permission(PermissionLists.getSendSmsPermission())
                     // 读取短信
-                    .permission(Permission.READ_SMS)
+                    .permission(PermissionLists.getReadSmsPermission())
                     .request(object : OnPermissionCallback {
-                        override fun onGranted(permissions: List<String>, all: Boolean) {
-                            if (all) {
-                                XToastUtils.info(R.string.toast_granted_all)
-                            } else {
-                                XToastUtils.info(R.string.toast_granted_part)
+                        override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                            val allGranted = deniedList.isEmpty()
+                            if (!allGranted) {
+                                // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                                val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                                if (doNotAskAgain) {
+                                    XToastUtils.error(R.string.toast_denied_never)
+                                    // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                    XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                                }
+                                // 处理权限请求失败的逻辑
+                                binding!!.sbEnableSms.isChecked = false
+                                return
                             }
-                        }
-
-                        override fun onDenied(permissions: List<String>, never: Boolean) {
-                            if (never) {
-                                XToastUtils.info(R.string.toast_denied_never)
-                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                                XXPermissions.startPermissionActivity(requireContext(), permissions)
-                            } else {
-                                XToastUtils.info(R.string.toast_denied)
-                            }
-                            binding!!.sbEnableSms.isChecked = false
+                            // 处理权限请求成功的逻辑
+                            XToastUtils.info(R.string.toast_granted_all)
                         }
                     })
             }
@@ -200,31 +201,30 @@ class SettingsFragment : BaseFragment<FragmentTasksActionSettingsBinding?>(), Vi
             if (isChecked) {
                 XXPermissions.with(this)
                     // 读取电话状态
-                    .permission(Permission.READ_PHONE_STATE)
+                    .permission(PermissionLists.getReadPhoneStatePermission())
                     // 读取手机号码
-                    .permission(Permission.READ_PHONE_NUMBERS)
+                    .permission(PermissionLists.getReadPhoneNumbersPermission())
                     // 读取通话记录
-                    .permission(Permission.READ_CALL_LOG)
+                    .permission(PermissionLists.getReadCallLogPermission())
                     // 读取联系人
-                    .permission(Permission.READ_CONTACTS)
+                    .permission(PermissionLists.getReadContactsPermission())
                     .request(object : OnPermissionCallback {
-                        override fun onGranted(permissions: List<String>, all: Boolean) {
-                            if (all) {
-                                XToastUtils.info(R.string.toast_granted_all)
-                            } else {
-                                XToastUtils.info(R.string.toast_granted_part)
+                        override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                            val allGranted = deniedList.isEmpty()
+                            if (!allGranted) {
+                                // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                                val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                                if (doNotAskAgain) {
+                                    XToastUtils.error(R.string.toast_denied_never)
+                                    // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                    XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                                }
+                                // 处理权限请求失败的逻辑
+                                binding!!.sbEnablePhone.isChecked = false
+                                return
                             }
-                        }
-
-                        override fun onDenied(permissions: List<String>, never: Boolean) {
-                            if (never) {
-                                XToastUtils.info(R.string.toast_denied_never)
-                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                                XXPermissions.startPermissionActivity(requireContext(), permissions)
-                            } else {
-                                XToastUtils.info(R.string.toast_denied)
-                            }
-                            binding!!.sbEnablePhone.isChecked = false
+                            // 处理权限请求成功的逻辑
+                            XToastUtils.info(R.string.toast_granted_all)
                         }
                     })
             }
@@ -233,16 +233,22 @@ class SettingsFragment : BaseFragment<FragmentTasksActionSettingsBinding?>(), Vi
         binding!!.sbEnableAppNotify.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
                 XXPermissions.with(this)
-                    .permission(Permission.BIND_NOTIFICATION_LISTENER_SERVICE)
-                    .request(OnPermissionCallback { _, allGranted ->
-                        if (!allGranted) {
-                            binding!!.sbEnableAppNotify.isChecked = false
-                            XToastUtils.error(R.string.tips_notification_listener)
-                            return@OnPermissionCallback
+                    .permission(
+                        PermissionLists.getBindNotificationListenerServicePermission(
+                            NotificationService::class.java
+                        )
+                    )
+                    .request(object : OnPermissionCallback {
+                        override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                            val allGranted = deniedList.isEmpty()
+                            if (!allGranted) {
+                                binding!!.sbEnableAppNotify.isChecked = false
+                                XToastUtils.error(R.string.tips_notification_listener)
+                                return
+                            }
+                            binding!!.sbEnableAppNotify.isChecked = true
+                            CommonUtils.toggleNotificationListenerService(requireContext())
                         }
-
-                        binding!!.sbEnableAppNotify.isChecked = true
-                        CommonUtils.toggleNotificationListenerService(requireContext())
                     })
             }
         }
@@ -250,22 +256,24 @@ class SettingsFragment : BaseFragment<FragmentTasksActionSettingsBinding?>(), Vi
         binding!!.sbEnableLocation.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
                 XXPermissions.with(this)
-                    .permission(Permission.ACCESS_COARSE_LOCATION)
-                    .permission(Permission.ACCESS_FINE_LOCATION)
-                    .permission(Permission.ACCESS_BACKGROUND_LOCATION)
+                    .permission(PermissionLists.getAccessCoarseLocationPermission())
+                    .permission(PermissionLists.getAccessFineLocationPermission())
+                    .permission(PermissionLists.getAccessBackgroundLocationPermission())
                     .request(object : OnPermissionCallback {
-                        override fun onGranted(permissions: List<String>, all: Boolean) {
-                        }
-
-                        override fun onDenied(permissions: List<String>, never: Boolean) {
-                            if (never) {
-                                XToastUtils.error(R.string.toast_denied_never)
-                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                                XXPermissions.startPermissionActivity(requireContext(), permissions)
-                            } else {
-                                XToastUtils.error(R.string.toast_denied)
+                        override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                            val allGranted = deniedList.isEmpty()
+                            if (!allGranted) {
+                                // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                                val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                                if (doNotAskAgain) {
+                                    XToastUtils.error(R.string.toast_denied_never)
+                                    // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                    XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                                }
+                                // 处理权限请求失败的逻辑
+                                binding!!.sbEnableLocation.isChecked = false
+                                return
                             }
-                            binding!!.sbEnableLocation.isChecked = false
                         }
                     })
             }
@@ -295,31 +303,31 @@ class SettingsFragment : BaseFragment<FragmentTasksActionSettingsBinding?>(), Vi
             if (isChecked) {
                 XXPermissions.with(this)
                     // 系统设置
-                    .permission(Permission.WRITE_SETTINGS)
+                    .permission(PermissionLists.getWriteSettingsPermission())
                     // 接收短信
-                    .permission(Permission.RECEIVE_SMS)
+                    .permission(PermissionLists.getReceiveSmsPermission())
                     // 发送短信
-                    .permission(Permission.SEND_SMS)
+                    .permission(PermissionLists.getSendSmsPermission())
                     // 读取短信
-                    .permission(Permission.READ_SMS)
+                    .permission(PermissionLists.getReadSmsPermission())
                     .request(object : OnPermissionCallback {
-                        override fun onGranted(permissions: List<String>, all: Boolean) {
-                            if (all) {
-                                XToastUtils.info(R.string.toast_granted_all)
-                            } else {
-                                XToastUtils.info(R.string.toast_granted_part)
-                            }
-                        }
-
-                        override fun onDenied(permissions: List<String>, never: Boolean) {
-                            if (never) {
-                                XToastUtils.info(R.string.toast_denied_never)
-                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                                XXPermissions.startPermissionActivity(requireContext(), permissions)
-                            } else {
+                        override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                            val allGranted = deniedList.isEmpty()
+                            if (!allGranted) {
+                                // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                                val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                                if (doNotAskAgain) {
+                                    XToastUtils.info(R.string.toast_denied_never)
+                                    // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                    XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                                }
+                                // 处理权限请求失败的逻辑
                                 XToastUtils.info(R.string.toast_denied)
+                                binding!!.sbEnableSmsCommand.isChecked = false
+                                return
                             }
-                            binding!!.sbEnableSmsCommand.isChecked = false
+                            // 处理权限请求成功的逻辑
+                            XToastUtils.info(R.string.toast_granted_all)
                         }
                     })
             }

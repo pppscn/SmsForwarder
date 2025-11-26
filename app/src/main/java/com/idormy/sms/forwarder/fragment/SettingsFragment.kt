@@ -31,8 +31,9 @@ import androidx.work.WorkManager
 import com.hjq.language.LocaleContract
 import com.hjq.language.MultiLanguages
 import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
+import com.hjq.permissions.permission.base.IPermission
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.activity.MainActivity
@@ -46,6 +47,7 @@ import com.idormy.sms.forwarder.receiver.BootCompletedReceiver
 import com.idormy.sms.forwarder.service.BluetoothScanService
 import com.idormy.sms.forwarder.service.ForegroundService
 import com.idormy.sms.forwarder.service.LocationService
+import com.idormy.sms.forwarder.service.NotificationService
 import com.idormy.sms.forwarder.utils.ACTION_RESTART
 import com.idormy.sms.forwarder.utils.ACTION_START
 import com.idormy.sms.forwarder.utils.ACTION_STOP
@@ -258,7 +260,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 if (App.SimInfoList.isEmpty()) {
                     XToastUtils.error(R.string.tip_can_not_get_sim_infos)
                     XXPermissions.startPermissionActivity(
-                        requireContext(), "android.permission.READ_PHONE_STATE"
+                        requireContext(), PermissionLists.getReadPhoneStatePermission()
                     )
                     return
                 }
@@ -282,7 +284,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 if (App.SimInfoList.isEmpty()) {
                     XToastUtils.error(R.string.tip_can_not_get_sim_infos)
                     XXPermissions.startPermissionActivity(
-                        requireContext(), "android.permission.READ_PHONE_STATE"
+                        requireContext(), PermissionLists.getReadPhoneStatePermission()
                     )
                     return
                 }
@@ -304,10 +306,21 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             R.id.btn_export_log -> {
                 XXPermissions.with(this)
                     // 申请储存权限
-                    .permission(Permission.MANAGE_EXTERNAL_STORAGE)
+                    .permission(PermissionLists.getManageExternalStoragePermission())
                     .request(object : OnPermissionCallback {
-                        @SuppressLint("SetTextI18n")
-                        override fun onGranted(permissions: List<String>, all: Boolean) {
+                        override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                            val allGranted = deniedList.isEmpty()
+                            if (!allGranted) {
+                                // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                                val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                                if (doNotAskAgain) {
+                                    XToastUtils.error(R.string.toast_denied_never)
+                                    XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                                }
+                                // 处理权限请求失败的逻辑
+                                XToastUtils.error(R.string.toast_denied)
+                                return
+                            }
                             try {
                                 val srcDirPath = App.context.cacheDir.absolutePath + "/logs"
                                 val destDirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path + "/SmsForwarder"
@@ -319,16 +332,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                             } catch (e: Exception) {
                                 XToastUtils.error(getString(R.string.log_export_failed) + e.message)
                                 e.printStackTrace()
-                            }
-                        }
-
-                        override fun onDenied(permissions: List<String>, never: Boolean) {
-                            if (never) {
-                                XToastUtils.error(R.string.toast_denied_never)
-                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                                XXPermissions.startPermissionActivity(requireContext(), permissions)
-                            } else {
-                                XToastUtils.error(R.string.toast_denied)
                             }
                         }
                     })
@@ -347,34 +350,34 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             if (isChecked) {
                 XXPermissions.with(this)
                     // 接收 WAP 推送消息
-                    .permission(Permission.RECEIVE_WAP_PUSH)
+                    .permission(PermissionLists.getReceiveWapPushPermission())
                     // 接收彩信
-                    .permission(Permission.RECEIVE_MMS)
+                    .permission(PermissionLists.getReceiveMmsPermission())
                     // 接收短信
-                    .permission(Permission.RECEIVE_SMS)
+                    .permission(PermissionLists.getReceiveSmsPermission())
                     // 发送短信
-                    //.permission(Permission.SEND_SMS)
+                    //.permission(PermissionLists.getSendSmsPermission())
                     // 读取短信
-                    .permission(Permission.READ_SMS)
+                    .permission(PermissionLists.getReadSmsPermission())
                     .request(object : OnPermissionCallback {
-                        override fun onGranted(permissions: List<String>, all: Boolean) {
-                            Log.d(TAG, "onGranted: permissions=$permissions, all=$all")
-                            if (!all) {
+                        override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                            val allGranted = deniedList.isEmpty()
+                            if (!allGranted) {
+                                // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                                val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                                if (doNotAskAgain) {
+                                    XToastUtils.error(R.string.toast_denied_never)
+                                    // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                    XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                                }
+                                // 处理权限请求失败的逻辑
                                 XToastUtils.warning(getString(R.string.forward_sms) + ": " + getString(R.string.toast_granted_part))
+                                SettingUtils.enableSms = false
+                                sbEnableSms.isChecked = false
+                                return
                             }
-                        }
-
-                        override fun onDenied(permissions: List<String>, never: Boolean) {
-                            Log.e(TAG, "onDenied: permissions=$permissions, never=$never")
-                            if (never) {
-                                XToastUtils.error(getString(R.string.forward_sms) + ": " + getString(R.string.toast_denied_never))
-                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                                XXPermissions.startPermissionActivity(requireContext(), permissions)
-                            } else {
-                                XToastUtils.error(getString(R.string.forward_sms) + ": " + getString(R.string.toast_denied))
-                            }
-                            SettingUtils.enableSms = false
-                            sbEnableSms.isChecked = false
+                            // 处理权限请求成功的逻辑
+                            XToastUtils.info(R.string.toast_granted_all)
                         }
                     })
             }
@@ -402,32 +405,29 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             if (isChecked) {
                 XXPermissions.with(this)
                     // 读取电话状态
-                    .permission(Permission.READ_PHONE_STATE)
+                    .permission(PermissionLists.getReadPhoneStatePermission())
                     // 读取手机号码
-                    .permission(Permission.READ_PHONE_NUMBERS)
+                    .permission(PermissionLists.getReadPhoneNumbersPermission())
                     // 读取通话记录
-                    .permission(Permission.READ_CALL_LOG)
+                    .permission(PermissionLists.getReadCallLogPermission())
                     // 读取联系人
-                    .permission(Permission.READ_CONTACTS)
+                    .permission(PermissionLists.getReadContactsPermission())
                     .request(object : OnPermissionCallback {
-                        override fun onGranted(permissions: List<String>, all: Boolean) {
-                            Log.d(TAG, "onGranted: permissions=$permissions, all=$all")
-                            if (!all) {
-                                XToastUtils.warning(getString(R.string.forward_calls) + ": " + getString(R.string.toast_granted_part))
-                            }
-                        }
-
-                        override fun onDenied(permissions: List<String>, never: Boolean) {
-                            Log.e(TAG, "onDenied: permissions=$permissions, never=$never")
-                            if (never) {
-                                XToastUtils.error(getString(R.string.forward_calls) + ": " + getString(R.string.toast_denied_never))
-                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                                XXPermissions.startPermissionActivity(requireContext(), permissions)
-                            } else {
+                        override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                            val allGranted = deniedList.isEmpty()
+                            if (!allGranted) {
+                                // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                                val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                                if (doNotAskAgain) {
+                                    XToastUtils.error(R.string.toast_denied_never)
+                                    XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                                }
+                                // 处理权限请求失败的逻辑
                                 XToastUtils.error(getString(R.string.forward_calls) + ": " + getString(R.string.toast_denied))
+                                SettingUtils.enablePhone = false
+                                sbEnablePhone.isChecked = false
+                                return
                             }
-                            SettingUtils.enablePhone = false
-                            sbEnablePhone.isChecked = false
                         }
                     })
             }
@@ -491,19 +491,26 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             SettingUtils.enableAppNotify = isChecked
             if (isChecked) {
                 XXPermissions.with(this)
-                    .permission(Permission.BIND_NOTIFICATION_LISTENER_SERVICE)
-                    .request(OnPermissionCallback { permissions, allGranted ->
-                        if (!allGranted) {
-                            Log.e(TAG, "onGranted: permissions=$permissions, allGranted=false")
-                            SettingUtils.enableAppNotify = false
-                            sbEnableAppNotify.isChecked = false
-                            XToastUtils.error(R.string.tips_notification_listener)
-                            return@OnPermissionCallback
+                    .permission(
+                        PermissionLists.getBindNotificationListenerServicePermission(
+                            NotificationService::class.java
+                        )
+                    )
+                    .request(object : OnPermissionCallback {
+                        override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                            val allGranted = deniedList.isEmpty()
+                            if (!allGranted) {
+                                Log.e(TAG, "onGranted: permissions=$deniedList, allGranted=false")
+                                SettingUtils.enableAppNotify = false
+                                sbEnableAppNotify.isChecked = false
+                                XToastUtils.error(R.string.tips_notification_listener)
+                                return
+                            }
+                            // 处理权限请求成功的逻辑
+                            SettingUtils.enableAppNotify = true
+                            sbEnableAppNotify.isChecked = true
+                            CommonUtils.toggleNotificationListenerService(requireContext())
                         }
-
-                        SettingUtils.enableAppNotify = true
-                        sbEnableAppNotify.isChecked = true
-                        CommonUtils.toggleNotificationListenerService(requireContext())
                     })
             }
         }
@@ -528,31 +535,28 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             layoutBluetoothSetting.visibility = if (isChecked) View.VISIBLE else View.GONE
             if (isChecked) {
                 XXPermissions.with(this)
-                    .permission(Permission.BLUETOOTH_SCAN)
-                    .permission(Permission.BLUETOOTH_CONNECT)
-                    .permission(Permission.BLUETOOTH_ADVERTISE)
-                    .permission(Permission.ACCESS_FINE_LOCATION)
+                    .permission(PermissionLists.getBluetoothScanPermission())
+                    .permission(PermissionLists.getBluetoothConnectPermission())
+                    .permission(PermissionLists.getBluetoothAdvertisePermission())
+                    .permission(PermissionLists.getAccessFineLocationPermission())
                     .request(object : OnPermissionCallback {
-                        override fun onGranted(permissions: List<String>, all: Boolean) {
-                            Log.d(TAG, "onGranted: permissions=$permissions, all=$all")
-                            if (!all) {
+                        override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                            val allGranted = deniedList.isEmpty()
+                            if (!allGranted) {
+                                // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                                val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                                if (doNotAskAgain) {
+                                    XToastUtils.error(R.string.toast_denied_never)
+                                    XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                                }
+                                // 处理权限请求失败的逻辑
                                 XToastUtils.warning(getString(R.string.enable_bluetooth) + ": " + getString(R.string.toast_granted_part))
+                                SettingUtils.enableBluetooth = false
+                                sbEnableBluetooth.isChecked = false
+                                restartBluetoothService(ACTION_STOP)
+                                return
                             }
                             restartBluetoothService(ACTION_START)
-                        }
-
-                        override fun onDenied(permissions: List<String>, never: Boolean) {
-                            Log.e(TAG, "onDenied: permissions=$permissions, never=$never")
-                            if (never) {
-                                XToastUtils.error(getString(R.string.enable_bluetooth) + ": " + getString(R.string.toast_denied_never))
-                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                                XXPermissions.startPermissionActivity(requireContext(), permissions)
-                            } else {
-                                XToastUtils.error(getString(R.string.enable_bluetooth) + ": " + getString(R.string.toast_denied))
-                            }
-                            SettingUtils.enableBluetooth = false
-                            sbEnableBluetooth.isChecked = false
-                            restartBluetoothService(ACTION_STOP)
                         }
                     })
             } else {
@@ -606,30 +610,27 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             layoutLocationSetting.visibility = if (isChecked) View.VISIBLE else View.GONE
             if (isChecked) {
                 XXPermissions.with(this)
-                    .permission(Permission.ACCESS_COARSE_LOCATION)
-                    .permission(Permission.ACCESS_FINE_LOCATION)
-                    .permission(Permission.ACCESS_BACKGROUND_LOCATION)
+                    .permission(PermissionLists.getAccessCoarseLocationPermission())
+                    .permission(PermissionLists.getAccessFineLocationPermission())
+                    .permission(PermissionLists.getAccessBackgroundLocationPermission())
                     .request(object : OnPermissionCallback {
-                        override fun onGranted(permissions: List<String>, all: Boolean) {
-                            Log.d(TAG, "onGranted: permissions=$permissions, all=$all")
-                            if (!all) {
-                                XToastUtils.warning(getString(R.string.enable_location) + ": " + getString(R.string.toast_granted_part))
+                        override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                            val allGranted = deniedList.isEmpty()
+                            if (!allGranted) {
+                                // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                                val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                                if (doNotAskAgain) {
+                                    XToastUtils.error(getString(R.string.enable_location) + ": " + getString(R.string.toast_denied_never))
+                                    XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                                }
+                                // 处理权限请求失败的逻辑
+                                XToastUtils.error(getString(R.string.enable_location) + ": " + getString(R.string.toast_denied))
+                                SettingUtils.enableLocation = false
+                                sbEnableLocation.isChecked = false
+                                restartLocationService(ACTION_STOP)
+                                return
                             }
                             restartLocationService(ACTION_START)
-                        }
-
-                        override fun onDenied(permissions: List<String>, never: Boolean) {
-                            Log.e(TAG, "onDenied: permissions=$permissions, never=$never")
-                            if (never) {
-                                XToastUtils.error(getString(R.string.enable_location) + ": " + getString(R.string.toast_denied_never))
-                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                                XXPermissions.startPermissionActivity(requireContext(), permissions)
-                            } else {
-                                XToastUtils.error(getString(R.string.enable_location) + ": " + getString(R.string.toast_denied))
-                            }
-                            SettingUtils.enableLocation = false
-                            sbEnableLocation.isChecked = false
-                            restartLocationService(ACTION_STOP)
                         }
                     })
             } else {
@@ -726,30 +727,29 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             if (isChecked) {
                 XXPermissions.with(this)
                     // 系统设置
-                    .permission(Permission.WRITE_SETTINGS)
+                    .permission(PermissionLists.getWriteSettingsPermission())
                     // 接收短信
-                    .permission(Permission.RECEIVE_SMS)
+                    .permission(PermissionLists.getReceiveSmsPermission())
                     // 发送短信
-                    .permission(Permission.SEND_SMS)
+                    .permission(PermissionLists.getSendSmsPermission())
                     // 读取短信
-                    .permission(Permission.READ_SMS)
+                    .permission(PermissionLists.getReadSmsPermission())
                     .request(object : OnPermissionCallback {
-                        override fun onGranted(permissions: List<String>, all: Boolean) {
-                            if (!all) {
-                                XToastUtils.warning(getString(R.string.sms_command) + ": " + getString(R.string.toast_denied_never))
-                            }
-                        }
-
-                        override fun onDenied(permissions: List<String>, never: Boolean) {
-                            if (never) {
-                                XToastUtils.error(getString(R.string.sms_command) + ": " + getString(R.string.toast_denied_never))
-                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                                XXPermissions.startPermissionActivity(requireContext(), permissions)
-                            } else {
+                        override fun onResult(grantedList: MutableList<IPermission>, deniedList: MutableList<IPermission>) {
+                            val allGranted = deniedList.isEmpty()
+                            if (!allGranted) {
+                                // 判断请求失败的权限是否被用户勾选了不再询问的选项
+                                val doNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(requireActivity(), deniedList)
+                                if (doNotAskAgain) {
+                                    XToastUtils.error(R.string.toast_denied_never)
+                                    XXPermissions.startPermissionActivity(requireContext(), deniedList)
+                                }
+                                // 处理权限请求失败的逻辑
                                 XToastUtils.error(getString(R.string.sms_command) + ": " + getString(R.string.toast_denied))
+                                SettingUtils.enableSmsCommand = false
+                                sbEnableSmsCommand.isChecked = false
+                                return
                             }
-                            SettingUtils.enableSmsCommand = false
-                            sbEnableSmsCommand.isChecked = false
                         }
                     })
             }
@@ -869,7 +869,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //电池优化设置
     @RequiresApi(api = Build.VERSION_CODES.M)
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    @SuppressLint("UseSwitchCompatOrMaterialCode", "ObsoleteSdkInt")
     private fun batterySetting(layoutBatterySetting: LinearLayout, sbBatterySetting: SwitchButton) {
         //安卓6.0以下没有忽略电池优化
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {

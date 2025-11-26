@@ -30,6 +30,11 @@ abstract class PhoneStateReceiver : BroadcastReceiver() {
             Log.d(TAG, "stateStr：$stateStr，savedNumber：$savedNumber")
             var state = 0
 
+            //遍历intent.extras的所有key，打印出内容
+            for (key in intent.extras!!.keySet()) {
+                Log.d(TAG, "key：$key，value：${intent.extras!!.get(key)}")
+            }
+
             when (stateStr) {
                 TelephonyManager.EXTRA_STATE_IDLE -> state = TelephonyManager.CALL_STATE_IDLE
                 TelephonyManager.EXTRA_STATE_OFFHOOK -> state = TelephonyManager.CALL_STATE_OFFHOOK
