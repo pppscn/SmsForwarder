@@ -175,6 +175,7 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
                     }
                     binding!!.etEncryptionKey.setText(settingVo.key)
                     binding!!.etEncryptionIv.setText(settingVo.iv)
+                    binding!!.etAutoCopyTemplate.setText(settingVo.autoCopy)
                 }
             }
         })
