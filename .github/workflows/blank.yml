@@ -54,27 +54,24 @@ jobs:
             echo "⚠️ 使用调试签名（请配置 GitHub Secrets 使用正式签名）"
           fi
           
-      # 5. 授予 gradlew 执行权限
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-        
-      # 6. 构建 Release APK
-      - name: Build Release APK
-        run: ./gradlew assembleRelease
-        
-      # 7. 创建 Release
+      # 打包release
+      - name: Build with Gradle
+        run: bash ./gradlew assembleRelease
+      # 创建release
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref_name }}
-          name: ${{ github.event.inputs.release_title || 'SmsForwarder Release' }} ${{ github.ref_name }}
-          body: |
-            ## SmsForwarder 发布
-            
-            - 版本: ${{ github.ref_name }}
-            - 构建时间: ${{ github.event.created_at }}
-            - Commit: ${{ github.sha }}
-            
-          files: |
-            ${{ env.APK_PATH }}/SmsF_*.apk
-          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ github.ref }}
+          release_name: SmsForwarder ${{ github.ref }}
+          draft: false
+          prerelease: false
+      # 上传至release的资源
+      - name: Upload release binaries
+        uses: alexellis/upload-assets@0.2.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          asset_paths: '["./build/app/outputs/apk/release/SmsF_*"]'
