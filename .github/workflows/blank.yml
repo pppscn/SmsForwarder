@@ -29,35 +29,30 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
           
-      # 3. 从 GitHub Secrets 创建密钥文件
-      - name: Create keystore from secrets
+      # 3. 创建密钥文件（如果提供了密钥）
+      - name: Create keystore file
         run: |
-          if [ -n "${{ secrets.KEYSTORE_BASE64 }}" ]; then
-            echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > release.keystore
-            echo "从 GitHub Secrets 加载签名密钥"
-          else
-            echo "警告：未找到签名密钥，将使用调试密钥"
-            # 创建默认的 gradle.properties 使用调试签名
-            cat > gradle.properties << EOF
-          # 使用调试签名配置
-          android.injected.signing.store.file=$HOME/.android/debug.keystore
-          android.injected.signing.store.password=android
-          android.injected.signing.key.alias=androiddebugkey
-          android.injected.signing.key.password=android
-          EOF
-          fi
+          # 尝试创建密钥文件，如果 secrets 存在
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > release.jks 2>/dev/null || true
           
-      # 4. 配置签名信息（如果需要）
-      - name: Configure signing properties
-        if: secrets.KEYSTORE_BASE64 != ''
+      # 4. 创建 gradle.properties 文件
+      - name: Create gradle properties
         run: |
-          cat >> gradle.properties << EOF
+          if [ -f "release.jks" ]; then
+            # 如果密钥文件存在，使用正式签名
+            cat > gradle.properties << EOF
           # 签名配置
-          storeFile=release.keystore
+          storeFile=release.jks
           storePassword=${{ secrets.KEYSTORE_PASSWORD }}
           keyAlias=${{ secrets.KEY_ALIAS }}
           keyPassword=${{ secrets.KEY_PASSWORD }}
           EOF
+            echo "✅ 使用正式签名配置"
+          else
+            # 否则创建空的 gradle.properties
+            echo "# 使用默认调试签名" > gradle.properties
+            echo "⚠️ 使用调试签名（请配置 GitHub Secrets 使用正式签名）"
+          fi
           
       # 5. 授予 gradlew 执行权限
       - name: Grant execute permission for gradlew
@@ -76,13 +71,9 @@ jobs:
           body: |
             ## SmsForwarder 发布
             
-            ### 版本信息
             - 版本: ${{ github.ref_name }}
             - 构建时间: ${{ github.event.created_at }}
-            - Commit: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
-            
-            ### 下载
-            APK 文件已使用签名密钥签名，可直接安装。
+            - Commit: ${{ github.sha }}
             
           files: |
             ${{ env.APK_PATH }}/SmsF_*.apk
