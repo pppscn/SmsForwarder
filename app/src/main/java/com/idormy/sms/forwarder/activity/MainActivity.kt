@@ -185,7 +185,7 @@ class MainActivity : BaseActivity<ActivityMainBinding?>(), DrawerAdapter.OnItemS
 
         //仅当开启自动检查且有网络时自动检查更新/获取提示
         if (SettingUtils.autoCheckUpdate && NetworkUtils.isHaveInternet()) {
-            showTips(this)
+            //showTips(this)
             XUpdateInit.checkUpdate(this, false, SettingUtils.joinPreviewProgram)
         }
     }
