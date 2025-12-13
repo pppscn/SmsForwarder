@@ -60,7 +60,7 @@ jobs:
         
       # 6. 构建 Release APK
       - name: Build Release APK
-        run: ./gradlew assembleRelease
+        run: bash ./gradlew assembleRelease
         
       # 7. 创建 Release
       - name: Create Release
