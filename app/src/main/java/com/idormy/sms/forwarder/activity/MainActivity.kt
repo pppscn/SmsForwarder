@@ -39,18 +39,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val etWebhookUrl = findViewById<EditText>(R.id.et_webhook_url)
-        val etFallbackPhone = findViewById<EditText>(R.id.et_fallback_phone)
+        val etSim1Number = findViewById<EditText>(R.id.et_sim1_number)
+        val etSim2Number = findViewById<EditText>(R.id.et_sim2_number)
         val cbEnableForwarding = findViewById<CheckBox>(R.id.cb_enable_forwarding)
         val btnSave = findViewById<Button>(R.id.btn_save)
 
-        etWebhookUrl.setText(SettingUtils.webhookUrl)
-        etFallbackPhone.setText(SettingUtils.fallbackSmsPhone)
+        etSim1Number.setText(SettingUtils.sim1Number)
+        etSim2Number.setText(SettingUtils.sim2Number)
         cbEnableForwarding.isChecked = SettingUtils.enableSmsForwarding
 
         btnSave.setOnClickListener {
-            SettingUtils.webhookUrl = etWebhookUrl.text.toString()
-            SettingUtils.fallbackSmsPhone = etFallbackPhone.text.toString()
+            SettingUtils.sim1Number = etSim1Number.text.toString()
+            SettingUtils.sim2Number = etSim2Number.text.toString()
             SettingUtils.enableSmsForwarding = cbEnableForwarding.isChecked
             Toast.makeText(this, "Settings Saved", Toast.LENGTH_SHORT).show()
         }

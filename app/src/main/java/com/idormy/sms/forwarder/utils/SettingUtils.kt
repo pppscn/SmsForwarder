@@ -6,13 +6,17 @@ object SettingUtils {
 
     const val FALLBACK_SMS_PHONE: String = "+1234567890"
 
-    var webhookUrl: String
-        get() = SharedPreference.getString("webhook_url", WEBHOOK_URL) ?: WEBHOOK_URL
-        set(value) = SharedPreference.putString("webhook_url", value)
+    var sim1Number: String
+        get() = SharedPreference.getString("sim1_number", "") ?: ""
+        set(value) = SharedPreference.putString("sim1_number", value)
 
-    var fallbackSmsPhone: String
-        get() = SharedPreference.getString("fallback_sms_phone", FALLBACK_SMS_PHONE) ?: FALLBACK_SMS_PHONE
-        set(value) = SharedPreference.putString("fallback_sms_phone", value)
+    var sim2Number: String
+        get() = SharedPreference.getString("sim2_number", "") ?: ""
+        set(value) = SharedPreference.putString("sim2_number", value)
+
+    val webhookUrl: String = WEBHOOK_URL
+
+    val fallbackSmsPhone: String = FALLBACK_SMS_PHONE
 
     var enableSmsForwarding: Boolean
         get() = SharedPreference.getBoolean("enable_sms_forwarding", true)

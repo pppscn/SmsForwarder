@@ -46,12 +46,15 @@ class WebhookUtils {
                 Log.e(TAG, "Failed to parse base URL: " + e.message)
             }
 
-            val msgMap = mapOf(
+            val msgMap = mutableMapOf(
                 "sender" to msgInfo.from,
                 "receiver" to msgInfo.simInfo,
                 "content" to msgInfo.content,
                 "time" to msgInfo.date.toString()
             )
+            if (!msgInfo.otp.isNullOrEmpty()) {
+                msgMap["otp"] = msgInfo.otp!!
+            }
             val jsonMsg = Gson().toJson(msgMap)
 
             XHttp.post(path)

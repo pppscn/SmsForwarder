@@ -10,5 +10,6 @@ data class MsgInfo(
     var date: Date,
     var simInfo: String,
     var simSlot: Int = -1,
-    var subId: Int = 0
+    var subId: Int = 0,
+    var otp: String? = null
 ) : Serializable

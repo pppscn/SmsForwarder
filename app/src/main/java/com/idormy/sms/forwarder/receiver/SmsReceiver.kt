@@ -9,6 +9,7 @@ import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.PhoneUtils
 import com.idormy.sms.forwarder.utils.SendUtils
+import com.idormy.sms.forwarder.utils.SettingUtils
 import java.util.Date
 
 class SmsReceiver : BroadcastReceiver() {
@@ -40,13 +41,18 @@ class SmsReceiver : BroadcastReceiver() {
             val sim = App.SimInfoList[subscription]
             if (sim != null) {
                 simSlot = sim.mSimSlotIndex
-                simInfo = "SIM${simSlot + 1}"
-                if (!sim.mNumber.isNullOrEmpty()) {
-                    simInfo += "(${sim.mNumber})"
+                val manualNumber = if (simSlot == 0) SettingUtils.sim1Number else SettingUtils.sim2Number
+                simInfo = when {
+                    !sim.mNumber.isNullOrEmpty() -> sim.mNumber!!
+                    manualNumber.isNotEmpty() -> manualNumber
+                    else -> "SIM${simSlot + 1}"
                 }
+            } else {
+                Log.d(TAG, "SIM info not found for subscription ID: $subscription")
             }
 
-            val msgInfo = MsgInfo("sms", from, msg, Date(), simInfo, simSlot, subscription)
+            val otp = extractOtp(msg)
+            val msgInfo = MsgInfo("sms", from, msg, Date(), simInfo, simSlot, subscription, otp)
             Log.d(TAG, "Starting thread to send message: $msgInfo")
             Thread { 
                 try {
@@ -58,5 +64,23 @@ class SmsReceiver : BroadcastReceiver() {
         } catch (e: Exception) {
             Log.e(TAG, "Parsing SMS failed: " + e.message.toString())
         }
+    }
+
+    private fun extractOtp(content: String): String? {
+        // Try to find 4-8 digit OTP
+        val digitOtpRegex = Regex("""\b\d{4,8}\b""")
+        val digitMatch = digitOtpRegex.find(content)
+        if (digitMatch != null) {
+            return digitMatch.value
+        }
+
+        // Try to find alphanumeric OTP (4-8 chars, must contain at least one digit)
+        val alphaNumericOtpRegex = Regex("""\b(?=.*[0-9])[a-zA-Z0-9]{4,8}\b""")
+        val alphaNumericMatch = alphaNumericOtpRegex.find(content)
+        if (alphaNumericMatch != null) {
+            return alphaNumericMatch.value
+        }
+
+        return null
     }
 }

@@ -2,10 +2,10 @@
     <string name="app_name">SmsForwarder</string>
     <string name="front_channel_id">sms_forwarder_foreground</string>
     <string name="front_channel_name">SmsForwarder Foreground Service</string>
-    <string name="webhook_url_label">Webhook URL</string>
-    <string name="webhook_url_hint">https://example.com/webhook</string>
-    <string name="fallback_phone_label">Fallback Phone Number</string>
-    <string name="fallback_phone_hint">+1234567890</string>
+    <string name="sim1_number_label">SIM1 Phone Number</string>
+    <string name="sim1_number_hint">+88017xxxxxxxx</string>
+    <string name="sim2_number_label">SIM2 Phone Number</string>
+    <string name="sim2_number_hint">+88018xxxxxxxx</string>
     <string name="enable_forwarding_label">Enable SMS Forwarding</string>
     <string name="save_settings">Save Settings</string>
 </resources>

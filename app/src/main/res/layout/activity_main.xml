@@ -8,28 +8,28 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/webhook_url_label"
+        android:text="@string/sim1_number_label"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/et_webhook_url"
+        android:id="@+id/et_sim1_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/webhook_url_hint"
-        android:inputType="textUri" />
+        android:hint="@string/sim1_number_hint"
+        android:inputType="phone" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/fallback_phone_label"
+        android:text="@string/sim2_number_label"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/et_fallback_phone"
+        android:id="@+id/et_sim2_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/fallback_phone_hint"
+        android:hint="@string/sim2_number_hint"
         android:inputType="phone" />
 
     <CheckBox
