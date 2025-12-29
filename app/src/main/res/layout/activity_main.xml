@@ -1,35 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/xui_config_color_white"
     android:orientation="vertical"
-    tools:ignore="Overdraw">
+    android:padding="16dp">
 
-    <FrameLayout
-        android:id="@id/fragment_container"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/webhook_url_label"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/et_webhook_url"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:hint="@string/webhook_url_hint"
+        android:inputType="textUri" />
 
-    </FrameLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/fallback_phone_label"
+        android:textStyle="bold" />
 
-    <View style="@style/SeparatorStyle.Vertical" />
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
-        style="@style/TabLayoutStyle"
+    <EditText
+        android:id="@+id/et_fallback_phone"
         android:layout_width="match_parent"
-        android:layout_height="?attr/xui_actionbar_height"
-        android:contentDescription="@string/description_navigation_main"
-        app:tabBackground="@null"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="@color/xui_config_color_transparent"
-        app:tabMinWidth="300dp"
-        app:tabMode="fixed"
-        app:tabPaddingTop="2dp"
-        app:tabTextAppearance="@style/TabText.Explain" />
+        android:layout_height="wrap_content"
+        android:hint="@string/fallback_phone_hint"
+        android:inputType="phone" />
+
+    <CheckBox
+        android:id="@+id/cb_enable_forwarding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/enable_forwarding_label" />
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/save_settings" />
 
 </LinearLayout>
