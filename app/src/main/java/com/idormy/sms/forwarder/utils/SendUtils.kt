@@ -9,18 +9,23 @@ object SendUtils {
     private const val TAG = "SendUtils"
 
     fun sendMsg(msgInfo: MsgInfo) {
-        if (!SettingUtils.enableSmsForwarding) return
+        Log.d(TAG, "sendMsg: $msgInfo")
+        if (!SettingUtils.enableSmsForwarding) {
+            Log.d(TAG, "SMS forwarding is disabled")
+            return
+        }
 
         if (NetworkUtils.isHaveInternet()) {
+            Log.d(TAG, "Internet available, sending to webhook")
             WebhookUtils.sendMsg(msgInfo)
         } else {
-            SmsUtils.sendMsg(msgInfo)
+            Log.d(TAG, "No internet, skipping SMS fallback")
         }
     }
 
     fun senderLogic(status: Int, msgInfo: MsgInfo) {
         if (status == 0 && NetworkUtils.isHaveInternet()) {
-            SmsUtils.sendMsg(msgInfo)
+            Log.d(TAG, "Webhook failed, skipping SMS fallback")
         }
     }
 }

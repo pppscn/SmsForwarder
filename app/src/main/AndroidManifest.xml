@@ -58,7 +58,6 @@
         <receiver
             android:name=".receiver.SmsReceiver"
             android:exported="true"
-            android:permission="android.permission.BROADCAST_SMS"
             tools:ignore="IntentFilterExportedReceiver">
             <intent-filter android:priority="2147483647">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />

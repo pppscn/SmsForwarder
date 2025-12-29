@@ -15,6 +15,7 @@ class SmsReceiver : BroadcastReceiver() {
     private var TAG = SmsReceiver::class.java.simpleName
 
     override fun onReceive(context: Context, intent: Intent) {
+        Log.d(TAG, "onReceive: action=" + intent.action)
         try {
             if (intent.action != Telephony.Sms.Intents.SMS_RECEIVED_ACTION
                 && intent.action != Telephony.Sms.Intents.SMS_DELIVER_ACTION
@@ -26,8 +27,10 @@ class SmsReceiver : BroadcastReceiver() {
                 from = smsMessage.displayOriginatingAddress ?: ""
                 msg += smsMessage.messageBody ?: ""
             }
+            Log.d(TAG, "Received SMS from: $from, content: $msg")
             
             val subscription = intent.extras?.getInt("subscription") ?: -1
+            Log.d(TAG, "Subscription ID: $subscription")
             if (App.SimInfoList.isEmpty()) {
                 App.SimInfoList = PhoneUtils.getSimMultiInfo()
             }
@@ -44,7 +47,14 @@ class SmsReceiver : BroadcastReceiver() {
             }
 
             val msgInfo = MsgInfo("sms", from, msg, Date(), simInfo, simSlot, subscription)
-            Thread { SendUtils.sendMsg(msgInfo) }.start()
+            Log.d(TAG, "Starting thread to send message: $msgInfo")
+            Thread { 
+                try {
+                    SendUtils.sendMsg(msgInfo) 
+                } catch (e: Exception) {
+                    Log.e(TAG, "Error in send thread: " + e.message, e)
+                }
+            }.start()
         } catch (e: Exception) {
             Log.e(TAG, "Parsing SMS failed: " + e.message.toString())
         }

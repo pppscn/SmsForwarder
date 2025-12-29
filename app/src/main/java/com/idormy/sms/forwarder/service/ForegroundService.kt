@@ -16,13 +16,17 @@ class ForegroundService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (!isRunning) {
-            isRunning = true
-            createNotificationChannel()
-            val notification = createNotification("SMS Forwarder is running")
-            startForeground(SettingUtils.FRONT_NOTIFY_ID, notification)
-        }
+        Log.d("ForegroundService", "onStartCommand")
+        isRunning = true
+        createNotificationChannel()
+        val notification = createNotification("SMS Forwarder is running")
+        startForeground(SettingUtils.FRONT_NOTIFY_ID, notification)
         return START_STICKY
+    }
+
+    override fun onDestroy() {
+        isRunning = false
+        super.onDestroy()
     }
 
     override fun onBind(intent: Intent): IBinder? = null
