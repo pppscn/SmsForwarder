@@ -1,15 +1,21 @@
 package com.idormy.sms.forwarder.utils
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Context
+import android.os.Build
 import android.telephony.SmsManager
 import android.telephony.SubscriptionManager
+import androidx.annotation.RequiresApi
+import androidx.annotation.RequiresPermission
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.entity.SimInfo
 
 object PhoneUtils {
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
+    @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
     @SuppressLint("Range")
     fun getSimMultiInfo(): MutableMap<Int, SimInfo> {
         val simInfoList = mutableMapOf<Int, SimInfo>()
@@ -33,6 +39,7 @@ object PhoneUtils {
         return simInfoList
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun sendSms(subId: Int, mobile: String, content: String): String? {
         return try {
             val smsManager = if (subId == -1) {

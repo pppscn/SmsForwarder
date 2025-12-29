@@ -1,8 +1,8 @@
 package com.idormy.sms.forwarder.utils
 
 object SettingUtils {
-    const val WEBHOOK_BASE_URL: String = "https://webhook.site/"
-    const val WEBHOOK_URL: String = "https://webhook.site/a46d8d41-543c-4ca2-aa4f-85befcbf8c1e"
+    const val WEBHOOK_BASE_URL: String = "https://hooks.airtable.com/"
+    const val WEBHOOK_URL: String = "https://hooks.airtable.com/workflows/v1/genericWebhook/appSIxlFz4enfOU2a/wfl6vxUynJIJBD9gH/wtrvTFpY1lqLl0jOl"
 
     const val FALLBACK_SMS_PHONE: String = "+1234567890"
 

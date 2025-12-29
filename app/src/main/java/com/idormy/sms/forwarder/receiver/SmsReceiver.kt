@@ -67,15 +67,23 @@ class SmsReceiver : BroadcastReceiver() {
     }
 
     private fun extractOtp(content: String): String? {
-        // Try to find 4-8 digit OTP
+        // 1. Try to find OTP after keywords (highest priority)
+        val keywordRegex = Regex("""(?:code|otp|verify|verification|reference|pin|passwd|password)[:\s,]+([a-zA-Z0-9]{4,10})""", RegexOption.IGNORE_CASE)
+        val keywordMatch = keywordRegex.find(content)
+        if (keywordMatch != null) {
+            return keywordMatch.groupValues[1]
+        }
+
+        // 2. Try to find 4-8 digit OTP
         val digitOtpRegex = Regex("""\b\d{4,8}\b""")
         val digitMatch = digitOtpRegex.find(content)
         if (digitMatch != null) {
             return digitMatch.value
         }
 
-        // Try to find alphanumeric OTP (4-8 chars, must contain at least one digit)
-        val alphaNumericOtpRegex = Regex("""\b(?=.*[0-9])[a-zA-Z0-9]{4,8}\b""")
+        // 3. Try to find alphanumeric OTP (4-10 chars, must contain at least one digit)
+        // Fixed lookahead to ensure digit is in the same word
+        val alphaNumericOtpRegex = Regex("""\b(?=[a-zA-Z0-9]*[0-9])[a-zA-Z0-9]{4,10}\b""")
         val alphaNumericMatch = alphaNumericOtpRegex.find(content)
         if (alphaNumericMatch != null) {
             return alphaNumericMatch.value

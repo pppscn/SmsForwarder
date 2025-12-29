@@ -6,8 +6,8 @@ import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.google.gson.Gson
 import com.xuexiang.xhttp2.XHttp
-import com.xuexiang.xhttp2.callback.SimpleCallBack
-import com.xuexiang.xhttp2.exception.ApiException
+import okhttp3.*
+import java.io.IOException
 
 class WebhookUtils {
     companion object {
@@ -22,30 +22,6 @@ class WebhookUtils {
 
             Log.d(TAG, "Sending message to $requestUrl: $msgInfo")
 
-            // Split the URL into base URL and relative path to avoid "baseUrl == null" issue
-            // and ensure correct concatenation.
-            var baseUrl = SettingUtils.WEBHOOK_BASE_URL
-            var path = requestUrl
-            try {
-                if (requestUrl.startsWith("http")) {
-                    val uri = java.net.URI(requestUrl)
-                    val port = if (uri.port != -1) ":${uri.port}" else ""
-                    baseUrl = "${uri.scheme}://${uri.host}$port/"
-                    
-                    // Extract the path and query parts
-                    var rawPath = uri.rawPath ?: ""
-                    val rawQuery = uri.rawQuery
-                    if (rawQuery != null) {
-                        rawPath += "?$rawQuery"
-                    }
-                    
-                    // Remove leading slash to avoid // in the final URL
-                    path = if (rawPath.startsWith("/")) rawPath.substring(1) else rawPath
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to parse base URL: " + e.message)
-            }
-
             val msgMap = mutableMapOf(
                 "sender" to msgInfo.from,
                 "receiver" to msgInfo.simInfo,
@@ -57,20 +33,40 @@ class WebhookUtils {
             }
             val jsonMsg = Gson().toJson(msgMap)
 
-            XHttp.post(path)
-                .baseUrl(baseUrl)
-                .upJson(jsonMsg)
-                .execute(object : SimpleCallBack<String>() {
-                    override fun onError(e: ApiException) {
-                        Log.e(TAG, "Webhook failed: " + (e.detailMessage ?: "Unknown error"))
-                        SendUtils.senderLogic(0, msgInfo)
-                    }
+            val requestBody = RequestBody.create(
+                MediaType.parse("application/json; charset=utf-8"),
+                jsonMsg
+            )
 
-                    override fun onSuccess(response: String) {
-                        Log.i(TAG, "Webhook success: $response")
-                        SendUtils.senderLogic(2, msgInfo)
+            val request = Request.Builder()
+                .url(requestUrl)
+                .post(requestBody)
+                .build()
+
+            XHttp.getOkHttpClient().newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.e(TAG, "Webhook failed: " + (e.message ?: "Unknown error"))
+                    SendUtils.senderLogic(0, msgInfo)
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    response.use {
+                        if (response.isSuccessful) {
+                            try {
+                                val responseStr = response.body()?.string() ?: ""
+                                Log.i(TAG, "Webhook success: $responseStr")
+                                SendUtils.senderLogic(2, msgInfo)
+                            } catch (e: Exception) {
+                                Log.e(TAG, "Failed to read response: " + e.message)
+                                SendUtils.senderLogic(2, msgInfo) // Still treat as success if we got a response
+                            }
+                        } else {
+                            Log.e(TAG, "Webhook failed: Code: ${response.code()}, Message: ${response.message()}")
+                            SendUtils.senderLogic(0, msgInfo)
+                        }
                     }
-                })
+                }
+            })
         }
     }
 }
