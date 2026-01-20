@@ -389,7 +389,8 @@
                     android:layout_weight="1"
                     android:hint="@string/bark_encryption_key_tips"
                     android:singleLine="true"
-                    app:met_clearButton="true" />
+                    app:met_clearButton="true"
+                    app:met_passWordButton="true" />
 
             </LinearLayout>
 
@@ -413,7 +414,8 @@
                     android:layout_weight="1"
                     android:hint="@string/bark_encryption_iv_tips"
                     android:singleLine="true"
-                    app:met_clearButton="true" />
+                    app:met_clearButton="true"
+                    app:met_passWordButton="true" />
 
             </LinearLayout>
 

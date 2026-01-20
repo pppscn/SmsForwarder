@@ -280,7 +280,7 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
         } else if (transformation.startsWith("AES256") && key.length != 32) {
             throw Exception(getString(R.string.bark_encryption_key_error3))
         }
-        if (transformation.contains("CBC") && iv.length != 16) {
+        if (transformation.contains("CBC") && iv.isNotEmpty() && iv.length != 16) {
             throw Exception(getString(R.string.bark_encryption_key_error4))
         }
 

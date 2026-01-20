@@ -8,6 +8,7 @@ import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.result.BarkResult
 import com.idormy.sms.forwarder.entity.setting.BarkSetting
 import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.RandomUtils
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
 import com.idormy.sms.forwarder.utils.interceptor.BasicAuthInterceptor
@@ -15,11 +16,12 @@ import com.idormy.sms.forwarder.utils.interceptor.LoggingInterceptor
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
+import java.net.URLEncoder
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
-@Suppress("RegExpRedundantEscape", "UselessCallOnNotNull")
+@Suppress("RegExpRedundantEscape", "UselessCallOnNotNull", "CanUnescapeDollarLiteral")
 class BarkUtils {
     companion object {
 
@@ -93,10 +95,15 @@ class BarkUtils {
             val requestMsg: String = Gson().toJson(msgMap)
             Log.i(TAG, "requestMsg:$requestMsg")
             //推送加密
-            if (setting.transformation.isNullOrBlank() || "none" == setting.transformation || setting.key.isNullOrBlank() || setting.iv.isNullOrBlank()) {
+            if (setting.transformation.isNullOrBlank() || "none" == setting.transformation || setting.key.isNullOrBlank()) {
                 request.upJson(requestMsg)
             } else {
                 val transformation = setting.transformation.replace("AES128", "AES").replace("AES192", "AES").replace("AES256", "AES")
+                if (setting.iv.isNullOrBlank()) {
+                    // 留空则随机16字符
+                    setting.iv = RandomUtils.getRandomNumbersAndLetters(16).toString()
+                    request.params("iv", URLEncoder.encode(setting.iv, "UTF-8"))
+                }
                 val ciphertext = encrypt(requestMsg, transformation, setting.key, setting.iv)
                 //Log.d(TAG, "ciphertext: $ciphertext")
                 //val plainText = decrypt(ciphertext, transformation, setting.key, setting.iv)
