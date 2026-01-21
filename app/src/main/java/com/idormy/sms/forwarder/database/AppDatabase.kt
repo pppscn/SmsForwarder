@@ -28,7 +28,7 @@ import com.idormy.sms.forwarder.utils.TAG_LIST
 @Database(
     entities = [Frpc::class, Msg::class, Logs::class, Rule::class, Sender::class, Task::class],
     views = [LogsDetail::class],
-    version = 20,
+    version = 21,
     exportSchema = false
 )
 @TypeConverters(ConvertersDate::class)
@@ -111,6 +111,7 @@ custom_domains = smsf.demo.com
                     MIGRATION_17_18,
                     MIGRATION_18_19,
                     MIGRATION_19_20,
+                    MIGRATION_20_21,
                 )
 
             /*if (BuildConfig.DEBUG) {
@@ -457,6 +458,13 @@ CREATE TABLE "Task" (
         private val MIGRATION_19_20 = object : Migration(19, 20) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("Alter table rule add column silent_day_of_week TEXT NOT NULL DEFAULT '' ")
+            }
+        }
+
+        //转发规则增加自定义名称
+        private val MIGRATION_20_21 = object : Migration(20, 21) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("Alter table rule add column title TEXT NOT NULL DEFAULT '' ")
             }
         }
 

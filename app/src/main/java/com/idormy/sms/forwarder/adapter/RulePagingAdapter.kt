@@ -29,7 +29,12 @@ class RulePagingAdapter(private val itemClickListener: OnItemClickListener) : Pa
         if (item != null) {
             holder.binding.ivRuleImage.setImageResource(item.imageId)
             holder.binding.ivRuleStatus.setImageResource(item.statusImageId)
-            holder.binding.tvRuleMatch.text = item.getName(false)
+            if (item.title.isNotBlank()) {
+                holder.binding.tvRuleMatch.text = item.title
+                holder.binding.tvRuleMatch.textSize = 13F
+            } else {
+                holder.binding.tvRuleMatch.text = item.getName(false)
+            }
 
             holder.binding.layoutSenders.removeAllViews()
             for (sender in item.senderList) {

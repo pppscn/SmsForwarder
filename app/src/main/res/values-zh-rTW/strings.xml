@@ -185,6 +185,8 @@
     <string name="add_rule_first">請先去設置轉發規則頁面添加</string>
     <string name="add_frpc_first">請先去設置FRPC頁面添加</string>
     <string name="add_task_first">請先去設置自動任務頁面添加</string>
+    <string name="rule_title">規則別名</string>
+    <string name="rule_title_tips">可選。範例：將快遞驗證碼轉發到釘釘</string>
     <string name="select_sender">發送通道</string>
     <string name="rule_tester">規則匹配測試</string>
     <string name="test_sim_slot">測試模擬的接收卡槽</string>

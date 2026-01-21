@@ -23,6 +23,30 @@
                 style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rule_title"
+                    android:textStyle="bold" />
+
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:hint="@string/rule_title_tips"
+                    android:singleLine="true"
+                    app:met_clearButton="true" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/BarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout

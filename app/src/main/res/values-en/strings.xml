@@ -184,6 +184,8 @@
     <string name="add_rule_first">Please add a rule first.</string>
     <string name="add_frpc_first">Please add a frpc first.</string>
     <string name="add_task_first">Please add a task first.</string>
+    <string name="rule_title">Rule Alias</string>
+    <string name="rule_title_tips">Opt., e.g. Forward codes to DingTalk</string>
     <string name="select_sender">Select Sender</string>
     <string name="rule_tester">Rule tester:</string>
     <string name="test_sim_slot">Test SIM Slot</string>

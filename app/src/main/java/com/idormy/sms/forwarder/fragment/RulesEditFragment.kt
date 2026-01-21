@@ -591,6 +591,8 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                     )
                     silentPeriodDays.forEach { map[it]?.isChecked = true }
                 }
+
+                binding!!.etTitle.setText(rule.title.trim())
             }
         })
     }
@@ -680,6 +682,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
         val silentDayOfWeek = map.filter { it.value.isChecked }
             .toList().map { it.first }.joinToString(",")
 
+        val ruleTitle = binding!!.etTitle.text.toString().trim()
         return Rule(
             ruleId,
             ruleType,
@@ -697,6 +700,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
             silentPeriodStart,
             silentPeriodEnd,
             silentDayOfWeek,
+            ruleTitle
         )
     }
 

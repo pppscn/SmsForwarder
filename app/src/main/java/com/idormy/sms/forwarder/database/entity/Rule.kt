@@ -1,7 +1,12 @@
 package com.idormy.sms.forwarder.database.entity
 
 import android.os.Parcelable
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.idormy.sms.forwarder.App
 import com.idormy.sms.forwarder.App.Companion.CALL_TYPE_MAP
 import com.idormy.sms.forwarder.App.Companion.CHECK_MAP
@@ -10,10 +15,32 @@ import com.idormy.sms.forwarder.App.Companion.SIM_SLOT_MAP
 import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.ext.ConvertersSenderList
 import com.idormy.sms.forwarder.entity.MsgInfo
-import com.idormy.sms.forwarder.utils.*
+import com.idormy.sms.forwarder.utils.CHECK_CONTAIN
+import com.idormy.sms.forwarder.utils.CHECK_END_WITH
+import com.idormy.sms.forwarder.utils.CHECK_IS
+import com.idormy.sms.forwarder.utils.CHECK_NOT_CONTAIN
+import com.idormy.sms.forwarder.utils.CHECK_NOT_IS
+import com.idormy.sms.forwarder.utils.CHECK_REGEX
+import com.idormy.sms.forwarder.utils.CHECK_SIM_SLOT_1
+import com.idormy.sms.forwarder.utils.CHECK_SIM_SLOT_2
+import com.idormy.sms.forwarder.utils.CHECK_SIM_SLOT_ALL
+import com.idormy.sms.forwarder.utils.CHECK_START_WITH
+import com.idormy.sms.forwarder.utils.FILED_CALL_TYPE
+import com.idormy.sms.forwarder.utils.FILED_INFORM_CONTENT
+import com.idormy.sms.forwarder.utils.FILED_MSG_CONTENT
+import com.idormy.sms.forwarder.utils.FILED_MULTI_MATCH
+import com.idormy.sms.forwarder.utils.FILED_PACKAGE_NAME
+import com.idormy.sms.forwarder.utils.FILED_PHONE_NUM
+import com.idormy.sms.forwarder.utils.FILED_TRANSPOND_ALL
+import com.idormy.sms.forwarder.utils.FILED_UID
+import com.idormy.sms.forwarder.utils.Log
+import com.idormy.sms.forwarder.utils.RuleLineUtils
+import com.idormy.sms.forwarder.utils.SENDER_LOGIC_UNTIL_FAIL
+import com.idormy.sms.forwarder.utils.SENDER_LOGIC_UNTIL_SUCCESS
+import com.idormy.sms.forwarder.utils.STATUS_OFF
 import com.xuexiang.xutil.resource.ResUtils.getString
 import kotlinx.parcelize.Parcelize
-import java.util.*
+import java.util.Date
 import java.util.regex.Pattern
 import java.util.regex.PatternSyntaxException
 
@@ -55,6 +82,7 @@ data class Rule(
     @ColumnInfo(name = "silent_period_start", defaultValue = "0") var silentPeriodStart: Int = 0,
     @ColumnInfo(name = "silent_period_end", defaultValue = "0") var silentPeriodEnd: Int = 0,
     @ColumnInfo(name = "silent_day_of_week", defaultValue = "") var silentDayOfWeek: String = "",
+    @ColumnInfo(name = "title", defaultValue = "") var title: String = "",
 ) : Parcelable {
 
     companion object {

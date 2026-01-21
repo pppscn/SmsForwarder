@@ -185,6 +185,8 @@
     <string name="add_rule_first">请先去设置转发规则页面添加</string>
     <string name="add_frpc_first">请先去设置FRPC页面添加</string>
     <string name="add_task_first">请先去设置自动任务页面添加</string>
+    <string name="rule_title">规则别名</string>
+    <string name="rule_title_tips">可选, 例: 快递验证码转发到钉钉</string>
     <string name="select_sender">发送通道</string>
     <string name="rule_tester">规则匹配测试</string>
     <string name="test_sim_slot">测试模拟的接收卡槽</string>
