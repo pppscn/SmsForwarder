@@ -114,8 +114,7 @@ class SocketUtils {
                     output.flush()
 
                     val response = if (setting.response.isEmpty()) "" else input.readLine() ?: ""
-                    val status =
-                        if (setting.response.isEmpty() || response.contains(setting.response)) 2 else 0
+                    val status = if (setting.response.isEmpty() || response.contains(setting.response)) 2 else 0
 
                     SendUtils.updateLogs(logId, status, response)
                     SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
@@ -143,17 +142,8 @@ class SocketUtils {
             socket.soTimeout = timeout
 
             val address = java.net.InetAddress.getByName(setting.address)
-            val uuid = UUID.randomUUID().toString()
 
-            val body = mapOf(
-                "id" to uuid,
-                "payload" to message,
-                "ts" to System.currentTimeMillis()
-            )
-
-            val data = Gson().toJson(body)
-                .toByteArray(Charset.forName(setting.outCharset))
-
+            val data = message.toByteArray(Charset.forName(setting.outCharset))
             val packet = java.net.DatagramPacket(
                 data,
                 data.size,
@@ -164,27 +154,27 @@ class SocketUtils {
             repeat(retry) { index ->
                 try {
                     socket.send(packet)
-                    Log.d(TAG, "UDP send ${index + 1}/$retry id=$uuid")
+                    Log.d(TAG, "UDP send ${index + 1}/$retry")
 
                     val buf = ByteArray(1024)
                     val ackPacket = java.net.DatagramPacket(buf, buf.size)
                     socket.receive(ackPacket)
 
-                    val ackText = String(
+                    val response = String(
                         ackPacket.data,
                         0,
                         ackPacket.length,
                         Charset.forName(setting.inCharset)
                     )
+                    Log.d(TAG, "UDP received ACK from ${ackPacket.address}:${ackPacket.port}")
+                    Log.d(TAG, "UDP ACK data: $response")
 
-                    val ack = Gson().fromJson(ackText, Map::class.java)
-                    if (ack["ack"] == uuid) {
-                        SendUtils.updateLogs(logId, 2, "UDP ACK OK")
-                        SendUtils.senderLogic(2, msgInfo, rule, senderIndex, msgId)
-                        socket.close()
-                        return@withContext
-                    }
+                    val status = if (setting.response.isEmpty() || response.contains(setting.response)) 2 else 0
 
+                    SendUtils.updateLogs(logId, status, response)
+                    SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
+                    socket.close()
+                    return@withContext
                 } catch (e: java.net.SocketTimeoutException) {
                     Log.w(TAG, "UDP ACK timeout, retry...: ${e.message}")
                 } catch (e: Exception) {
