@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package com.idormy.sms.forwarder.utils.sender
 
 import android.annotation.SuppressLint
@@ -11,11 +13,12 @@ import com.idormy.sms.forwarder.utils.AppUtils
 import com.idormy.sms.forwarder.utils.Log
 import com.idormy.sms.forwarder.utils.SendUtils
 import com.idormy.sms.forwarder.utils.SettingUtils
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended
 import org.eclipse.paho.client.mqttv3.MqttClient
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
-import org.eclipse.paho.client.mqttv3.MqttException
 import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence
 import java.io.BufferedReader
@@ -69,106 +72,13 @@ class SocketUtils {
                 message.replace("[from]", URLEncoder.encode(from, "UTF-8")).replace("[content]", URLEncoder.encode(content, "UTF-8")).replace("[msg]", URLEncoder.encode(content, "UTF-8")).replace("[org_content]", URLEncoder.encode(orgContent, "UTF-8")).replace("[device_mark]", URLEncoder.encode(deviceMark, "UTF-8")).replace("[app_version]", URLEncoder.encode(appVersion, "UTF-8")).replace("[title]", URLEncoder.encode(simInfo, "UTF-8")).replace("[card_slot]", URLEncoder.encode(simInfo, "UTF-8")).replace("[receive_time]", URLEncoder.encode(receiveTime, "UTF-8")).replace("\n", "%0A").replace("[timestamp]", timestamp.toString()).replace("[sign]", sign)
             }
 
-            if (setting.method == "TCP" || setting.method == "UDP") {
-                // 创建套接字并连接到服务器
-                val socket = Socket(setting.address, setting.port)
-                Log.d(TAG, "连接到服务器: ${setting.address}:${setting.port}")
-                try {
-                    // 获取输入流和输出流，设置字符集为UTF-8
-                    val input = BufferedReader(InputStreamReader(socket.getInputStream(), Charset.forName(setting.inCharset)))
-                    val output = BufferedWriter(OutputStreamWriter(socket.getOutputStream(), Charset.forName(setting.outCharset)))
-
-                    // 向服务器发送数据
-                    output.write(message)
-                    output.newLine() // 添加换行符以便服务器使用readLine()来读取
-                    output.flush()
-                    Log.d(TAG, "发送到服务器的消息: $message")
-
-                    var status = 0
-                    var response = ""
-                    if (setting.response.isEmpty()) {
-                        status = 2
-                    }
-                    else {
-                        response = input.readLine()
-                        Log.d(TAG, "从服务器接收的响应: $response")
-                        status = if (setting.response.isNotEmpty() && !response.contains(setting.response)) 0 else 2
-                    }
-                    SendUtils.updateLogs(logId, status, response)
-                    SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    Log.e(TAG, "An error occurred: ${e.message}")
-                    val status = 0
-                    SendUtils.updateLogs(logId, status, e.message.toString())
-                    SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
-                } finally {
-                    // 关闭套接字
-                    socket.close()
-                    Log.d(TAG, "Disconnected from MQTT broker")
-                }
-            } else if (setting.method == "MQTT") {
-                // MQTT 连接参数
-                val uriType = if (TextUtils.isEmpty(setting.uriType)) "tcp" else setting.uriType
-                var brokerUrl = "${uriType}://${setting.address}:${setting.port}"
-                if (!TextUtils.isEmpty(setting.path)) {
-                    brokerUrl += setting.path
-                }
-                Log.d(TAG, "MQTT brokerUrl: $brokerUrl")
-                val clientId = if (TextUtils.isEmpty(setting.clientId)) UUID.randomUUID().toString() else setting.clientId
-                val mqttClient = MqttClient(brokerUrl, clientId, MemoryPersistence())
-                try {
-                    val options = MqttConnectOptions()
-                    if (!TextUtils.isEmpty(setting.username)) {
-                        options.userName = setting.username
-                    }
-                    if (!TextUtils.isEmpty(setting.password)) {
-                        options.password = setting.password.toCharArray()
-                    }
-                    options.isCleanSession = true
-                    mqttClient.connect(options)
-                    Log.d(TAG, "Connected to MQTT broker: ${mqttClient.serverURI}")
-
-                    mqttClient.subscribe(setting.inMessageTopic)
-                    Log.d(TAG, "Subscribed to topic: $setting.inMessageTopic")
-
-                    val outMessage = message.toByteArray(Charset.forName(setting.outCharset))
-                    val mqttMessage = MqttMessage(outMessage)
-                    mqttMessage.qos = 0 // 设置消息质量服务等级
-                    //异步发布消息
-                    mqttClient.publish(setting.outMessageTopic, mqttMessage)
-                    Log.d(TAG, "Published message to topic: $setting.outMessageTopic")
-                    mqttClient.setCallback(object : MqttCallbackExtended {
-                        override fun connectionLost(cause: Throwable?) {
-                            val response = "Connection to MQTT broker lost: ${cause?.message}"
-                            Log.d(TAG, response)
-                            SendUtils.updateLogs(logId, 0, response)
-                            SendUtils.senderLogic(0, msgInfo, rule, senderIndex, msgId)
-                        }
-
-                        override fun messageArrived(topic: String?, inMessage: MqttMessage?) {
-                            val payload = inMessage?.payload?.toString(Charset.forName(setting.inCharset))
-                            Log.d(TAG, "Received message on topic $topic: $payload")
-                            val status = if (setting.response.isNotEmpty() && !payload?.contains(setting.response)!!) 0 else 2
-                            SendUtils.updateLogs(logId, status, payload.toString())
-                            SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
-                        }
-
-                        override fun deliveryComplete(token: IMqttDeliveryToken?) {
-                            Log.d(TAG, "deliveryComplete")
-                            SendUtils.updateLogs(logId, 2, "deliveryComplete")
-                            SendUtils.senderLogic(2, msgInfo, rule, senderIndex, msgId)
-                        }
-
-                        override fun connectComplete(reconnect: Boolean, serverURI: String?) {
-                            Log.d(TAG, "connectComplete")
-                        }
-                    })
-                } catch (e: MqttException) {
-                    Log.d(TAG, "An error occurred: ${e.message}")
-                } finally {
-                    mqttClient.disconnect()
-                    Log.d(TAG, "Disconnected from MQTT broker")
+            kotlinx.coroutines.CoroutineScope(
+                kotlinx.coroutines.SupervisorJob() + kotlinx.coroutines.Dispatchers.IO
+            ).launch {
+                when (setting.method) {
+                    "TCP" -> sendTcpSuspend(setting, message, msgInfo, rule, senderIndex, logId, msgId)
+                    "UDP" -> sendUdpAckSuspend(setting, message, msgInfo, rule, senderIndex, logId, msgId)
+                    "MQTT" -> sendMqttSuspend(setting, message, msgInfo, rule, senderIndex, logId, msgId)
                 }
             }
         }
@@ -178,6 +88,213 @@ class SocketUtils {
             if (str == null) return "null"
             val jsonStr: String = Gson().toJson(str)
             return if (jsonStr.length >= 2) jsonStr.substring(1, jsonStr.length - 1) else jsonStr
+        }
+
+        private suspend fun sendTcpSuspend(
+            setting: SocketSetting,
+            message: String,
+            msgInfo: MsgInfo,
+            rule: Rule?,
+            senderIndex: Int,
+            logId: Long,
+            msgId: Long
+        ) = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+
+            try {
+                Socket(setting.address, setting.port).use { socket ->
+                    val input = BufferedReader(
+                        InputStreamReader(socket.getInputStream(), Charset.forName(setting.inCharset))
+                    )
+                    val output = BufferedWriter(
+                        OutputStreamWriter(socket.getOutputStream(), Charset.forName(setting.outCharset))
+                    )
+
+                    output.write(message)
+                    output.newLine()
+                    output.flush()
+
+                    val response = if (setting.response.isEmpty()) "" else input.readLine() ?: ""
+                    val status =
+                        if (setting.response.isEmpty() || response.contains(setting.response)) 2 else 0
+
+                    SendUtils.updateLogs(logId, status, response)
+                    SendUtils.senderLogic(status, msgInfo, rule, senderIndex, msgId)
+                }
+            } catch (e: Exception) {
+                SendUtils.updateLogs(logId, 0, e.message ?: "")
+                SendUtils.senderLogic(0, msgInfo, rule, senderIndex, msgId)
+            }
+        }
+
+        private suspend fun sendUdpAckSuspend(
+            setting: SocketSetting,
+            message: String,
+            msgInfo: MsgInfo,
+            rule: Rule?,
+            senderIndex: Int,
+            logId: Long,
+            msgId: Long
+        ) = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+
+            val retry = if (SettingUtils.requestRetryTimes > 0) SettingUtils.requestRetryTimes else 3
+            val timeout = if (SettingUtils.requestTimeout > 0) SettingUtils.requestTimeout * 1000 else 3000
+
+            val socket = java.net.DatagramSocket()
+            socket.soTimeout = timeout
+
+            val address = java.net.InetAddress.getByName(setting.address)
+            val uuid = UUID.randomUUID().toString()
+
+            val body = mapOf(
+                "id" to uuid,
+                "payload" to message,
+                "ts" to System.currentTimeMillis()
+            )
+
+            val data = Gson().toJson(body)
+                .toByteArray(Charset.forName(setting.outCharset))
+
+            val packet = java.net.DatagramPacket(
+                data,
+                data.size,
+                address,
+                setting.port
+            )
+
+            repeat(retry) { index ->
+                try {
+                    socket.send(packet)
+                    Log.d(TAG, "UDP send ${index + 1}/$retry id=$uuid")
+
+                    val buf = ByteArray(1024)
+                    val ackPacket = java.net.DatagramPacket(buf, buf.size)
+                    socket.receive(ackPacket)
+
+                    val ackText = String(
+                        ackPacket.data,
+                        0,
+                        ackPacket.length,
+                        Charset.forName(setting.inCharset)
+                    )
+
+                    val ack = Gson().fromJson(ackText, Map::class.java)
+                    if (ack["ack"] == uuid) {
+                        SendUtils.updateLogs(logId, 2, "UDP ACK OK")
+                        SendUtils.senderLogic(2, msgInfo, rule, senderIndex, msgId)
+                        socket.close()
+                        return@withContext
+                    }
+
+                } catch (e: java.net.SocketTimeoutException) {
+                    Log.w(TAG, "UDP ACK timeout, retry...: ${e.message}")
+                } catch (e: Exception) {
+                    Log.e(TAG, "UDP error: ${e.message}")
+                }
+            }
+
+            SendUtils.updateLogs(logId, 0, "UDP ACK timeout")
+            SendUtils.senderLogic(0, msgInfo, rule, senderIndex, msgId)
+            socket.close()
+        }
+
+        private suspend fun sendMqttSuspend(
+            setting: SocketSetting,
+            message: String,
+            msgInfo: MsgInfo,
+            rule: Rule?,
+            senderIndex: Int,
+            logId: Long,
+            msgId: Long
+        ) = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+
+            val uriType = if (TextUtils.isEmpty(setting.uriType)) "tcp" else setting.uriType
+            var brokerUrl = "$uriType://${setting.address}:${setting.port}"
+            if (!TextUtils.isEmpty(setting.path)) {
+                brokerUrl += setting.path
+            }
+
+            val clientId =
+                if (TextUtils.isEmpty(setting.clientId)) UUID.randomUUID().toString()
+                else setting.clientId
+
+            val mqttClient = MqttClient(brokerUrl, clientId, MemoryPersistence())
+
+            try {
+                val options = MqttConnectOptions().apply {
+                    isCleanSession = true
+                    if (!TextUtils.isEmpty(setting.username)) {
+                        userName = setting.username
+                    }
+                    if (!TextUtils.isEmpty(setting.password)) {
+                        password = setting.password.toCharArray()
+                    }
+                }
+
+                // 用挂起点等 MQTT 回调，避免忙等
+                val result = kotlinx.coroutines.suspendCancellableCoroutine { cont ->
+
+                    mqttClient.setCallback(object : MqttCallbackExtended {
+
+                        override fun connectComplete(reconnect: Boolean, serverURI: String?) {
+                            try {
+                                if (!TextUtils.isEmpty(setting.inMessageTopic)) {
+                                    mqttClient.subscribe(setting.inMessageTopic)
+                                }
+
+                                val payload = message.toByteArray(Charset.forName(setting.outCharset))
+                                val mqttMessage = MqttMessage(payload).apply { qos = 0 }
+
+                                mqttClient.publish(setting.outMessageTopic, mqttMessage)
+
+                                // 没有 response 期望，直接成功
+                                if (setting.response.isEmpty()) {
+                                    cont.resume(2 to "MQTT sent", null)
+                                }
+
+                            } catch (e: Exception) {
+                                cont.resume(0 to e.message.orEmpty(), null)
+                            }
+                        }
+
+                        override fun messageArrived(topic: String?, msg: MqttMessage?) {
+                            val text = msg?.payload?.toString(Charset.forName(setting.inCharset)).orEmpty()
+                            val status =
+                                if (setting.response.isNotEmpty() && !text.contains(setting.response)) 0
+                                else 2
+
+                            cont.resume(status to text, null)
+                        }
+
+                        override fun deliveryComplete(token: IMqttDeliveryToken?) {
+                            // 如果没有订阅回包，这里兜底
+                            if (setting.response.isEmpty()) {
+                                cont.resume(2 to "deliveryComplete", null)
+                            }
+                        }
+
+                        override fun connectionLost(cause: Throwable?) {
+                            cont.resume(0 to (cause?.message ?: "MQTT connection lost"), null)
+                        }
+                    })
+
+                    mqttClient.connect(options)
+                }
+
+                SendUtils.updateLogs(logId, result.first, result.second)
+                SendUtils.senderLogic(result.first, msgInfo, rule, senderIndex, msgId)
+
+            } catch (e: Exception) {
+                SendUtils.updateLogs(logId, 0, e.message ?: "")
+                SendUtils.senderLogic(0, msgInfo, rule, senderIndex, msgId)
+
+            } finally {
+                try {
+                    if (mqttClient.isConnected) {
+                        mqttClient.disconnect()
+                    }
+                } catch (_: Exception) {
+                }
+            }
         }
 
     }
