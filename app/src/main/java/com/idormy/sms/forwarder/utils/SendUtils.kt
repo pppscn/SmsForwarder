@@ -100,14 +100,16 @@ object SendUtils {
             }
             //免打扰(禁用转发)日期段
             Log.d(TAG, "silentDayOfWeek = ${rule.silentDayOfWeek}")
-            val silentDayOfWeek = rule.silentDayOfWeek.split(",").filter { it.isNotEmpty() }.map { it.toInt() }
-            if (silentDayOfWeek.isNotEmpty()) {
-                val dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
-                if (silentDayOfWeek.contains(dayOfWeek)) {
-                    Log.d(TAG, "免打扰(禁用转发)日期段")
-                    updateLogs(logId, 0, getString(R.string.silent_time_period))
-                    senderLogic(0, msgInfo, rule, senderIndex, msgId)
-                    return
+            if (rule.silentDayOfWeek.isNotBlank()) {
+                val silentDayOfWeek = rule.silentDayOfWeek.split(",").mapNotNull { it.trim().toIntOrNull() }
+                if (silentDayOfWeek.isNotEmpty()) {
+                    val dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+                    if (silentDayOfWeek.contains(dayOfWeek)) {
+                        Log.d(TAG, "免打扰(禁用转发)日期段")
+                        updateLogs(logId, 0, getString(R.string.silent_time_period))
+                        senderLogic(0, msgInfo, rule, senderIndex, msgId)
+                        return
+                    }
                 }
             }
 
