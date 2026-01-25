@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.text.TextUtils
 import android.util.Base64
 import com.google.gson.Gson
-import com.idormy.sms.forwarder.R
 import com.idormy.sms.forwarder.database.entity.Rule
 import com.idormy.sms.forwarder.entity.MsgInfo
 import com.idormy.sms.forwarder.entity.setting.WebhookSetting
@@ -18,8 +17,6 @@ import com.idormy.sms.forwarder.utils.interceptor.NoContentInterceptor
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
-import com.xuexiang.xutil.net.NetworkUtils
-import com.xuexiang.xutil.resource.ResUtils
 import okhttp3.Credentials
 import okhttp3.Response
 import okhttp3.Route
@@ -194,20 +191,21 @@ class WebhookUtils {
                     if (sepIndex != -1) {
                         val key = it.substring(0, sepIndex).trim()
                         val value = it.substring(sepIndex + 1).trim()
-                        postRequest.params(key, value.replace("[from]", from)
-                            .replace("[content]", content)
-                            .replace("[msg]", content)
-                            .replace("[org_content]", orgContent)
-                            .replace("[device_mark]", deviceMark)
-                            .replace("[app_version]", appVersion)
-                            .replace("[title]", simInfo)
-                            .replace("[card_slot]", simInfo)
-                            .replace(receiveTimeTag) { t ->
-                                val format = t.groups[2]?.value
-                                formatDateTime(msgInfo.date, format)
-                            }
-                            .replace("[timestamp]", timestamp.toString())
-                            .replace("[sign]", sign)
+                        postRequest.params(
+                            key, value.replace("[from]", from)
+                                .replace("[content]", content)
+                                .replace("[msg]", content)
+                                .replace("[org_content]", orgContent)
+                                .replace("[device_mark]", deviceMark)
+                                .replace("[app_version]", appVersion)
+                                .replace("[title]", simInfo)
+                                .replace("[card_slot]", simInfo)
+                                .replace(receiveTimeTag) { t ->
+                                    val format = t.groups[2]?.value
+                                    formatDateTime(msgInfo.date, format)
+                                }
+                                .replace("[timestamp]", timestamp.toString())
+                                .replace("[sign]", sign)
                         )
                     }
                 }
@@ -229,15 +227,11 @@ class WebhookUtils {
                 && !TextUtils.isEmpty(setting.proxyHost) && !TextUtils.isEmpty(setting.proxyPort)
             ) {
                 //代理服务器的IP和端口号
-                Log.d(TAG, "proxyHost = ${setting.proxyHost}, proxyPort = ${setting.proxyPort}")
-                val proxyHost = if (NetworkUtils.isIP(setting.proxyHost)) setting.proxyHost else NetworkUtils.getDomainAddress(setting.proxyHost)
-                if (!NetworkUtils.isIP(proxyHost)) {
-                    throw Exception(String.format(ResUtils.getString(R.string.invalid_proxy_host), proxyHost))
-                }
-                val proxyPort: Int = setting.proxyPort.toInt()
+                val proxyPort = setting.proxyPort.toIntOrNull()
+                    ?: throw IllegalArgumentException("Invalid proxy port")
 
-                Log.d(TAG, "proxyHost = $proxyHost, proxyPort = $proxyPort")
-                request.okproxy(Proxy(setting.proxyType, InetSocketAddress(proxyHost, proxyPort)))
+                Log.d(TAG, "proxyHost = ${setting.proxyHost}, proxyPort = $proxyPort")
+                request.okproxy(Proxy(setting.proxyType, InetSocketAddress(setting.proxyHost, proxyPort)))
 
                 //代理的鉴权账号密码
                 if (setting.proxyAuthenticator && (!TextUtils.isEmpty(setting.proxyUsername) || !TextUtils.isEmpty(setting.proxyPassword))
