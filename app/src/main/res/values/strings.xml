@@ -294,6 +294,8 @@
     <string name="enable_starttls">开启StartTLS</string>
     <string name="email_account">发件邮箱</string>
     <string name="email_password">登录密码</string>
+    <string name="email_from_alias">发件邮箱别名</string>
+    <string name="email_from_alias_tips">可选, 用于显示发件人地址</string>
     <string name="email_nickname">发件人昵称</string>
     <string name="email_to">收件人邮箱</string>
     <string name="email_to_tips">Tip: 点击按钮添加收件人邮箱</string>

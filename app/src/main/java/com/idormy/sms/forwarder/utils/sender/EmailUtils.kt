@@ -156,6 +156,9 @@ class EmailUtils {
                         val port = setting.port
                         val from = setting.fromEmail
                         val password = setting.pwd
+                        val fromAlias = setting.fromEmailAlias.ifEmpty {
+                            setting.fromEmail
+                        }
                         val nickname = msgInfo.getTitleForSend(setting.nickname)
                         setting.recipients.ifEmpty {
                             //兼容旧的设置
@@ -297,6 +300,7 @@ class EmailUtils {
                                     port,
                                     from,
                                     password,
+                                    fromAlias,
                                     nickname,
                                     title,
                                     content,
@@ -323,6 +327,7 @@ class EmailUtils {
                                 port,
                                 from,
                                 password,
+                                fromAlias,
                                 nickname,
                                 title,
                                 content,

@@ -264,6 +264,8 @@
     <string name="enable_starttls">Enable StartTLS</string>
     <string name="email_account">Account</string>
     <string name="email_password">Password/Auth Code</string>
+    <string name="email_from_alias">From Email Alias</string>
+    <string name="email_from_alias_tips">Opt., used to display From Address</string>
     <string name="email_nickname">Nickname</string>
     <string name="email_to">Recipients</string>
     <string name="email_to_tips">Tip: Click to add recipients.</string>

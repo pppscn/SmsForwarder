@@ -265,6 +265,8 @@
     <string name="enable_starttls">開啟StartTLS</string>
     <string name="email_account">發件郵箱</string>
     <string name="email_password">登錄密碼</string>
+    <string name="email_from_alias">發件郵箱別名</string>
+    <string name="email_from_alias_tips">選填，用於顯示發件人地址</string>
     <string name="email_nickname">發件人昵稱</string>
     <string name="email_to">收件人郵箱</string>
     <string name="email_to_tips">提示：點擊按鈕添加收件人郵箱</string>

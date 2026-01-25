@@ -43,6 +43,7 @@ class SmimeUtils(
     private val authenticator: Authenticator,
     // 邮件参数
     private val from: String, // 发件人邮箱
+    private val fromAlias: String, // 发件人邮箱别名
     private val nickname: String, // 发件人昵称
     private val subject: String, // 邮件主题
     private val body: String, // 邮件正文
@@ -135,14 +136,14 @@ class SmimeUtils(
         message.setRecipients(Message.RecipientType.BCC, bccAddress)
         // 设置发件箱
         when {
-            nickname.isEmpty() -> message.setFrom(InternetAddress(from))
+            nickname.isEmpty() -> message.setFrom(InternetAddress(fromAlias))
             else -> try {
                 var name = nickname.replace(":", "-").replace("\n", "-")
                 name = MimeUtility.encodeText(name)
-                message.setFrom(InternetAddress("$name <$from>"))
+                message.setFrom(InternetAddress("$name <$fromAlias>"))
             } catch (e: Exception) {
                 e.printStackTrace()
-                message.setFrom(InternetAddress(from))
+                message.setFrom(InternetAddress(fromAlias))
             }
         }
         // 邮件主题

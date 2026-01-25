@@ -22,6 +22,7 @@ class EmailSender(
     private val from: String, // 发件人邮箱
     private val password: String, // 发件人邮箱密码/授权码
     // 邮件参数
+    private val fromAlias: String, // 发件人邮箱别名
     private val nickname: String, // 发件人昵称
     private val subject: String, // 邮件主题
     private val body: CharSequence, // 邮件正文
@@ -88,6 +89,7 @@ class EmailSender(
                         properties,
                         authenticator,
                         from,
+                        fromAlias,
                         nickname,
                         subject,
                         html,
@@ -117,6 +119,7 @@ class EmailSender(
                         properties,
                         authenticator,
                         from,
+                        fromAlias,
                         nickname,
                         subject,
                         html,
@@ -146,6 +149,7 @@ class EmailSender(
                         properties,
                         authenticator,
                         from,
+                        fromAlias,
                         nickname,
                         subject,
                         html,

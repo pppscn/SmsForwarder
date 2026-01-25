@@ -212,6 +212,7 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
                     }
                     binding!!.etFromEmail.setText(settingVo.fromEmail)
                     binding!!.etPwd.setText(settingVo.pwd)
+                    binding!!.etFromEmailAlias.setText(settingVo.fromEmailAlias)
                     binding!!.etNickname.setText(settingVo.nickname)
                     binding!!.etHost.setText(settingVo.host)
                     binding!!.etPort.setText(settingVo.port)
@@ -419,6 +420,7 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
             throw Exception(getString(R.string.invalid_email_server))
         }
 
+        val fromEmailAlias = binding!!.etFromEmailAlias.text.toString().trim()
         val nickname = binding!!.etNickname.text.toString().trim()
         val ssl = binding!!.sbSsl.isChecked
         val startTls = binding!!.sbStartTls.isChecked
@@ -464,7 +466,7 @@ class EmailFragment : BaseFragment<FragmentSendersEmailBinding?>(), View.OnClick
 
         }
 
-        return EmailSetting(mailType, fromEmail, pwd, nickname, host, port, ssl, startTls, title, recipients, "", keystore, password, encryptionProtocol)
+        return EmailSetting(mailType, fromEmail, pwd, nickname, host, port, ssl, startTls, title, recipients, "", keystore, password, encryptionProtocol, fromEmailAlias)
     }
 
     //recipient序号

@@ -18,6 +18,7 @@ data class EmailSetting(
     var keystore: String = "",
     var password: String = "",
     var encryptionProtocol: String = "Plain", //加密协议: S/MIME、OpenPGP、Plain（不传证书）
+    var fromEmailAlias: String = "", //发件邮箱别名
 ) : Serializable {
 
     fun getEncryptionProtocolCheckId(): Int {
