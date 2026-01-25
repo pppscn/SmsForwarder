@@ -33,7 +33,7 @@ class SmsCommandUtils {
 
         //执行短信指令
         fun execute(context: Context, smsCommand: String): Boolean {
-            val cmdList = smsCommand.split("#")
+            val cmdList = smsCommand.split("#", limit = 3)
             Log.d(TAG, "smsCommand = $smsCommand, cmdList = $cmdList")
             if (cmdList.count() < 2) return false
 
