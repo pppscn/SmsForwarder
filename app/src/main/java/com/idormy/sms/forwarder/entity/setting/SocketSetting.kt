@@ -19,6 +19,8 @@ data class SocketSetting(
     val uriType: String = "tcp", //Mqtt专属，通信方式 默认为tcp
     val path: String = "", //Mqtt专属，通信路径，用于在使用ws进行通信时设置uri，最后的访问结果为"${uriType}://${address}:${port}${path}"
     val clientId: String = "", //Mqtt专属，客户端ID，如果为空则为随机值
+    val qos: Int = 0, //Mqtt专属，QoS服务质量
+    val retained: Boolean = false, //Mqtt专属，是否保留消息（Retained Message）
 ) : Serializable {
 
     fun getMethodCheckId(): Int {
@@ -34,6 +36,14 @@ data class SocketSetting(
         return when (uriType) {
             "ssl" -> R.id.rb_uriType_ssl
             else -> R.id.rb_uriType_tcp
+        }
+    }
+
+    fun getQosCheckId(): Int {
+        return when (qos) {
+            1 -> R.id.rb_qos_1
+            2 -> R.id.rb_qos_2
+            else -> R.id.rb_qos_0
         }
     }
 

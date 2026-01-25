@@ -417,6 +417,65 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    style="@style/BarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/qos"
+                        android:textStyle="bold" />
+
+                    <RadioGroup
+                        android:id="@+id/rg_qos"
+                        style="@style/rg_style"
+                        android:layout_marginStart="5dp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rb_qos_0"
+                            style="@style/rg_rb_style"
+                            android:checked="true"
+                            android:text="@string/qos_0" />
+
+                        <RadioButton
+                            android:id="@+id/rb_qos_1"
+                            style="@style/rg_rb_style"
+                            android:text="@string/qos_1" />
+
+                        <RadioButton
+                            android:id="@+id/rb_qos_2"
+                            style="@style/rg_rb_style"
+                            android:text="@string/qos_2" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/BarStyle.Switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="@string/retained"
+                        android:textStyle="bold" />
+
+                    <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                        android:id="@+id/sb_retained"
+                        style="@style/SwitchButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>

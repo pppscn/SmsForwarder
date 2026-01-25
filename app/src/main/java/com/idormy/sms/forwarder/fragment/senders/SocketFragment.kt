@@ -140,6 +140,8 @@ class SocketFragment : BaseFragment<FragmentSendersSocketBinding?>(), View.OnCli
                     binding!!.etPath.setText(settingVo.path)
                     binding!!.etClientId.setText(settingVo.clientId)
                     binding!!.layoutMqtt.visibility = if (checkedId == R.id.rb_method_mqtt) View.VISIBLE else View.GONE
+                    binding!!.rgQos.check(settingVo.getQosCheckId())
+                    binding!!.sbRetained.isChecked = settingVo.retained
                 }
             }
         })
@@ -249,12 +251,18 @@ class SocketFragment : BaseFragment<FragmentSendersSocketBinding?>(), View.OnCli
         }
         val path = binding!!.etPath.text.toString().trim()
         val clientId = binding!!.etClientId.text.toString().trim()
+        val qos = when (binding!!.rgQos.checkedRadioButtonId) {
+            R.id.rb_qos_1 -> 1
+            R.id.rb_qos_2 -> 2
+            else -> 0
+        }
+        val retained = binding!!.sbRetained.isChecked
 
         if (method == "MQTT" && (TextUtils.isEmpty(inMessageTopic) || TextUtils.isEmpty(outMessageTopic))) {
             throw Exception(getString(R.string.invalid_mqtt_message_topic))
         }
 
-        return SocketSetting(method, address, port.toInt(), msgTemplate, secret, response, username, password, inCharset, outCharset, inMessageTopic, outMessageTopic, uriType, path, clientId)
+        return SocketSetting(method, address, port.toInt(), msgTemplate, secret, response, username, password, inCharset, outCharset, inMessageTopic, outMessageTopic, uriType, path, clientId, qos, retained)
     }
 
     override fun onDestroyView() {

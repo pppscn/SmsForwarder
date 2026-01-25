@@ -232,12 +232,10 @@ class SocketUtils {
                                 }
 
                                 val payload = message.toByteArray(Charset.forName(setting.outCharset))
-                                val mqttMessage = MqttMessage(payload).apply { qos = 0 }
-
-                                mqttClient.publish(setting.outMessageTopic, mqttMessage)
+                                mqttClient.publish(setting.outMessageTopic, payload, setting.qos, setting.retained)
 
                                 // 没有 response 期望，直接成功
-                                if (setting.response.isEmpty()) {
+                                if (setting.response.isEmpty() || setting.retained) {
                                     cont.resume(2 to "MQTT sent", null)
                                 }
 
@@ -257,7 +255,7 @@ class SocketUtils {
 
                         override fun deliveryComplete(token: IMqttDeliveryToken?) {
                             // 如果没有订阅回包，这里兜底
-                            if (setting.response.isEmpty()) {
+                            if (setting.response.isEmpty() || setting.retained) {
                                 cont.resume(2 to "deliveryComplete", null)
                             }
                         }

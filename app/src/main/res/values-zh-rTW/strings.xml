@@ -438,6 +438,11 @@
     <string name="out_message_topic_hint">發送對應主題的消息</string>
     <string name="uri_type">通信方式</string>
     <string name="path">通信路徑</string>
+    <string name="qos">QoS服務品質</string>
+    <string name="qos_0">最多一次 (0)</string>
+    <string name="qos_1">最少一次 (1)</string>
+    <string name="qos_2">只一次 (2)</string>
+    <string name="retained">保留訊息（Retained Message）</string>
     <string name="path_hint">用於在使用ws進行通信時設置uri</string>
     <string name="client_id">客戶端ID</string>
     <string name="client_id_hint">如果為空則為隨機值</string>

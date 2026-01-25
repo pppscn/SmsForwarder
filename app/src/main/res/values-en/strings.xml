@@ -437,6 +437,11 @@
     <string name="out_message_topic_hint">Send a message on the corresponding topic</string>
     <string name="uri_type">Uri Type</string>
     <string name="path">Path</string>
+    <string name="qos">QoS</string>
+    <string name="qos_0">At most once (0)</string>
+    <string name="qos_1">At least once (1)</string>
+    <string name="qos_2">Exactly once (2)</string>
+    <string name="retained">Retained Message</string>
     <string name="path_hint">Used to set the uri when communicating using ws</string>
     <string name="client_id">Client Id</string>
     <string name="client_id_hint">Random value if empty</string>
