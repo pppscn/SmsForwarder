@@ -534,6 +534,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         BARK_LEVEL_MAP.clear()
         BARK_LEVEL_MAP.putAll(
             mapOf(
+                "critical" to getString(R.string.bark_level_critical),
                 "active" to getString(R.string.bark_level_active),
                 "timeSensitive" to getString(R.string.bark_level_timeSensitive),
                 "passive" to getString(R.string.bark_level_passive)

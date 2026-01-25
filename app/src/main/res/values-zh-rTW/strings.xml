@@ -595,6 +595,7 @@
     <string name="bark_url">消息鏈接</string>
     <string name="bark_url_tips">可選，例：https://github.com/pppscn/SmsForwarder</string>
     <string name="bark_level">通知級別</string>
+    <string name="bark_level_critical">重要警告：靜音模式下也會響鈴</string>
     <string name="bark_level_active">立即亮屏顯示通知</string>
     <string name="bark_level_timeSensitive">時效性通知，可在專注狀態下顯示通知</string>
     <string name="bark_level_passive">僅添加到通知列表，不會亮屏提醒</string>

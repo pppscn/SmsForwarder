@@ -594,6 +594,7 @@
     <string name="bark_url">Message Link</string>
     <string name="bark_url_tips">Opt., e.g. https://github.com/pppscn/SmsForwarder</string>
     <string name="bark_level">Notification Level</string>
+    <string name="bark_level_critical">Critical alert: Rings even in silent mode</string>
     <string name="bark_level_active">Immediately display notifications</string>
     <string name="bark_level_timeSensitive">Time-sensitive notifications that can be displayed in a focused state</string>
     <string name="bark_level_passive">Only added to the notification list, no screen reminder</string>
