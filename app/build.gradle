@@ -24,18 +24,14 @@ if (isNeedPackage.toBoolean() && isUseBooster.toBoolean()) {
     apply plugin: 'com.didiglobal.booster'
 }
 
-android {
-    // 禁用过时 API 警告
-    configure(allprojects) {
-        gradle.projectsEvaluated {
-            tasks.withType(JavaCompile).tap {
-                configureEach {
-                    options.compilerArgs << "-Xlint:-removal"
-                }
-            }
-        }
+// 禁止 Java 编译器显示过时 API 警告
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile).configureEach {
+        options.compilerArgs << "-Xlint:-removal"
     }
+}
 
+android {
     buildToolsVersion build_versions.build_tools
     compileSdkVersion build_versions.target_sdk
 
@@ -60,7 +56,7 @@ android {
     def gitCommitId = getGitCommitId()
 
     defaultConfig {
-        applicationId "com.idormy.sms.forwarder"
+        applicationId "cn.ppps.forwarder"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode build_versions.version_code
@@ -127,6 +123,9 @@ android {
                 signingConfig signingConfigs.debug
                 buildConfigField "String", "APP_ID_UMENG", '"60254fc7425ec25f10f4293e"'
             }
+
+            // 屏蔽 R8 stack map warning
+            buildConfigField "boolean", "DISABLE_R8_WARNINGS", "true"
         }
         debug {
             // 调试模式开关
@@ -156,6 +155,9 @@ android {
                 signingConfig signingConfigs.debug
                 buildConfigField "String", "APP_ID_UMENG", '"60254fc7425ec25f10f4293e"'
             }
+
+            // 屏蔽 R8 stack map warning
+            buildConfigField "boolean", "DISABLE_R8_WARNINGS", "true"
         }
     }
 
@@ -226,7 +228,7 @@ android {
     lint {
         abortOnError false
     }
-    namespace 'com.idormy.sms.forwarder'
+    namespace 'cn.ppps.forwarder'
 
     if (isNeedClean.toBoolean()) {
         //编译前清理项目缓存
@@ -390,11 +392,14 @@ apply from: 'x-library.gradle'
 //apply from: 'multiple-channel.gradle'
 
 //获取 commit ID
-static def getGitCommitId() {
+def getGitCommitId() {
     try {
-        return 'git rev-parse --short HEAD'.execute().text.trim()
-    } catch (Exception e) {
-        e.printStackTrace()
-        return ""
+        def proc = ['git', 'rev-parse', '--short', 'HEAD'].execute(null, rootDir)
+        proc.waitFor()
+        return proc.exitValue() == 0
+                ? proc.text.trim()
+                : "unknown"
+    } catch (Throwable ignore) {
+        return "unknown"
     }
 }

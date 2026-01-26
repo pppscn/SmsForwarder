@@ -268,10 +268,10 @@
 -keep class com.gyf.cactus.entity.* {*;}
 
 # 排除实体类
--keep class com.idormy.sms.forwarder.core.http.entity.** {*;}
--keep class com.idormy.sms.forwarder.database.entity.** {*;}
--keep class com.idormy.sms.forwarder.entity.** {*;}
--keep class com.idormy.sms.forwarder.server.model.** {*;}
+-keep class cn.ppps.forwarder.core.http.entity.** {*;}
+-keep class cn.ppps.forwarder.database.entity.** {*;}
+-keep class cn.ppps.forwarder.entity.** {*;}
+-keep class cn.ppps.forwarder.server.model.** {*;}
 
 # javax.mail
 -dontwarn com.sun.**
@@ -281,7 +281,7 @@
 -keep class javax.mail.** { *;}
 -keep class javax.activation.** { *;}
 -keep class com.smailnet.emailkit.** { *;}
--keep class com.idormy.sms.forwarder.utils.mail.** {*;}
+-keep class cn.ppps.forwarder.utils.mail.** {*;}
 -keep class com.gitee.xuankaicat.kmnkt.** {*;}
 -keep class org.eclipse.paho.client.** {*;}
 
@@ -291,6 +291,8 @@
 -keep interface * implements com.xuexiang.xrouter.facade.template.IProvider
 # 如果使用了 单类注入，即不定义接口实现 IProvider，需添加下面规则，保护实现
 -keep class * implements com.xuexiang.xrouter.facade.template.IProvider
+# 忽略 XRouter 的警告
+-dontwarn com.xuexiang.xrouter.**
 
 -dontwarn com.alipay.sdk.**
 -dontwarn com.android.org.conscrypt.**
@@ -309,3 +311,7 @@
 # crontab解析
 -keep class gatewayapps.crondroid.** { *; }
 -keep class net.redhogs.cronparser.** { *; }
+
+# 忽略所有 R8 stack map warnings
+-ignorewarnings
+-dontwarn **

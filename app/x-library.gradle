@@ -6,7 +6,7 @@ apply plugin: 'com.xuexiang.xaop'
 //自动添加依赖
 configurations.each { configuration ->
     def dependencies = getProject().dependencies
-    if (configuration.name == "implementation") {
+    if (configuration.name.equals("implementation")) {
         //为Project加入X-Library依赖
         //XUI框架
         configuration.dependencies.add(dependencies.create(deps.xlibrary.xui))
@@ -33,14 +33,14 @@ configurations.each { configuration ->
         configuration.dependencies.add(dependencies.create(deps.xlibrary.xrouter_runtime))
     }
 
-    if (configuration.name == "kapt") {
+    if (configuration.name.equals("kapt")) {
         //XPage
         configuration.dependencies.add(dependencies.create(deps.xlibrary.xpage_compiler))
         //页面路由
         configuration.dependencies.add(dependencies.create(deps.xlibrary.xrouter_compiler))
     }
 
-    if (isNeedLeakcanary.toBoolean() && configuration.name == "debugImplementation") {
+    if (isNeedLeakcanary.toBoolean() && configuration.name.equals("debugImplementation")) {
         //内存泄漏监测leak
         configuration.dependencies.add(dependencies.create(deps.leakcanary))
     }
@@ -55,7 +55,7 @@ configurations.configureEach {
 /*
 aspectjx {
     // 这里需要修改包名
-    include 'com.idormy.sms.forwarder'
+    include 'cn.ppps.forwarder'
     // 排除所有package路径中包含`android.support`的class文件及库（jar文件）
     exclude 'android.support'
     // 移除kotlin相关，编译错误和提升速度

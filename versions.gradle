@@ -2,8 +2,8 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 def build_versions = [:]
-build_versions.version_code = 54
-build_versions.version_name = "3.3.3"
+build_versions.version_code = 55
+build_versions.version_name = "3.5.0"
 build_versions.min_sdk = 19
 build_versions.target_sdk = 33
 build_versions.build_tools = "33.0.1"
@@ -209,7 +209,7 @@ ext.addRepos = this.&addRepos
 //自动添加XAOP和XRouter插件
 project.buildscript.configurations.each { configuration ->
     def dependencies = getProject().dependencies
-    if (configuration.name == "classpath") {
+    if (configuration.name.equals("classpath")) {
         //XAOP插件
         configuration.dependencies.add(dependencies.create(deps.xlibrary.xaop_plugin))
         //XRouter插件
