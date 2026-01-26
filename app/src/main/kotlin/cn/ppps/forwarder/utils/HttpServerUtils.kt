@@ -3,12 +3,12 @@ package cn.ppps.forwarder.utils
 
 import android.text.TextUtils
 import android.util.Base64
-import com.google.gson.Gson
 import cn.ppps.forwarder.R
 import cn.ppps.forwarder.core.Core
 import cn.ppps.forwarder.entity.CloneInfo
 import cn.ppps.forwarder.entity.LocationInfo
 import cn.ppps.forwarder.server.model.BaseRequest
+import com.google.gson.Gson
 import com.xuexiang.xutil.resource.ResUtils.getString
 import com.yanzhenjie.andserver.error.HttpException
 import java.net.URLEncoder
@@ -22,6 +22,11 @@ import javax.crypto.spec.SecretKeySpec
 class HttpServerUtils private constructor() {
 
     companion object {
+
+        // 本地版本 -> 允许的请求版本范围
+        private val VERSION_COMPAT_MAP: Map<Int, IntRange> = mapOf(
+            55 to (54..55)
+        )
 
         //是否启用HttpServer开机自启
         var enableServerAutorun: Boolean by SharedPreference(SP_ENABLE_SERVER_AUTORUN, false)
@@ -131,10 +136,21 @@ class HttpServerUtils private constructor() {
         //判断版本是否一致
         @Throws(HttpException::class)
         fun compareVersion(cloneInfo: CloneInfo) {
-            val versionCodeRequest = cloneInfo.versionCode
-            if (versionCodeRequest == 0) throw HttpException(500, getString(R.string.version_code_required))
-            val versionCodeLocal = AppUtils.getAppVersionCode().toString().substring(1)
-            if (!versionCodeRequest.toString().endsWith(versionCodeLocal)) throw HttpException(500, getString(R.string.inconsistent_version))
+            val versionCode = cloneInfo.versionCode
+            if (versionCode == 0) throw HttpException(500, getString(R.string.version_code_required))
+
+            val requestVersion = versionCode.toString().substring(1).toInt()
+            val localVersion = AppUtils.getAppVersionCode().toString().substring(1).toInt()
+            val compatibleRange = VERSION_COMPAT_MAP[localVersion]
+            Log.d("HttpServerUtils", "compareVersion: localVersion=$localVersion, requestVersion=$requestVersion, compatibleRange=$compatibleRange")
+            val isCompatible = if (compatibleRange != null) {
+                requestVersion in compatibleRange
+            } else {
+                requestVersion == localVersion
+            }
+            if (!isCompatible) {
+                throw HttpException(500, getString(R.string.inconsistent_version))
+            }
         }
 
         //导出设置
