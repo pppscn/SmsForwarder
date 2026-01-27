@@ -32,7 +32,7 @@ versions.butterknife = "10.2.3"
 versions.runner = "1.4.0"
 versions.gson = "2.10.1" //https://github.com/google/gson
 versions.okhttp3 = "3.12.13" //不可升级，为了支持 API 19
-versions.leakcanary = "2.13" //https://github.com/square/leakcanary
+versions.leakcanary = "2.14" //https://github.com/square/leakcanary
 versions.lifecycle = "2.2.0"
 versions.kotlin = '1.7.21'
 
@@ -209,6 +209,7 @@ ext.addRepos = this.&addRepos
 //自动添加XAOP和XRouter插件
 project.buildscript.configurations.each { configuration ->
     def dependencies = getProject().dependencies
+    //noinspection ChangeToOperator
     if (configuration.name.equals("classpath")) {
         //XAOP插件
         configuration.dependencies.add(dependencies.create(deps.xlibrary.xaop_plugin))

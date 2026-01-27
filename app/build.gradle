@@ -260,7 +260,7 @@ dependencies {
     implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
 
     testImplementation deps.junit
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.ext:junit:1.3.0'
     androidTestImplementation deps.espresso.core
 
     //noinspection GradleDependency
@@ -270,6 +270,7 @@ dependencies {
     //noinspection GradleDependency
     implementation 'androidx.fragment:fragment-ktx:1.5.5'
     implementation "androidx.cardview:cardview:1.0.0"
+    //noinspection GradleDependency
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.preference:preference-ktx:1.2.1'
 
@@ -344,14 +345,13 @@ dependencies {
     testImplementation "androidx.paging:paging-common-ktx:$paging_version"
 
     //权限请求框架：https://github.com/getActivity/XXPermissions
-    implementation 'com.github.getActivity:XXPermissions:26.8'
+    implementation 'com.github.getActivity:XXPermissions:28.0'
     //语种切换框架：https://github.com/getActivity/MultiLanguages
-    implementation 'com.github.getActivity:MultiLanguages:10.0'
+    implementation 'com.github.getActivity:MultiLanguages:10.2'
 
     // https://jakartaee.github.io/mail-api/Android
-    def mail_version = '2.0.1'
-    implementation "com.sun.mail:jakarta.mail:$mail_version"
-    implementation "com.sun.activation:jakarta.activation:$mail_version"
+    implementation "com.sun.mail:jakarta.mail:2.0.2"
+    implementation "com.sun.activation:jakarta.activation:2.0.1"
 
     //国密算法SM4 的JAVA实现(基于BC实现)
     def bouncycastle_version = '1.77'
@@ -365,6 +365,7 @@ dependencies {
     //邮件 PGP 加密和签名
     //implementation "org.bouncycastle:bcpg-jdk18on:$bouncycastle_version" //Thunderbird无法解密
     //PGPainless: https://github.com/pgpainless/pgpainless
+    //noinspection GradleDependency
     implementation 'org.pgpainless:pgpainless-core:1.6.7'
 
     //Android Keep Alive(安卓保活)，Cactus 集成双进程前台服务，JobScheduler，onePix(一像素)，WorkManager，无声音乐
