@@ -1,6 +1,7 @@
 package cn.ppps.forwarder.service
 
 import android.annotation.SuppressLint
+import android.app.Notification
 import android.content.ComponentName
 import android.os.Build
 import android.service.notification.NotificationListenerService
@@ -8,7 +9,6 @@ import android.service.notification.StatusBarNotification
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
-import com.google.gson.Gson
 import cn.ppps.forwarder.core.Core
 import cn.ppps.forwarder.database.entity.Rule
 import cn.ppps.forwarder.entity.MsgInfo
@@ -17,6 +17,7 @@ import cn.ppps.forwarder.utils.PACKAGE_NAME
 import cn.ppps.forwarder.utils.SettingUtils
 import cn.ppps.forwarder.utils.Worker
 import cn.ppps.forwarder.workers.SendWorker
+import com.google.gson.Gson
 import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xutil.display.ScreenUtils
 import java.util.Date
@@ -81,9 +82,15 @@ class NotificationService : NotificationListenerService() {
             //自身通知跳过
             if (PACKAGE_NAME == sbn.packageName) return
             // 标题
-            val title = extras["android.title"]?.toString() ?: ""
+            val title = extras.getCharSequence(Notification.EXTRA_TITLE)?.toString() ?: ""
             // 通知内容
-            var text = extras["android.text"]?.toString() ?: ""
+            var text = extras.getCharSequence(Notification.EXTRA_TEXT)?.toString() ?: ""
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val bigText = extras.getCharSequence(Notification.EXTRA_BIG_TEXT)?.toString() ?: ""
+                if (bigText.isNotEmpty()) {
+                    text = bigText
+                }
+            }
             if (text.isEmpty() && notification.tickerText != null) {
                 text = notification.tickerText.toString()
             }
