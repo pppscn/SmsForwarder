@@ -1,7 +1,7 @@
 package cn.ppps.forwarder.entity
 
-import com.google.gson.annotations.SerializedName
 import cn.ppps.forwarder.R
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class CallInfo(
@@ -24,6 +24,9 @@ data class CallInfo(
     //卡槽主键
     @SerializedName("sub_id")
     var subId: Int = 0,
+    //是否来电转移
+    @SerializedName("is_forwarded")
+    var isForwarded: Boolean = false
 ) : Serializable {
 
     val typeImageId: Int

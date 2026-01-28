@@ -20,6 +20,10 @@ abstract class PhoneStateReceiver : BroadcastReceiver() {
         if (!SettingUtils.enablePhone) return
 
         //We listen to two intents.  The new outgoing call only tells us of an outgoing call.  We use it to get the number.
+        for (key in intent.extras!!.keySet()) {
+            val value = intent.extras!!.get(key)
+            Log.d(TAG, "EXTRA [$key] = $value")
+        }
         if (intent.action == CallReceiver.ACTION_OUT) {
             savedNumber = intent.extras!!.getString(CallReceiver.EXTRA_PHONE_NUMBER)
             Log.d(TAG, "savedNumber：$savedNumber")

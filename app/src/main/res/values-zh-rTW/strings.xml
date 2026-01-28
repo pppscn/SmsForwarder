@@ -484,6 +484,7 @@
     <string name="outgoing_call_ended">去電掛機</string>
     <string name="missed_call">未接來電</string>
     <string name="unknown_call">未知通話</string>
+    <string name="forwarding_call">來電轉接：</string>
     <string name="optional_action">可選操作：</string>
     <string name="optional_type">可選類型：</string>
     <string name="keep_alive">保活措施</string>

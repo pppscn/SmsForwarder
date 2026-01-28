@@ -483,6 +483,7 @@
     <string name="outgoing_call_ended">Out Ended</string>
     <string name="missed_call">Missed</string>
     <string name="unknown_call">Unknown</string>
+    <string name="forwarding_call">Forwarding: </string>
     <string name="optional_action">Opt.: </string>
     <string name="optional_type">Opt.: </string>
     <string name="keep_alive">Keep Alive</string>

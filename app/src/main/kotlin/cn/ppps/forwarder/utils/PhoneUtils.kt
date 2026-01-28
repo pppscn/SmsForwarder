@@ -288,6 +288,8 @@ class PhoneUtils private constructor() {
                     val indexViaNumber = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && cursor.getColumnIndex("via_number") != -1) cursor.getColumnIndex("via_number") else -1
                     var indexSimId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID) else -1
                     var indexSubId = indexSimId
+                    //遍历列名带有`forward`的字段
+                    val forwardColumns = cursor.columnNames.filter { it.contains("forward", ignoreCase = true) }
 
                     /**
                      * TODO:卡槽识别，这里需要适配机型
@@ -308,6 +310,20 @@ class PhoneUtils private constructor() {
                     var curOffset = 0
                     do {
                         if (curOffset >= offset) {
+                            // 遍历 forwardColumns 字段，找到合适的 isForwarded 字段
+                            var isForwarded = false;
+                            for (forwardColumn in forwardColumns) {
+                                val forwardIndex = cursor.getColumnIndex(forwardColumn)
+                                if (forwardIndex != -1) {
+                                    val forwardedValue = cursor.getInt(forwardIndex)
+                                    Log.d(TAG, "forwardColumn = $forwardColumn, forwardedValue = $forwardedValue")
+                                    if (forwardedValue == 1) {
+                                        isForwarded = true
+                                        break
+                                    }
+                                }
+                            }
+
                             val callInfo = CallInfo(
                                 cursor.getString(indexName) ?: "",  //姓名
                                 cursor.getString(indexNumber) ?: "",  //号码
@@ -317,6 +333,7 @@ class PhoneUtils private constructor() {
                                 if (indexViaNumber != -1) cursor.getString(indexViaNumber) else "",  //来源号码
                                 if (indexSimId != -1) getSimId(cursor.getInt(indexSimId), isSimId) else -1,  //卡槽ID： 0=Sim1, 1=Sim2, -1=获取失败
                                 if (indexSubId != -1) cursor.getInt(indexSubId) else 0,  //卡槽主键
+                                isForwarded //是否来电转移
                             )
                             Log.d(TAG, callInfo.toString())
                             callInfoList.add(callInfo)
@@ -528,6 +545,9 @@ class PhoneUtils private constructor() {
                 5 -> sb.append(getString(R.string.incoming_call_answered))
                 6 -> sb.append(getString(R.string.outgoing_call_started))
                 else -> sb.append(getString(R.string.unknown_call))
+            }
+            if (callInfo.isForwarded) {
+                sb.append("\n").append(getString(R.string.forwarding_call)).append(getString(R.string.lab_yes))
             }
             return sb.toString()
         }
