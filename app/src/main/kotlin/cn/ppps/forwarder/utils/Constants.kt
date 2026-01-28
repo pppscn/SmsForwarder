@@ -201,6 +201,7 @@ const val HTTP_SERVER_PORT = 5000
 const val HTTP_SERVER_TIME_OUT = 10
 const val HTTP_SUCCESS_CODE: Int = 200
 const val HTTP_FAILURE_CODE: Int = 500
+const val SP_SERVER_PORT = "server_port"
 const val SP_ENABLE_SERVER_AUTORUN = "enable_server_autorun"
 const val SP_SERVER_SAFETY_MEASURES = "server_safety_measures"
 const val SP_SERVER_SIGN_KEY = "server_sign_key"

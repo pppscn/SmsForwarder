@@ -11,10 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.RadioGroup
-import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.XXPermissions
-import com.hjq.permissions.permission.PermissionLists
-import com.hjq.permissions.permission.base.IPermission
 import cn.ppps.forwarder.App
 import cn.ppps.forwarder.R
 import cn.ppps.forwarder.core.BaseFragment
@@ -30,6 +26,10 @@ import cn.ppps.forwarder.utils.RandomUtils
 import cn.ppps.forwarder.utils.SM4Crypt
 import cn.ppps.forwarder.utils.SettingUtils
 import cn.ppps.forwarder.utils.XToastUtils
+import com.hjq.permissions.OnPermissionCallback
+import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
+import com.hjq.permissions.permission.base.IPermission
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xui.widget.actionbar.TitleBar
@@ -87,6 +87,26 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
         }
         //启动更新UI定时器
         handler.post(runnable)
+
+        //监听端口
+        binding!!.etServerPort.setText(HttpServerUtils.serverPort.toString())
+        binding!!.etServerPort.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                val portText = binding!!.etServerPort.text.toString().trim()
+                val port = try {
+                    portText.toInt()
+                } catch (e: Exception) {
+                    HTTP_SERVER_PORT
+                }
+                if (port < 1 || port > 65535) {
+                    XToastUtils.error(getString(R.string.wol_port_error))
+                    return
+                }
+                HttpServerUtils.serverPort = port
+            }
+        })
 
         //安全措施
         var safetyMeasuresId = R.id.rb_safety_measures_none
@@ -333,7 +353,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
             R.id.tv_server_tips, R.id.iv_copy -> {
                 var hostAddress: String = if (inetAddress != null) "${inetAddress?.hostAddress}" else "127.0.0.1"
                 hostAddress = if (hostAddress.indexOf(':', 0, false) > 0) "[${hostAddress}]" else hostAddress
-                val url = "http://${hostAddress}:5000"
+                val url = "http://${hostAddress}:${HttpServerUtils.serverPort}"
                 ClipboardUtils.copyText(url)
                 XToastUtils.info(String.format(getString(R.string.copied_to_clipboard), url))
             }
@@ -398,11 +418,11 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
             binding!!.ivCopy.visibility = View.VISIBLE
             try {
                 inetAddress = NetworkUtils.getLocalInetAddress()
-                binding!!.tvServerTips.text = getString(R.string.http_server_running, inetAddress!!.hostAddress, HTTP_SERVER_PORT)
+                binding!!.tvServerTips.text = getString(R.string.http_server_running, inetAddress!!.hostAddress, HttpServerUtils.serverPort)
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("ServerFragment", "refreshButtonText error: ${e.message}")
-                binding!!.tvServerTips.text = getString(R.string.http_server_running, "127.0.0.1", HTTP_SERVER_PORT)
+                binding!!.tvServerTips.text = getString(R.string.http_server_running, "127.0.0.1", HttpServerUtils.serverPort)
             }
         } else {
             binding!!.btnToggleServer.text = resources.getText(R.string.start_server)

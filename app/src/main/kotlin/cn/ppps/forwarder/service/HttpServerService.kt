@@ -3,9 +3,9 @@ package cn.ppps.forwarder.service
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import cn.ppps.forwarder.utils.Log
-import cn.ppps.forwarder.utils.HTTP_SERVER_PORT
 import cn.ppps.forwarder.utils.HTTP_SERVER_TIME_OUT
+import cn.ppps.forwarder.utils.HttpServerUtils
+import cn.ppps.forwarder.utils.Log
 import cn.ppps.forwarder.utils.SettingUtils
 import com.yanzhenjie.andserver.AndServer
 import com.yanzhenjie.andserver.Server
@@ -16,7 +16,7 @@ class HttpServerService : Service(), Server.ServerListener {
 
     private val TAG: String = HttpServerService::class.java.simpleName
     private val server by lazy {
-        AndServer.webServer(this).port(HTTP_SERVER_PORT).listener(this).timeout(HTTP_SERVER_TIME_OUT, TimeUnit.SECONDS).build()
+        AndServer.webServer(this).port(HttpServerUtils.serverPort).listener(this).timeout(HTTP_SERVER_TIME_OUT, TimeUnit.SECONDS).build()
     }
 
     override fun onBind(p0: Intent?): IBinder? {

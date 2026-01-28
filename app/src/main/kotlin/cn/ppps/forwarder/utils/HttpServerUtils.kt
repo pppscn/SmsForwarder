@@ -52,8 +52,11 @@ class HttpServerUtils private constructor() {
         //自定义web客户端目录
         var serverWebPath: String by SharedPreference(SP_SERVER_WEB_PATH, "")
 
+        //服务端监听端口
+        var serverPort: Int by SharedPreference(SP_SERVER_PORT, HTTP_SERVER_PORT)
+
         //服务地址
-        var serverAddress: String by SharedPreference(SP_SERVER_ADDRESS, "http://127.0.0.1:5000")
+        var serverAddress: String by SharedPreference(SP_SERVER_ADDRESS, "http://127.0.0.1:$serverPort")
 
         //服务地址历史记录
         var serverHistory: String by SharedPreference(SP_SERVER_HISTORY, "")

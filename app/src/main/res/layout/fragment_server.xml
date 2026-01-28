@@ -64,6 +64,25 @@
                             android:text="@string/http_server"
                             android:textStyle="bold" />
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/port"
+                            android:textSize="@dimen/text_size_small" />
+
+                        <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                            android:id="@+id/et_server_port"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1"
+                            android:digits="0123456789"
+                            android:inputType="number"
+                            android:maxLength="5"
+                            android:singleLine="true"
+                            app:met_clearButton="true" />
+
                         <com.xuexiang.xui.widget.button.SmoothCheckBox
                             android:id="@+id/scb_server_autorun"
                             android:layout_width="15dp"
@@ -75,6 +94,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="2dp"
+                            android:layout_marginEnd="10dp"
                             android:text="@string/auto_startup"
                             android:textSize="@dimen/text_size_small" />
 
