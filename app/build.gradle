@@ -13,6 +13,18 @@ plugins {
     //id "io.github.wurensen.android-aspectjx" version "3.3.2"
 }
 
+/**
+ * ================================
+ * XAOP / AspectJ 开关
+ * 只在 release 启用
+ * debug / test 全部关闭（避免 Windows 文件锁）
+ * ================================
+ */
+ext.enableXaop = gradle.startParameter.taskNames.any { name ->
+    name.toLowerCase().contains("release")
+}
+println "[XAOP] enable = ${enableXaop}, tasks = ${gradle.startParameter.taskNames}"
+
 def keyProps = new Properties()
 def keyPropsFile = rootProject.file('keystore/keystore.properties')
 if (keyPropsFile.exists()) {
@@ -230,25 +242,37 @@ android {
     }
     namespace 'cn.ppps.forwarder'
 
-    if (isNeedClean.toBoolean()) {
-        //编译前清理项目缓存
+    /**
+     * ⚠️ Windows + XAOP 下，避免 debug/test 触发 clean
+     */
+    if (isNeedClean.toBoolean() && enableXaop) {
         preBuild.dependsOn clean
-        //编译后清理垃圾文件
-        gradle.buildFinished { buildResult ->
-            if (buildResult.failure == null) {
-                println "Build succeeded, cleaning text files..."
-                //delete rootProject.buildDir
-                FileTree rootTree = fileTree(dir: rootDir)
-                rootTree.each { File file ->
-                    if ((file.toString().contains("ajcore") || file.toString().contains("mapping") || file.toString().contains("seeds") || file.toString().contains("unused")) && file.toString().endsWith(".txt")) {
-                        delete file
-                    }
-                }
-            } else {
-                println "Build failed, cleanTxt not executed."
+    }
+}
+
+/**
+ * ================================
+ * XAOP 兜底：非 release 禁用所有 XAOP / AspectJ Task
+ * ================================
+ */
+afterEvaluate {
+    android.applicationVariants.configureEach { variant ->
+        if (variant.buildType.name != "release") {
+            tasks.matching {
+                it.name.toLowerCase().contains("xaop") || it.name.toLowerCase().contains("aspectj")
+            }.configureEach {
+                enabled = false
+                println "[XAOP] disable task: ${name}"
             }
         }
     }
+}
+
+/**
+ * 单元测试强制关闭 XAOP
+ */
+tasks.withType(Test).configureEach {
+    systemProperty "xaop.enable", "false"
 }
 
 dependencies {
