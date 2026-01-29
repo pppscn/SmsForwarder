@@ -6,6 +6,7 @@ import cn.ppps.forwarder.utils.Log
 import com.sun.mail.util.MailSSLSocketFactory
 import jakarta.mail.Authenticator
 import jakarta.mail.PasswordAuthentication
+import jakarta.mail.Session
 import org.bouncycastle.openpgp.PGPPublicKeyRing
 import org.bouncycastle.openpgp.PGPSecretKeyRing
 import java.io.File
@@ -116,24 +117,24 @@ class EmailSender(
                 "OpenPGP" -> {
                     // 发送 PGP 邮件
                     val pgpEmail = PgpUtils(
-                        properties,
-                        authenticator,
-                        from,
-                        fromAlias,
-                        nickname,
-                        subject,
-                        html,
-                        attachFiles,
-                        toAddress,
-                        ccAddress,
-                        bccAddress,
-                        recipientPGPPublicKeyRing,
-                        senderPGPSecretKeyRing,
-                        senderPGPSecretKeyPassword,
+                        properties = properties,
+                        session = Session.getInstance(properties, authenticator),
+                        from = from,
+                        fromAlias = fromAlias,
+                        nickname = nickname,
+                        subject = subject,
+                        body = html,
+                        attachFiles = attachFiles,
+                        toAddress = toAddress,
+                        ccAddress = ccAddress,
+                        bccAddress = bccAddress,
+                        recipientPGPPublicKeyRing = recipientPGPPublicKeyRing,
+                        senderPGPSecretKeyRing = senderPGPSecretKeyRing,
+                        senderPGPSecretKeyPassword = senderPGPSecretKeyPassword
                     )
-                    val isEncrypt: Boolean = recipientPGPPublicKeyRing != null
-                    val isSign: Boolean = senderPGPSecretKeyRing != null
-                    Log.d(TAG, "isEncrypt=$isEncrypt, isSign=$isSign")
+
+                    val isEncrypt = recipientPGPPublicKeyRing != null
+                    val isSign = senderPGPSecretKeyRing != null
                     val result = when {
                         isEncrypt && isSign -> pgpEmail.sendSignedAndEncryptedEmail()
                         isEncrypt -> pgpEmail.sendEncryptedEmail()
