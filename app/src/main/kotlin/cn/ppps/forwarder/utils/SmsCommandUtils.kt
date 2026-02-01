@@ -6,13 +6,14 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.wifi.WifiManager
 import androidx.core.app.ActivityCompat
-import com.google.gson.Gson
 import cn.ppps.forwarder.App
 import cn.ppps.forwarder.core.Core
 import cn.ppps.forwarder.server.model.SmsSendData
 import cn.ppps.forwarder.service.HttpServerService
+import com.google.gson.Gson
 import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xutil.XUtil
+import com.xuexiang.xutil.security.CipherUtils
 import com.xuexiang.xutil.system.DeviceUtils
 import frpclib.Frpclib
 import kotlinx.coroutines.Dispatchers
@@ -90,6 +91,22 @@ class SmsCommandUtils {
                 "system" -> {
                     //判断是否已root
                     if (!DeviceUtils.isDeviceRooted()) return false
+
+                    // 过滤重复消息机制
+                    var duplicateMessagesLimits = SettingUtils.duplicateMessagesLimits * 1000L
+                    if (duplicateMessagesLimits > 0L) {
+                        duplicateMessagesLimits += 10000L //系统指令多加10秒避免误操作
+                        val key = CipherUtils.md5(smsCommand)
+                        val timestamp: Long = System.currentTimeMillis()
+                        var timestampPrev: Long by HistoryUtils(key, timestamp)
+                        Log.d(TAG, "duplicateMessagesLimits=$duplicateMessagesLimits, timestamp=$timestamp, timestampPrev=$timestampPrev, msgInfo=$smsCommand")
+                        if (timestampPrev != timestamp && timestamp - timestampPrev <= duplicateMessagesLimits) {
+                            Log.e(TAG, "过滤重复消息机制")
+                            timestampPrev = timestamp
+                            return false
+                        }
+                        timestampPrev = timestamp
+                    }
 
                     if (action == "reboot") {
                         DeviceUtils.reboot()
