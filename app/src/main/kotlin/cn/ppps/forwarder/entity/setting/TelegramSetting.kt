@@ -8,6 +8,7 @@ data class TelegramSetting(
     val method: String = "POST",
     var apiToken: String = "",
     val chatId: String = "",
+    val messageThreadId: String = "",
     val proxyType: Proxy.Type = Proxy.Type.DIRECT,
     val proxyHost: String = "",
     val proxyPort: String = "",

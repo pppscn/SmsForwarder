@@ -1,7 +1,6 @@
 package cn.ppps.forwarder.utils.sender
 
 import android.text.TextUtils
-import com.google.gson.Gson
 import cn.ppps.forwarder.database.entity.Rule
 import cn.ppps.forwarder.entity.MsgInfo
 import cn.ppps.forwarder.entity.result.TelegramResult
@@ -10,6 +9,7 @@ import cn.ppps.forwarder.utils.Log
 import cn.ppps.forwarder.utils.SendUtils
 import cn.ppps.forwarder.utils.SettingUtils
 import cn.ppps.forwarder.utils.interceptor.LoggingInterceptor
+import com.google.gson.Gson
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
@@ -58,11 +58,17 @@ class TelegramUtils private constructor() {
                 if (setting.parseMode.isNotEmpty() && setting.parseMode != "TEXT") {
                     requestUrl += "&parse_mode=" + setting.parseMode
                 }
+                if (setting.messageThreadId.isNotEmpty()) {
+                    requestUrl += "&message_thread_id=" + setting.messageThreadId
+                }
                 Log.i(TAG, "requestUrl:$requestUrl")
                 XHttp.get(requestUrl)
             } else {
                 val bodyMap: MutableMap<String, Any> = mutableMapOf()
                 bodyMap["chat_id"] = setting.chatId
+                if (setting.messageThreadId.isNotEmpty()) {
+                    bodyMap["message_thread_id"] = setting.messageThreadId
+                }
                 when (setting.parseMode) {
                     "MarkdownV2" -> {
                         bodyMap["parse_mode"] = "MarkdownV2"

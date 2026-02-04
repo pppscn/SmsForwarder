@@ -312,6 +312,7 @@
     <string name="server_chan_openid_hint">Opt., multiple openids are separated by commas</string>
     <string name="TelegramApiToken">ApiToken or Custom Proxy Address (startwith http)</string>
     <string name="TelegramChatId">ChatId</string>
+    <string name="TelegramMessageThreadId">Topic</string>
     <string name="Method" formatted="false">Method</string>
     <string name="parse_mode">Parse Mode</string>
     <string name="parse_mode_text">Text</string>
@@ -549,6 +550,7 @@
     <string name="one_pixel_activity">One Pixel Activity</string>
     <string name="optional">Opt.</string>
     <string name="TelegramChatIdTips">Follow the steps in the wiki to obtain it</string>
+    <string name="TelegramMessageThreadIdTips">Opt., Follow the steps in the wiki to obtain it</string>
     <string name="tips_backup_path">Backup path:: </string>
     <string name="frpc_name">Config name</string>
     <string name="frpc_autorun">Auto-start</string>

@@ -342,6 +342,7 @@
     <string name="server_chan_openid_hint">选填，多个openid用半角逗号,隔开</string>
     <string name="TelegramApiToken">ApiToken 或 自定义代理地址(http开头)</string>
     <string name="TelegramChatId">被通知人(或群组)的ChatId</string>
+    <string name="TelegramMessageThreadId">被通知群组对应的Topic</string>
     <string name="Method" formatted="false">请求方式</string>
     <string name="parse_mode">解析模式</string>
     <string name="parse_mode_text">Text</string>
@@ -579,6 +580,7 @@
     <string name="one_pixel_activity">1像素透明Activity</string>
     <string name="optional">可选</string>
     <string name="TelegramChatIdTips">请按照wiki中的步骤获取</string>
+    <string name="TelegramMessageThreadIdTips">可选，请按照wiki中的步骤获取</string>
     <string name="tips_backup_path">备份文件存放路径：</string>
     <string name="frpc_name">配置名称</string>
     <string name="frpc_autorun">开机自启</string>

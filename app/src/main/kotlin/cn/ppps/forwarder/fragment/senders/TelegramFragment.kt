@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.RadioGroup
 import androidx.fragment.app.viewModels
-import com.google.gson.Gson
 import cn.ppps.forwarder.R
 import cn.ppps.forwarder.core.BaseFragment
 import cn.ppps.forwarder.core.Core
@@ -26,6 +25,7 @@ import cn.ppps.forwarder.utils.Log
 import cn.ppps.forwarder.utils.SettingUtils
 import cn.ppps.forwarder.utils.XToastUtils
 import cn.ppps.forwarder.utils.sender.TelegramUtils
+import com.google.gson.Gson
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
@@ -127,6 +127,7 @@ class TelegramFragment : BaseFragment<FragmentSendersTelegramBinding?>(), View.O
                     binding!!.rgMethod.check(settingVo.getMethodCheckId())
                     binding!!.etApiToken.setText(settingVo.apiToken)
                     binding!!.etChatId.setText(settingVo.chatId)
+                    binding!!.etMessageThreadId.setText(settingVo.messageThreadId)
                     binding!!.rgProxyType.check(settingVo.getProxyTypeCheckId())
                     binding!!.etProxyHost.setText(settingVo.proxyHost)
                     binding!!.etProxyPort.setText(settingVo.proxyPort)
@@ -228,6 +229,7 @@ class TelegramFragment : BaseFragment<FragmentSendersTelegramBinding?>(), View.O
     private fun checkSetting(): TelegramSetting {
         val apiToken = binding!!.etApiToken.text.toString().trim()
         val chatId = binding!!.etChatId.text.toString().trim()
+        val messageThreadId = binding!!.etMessageThreadId.text.toString().trim()
         if (TextUtils.isEmpty(apiToken) || TextUtils.isEmpty(chatId)) {
             throw Exception(getString(R.string.invalid_apiToken_or_chatId))
         }
@@ -258,7 +260,7 @@ class TelegramFragment : BaseFragment<FragmentSendersTelegramBinding?>(), View.O
             else -> "HTML"
         }
 
-        return TelegramSetting(method, apiToken, chatId, proxyType, proxyHost, proxyPort, proxyAuthenticator, proxyUsername, proxyPassword, parseMode)
+        return TelegramSetting(method, apiToken, chatId, messageThreadId, proxyType, proxyHost, proxyPort, proxyAuthenticator, proxyUsername, proxyPassword, parseMode)
     }
 
     override fun onDestroyView() {
