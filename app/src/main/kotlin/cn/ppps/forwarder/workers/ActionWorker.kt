@@ -10,6 +10,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import cn.ppps.forwarder.App
 import cn.ppps.forwarder.R
 import cn.ppps.forwarder.core.Core
@@ -26,6 +27,7 @@ import cn.ppps.forwarder.entity.action.SenderSetting
 import cn.ppps.forwarder.entity.action.SettingsSetting
 import cn.ppps.forwarder.entity.action.SmsSetting
 import cn.ppps.forwarder.entity.action.TaskActionSetting
+import cn.ppps.forwarder.entity.action.WolSetting
 import cn.ppps.forwarder.service.HttpServerService
 import cn.ppps.forwarder.service.LocationService
 import cn.ppps.forwarder.utils.ACTION_RESTART
@@ -52,12 +54,21 @@ import cn.ppps.forwarder.utils.TASK_ACTION_SENDER
 import cn.ppps.forwarder.utils.TASK_ACTION_SENDSMS
 import cn.ppps.forwarder.utils.TASK_ACTION_SETTINGS
 import cn.ppps.forwarder.utils.TASK_ACTION_TASK
+import cn.ppps.forwarder.utils.TASK_ACTION_WOL
 import cn.ppps.forwarder.utils.TaskWorker
 import cn.ppps.forwarder.utils.task.ConditionUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xuexiang.xrouter.utils.TextUtils
+import com.xuexiang.xhttp2.XHttp
+import com.xuexiang.xhttp2.callback.SimpleCallBack
+import com.xuexiang.xhttp2.exception.ApiException
 import com.xuexiang.xutil.XUtil
 import com.xuexiang.xutil.resource.ResUtils.getString
+import com.xuexiang.xutil.data.ConvertTools
+import cn.ppps.forwarder.utils.Base64
+import cn.ppps.forwarder.utils.RSACrypt
+import cn.ppps.forwarder.utils.SM4Crypt
+import cn.ppps.forwarder.server.model.BaseResponse
 import frpclib.Frpclib
 import java.util.Calendar
 
@@ -365,6 +376,117 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                         writeLog(String.format(getString(R.string.successful_execution), resendSetting.description), "SUCCESS")
                     }
 
+                    TASK_ACTION_WOL -> {
+                        val wolSetting = Gson().fromJson(action.setting, WolSetting::class.java)
+                        if (wolSetting == null) {
+                            writeLog("wolSetting is null")
+                            continue
+                        }
+
+                        // 根据唤醒方式执行不同的逻辑
+                        if (wolSetting.wakeMethod == 1) {
+                            // 直接发送幻数据包
+                            try {
+                                sendWakeOnLanPacket(wolSetting)
+                                writeLog(String.format(getString(R.string.successful_execution), wolSetting.description), "SUCCESS")
+                                successNum++
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                Log.e(TAG, "WOL direct send failed: ${e.message}")
+                                writeLog("WOL direct send failed: ${e.message}", "ERROR")
+                            }
+                        } else {
+                            // 通过本地服务API
+                            val requestUrl: String = HttpServerUtils.serverAddress + "/wol/send"
+                            Log.i(TAG, "requestUrl:$requestUrl")
+
+                            val msgMap: MutableMap<String, Any> = mutableMapOf()
+                            val timestamp = System.currentTimeMillis()
+                            msgMap["timestamp"] = timestamp
+                            val clientSignKey = HttpServerUtils.clientSignKey
+                            if (!TextUtils.isEmpty(clientSignKey)) {
+                                msgMap["sign"] = HttpServerUtils.calcSign(timestamp.toString(), clientSignKey)
+                            }
+
+                            val dataMap: MutableMap<String, Any> = mutableMapOf()
+                            dataMap["ip"] = wolSetting.ip
+                            dataMap["mac"] = wolSetting.mac
+                            dataMap["port"] = wolSetting.port
+                            msgMap["data"] = dataMap
+
+                            var requestMsg: String = Gson().toJson(msgMap)
+                            Log.i(TAG, "requestMsg:$requestMsg")
+
+                            val postRequest = XHttp.post(requestUrl).keepJson(true).timeStamp(true)
+
+                            when (HttpServerUtils.clientSafetyMeasures) {
+                                2 -> {
+                                    val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey)
+                                    try {
+                                        requestMsg = Base64.encode(requestMsg.toByteArray())
+                                        requestMsg = RSACrypt.encryptByPublicKey(requestMsg, publicKey)
+                                        Log.i(TAG, "requestMsg: $requestMsg")
+                                    } catch (e: Exception) {
+                                        writeLog("WOL request failed: ${e.message}", "ERROR")
+                                        continue
+                                    }
+                                    postRequest.upString(requestMsg)
+                                }
+
+                                3 -> {
+                                    try {
+                                        val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
+                                        val encryptCBC = SM4Crypt.encrypt(requestMsg.toByteArray(), sm4Key)
+                                        requestMsg = ConvertTools.bytes2HexString(encryptCBC)
+                                        Log.i(TAG, "requestMsg: $requestMsg")
+                                    } catch (e: Exception) {
+                                        writeLog("WOL request failed: ${e.message}", "ERROR")
+                                        continue
+                                    }
+                                    postRequest.upString(requestMsg)
+                                }
+
+                                else -> {
+                                    postRequest.upJson(requestMsg)
+                                }
+                            }
+
+                            postRequest.execute(object : SimpleCallBack<String>() {
+                                override fun onError(e: ApiException) {
+                                    writeLog("WOL request failed: ${e.displayMessage}", "ERROR")
+                                }
+
+                                override fun onSuccess(response: String) {
+                                    Log.i(TAG, response)
+                                    try {
+                                        var json = response
+                                        if (HttpServerUtils.clientSafetyMeasures == 2) {
+                                            val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey)
+                                            json = RSACrypt.decryptByPublicKey(json, publicKey)
+                                            json = String(Base64.decode(json))
+                                        } else if (HttpServerUtils.clientSafetyMeasures == 3) {
+                                            val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
+                                            val encryptCBC = ConvertTools.hexStringToByteArray(json)
+                                            val decryptCBC = SM4Crypt.decrypt(encryptCBC, sm4Key)
+                                            json = String(decryptCBC)
+                                        }
+                                        val resp: BaseResponse<String> = Gson().fromJson(json, object : TypeToken<BaseResponse<String>>() {}.type)
+                                        if (resp.code == 200) {
+                                            writeLog(String.format(getString(R.string.successful_execution), wolSetting.description), "SUCCESS")
+                                            successNum++
+                                        } else {
+                                            writeLog("WOL request failed: ${resp.msg}", "ERROR")
+                                        }
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                        Log.e(TAG, e.toString())
+                                        writeLog("WOL request failed: $response", "ERROR")
+                                    }
+                                }
+                            })
+                        }
+                    }
+
                     else -> {
                         writeLog("action.type is ${action.type}")
                     }
@@ -415,4 +537,49 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
         //TODO: 写入日志
     }
 
+    /**
+     * 直接发送WOL幻数据包
+     * @param wolSetting WOL设置
+     */
+    private fun sendWakeOnLanPacket(wolSetting: WolSetting) {
+        val macAddress = wolSetting.mac
+        val ipAddress = if (wolSetting.ip.isNotEmpty()) wolSetting.ip else "255.255.255.255" // 默认广播地址
+        val port = if (wolSetting.port.isNotEmpty()) wolSetting.port.toInt() else 9 // 默认WOL端口
+
+        Log.i(TAG, "Sending WOL packet to MAC: $macAddress, IP: $ipAddress, Port: $port")
+
+        // 清理MAC地址：移除所有非十六进制字符
+        val cleanMac = macAddress.replace(Regex("[^0-9A-Fa-f]"), "").uppercase()
+        if (cleanMac.length != 12) {
+            throw IllegalArgumentException("Invalid MAC address: $macAddress")
+        }
+        Log.i(TAG, "Cleaned MAC address: $cleanMac")
+
+        // 构建MAC字节数组
+        val macBytes = ByteArray(6)
+        for (i in 0 until 6) {
+            macBytes[i] = cleanMac.substring(i * 2, i * 2 + 2).toInt(16).toByte()
+        }
+
+        // 构建WOL幻数据包：6个0xFF字节 + 16个MAC地址字节
+        val magicPacket = ByteArray(6 + 16 * 6)
+        // 填充前6个字节为0xFF
+        for (i in 0 until 6) {
+            magicPacket[i] = 0xFF.toByte()
+        }
+        // 填充16个MAC地址
+        for (i in 6 until magicPacket.size step 6) {
+            System.arraycopy(macBytes, 0, magicPacket, i, 6)
+        }
+
+        // 发送UDP数据包
+        val socket = java.net.DatagramSocket()
+        socket.broadcast = true
+        val address = java.net.InetAddress.getByName(ipAddress)
+        val packet = java.net.DatagramPacket(magicPacket, magicPacket.size, address, port)
+        socket.send(packet)
+        socket.close()
+
+        Log.i(TAG, "WOL packet sent successfully")
+    }
 }

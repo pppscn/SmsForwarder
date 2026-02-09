@@ -99,6 +99,7 @@ android {
             storePassword keyProps['storePassword']
         }
         debug {
+            //临时关闭，用于调试
             keyAlias keyProps['keyAlias']
             keyPassword keyProps['keyPassword']
             storeFile keyProps['storeFile'] ? file(keyProps['storeFile']) : null
@@ -284,7 +285,7 @@ dependencies {
     implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
 
     testImplementation deps.junit
-    androidTestImplementation 'androidx.test.ext:junit:1.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation deps.espresso.core
 
     //noinspection GradleDependency
