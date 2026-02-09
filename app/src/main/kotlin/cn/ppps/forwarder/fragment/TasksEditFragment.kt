@@ -243,6 +243,13 @@ class TasksEditFragment : BaseFragment<FragmentTasksEditBinding?>(), View.OnClic
             CoreAnim.slide,
             R.drawable.auto_task_icon_task
         ),
+        PageInfo(
+            getString(R.string.task_wol),
+            "cn.ppps.forwarder.fragment.action.WolFragment",
+            "",
+            CoreAnim.slide,
+            R.drawable.auto_task_icon_wol
+        ),
     )
 
     override fun initArgs() {
