@@ -56,16 +56,23 @@
                     android:layout_marginBottom="5dp"
                     android:background="?attr/xui_config_color_separator_light" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mac"
+                    android:textStyle="bold" />
+
                 <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                     android:id="@+id/et_mac"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="MAC地址"
-                    android:inputType="text"
+                    android:hint="@string/mac_hint"
+                    android:singleLine="true"
                     app:met_clearButton="true"
-                    app:met_floatingLabel="normal"
-                    app:met_maxCharacters="20"
-                    app:met_singleLineEllipsis="true" />
+                    app:met_errorMessage="@string/mac_error"
+                    app:met_regexp="@string/mac_regex"
+                    app:met_validateOnFocusLost="true"
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -78,26 +85,20 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="IP地址"
+                    android:text="@string/broadcast_address"
                     android:textStyle="bold" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="?attr/xui_config_color_separator_light" />
 
                 <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                     android:id="@+id/et_ip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="IP地址（可选）"
-                    android:inputType="text"
+                    android:hint="@string/ip_hint"
+                    android:singleLine="true"
                     app:met_clearButton="true"
-                    app:met_floatingLabel="normal"
-                    app:met_maxCharacters="20"
-                    app:met_singleLineEllipsis="true" />
+                    app:met_errorMessage="@string/ip_error"
+                    app:met_regexp="@string/ip_regex"
+                    app:met_validateOnFocusLost="true"
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -110,26 +111,21 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="端口"
+                    android:text="@string/port"
                     android:textStyle="bold" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="?attr/xui_config_color_separator_light" />
 
                 <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                     android:id="@+id/et_port"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="端口（可选）"
-                    android:inputType="number"
+                    android:hint="@string/wol_port_hint"
+                    android:singleLine="true"
+                    android:value="9"
                     app:met_clearButton="true"
-                    app:met_floatingLabel="normal"
-                    app:met_maxCharacters="6"
-                    app:met_singleLineEllipsis="true" />
+                    app:met_errorMessage="@string/wol_port_error"
+                    app:met_regexp="@string/wol_port_regex"
+                    app:met_validateOnFocusLost="true"
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -142,7 +138,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="唤醒方式"
+                    android:text="@string/wol_method"
                     android:textStyle="bold" />
 
                 <View
@@ -163,13 +159,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="通过本地服务API（需要开启服务端WOL功能）" />
+                        android:text="@string/wol_method_local_api" />
 
                     <RadioButton
                         android:id="@+id/rb_direct"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="直接发送幻数据包（无需开启服务端）" />
+                        android:text="@string/wol_method_magic_packet" />
 
                 </RadioGroup>
 
@@ -187,13 +183,6 @@
         android:padding="10dp">
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
-            android:id="@+id/btn_test"
-            style="@style/SuperButton.Green.Icon.Spacing"
-            android:drawableStart="@drawable/ic_test"
-            android:text="@string/test"
-            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
-
-        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/btn_del"
             style="@style/SuperButton.Gray.Icon.Spacing"
             android:drawableStart="@drawable/ic_delete"
@@ -205,6 +194,13 @@
             style="@style/SuperButton.Blue.Icon.Spacing"
             android:drawableStart="@drawable/ic_save"
             android:text="@string/submit"
+            tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_test"
+            style="@style/SuperButton.Green.Icon.Spacing"
+            android:drawableStart="@drawable/ic_test"
+            android:text="@string/test"
             tools:ignore="RtlSymmetry,TextContrastCheck,TouchTargetSizeCheck" />
 
     </LinearLayout>

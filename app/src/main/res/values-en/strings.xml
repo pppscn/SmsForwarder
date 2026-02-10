@@ -1025,6 +1025,12 @@
     <string name="task_resend_error">At least one "Original Result" must be selected</string>
     <string name="task_task">Tasks On/Off</string>
     <string name="task_task_tips">Control the enable/disable of the "Auto Task"</string>
+    <string name="task_wol">Wake on LAN</string>
+    <string name="task_wol_tips">Send a WOL magic packet to wake up LAN devices</string>
+    <string name="wol_description">Wake up device %s</string>
+    <string name="wol_method">Wake-up Method</string>
+    <string name="wol_method_local_api">Via Local Service API (Server WOL must be enabled)</string>
+    <string name="wol_method_magic_packet">Send Magic Packet directly (No server required)</string>
 
     <string name="second">Second</string>
     <string name="minute">Minute</string>

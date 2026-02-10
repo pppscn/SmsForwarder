@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.google.gson.Gson
 import cn.ppps.forwarder.R
 import cn.ppps.forwarder.core.BaseFragment
 import cn.ppps.forwarder.databinding.FragmentTasksActionWolBinding
@@ -23,6 +22,7 @@ import cn.ppps.forwarder.utils.TASK_ACTION_WOL
 import cn.ppps.forwarder.utils.TaskWorker
 import cn.ppps.forwarder.utils.XToastUtils
 import cn.ppps.forwarder.workers.ActionWorker
+import com.google.gson.Gson
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xpage.annotation.Page
 import com.xuexiang.xrouter.annotation.AutoWired
@@ -190,13 +190,13 @@ class WolFragment : BaseFragment<FragmentTasksActionWolBinding?>(), View.OnClick
 
         ip = binding!!.etIp.text.toString().trim()
         val ipRegex = getString(R.string.ip_regex).toRegex()
-        if (!ip.isNullOrEmpty() && !ipRegex.matches(ip)) {
+        if (ip.isNotBlank() && !ipRegex.matches(ip)) {
             throw Exception(getString(R.string.ip_error))
         }
 
         port = binding!!.etPort.text.toString().trim()
         val portRegex = getString(R.string.wol_port_regex).toRegex()
-        if (!port.isNullOrEmpty() && !portRegex.matches(port)) {
+        if (port.isNotBlank() && !portRegex.matches(port)) {
             throw Exception(getString(R.string.wol_port_error))
         }
 

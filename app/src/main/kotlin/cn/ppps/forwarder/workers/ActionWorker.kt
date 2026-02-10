@@ -9,8 +9,6 @@ import androidx.work.CoroutineWorker
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import cn.ppps.forwarder.App
 import cn.ppps.forwarder.R
 import cn.ppps.forwarder.core.Core
@@ -28,9 +26,11 @@ import cn.ppps.forwarder.entity.action.SettingsSetting
 import cn.ppps.forwarder.entity.action.SmsSetting
 import cn.ppps.forwarder.entity.action.TaskActionSetting
 import cn.ppps.forwarder.entity.action.WolSetting
+import cn.ppps.forwarder.server.model.BaseResponse
 import cn.ppps.forwarder.service.HttpServerService
 import cn.ppps.forwarder.service.LocationService
 import cn.ppps.forwarder.utils.ACTION_RESTART
+import cn.ppps.forwarder.utils.Base64
 import cn.ppps.forwarder.utils.CacheUtils
 import cn.ppps.forwarder.utils.EVENT_ALARM_ACTION
 import cn.ppps.forwarder.utils.EVENT_TOAST_ERROR
@@ -41,6 +41,8 @@ import cn.ppps.forwarder.utils.HistoryUtils
 import cn.ppps.forwarder.utils.HttpServerUtils
 import cn.ppps.forwarder.utils.Log
 import cn.ppps.forwarder.utils.PhoneUtils
+import cn.ppps.forwarder.utils.RSACrypt
+import cn.ppps.forwarder.utils.SM4Crypt
 import cn.ppps.forwarder.utils.SendUtils
 import cn.ppps.forwarder.utils.SettingUtils
 import cn.ppps.forwarder.utils.TASK_ACTION_ALARM
@@ -57,18 +59,16 @@ import cn.ppps.forwarder.utils.TASK_ACTION_TASK
 import cn.ppps.forwarder.utils.TASK_ACTION_WOL
 import cn.ppps.forwarder.utils.TaskWorker
 import cn.ppps.forwarder.utils.task.ConditionUtils
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.jeremyliao.liveeventbus.LiveEventBus
-import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
+import com.xuexiang.xrouter.utils.TextUtils
 import com.xuexiang.xutil.XUtil
-import com.xuexiang.xutil.resource.ResUtils.getString
 import com.xuexiang.xutil.data.ConvertTools
-import cn.ppps.forwarder.utils.Base64
-import cn.ppps.forwarder.utils.RSACrypt
-import cn.ppps.forwarder.utils.SM4Crypt
-import cn.ppps.forwarder.server.model.BaseResponse
+import com.xuexiang.xutil.resource.ResUtils.getString
 import frpclib.Frpclib
 import java.util.Calendar
 
@@ -543,8 +543,8 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
      */
     private fun sendWakeOnLanPacket(wolSetting: WolSetting) {
         val macAddress = wolSetting.mac
-        val ipAddress = if (wolSetting.ip.isNotEmpty()) wolSetting.ip else "255.255.255.255" // 默认广播地址
-        val port = if (wolSetting.port.isNotEmpty()) wolSetting.port.toInt() else 9 // 默认WOL端口
+        val ipAddress = wolSetting.ip.ifBlank { "255.255.255.255" } // 默认广播地址
+        val port = if (wolSetting.port.isNotBlank()) wolSetting.port.toInt() else 9 // 默认WOL端口
 
         Log.i(TAG, "Sending WOL packet to MAC: $macAddress, IP: $ipAddress, Port: $port")
 

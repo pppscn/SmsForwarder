@@ -1026,6 +1026,12 @@
     <string name="task_resend_error">必须至少选择一個「原轉發狀態」</string>
     <string name="task_task">啟停任務</string>
     <string name="task_task_tips">控制【自動任務】的啟用/禁用</string>
+    <string name="task_wol">遠端喚醒</string>
+    <string name="task_wol_tips">發送WOL魔術封包喚醒區域網路裝置</string>
+    <string name="wol_description">喚醒裝置 %s</string>
+    <string name="wol_method">喚醒方式</string>
+    <string name="wol_method_local_api">透過本地服務API(需啟用伺服端WOL功能)</string>
+    <string name="wol_method_magic_packet">直接傳送幻數據包(無需啟用伺服端)</string>
 
     <string name="second">秒</string>
     <string name="minute">分</string>
