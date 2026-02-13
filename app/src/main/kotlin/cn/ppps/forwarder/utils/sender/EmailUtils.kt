@@ -64,22 +64,6 @@ class EmailUtils {
                     setting.fromEmail += setting.mailType
                 }
 
-                "@msn.com" -> {
-                    setting.host = "smtp-mail.outlook.com"
-                    setting.port = "587"
-                    setting.ssl = false
-                    setting.startTls = true
-                    setting.fromEmail += setting.mailType
-                }
-
-                "@outlook.com", "@office365.com", "@live.com", "@hotmail.com" -> {
-                    setting.host = "smtp.office365.com"
-                    setting.port = "587"
-                    setting.ssl = false
-                    setting.startTls = true
-                    setting.fromEmail += setting.mailType
-                }
-
                 "@gmail.com" -> {
                     setting.host = "smtp.gmail.com"
                     setting.port = "465"
