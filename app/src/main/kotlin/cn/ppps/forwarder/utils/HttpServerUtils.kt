@@ -19,6 +19,7 @@ import javax.crypto.spec.SecretKeySpec
 /**
  * HttpServer工具类
  */
+@Suppress("UselessCallOnNotNull")
 class HttpServerUtils private constructor() {
 
     companion object {
@@ -201,6 +202,7 @@ class HttpServerUtils private constructor() {
                 Core.rule.deleteAll()
                 if (!cloneInfo.ruleList.isNullOrEmpty()) {
                     for (rule in cloneInfo.ruleList!!) {
+                        if (rule.title.isNullOrEmpty()) rule.title = "" //兼容旧版本
                         Core.rule.insert(rule)
                     }
                 }

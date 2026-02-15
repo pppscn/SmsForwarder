@@ -6,14 +6,6 @@ import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonDeserializer
-import com.google.gson.reflect.TypeToken
-import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.XXPermissions
-import com.hjq.permissions.permission.PermissionLists
-import com.hjq.permissions.permission.base.IPermission
 import cn.ppps.forwarder.App
 import cn.ppps.forwarder.R
 import cn.ppps.forwarder.activity.MainActivity
@@ -31,6 +23,14 @@ import cn.ppps.forwarder.utils.RSACrypt
 import cn.ppps.forwarder.utils.SM4Crypt
 import cn.ppps.forwarder.utils.SettingUtils
 import cn.ppps.forwarder.utils.XToastUtils
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializer
+import com.google.gson.reflect.TypeToken
+import com.hjq.permissions.OnPermissionCallback
+import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
+import com.hjq.permissions.permission.base.IPermission
 import com.xuexiang.xaop.annotation.SingleClick
 import com.xuexiang.xhttp2.XHttp
 import com.xuexiang.xhttp2.cache.model.CacheMode
@@ -220,12 +220,16 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                         return
                     }
 
-                    val jsonStr = FileIOUtils.readFile2String(file)
+                    var jsonStr = FileIOUtils.readFile2String(file)
                     Log.d(TAG, "jsonStr = $jsonStr")
                     if (TextUtils.isEmpty(jsonStr)) {
                         XToastUtils.error(getString(R.string.import_failed))
                         return
                     }
+                    //替换旧包名
+                    val oldPackageName = "com.idormy.sms.forwarder"
+                    val newPackageName = AppUtils.getAppPackageName()
+                    jsonStr = jsonStr.replace(oldPackageName, newPackageName)
 
                     //替换Date字段为当前时间
                     val builder = GsonBuilder()
@@ -447,6 +451,11 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
                         val decryptCBC = SM4Crypt.decrypt(encryptCBC, sm4Key)
                         json = String(decryptCBC)
                     }
+
+                    //替换旧包名
+                    val oldPackageName = "com.idormy.sms.forwarder"
+                    val newPackageName = AppUtils.getAppPackageName()
+                    json = json.replace(oldPackageName, newPackageName)
 
                     //替换Date字段为当前时间
                     val builder = GsonBuilder()
