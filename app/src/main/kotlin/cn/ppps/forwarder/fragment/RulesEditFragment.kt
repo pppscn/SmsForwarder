@@ -639,6 +639,8 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
             throw Exception(getString(R.string.invalid_match_value))
         }
         if (FILED_MULTI_MATCH == filed) {
+            value = value.replace("\r", "")
+            value = value.replace("\n+", "\n")
             val lineError = checkMultiMatch(value)
             if (lineError > 0) {
                 throw Exception(String.format(getString(R.string.invalid_multi_match), lineError))
