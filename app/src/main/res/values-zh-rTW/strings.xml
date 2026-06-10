@@ -652,6 +652,8 @@
     <string name="select_sender_type">請選擇發送通道類型</string>
     <string name="feishu_webhook_hint">群機器人→Webhook 地址</string>
     <string name="feishu_secret_hint">群機器人→安全設置→簽名驗證</string>
+    <string name="feishu_at_open_ids">@ 指定人 (open_id 或 user_id)</string>
+    <string name="feishu_at_open_ids_tip">填寫用戶的 open_id 或 user_id，多個用英文逗號分隔，留空則不@</string>
     <string name="pushplus_token_hint">請前往對應的官網地址獲取</string>
     <string name="choose_rule">下拉選擇，關鍵字模糊匹配</string>
     <string name="choose_sender">下拉選擇，關鍵字模糊匹配</string>

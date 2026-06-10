@@ -651,6 +651,8 @@
     <string name="select_sender_type">Please select sender type</string>
     <string name="feishu_webhook_hint">Group Robot → Webhook Address</string>
     <string name="feishu_secret_hint">Group Robot → Security Settings → Signature Verification</string>
+    <string name="feishu_at_open_ids">@ Specific Users (open_id or user_id)</string>
+    <string name="feishu_at_open_ids_tip">Enter open_ids or user_ids separated by commas; leave empty to skip @mention</string>
     <string name="pushplus_token_hint">Please go to the corresponding official website to obtain</string>
     <string name="choose_rule">Drop-down selection, keyword fuzzy match</string>
     <string name="choose_sender">Drop-down selection, keyword fuzzy match</string>

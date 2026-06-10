@@ -119,11 +119,12 @@ class FeishuUtils private constructor() {
 
             //组装报文
             val requestMsg: String
+            val atLarkMd = buildAtStr(setting.atAll, setting.atOpenIds, forText = false)
             if (setting.msgType == "interactive") {
                 msgMap["msg_type"] = "interactive"
                 if (TextUtils.isEmpty(setting.messageCard.trim())) {
                     msgMap["card"] = "{{CARD_BODY}}"
-                    requestMsg = Gson().toJson(msgMap).replace("\"{{CARD_BODY}}\"", buildMsg(title, content, from, msgInfo.date))
+                    requestMsg = Gson().toJson(msgMap).replace("\"{{CARD_BODY}}\"", buildMsg(title, content, from, msgInfo.date, atLarkMd))
                 } else {
                     val msgTime = jsonInnerStr(SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(msgInfo.date))
                     msgMap["card"] = msgInfo.getContentFromJson(
@@ -131,14 +132,15 @@ class FeishuUtils private constructor() {
                             .replace("{{MSG_TITLE}}", jsonInnerStr(title))
                             .replace("{{MSG_TIME}}", msgTime)
                             .replace("{{MSG_FROM}}", jsonInnerStr(from))
-                            .replace("{{MSG_CONTENT}}", jsonInnerStr(content))
+                            .replace("{{MSG_CONTENT}}", jsonInnerStr(if (atLarkMd.isNotEmpty()) "$atLarkMd\n$content" else content))
                     )
                     requestMsg = Gson().toJson(msgMap)
                 }
             } else {
                 msgMap["msg_type"] = "text"
+                val atText = buildAtStr(setting.atAll, setting.atOpenIds, forText = true)
                 val contentMap: MutableMap<String, Any> = mutableMapOf()
-                contentMap["text"] = content
+                contentMap["text"] = if (atText.isNotEmpty()) "$atText$content" else content
                 msgMap["content"] = contentMap
                 requestMsg = Gson().toJson(msgMap)
             }
@@ -174,15 +176,26 @@ class FeishuUtils private constructor() {
 
         }
 
-        private fun buildMsg(title: String, content: String, from: String, date: Date): String {
+        private fun buildMsg(title: String, content: String, from: String, date: Date, atStr: String = ""): String {
             val msgTitle = jsonInnerStr(title)
-            val msgContent = jsonInnerStr(content)
+            val msgContent = jsonInnerStr(if (atStr.isNotEmpty()) "$atStr\n$content" else content)
             val msgFrom = jsonInnerStr(from)
             val msgTime = jsonInnerStr(SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(date))
             return MSG_TEMPLATE.replace("{{MSG_TITLE}}", msgTitle)
                 .replace("{{MSG_TIME}}", msgTime)
                 .replace("{{MSG_FROM}}", msgFrom)
                 .replace("{{MSG_CONTENT}}", msgContent)
+        }
+
+        private fun buildAtStr(atAll: Boolean, atOpenIds: String, forText: Boolean): String {
+            return when {
+                atAll -> if (forText) "<at user_id=\"all\">所有人</at> " else "<at id=all></at>"
+                atOpenIds.isNotBlank() -> atOpenIds.split(",").filter { it.isNotBlank() }
+                    .joinToString(" ") { id ->
+                        if (forText) "<at user_id=\"${id.trim()}\">@</at>" else "<at id=${id.trim()}></at>"
+                    }
+                else -> ""
+            }
         }
 
         private fun jsonInnerStr(string: String?): String {

@@ -4,6 +4,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import androidx.fragment.app.viewModels
 import com.google.gson.Gson
 import com.google.gson.JsonParser
@@ -43,7 +44,7 @@ import java.util.Date
 
 @Page(name = "飞书群机器人")
 @Suppress("PrivatePropertyName")
-class FeishuFragment : BaseFragment<FragmentSendersFeishuBinding?>(), View.OnClickListener {
+class FeishuFragment : BaseFragment<FragmentSendersFeishuBinding?>(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private val TAG: String = FeishuFragment::class.java.simpleName
     private var titleBar: TitleBar? = null
@@ -139,6 +140,8 @@ class FeishuFragment : BaseFragment<FragmentSendersFeishuBinding?>(), View.OnCli
                 if (settingVo != null) {
                     binding!!.etWebhook.setText(settingVo.webhook)
                     binding!!.etSecret.setText(settingVo.secret)
+                    binding!!.sbAtAll.isChecked = settingVo.atAll
+                    binding!!.etAtOpenIds.setText(settingVo.atOpenIds)
                     binding!!.rgMsgType.check(settingVo.getMsgTypeCheckId())
                     binding!!.etTitleTemplate.setText(settingVo.titleTemplate)
                     binding!!.etMessageCard.setText(settingVo.messageCard)
@@ -151,7 +154,17 @@ class FeishuFragment : BaseFragment<FragmentSendersFeishuBinding?>(), View.OnCli
         binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
+        binding!!.sbAtAll.setOnCheckedChangeListener(this)
         LiveEventBus.get(KEY_SENDER_TEST, String::class.java).observe(this) { mCountDownHelper?.finish() }
+    }
+
+    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+        if (isChecked) {
+            binding!!.layoutAtOpenIds.visibility = View.GONE
+            binding!!.etAtOpenIds.setText("")
+        } else {
+            binding!!.layoutAtOpenIds.visibility = View.VISIBLE
+        }
     }
 
     @SingleClick
@@ -224,6 +237,8 @@ class FeishuFragment : BaseFragment<FragmentSendersFeishuBinding?>(), View.OnCli
         }
 
         val secret = binding!!.etSecret.text.toString().trim()
+        val atAll = binding!!.sbAtAll.isChecked
+        val atOpenIds = binding!!.etAtOpenIds.text.toString().trim()
         val msgType = if (binding!!.rgMsgType.checkedRadioButtonId == R.id.rb_msg_type_interactive) "interactive" else "text"
         val title = binding!!.etTitleTemplate.text.toString().trim()
         val messageCard = binding!!.etMessageCard.text.toString().trim()
@@ -235,7 +250,7 @@ class FeishuFragment : BaseFragment<FragmentSendersFeishuBinding?>(), View.OnCli
             throw Exception(getString(R.string.invalid_message_card))
         }
 
-        return FeishuSetting(webhook, secret, msgType, title, messageCard)
+        return FeishuSetting(webhook, secret, msgType, title, messageCard, atAll, atOpenIds)
     }
 
     override fun onDestroyView() {
