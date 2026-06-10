@@ -617,6 +617,7 @@
     <string name="bark_encryption_key_error2">加密密钥必须是24位</string>
     <string name="bark_encryption_key_error3">加密密钥必须是32位</string>
     <string name="bark_encryption_key_error4">偏移向量必须是16位 或 留空</string>
+    <string name="bark_encryption_key_error5">GCM偏移向量必须是12位 或 留空</string>
 
     <string name="from_email_hint">填写 @ 前面的用户名</string>
     <string name="other_mail_type">其他邮箱</string>

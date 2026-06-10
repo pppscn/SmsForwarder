@@ -18,6 +18,7 @@ import com.xuexiang.xhttp2.callback.SimpleCallBack
 import com.xuexiang.xhttp2.exception.ApiException
 import java.net.URLEncoder
 import javax.crypto.Cipher
+import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
@@ -100,8 +101,9 @@ class BarkUtils {
             } else {
                 val transformation = setting.transformation.replace("AES128", "AES").replace("AES192", "AES").replace("AES256", "AES")
                 if (setting.iv.isNullOrBlank()) {
-                    // 留空则随机16字符
-                    setting.iv = RandomUtils.getRandomNumbersAndLetters(16).toString()
+                    // 留空则随机产生，GCM用12位，其他用16位
+                    val ivLength = if (setting.transformation.contains("GCM")) 12 else 16
+                    setting.iv = RandomUtils.getRandomNumbersAndLetters(ivLength).toString()
                     request.params("iv", URLEncoder.encode(setting.iv, "UTF-8"))
                 }
                 val ciphertext = encrypt(requestMsg, transformation, setting.key, setting.iv)
@@ -153,6 +155,9 @@ class BarkUtils {
             } else if (transformation.contains("CBC")) {
                 val ivSpec = IvParameterSpec(iv.toByteArray())
                 cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec)
+            } else if (transformation.contains("GCM")) {
+                val gcmSpec = GCMParameterSpec(128, iv.toByteArray())
+                cipher.init(Cipher.ENCRYPT_MODE, keySpec, gcmSpec)
             } else {
                 throw IllegalArgumentException("Unsupported transformation: $transformation")
             }
@@ -169,6 +174,9 @@ class BarkUtils {
             } else if (transformation.contains("CBC")) {
                 val ivSpec = IvParameterSpec(iv.toByteArray())
                 cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec)
+            } else if (transformation.contains("GCM")) {
+                val gcmSpec = GCMParameterSpec(128, iv.toByteArray())
+                cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmSpec)
             } else {
                 throw IllegalArgumentException("Unsupported transformation: $transformation")
             }

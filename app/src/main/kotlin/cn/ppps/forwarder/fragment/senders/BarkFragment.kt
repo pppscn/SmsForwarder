@@ -282,6 +282,8 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
         }
         if (transformation.contains("CBC") && iv.isNotEmpty() && iv.length != 16) {
             throw Exception(getString(R.string.bark_encryption_key_error4))
+        } else if (transformation.contains("GCM") && iv.isNotEmpty() && iv.length != 12) {
+            throw Exception(getString(R.string.bark_encryption_key_error5))
         }
 
         return BarkSetting(server, group, icon, sound, badge, url, barkLevel, title, transformation, key, iv, call, autoCopy)

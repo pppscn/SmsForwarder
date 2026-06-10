@@ -551,6 +551,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
                 "AES192/ECB/PKCS7Padding" to "AES192/ECB/PKCS7Padding",
                 "AES256/CBC/PKCS7Padding" to "AES256/CBC/PKCS7Padding",
                 "AES256/ECB/PKCS7Padding" to "AES256/ECB/PKCS7Padding",
+                "AES256/GCM/NoPadding" to "AES256/GCM/NoPadding",
             )
         )
     }

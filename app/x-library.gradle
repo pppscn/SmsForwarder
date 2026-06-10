@@ -9,7 +9,9 @@ configurations.each { configuration ->
     if (configuration.name.equals("implementation")) {
         //为Project加入X-Library依赖
         //XUI框架
-        configuration.dependencies.add(dependencies.create(deps.xlibrary.xui))
+        def xuiDep = dependencies.create(deps.xlibrary.xui)
+        xuiDep.exclude(group: 'com.alibaba.android', module: 'vlayout')
+        configuration.dependencies.add(xuiDep)
         configuration.dependencies.add(dependencies.create(deps.androidx.appcompat))
         configuration.dependencies.add(dependencies.create(deps.androidx.recyclerview))
         configuration.dependencies.add(dependencies.create(deps.androidx.design))
