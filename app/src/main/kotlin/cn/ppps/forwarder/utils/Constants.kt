@@ -68,6 +68,7 @@ const val SP_ENABLE_SILENT_PERIOD_LOGS = "enable_silent_period_logs"
 const val SP_ENABLE_EXCLUDE_FROM_RECENTS = "enable_exclude_from_recents"
 const val SP_ENABLE_PLAY_SILENCE_MUSIC = "enable_play_silence_music"
 const val SP_ENABLE_ONE_PIXEL_ACTIVITY = "enable_one_pixel_activity"
+const val SP_MUSIC_INTERVAL = "music_interval"
 
 const val SP_REQUEST_RETRY_TIMES = "request_retry_times"
 const val SP_REQUEST_DELAY_TIME = "request_delay_time"

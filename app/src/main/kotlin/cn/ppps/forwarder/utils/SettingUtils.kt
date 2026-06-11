@@ -92,6 +92,9 @@ class SettingUtils private constructor() {
         //是否启用1像素
         var enableOnePixelActivity: Boolean by SharedPreference(SP_ENABLE_ONE_PIXEL_ACTIVITY, false)
 
+        //无声音乐唤醒间隔（秒，越大越省电）
+        var musicInterval: Int by SharedPreference(SP_MUSIC_INTERVAL, 10)
+
         //请求接口失败重试次数
         var requestRetryTimes: Int by SharedPreference(SP_REQUEST_RETRY_TIMES, 0)
 

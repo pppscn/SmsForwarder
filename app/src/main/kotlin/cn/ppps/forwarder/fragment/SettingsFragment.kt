@@ -177,7 +177,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         //不在最近任务列表中显示
         switchExcludeFromRecents(binding!!.layoutExcludeFromRecents, binding!!.sbExcludeFromRecents)
         //Cactus增强保活措施
-        switchEnableCactus(binding!!.sbEnableCactus, binding!!.scbPlaySilenceMusic, binding!!.scbOnePixelActivity)
+        switchEnableCactus(binding!!.sbEnableCactus, binding!!.scbPlaySilenceMusic, binding!!.scbOnePixelActivity, binding!!.layoutMusicInterval, binding!!.xsbMusicInterval)
         //接口请求失败重试时间间隔
         editRetryDelayTime(binding!!.xsbRetryTimes, binding!!.xsbDelayTime, binding!!.xsbTimeout)
 
@@ -921,14 +921,16 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //Cactus增强保活措施
     @SuppressLint("UseSwitchCompatOrMaterialCode")
-    private fun switchEnableCactus(sbEnableCactus: SwitchButton, scbPlaySilenceMusic: SmoothCheckBox, scbOnePixelActivity: SmoothCheckBox) {
+    private fun switchEnableCactus(sbEnableCactus: SwitchButton, scbPlaySilenceMusic: SmoothCheckBox, scbOnePixelActivity: SmoothCheckBox, layoutMusicInterval: LinearLayout, xsbMusicInterval: XSeekBar) {
         val layoutCactusOptional: LinearLayout = binding!!.layoutCactusOptional
         val isEnable: Boolean = SettingUtils.enableCactus
         sbEnableCactus.isChecked = isEnable
         layoutCactusOptional.visibility = if (isEnable) View.VISIBLE else View.GONE
+        layoutMusicInterval.visibility = if (isEnable && SettingUtils.enablePlaySilenceMusic) View.VISIBLE else View.GONE
 
         sbEnableCactus.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             layoutCactusOptional.visibility = if (isChecked) View.VISIBLE else View.GONE
+            layoutMusicInterval.visibility = if (isChecked && SettingUtils.enablePlaySilenceMusic) View.VISIBLE else View.GONE
             SettingUtils.enableCactus = isChecked
             XToastUtils.warning(getString(R.string.need_to_restart))
         }
@@ -936,6 +938,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         scbPlaySilenceMusic.isChecked = SettingUtils.enablePlaySilenceMusic
         scbPlaySilenceMusic.setOnCheckedChangeListener { _: SmoothCheckBox, isChecked: Boolean ->
             SettingUtils.enablePlaySilenceMusic = isChecked
+            layoutMusicInterval.visibility = if (isChecked) View.VISIBLE else View.GONE
             XToastUtils.warning(getString(R.string.need_to_restart))
         }
 
@@ -946,6 +949,14 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         scbOnePixelActivity.setOnCheckedChangeListener { _: SmoothCheckBox, isChecked: Boolean ->
             SettingUtils.enableOnePixelActivity = isChecked
             XToastUtils.warning(getString(R.string.need_to_restart))
+        }
+
+        xsbMusicInterval.setDefaultValue(SettingUtils.musicInterval)
+        xsbMusicInterval.setOnSeekBarListener { _: XSeekBar?, newValue: Int ->
+            if (newValue != SettingUtils.musicInterval) {
+                SettingUtils.musicInterval = newValue
+                XToastUtils.warning(getString(R.string.need_to_restart))
+            }
         }
     }
 

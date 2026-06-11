@@ -16,11 +16,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.multidex.MultiDex
 import androidx.work.Configuration
 import androidx.work.WorkManager
-import com.gyf.cactus.Cactus
-import com.gyf.cactus.callback.CactusCallback
-import com.gyf.cactus.ext.cactus
-import com.hjq.language.MultiLanguages
-import com.hjq.language.OnLanguageListener
 import cn.ppps.forwarder.activity.MainActivity
 import cn.ppps.forwarder.core.Core
 import cn.ppps.forwarder.database.AppDatabase
@@ -57,6 +52,11 @@ import cn.ppps.forwarder.utils.sdkinit.UMengInit
 import cn.ppps.forwarder.utils.sdkinit.XBasicLibInit
 import cn.ppps.forwarder.utils.sdkinit.XUpdateInit
 import cn.ppps.forwarder.utils.tinker.TinkerLoadLibrary
+import com.gyf.cactus.Cactus
+import com.gyf.cactus.callback.CactusCallback
+import com.gyf.cactus.ext.cactus
+import com.hjq.language.MultiLanguages
+import com.hjq.language.OnLanguageListener
 import com.king.location.LocationClient
 import com.xuexiang.xutil.file.FileUtils
 import frpclib.Frpclib
@@ -294,7 +294,7 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
                         setBackgroundMusicEnabled(true)
                         setMusicId(R.raw.silence)
                         //设置音乐间隔时间，时间间隔越长，越省电
-                        setMusicInterval(10)
+                        setMusicInterval(SettingUtils.musicInterval.toLong())
                         isDebug(true)
                     }
                     //是否可以使用一像素，默认可以使用，只有在android p以下可以使用
