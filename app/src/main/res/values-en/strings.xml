@@ -831,6 +831,7 @@
     <string name="reach_level_min">[Battery Warning] The lower limit of the battery warning has been reached, please charge it in time!%s</string>
     <string name="reach_level_max">[Battery Warning] The upper limit of battery warning has been reached, please unplug the charger!%s</string>
     <string name="battery_status_changed">[Charging status] changes:</string>
+    <string name="battery_status_required">Select at least one battery status</string>
     <string name="no_indentation_allowed_on_the_first_line">No indentation allowed on the first line</string>
     <string name="sign_required">The server enables the signing key, and the sign node required</string>
     <string name="timestamp_required">The server enables the signing key, and the timestamp node required</string>

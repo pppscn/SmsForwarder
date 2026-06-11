@@ -832,6 +832,7 @@
     <string name="reach_level_min">【電量預警】已達到電量預警下限，請及時充電！%s</string>
     <string name="reach_level_max">【電量預警】已達到電量預警上限，請拔掉充電器！%s</string>
     <string name="battery_status_changed">【充電狀態】發生變化：</string>
+    <string name="battery_status_required">至少選擇一個充電狀態</string>
     <string name="no_indentation_allowed_on_the_first_line">第一行不允許縮進</string>
     <string name="sign_required">服務端啟用簽名密鑰，sign節點必傳</string>
     <string name="timestamp_required">服務端啟用簽名密鑰，timestamp節點必傳</string>

@@ -861,6 +861,7 @@
     <string name="reach_level_min">【电量预警】已达到电量预警下限，请及时充电！%s</string>
     <string name="reach_level_max">【电量预警】已达到电量预警上限，请拔掉充电器！%s</string>
     <string name="battery_status_changed">【充电状态】发生变化：</string>
+    <string name="battery_status_required">至少选择一个充电状态</string>
     <string name="no_indentation_allowed_on_the_first_line">第一行不允许缩进</string>
     <string name="sign_required">服务端启用签名密钥，sign节点必传</string>
     <string name="timestamp_required">服务端启用签名密钥，timestamp节点必传</string>

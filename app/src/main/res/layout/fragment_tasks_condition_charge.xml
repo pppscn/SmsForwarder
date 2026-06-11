@@ -62,45 +62,138 @@
                     android:text="@string/battery_status_title"
                     android:textStyle="bold" />
 
-                <RadioGroup
-                    android:id="@+id/rg_status"
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.xuexiang.xui.widget.button.SmoothCheckBox
+                            android:id="@+id/cb_battery_charging"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:checked="true"
+                            app:scb_color_checked="@color/colorPrimary"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="@string/battery_charging" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.xuexiang.xui.widget.button.SmoothCheckBox
+                            android:id="@+id/cb_battery_discharging"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            app:scb_color_checked="@color/colorPrimary"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="@string/battery_discharging" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.xuexiang.xui.widget.button.SmoothCheckBox
+                            android:id="@+id/cb_battery_not_charging"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            app:scb_color_checked="@color/colorPrimary"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="@string/battery_not_charging" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <RadioButton
-                        android:id="@+id/rb_battery_charging"
-                        style="@style/rg_rb_style"
-                        android:checked="true"
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="@string/battery_charging"
-                        tools:ignore="TouchTargetSizeCheck" />
+                        android:orientation="horizontal">
 
-                    <RadioButton
-                        android:id="@+id/rb_battery_discharging"
-                        style="@style/rg_rb_style"
-                        android:text="@string/battery_discharging"
-                        tools:ignore="TouchTargetSizeCheck" />
+                        <com.xuexiang.xui.widget.button.SmoothCheckBox
+                            android:id="@+id/cb_battery_full"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            app:scb_color_checked="@color/colorPrimary"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-                    <RadioButton
-                        android:id="@+id/rb_battery_not_charging"
-                        style="@style/rg_rb_style"
-                        android:text="@string/battery_not_charging"
-                        tools:ignore="TouchTargetSizeCheck" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="@string/battery_full" />
 
-                    <RadioButton
-                        android:id="@+id/rb_battery_full"
-                        style="@style/rg_rb_style"
-                        android:text="@string/battery_full"
-                        tools:ignore="TouchTargetSizeCheck" />
+                    </LinearLayout>
 
-                    <RadioButton
-                        android:id="@+id/rb_battery_unknown"
-                        style="@style/rg_rb_style"
-                        android:text="@string/battery_unknown"
-                        tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                </RadioGroup>
+                        <com.xuexiang.xui.widget.button.SmoothCheckBox
+                            android:id="@+id/cb_battery_unknown"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            app:scb_color_checked="@color/colorPrimary"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="@string/battery_unknown" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -112,41 +205,107 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:baselineAligned="false"
                     android:text="@string/battery_plugged_title"
                     android:textStyle="bold" />
 
-                <RadioGroup
-                    android:id="@+id/rg_plugged"
+                <LinearLayout
+                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    tools:ignore="DisableBaselineAlignment">
 
-                    <RadioButton
-                        android:id="@+id/rb_plugged_ac"
-                        style="@style/rg_rb_style"
-                        android:checked="true"
-                        android:text="@string/battery_ac"
-                        tools:ignore="TouchTargetSizeCheck" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                    <RadioButton
-                        android:id="@+id/rb_plugged_usb"
-                        style="@style/rg_rb_style"
-                        android:text="@string/battery_usb"
-                        tools:ignore="TouchTargetSizeCheck" />
+                        <com.xuexiang.xui.widget.button.SmoothCheckBox
+                            android:id="@+id/cb_plugged_ac"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            app:scb_color_checked="@color/colorPrimary"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-                    <RadioButton
-                        android:id="@+id/rb_plugged_wireless"
-                        style="@style/rg_rb_style"
-                        android:text="@string/battery_wireless"
-                        tools:ignore="TouchTargetSizeCheck" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="@string/battery_ac" />
 
-                    <RadioButton
-                        android:id="@+id/rb_plugged_unlimited"
-                        style="@style/rg_rb_style"
-                        android:text="@string/battery_unlimited"
-                        tools:ignore="TouchTargetSizeCheck" />
+                    </LinearLayout>
 
-                </RadioGroup>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.xuexiang.xui.widget.button.SmoothCheckBox
+                            android:id="@+id/cb_plugged_usb"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            app:scb_color_checked="@color/colorPrimary"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="@string/battery_usb" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.xuexiang.xui.widget.button.SmoothCheckBox
+                            android:id="@+id/cb_plugged_wireless"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            app:scb_color_checked="@color/colorPrimary"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="@string/battery_wireless" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.xuexiang.xui.widget.button.SmoothCheckBox
+                            android:id="@+id/cb_plugged_unlimited"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:checked="true"
+                            app:scb_color_checked="@color/colorPrimary"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="@string/battery_unlimited" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 
