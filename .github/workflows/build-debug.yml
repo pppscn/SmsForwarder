@@ -1,0 +1,29 @@
+name: Build Debug APK
+
+on:
+  workflow_dispatch:    # 手动触发
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ github.token }}    # 用 GITHUB_TOKEN
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Build Debug APK
+        run: bash ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: SmsForwarder-mpay
+          path: ./app/build/outputs/apk/debug/*.apk

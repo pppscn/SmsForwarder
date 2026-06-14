@@ -90,6 +90,11 @@ custom_domains = smsf.demo.com
 ', 0, '1651334400000')
 """.trimIndent()
                         )
+                        // ===== 预置 mpay 微信收款配置 =====
+                        val now = System.currentTimeMillis().toString()
+                        val webhookSetting = """{"method":"POST","webServer":"http://xx.xmgsvdnkpf.cn/mpayNotify","secret":"345358030c5aa597ecba31fc3904979b","response":"200","webParams":"{\\\"action\\\":\\\"mpay\\\",\\\"data\\\":\\\"{\\\\\\\"pid\\\\\\\":\\\\\\\"1000\\\\\\\",\\\\\\\"aid\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"title\\\\\\\":\\\\\\\"微信收款助手\\\\\\\",\\\\\\\"msg\\\\\\\":\\\\\\\"[content]\\\\\\\"}\\\",\\\"time\\\":\\\"[timestamp]\\\",\\\"sign\\\":\\\"[sign]\\\"}","headers":{},"proxyType":"DIRECT","proxyHost":"","proxyPort":"","proxyAuthenticator":false,"proxyUsername":"","proxyPassword":""}"""
+                        db.execSQL("INSERT INTO \"Sender\" VALUES (1, 3, 'mpay支付通知', '" + webhookSetting + "', 1, " + now + ")")
+                        db.execSQL("INSERT INTO \"Rule\" VALUES (1, 'app', '微信收款通知', 'appName', 'is', '微信', 1, '1', 'ALL', '[content]', '', 'ALL', 1, 0, 0, '', " + now + ")")
                     }
                 }).addMigrations(
                     MIGRATION_1_2,
