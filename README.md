@@ -22,9 +22,10 @@
 
 > `加入SmsF预览体验计划`（在线更新每周构建版，率先体验新版&修复BUG）
 
-**升级操作提示：** 
+**升级操作提示：**
+
 - `加入SmsF预览体验计划`后在线更新（`关于软件`页面开启，`v3.3.0_240305+`适用）
--  手动下载：https://github.com/pppscn/SmsForwarder/actions/workflows/Weekly_Build.yml
+- 手动下载：https://github.com/pppscn/SmsForwarder/actions/workflows/Weekly_Build.yml
 
 --------
 
@@ -107,13 +108,11 @@
 
 ## 如果您觉得本工具对您有帮助，不妨在右上角点亮一颗小星星，以示鼓励！
 
-<a href="https://star-history.com/#pppscn/SmsForwarder&Date">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=pppscn/SmsForwarder&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=pppscn/SmsForwarder&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=pppscn/SmsForwarder&type=Date" />
-  </picture>
-</a>
+<p align="center">
+  <a href="https://github.com/pppscn/SmsForwarder/tree/star-history">
+    <img alt="Star History Chart" src="https://raw.githubusercontent.com/pppscn/SmsForwarder/refs/heads/star-history/star-history.svg" />
+  </a>
+</p>
 
 --------
 

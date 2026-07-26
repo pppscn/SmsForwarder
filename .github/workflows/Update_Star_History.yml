@@ -1,0 +1,71 @@
+name: Update Star History
+
+on:
+  schedule:
+    - cron: "17 1 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: star-history
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+
+      - name: Delete Workflow
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ secrets.TOKEN }}
+          repository: ${{ github.repository }}
+          retain_days: 1
+          keep_minimum_runs: 2
+          delete_workflow_pattern: 'Update Star History'
+
+      - name: Prepare data branch
+        run: |
+          set -euo pipefail
+          target="$RUNNER_TEMP/star-history"
+          if git ls-remote --exit-code --heads origin refs/heads/star-history >/dev/null 2>&1; then
+            git fetch --no-tags origin refs/heads/star-history:refs/remotes/origin/star-history
+            git worktree add --detach "$target" refs/remotes/origin/star-history
+            git -C "$target" switch -c star-history
+          else
+            git worktree add --detach "$target"
+            git -C "$target" switch --orphan star-history
+            git -C "$target" rm -rf --ignore-unmatch .
+          fi
+          echo "STAR_HISTORY_DIR=$target" >> "$GITHUB_ENV"
+
+      - name: Generate snapshot
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node .github/scripts/star-history.mjs snapshot "$STAR_HISTORY_DIR"
+
+      - name: Publish snapshot
+        run: |
+          set -euo pipefail
+          git -C "$STAR_HISTORY_DIR" config user.name github-actions[bot]
+          git -C "$STAR_HISTORY_DIR" config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git -C "$STAR_HISTORY_DIR" add history.json star-history.svg
+          if git -C "$STAR_HISTORY_DIR" diff --cached --quiet; then
+            echo "Star history is already up to date"
+            exit 0
+          fi
+          git -C "$STAR_HISTORY_DIR" commit -m "更新 Star History 快照"
+          git -C "$STAR_HISTORY_DIR" push origin HEAD:refs/heads/star-history
