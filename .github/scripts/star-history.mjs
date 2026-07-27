@@ -5,6 +5,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const DAY = 24 * 60 * 60 * 1000;
+const Y_AXIS_STEP = 5_000;
 
 function mergePoint(points, point) {
   return [...new Map([...points, point].map((item) => [item.date, item])).values()].sort(
@@ -28,10 +29,32 @@ function pointsFromStargazers(stargazers) {
     .map(([date, count]) => ({ date, stars: (stars += count) }));
 }
 
-function niceMaximum(value) {
-  if (value <= 0) return 1;
-  const magnitude = 10 ** Math.floor(Math.log10(value));
-  return [1, 2, 5, 10].map((step) => step * magnitude).find((candidate) => candidate >= value);
+function yAxisMaximum(value) {
+  if (value <= 0) return Y_AXIS_STEP;
+  const rounded = Math.ceil(value / Y_AXIS_STEP) * Y_AXIS_STEP;
+  // Keep a small headroom only when value lands exactly on a tick.
+  return value % Y_AXIS_STEP === 0 ? rounded + Y_AXIS_STEP : rounded;
+}
+
+function xAxisTicks(minimumTime, maximumTime) {
+  const startYear = new Date(minimumTime).getUTCFullYear() - 1;
+  const endYear = new Date(maximumTime).getUTCFullYear() + 1;
+  const ticks = [];
+  for (let year = startYear; year <= endYear; year += 1) {
+    const major = Date.UTC(year, 1, 14);
+    const minor = Date.UTC(year, 7, 14);
+    if (major >= minimumTime && major <= maximumTime) ticks.push({ time: major, major: true });
+    if (minor >= minimumTime && minor <= maximumTime) ticks.push({ time: minor, major: false });
+  }
+  return ticks.sort((left, right) => left.time - right.time);
+}
+
+function formatUtcDate(time) {
+  const date = new Date(time);
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 function escapeXml(value) {
@@ -57,7 +80,7 @@ function renderSvg(history) {
   const minimumTime = Math.min(...times);
   const maximumTime = Math.max(...times);
   const timeSpan = Math.max(maximumTime - minimumTime, DAY);
-  const maximumStars = niceMaximum(Math.max(...history.points.map(({ stars }) => stars)));
+  const maximumStars = yAxisMaximum(Math.max(...history.points.map(({ stars }) => stars)));
   const x = (time) => history.points.length === 1
     ? width - right
     : left + ((time - minimumTime) / timeSpan) * plotWidth;
@@ -72,22 +95,17 @@ function renderSvg(history) {
   }
   const area = `${line} V ${height - bottom} H ${coordinates[0].x.toFixed(1)} Z`;
   const number = new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 });
-  const date = new Intl.DateTimeFormat("en", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    timeZone: "UTC",
-  });
-  const grid = Array.from({ length: 6 }, (_, index) => {
-    const stars = (maximumStars * index) / 5;
+  const grid = Array.from({ length: Math.floor(maximumStars / Y_AXIS_STEP) + 1 }, (_, index) => {
+    const stars = index * Y_AXIS_STEP;
     const position = y(stars);
     return `<path class="grid" d="M ${left} ${position.toFixed(1)} H ${width - right}"/><text class="label" x="${left - 12}" y="${(position + 4).toFixed(1)}" text-anchor="end">${number.format(stars)}</text>`;
   }).join("");
-  const dates = Array.from({ length: 5 }, (_, index) => {
-    const time = minimumTime + (timeSpan * index) / 4;
-    const position = left + (plotWidth * index) / 4;
-    const anchor = index === 0 ? "start" : index === 4 ? "end" : "middle";
-    return `<path class="grid" d="M ${position.toFixed(1)} ${top} V ${height - bottom}"/><text class="label" x="${position.toFixed(1)}" y="${height - bottom + 28}" text-anchor="${anchor}">${date.format(time)}</text>`;
+  const dates = xAxisTicks(minimumTime, maximumTime).map(({ time, major }) => {
+    const position = x(time);
+    if (major) {
+      return `<path class="grid" d="M ${position.toFixed(1)} ${top} V ${height - bottom}"/><text class="label" x="${position.toFixed(1)}" y="${height - bottom + 28}" text-anchor="middle">${formatUtcDate(time)}</text>`;
+    }
+    return `<path class="minor-grid" d="M ${position.toFixed(1)} ${top} V ${height - bottom}"/>`;
   }).join("");
   const latest = history.points.at(-1);
 
@@ -98,6 +116,7 @@ function renderSvg(history) {
   <style>
     .background { fill: #ffffff; }
     .grid { fill: none; stroke: #d8dee4; stroke-width: 1; }
+    .minor-grid { fill: none; stroke: #d8dee4; stroke-width: 1; stroke-dasharray: 3 5; opacity: .6; }
     .label, .subtitle { fill: #57606a; font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
     .heading, .value { fill: #24292f; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
     .heading { font-size: 20px; font-weight: 600; }
@@ -108,6 +127,7 @@ function renderSvg(history) {
     @media (prefers-color-scheme: dark) {
       .background { fill: #0d1117; }
       .grid { stroke: #30363d; }
+      .minor-grid { stroke: #30363d; }
       .label, .subtitle { fill: #8b949e; }
       .heading, .value { fill: #f0f6fc; }
       .area { fill: #58a6ff; }
@@ -193,6 +213,18 @@ function selfTest() {
   });
   assert.match(svg, /owner\/repo Star History/);
   assert.match(svg, /★ 3/);
+  const axisSvg = renderSvg({
+    repository: "owner/repo",
+    updated: "2026-08-14",
+    points: [
+      { date: "2025-01-01", stars: 1000 },
+      { date: "2026-08-14", stars: 27200 },
+    ],
+  });
+  assert.match(axisSvg, /30K/);
+  assert.doesNotMatch(axisSvg, /35K/);
+  assert.match(axisSvg, /2025-02-14/);
+  assert.match(axisSvg, /minor-grid/);
   console.log("star history self-test passed");
 }
 
