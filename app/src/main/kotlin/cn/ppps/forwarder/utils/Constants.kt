@@ -2,6 +2,7 @@ package cn.ppps.forwarder.utils
 
 object Worker {
     const val SEND_MSG_INFO = "send_msg_info"
+    const val SEND_ENQUEUED_AT = "send_enqueued_at"
     const val UPDATE_LOGS = "update_logs"
     const val RULE = "rule"
     const val SENDER_INDEX = "sender_index"
@@ -155,6 +156,8 @@ const val TYPE_SOCKET = 15
 const val FRONT_NOTIFY_ID = 0x1010
 const val FRONT_CHANNEL_ID = "cn.ppps.forwarder"
 const val FRONT_CHANNEL_NAME = "SmsForwarder Foreground Service"
+const val SEND_WORK_CHANNEL_ID = "cn.ppps.forwarder.send_work"
+const val SEND_WORK_CHANNEL_NAME = "SmsForwarder Message Forwarding"
 
 //Frp内网穿透
 const val FRPC_LIB_DOWNLOAD_URL = "https://xupdate.ppps.cn/uploads/%s/%s/libgojni.so"

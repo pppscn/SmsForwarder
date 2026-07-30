@@ -1,15 +1,23 @@
 package cn.ppps.forwarder.workers
 
 import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.os.Build
+import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.Data
+import androidx.work.ForegroundInfo
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.google.gson.Gson
 import cn.ppps.forwarder.R
+import cn.ppps.forwarder.activity.MainActivity
 import cn.ppps.forwarder.core.Core
 import cn.ppps.forwarder.database.entity.Logs
 import cn.ppps.forwarder.database.entity.Msg
@@ -20,6 +28,8 @@ import cn.ppps.forwarder.utils.CHECK_SIM_SLOT_ALL
 import cn.ppps.forwarder.utils.DataProvider
 import cn.ppps.forwarder.utils.HistoryUtils
 import cn.ppps.forwarder.utils.Log
+import cn.ppps.forwarder.utils.SEND_WORK_CHANNEL_ID
+import cn.ppps.forwarder.utils.SEND_WORK_CHANNEL_NAME
 import cn.ppps.forwarder.utils.SendUtils
 import cn.ppps.forwarder.utils.SettingUtils
 import cn.ppps.forwarder.utils.TASK_CONDITION_APP
@@ -43,6 +53,12 @@ class SendWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
 
         return withContext(Dispatchers.IO) {
             try {
+                val enqueuedAt = inputData.getLong(Worker.SEND_ENQUEUED_AT, 0L)
+                if (enqueuedAt > 0L) {
+                    val queueDelayMs = (System.currentTimeMillis() - enqueuedAt).coerceAtLeast(0L)
+                    Log.d(TAG, "queueDelayMs=$queueDelayMs")
+                }
+
                 val msgInfoJson = inputData.getString(Worker.SEND_MSG_INFO)
                 if (msgInfoJson.isNullOrBlank()) {
                     return@withContext Result.failure(workDataOf("send" to "msgInfoJson is null"))
@@ -118,6 +134,39 @@ class SendWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
 
             return@withContext Result.success()
         }
+    }
+
+    override suspend fun getForegroundInfo(): ForegroundInfo {
+        val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationManager.createNotificationChannel(
+                NotificationChannel(
+                    SEND_WORK_CHANNEL_ID,
+                    SEND_WORK_CHANNEL_NAME,
+                    NotificationManager.IMPORTANCE_LOW,
+                )
+            )
+        }
+
+        val immutableFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+        val pendingIntentFlags = PendingIntent.FLAG_UPDATE_CURRENT or immutableFlag
+        val pendingIntent = PendingIntent.getActivity(
+            applicationContext,
+            0,
+            Intent(applicationContext, MainActivity::class.java),
+            pendingIntentFlags,
+        )
+        val notification = NotificationCompat.Builder(applicationContext, SEND_WORK_CHANNEL_ID)
+            .setContentTitle(applicationContext.getString(R.string.app_name))
+            .setContentText(applicationContext.getString(R.string.forward_sms))
+            .setSmallIcon(R.drawable.ic_forwarder)
+            .setContentIntent(pendingIntent)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setOnlyAlertOnce(true)
+            .setOngoing(true)
+            .build()
+        val notificationId = 0x20000000 or (id.hashCode() and 0x0fffffff)
+        return ForegroundInfo(notificationId, notification)
     }
 
     private fun autoTaskProcess(msgInfo: MsgInfo, msgInfoJson: String, simSlot: String) {

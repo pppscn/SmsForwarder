@@ -4,7 +4,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.provider.Telephony
+import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.google.gson.Gson
@@ -18,6 +20,19 @@ import cn.ppps.forwarder.utils.Worker
 import cn.ppps.forwarder.workers.SendWorker
 import com.xuexiang.xrouter.utils.TextUtils
 import java.util.Date
+
+internal fun buildSmsSendWorkRequest(
+    msgInfoJson: String,
+    enqueuedAt: Long = System.currentTimeMillis(),
+): OneTimeWorkRequest = OneTimeWorkRequestBuilder<SendWorker>()
+    .setInputData(
+        workDataOf(
+            Worker.SEND_MSG_INFO to msgInfoJson,
+            Worker.SEND_ENQUEUED_AT to enqueuedAt,
+        )
+    )
+    .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+    .build()
 
 //短信广播
 @Suppress("PrivatePropertyName", "UNUSED_PARAMETER")
@@ -109,11 +124,7 @@ class SmsReceiver : BroadcastReceiver() {
             val msgInfo = MsgInfo("sms", from, msg, Date(), simInfo, simSlot, subscription)
             Log.d(TAG, "msgInfo = $msgInfo")
 
-            val request = OneTimeWorkRequestBuilder<SendWorker>().setInputData(
-                workDataOf(
-                    Worker.SEND_MSG_INFO to Gson().toJson(msgInfo)
-                )
-            ).build()
+            val request = buildSmsSendWorkRequest(Gson().toJson(msgInfo))
             WorkManager.getInstance(context).enqueue(request)
 
         } catch (e: Exception) {
