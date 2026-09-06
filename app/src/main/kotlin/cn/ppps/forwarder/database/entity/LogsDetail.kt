@@ -15,6 +15,7 @@ import cn.ppps.forwarder.utils.TYPE_PUSHPLUS
 import cn.ppps.forwarder.utils.TYPE_SERVERCHAN
 import cn.ppps.forwarder.utils.TYPE_SMS
 import cn.ppps.forwarder.utils.TYPE_SOCKET
+import cn.ppps.forwarder.utils.TYPE_WPUSH
 import cn.ppps.forwarder.utils.TYPE_TELEGRAM
 import cn.ppps.forwarder.utils.TYPE_URL_SCHEME
 import cn.ppps.forwarder.utils.TYPE_WEBHOOK
@@ -70,6 +71,7 @@ data class LogsDetail(
             TYPE_FEISHU_APP -> R.drawable.icon_feishu_app
             TYPE_URL_SCHEME -> R.drawable.icon_url_scheme
             TYPE_SOCKET -> R.drawable.icon_socket
+            TYPE_WPUSH -> R.drawable.icon_wpush
             else -> R.drawable.icon_sms
         }
 }

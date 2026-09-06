@@ -478,6 +478,7 @@
     <string name="feishu">FeiShu Bot</string>
     <string name="feishu_app">FeiShu App</string>
     <string name="pushplus">PushPlus</string>
+    <string name="wpush">WPUSH</string>
     <string name="gotify">Gotify</string>
     <string name="_1">1</string>
     <string name="forwarding_function">Forwarding Function</string>
@@ -1243,4 +1244,14 @@
     <string name="start_discovery">Discovery</string>
     <string name="invalid_bluetooth_mac_address">Bluetooth Mac Address is invalid, eg. AA:BB:CC:DD:EE:FF</string>
     <string name="auto_start_redmi"><![CDATA[RedMi: Authorization Management -> Self-Start Management -> Allow Apps to Self-Start]]></string>
+    <string name="wpush_apikey">API Key</string>
+    <string name="wpush_apikey_tips">Get it from https://wpush.cn/settings (starts with WPUSH)</string>
+    <string name="wpush_apikey_hint">WPUSHxxxxxxxx</string>
+    <string name="wpush_channel">Channel</string>
+    <string name="wpush_channel_tips">Default wechat; options: wechat/app/sms/mail/webhook/dingtalk/feishu/wechat_work/clawbot/qqbot</string>
+    <string name="wpush_channel_hint">wechat</string>
+    <string name="wpush_topic_code">Topic code</string>
+    <string name="wpush_topic_code_tips">Optional, for topic broadcast</string>
+    <string name="invalid_wpush_apikey">API Key is required and must start with WPUSH</string>
+    <string name="invalid_wpush_channel">Invalid channel name</string>
 </resources>

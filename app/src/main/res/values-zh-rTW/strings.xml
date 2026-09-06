@@ -479,6 +479,7 @@
     <string name="feishu">飛書群機器人</string>
     <string name="feishu_app">飛書企業應用</string>
     <string name="pushplus">PushPlus</string>
+    <string name="wpush">WPUSH</string>
     <string name="gotify">Gotify</string>
     <string name="_1">1</string>
     <string name="forwarding_function">轉發功能</string>
@@ -1245,4 +1246,14 @@
     <string name="start_discovery">搜索裝置</string>
     <string name="invalid_bluetooth_mac_address">藍牙裝置MAC地址無效，例如：AA:BB:CC:DD:EE:FF</string>
     <string name="auto_start_redmi"><![CDATA[紅米手機：授權管理 -> 自啟動管理 -> 允許應用自啟動]]></string>
+    <string name="wpush_apikey">API Key</string>
+    <string name="wpush_apikey_tips">前往 https://wpush.cn/settings 取得，需以 WPUSH 開頭</string>
+    <string name="wpush_apikey_hint">WPUSHxxxxxxxx</string>
+    <string name="wpush_channel">發送渠道</string>
+    <string name="wpush_channel_tips">預設 wechat；可選 wechat/app/sms/mail/webhook/dingtalk/feishu/wechat_work/clawbot/qqbot</string>
+    <string name="wpush_channel_hint">wechat</string>
+    <string name="wpush_topic_code">Topic 編碼</string>
+    <string name="wpush_topic_code_tips">可選，用於 Topic 廣播</string>
+    <string name="invalid_wpush_apikey">API Key 不能為空，且需以 WPUSH 開頭</string>
+    <string name="invalid_wpush_channel">渠道不合法，請填寫支援的渠道名</string>
 </resources>
