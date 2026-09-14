@@ -47,10 +47,15 @@ class WebhookUtils {
             msgId: Long = 0L
         ) {
             val from: String = msgInfo.from
-            val content: String = if (rule != null) {
+            var content: String = if (rule != null) {
                 msgInfo.getContentForSend(rule.smsTemplate, rule.regexReplace, rule.title)
             } else {
                 msgInfo.getContentForSend(SettingUtils.smsTemplate)
+            }
+
+            //通道级正则替换：无需配置转发规则即可在Webhook通道直接提取验证码等
+            if (!TextUtils.isEmpty(setting.regexReplace)) {
+                content = msgInfo.applyRegexReplace(content, setting.regexReplace)
             }
 
             var requestUrl: String = setting.webServer //推送地址
@@ -110,7 +115,8 @@ class WebhookUtils {
             }
 
             val request = if (setting.method == "GET" && TextUtils.isEmpty(webParams)) {
-                setting.webServer += (if (setting.webServer.contains("?")) "&" else "?") + "from=" + URLEncoder.encode(
+                //修复：原来 from 参数误拼到 setting.webServer 上导致丢失，且 content 前固定拼接 & 导致无 ? 时 URL 不合法
+                requestUrl += (if (requestUrl.contains("?")) "&" else "?") + "from=" + URLEncoder.encode(
                     from,
                     "UTF-8"
                 )

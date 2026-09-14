@@ -134,6 +134,7 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
                     binding!!.etSecret.setText(settingVo.secret)
                     binding!!.etResponse.setText(settingVo.response)
                     binding!!.etWebParams.setText(settingVo.webParams)
+                    binding!!.etRegexReplace.setText(settingVo.regexReplace)
                     //set header
                     for ((key, value) in settingVo.headers) {
                         addHeaderItemLinearLayout(
@@ -255,6 +256,7 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
         val secret = binding!!.etSecret.text.toString().trim()
         val response = binding!!.etResponse.text.toString().trim()
         val webParams = binding!!.etWebParams.text.toString().trim()
+        val regexReplace = binding!!.etRegexReplace.text.toString().trim()
         val headers = getHeadersFromHeaderItemMap(headerItemMap)
 
         val proxyType: Proxy.Type = when (binding!!.rgProxyType.checkedRadioButtonId) {
@@ -276,7 +278,7 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
             throw Exception(getString(R.string.invalid_username_or_password))
         }
 
-        return WebhookSetting(method, webServer, secret, response, webParams, headers, proxyType, proxyHost, proxyPort, proxyAuthenticator, proxyUsername, proxyPassword)
+        return WebhookSetting(method, webServer, secret, response, webParams, headers, proxyType, proxyHost, proxyPort, proxyAuthenticator, proxyUsername, proxyPassword, regexReplace)
     }
 
 

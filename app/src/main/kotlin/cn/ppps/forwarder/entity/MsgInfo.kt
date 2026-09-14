@@ -142,7 +142,7 @@ data class MsgInfo(
             var newContent = this
             val lineArray = regexReplace.split("\\n".toRegex()).toTypedArray()
             for (line in lineArray) {
-                val lineSplit = line.split("===".toRegex()).toTypedArray()
+                val lineSplit = line.split("===").toTypedArray()
                 if (lineSplit.isNotEmpty()) {
                     val regex = lineSplit[0]
                     val replacement =
@@ -158,6 +158,11 @@ data class MsgInfo(
         }
     }
 
+    //对外提供正则替换能力：供发送通道对已渲染内容执行 正则===替换 规则（每行一条），如提取验证码
+    fun applyRegexReplace(content: String, regexReplace: String): String {
+        return content.regexReplace(regexReplace)
+    }
+
     //替换标签（支持正则替换）
     private fun String.replaceTag(tag: String, info: String, encoderName: String = "", ignoreCase: Boolean = true): String {
         var result = when (encoderName) {
@@ -167,7 +172,7 @@ data class MsgInfo(
         }
 
         val tagName = tag.removePrefix("{{").removeSuffix("}}")
-        //使用 (.+?) 而非 ([^=]+)：正则部分可能包含 "=" 字符（如 (?=...) 正向先行断言），([^=]+) 会提前截断导致标签解析失败
+        //使用 (.+?) 而非 ([^=]+)：正则部分可能包含 "=" 字符（如 (?=...) 正向前瞻），([^=]+) 会提前截断导致标签解析失败
         val tagRegex = "\\{\\{${tagName}###(.+?)===(.*?)\\}\\}".toRegex()
         tagRegex.findAll(result).forEach {
             try {

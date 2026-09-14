@@ -20,6 +20,7 @@ import cn.ppps.forwarder.utils.TYPE_URL_SCHEME
 import cn.ppps.forwarder.utils.TYPE_WEBHOOK
 import cn.ppps.forwarder.utils.TYPE_WEWORK_AGENT
 import cn.ppps.forwarder.utils.TYPE_WEWORK_ROBOT
+import cn.ppps.forwarder.utils.TYPE_WXPUSHER
 import kotlinx.parcelize.Parcelize
 import java.util.Date
 
@@ -70,6 +71,7 @@ data class LogsDetail(
             TYPE_FEISHU_APP -> R.drawable.icon_feishu_app
             TYPE_URL_SCHEME -> R.drawable.icon_url_scheme
             TYPE_SOCKET -> R.drawable.icon_socket
+            TYPE_WXPUSHER -> R.drawable.icon_wxpusher
             else -> R.drawable.icon_sms
         }
 }

@@ -680,6 +680,30 @@
 
     <string name="socket">Socket</string>
 
+    <string name="wxpusher">WxPusher</string>
+    <string name="wxpusher_push_type">推送方式</string>
+    <string name="wxpusher_push_type_tips">标准推送需在后台创建应用；极简推送(SPT)自己发给自己</string>
+    <string name="wxpusher_standard_push">标准推送</string>
+    <string name="wxpusher_simple_push">极简推送(SPT)</string>
+    <string name="wxpusher_app_token">appToken</string>
+    <string name="wxpusher_app_token_tips">在WxPusher后台创建应用后获取</string>
+    <string name="wxpusher_app_token_hint">AT_xxx</string>
+    <string name="wxpusher_uids">接收UID</string>
+    <string name="wxpusher_uids_hint">多个以英文逗号分隔</string>
+    <string name="wxpusher_topic_ids">主题ID(Topic)</string>
+    <string name="wxpusher_spt">SPT</string>
+    <string name="wxpusher_spt_tips">扫码获取，最多10个，多个以英文逗号分隔</string>
+    <string name="wxpusher_spt_hint">SPT_xxx</string>
+    <string name="wxpusher_content_type">内容类型</string>
+    <string name="wxpusher_text">文字</string>
+    <string name="wxpusher_html">HTML</string>
+    <string name="wxpusher_markdown">Markdown</string>
+    <string name="wxpusher_summary">消息摘要</string>
+    <string name="wxpusher_summary_tips">可选，最长100字</string>
+    <string name="invalid_wxpusher_app_token">请填写appToken</string>
+    <string name="invalid_wxpusher_uids">请至少填写一个UID或主题ID</string>
+    <string name="invalid_wxpusher_spt">请填写SPT</string>
+
     <string name="webhook_server">Webhook Server</string>
     <string name="webhook_server_tips">例如：https://a.b.com/msg?token=xyz</string>
     <string name="webhook_params">消息模板</string>
@@ -687,6 +711,10 @@
     <string name="webhook_secret">Secret：置空则不计算sign</string>
     <string name="webhook_response">成功应答关键字：置空则http状态200即为成功</string>
     <string name="webhook_response2">成功应答关键字：置空则发出即成功</string>
+    <string name="webhook_regex_replace">正则替换内容</string>
+    <string name="webhook_regex_replace_tips">可选。格式：正则表达式===替换结果，每行一个规则，对发送内容执行。\n例如：.*?(\\d{6}).*?===$1 可提取6位验证码</string>
+    <string name="wxpusher_regex_replace">正则替换内容</string>
+    <string name="wxpusher_regex_replace_tips">可选。格式：正则表达式===替换结果，每行一个规则，同时作用于摘要和发送内容。\n例如：.*?(\\d{6}).*?===$1 可提取6位验证码</string>
     <string name="headers">Headers</string>
     <string name="header_key">Key</string>
     <string name="header_value">Value</string>

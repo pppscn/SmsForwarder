@@ -17,6 +17,7 @@ data class WebhookSetting(
     val proxyAuthenticator: Boolean = false,
     val proxyUsername: String = "",
     val proxyPassword: String = "",
+    val regexReplace: String = "",
 ) : Serializable {
     fun getMethodCheckId(): Int {
         return when (method) {

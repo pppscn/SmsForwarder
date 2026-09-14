@@ -649,6 +649,30 @@
 
     <string name="socket">Socket</string>
 
+    <string name="wxpusher">WxPusher</string>
+    <string name="wxpusher_push_type">Push Type</string>
+    <string name="wxpusher_push_type_tips">Standard push requires an app; Simple push (SPT) sends to yourself</string>
+    <string name="wxpusher_standard_push">Standard</string>
+    <string name="wxpusher_simple_push">Simple (SPT)</string>
+    <string name="wxpusher_app_token">appToken</string>
+    <string name="wxpusher_app_token_tips">Get it from the WxPusher admin console after creating an app</string>
+    <string name="wxpusher_app_token_hint">AT_xxx</string>
+    <string name="wxpusher_uids">Receiver UIDs</string>
+    <string name="wxpusher_uids_hint">Separate multiple UIDs with commas</string>
+    <string name="wxpusher_topic_ids">Topic IDs</string>
+    <string name="wxpusher_spt">SPT</string>
+    <string name="wxpusher_spt_tips">Scan the QR code to get it, up to 10, separate with commas</string>
+    <string name="wxpusher_spt_hint">SPT_xxx</string>
+    <string name="wxpusher_content_type">Content Type</string>
+    <string name="wxpusher_text">Text</string>
+    <string name="wxpusher_html">HTML</string>
+    <string name="wxpusher_markdown">Markdown</string>
+    <string name="wxpusher_summary">Summary</string>
+    <string name="wxpusher_summary_tips">Optional, up to 100 characters</string>
+    <string name="invalid_wxpusher_app_token">Please enter the appToken</string>
+    <string name="invalid_wxpusher_uids">Please enter at least one UID or Topic ID</string>
+    <string name="invalid_wxpusher_spt">Please enter the SPT</string>
+
     <string name="webhook_server">Webhook Server</string>
     <string name="webhook_server_tips">For example: https://a.b.com/msg?token=xyz</string>
     <string name="webhook_params">Params</string>
@@ -656,6 +680,10 @@
     <string name="webhook_secret">Secret: If left empty, the sign will not be calculated</string>
     <string name="webhook_response">Successful Response Keyword：If left empty, HTTP status 200 represents success</string>
     <string name="webhook_response2">Successful Response Keyword：Leaving it blank means sending is considered as successful.</string>
+    <string name="webhook_regex_replace">Regex Replacement</string>
+    <string name="webhook_regex_replace_tips">Optional. Format: regex===replacement, one rule per line, applied to the sent content.\ne.g. .*?(\\d{6}).*?===$1 to extract a 6-digit verification code</string>
+    <string name="wxpusher_regex_replace">Regex Replacement</string>
+    <string name="wxpusher_regex_replace_tips">Optional. Format: regex===replacement, one rule per line, applied to both summary and content.\ne.g. .*?(\\d{6}).*?===$1 to extract a 6-digit verification code</string>
     <string name="headers">Headers</string>
     <string name="header_key">Key</string>
     <string name="header_value">Value</string>
