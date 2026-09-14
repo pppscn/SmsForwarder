@@ -35,6 +35,7 @@ import cn.ppps.forwarder.fragment.senders.UrlSchemeFragment
 import cn.ppps.forwarder.fragment.senders.WebhookFragment
 import cn.ppps.forwarder.fragment.senders.WeworkAgentFragment
 import cn.ppps.forwarder.fragment.senders.WeworkRobotFragment
+import cn.ppps.forwarder.fragment.senders.WxpusherFragment
 import cn.ppps.forwarder.utils.KEY_SENDER_CLONE
 import cn.ppps.forwarder.utils.KEY_SENDER_ID
 import cn.ppps.forwarder.utils.KEY_SENDER_TYPE
@@ -55,6 +56,7 @@ import cn.ppps.forwarder.utils.TYPE_URL_SCHEME
 import cn.ppps.forwarder.utils.TYPE_WEBHOOK
 import cn.ppps.forwarder.utils.TYPE_WEWORK_AGENT
 import cn.ppps.forwarder.utils.TYPE_WEWORK_ROBOT
+import cn.ppps.forwarder.utils.TYPE_WXPUSHER
 import cn.ppps.forwarder.utils.XToastUtils
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.xuexiang.xaop.annotation.SingleClick
@@ -199,6 +201,13 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(),
             "{\"\":\"\"}",
             CoreAnim.slide,
             R.drawable.icon_socket
+        ),
+        PageInfo(
+            getString(R.string.wxpusher),
+            "cn.ppps.forwarder.fragment.senders.WxpusherFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.icon_wxpusher
         ),
     )
 
@@ -354,6 +363,7 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(),
             TYPE_FEISHU_APP -> FeishuAppFragment::class.java
             TYPE_URL_SCHEME -> UrlSchemeFragment::class.java
             TYPE_SOCKET -> SocketFragment::class.java
+            TYPE_WXPUSHER -> WxpusherFragment::class.java
             else -> DingtalkGroupRobotFragment::class.java
         }
     }

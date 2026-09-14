@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- 蓝色圆角底色 -->
+    <path
+        android:fillColor="#1E9FFF"
+        android:pathData="M24,2.4 C36.15,2.4 45.6,11.85 45.6,24 C45.6,36.15 36.15,45.6 24,45.6 C11.85,45.6 2.4,36.15 2.4,24 C2.4,11.85 11.85,2.4 24,2.4 Z" />
+
+    <!-- 白色纸飞机 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M8.2,21.8 L40.4,10.6 C41.3,10.26 42.2,11.14 41.86,12.04 L32.1,39.2 C31.73,40.19 30.3,40.24 29.86,39.28 L25.4,29.7 L15.9,25.3 C14.92,24.86 14.97,23.42 15.98,23.06 L25.4,19.5 L18.9,23.2 L24.9,26.2 C25.4,26.45 25.78,26.9 25.96,27.44 L29.2,36.4 L37.2,13.1 L9.5,23.4 C8.6,23.74 8.06,22.6 8.2,21.8 Z" />
+
+</vector>

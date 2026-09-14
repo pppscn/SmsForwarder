@@ -26,6 +26,7 @@ import cn.ppps.forwarder.entity.setting.UrlSchemeSetting
 import cn.ppps.forwarder.entity.setting.WebhookSetting
 import cn.ppps.forwarder.entity.setting.WeworkAgentSetting
 import cn.ppps.forwarder.entity.setting.WeworkRobotSetting
+import cn.ppps.forwarder.entity.setting.WxpusherSetting
 import cn.ppps.forwarder.utils.sender.BarkUtils
 import cn.ppps.forwarder.utils.sender.DingtalkGroupRobotUtils
 import cn.ppps.forwarder.utils.sender.DingtalkInnerRobotUtils
@@ -42,6 +43,7 @@ import cn.ppps.forwarder.utils.sender.UrlSchemeUtils
 import cn.ppps.forwarder.utils.sender.WebhookUtils
 import cn.ppps.forwarder.utils.sender.WeworkAgentUtils
 import cn.ppps.forwarder.utils.sender.WeworkRobotUtils
+import cn.ppps.forwarder.utils.sender.WxpusherUtils
 import cn.ppps.forwarder.workers.SendLogicWorker
 import cn.ppps.forwarder.workers.SendWorker
 import cn.ppps.forwarder.workers.UpdateLogsWorker
@@ -195,6 +197,11 @@ object SendUtils {
                 TYPE_SOCKET -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, SocketSetting::class.java)
                     SocketUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
+                }
+
+                TYPE_WXPUSHER -> {
+                    val settingVo = Gson().fromJson(sender.jsonSetting, WxpusherSetting::class.java)
+                    WxpusherUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
                 }
 
                 else -> {
