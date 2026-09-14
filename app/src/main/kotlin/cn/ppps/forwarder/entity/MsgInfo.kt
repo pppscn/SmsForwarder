@@ -167,7 +167,8 @@ data class MsgInfo(
         }
 
         val tagName = tag.removePrefix("{{").removeSuffix("}}")
-        val tagRegex = "\\{\\{${tagName}###([^=]+)===(.*?)\\}\\}".toRegex()
+        //使用 (.+?) 而非 ([^=]+)：正则部分可能包含 "=" 字符（如 (?=...) 正向先行断言），([^=]+) 会提前截断导致标签解析失败
+        val tagRegex = "\\{\\{${tagName}###(.+?)===(.*?)\\}\\}".toRegex()
         tagRegex.findAll(result).forEach {
             try {
                 Log.d("MsgInfo", "tagRegex: ${it.value}, ${it.groupValues}")
