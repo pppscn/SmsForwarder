@@ -226,7 +226,15 @@ class PhoneUtils private constructor() {
 
                         val sentPendingIntents = ArrayList<PendingIntent>()
                         val deliveredPendingIntents = ArrayList<PendingIntent>()
-                        val divideContents = smsManager.divideMessage(message)
+                        // Android 16/17 的部分 ROM（ColorOS 17 / MagicOS 等）上，divideMessage() 内部
+                        // 会调用 TelephonyManager.getGroupIdLevel1() 并抛异常，导致中文长短信无法发送（issue #773），
+                        // 这里降级为本地切分
+                        val divideContents = try {
+                            smsManager.divideMessage(message)
+                        } catch (e: Exception) {
+                            Log.e(TAG, "divideMessage() failed: ${e.message}, fallback to local split")
+                            splitLongMessage(message)
+                        }
 
                         for (i in divideContents.indices) {
                             sentPendingIntents.add(i, sendPI)
@@ -239,12 +247,47 @@ class PhoneUtils private constructor() {
                         smsManager.sendTextMessage(mobile, null, message, sendPI, null)
                     }
                 } catch (e: Exception) {
-                    Log.e(TAG, e.message.toString())
+                    Log.e(TAG, "sendSms failed: ${e.message}", e)
                     return e.message.toString()
                 }
             }
 
             return null
+        }
+
+        // GSM 03.38 中需转义（占 2 个 septet）或标准表中不存在的字符，出现时无法按 7bit 精确计数
+        private const val GSM_7BIT_UNSAFE_CHARS = "^{}\\[\\]|~`"
+
+        /**
+         * 本地切分长短信（SmsManager.divideMessage() 不可用时的降级实现）
+         *
+         * Android 16/17 的部分 ROM（ColorOS 17 / MagicOS 等）在切分「UCS2 编码 + 多段」的长短信时，
+         * 框架内部会调用 TelephonyManager.getGroupIdLevel1() 并抛异常，导致长短信发送失败（issue #773）。
+         *
+         * 单条短信长度为 GSM 7bit 160 / UCS2 70 个字符；拆成多段后每段还需 6 字节 UDH 头，
+         * 故多段时分别为 153 / 67 个字符。
+         * 为避免计数偏差导致超长，只要出现无法按 GSM 7bit 精确计数的字符，就统一按更短的 UCS2 长度切分。
+         */
+        private fun splitLongMessage(message: String): ArrayList<String> {
+            val result = ArrayList<String>()
+            if (message.isEmpty()) return result
+
+            val gsm7Bit = message.none { it > '\u007F' || GSM_7BIT_UNSAFE_CHARS.indexOf(it) >= 0 }
+            val singleLimit = if (gsm7Bit) 160 else 70
+            val multiLimit = if (gsm7Bit) 153 else 67
+
+            if (message.length <= singleLimit) {
+                result.add(message)
+                return result
+            }
+
+            var start = 0
+            while (start < message.length) {
+                val end = minOf(start + multiLimit, message.length)
+                result.add(message.substring(start, end))
+                start = end
+            }
+            return result
         }
 
         //获取通话记录列表
