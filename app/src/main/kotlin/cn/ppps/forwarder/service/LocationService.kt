@@ -20,6 +20,7 @@ import cn.ppps.forwarder.utils.ACTION_START
 import cn.ppps.forwarder.utils.ACTION_STOP
 import cn.ppps.forwarder.utils.HttpServerUtils
 import cn.ppps.forwarder.utils.LocationUtils
+import cn.ppps.forwarder.utils.LocationProviderPicker
 import cn.ppps.forwarder.utils.Log
 import cn.ppps.forwarder.utils.SettingUtils
 import cn.ppps.forwarder.utils.TASK_CONDITION_LEAVE_ADDRESS
@@ -188,6 +189,15 @@ class LocationService : Service() {
                 .setMinDistance(SettingUtils.locationMinDistance)//设置位置更新最小距离（单位：米）；默认距离：0米
                 .setOnceLocation(false)//设置是否只定位一次，默认为 false，当设置为 true 时，则只定位一次后，会自动停止定位
                 .setLastKnownLocation(false)//设置是否获取最后一次缓存的已知位置，默认为 true
+                .apply {
+                    //关键：显式指定 provider，绕开 getBestProvider 在严格条件下的不确定性。
+                    //getBestProvider 会把 accuracy 与 powerRequirement 同时作为筛选条件，
+                    //两者存在交集为空的情况（如「精确位置 + 低电耗」），此时库会退回默认行为，
+                    //实际使用的 provider 与用户设置不一致。
+                    //「模糊位置」也必须显式指定 network，否则 fused/GPS 仍可能被拉起，
+                    //用户「只要大致位置」的意图被架空。
+                    LocationProviderPicker.primary(App.context)?.let { setProvider(it) }
+                }
             //设置定位配置参数
             App.LocationClient.setLocationOption(locationOption)
             App.LocationClient.startLocation()
