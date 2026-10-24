@@ -24,6 +24,7 @@ import cn.ppps.forwarder.entity.setting.SocketSetting
 import cn.ppps.forwarder.entity.setting.TelegramSetting
 import cn.ppps.forwarder.entity.setting.UrlSchemeSetting
 import cn.ppps.forwarder.entity.setting.WebhookSetting
+import cn.ppps.forwarder.entity.setting.WpushSetting
 import cn.ppps.forwarder.entity.setting.WeworkAgentSetting
 import cn.ppps.forwarder.entity.setting.WeworkRobotSetting
 import cn.ppps.forwarder.utils.sender.BarkUtils
@@ -40,6 +41,7 @@ import cn.ppps.forwarder.utils.sender.SocketUtils
 import cn.ppps.forwarder.utils.sender.TelegramUtils
 import cn.ppps.forwarder.utils.sender.UrlSchemeUtils
 import cn.ppps.forwarder.utils.sender.WebhookUtils
+import cn.ppps.forwarder.utils.sender.WpushUtils
 import cn.ppps.forwarder.utils.sender.WeworkAgentUtils
 import cn.ppps.forwarder.utils.sender.WeworkRobotUtils
 import cn.ppps.forwarder.workers.SendLogicWorker
@@ -195,6 +197,11 @@ object SendUtils {
                 TYPE_SOCKET -> {
                     val settingVo = Gson().fromJson(sender.jsonSetting, SocketSetting::class.java)
                     SocketUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
+                }
+
+                TYPE_WPUSH -> {
+                    val settingVo = Gson().fromJson(sender.jsonSetting, WpushSetting::class.java)
+                    WpushUtils.sendMsg(settingVo, msgInfo, rule, senderIndex, logId, msgId)
                 }
 
                 else -> {

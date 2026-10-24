@@ -150,6 +150,7 @@ const val TYPE_DINGTALK_INNER_ROBOT = 12
 const val TYPE_FEISHU_APP = 13
 const val TYPE_URL_SCHEME = 14
 const val TYPE_SOCKET = 15
+const val TYPE_WPUSH = 16
 
 //前台服务
 const val FRONT_NOTIFY_ID = 0x1010
