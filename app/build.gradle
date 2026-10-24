@@ -143,10 +143,9 @@ android {
             // 调试模式开关
             debuggable true
             jniDebuggable true
-            // 移除无用的资源
-            shrinkResources true
-            // 代码混淆开关
-            minifyEnabled true
+            // Debug 构建不执行资源压缩和代码混淆，避免不必要的资源中间产物重建。
+            shrinkResources false
+            minifyEnabled false
             // 混淆配置
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             if (isNeedPackage.toBoolean()) {

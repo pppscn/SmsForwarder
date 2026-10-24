@@ -734,6 +734,13 @@
 
     <string name="http_server_running">HttpServer運行中，監聽：%1$s：%2$d</string>
     <string name="http_server_stopped">HttpServer已停止</string>
+    <string name="http_server_no_security_warning">安全警告：HTTP 服務端未設定安全措施</string>
+    <string name="local_ip_only">僅本地 IP</string>
+    <string name="listen_ip">監聽IP</string>
+    <string name="listen_ip_invalid">監聽 IP 位址格式錯誤</string>
+    <string name="listen_ip_risk_title">確認對外監聽</string>
+    <string name="listen_ip_risk_message">目前未設定安全措施。監聽 0.0.0.0 會允許同一網路中的其他裝置存取 HTTP 服務，可能導致簡訊、聯絡人和設定外洩。是否繼續？</string>
+    <string name="clone_encryption_required">僅支援 RSA 或 SM4 加密模式</string>
     <string name="server_settings">服務端設置</string>
     <string name="server_settings_tips">建議啟用簽名設置、點擊“隨機”自動生成並複製到剪貼板</string>
     <string name="copy" tools:ignore="PrivateResource">複製</string>
@@ -764,6 +771,12 @@
     <string name="api_location">遠程找手機</string>
     <string name="api_location_tips">遠程查詢手機定位，方便找回手機/防止老少走丟</string>
     <string name="api_location_permission_tips">請先在【通用設置】中【啟用GPS定位功能】</string>
+    <string name="api_config_query">遠程查配置</string>
+    <string name="api_config_query_tips">遠程查詢服務端的接口開關與安全措施，客戶端連接測試與一鍵克隆需要先開啟</string>
+    <string name="sign_key_required">「校驗簽名」模式下簽名密鑰不能為空</string>
+    <string name="sign_key_required_tips">已自動生成並填充簽名密鑰</string>
+    <string name="client_sign_key_required">請先填寫與服務端一致的簽名密鑰</string>
+    <string name="safety_measures_mismatch">客戶端與服務端的安全措施不一致</string>
     <string name="location_longitude">經度：%s</string>
     <string name="location_latitude">緯度：%s</string>
     <string name="location_address">地址：%s</string>
@@ -926,6 +939,7 @@
     <string name="user_id">User ID</string>
     <string name="safety_measures">安全措施</string>
     <string name="safety_measures_tips">客戶端與服務端必須一致，強烈建議公網訪問時啟用加密</string>
+    <string name="server_safety_measures_tips">未設定安全措施時，強制開啟「僅本地 IP」</string>
     <string name="safety_measures_none">不需要</string>
     <string name="safety_measures_sign">校驗簽名</string>
     <string name="safety_measures_rsa">RSA加密</string>

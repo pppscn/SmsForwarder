@@ -33,10 +33,9 @@ allprojects {
         maven { url "https://jitpack.io" }
     }
 
-    // 将构建文件统一输出到项目根目录下的 build 文件夹
-    setBuildDir(new File(rootDir, "build/${path.replaceAll(':', '/')}"))
 }
 
 tasks.register('clean', Delete) {
     delete rootProject.buildDir
+    delete subprojects.collect { it.buildDir }
 }

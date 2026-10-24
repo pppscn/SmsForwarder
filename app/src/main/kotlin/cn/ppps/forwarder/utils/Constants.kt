@@ -210,7 +210,14 @@ const val HTTP_SERVER_PORT = 5000
 const val HTTP_SERVER_TIME_OUT = 10
 const val HTTP_SUCCESS_CODE: Int = 200
 const val HTTP_FAILURE_CODE: Int = 500
+//鉴权失败：签名缺失/失效、时间戳缺失/超容差
+const val HTTP_UNAUTHORIZED_CODE: Int = 401
+//服务端禁用此功能
+const val HTTP_FORBIDDEN_CODE: Int = 403
 const val SP_SERVER_PORT = "server_port"
+const val SP_SERVER_LOCAL_IP_ONLY = "server_local_ip_only"
+//安全默认配置迁移版本，升版后需要对应调整 SecurityDefaults.CURRENT_VERSION
+const val SP_SECURITY_DEFAULTS_VERSION = "security_defaults_version"
 const val SP_ENABLE_SERVER_AUTORUN = "enable_server_autorun"
 const val SP_SERVER_SAFETY_MEASURES = "server_safety_measures"
 const val SP_SERVER_SIGN_KEY = "server_sign_key"
@@ -228,6 +235,7 @@ const val SP_ENABLE_API_CONTACT_ADD = "enable_api_contact_add"
 const val SP_ENABLE_API_BATTERY_QUERY = "enable_api_battery_query"
 const val SP_ENABLE_API_WOL = "enable_api_wol"
 const val SP_ENABLE_API_LOCATION = "enable_api_location"
+const val SP_ENABLE_API_CONFIG_QUERY = "enable_api_config_query"
 const val SP_API_LOCATION_CACHE = "api_location_cache"
 const val SP_WOL_HISTORY = "wol_history"
 const val SP_SERVER_ADDRESS = "server_address"

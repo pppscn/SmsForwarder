@@ -32,12 +32,12 @@ import cn.ppps.forwarder.utils.CommonUtils
 import cn.ppps.forwarder.utils.EVENT_ALARM_ACTION
 import cn.ppps.forwarder.utils.EVENT_FRPC_RUNNING_ERROR
 import cn.ppps.forwarder.utils.EVENT_FRPC_RUNNING_SUCCESS
-import cn.ppps.forwarder.utils.EXTRA_UPDATE_NOTIFICATION
 import cn.ppps.forwarder.utils.FRONT_CHANNEL_ID
 import cn.ppps.forwarder.utils.FRONT_CHANNEL_NAME
 import cn.ppps.forwarder.utils.FRONT_NOTIFY_ID
 import cn.ppps.forwarder.utils.FlashUtils
 import cn.ppps.forwarder.utils.INTENT_FRPC_APPLY_FILE
+import cn.ppps.forwarder.utils.HttpServerUtils
 import cn.ppps.forwarder.utils.Log
 import cn.ppps.forwarder.utils.SettingUtils
 import cn.ppps.forwarder.utils.TASK_CONDITION_CRON
@@ -235,8 +235,7 @@ class ForegroundService : Service() {
                 }
 
                 ACTION_UPDATE_NOTIFICATION -> {
-                    val updatedContent = intent.getStringExtra(EXTRA_UPDATE_NOTIFICATION)
-                    updateNotification(updatedContent ?: "")
+                    updateNotification(foregroundNotificationContent())
                 }
 
                 ACTION_STOP_ALARM -> {
@@ -266,7 +265,7 @@ class ForegroundService : Service() {
         if (isRunning) return
         isRunning = true
 
-        val notification = createNotification(SettingUtils.notifyContent)
+        val notification = createNotification(foregroundNotificationContent())
         startForeground(FRONT_NOTIFY_ID, notification)
 
         try {
@@ -361,6 +360,12 @@ class ForegroundService : Service() {
                 notificationManager!!.createNotificationChannel(notificationChannel)
             }
         }
+    }
+
+    private fun foregroundNotificationContent(): String = if (HttpServerUtils.safetyMeasures == 0) {
+        getString(R.string.http_server_no_security_warning)
+    } else {
+        SettingUtils.notifyContent
     }
 
     private fun createNotification(content: String, largeIconResId: Int? = null, showStopButton: Boolean = false): Notification {

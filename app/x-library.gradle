@@ -50,8 +50,6 @@ configurations.each { configuration ->
 
 configurations.configureEach {
     resolutionStrategy.force deps.okhttp3
-    //总是拉取最新的 build 版本
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 /*

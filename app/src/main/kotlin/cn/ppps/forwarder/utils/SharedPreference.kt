@@ -22,6 +22,9 @@ class SharedPreference<T>(private val name: String, private val default: T) : Re
             }
         }
 
+        //判断key是否已存储，用于区分"用户显式设置过"和"沿用默认值"
+        fun contains(key: String): Boolean = preference.contains(key)
+
         //删除全部数据
         fun clearPreference() = preference.edit().clear().apply()
 

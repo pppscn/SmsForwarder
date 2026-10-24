@@ -276,7 +276,7 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
                             continue
                         }
 
-                        HttpServerUtils.enableApiClone = httpServerSetting.enableApiClone
+                        HttpServerUtils.enableApiClone = httpServerSetting.enableApiClone && HttpServerUtils.isCloneEncryptionEnabled()
                         HttpServerUtils.enableApiSmsQuery = httpServerSetting.enableApiSmsQuery
                         HttpServerUtils.enableApiSmsSend = httpServerSetting.enableApiSmsSend
                         HttpServerUtils.enableApiCallQuery = httpServerSetting.enableApiCallQuery

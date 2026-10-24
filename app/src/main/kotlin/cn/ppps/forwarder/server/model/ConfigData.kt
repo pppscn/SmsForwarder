@@ -23,6 +23,10 @@ data class ConfigData(
     var enableApiWol: Boolean = false,
     @SerializedName("enable_api_location")
     var enableApiLocation: Boolean = false,
+    @SerializedName("enable_api_config_query")
+    var enableApiConfigQuery: Boolean = false,
+    @SerializedName("safety_measures")
+    var safetyMeasures: Int = 0,
     @SerializedName("extra_device_mark")
     var extraDeviceMark: String = "",
     @SerializedName("extra_sim1")

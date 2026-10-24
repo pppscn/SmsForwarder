@@ -733,6 +733,13 @@
 
     <string name="http_server_running">HttpServer is running! On %1$s:%2$d</string>
     <string name="http_server_stopped">HttpServer is stopped!</string>
+    <string name="http_server_no_security_warning">Security warning: HTTP server authentication is not configured</string>
+    <string name="local_ip_only">Local IP only</string>
+    <string name="listen_ip">Listen IP</string>
+    <string name="listen_ip_invalid">Invalid listener IP address</string>
+    <string name="listen_ip_risk_title">Confirm network listening</string>
+    <string name="listen_ip_risk_message">HTTP server authentication is not configured. Listening on 0.0.0.0 allows other devices on the same network to access it and may expose SMS, contacts, and configuration. Continue?</string>
+    <string name="clone_encryption_required">requires RSA or SM4 encryption</string>
     <string name="server_settings">Server Settings</string>
     <string name="server_settings_tips">It is recommended to enable signature settings, click "Random" to generate and copy to clipboard</string>
     <string name="sign_key">Sign Key</string>
@@ -763,6 +770,12 @@
     <string name="api_location">Location</string>
     <string name="api_location_tips">Remote query mobile phone location</string>
     <string name="api_location_permission_tips">\'Enable Location Function\' in the \'Settings\' first.</string>
+    <string name="api_config_query">Query Config</string>
+    <string name="api_config_query_tips">Remotely query the API switches and safety measures of the server. Required by the connection test and OneKey Clone</string>
+    <string name="sign_key_required">A sign key is required in signature verification mode</string>
+    <string name="sign_key_required_tips">A sign key has been generated and filled in automatically</string>
+    <string name="client_sign_key_required">Please fill in the same sign key as the server</string>
+    <string name="safety_measures_mismatch">The safety measures of the client and the server must be the same</string>
     <string name="location_longitude">Longitude：%s</string>
     <string name="location_latitude">Latitude：%s</string>
     <string name="location_address">Address：%s</string>
@@ -925,6 +938,7 @@
     <string name="user_id">User ID</string>
     <string name="safety_measures">Safety Measures</string>
     <string name="safety_measures_tips">The client and server must be the same. It is strongly recommended to enable encryption when accessing the public network.</string>
+    <string name="server_safety_measures_tips">Local IP Only must be enabled when no safety measure is configured.</string>
     <string name="safety_measures_none">None</string>
     <string name="safety_measures_sign">Sign</string>
     <string name="safety_measures_rsa">RSA Encrypt</string>

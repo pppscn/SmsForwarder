@@ -46,6 +46,7 @@ import cn.ppps.forwarder.utils.HistoryUtils
 import cn.ppps.forwarder.utils.HttpServerUtils
 import cn.ppps.forwarder.utils.Log
 import cn.ppps.forwarder.utils.ProximitySensorScreenHelper
+import cn.ppps.forwarder.utils.SecurityDefaults
 import cn.ppps.forwarder.utils.SettingUtils
 import cn.ppps.forwarder.utils.SharedPreference
 import cn.ppps.forwarder.utils.sdkinit.UMengInit
@@ -208,7 +209,8 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
             }
 
             //启动HttpServer
-            if (HttpServerUtils.enableServerAutorun) {
+            //"校验签名"模式下密钥为空时拒绝自启，避免开机即处于未认证状态
+            if (HttpServerUtils.enableServerAutorun && (HttpServerUtils.safetyMeasures != 1 || HttpServerUtils.isSignKeyConfigured())) {
                 Intent(this, HttpServerService::class.java).also {
                     startService(it)
                 }
@@ -328,6 +330,8 @@ class App : Application(), CactusCallback, Configuration.Provider by Core {
         Core.init(this)
         // 配置文件初始化
         SharedPreference.init(applicationContext)
+        // 服务端安全默认值迁移，必须早于任何服务端配置读取
+        SecurityDefaults.migrate()
         // X系列基础库初始化
         XBasicLibInit.init(this)
         // 初始化日志打印

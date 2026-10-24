@@ -11,18 +11,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.RadioGroup
+import androidx.core.content.ContextCompat
 import cn.ppps.forwarder.App
 import cn.ppps.forwarder.R
 import cn.ppps.forwarder.core.BaseFragment
 import cn.ppps.forwarder.databinding.FragmentServerBinding
+import cn.ppps.forwarder.service.ForegroundService
 import cn.ppps.forwarder.service.HttpServerService
 import cn.ppps.forwarder.service.LocationService
 import cn.ppps.forwarder.utils.ACTION_RESTART
+import cn.ppps.forwarder.utils.ACTION_UPDATE_NOTIFICATION
 import cn.ppps.forwarder.utils.Base64
 import cn.ppps.forwarder.utils.HTTP_SERVER_PORT
 import cn.ppps.forwarder.utils.HttpServerUtils
 import cn.ppps.forwarder.utils.Log
-import cn.ppps.forwarder.utils.RandomUtils
 import cn.ppps.forwarder.utils.SM4Crypt
 import cn.ppps.forwarder.utils.SettingUtils
 import cn.ppps.forwarder.utils.XToastUtils
@@ -41,14 +43,13 @@ import com.xuexiang.xutil.data.ConvertTools
 import com.xuexiang.xutil.net.NetworkUtils
 import com.xuexiang.xutil.system.ClipboardUtils
 import java.io.File
-import java.net.InetAddress
 import java.security.KeyPairGenerator
 
 @Page(name = "主动控制·服务端")
 class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListener {
 
     private var appContext: App? = null
-    private var inetAddress: InetAddress? = null
+    private var isUpdatingLocalIpOnly = false
 
     //定时更新界面
     private val handler: Handler = Handler(Looper.getMainLooper())
@@ -87,6 +88,8 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
         }
         //启动更新UI定时器
         handler.post(runnable)
+
+        initLocalIpOnly()
 
         //监听端口
         binding!!.etServerPort.setText(HttpServerUtils.serverPort.toString())
@@ -131,6 +134,7 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
             else -> {}
         }
         binding!!.rgSafetyMeasures.check(safetyMeasuresId)
+        updateCloneEncryptionRequirement()
         binding!!.rgSafetyMeasures.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
             var safetyMeasures = 0
             binding!!.layoutSignKey.visibility = View.GONE
@@ -159,6 +163,21 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
                 else -> {}
             }
             HttpServerUtils.safetyMeasures = safetyMeasures
+            //"校验签名"模式下密钥不能为空，缺失时自动生成，避免验签形同虚设
+            if (safetyMeasures == 1 && !HttpServerUtils.isSignKeyConfigured()) {
+                binding!!.etSignKey.setText(HttpServerUtils.generateServerSignKey())
+                XToastUtils.info(getString(R.string.sign_key_required_tips))
+            }
+            updateCloneEncryptionRequirement()
+            if (!HttpServerUtils.isCloneEncryptionEnabled()) {
+                HttpServerUtils.enableApiClone = false
+                binding!!.sbApiClone.isChecked = false
+            }
+            if (safetyMeasures == 0) {
+                updateLocalIpOnly(true)
+            }
+            refreshForegroundNotification()
+            restartHttpServerIfRunning()
         }
 
         //SM4密钥
@@ -219,8 +238,16 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
             }
         })
 
+        if (!HttpServerUtils.isCloneEncryptionEnabled()) {
+            HttpServerUtils.enableApiClone = false
+        }
         binding!!.sbApiClone.isChecked = HttpServerUtils.enableApiClone
         binding!!.sbApiClone.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            if (isChecked && !HttpServerUtils.isCloneEncryptionEnabled()) {
+                XToastUtils.error(R.string.clone_encryption_required)
+                binding!!.sbApiClone.isChecked = false
+                return@setOnCheckedChangeListener
+            }
             HttpServerUtils.enableApiClone = isChecked
         }
 
@@ -264,6 +291,11 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
             HttpServerUtils.enableApiWol = isChecked
         }
 
+        binding!!.sbApiConfigQuery.isChecked = HttpServerUtils.enableApiConfigQuery
+        binding!!.sbApiConfigQuery.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            HttpServerUtils.enableApiConfigQuery = isChecked
+        }
+
         binding!!.sbApiLocation.isChecked = HttpServerUtils.enableApiLocation
         binding!!.sbApiLocation.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             if (isChecked && !SettingUtils.enableLocation) {
@@ -294,6 +326,11 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btn_toggle_server -> {
+                //"校验签名"模式下密钥为空时拒绝启动，避免服务端处于未认证状态
+                if (HttpServerUtils.safetyMeasures == 1 && !HttpServerUtils.isSignKeyConfigured()) {
+                    XToastUtils.error(R.string.sign_key_required)
+                    return
+                }
                 //检查权限是否获取
                 checkSendSmsPermission()
                 checkReadSmsPermission()
@@ -344,14 +381,14 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
             }
 
             R.id.btn_sign_key -> {
-                val sign = RandomUtils.getRandomNumbersAndLetters(16)
+                val sign = HttpServerUtils.generateServerSignKey()
                 ClipboardUtils.copyText(sign)
                 binding!!.etSignKey.setText(sign)
                 XToastUtils.info(getString(R.string.sign_key_tips))
             }
 
             R.id.tv_server_tips, R.id.iv_copy -> {
-                var hostAddress: String = if (inetAddress != null) "${inetAddress?.hostAddress}" else "127.0.0.1"
+                var hostAddress: String = displayListenIp()
                 hostAddress = if (hostAddress.indexOf(':', 0, false) > 0) "[${hostAddress}]" else hostAddress
                 val url = "http://${hostAddress}:${HttpServerUtils.serverPort}"
                 ClipboardUtils.copyText(url)
@@ -411,19 +448,77 @@ class ServerFragment : BaseFragment<FragmentServerBinding?>(), View.OnClickListe
         }
     }
 
+    private fun initLocalIpOnly() {
+        updateLocalIpOnly(HttpServerUtils.serverLocalIpOnly)
+        binding!!.sbServerLocalIpOnly.setOnCheckedChangeListener { _: SmoothCheckBox, isChecked: Boolean ->
+            if (isUpdatingLocalIpOnly) return@setOnCheckedChangeListener
+            if (isChecked || HttpServerUtils.safetyMeasures != 0) {
+                HttpServerUtils.serverLocalIpOnly = isChecked
+                restartHttpServerIfRunning()
+            } else {
+                showWildcardListenWarning()
+            }
+        }
+    }
+
+    private fun showWildcardListenWarning() {
+        MaterialDialog.Builder(requireContext())
+            .title(R.string.listen_ip_risk_title)
+            .content(R.string.listen_ip_risk_message)
+            .positiveText(R.string.confirm)
+            .negativeText(R.string.cancel)
+            .onPositive { _, _ ->
+                updateLocalIpOnly(false)
+                restartHttpServerIfRunning()
+            }
+            .onNegative { _, _ -> updateLocalIpOnly(true) }
+            .show()
+    }
+
+    private fun updateLocalIpOnly(localIpOnly: Boolean) {
+        isUpdatingLocalIpOnly = true
+        binding!!.sbServerLocalIpOnly.isChecked = localIpOnly
+        isUpdatingLocalIpOnly = false
+        HttpServerUtils.serverLocalIpOnly = localIpOnly
+    }
+
+    private fun updateCloneEncryptionRequirement() {
+        val colorRes = if (HttpServerUtils.isCloneEncryptionEnabled()) R.color.gray_text_light else R.color.red
+        binding!!.tvCloneEncryptionRequirement.setTextColor(ContextCompat.getColor(requireContext(), colorRes))
+    }
+
+    private fun displayListenIp(): String {
+        if (HttpServerUtils.serverLocalIpOnly) return "127.0.0.1"
+
+        return try {
+            NetworkUtils.getLocalInetAddress().hostAddress ?: "127.0.0.1"
+        } catch (e: Exception) {
+            Log.e("ServerFragment", "Unable to get local IP address: ${e.message}")
+            "127.0.0.1"
+        }
+    }
+
+    private fun restartHttpServerIfRunning() {
+        if (!ServiceUtils.isServiceRunning("cn.ppps.forwarder.service.HttpServerService")) return
+        Intent(appContext, HttpServerService::class.java).also {
+            appContext?.stopService(it)
+            appContext?.startService(it)
+        }
+    }
+
+    private fun refreshForegroundNotification() {
+        Intent(appContext, ForegroundService::class.java).also {
+            it.action = ACTION_UPDATE_NOTIFICATION
+            appContext?.startService(it)
+        }
+    }
+
     //刷新按钮
     private fun refreshButtonText() {
         if (ServiceUtils.isServiceRunning("cn.ppps.forwarder.service.HttpServerService")) {
             binding!!.btnToggleServer.text = resources.getText(R.string.stop_server)
             binding!!.ivCopy.visibility = View.VISIBLE
-            try {
-                inetAddress = NetworkUtils.getLocalInetAddress()
-                binding!!.tvServerTips.text = getString(R.string.http_server_running, inetAddress!!.hostAddress, HttpServerUtils.serverPort)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.e("ServerFragment", "refreshButtonText error: ${e.message}")
-                binding!!.tvServerTips.text = getString(R.string.http_server_running, "127.0.0.1", HttpServerUtils.serverPort)
-            }
+            binding!!.tvServerTips.text = getString(R.string.http_server_running, displayListenIp(), HttpServerUtils.serverPort)
         } else {
             binding!!.btnToggleServer.text = resources.getText(R.string.start_server)
             binding!!.tvServerTips.text = getString(R.string.http_server_stopped)

@@ -13,6 +13,7 @@ import com.xuexiang.xutil.resource.ResUtils.getString
 import com.yanzhenjie.andserver.error.HttpException
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+import java.security.SecureRandom
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
@@ -35,8 +36,8 @@ class HttpServerUtils private constructor() {
         //服务端签名密钥
         var serverSignKey: String by SharedPreference(SP_SERVER_SIGN_KEY, "")
 
-        //服务端安全设置
-        var safetyMeasures: Int by SharedPreference(SP_SERVER_SAFETY_MEASURES, if (TextUtils.isEmpty(serverSignKey)) 0 else 1)
+        //服务端安全设置，默认启用"校验签名"（SecurityDefaults 迁移保证签名密钥非空）
+        var safetyMeasures: Int by SharedPreference(SP_SERVER_SAFETY_MEASURES, 1)
 
         //服务端SM4密钥
         var serverSm4Key: String by SharedPreference(SP_SERVER_SM4_KEY, "")
@@ -56,6 +57,9 @@ class HttpServerUtils private constructor() {
         //服务端监听端口
         var serverPort: Int by SharedPreference(SP_SERVER_PORT, HTTP_SERVER_PORT)
 
+        //仅监听本机回环地址，默认开启以避免未认证服务暴露到网络。
+        var serverLocalIpOnly: Boolean by SharedPreference(SP_SERVER_LOCAL_IP_ONLY, true)
+
         //服务地址
         var serverAddress: String by SharedPreference(SP_SERVER_ADDRESS, "http://127.0.0.1:$serverPort")
 
@@ -72,28 +76,31 @@ class HttpServerUtils private constructor() {
         var clientSafetyMeasures: Int by SharedPreference(SP_CLIENT_SAFETY_MEASURES, if (TextUtils.isEmpty(clientSignKey)) 0 else 1)
 
         //是否启用一键克隆
-        var enableApiClone: Boolean by SharedPreference(SP_ENABLE_API_CLONE, true)
+        var enableApiClone: Boolean by SharedPreference(SP_ENABLE_API_CLONE, false)
 
         //是否启用远程发短信
-        var enableApiSmsSend: Boolean by SharedPreference(SP_ENABLE_API_SMS_SEND, true)
+        var enableApiSmsSend: Boolean by SharedPreference(SP_ENABLE_API_SMS_SEND, false)
 
         //是否启用远程查短信
-        var enableApiSmsQuery: Boolean by SharedPreference(SP_ENABLE_API_SMS_QUERY, true)
+        var enableApiSmsQuery: Boolean by SharedPreference(SP_ENABLE_API_SMS_QUERY, false)
 
         //是否启用远程查通话
-        var enableApiCallQuery: Boolean by SharedPreference(SP_ENABLE_API_CALL_QUERY, true)
+        var enableApiCallQuery: Boolean by SharedPreference(SP_ENABLE_API_CALL_QUERY, false)
 
         //是否启用远程查话簿
-        var enableApiContactQuery: Boolean by SharedPreference(SP_ENABLE_API_CONTACT_QUERY, true)
+        var enableApiContactQuery: Boolean by SharedPreference(SP_ENABLE_API_CONTACT_QUERY, false)
 
         //是否启用远程加话簿
-        var enableApiContactAdd: Boolean by SharedPreference(SP_ENABLE_API_CONTACT_ADD, true)
+        var enableApiContactAdd: Boolean by SharedPreference(SP_ENABLE_API_CONTACT_ADD, false)
 
         //是否启用远程查电量
-        var enableApiBatteryQuery: Boolean by SharedPreference(SP_ENABLE_API_BATTERY_QUERY, true)
+        var enableApiBatteryQuery: Boolean by SharedPreference(SP_ENABLE_API_BATTERY_QUERY, false)
 
         //是否启用远程WOL
-        var enableApiWol: Boolean by SharedPreference(SP_ENABLE_API_WOL, true)
+        var enableApiWol: Boolean by SharedPreference(SP_ENABLE_API_WOL, false)
+
+        //是否启用远程查配置
+        var enableApiConfigQuery: Boolean by SharedPreference(SP_ENABLE_API_CONFIG_QUERY, false)
 
         //是否启用远程找手机
         var enableApiLocation: Boolean by SharedPreference(SP_ENABLE_API_LOCATION, false)
@@ -113,27 +120,51 @@ class HttpServerUtils private constructor() {
             return URLEncoder.encode(String(Base64.encode(signData, Base64.NO_WRAP)), "UTF-8")
         }
 
+        fun generateServerSignKey(): String {
+            val bytes = ByteArray(24)
+            SecureRandom().nextBytes(bytes)
+            return String(Base64.encode(bytes, Base64.URL_SAFE or Base64.NO_WRAP), StandardCharsets.US_ASCII)
+        }
+
+        fun isCloneEncryptionEnabled(): Boolean = safetyMeasures == 2 || safetyMeasures == 3
+
+        //"校验签名"模式下密钥是否已配置，密钥为空时不允许启动服务端
+        fun isSignKeyConfigured(): Boolean = !TextUtils.isEmpty(serverSignKey)
+
+        //当前安全措施所需的密钥是否完整，任何入口启动服务端前的统一守卫条件。
+        //措施=0 无额外要求（界面已强制回环监听）；1 需要签名密钥，2 需要RSA私钥，3 需要SM4密钥
+        fun isServerSecretsConfigured(): Boolean = when (safetyMeasures) {
+            1 -> isSignKeyConfigured()
+            2 -> !TextUtils.isEmpty(serverPrivateKey)
+            3 -> !TextUtils.isEmpty(serverSm4Key)
+            else -> true
+        }
+
+        //客户端密钥是否已配置，连接前必须填写与服务端一致的密钥
+        fun isClientSignKeyConfigured(): Boolean = !TextUtils.isEmpty(clientSignKey)
+
         //校验签名
         @Throws(HttpException::class)
         fun checkSign(req: BaseRequest<*>) {
-            val signSecret = serverSignKey
-            if (TextUtils.isEmpty(signSecret)) return
+            //密钥缺失时直接拒绝，避免"配置了校验签名但没有密钥"时放行所有请求
+            if (!isSignKeyConfigured()) throw HttpException(500, getString(R.string.sign_key_required))
 
-            if (TextUtils.isEmpty(req.sign)) throw HttpException(500, getString(R.string.sign_required))
-            if (req.timestamp == 0L) throw HttpException(500, getString(R.string.timestamp_required))
+            val signSecret = serverSignKey
+            if (TextUtils.isEmpty(req.sign)) throw HttpException(HTTP_UNAUTHORIZED_CODE, getString(R.string.sign_required))
+            if (req.timestamp == 0L) throw HttpException(HTTP_UNAUTHORIZED_CODE, getString(R.string.timestamp_required))
 
             val timestamp = System.currentTimeMillis()
             val diffTime = kotlin.math.abs(timestamp - req.timestamp)
             val tolerance = timeTolerance * 1000L
             if (diffTime > tolerance) {
-                throw HttpException(500, String.format(getString(R.string.timestamp_verify_failed), timestamp, timeTolerance, diffTime))
+                throw HttpException(HTTP_UNAUTHORIZED_CODE, String.format(getString(R.string.timestamp_verify_failed), timestamp, timeTolerance, diffTime))
             }
 
             val sign = calcSign(req.timestamp.toString(), signSecret)
             if (sign != req.sign) {
                 Log.e("calcSign", sign)
                 Log.e("reqSign", req.sign.toString())
-                throw HttpException(500, getString(R.string.sign_verify_failed))
+                throw HttpException(HTTP_UNAUTHORIZED_CODE, getString(R.string.sign_verify_failed))
             }
         }
 
@@ -229,13 +260,13 @@ class HttpServerUtils private constructor() {
             }
         }
 
-        //返回统一结构报文
-        fun response(output: Any?): String {
+        //返回统一结构报文，failureCode 允许异常解析器带上 401/403 等业务之外的错误码
+        fun response(output: Any?, failureCode: Int = HTTP_FAILURE_CODE): String {
             val resp: MutableMap<String, Any> = mutableMapOf()
             val timestamp = System.currentTimeMillis()
             resp["timestamp"] = timestamp
             if (output is String && output != "success") {
-                resp["code"] = HTTP_FAILURE_CODE
+                resp["code"] = failureCode
                 resp["msg"] = output
             } else {
                 resp["code"] = HTTP_SUCCESS_CODE

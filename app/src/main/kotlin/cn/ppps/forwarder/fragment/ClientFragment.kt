@@ -201,6 +201,10 @@ class ClientFragment : BaseFragment<FragmentClientBinding?>(), View.OnClickListe
                 }
             }
             HttpServerUtils.clientSafetyMeasures = safetyMeasures
+            //"校验签名"模式下密钥不能为空，且必须与服务端一致，这里无法自动生成
+            if (safetyMeasures == 1 && !HttpServerUtils.isClientSignKeyConfigured()) {
+                XToastUtils.error(getString(R.string.client_sign_key_required))
+            }
         }
 
         binding!!.etSignKey.setText(HttpServerUtils.clientSignKey)

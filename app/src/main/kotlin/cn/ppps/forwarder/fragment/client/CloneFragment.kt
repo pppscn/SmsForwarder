@@ -13,6 +13,7 @@ import cn.ppps.forwarder.core.BaseFragment
 import cn.ppps.forwarder.databinding.FragmentClientCloneBinding
 import cn.ppps.forwarder.entity.CloneInfo
 import cn.ppps.forwarder.server.model.BaseResponse
+import cn.ppps.forwarder.server.model.ConfigData
 import cn.ppps.forwarder.utils.AppUtils
 import cn.ppps.forwarder.utils.Base64
 import cn.ppps.forwarder.utils.CommonUtils
@@ -262,11 +263,10 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
 
     //推送配置
     private fun pushData() {
-        if (!CommonUtils.checkUrl(HttpServerUtils.serverAddress)) {
-            XToastUtils.error(getString(R.string.invalid_service_address))
-            return
-        }
+        verifyServerSafetyMeasures { doPushData() }
+    }
 
+    private fun doPushData() {
         pushCountDownHelper?.start()
 
         val requestUrl: String = HttpServerUtils.serverAddress + "/clone/push"
@@ -363,11 +363,124 @@ class CloneFragment : BaseFragment<FragmentClientCloneBinding?>(), View.OnClickL
 
     //拉取配置
     private fun pullData() {
+        verifyServerSafetyMeasures { doPullData() }
+    }
+
+    /**
+     * 一键克隆前先向服务端查询其安全措施：
+     * 1. 服务端必须处于 RSA/SM4 加密模式；
+     * 2. 客户端的安全措施必须与服务端完全一致。
+     * 以服务端返回值为准，不再用客户端自己的配置去判断服务端。
+     */
+    private fun verifyServerSafetyMeasures(onVerified: () -> Unit) {
         if (!CommonUtils.checkUrl(HttpServerUtils.serverAddress)) {
             XToastUtils.error(getString(R.string.invalid_service_address))
             return
         }
+        if (HttpServerUtils.clientSafetyMeasures != 0 && !HttpServerUtils.isClientSignKeyConfigured()) {
+            XToastUtils.error(getString(R.string.client_sign_key_required))
+            return
+        }
 
+        val requestUrl: String = HttpServerUtils.serverAddress + "/config/query"
+        Log.i(TAG, "requestUrl:$requestUrl")
+
+        val msgMap: MutableMap<String, Any> = mutableMapOf()
+        val timestamp = System.currentTimeMillis()
+        msgMap["timestamp"] = timestamp
+        if (HttpServerUtils.clientSafetyMeasures == 1) {
+            msgMap["sign"] = HttpServerUtils.calcSign(timestamp.toString(), HttpServerUtils.clientSignKey)
+        }
+        msgMap["data"] = mutableMapOf<String, Any>()
+
+        var requestMsg: String = Gson().toJson(msgMap)
+        Log.i(TAG, "requestMsg:$requestMsg")
+
+        val postRequest = XHttp.post(requestUrl).keepJson(true).timeStamp(true)
+
+        when (HttpServerUtils.clientSafetyMeasures) {
+            2 -> {
+                try {
+                    val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey)
+                    requestMsg = Base64.encode(requestMsg.toByteArray())
+                    requestMsg = RSACrypt.encryptByPublicKey(requestMsg, publicKey)
+                } catch (e: Exception) {
+                    XToastUtils.error(getString(R.string.request_failed) + e.message)
+                    e.printStackTrace()
+                    Log.e(TAG, e.toString())
+                    return
+                }
+                postRequest.upString(requestMsg)
+            }
+
+            3 -> {
+                try {
+                    val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
+                    val encryptCBC = SM4Crypt.encrypt(requestMsg.toByteArray(), sm4Key)
+                    requestMsg = ConvertTools.bytes2HexString(encryptCBC)
+                } catch (e: Exception) {
+                    XToastUtils.error(getString(R.string.request_failed) + e.message)
+                    e.printStackTrace()
+                    Log.e(TAG, e.toString())
+                    return
+                }
+                postRequest.upString(requestMsg)
+            }
+
+            else -> {
+                postRequest.upJson(requestMsg)
+            }
+        }
+
+        postRequest.execute(object : SimpleCallBack<String>() {
+            override fun onError(e: ApiException) {
+                XToastUtils.error(e.displayMessage)
+            }
+
+            override fun onSuccess(response: String) {
+                Log.i(TAG, response)
+                try {
+                    var json = response
+                    if (HttpServerUtils.clientSafetyMeasures == 2) {
+                        val publicKey = RSACrypt.getPublicKey(HttpServerUtils.clientSignKey)
+                        json = RSACrypt.decryptByPublicKey(json, publicKey)
+                        json = String(Base64.decode(json))
+                    } else if (HttpServerUtils.clientSafetyMeasures == 3) {
+                        val sm4Key = ConvertTools.hexStringToByteArray(HttpServerUtils.clientSignKey)
+                        val encryptCBC = ConvertTools.hexStringToByteArray(json)
+                        json = String(SM4Crypt.decrypt(encryptCBC, sm4Key))
+                    }
+
+                    val resp: BaseResponse<ConfigData> = Gson().fromJson(json, object : TypeToken<BaseResponse<ConfigData>>() {}.type)
+                    if (resp.code != 200) {
+                        XToastUtils.error(getString(R.string.request_failed) + resp.msg)
+                        return
+                    }
+
+                    val serverSafetyMeasures = resp.data?.safetyMeasures
+                    if (serverSafetyMeasures == null) {
+                        XToastUtils.error(getString(R.string.request_failed))
+                        return
+                    }
+                    if (serverSafetyMeasures != HttpServerUtils.clientSafetyMeasures) {
+                        XToastUtils.error(getString(R.string.safety_measures_mismatch))
+                        return
+                    }
+                    if (serverSafetyMeasures != 2 && serverSafetyMeasures != 3) {
+                        XToastUtils.error(getString(R.string.clone_encryption_required))
+                        return
+                    }
+                    onVerified()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.e(TAG, e.toString())
+                    XToastUtils.error(getString(R.string.request_failed) + response)
+                }
+            }
+        })
+    }
+
+    private fun doPullData() {
         exportCountDownHelper?.start()
 
         val requestUrl: String = HttpServerUtils.serverAddress + "/clone/pull"

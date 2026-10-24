@@ -1,6 +1,7 @@
 package cn.ppps.forwarder.server.component
 
 import cn.ppps.forwarder.utils.Log
+import cn.ppps.forwarder.utils.HTTP_FORBIDDEN_CODE
 import cn.ppps.forwarder.R
 import cn.ppps.forwarder.utils.HttpServerUtils
 import com.xuexiang.xutil.resource.ResUtils.getString
@@ -34,7 +35,7 @@ class LoggerInterceptor : HandlerInterceptor {
 
             //判断是否开启该功能
             if (
-                (httpPath.startsWith("/clone") && !HttpServerUtils.enableApiClone)
+                (httpPath.startsWith("/clone") && (!HttpServerUtils.enableApiClone || !HttpServerUtils.isCloneEncryptionEnabled()))
                 || (httpPath.startsWith("/sms/query") && !HttpServerUtils.enableApiSmsQuery)
                 || (httpPath.startsWith("/sms/send") && !HttpServerUtils.enableApiSmsSend)
                 || (httpPath.startsWith("/call/query") && !HttpServerUtils.enableApiCallQuery)
@@ -43,8 +44,9 @@ class LoggerInterceptor : HandlerInterceptor {
                 || (httpPath.startsWith("/wol/send") && !HttpServerUtils.enableApiWol)
                 || (httpPath.startsWith("/location/query") && !HttpServerUtils.enableApiLocation)
                 || (httpPath.startsWith("/battery/query") && !HttpServerUtils.enableApiBatteryQuery)
+                || (httpPath.startsWith("/config") && !HttpServerUtils.enableApiConfigQuery)
             ) {
-                throw HttpException(500, getString(R.string.disabled_on_the_server))
+                throw HttpException(HTTP_FORBIDDEN_CODE, getString(R.string.disabled_on_the_server))
             }
 
             /*
