@@ -1,6 +1,6 @@
 {
   "repository": "pppscn/SmsForwarder",
-  "updated": "2026-11-05",
+  "updated": "2026-11-06",
   "points": [
     {
       "date": "2021-02-13",
@@ -8109,6 +8109,10 @@
     {
       "date": "2026-11-05",
       "stars": 28735
+    },
+    {
+      "date": "2026-11-06",
+      "stars": 28753
     }
   ]
 }
