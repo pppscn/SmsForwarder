@@ -27,6 +27,7 @@ import cn.ppps.forwarder.fragment.senders.FeishuAppFragment
 import cn.ppps.forwarder.fragment.senders.FeishuFragment
 import cn.ppps.forwarder.fragment.senders.GotifyFragment
 import cn.ppps.forwarder.fragment.senders.PushplusFragment
+import cn.ppps.forwarder.fragment.senders.WpushFragment
 import cn.ppps.forwarder.fragment.senders.ServerchanFragment
 import cn.ppps.forwarder.fragment.senders.SmsFragment
 import cn.ppps.forwarder.fragment.senders.SocketFragment
@@ -50,6 +51,7 @@ import cn.ppps.forwarder.utils.TYPE_PUSHPLUS
 import cn.ppps.forwarder.utils.TYPE_SERVERCHAN
 import cn.ppps.forwarder.utils.TYPE_SMS
 import cn.ppps.forwarder.utils.TYPE_SOCKET
+import cn.ppps.forwarder.utils.TYPE_WPUSH
 import cn.ppps.forwarder.utils.TYPE_TELEGRAM
 import cn.ppps.forwarder.utils.TYPE_URL_SCHEME
 import cn.ppps.forwarder.utils.TYPE_WEBHOOK
@@ -199,6 +201,13 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(),
             "{\"\":\"\"}",
             CoreAnim.slide,
             R.drawable.icon_socket
+        ),
+        PageInfo(
+            getString(R.string.wpush),
+            "cn.ppps.forwarder.fragment.senders.WpushFragment",
+            "{\"\":\"\"}",
+            CoreAnim.slide,
+            R.drawable.icon_wpush
         ),
     )
 
@@ -354,6 +363,7 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(),
             TYPE_FEISHU_APP -> FeishuAppFragment::class.java
             TYPE_URL_SCHEME -> UrlSchemeFragment::class.java
             TYPE_SOCKET -> SocketFragment::class.java
+            TYPE_WPUSH -> WpushFragment::class.java
             else -> DingtalkGroupRobotFragment::class.java
         }
     }
